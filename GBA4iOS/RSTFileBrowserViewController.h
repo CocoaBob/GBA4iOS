@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) id <RSTFileBrowserViewControllerControllerDelegate> delegate;
 
-@property (copy, nonatomic) NSString *currentDirectory;
+@property (copy, nonatomic) NSString *currentDirectory; // The directory where it will look for files.
 
 @property (assign, nonatomic) BOOL showFileExtensions; // Defaults to NO
 
@@ -28,10 +28,12 @@
 
 @property (assign, nonatomic) BOOL showFolders; // Defaults to NO
 
-@property (assign, nonatomic) BOOL showSectionTitles; // Defaults to YES
+@property (assign, nonatomic) BOOL showSectionTitles; // Defaults to NO
 
 - (void)refreshDirectory; // Refreshes directory (no duh)
 
-- (NSString *)filepathForIndexPath:(NSIndexPath *)indexPath;
+- (NSString *)filepathForIndexPath:(NSIndexPath *)indexPath; // Returns absolute filepath of item at indexPath
+
+- (NSString *)filenameForIndexPath:(NSIndexPath *)indexPath; // Subclasses can call to retrieve name to display in custom tableView:cellForRowAtIndexPath: methods
 
 @end

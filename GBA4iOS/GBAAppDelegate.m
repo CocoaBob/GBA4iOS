@@ -12,8 +12,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window.tintColor = [UIColor purpleColor];
-    // Override point for customization after application launch.
+    if ([self.window respondsToSelector:@selector(setTintColor:)])
+    {
+        self.window.tintColor = [UIColor purpleColor];
+    }
+    
     return YES;
 }
 							

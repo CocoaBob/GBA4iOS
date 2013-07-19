@@ -13,8 +13,6 @@
 		CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
 		CC2D570C1798F2EC00C616EB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.m */; };
 		CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */; };
-		CC2D57131798F2EC00C616EB /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
-		CC2D57161798F2EC00C616EB /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
 		CC2D571B1798F2EC00C616EB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC2D57221798F2ED00C616EB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57211798F2ED00C616EB /* XCTest.framework */; };
 		CC2D57231798F2ED00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
@@ -24,6 +22,8 @@
 		CC2D573D1798F42700C616EB /* DocWatchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D573A1798F42700C616EB /* DocWatchHelper.m */; };
 		CC2D573E1798F42700C616EB /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D573C1798F42700C616EB /* RSTFileBrowserViewController.m */; };
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
+		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
+		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +125,8 @@
 				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
+				CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */,
+				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 				CC2D57371798F3FA00C616EB /* ROM Selection */,
 				CC2D57061798F2EC00C616EB /* Supporting Files */,
 			);
@@ -175,8 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
-				CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */,
-				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 			);
 			name = Resources;
 			path = GBA4iOS;
@@ -262,10 +262,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC2D57161798F2EC00C616EB /* Main_iPad.storyboard in Resources */,
 				CC2D571B1798F2EC00C616EB /* Images.xcassets in Resources */,
-				CC2D57131798F2EC00C616EB /* Main_iPhone.storyboard in Resources */,
+				CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */,
 				CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */,
+				CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +503,7 @@
 				CC2D57331798F2ED00C616EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CC2D57341798F2ED00C616EB /* Build configuration list for PBXNativeTarget "GBA4iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -511,6 +512,7 @@
 				CC2D57361798F2ED00C616EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

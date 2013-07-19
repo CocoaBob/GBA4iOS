@@ -23,8 +23,8 @@
         NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
         
         self.currentDirectory = documentsDirectory;
-        self.showFileExtensions = NO;
         self.supportedFileExtensions = @[@"gba", @"zip", @"gb", @"gbc"];
+        self.showFileExtensions = YES;
         self.showFolders = NO;
         self.showSectionTitles = NO;
     }
@@ -35,6 +35,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning

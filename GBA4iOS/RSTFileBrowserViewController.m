@@ -22,25 +22,29 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
+    if (self)
+    {
         [self initialize];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super initWithCoder:aDecoder];
-    if (self) {
+    if (self)
+    {
         [self initialize];
     }
     
     return self;
 }
 
-- (void)initialize {
+- (void)initialize
+{
     _fileDictionary = [[NSMutableDictionary alloc] init];
     _sections = [@"A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|#" componentsSeparatedByString:@"|"];
-    _showSectionTitles = YES;
+    _showSectionTitles = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshDirectory) name:kDocumentChanged object:nil]; // Don't set the object because the actual DocWatchHelper object changes each time the directory changes
 }
@@ -48,7 +52,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //_account = [DBAccountManager sharedManager].linkedAccount;
+    
+    [self refreshDirectory];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,26 +62,38 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Public
 
-- (NSString *)filepathForIndexPath:(NSIndexPath *)indexPath {
-    NSString *filename = [[self.fileDictionary objectForKey:[self.sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+- (NSString *)filepathForIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *filename = [self filenameForIndexPath:indexPath];
     return [self.currentDirectory stringByAppendingPathComponent:filename];
+}
+
+- (NSString *)filenameForIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *filename = [[self.fileDictionary objectForKey:[self.sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+    return filename;
 }
 
 #pragma mark - Refreshing Data
 
-- (void)refreshDirectory {
+- (void)refreshDirectory
+{
     [self.fileDictionary removeAllObjects];
+    
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     _contents = [fileManager contentsOfDirectoryAtPath:self.currentDirectory error:nil];
+    
     NSArray *extensions = [self.supportedFileExtensions copy];
     
-    for (NSString *filename in _contents) {
+    for (NSString *filename in _contents)
+    {
         BOOL fileSupported = NO;
         BOOL isDirectory = NO;
         
@@ -105,16 +122,19 @@
             }
         }
         
-        if (fileSupported) {
+        if (fileSupported)
+        {
             NSString *characterIndex = [filename substringWithRange:NSMakeRange(0,1)];
             characterIndex = [characterIndex uppercaseString];
             
-            if ([characterIndex rangeOfCharacterFromSet:[NSCharacterSet uppercaseLetterCharacterSet]].location == NSNotFound) {
+            if ([characterIndex rangeOfCharacterFromSet:[NSCharacterSet uppercaseLetterCharacterSet]].location == NSNotFound)
+            {
                 characterIndex = @"#";
             }
             
             NSMutableArray *sectionArray = self.fileDictionary[characterIndex];
-            if (sectionArray == nil) {
+            if (sectionArray == nil)
+            {
                 sectionArray = [[NSMutableArray alloc] init];
             }
             [sectionArray addObject:filename];
@@ -124,18 +144,25 @@
     
     [self.tableView reloadData];
     
-    if ([self.delegate respondsToSelector:@selector(fileBrowserViewController:didRefreshDirectory:)]) {
+    if ([self.delegate respondsToSelector:@selector(fileBrowserViewController:didRefreshDirectory:)])
+    {
         [self.delegate fileBrowserViewController:self didRefreshDirectory:self.currentDirectory];
     }
 }
 
-- (void)setCurrentDirectory:(NSString *)currentDirectory {
-    if ([_currentDirectory isEqualToString:currentDirectory]) {
+- (void)setCurrentDirectory:(NSString *)currentDirectory
+{
+    if ([_currentDirectory isEqualToString:currentDirectory])
+    {
         return;
     }
     
     _currentDirectory = [currentDirectory copy];
-    [self refreshDirectory];
+    
+    if (self.isViewLoaded) // Crash if subclass sets currentDirectory in init method, as self.tableView isn't loaded yet
+    {
+        [self refreshDirectory];
+    }
     
     self.docWatchHelper = [DocWatchHelper watcherForPath:_currentDirectory];
 }
@@ -145,15 +172,22 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    NSString *filename = [[self.fileDictionary objectForKey:[self.sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    
-    if (self.showFileExtensions == NO) {
-        filename = [filename stringByDeletingPathExtension];
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = filename;
+    NSString *filename = [self filenameForIndexPath:indexPath];
+    NSString *extension = [filename pathExtension];
+    
+    cell.textLabel.text = [filename stringByDeletingPathExtension];
+    
+    if (self.showFileExtensions)
+    {
+        cell.detailTextLabel.text = [extension uppercaseString];
+    }
     
     return cell;
 }
@@ -166,18 +200,22 @@
     return numberOfSections > 0 ? numberOfSections : 1;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     NSString *sectionTitle = nil;
-    if (self.sections.count) {
+    if (self.sections.count)
+    {
         NSInteger numberOfRows = [self tableView:tableView numberOfRowsInSection:section];
-        if (numberOfRows > 0) {
+        if (numberOfRows > 0)
+        {
             sectionTitle = [self.sections objectAtIndex:section];
         }
     }
     return sectionTitle;
 }
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
     if (!self.showSectionTitles)
     {
         return nil;
@@ -186,13 +224,16 @@
     return self.sections;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+{
     return index;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     NSInteger numberOfRows = self.fileDictionary.count;
-    if (self.sections.count) {
+    if (self.sections.count)
+    {
         numberOfRows = [[self.fileDictionary objectForKey:[self.sections objectAtIndex:section]] count];
     }
     return numberOfRows;
