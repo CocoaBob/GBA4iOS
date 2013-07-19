@@ -7,6 +7,7 @@
 
 #import "RSTFileBrowserViewController.h"
 #import "DocWatchHelper.h"
+#import "RSTFileBrowserTableViewCell.h"
 
 @interface RSTFileBrowserViewController ()
 
@@ -53,6 +54,8 @@
 {
     [super viewDidLoad];
     
+    [self.tableView registerClass:[RSTFileBrowserTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
     [self refreshDirectory];
 }
 
@@ -79,6 +82,14 @@
 {
     NSString *filename = [[self.fileDictionary objectForKey:[self.sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     return filename;
+}
+
+- (NSString *)visibleFileExtensionForIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *filename = [self filenameForIndexPath:indexPath];
+    NSString *extension = [filename pathExtension];
+    
+    return extension;
 }
 
 #pragma mark - Refreshing Data
@@ -150,43 +161,20 @@
     }
 }
 
-- (void)setCurrentDirectory:(NSString *)currentDirectory
-{
-    if ([_currentDirectory isEqualToString:currentDirectory])
-    {
-        return;
-    }
-    
-    _currentDirectory = [currentDirectory copy];
-    
-    if (self.isViewLoaded) // Crash if subclass sets currentDirectory in init method, as self.tableView isn't loaded yet
-    {
-        [self refreshDirectory];
-    }
-    
-    self.docWatchHelper = [DocWatchHelper watcherForPath:_currentDirectory];
-}
-
 #pragma mark - Table view data source
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     NSString *filename = [self filenameForIndexPath:indexPath];
-    NSString *extension = [filename pathExtension];
     
     cell.textLabel.text = [filename stringByDeletingPathExtension];
     
     if (self.showFileExtensions)
     {
-        cell.detailTextLabel.text = [extension uppercaseString];
+        cell.detailTextLabel.text = [self visibleFileExtensionForIndexPath:indexPath];
     }
     
     return cell;
@@ -275,4 +263,45 @@
      */
 }
 
+#pragma mark - Getters/Setters
+
+- (void)setCurrentDirectory:(NSString *)currentDirectory
+{
+    if ([_currentDirectory isEqualToString:currentDirectory])
+    {
+        return;
+    }
+    
+    _currentDirectory = [currentDirectory copy];
+    
+    if (self.isViewLoaded) // Crash if subclass sets currentDirectory in init method, as self.tableView isn't loaded yet
+    {
+        [self refreshDirectory];
+    }
+    
+    self.docWatchHelper = [DocWatchHelper watcherForPath:_currentDirectory];
+}
+
+- (void)setSupportedFileExtensions:(NSArray *)supportedFileExtensions
+{
+    if ([_supportedFileExtensions isEqualToArray:supportedFileExtensions])
+    {
+        return;
+    }
+    
+    _supportedFileExtensions = [supportedFileExtensions copy];
+    
+    if (self.isViewLoaded) // Crash if subclass sets supportedFileExtensions in init method, as self.tableView isn't loaded yet
+    {
+        [self refreshDirectory];
+    }
+}
+
 @end
+
+
+
+
+
+
+

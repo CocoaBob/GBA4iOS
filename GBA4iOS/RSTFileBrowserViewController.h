@@ -36,4 +36,6 @@
 
 - (NSString *)filenameForIndexPath:(NSIndexPath *)indexPath; // Subclasses can call to retrieve name to display in custom tableView:cellForRowAtIndexPath: methods
 
+- (NSString *)visibleFileExtensionForIndexPath:(NSIndexPath *)indexPath; // Subclasses can override to change how extensions are displayed
+
 @end

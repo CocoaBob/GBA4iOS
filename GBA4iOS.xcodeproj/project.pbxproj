@@ -24,6 +24,7 @@
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
+		CCABEA8B179982A4000E54A0 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCABEA8A179982A4000E54A0 /* RSTFileBrowserTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,8 @@
 		CC2D573C1798F42700C616EB /* RSTFileBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTFileBrowserViewController.m; sourceTree = "<group>"; };
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
+		CCABEA89179982A4000E54A0 /* RSTFileBrowserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTFileBrowserTableViewCell.h; sourceTree = "<group>"; };
+		CCABEA8A179982A4000E54A0 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +172,8 @@
 				CC2D573A1798F42700C616EB /* DocWatchHelper.m */,
 				CC2D573B1798F42700C616EB /* RSTFileBrowserViewController.h */,
 				CC2D573C1798F42700C616EB /* RSTFileBrowserViewController.m */,
+				CCABEA89179982A4000E54A0 /* RSTFileBrowserTableViewCell.h */,
+				CCABEA8A179982A4000E54A0 /* RSTFileBrowserTableViewCell.m */,
 			);
 			name = "ROM Selection";
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCABEA8B179982A4000E54A0 /* RSTFileBrowserTableViewCell.m in Sources */,
 				CC2D570C1798F2EC00C616EB /* main.m in Sources */,
 				CC2D573E1798F42700C616EB /* RSTFileBrowserViewController.m in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */,

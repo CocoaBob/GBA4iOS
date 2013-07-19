@@ -22,20 +22,27 @@
                     <navigationItem key="navigationItem" id="faj-ib-eYG">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" image="Gear" id="hbZ-3u-c9Y"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Zus-fi-Azs">
-                            <rect key="frame" x="53" y="6" width="219" height="32"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="vw4-Ob-Njc">
+                            <rect key="frame" x="53" y="7" width="218" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="ALL"/>
                                 <segment title="GBA"/>
                                 <segment title="GBC"/>
                             </segments>
+                            <connections>
+                                <action selector="switchROMTypes:" destination="8cV-d5-THO" eventType="valueChanged" id="p9U-d1-kBu"/>
+                            </connections>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="lhi-LK-iGI"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="romTypeSegmentedControl" destination="vw4-Ob-Njc" id="JRr-6i-pIu"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ub8-cJ-WUN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="995" y="219"/>
+            <point key="canvasLocation" x="1074" y="219"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vdc-3g-3P0">
