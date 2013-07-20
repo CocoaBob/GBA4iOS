@@ -34,7 +34,11 @@
                                 <action selector="switchROMTypes:" destination="8cV-d5-THO" eventType="valueChanged" id="p9U-d1-kBu"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="lhi-LK-iGI"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="lhi-LK-iGI">
+                            <connections>
+                                <action selector="searchForROMs:" destination="8cV-d5-THO" id="GGD-ex-Zgz"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="romTypeSegmentedControl" destination="vw4-Ob-Njc" id="JRr-6i-pIu"/>
