@@ -49,6 +49,26 @@
 		CCFA7151179D2E8800768D24 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714A179D2E8800768D24 /* mztools.c */; };
 		CCFA7152179D2E8800768D24 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714C179D2E8800768D24 /* unzip.c */; };
 		CCFA7153179D2E8800768D24 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714E179D2E8800768D24 /* zip.c */; };
+		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
+		CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
+		CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
+		CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7158179D2EAA00768D24 /* opengl.cc */; };
+		CCFA7178179D2EAB00768D24 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7159179D2EAA00768D24 /* View.cc */; };
+		CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */; };
+		CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */; };
+		CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */; };
+		CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715D179D2EAA00768D24 /* FsPosix.cc */; };
+		CCFA717D179D2EAB00768D24 /* Io.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715E179D2EAA00768D24 /* Io.cc */; };
+		CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715F179D2EAA00768D24 /* IoFd.cc */; };
+		CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7160179D2EAA00768D24 /* IoMmap.cc */; };
+		CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */; };
+		CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7169179D2EAA00768D24 /* MenuItem.cc */; };
+		CCFA7189179D2EAB00768D24 /* NavView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716A179D2EAA00768D24 /* NavView.cc */; };
+		CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716B179D2EAA00768D24 /* FSPicker.cc */; };
+		CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716C179D2EAA00768D24 /* AlertView.cc */; };
+		CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716D179D2EAA00768D24 /* ResourceFace.cc */; };
+		CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716E179D2EAA00768D24 /* ResourceFont.cc */; };
+		CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716F179D2EAA00768D24 /* Quartz2d.cc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +136,30 @@
 		CCFA714D179D2E8800768D24 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
 		CCFA714E179D2E8800768D24 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
 		CCFA714F179D2E8800768D24 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		CCFA7155179D2EAA00768D24 /* logger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = logger.cc; path = "emu-ex-plus-alpha/imagine/src/logger/stdio/logger.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7156179D2EAA00768D24 /* coreaudio.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coreaudio.cc; path = "emu-ex-plus-alpha/imagine/src/audio/coreaudio/coreaudio.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7157179D2EAA00768D24 /* Pixmap.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pixmap.cc; path = "emu-ex-plus-alpha/imagine/src/pixmap/Pixmap.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7158179D2EAA00768D24 /* opengl.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = opengl.cc; path = "emu-ex-plus-alpha/imagine/src/gfx/opengl/opengl.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7159179D2EAA00768D24 /* View.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = View.cc; path = "emu-ex-plus-alpha/imagine/src/gui/View.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScrollView1D.cc; path = "emu-ex-plus-alpha/imagine/src/gui/ScrollView1D/ScrollView1D.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GuiTable1D.cc; path = "emu-ex-plus-alpha/imagine/src/gui/GuiTable1D/GuiTable1D.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScrollableGuiTable1D.cc; path = "emu-ex-plus-alpha/imagine/src/gui/GuiTable1D/ScrollableGuiTable1D.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA715D179D2EAA00768D24 /* FsPosix.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FsPosix.cc; path = "emu-ex-plus-alpha/imagine/src/fs/posix/FsPosix.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA715E179D2EAA00768D24 /* Io.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Io.cc; path = "emu-ex-plus-alpha/imagine/src/io/Io.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA715F179D2EAA00768D24 /* IoFd.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IoFd.cc; path = "emu-ex-plus-alpha/imagine/src/io/fd/IoFd.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7160179D2EAA00768D24 /* IoMmap.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IoMmap.cc; path = "emu-ex-plus-alpha/imagine/src/io/mmap/IoMmap.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IoMmapFd.cc; path = "emu-ex-plus-alpha/imagine/src/io/mmap/fd/IoMmapFd.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7169179D2EAA00768D24 /* MenuItem.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuItem.cc; path = "emu-ex-plus-alpha/imagine/src/gui/MenuItem/MenuItem.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA716A179D2EAA00768D24 /* NavView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NavView.cc; path = "emu-ex-plus-alpha/imagine/src/gui/NavView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA716B179D2EAA00768D24 /* FSPicker.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FSPicker.cc; path = "emu-ex-plus-alpha/imagine/src/gui/FSPicker/FSPicker.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA716C179D2EAA00768D24 /* AlertView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AlertView.cc; path = "emu-ex-plus-alpha/imagine/src/gui/AlertView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA716D179D2EAA00768D24 /* ResourceFace.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ResourceFace.cc; path = "emu-ex-plus-alpha/imagine/src/resource2/face/ResourceFace.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA716E179D2EAA00768D24 /* ResourceFont.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ResourceFont.cc; path = "emu-ex-plus-alpha/imagine/src/resource2/font/ResourceFont.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA716F179D2EAA00768D24 /* Quartz2d.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Quartz2d.cc; path = "emu-ex-plus-alpha/imagine/src/data-type/image/png/Quartz2d.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7170179D2EAB00768D24 /* iphone.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iphone.mm; path = "emu-ex-plus-alpha/imagine/src/base/iphone/iphone.mm"; sourceTree = SOURCE_ROOT; };
+		CCFA7171179D2EAB00768D24 /* apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = apple.mm; path = "emu-ex-plus-alpha/imagine/src/util/string/apple.mm"; sourceTree = SOURCE_ROOT; };
+		CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ResourceFontUIKit.mm; path = "emu-ex-plus-alpha/imagine/src/resource2/font/ResourceFontUIKit.mm"; sourceTree = SOURCE_ROOT; };
+		CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Quartz2dUIKit.mm; path = "emu-ex-plus-alpha/imagine/src/data-type/image/png/Quartz2dUIKit.mm"; sourceTree = SOURCE_ROOT; };
 		DC7FC68338514E99889F3D95 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E497718ED60948D8A50CF8AA /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -162,6 +206,7 @@
 		CC157AB3179D19EB0068A54E /* GBA */ = {
 			isa = PBXGroup;
 			children = (
+				CCFA7154179D2E9D00768D24 /* imagine */,
 				CCFA7146179D2E8800768D24 /* minizip */,
 				CC157AB4179D1B270068A54E /* libpng */,
 			);
@@ -310,6 +355,37 @@
 			path = minizip;
 			sourceTree = "<group>";
 		};
+		CCFA7154179D2E9D00768D24 /* imagine */ = {
+			isa = PBXGroup;
+			children = (
+				CCFA7155179D2EAA00768D24 /* logger.cc */,
+				CCFA7156179D2EAA00768D24 /* coreaudio.cc */,
+				CCFA7157179D2EAA00768D24 /* Pixmap.cc */,
+				CCFA7158179D2EAA00768D24 /* opengl.cc */,
+				CCFA7159179D2EAA00768D24 /* View.cc */,
+				CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */,
+				CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */,
+				CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */,
+				CCFA715D179D2EAA00768D24 /* FsPosix.cc */,
+				CCFA715E179D2EAA00768D24 /* Io.cc */,
+				CCFA715F179D2EAA00768D24 /* IoFd.cc */,
+				CCFA7160179D2EAA00768D24 /* IoMmap.cc */,
+				CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */,
+				CCFA7169179D2EAA00768D24 /* MenuItem.cc */,
+				CCFA716A179D2EAA00768D24 /* NavView.cc */,
+				CCFA716B179D2EAA00768D24 /* FSPicker.cc */,
+				CCFA716C179D2EAA00768D24 /* AlertView.cc */,
+				CCFA716D179D2EAA00768D24 /* ResourceFace.cc */,
+				CCFA716E179D2EAA00768D24 /* ResourceFont.cc */,
+				CCFA716F179D2EAA00768D24 /* Quartz2d.cc */,
+				CCFA7170179D2EAB00768D24 /* iphone.mm */,
+				CCFA7171179D2EAB00768D24 /* apple.mm */,
+				CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */,
+				CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */,
+			);
+			name = imagine;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -445,29 +521,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCFA717D179D2EAB00768D24 /* Io.cc in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
+				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
 				CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */,
+				CCFA7178179D2EAB00768D24 /* View.cc in Sources */,
+				CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */,
 				CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */,
+				CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */,
 				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
+				CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */,
+				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
+				CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */,
 				CC2D570C1798F2EC00C616EB /* main.m in Sources */,
 				CCFA7151179D2E8800768D24 /* mztools.c in Sources */,
+				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
 				CCFA7152179D2E8800768D24 /* unzip.c in Sources */,
+				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
+				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
+				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
+				CCFA7189179D2EAB00768D24 /* NavView.cc in Sources */,
+				CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */,
+				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
+				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
+				CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */,
 				CCFA7150179D2E8800768D24 /* ioapi.c in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */,
 				CCFA7153179D2E8800768D24 /* zip.c in Sources */,
+				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
 				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
+				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
+				CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,6 +834,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework\"/**",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu\"/**",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -768,6 +865,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework\"/**",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu\"/**",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
