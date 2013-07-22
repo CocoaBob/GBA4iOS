@@ -34,7 +34,6 @@
 		CC15790A179D08530068A54E /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157904179D08530068A54E /* unzip.c */; };
 		CC15790B179D08530068A54E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157906179D08530068A54E /* zip.c */; };
 		CC1579EA179D11810068A54E /* AlertView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579A2179D11810068A54E /* AlertView.cc */; };
-		CC1579EB179D11810068A54E /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC1579A3179D11810068A54E /* apple.mm */; };
 		CC1579EC179D11810068A54E /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579AA179D11810068A54E /* coreaudio.cc */; };
 		CC1579ED179D11810068A54E /* FSPicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579AF179D11810068A54E /* FSPicker.cc */; };
 		CC1579EE179D11810068A54E /* FsPosix.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579B1179D11810068A54E /* FsPosix.cc */; };
@@ -43,17 +42,14 @@
 		CC1579F1179D11810068A54E /* IoFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579C1179D11810068A54E /* IoFd.cc */; };
 		CC1579F2179D11810068A54E /* IoMmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579C3179D11810068A54E /* IoMmap.cc */; };
 		CC1579F3179D11810068A54E /* IoMmapFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579C5179D11810068A54E /* IoMmapFd.cc */; };
-		CC1579F4179D11810068A54E /* iphone.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC1579C7179D11810068A54E /* iphone.mm */; };
 		CC1579F5179D11810068A54E /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579CA179D11810068A54E /* logger.cc */; };
 		CC1579F6179D11810068A54E /* MenuItem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579CC179D11810068A54E /* MenuItem.cc */; };
 		CC1579F7179D11810068A54E /* NavView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579CD179D11810068A54E /* NavView.cc */; };
 		CC1579F8179D11810068A54E /* opengl.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579CE179D11810068A54E /* opengl.cc */; };
 		CC1579F9179D11810068A54E /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579D1179D11810068A54E /* Pixmap.cc */; };
 		CC1579FA179D11810068A54E /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579D2179D11810068A54E /* Quartz2d.cc */; };
-		CC1579FB179D11810068A54E /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC1579D4179D11810068A54E /* Quartz2dUIKit.mm */; };
 		CC1579FC179D11810068A54E /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579D5179D11810068A54E /* ResourceFace.cc */; };
 		CC1579FD179D11810068A54E /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579D7179D11810068A54E /* ResourceFont.cc */; };
-		CC1579FE179D11810068A54E /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC1579D9179D11810068A54E /* ResourceFontUIKit.mm */; };
 		CC1579FF179D11810068A54E /* RSTExtras.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC1579DA179D11810068A54E /* RSTExtras.mm */; };
 		CC157A00179D11810068A54E /* ScrollableGuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579DB179D11810068A54E /* ScrollableGuiTable1D.cc */; };
 		CC157A01179D11810068A54E /* ScrollView1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC1579DC179D11810068A54E /* ScrollView1D.cc */; };
@@ -723,7 +719,6 @@
 				CC1578EF179D08020068A54E /* pngwtran.c in Sources */,
 				CC1578ED179D08020068A54E /* pngwio.c in Sources */,
 				CC15790B179D08530068A54E /* zip.c in Sources */,
-				CC1579FB179D11810068A54E /* Quartz2dUIKit.mm in Sources */,
 				CC157A00179D11810068A54E /* ScrollableGuiTable1D.cc in Sources */,
 				CC1579F5179D11810068A54E /* logger.cc in Sources */,
 				CC1578E7179D08020068A54E /* pngread.c in Sources */,
@@ -739,9 +734,7 @@
 				CC1579EF179D11810068A54E /* GuiTable1D.cc in Sources */,
 				CC1578E8179D08020068A54E /* pngrio.c in Sources */,
 				CC157909179D08530068A54E /* mztools.c in Sources */,
-				CC1579FE179D11810068A54E /* ResourceFontUIKit.mm in Sources */,
 				CC1578E4179D08020068A54E /* pngget.c in Sources */,
-				CC1579F4179D11810068A54E /* iphone.mm in Sources */,
 				CC1579F7179D11810068A54E /* NavView.cc in Sources */,
 				CC1578E9179D08020068A54E /* pngrtran.c in Sources */,
 				CC1578E6179D08020068A54E /* pngpread.c in Sources */,
@@ -752,7 +745,6 @@
 				CC157A02179D11810068A54E /* View.cc in Sources */,
 				CC1579FC179D11810068A54E /* ResourceFace.cc in Sources */,
 				CC1579F6179D11810068A54E /* MenuItem.cc in Sources */,
-				CC1579EB179D11810068A54E /* apple.mm in Sources */,
 				CC1579F9179D11810068A54E /* Pixmap.cc in Sources */,
 				CC1579F1179D11810068A54E /* IoFd.cc in Sources */,
 				CC1579ED179D11810068A54E /* FSPicker.cc in Sources */,
