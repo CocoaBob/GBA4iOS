@@ -45,6 +45,10 @@
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
+		CCFA7150179D2E8800768D24 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7148179D2E8800768D24 /* ioapi.c */; };
+		CCFA7151179D2E8800768D24 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714A179D2E8800768D24 /* mztools.c */; };
+		CCFA7152179D2E8800768D24 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714C179D2E8800768D24 /* unzip.c */; };
+		CCFA7153179D2E8800768D24 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714E179D2E8800768D24 /* zip.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +107,15 @@
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEmulationViewController.m; sourceTree = "<group>"; };
+		CCFA7147179D2E8800768D24 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		CCFA7148179D2E8800768D24 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		CCFA7149179D2E8800768D24 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		CCFA714A179D2E8800768D24 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		CCFA714B179D2E8800768D24 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		CCFA714C179D2E8800768D24 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		CCFA714D179D2E8800768D24 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		CCFA714E179D2E8800768D24 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		CCFA714F179D2E8800768D24 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		DC7FC68338514E99889F3D95 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E497718ED60948D8A50CF8AA /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -149,6 +162,7 @@
 		CC157AB3179D19EB0068A54E /* GBA */ = {
 			isa = PBXGroup;
 			children = (
+				CCFA7146179D2E8800768D24 /* minizip */,
 				CC157AB4179D1B270068A54E /* libpng */,
 			);
 			name = GBA;
@@ -278,6 +292,22 @@
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */,
 			);
 			name = "Emulation View Controller";
+			sourceTree = "<group>";
+		};
+		CCFA7146179D2E8800768D24 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				CCFA7147179D2E8800768D24 /* crypt.h */,
+				CCFA7148179D2E8800768D24 /* ioapi.c */,
+				CCFA7149179D2E8800768D24 /* ioapi.h */,
+				CCFA714A179D2E8800768D24 /* mztools.c */,
+				CCFA714B179D2E8800768D24 /* mztools.h */,
+				CCFA714C179D2E8800768D24 /* unzip.c */,
+				CCFA714D179D2E8800768D24 /* unzip.h */,
+				CCFA714E179D2E8800768D24 /* zip.c */,
+				CCFA714F179D2E8800768D24 /* zip.h */,
+			);
+			path = minizip;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -426,10 +456,14 @@
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				CC2D570C1798F2EC00C616EB /* main.m in Sources */,
+				CCFA7151179D2E8800768D24 /* mztools.c in Sources */,
+				CCFA7152179D2E8800768D24 /* unzip.c in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
+				CCFA7150179D2E8800768D24 /* ioapi.c in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */,
+				CCFA7153179D2E8800768D24 /* zip.c in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
 				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */,
