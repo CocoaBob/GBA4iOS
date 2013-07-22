@@ -14,6 +14,21 @@
 		CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D0179CF1B90068A54E /* MessageUI.framework */; };
 		CC1577D6179CF1B90068A54E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
 		CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
+		CC157AE4179D1BC60068A54E /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD4179D1BC60068A54E /* png.c */; };
+		CC157AE5179D1BC60068A54E /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD6179D1BC60068A54E /* pngerror.c */; };
+		CC157AE6179D1BC60068A54E /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD7179D1BC60068A54E /* pngget.c */; };
+		CC157AE7179D1BC60068A54E /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD8179D1BC60068A54E /* pngmem.c */; };
+		CC157AE8179D1BC60068A54E /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD9179D1BC60068A54E /* pngpread.c */; };
+		CC157AE9179D1BC60068A54E /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADA179D1BC60068A54E /* pngread.c */; };
+		CC157AEA179D1BC60068A54E /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADB179D1BC60068A54E /* pngrio.c */; };
+		CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADC179D1BC60068A54E /* pngrtran.c */; };
+		CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADD179D1BC60068A54E /* pngrutil.c */; };
+		CC157AED179D1BC60068A54E /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADE179D1BC60068A54E /* pngset.c */; };
+		CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADF179D1BC60068A54E /* pngtrans.c */; };
+		CC157AEF179D1BC60068A54E /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE0179D1BC60068A54E /* pngwio.c */; };
+		CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
+		CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
+		CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
@@ -50,6 +65,22 @@
 		CC1577D0179CF1B90068A54E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CC1577D1179CF1B90068A54E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CC1577D7179CF1F80068A54E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CC157AD4179D1BC60068A54E /* png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = png.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/png.c"; sourceTree = SOURCE_ROOT; };
+		CC157AD5179D1BC60068A54E /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = png.h; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/png.h"; sourceTree = SOURCE_ROOT; };
+		CC157AD6179D1BC60068A54E /* pngerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngerror.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngerror.c"; sourceTree = SOURCE_ROOT; };
+		CC157AD7179D1BC60068A54E /* pngget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngget.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngget.c"; sourceTree = SOURCE_ROOT; };
+		CC157AD8179D1BC60068A54E /* pngmem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngmem.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngmem.c"; sourceTree = SOURCE_ROOT; };
+		CC157AD9179D1BC60068A54E /* pngpread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngpread.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngpread.c"; sourceTree = SOURCE_ROOT; };
+		CC157ADA179D1BC60068A54E /* pngread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngread.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngread.c"; sourceTree = SOURCE_ROOT; };
+		CC157ADB179D1BC60068A54E /* pngrio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngrio.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngrio.c"; sourceTree = SOURCE_ROOT; };
+		CC157ADC179D1BC60068A54E /* pngrtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngrtran.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngrtran.c"; sourceTree = SOURCE_ROOT; };
+		CC157ADD179D1BC60068A54E /* pngrutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngrutil.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngrutil.c"; sourceTree = SOURCE_ROOT; };
+		CC157ADE179D1BC60068A54E /* pngset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngset.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngset.c"; sourceTree = SOURCE_ROOT; };
+		CC157ADF179D1BC60068A54E /* pngtrans.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngtrans.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngtrans.c"; sourceTree = SOURCE_ROOT; };
+		CC157AE0179D1BC60068A54E /* pngwio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwio.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwio.c"; sourceTree = SOURCE_ROOT; };
+		CC157AE1179D1BC60068A54E /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwrite.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwrite.c"; sourceTree = SOURCE_ROOT; };
+		CC157AE2179D1BC60068A54E /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwtran.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwtran.c"; sourceTree = SOURCE_ROOT; };
+		CC157AE3179D1BC60068A54E /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwutil.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwutil.c"; sourceTree = SOURCE_ROOT; };
 		CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBA4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC2D56FF1798F2EC00C616EB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CC2D57011798F2EC00C616EB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -118,8 +149,32 @@
 		CC157AB3179D19EB0068A54E /* GBA */ = {
 			isa = PBXGroup;
 			children = (
+				CC157AB4179D1B270068A54E /* libpng */,
 			);
 			name = GBA;
+			sourceTree = "<group>";
+		};
+		CC157AB4179D1B270068A54E /* libpng */ = {
+			isa = PBXGroup;
+			children = (
+				CC157AD4179D1BC60068A54E /* png.c */,
+				CC157AD5179D1BC60068A54E /* png.h */,
+				CC157AD6179D1BC60068A54E /* pngerror.c */,
+				CC157AD7179D1BC60068A54E /* pngget.c */,
+				CC157AD8179D1BC60068A54E /* pngmem.c */,
+				CC157AD9179D1BC60068A54E /* pngpread.c */,
+				CC157ADA179D1BC60068A54E /* pngread.c */,
+				CC157ADB179D1BC60068A54E /* pngrio.c */,
+				CC157ADC179D1BC60068A54E /* pngrtran.c */,
+				CC157ADD179D1BC60068A54E /* pngrutil.c */,
+				CC157ADE179D1BC60068A54E /* pngset.c */,
+				CC157ADF179D1BC60068A54E /* pngtrans.c */,
+				CC157AE0179D1BC60068A54E /* pngwio.c */,
+				CC157AE1179D1BC60068A54E /* pngwrite.c */,
+				CC157AE2179D1BC60068A54E /* pngwtran.c */,
+				CC157AE3179D1BC60068A54E /* pngwutil.c */,
+			);
+			name = libpng;
 			sourceTree = "<group>";
 		};
 		CC2D56F31798F2EC00C616EB = {
@@ -360,8 +415,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
+				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
+				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
+				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
+				CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */,
+				CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */,
+				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
+				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
+				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
+				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				CC2D570C1798F2EC00C616EB /* main.m in Sources */,
+				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
+				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
+				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */,
+				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
+				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
 			);
@@ -426,7 +496,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -524,7 +594,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -630,8 +700,10 @@
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/GBA4iOS/Emulator Code/GBA/imagine/\"",
-					"\"$(SRCROOT)/GBA4iOS/Emulator Code/GBA/EmuFramework/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/all/src/btstack/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework\"/**",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu\"/**",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -658,8 +730,10 @@
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/GBA4iOS/Emulator Code/GBA/imagine/\"",
-					"\"$(SRCROOT)/GBA4iOS/Emulator Code/GBA/EmuFramework/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/all/src/btstack/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework\"/**",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu\"/**",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
