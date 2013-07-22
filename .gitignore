@@ -18,3 +18,11 @@ DerivedData
 
 #CocoaPods
 Pods
+
+#Emulator
+emu-ex-plus-alpha
+GBA.emu
+GBA.emuTests
+GBAEmulator
+GBAEmulator.xcodeproj
+GBAEmulatorTests

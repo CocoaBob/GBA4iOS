@@ -9,10 +9,12 @@
 #import "GBAROMTableViewController.h"
 #import "GBAEmulationViewController.h"
 
-#import <RSTWebViewController/RSTWebViewController.h>
+#import <RSTWebViewController.h>
+#import <UIAlertView+RSTAdditions.h>
 
 #define LEGAL_NOTICE_ALERT_TAG 15
 #define NAME_ROM_ALERT_TAG 17
+#define DELETE_ROM_ALERT_TAG 2
 
 typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeAll,
@@ -168,7 +170,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     if (error)
     {
-        ELog(error);
+        //ELog(error);
         return;
     }
     
@@ -178,7 +180,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     if (error)
     {
-        ELog(error);
+        //ELog(error);
     }
 }
 
@@ -186,7 +188,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     if (error)
     {
-        ELog(error);
+        //ELog(error);
         
         NSDictionary *dictionary = self.currentDownloads[downloadTask.uniqueTaskIdentifier];
         
@@ -278,6 +280,9 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             [self cancelDownload];
         }
     }
+    else if (alertView.tag == DELETE_ROM_ALERT_TAG)
+    {
+    }
 }
 
 - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView // Not working in iOS 7, hoping for fix http://openradar.appspot.com/14387317
@@ -345,6 +350,31 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self presentViewController:emulationViewController animated:YES completion:NULL];
 }
 
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test" message:@"AWESOME" cancelButtonTitle:@"Cancel" otherButtonTitles:@"SWEET", @"COOL", nil];
+        [alert showWithCompletionHandler:^(UIAlertView *alertView, NSInteger buttonIndex)
+        {
+            if (buttonIndex == 0)
+            {
+                DLog(@"Canceled");
+            }
+            else if (buttonIndex == 1)
+            {
+                DLog(@"Sweet");
+            }
+            else if (buttonIndex == 2)
+            {
+                DLog(@"COOL");
+            }
+        }];
+    }
+}
+
 #pragma mark - IBActions
 
 - (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl
@@ -372,7 +402,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     switch (romType) {
         case GBAROMTypeAll:
-            self.supportedFileExtensions = @[@"gba", @"gb", @"gbc"];
+            self.supportedFileExtensions = @[@"gba", @"gbc", @"gb"];
             break;
             
         case GBAROMTypeGBA:
