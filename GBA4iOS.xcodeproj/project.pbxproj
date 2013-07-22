@@ -69,6 +69,89 @@
 		CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716D179D2EAA00768D24 /* ResourceFace.cc */; };
 		CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716E179D2EAA00768D24 /* ResourceFont.cc */; };
 		CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716F179D2EAA00768D24 /* Quartz2d.cc */; };
+		CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7194179D2FE400768D24 /* CreditsView.cc */; };
+		CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7195179D2FE400768D24 /* MsgPopup.cc */; };
+		CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7196179D2FE400768D24 /* FilePicker.cc */; };
+		CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7197179D2FE400768D24 /* EmuSystem.cc */; };
+		CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7198179D2FE400768D24 /* Recent.cc */; };
+		CCFA71AE179D2FE400768D24 /* Screenshot.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7199179D2FE400768D24 /* Screenshot.cc */; };
+		CCFA71AF179D2FE400768D24 /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
+		CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */; };
+		CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719C179D2FE400768D24 /* StateSlotView.cc */; };
+		CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719D179D2FE400768D24 /* MenuView.cc */; };
+		CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719E179D2FE400768D24 /* EmuInput.cc */; };
+		CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719F179D2FE400768D24 /* TextEntry.cc */; };
+		CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A0179D2FE400768D24 /* EmuOptions.cc */; };
+		CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A1179D2FE400768D24 /* OptionView.cc */; };
+		CCFA71B7179D2FE400768D24 /* EmuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A2179D2FE400768D24 /* EmuView.cc */; };
+		CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A3179D2FE400768D24 /* ConfigFile.cc */; };
+		CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A4179D2FE400768D24 /* InputManagerView.cc */; };
+		CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A5179D2FE400768D24 /* FileUtils.cc */; };
+		CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A6179D2FE400768D24 /* Cheats.cc */; };
+		CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */; };
+		CCFA71BD179D2FE400768D24 /* VController.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A8179D2FE400768D24 /* VController.cc */; };
+		CCFA71FA179D304700768D24 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C0179D304600768D24 /* Main.cc */; };
+		CCFA71FB179D304700768D24 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C1179D304600768D24 /* EmuControls.cc */; };
+		CCFA71FC179D304700768D24 /* VbamApi.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C2179D304600768D24 /* VbamApi.cc */; };
+		CCFA71FD179D304700768D24 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C3179D304600768D24 /* Cheats.cc */; };
+		CCFA71FE179D304700768D24 /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C4179D304600768D24 /* bios.cpp */; };
+		CCFA71FF179D304700768D24 /* Cheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C5179D304600768D24 /* Cheats.cpp */; };
+		CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C6179D304600768D24 /* CheatSearch.cpp */; };
+		CCFA7201179D304700768D24 /* EEprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C7179D304600768D24 /* EEprom.cpp */; };
+		CCFA7202179D304700768D24 /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C8179D304600768D24 /* Flash.cpp */; };
+		CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C9179D304600768D24 /* GBA-arm.cpp */; };
+		CCFA7204179D304700768D24 /* GBA-thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CA179D304600768D24 /* GBA-thumb.cpp */; };
+		CCFA7205179D304700768D24 /* GBA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CB179D304600768D24 /* GBA.cpp */; };
+		CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CC179D304600768D24 /* gbafilter.cpp */; };
+		CCFA7207179D304700768D24 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CD179D304600768D24 /* Globals.cpp */; };
+		CCFA7208179D304700768D24 /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CE179D304600768D24 /* Mode0.cpp */; };
+		CCFA7209179D304700768D24 /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CF179D304600768D24 /* Mode1.cpp */; };
+		CCFA720A179D304700768D24 /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D0179D304600768D24 /* Mode2.cpp */; };
+		CCFA720B179D304700768D24 /* Mode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D1179D304600768D24 /* Mode3.cpp */; };
+		CCFA720C179D304700768D24 /* Mode4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D2179D304600768D24 /* Mode4.cpp */; };
+		CCFA720D179D304700768D24 /* Mode5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D3179D304600768D24 /* Mode5.cpp */; };
+		CCFA720E179D304700768D24 /* RTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D4179D304600768D24 /* RTC.cpp */; };
+		CCFA720F179D304700768D24 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D5179D304600768D24 /* Sound.cpp */; };
+		CCFA7210179D304700768D24 /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D6179D304600768D24 /* Sram.cpp */; };
+		CCFA7211179D304700768D24 /* Patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D7179D304600768D24 /* Patch.cpp */; };
+		CCFA7212179D304700768D24 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D8179D304600768D24 /* Util.cpp */; };
+		CCFA7213179D304700768D24 /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */; };
+		CCFA7214179D304700768D24 /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */; };
+		CCFA7215179D304700768D24 /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DB179D304700768D24 /* Gb_Apu.cpp */; };
+		CCFA7216179D304700768D24 /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */; };
+		CCFA7217179D304700768D24 /* Multi_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */; };
+		CCFA7218179D304700768D24 /* Binary_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */; };
+		CCFA7219179D304700768D24 /* blargg_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DF179D304700768D24 /* blargg_common.cpp */; };
+		CCFA721A179D304700768D24 /* blargg_errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E0179D304700768D24 /* blargg_errors.cpp */; };
+		CCFA721B179D304700768D24 /* Data_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E1179D304700768D24 /* Data_Reader.cpp */; };
+		CCFA721C179D304700768D24 /* fex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E2179D304700768D24 /* fex.cpp */; };
+		CCFA721D179D304700768D24 /* File_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E3179D304700768D24 /* File_Extractor.cpp */; };
+		CCFA721E179D304700768D24 /* Gzip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */; };
+		CCFA721F179D304700768D24 /* Gzip_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */; };
+		CCFA7220179D304700768D24 /* Rar_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */; };
+		CCFA7221179D304700768D24 /* Zip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */; };
+		CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */; };
+		CCFA7223179D304700768D24 /* Zlib_Inflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */; };
+		CCFA7224179D304700768D24 /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EA179D304700768D24 /* memgzio.c */; };
+		CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; };
+		CCFA7226179D304700768D24 /* 7zBuf.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EC179D304700768D24 /* 7zBuf.c */; };
+		CCFA7227179D304700768D24 /* 7zCrc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71ED179D304700768D24 /* 7zCrc.c */; };
+		CCFA7228179D304700768D24 /* 7zCrcOpt.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EE179D304700768D24 /* 7zCrcOpt.c */; };
+		CCFA7229179D304700768D24 /* 7zDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EF179D304700768D24 /* 7zDec.c */; };
+		CCFA722A179D304700768D24 /* 7zIn.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F0179D304700768D24 /* 7zIn.c */; };
+		CCFA722B179D304700768D24 /* 7zStream.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F1179D304700768D24 /* 7zStream.c */; };
+		CCFA722C179D304700768D24 /* Bcj2.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F2179D304700768D24 /* Bcj2.c */; };
+		CCFA722D179D304700768D24 /* Bra.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F3179D304700768D24 /* Bra.c */; };
+		CCFA722E179D304700768D24 /* Bra86.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F4179D304700768D24 /* Bra86.c */; };
+		CCFA722F179D304700768D24 /* CpuArch.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F5179D304700768D24 /* CpuArch.c */; };
+		CCFA7230179D304700768D24 /* Lzma2Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F6179D304700768D24 /* Lzma2Dec.c */; };
+		CCFA7231179D304700768D24 /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
+		CCFA7232179D304700768D24 /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
+		CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
+		CCFA7236179D340400768D24 /* iphone.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7170179D2EAB00768D24 /* iphone.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CCFA7237179D340400768D24 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +165,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CC1577CA179CF1850068A54E /* libGBAEmulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGBAEmulator.a; path = "build/Debug-iphoneos/libGBAEmulator.a"; sourceTree = "<group>"; };
 		CC1577CD179CF1B90068A54E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CC1577CE179CF1B90068A54E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		CC1577CF179CF1B90068A54E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -160,6 +242,86 @@
 		CCFA7171179D2EAB00768D24 /* apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = apple.mm; path = "emu-ex-plus-alpha/imagine/src/util/string/apple.mm"; sourceTree = SOURCE_ROOT; };
 		CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ResourceFontUIKit.mm; path = "emu-ex-plus-alpha/imagine/src/resource2/font/ResourceFontUIKit.mm"; sourceTree = SOURCE_ROOT; };
 		CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Quartz2dUIKit.mm; path = "emu-ex-plus-alpha/imagine/src/data-type/image/png/Quartz2dUIKit.mm"; sourceTree = SOURCE_ROOT; };
+		CCFA7194179D2FE400768D24 /* CreditsView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreditsView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/CreditsView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7195179D2FE400768D24 /* MsgPopup.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MsgPopup.cc; path = "emu-ex-plus-alpha/EmuFramework/src/MsgPopup.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7196179D2FE400768D24 /* FilePicker.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FilePicker.cc; path = "emu-ex-plus-alpha/EmuFramework/src/FilePicker.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7197179D2FE400768D24 /* EmuSystem.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmuSystem.cc; path = "emu-ex-plus-alpha/EmuFramework/src/EmuSystem.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7198179D2FE400768D24 /* Recent.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Recent.cc; path = "emu-ex-plus-alpha/EmuFramework/src/Recent.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA7199179D2FE400768D24 /* Screenshot.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Screenshot.cc; path = "emu-ex-plus-alpha/EmuFramework/src/Screenshot.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ButtonConfigView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/ButtonConfigView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VideoImageOverlay.cc; path = "emu-ex-plus-alpha/EmuFramework/src/VideoImageOverlay.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA719C179D2FE400768D24 /* StateSlotView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StateSlotView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/StateSlotView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA719D179D2FE400768D24 /* MenuView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MenuView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/MenuView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA719E179D2FE400768D24 /* EmuInput.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmuInput.cc; path = "emu-ex-plus-alpha/EmuFramework/src/EmuInput.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA719F179D2FE400768D24 /* TextEntry.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextEntry.cc; path = "emu-ex-plus-alpha/EmuFramework/src/TextEntry.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A0179D2FE400768D24 /* EmuOptions.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmuOptions.cc; path = "emu-ex-plus-alpha/EmuFramework/src/EmuOptions.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A1179D2FE400768D24 /* OptionView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OptionView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/OptionView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A2179D2FE400768D24 /* EmuView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmuView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/EmuView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A3179D2FE400768D24 /* ConfigFile.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigFile.cc; path = "emu-ex-plus-alpha/EmuFramework/src/ConfigFile.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A4179D2FE400768D24 /* InputManagerView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputManagerView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/InputManagerView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A5179D2FE400768D24 /* FileUtils.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileUtils.cc; path = "emu-ex-plus-alpha/EmuFramework/src/FileUtils.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A6179D2FE400768D24 /* Cheats.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cheats.cc; path = "emu-ex-plus-alpha/EmuFramework/src/Cheats.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchConfigView.cc; path = "emu-ex-plus-alpha/EmuFramework/src/TouchConfigView.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71A8179D2FE400768D24 /* VController.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VController.cc; path = "emu-ex-plus-alpha/EmuFramework/src/VController.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71BE179D302900768D24 /* RSTExtras.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RSTExtras.mm; sourceTree = "<group>"; };
+		CCFA71C0179D304600768D24 /* Main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cc; path = "emu-ex-plus-alpha/GBA.emu/src/main/Main.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71C1179D304600768D24 /* EmuControls.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmuControls.cc; path = "emu-ex-plus-alpha/GBA.emu/src/main/EmuControls.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71C2179D304600768D24 /* VbamApi.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VbamApi.cc; path = "emu-ex-plus-alpha/GBA.emu/src/main/VbamApi.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71C3179D304600768D24 /* Cheats.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cheats.cc; path = "emu-ex-plus-alpha/GBA.emu/src/main/Cheats.cc"; sourceTree = SOURCE_ROOT; };
+		CCFA71C4179D304600768D24 /* bios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bios.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/bios.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71C5179D304600768D24 /* Cheats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cheats.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Cheats.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71C6179D304600768D24 /* CheatSearch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CheatSearch.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/CheatSearch.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71C7179D304600768D24 /* EEprom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EEprom.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/EEprom.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71C8179D304600768D24 /* Flash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Flash.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Flash.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71C9179D304600768D24 /* GBA-arm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "GBA-arm.cpp"; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBA-arm.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71CA179D304600768D24 /* GBA-thumb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "GBA-thumb.cpp"; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBA-thumb.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71CB179D304600768D24 /* GBA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GBA.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBA.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71CC179D304600768D24 /* gbafilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gbafilter.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/gbafilter.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71CD179D304600768D24 /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Globals.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Globals.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71CE179D304600768D24 /* Mode0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mode0.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Mode0.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71CF179D304600768D24 /* Mode1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mode1.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Mode1.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D0179D304600768D24 /* Mode2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mode2.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Mode2.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D1179D304600768D24 /* Mode3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mode3.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Mode3.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D2179D304600768D24 /* Mode4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mode4.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Mode4.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D3179D304600768D24 /* Mode5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mode5.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Mode5.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D4179D304600768D24 /* RTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RTC.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/RTC.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D5179D304600768D24 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sound.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Sound.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D6179D304600768D24 /* Sram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sram.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/Sram.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D7179D304600768D24 /* Patch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Patch.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/common/Patch.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D8179D304600768D24 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Util.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/Util.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Blip_Buffer.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/apu/Blip_Buffer.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gb_Apu_State.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/apu/Gb_Apu_State.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71DB179D304700768D24 /* Gb_Apu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gb_Apu.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/apu/Gb_Apu.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gb_Oscs.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/apu/Gb_Oscs.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Multi_Buffer.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/apu/Multi_Buffer.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Binary_Extractor.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Binary_Extractor.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71DF179D304700768D24 /* blargg_common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = blargg_common.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/blargg_common.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E0179D304700768D24 /* blargg_errors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = blargg_errors.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/blargg_errors.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E1179D304700768D24 /* Data_Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Data_Reader.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Data_Reader.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E2179D304700768D24 /* fex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fex.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/fex.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E3179D304700768D24 /* File_Extractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = File_Extractor.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/File_Extractor.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gzip_Extractor.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Gzip_Extractor.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gzip_Reader.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Gzip_Reader.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Rar_Extractor.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Rar_Extractor.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Zip_Extractor.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Zip_Extractor.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Zip7_Extractor.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Zip7_Extractor.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Zlib_Inflater.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/fex/Zlib_Inflater.cpp"; sourceTree = SOURCE_ROOT; };
+		CCFA71EA179D304700768D24 /* memgzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = memgzio.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/common/memgzio.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71EB179D304700768D24 /* 7zAlloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 7zAlloc.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/7zAlloc.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71EC179D304700768D24 /* 7zBuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 7zBuf.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/7zBuf.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71ED179D304700768D24 /* 7zCrc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 7zCrc.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/7zCrc.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71EE179D304700768D24 /* 7zCrcOpt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 7zCrcOpt.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/7zCrcOpt.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71EF179D304700768D24 /* 7zDec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 7zDec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/7zDec.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F0179D304700768D24 /* 7zIn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 7zIn.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/7zIn.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F1179D304700768D24 /* 7zStream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 7zStream.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/7zStream.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F2179D304700768D24 /* Bcj2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Bcj2.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Bcj2.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F3179D304700768D24 /* Bra.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Bra.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Bra.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F4179D304700768D24 /* Bra86.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Bra86.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Bra86.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F5179D304700768D24 /* CpuArch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CpuArch.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/CpuArch.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F6179D304700768D24 /* Lzma2Dec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Lzma2Dec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Lzma2Dec.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F7179D304700768D24 /* LzmaDec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LzmaDec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/LzmaDec.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F8179D304700768D24 /* Ppmd7.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Ppmd7.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Ppmd7.c"; sourceTree = SOURCE_ROOT; };
+		CCFA71F9179D304700768D24 /* Ppmd7Dec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Ppmd7Dec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Ppmd7Dec.c"; sourceTree = SOURCE_ROOT; };
 		DC7FC68338514E99889F3D95 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E497718ED60948D8A50CF8AA /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -206,6 +368,65 @@
 		CC157AB3179D19EB0068A54E /* GBA */ = {
 			isa = PBXGroup;
 			children = (
+				CCFA71C0179D304600768D24 /* Main.cc */,
+				CCFA71C1179D304600768D24 /* EmuControls.cc */,
+				CCFA71C2179D304600768D24 /* VbamApi.cc */,
+				CCFA71C3179D304600768D24 /* Cheats.cc */,
+				CCFA71C4179D304600768D24 /* bios.cpp */,
+				CCFA71C5179D304600768D24 /* Cheats.cpp */,
+				CCFA71C6179D304600768D24 /* CheatSearch.cpp */,
+				CCFA71C7179D304600768D24 /* EEprom.cpp */,
+				CCFA71C8179D304600768D24 /* Flash.cpp */,
+				CCFA71C9179D304600768D24 /* GBA-arm.cpp */,
+				CCFA71CA179D304600768D24 /* GBA-thumb.cpp */,
+				CCFA71CB179D304600768D24 /* GBA.cpp */,
+				CCFA71CC179D304600768D24 /* gbafilter.cpp */,
+				CCFA71CD179D304600768D24 /* Globals.cpp */,
+				CCFA71CE179D304600768D24 /* Mode0.cpp */,
+				CCFA71CF179D304600768D24 /* Mode1.cpp */,
+				CCFA71D0179D304600768D24 /* Mode2.cpp */,
+				CCFA71D1179D304600768D24 /* Mode3.cpp */,
+				CCFA71D2179D304600768D24 /* Mode4.cpp */,
+				CCFA71D3179D304600768D24 /* Mode5.cpp */,
+				CCFA71D4179D304600768D24 /* RTC.cpp */,
+				CCFA71D5179D304600768D24 /* Sound.cpp */,
+				CCFA71D6179D304600768D24 /* Sram.cpp */,
+				CCFA71D7179D304600768D24 /* Patch.cpp */,
+				CCFA71D8179D304600768D24 /* Util.cpp */,
+				CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */,
+				CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */,
+				CCFA71DB179D304700768D24 /* Gb_Apu.cpp */,
+				CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */,
+				CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */,
+				CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */,
+				CCFA71DF179D304700768D24 /* blargg_common.cpp */,
+				CCFA71E0179D304700768D24 /* blargg_errors.cpp */,
+				CCFA71E1179D304700768D24 /* Data_Reader.cpp */,
+				CCFA71E2179D304700768D24 /* fex.cpp */,
+				CCFA71E3179D304700768D24 /* File_Extractor.cpp */,
+				CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */,
+				CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */,
+				CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */,
+				CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */,
+				CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */,
+				CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */,
+				CCFA71EA179D304700768D24 /* memgzio.c */,
+				CCFA71EB179D304700768D24 /* 7zAlloc.c */,
+				CCFA71EC179D304700768D24 /* 7zBuf.c */,
+				CCFA71ED179D304700768D24 /* 7zCrc.c */,
+				CCFA71EE179D304700768D24 /* 7zCrcOpt.c */,
+				CCFA71EF179D304700768D24 /* 7zDec.c */,
+				CCFA71F0179D304700768D24 /* 7zIn.c */,
+				CCFA71F1179D304700768D24 /* 7zStream.c */,
+				CCFA71F2179D304700768D24 /* Bcj2.c */,
+				CCFA71F3179D304700768D24 /* Bra.c */,
+				CCFA71F4179D304700768D24 /* Bra86.c */,
+				CCFA71F5179D304700768D24 /* CpuArch.c */,
+				CCFA71F6179D304700768D24 /* Lzma2Dec.c */,
+				CCFA71F7179D304700768D24 /* LzmaDec.c */,
+				CCFA71F8179D304700768D24 /* Ppmd7.c */,
+				CCFA71F9179D304700768D24 /* Ppmd7Dec.c */,
+				CCFA7193179D2FD800768D24 /* EmuFramework */,
 				CCFA7154179D2E9D00768D24 /* imagine */,
 				CCFA7146179D2E8800768D24 /* minizip */,
 				CC157AB4179D1B270068A54E /* libpng */,
@@ -266,7 +487,6 @@
 				CC1577CF179CF1B90068A54E /* CoreFoundation.framework */,
 				CC1577D0179CF1B90068A54E /* MessageUI.framework */,
 				CC1577D1179CF1B90068A54E /* QuartzCore.framework */,
-				CC1577CA179CF1850068A54E /* libGBAEmulator.a */,
 				CC2D56FF1798F2EC00C616EB /* Foundation.framework */,
 				CC2D57011798F2EC00C616EB /* CoreGraphics.framework */,
 				CC2D57031798F2EC00C616EB /* UIKit.framework */,
@@ -382,8 +602,37 @@
 				CCFA7171179D2EAB00768D24 /* apple.mm */,
 				CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */,
 				CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */,
+				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = imagine;
+			sourceTree = "<group>";
+		};
+		CCFA7193179D2FD800768D24 /* EmuFramework */ = {
+			isa = PBXGroup;
+			children = (
+				CCFA7194179D2FE400768D24 /* CreditsView.cc */,
+				CCFA7195179D2FE400768D24 /* MsgPopup.cc */,
+				CCFA7196179D2FE400768D24 /* FilePicker.cc */,
+				CCFA7197179D2FE400768D24 /* EmuSystem.cc */,
+				CCFA7198179D2FE400768D24 /* Recent.cc */,
+				CCFA7199179D2FE400768D24 /* Screenshot.cc */,
+				CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */,
+				CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */,
+				CCFA719C179D2FE400768D24 /* StateSlotView.cc */,
+				CCFA719D179D2FE400768D24 /* MenuView.cc */,
+				CCFA719E179D2FE400768D24 /* EmuInput.cc */,
+				CCFA719F179D2FE400768D24 /* TextEntry.cc */,
+				CCFA71A0179D2FE400768D24 /* EmuOptions.cc */,
+				CCFA71A1179D2FE400768D24 /* OptionView.cc */,
+				CCFA71A2179D2FE400768D24 /* EmuView.cc */,
+				CCFA71A3179D2FE400768D24 /* ConfigFile.cc */,
+				CCFA71A4179D2FE400768D24 /* InputManagerView.cc */,
+				CCFA71A5179D2FE400768D24 /* FileUtils.cc */,
+				CCFA71A6179D2FE400768D24 /* Cheats.cc */,
+				CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */,
+				CCFA71A8179D2FE400768D24 /* VController.cc */,
+			);
+			name = EmuFramework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -523,47 +772,130 @@
 			files = (
 				CCFA717D179D2EAB00768D24 /* Io.cc in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
+				CCFA7220179D304700768D24 /* Rar_Extractor.cpp in Sources */,
+				CCFA7207179D304700768D24 /* Globals.cpp in Sources */,
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
 				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
+				CCFA7211179D304700768D24 /* Patch.cpp in Sources */,
+				CCFA7215179D304700768D24 /* Gb_Apu.cpp in Sources */,
+				CCFA71FD179D304700768D24 /* Cheats.cc in Sources */,
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
+				CCFA7202179D304700768D24 /* Flash.cpp in Sources */,
+				CCFA7212179D304700768D24 /* Util.cpp in Sources */,
+				CCFA721B179D304700768D24 /* Data_Reader.cpp in Sources */,
+				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
+				CCFA71FE179D304700768D24 /* bios.cpp in Sources */,
+				CCFA720F179D304700768D24 /* Sound.cpp in Sources */,
+				CCFA720A179D304700768D24 /* Mode2.cpp in Sources */,
 				CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */,
+				CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */,
+				CCFA71AF179D2FE400768D24 /* ButtonConfigView.cc in Sources */,
 				CCFA7178179D2EAB00768D24 /* View.cc in Sources */,
+				CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */,
+				CCFA71FF179D304700768D24 /* Cheats.cpp in Sources */,
+				CCFA7217179D304700768D24 /* Multi_Buffer.cpp in Sources */,
+				CCFA71FA179D304700768D24 /* Main.cc in Sources */,
 				CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */,
+				CCFA721D179D304700768D24 /* File_Extractor.cpp in Sources */,
 				CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */,
 				CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */,
 				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
+				CCFA721E179D304700768D24 /* Gzip_Extractor.cpp in Sources */,
+				CCFA7213179D304700768D24 /* Blip_Buffer.cpp in Sources */,
+				CCFA7227179D304700768D24 /* 7zCrc.c in Sources */,
+				CCFA7237179D340400768D24 /* apple.mm in Sources */,
+				CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */,
+				CCFA720B179D304700768D24 /* Mode3.cpp in Sources */,
+				CCFA7205179D304700768D24 /* GBA.cpp in Sources */,
+				CCFA722D179D304700768D24 /* Bra.c in Sources */,
+				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
+				CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */,
 				CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */,
 				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
+				CCFA721F179D304700768D24 /* Gzip_Reader.cpp in Sources */,
+				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
+				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
+				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
+				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
+				CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */,
+				CCFA722A179D304700768D24 /* 7zIn.c in Sources */,
+				CCFA7221179D304700768D24 /* Zip_Extractor.cpp in Sources */,
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */,
+				CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */,
+				CCFA7201179D304700768D24 /* EEprom.cpp in Sources */,
+				CCFA71AE179D2FE400768D24 /* Screenshot.cc in Sources */,
+				CCFA720C179D304700768D24 /* Mode4.cpp in Sources */,
 				CC2D570C1798F2EC00C616EB /* main.m in Sources */,
+				CCFA7228179D304700768D24 /* 7zCrcOpt.c in Sources */,
+				CCFA7224179D304700768D24 /* memgzio.c in Sources */,
 				CCFA7151179D2E8800768D24 /* mztools.c in Sources */,
+				CCFA71FC179D304700768D24 /* VbamApi.cc in Sources */,
+				CCFA7230179D304700768D24 /* Lzma2Dec.c in Sources */,
+				CCFA7210179D304700768D24 /* Sram.cpp in Sources */,
+				CCFA720E179D304700768D24 /* RTC.cpp in Sources */,
+				CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */,
+				CCFA722B179D304700768D24 /* 7zStream.c in Sources */,
+				CCFA7226179D304700768D24 /* 7zBuf.c in Sources */,
+				CCFA7236179D340400768D24 /* iphone.mm in Sources */,
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
 				CCFA7152179D2E8800768D24 /* unzip.c in Sources */,
+				CCFA7223179D304700768D24 /* Zlib_Inflater.cpp in Sources */,
+				CCFA71FB179D304700768D24 /* EmuControls.cc in Sources */,
+				CCFA722F179D304700768D24 /* CpuArch.c in Sources */,
+				CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */,
+				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
 				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
+				CCFA7208179D304700768D24 /* Mode0.cpp in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
+				CCFA7219179D304700768D24 /* blargg_common.cpp in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
+				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				CCFA7189179D2EAB00768D24 /* NavView.cc in Sources */,
+				CCFA7214179D304700768D24 /* Gb_Apu_State.cpp in Sources */,
 				CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */,
+				CCFA7216179D304700768D24 /* Gb_Oscs.cpp in Sources */,
+				CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */,
+				CCFA7218179D304700768D24 /* Binary_Extractor.cpp in Sources */,
+				CCFA7231179D304700768D24 /* LzmaDec.c in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
+				CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */,
 				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
 				CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */,
+				CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */,
+				CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */,
 				CCFA7150179D2E8800768D24 /* ioapi.c in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */,
+				CCFA7232179D304700768D24 /* Ppmd7.c in Sources */,
 				CCFA7153179D2E8800768D24 /* zip.c in Sources */,
+				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
+				CCFA7204179D304700768D24 /* GBA-thumb.cpp in Sources */,
 				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
+				CCFA720D179D304700768D24 /* Mode5.cpp in Sources */,
 				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
+				CCFA71B7179D2FE400768D24 /* EmuView.cc in Sources */,
+				CCFA722E179D304700768D24 /* Bra86.c in Sources */,
+				CCFA721A179D304700768D24 /* blargg_errors.cpp in Sources */,
+				CCFA7229179D304700768D24 /* 7zDec.c in Sources */,
+				CCFA722C179D304700768D24 /* Bcj2.c in Sources */,
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */,
+				CCFA7209179D304700768D24 /* Mode1.cpp in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
+				CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
+				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,
+				CCFA721C179D304700768D24 /* fex.cpp in Sources */,
+				CCFA71BD179D2FE400768D24 /* VController.cc in Sources */,
+				CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */,
 				CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */,
+				CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,6 +1147,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E497718ED60948D8A50CF8AA /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -824,19 +1157,84 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"DEBUG=1",
+					"$(inherited)",
+					CONFIG_AUDIO,
+					CONFIG_AUDIO_COREAUDIO,
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/all/src/btstack/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework\"/**",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu\"/**",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"./emu-ex-plus-alpha/imagine/bundle/all/src/btstack/",
+					"./emu-ex-plus-alpha/imagine/src",
+					"./emu-ex-plus-alpha/EmuFramework/**",
+					"./emu-ex-plus-alpha/GBA.emu/**",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				OTHER_CFLAGS = (
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-O2",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen",
+					"-Isrc",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/src",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
+					"-I../EmuFramework/include",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-O2",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -846,6 +1244,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E497718ED60948D8A50CF8AA /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -861,13 +1260,70 @@
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/all/src/btstack/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework\"/**",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu\"/**",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"./emu-ex-plus-alpha/imagine/bundle/all/src/btstack/",
+					"./emu-ex-plus-alpha/imagine/src",
+					"./emu-ex-plus-alpha/EmuFramework/**",
+					"./emu-ex-plus-alpha/GBA.emu/**",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				OTHER_CFLAGS = (
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-O2",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen",
+					"-Isrc",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/src",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
+					"-I../EmuFramework/include",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-O2",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
