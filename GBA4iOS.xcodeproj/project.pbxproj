@@ -29,12 +29,16 @@
 		CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
 		CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
 		CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
+		CC15E53D179ECDCC00449972 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
+		CC15E53E179ECDCC00449972 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53B179ECDCC00449972 /* padButton.png */; };
+		CC15E53F179ECDCC00449972 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
+		CC15E542179F027300449972 /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
-		CC2D570C1798F2EC00C616EB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.m */; };
-		CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */; };
+		CC2D570C1798F2EC00C616EB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
+		CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
 		CC2D571B1798F2EC00C616EB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC2D57221798F2ED00C616EB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57211798F2ED00C616EB /* XCTest.framework */; };
 		CC2D57231798F2ED00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
@@ -46,7 +50,6 @@
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
 		CCAB09A5179E7D0300D3A9AF /* ImagineUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAB09A4179E7D0300D3A9AF /* ImagineUIViewController.m */; };
-		CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCB0CF42179E724400766FA5 /* EAGLView.mm */; };
 		CCFA7150179D2E8800768D24 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7148179D2E8800768D24 /* ioapi.c */; };
 		CCFA7151179D2E8800768D24 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714A179D2E8800768D24 /* mztools.c */; };
 		CCFA7152179D2E8800768D24 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714C179D2E8800768D24 /* unzip.c */; };
@@ -150,9 +153,9 @@
 		CCFA7231179D304700768D24 /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
 		CCFA7232179D304700768D24 /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
 		CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
-		CCFA7237179D340400768D24 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
-		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
+		CCFA7237179D340400768D24 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; };
+		CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,16 +191,21 @@
 		CC157AE1179D1BC60068A54E /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwrite.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwrite.c"; sourceTree = SOURCE_ROOT; };
 		CC157AE2179D1BC60068A54E /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwtran.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwtran.c"; sourceTree = SOURCE_ROOT; };
 		CC157AE3179D1BC60068A54E /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwutil.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwutil.c"; sourceTree = SOURCE_ROOT; };
+		CC15E53A179ECDCC00449972 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = overlays128.png; path = "emu-ex-plus-alpha/GBA.emu/res/ios/overlays128.png"; sourceTree = SOURCE_ROOT; };
+		CC15E53B179ECDCC00449972 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = padButton.png; path = "emu-ex-plus-alpha/GBA.emu/res/ios/padButton.png"; sourceTree = SOURCE_ROOT; };
+		CC15E53C179ECDCC00449972 /* xButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = xButton.png; path = "emu-ex-plus-alpha/GBA.emu/res/ios/xButton.png"; sourceTree = SOURCE_ROOT; };
+		CC15E540179F027300449972 /* GBAEmulatorCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorCore.h; sourceTree = "<group>"; };
+		CC15E541179F027300449972 /* GBAEmulatorCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorCore.mm; sourceTree = "<group>"; };
 		CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBA4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC2D56FF1798F2EC00C616EB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CC2D57011798F2EC00C616EB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CC2D57031798F2EC00C616EB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CC2D57071798F2EC00C616EB /* GBA4iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBA4iOS-Info.plist"; sourceTree = "<group>"; };
 		CC2D57091798F2EC00C616EB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CC2D570B1798F2EC00C616EB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CC2D570B1798F2EC00C616EB /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA4iOS-Prefix.pch"; sourceTree = "<group>"; };
 		CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAAppDelegate.h; sourceTree = "<group>"; };
-		CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBAAppDelegate.m; sourceTree = "<group>"; };
+		CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAAppDelegate.mm; sourceTree = "<group>"; };
 		CC2D57121798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		CC2D57151798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		CC2D571A1798F2EC00C616EB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -217,7 +225,6 @@
 		CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = "emu-ex-plus-alpha/imagine/src/base/iphone/EAGLView.h"; sourceTree = SOURCE_ROOT; };
 		CCB0CF3E179E6E5900766FA5 /* SharedNamespace.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SharedNamespace.hh; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
-		CCB0CF42179E724400766FA5 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA7147179D2E8800768D24 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		CCFA7148179D2E8800768D24 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -510,7 +517,7 @@
 			isa = PBXGroup;
 			children = (
 				CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */,
-				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */,
+				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
 				CC8BB0611799A21000F9864F /* Emulation View Controller */,
@@ -527,7 +534,7 @@
 			children = (
 				CC2D57071798F2EC00C616EB /* GBA4iOS-Info.plist */,
 				CC2D57081798F2EC00C616EB /* InfoPlist.strings */,
-				CC2D570B1798F2EC00C616EB /* main.m */,
+				CC2D570B1798F2EC00C616EB /* main.mm */,
 				CCF025A5179E4E49002A3BF6 /* config.h */,
 				CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */,
 			);
@@ -555,6 +562,9 @@
 		CC2D57381798F40E00C616EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CC15E53A179ECDCC00449972 /* overlays128.png */,
+				CC15E53B179ECDCC00449972 /* padButton.png */,
+				CC15E53C179ECDCC00449972 /* xButton.png */,
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 			);
 			name = Resources;
@@ -569,7 +579,8 @@
 				CCB0CF3E179E6E5900766FA5 /* SharedNamespace.hh */,
 				CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */,
 				CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */,
-				CCB0CF42179E724400766FA5 /* EAGLView.mm */,
+				CC15E540179F027300449972 /* GBAEmulatorCore.h */,
+				CC15E541179F027300449972 /* GBAEmulatorCore.mm */,
 				CCAB09A3179E7D0300D3A9AF /* ImagineUIViewController.h */,
 				CCAB09A4179E7D0300D3A9AF /* ImagineUIViewController.m */,
 				CCAB09A9179E7D6D00D3A9AF /* MainApp.h */,
@@ -737,9 +748,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC2D571B1798F2EC00C616EB /* Images.xcassets in Resources */,
+				CC15E53D179ECDCC00449972 /* overlays128.png in Resources */,
 				CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */,
+				CC15E53F179ECDCC00449972 /* xButton.png in Resources */,
 				CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */,
 				CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */,
+				CC15E53E179ECDCC00449972 /* padButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,7 +849,6 @@
 				CCFA721F179D304700768D24 /* Gzip_Reader.cpp in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
-				CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
 				CCAB09A5179E7D0300D3A9AF /* ImagineUIViewController.m in Sources */,
@@ -850,7 +863,7 @@
 				CCFA7201179D304700768D24 /* EEprom.cpp in Sources */,
 				CCFA71AE179D2FE400768D24 /* Screenshot.cc in Sources */,
 				CCFA720C179D304700768D24 /* Mode4.cpp in Sources */,
-				CC2D570C1798F2EC00C616EB /* main.m in Sources */,
+				CC2D570C1798F2EC00C616EB /* main.mm in Sources */,
 				CCFA7228179D304700768D24 /* 7zCrcOpt.c in Sources */,
 				CCFA7224179D304700768D24 /* memgzio.c in Sources */,
 				CCFA7151179D2E8800768D24 /* mztools.c in Sources */,
@@ -861,6 +874,7 @@
 				CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */,
 				CCFA722B179D304700768D24 /* 7zStream.c in Sources */,
 				CCFA7226179D304700768D24 /* 7zBuf.c in Sources */,
+				CC15E542179F027300449972 /* GBAEmulatorCore.mm in Sources */,
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
 				CCFA7152179D2E8800768D24 /* unzip.c in Sources */,
 				CCFA7223179D304700768D24 /* Zlib_Inflater.cpp in Sources */,
@@ -891,7 +905,7 @@
 				CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */,
 				CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */,
 				CCFA7150179D2E8800768D24 /* ioapi.c in Sources */,
-				CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */,
+				CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */,
 				CCFA7232179D304700768D24 /* Ppmd7.c in Sources */,
 				CCFA7153179D2E8800768D24 /* zip.c in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,

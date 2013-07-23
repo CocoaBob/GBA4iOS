@@ -1,17 +1,24 @@
 //
-//  EAGLView.m
+//  GBAEmulatorCore.m
 //  GBA4iOS
 //
 //  Created by Riley Testut on 7/23/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
+#import "GBAEmulatorCore.h"
+
 #import "MainApp.h"
 #import "EAGLView.h"
+
+#import "EAGLView_Private.h"
 
 #include <base/common/funcs.h>
 
 #import "SharedNamespace.hh"
+
+#import "MainApp.h"
+#import "ImagineUIViewController.h"
 
 // A class extension to declare private methods
 @interface EAGLView ()
@@ -299,5 +306,56 @@
 #endif // defined(CONFIG_BASE_IOS_KEY_INPUT) || defined(CONFIG_INPUT_ICADE)
 
 #endif
+
+@end
+
+@implementation GBAEmulatorCore
+
+- (id)initWithEAGLView:(EAGLView *)eaglView
+{
+    self = [super init];
+    if (self)
+    {
+        _eaglView = eaglView;
+    }
+    
+    return self;
+}
+
+- (void)start
+{
+	using namespace Base;
+	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+#ifndef NDEBUG
+	logMsg("iOS version %s", [currSysVer cStringUsingEncoding: NSASCIIStringEncoding]);
+#endif
+	mainApp = self;
+    
+	uint unscaledDPI = 163;
+	if(isIPad)
+	{
+		unscaledDPI = 132;
+	}
+    
+	CGRect rect = [[UIScreen mainScreen] bounds];
+	mainWin.w = mainWin.rect.x2 = rect.size.width;
+	mainWin.h = mainWin.rect.y2 = rect.size.height;
+	Gfx::viewMMWidth_ = std::round((mainWin.w / (float)unscaledDPI) * 25.4);
+	Gfx::viewMMHeight_ = std::round((mainWin.h / (float)unscaledDPI) * 25.4);
+	logMsg("set screen MM size %dx%d", Gfx::viewMMWidth_, Gfx::viewMMHeight_);
+	currWin = mainWin;
+	// Create a full-screen window
+	devWindow = [[UIWindow alloc] initWithFrame:rect];
+	
+#ifdef GREYSTRIPE
+	initGS(self);
+#endif
+    
+	glView = self.eaglView;
+    
+	Base::engineInit();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	Base::setAutoOrientation(1);
+}
 
 @end

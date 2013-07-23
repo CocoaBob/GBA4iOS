@@ -7,6 +7,7 @@
 //
 
 #import "GBAEmulationViewController.h"
+#import "GBAEmulatorCore.h"
 #import "EAGLView.h"
 
 // Emulator Includes
@@ -20,6 +21,9 @@
 
 @interface GBAEmulationViewController ()
 
+@property (strong, nonatomic) EAGLView *eaglView;
+@property (strong, nonatomic) GBAEmulatorCore *emulatorCore;
+
 @end
 
 @implementation GBAEmulationViewController
@@ -32,6 +36,11 @@
     if (self)
     {
         _romFilepath = [romFilepath copy];
+        _eaglView = [[EAGLView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _eaglView.backgroundColor = [UIColor redColor];
+        
+        _emulatorCore = [[GBAEmulatorCore alloc] initWithEAGLView:_eaglView];
+        
     }
     
     return self;
@@ -42,6 +51,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     
+    [self.view addSubview:self.eaglView];
     [self startEmulation];
 }
 
@@ -76,9 +86,6 @@
 
 #pragma mark - Emulation
 
-double TimeMach::timebaseNSec = 0, TimeMach::timebaseUSec = 0,
-TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
-
 - (void)startEmulation
 {
     doOrExit(logger_init());
@@ -95,6 +102,7 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
     Base::grayColorSpace = CGColorSpaceCreateDeviceGray();
 	Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
     
+    [self.emulatorCore start];
 }
 
 @end

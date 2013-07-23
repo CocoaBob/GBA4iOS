@@ -14,3 +14,5 @@
 - (void) destroyFramebuffer;
 
 @end
+
+// Because of how the code was originally written, we implement EAGLView in GBAEmulatorCore.mm, or else we'd get duplicate symbol errors.

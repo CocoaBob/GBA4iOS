@@ -8,7 +8,6 @@ void precomposeUnicodeString(const char *src, char *dest, uint destSize)
 	@autoreleasepool
 	{
 		auto precomp = [decomp precomposedStringWithCanonicalMapping];
-		[decomp release];
 		string_copy(dest, [precomp UTF8String], destSize);
 	}
 }

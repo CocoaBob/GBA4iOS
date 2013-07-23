@@ -76,7 +76,6 @@ void ResourceFontUIKit::charBitmap(void *&data, int &x, int &y, int &pitch)
 		auto str = [[NSString alloc] initWithCharacters:&currChar length:1];
 		renderTextIntoBuffer(str, pixBuffer, cXFullSize, cYFullSize,
 			Base::grayColorSpace, textColor, activeFont);
-		[str release];
 	}
 	data = startOfCharInPixBuffer;
 	x = cXSize;
@@ -103,7 +102,6 @@ CallResult ResourceFontUIKit::activeChar (int idx, GlyphMetrics &metrics)
 		if(!size.width || !size.height)
 		{
 			logMsg("invalid char 0x%X size %f:%f", idx, size.width, size.height);
-			[str release];
 			return INVALID_PARAMETER;
 		}
 		//logMsg("char %c size %f:%f", idx, size.width, size.height);
@@ -119,7 +117,6 @@ CallResult ResourceFontUIKit::activeChar (int idx, GlyphMetrics &metrics)
 		//mem_zero(pixBuffer, bufferSize);
 		renderTextIntoBuffer(str, pixBuffer, size.width, size.height,
 			Base::grayColorSpace, textColor, activeFont);
-		[str release];
 		
 		// measure real bounds
 		uint minX = cXFullSize, maxX = 0, minY = cYFullSize, maxY = 0;
@@ -150,21 +147,22 @@ CallResult ResourceFontUIKit::activeChar (int idx, GlyphMetrics &metrics)
 	return OK;
 }
 
+#warning Keep an eye out here...
+
 CallResult ResourceFontUIKit::newSize (const FontSettings &settings, FontSizeRef &sizeRef)
 {
-	auto fontInst = [UIFont systemFontOfSize:(CGFloat)settings.pixelHeight];
-	[fontInst retain];
-	sizeRef.ptr = fontInst;
+	UIFont *fontInst = [UIFont systemFontOfSize:(CGFloat)settings.pixelHeight];
+	sizeRef.ptr = (void *)CFBridgingRetain(fontInst);
 	return OK;
 }
 
 CallResult ResourceFontUIKit::applySize (FontSizeRef &sizeRef)
 {
-	activeFont = (UIFont*)sizeRef.ptr;
+	activeFont = (__bridge id)sizeRef.ptr;
 	return OK;
 }
 
 void ResourceFontUIKit::freeSize (FontSizeRef &sizeRef)
 {
-	[((UIFont*)sizeRef.ptr) release];
+	CFRelease(sizeRef.ptr);
 }

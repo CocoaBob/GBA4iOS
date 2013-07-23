@@ -33,7 +33,6 @@ CallResult Quartz2dImage::writeImage(const Pixmap &pix, const char *name)
 		CGImageRelease(imageRef);
 		auto pathStr = [[NSString alloc] initWithBytesNoCopy:(void*)name length:strlen(name) encoding:NSUTF8StringEncoding freeWhenDone:false];
 		[UIImagePNGRepresentation(uiImage) writeToFile:pathStr atomically:YES];
-		[pathStr release];
 	}
 	return OK;
 }

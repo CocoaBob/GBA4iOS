@@ -96,7 +96,7 @@ void FSPicker::FSNavView::place()
 void FSPicker::init(const char *path, Gfx::BufferImage *backRes, Gfx::BufferImage *closeRes, FsDirFilterFunc filter,  bool singleDir, ResourceFace *face)
 {
 	#if defined(CONFIG_BASE_IOS) && !defined(CONFIG_BASE_IOS_JB)
-	singleDir = 1; // stay in Documents dir when not in jailbreak environment
+	singleDir = 0; // stay in Documents dir when not in jailbreak environment
 	#endif
 	text = 0;
 	faceRes = face;

@@ -8,6 +8,9 @@
 
 #import "GBAAppDelegate.h"
 
+#import "ImagineUIViewController.h"
+#import "EAGLView_Private.h"
+
 @implementation GBAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -16,6 +19,12 @@
     {
         self.window.tintColor = [UIColor purpleColor];
     }
+    
+    //EAGLView *view = [[EAGLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    //self.window = view.window;
+    
+    //[EAGLView configureEmulation];
     
     return YES;
 }

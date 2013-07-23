@@ -1003,7 +1003,7 @@ void Device::setICadeMode(bool on)
 double TimeMach::timebaseNSec = 0, TimeMach::timebaseUSec = 0,
 	TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
-int main2(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	using namespace Base;
 	#ifdef CONFIG_BASE_IOS_SETUID
