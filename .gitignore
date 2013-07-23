@@ -20,8 +20,6 @@ DerivedData
 Pods
 
 #Emulator
-GBA.emu
-GBA.emuTests
 GBAEmulator
 GBAEmulator.xcodeproj
 GBAEmulatorTests
