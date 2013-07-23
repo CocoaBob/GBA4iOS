@@ -217,8 +217,7 @@
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
-		CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = "emu-ex-plus-alpha/imagine/src/base/iphone/EAGLView.h"; sourceTree = SOURCE_ROOT; };
-		CCB0CF3E179E6E5900766FA5 /* SharedNamespace.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SharedNamespace.hh; sourceTree = "<group>"; };
+		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA7147179D2E8800768D24 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
@@ -469,6 +468,17 @@
 			name = libpng;
 			sourceTree = "<group>";
 		};
+		CC15E545179F2F3500449972 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				CC15E540179F027300449972 /* GBAEmulatorCore.h */,
+				CC15E541179F027300449972 /* GBAEmulatorCore.mm */,
+				CCB0CF3E179E6E5900766FA5 /* Namespace.h */,
+				CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
 		CC2D56F31798F2EC00C616EB = {
 			isa = PBXGroup;
 			children = (
@@ -571,11 +581,7 @@
 			children = (
 				CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */,
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
-				CCB0CF3E179E6E5900766FA5 /* SharedNamespace.hh */,
-				CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */,
-				CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */,
-				CC15E540179F027300449972 /* GBAEmulatorCore.h */,
-				CC15E541179F027300449972 /* GBAEmulatorCore.mm */,
+				CC15E545179F2F3500449972 /* Core */,
 				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";

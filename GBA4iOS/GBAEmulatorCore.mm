@@ -15,7 +15,7 @@
 
 #include <base/common/funcs.h>
 
-#import "SharedNamespace.hh"
+#import "Namespace.h"
 
 // A class extension to declare private methods
 @interface EAGLView ()
