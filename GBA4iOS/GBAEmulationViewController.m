@@ -64,4 +64,9 @@
 
 #pragma mark - Emulation
 
+- (void)startEmulation
+{
+    
+}
+
 @end

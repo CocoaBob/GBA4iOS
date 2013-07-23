@@ -45,6 +45,7 @@
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
+		CCF025A8179E50C9002A3BF6 /* RSTExtras.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71BE179D302900768D24 /* RSTExtras.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		CCFA7150179D2E8800768D24 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7148179D2E8800768D24 /* ioapi.c */; };
 		CCFA7151179D2E8800768D24 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714A179D2E8800768D24 /* mztools.c */; };
 		CCFA7152179D2E8800768D24 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714C179D2E8800768D24 /* unzip.c */; };
@@ -133,7 +134,7 @@
 		CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */; };
 		CCFA7223179D304700768D24 /* Zlib_Inflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */; };
 		CCFA7224179D304700768D24 /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EA179D304700768D24 /* memgzio.c */; };
-		CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; };
+		CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCFA7226179D304700768D24 /* 7zBuf.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EC179D304700768D24 /* 7zBuf.c */; };
 		CCFA7227179D304700768D24 /* 7zCrc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71ED179D304700768D24 /* 7zCrc.c */; };
 		CCFA7228179D304700768D24 /* 7zCrcOpt.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EE179D304700768D24 /* 7zCrcOpt.c */; };
@@ -148,10 +149,9 @@
 		CCFA7231179D304700768D24 /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
 		CCFA7232179D304700768D24 /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
 		CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
-		CCFA7236179D340400768D24 /* iphone.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7170179D2EAB00768D24 /* iphone.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CCFA7237179D340400768D24 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
+		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -557,6 +557,7 @@
 			children = (
 				CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */,
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */,
+				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";
 			sourceTree = "<group>";
@@ -604,7 +605,6 @@
 				CCFA7171179D2EAB00768D24 /* apple.mm */,
 				CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */,
 				CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */,
-				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = imagine;
 			sourceTree = "<group>";
@@ -842,7 +842,6 @@
 				CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */,
 				CCFA722B179D304700768D24 /* 7zStream.c in Sources */,
 				CCFA7226179D304700768D24 /* 7zBuf.c in Sources */,
-				CCFA7236179D340400768D24 /* iphone.mm in Sources */,
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
 				CCFA7152179D2E8800768D24 /* unzip.c in Sources */,
 				CCFA7223179D304700768D24 /* Zlib_Inflater.cpp in Sources */,
@@ -894,6 +893,7 @@
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,
 				CCFA721C179D304700768D24 /* fex.cpp in Sources */,
+				CCF025A8179E50C9002A3BF6 /* RSTExtras.mm in Sources */,
 				CCFA71BD179D2FE400768D24 /* VController.cc in Sources */,
 				CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */,
 				CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */,
@@ -1169,10 +1169,10 @@
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"./emu-ex-plus-alpha/imagine/bundle/all/src/btstack/",
-					"./emu-ex-plus-alpha/imagine/src",
-					"./emu-ex-plus-alpha/EmuFramework/**",
-					"./emu-ex-plus-alpha/GBA.emu/**",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_CFLAGS = (
@@ -1258,10 +1258,10 @@
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"./emu-ex-plus-alpha/imagine/bundle/all/src/btstack/",
-					"./emu-ex-plus-alpha/imagine/src",
-					"./emu-ex-plus-alpha/EmuFramework/**",
-					"./emu-ex-plus-alpha/GBA.emu/**",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_CFLAGS = (
