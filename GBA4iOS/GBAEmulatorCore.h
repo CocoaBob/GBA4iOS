@@ -14,10 +14,12 @@
 
 @interface GBAEmulatorCore : NSObject
 
-@property (readonly, strong, nonatomic) UIView *eaglView;
+@property (readonly, strong, nonatomic) EAGLView *eaglView;
 
-- (id)initWithEAGLView:(UIView *)eaglView;
+- (instancetype)initWithROMFilepath:(NSString *)romFilepath;
 
 - (void)start;
+
+- (void)startDeprecated;
 
 @end

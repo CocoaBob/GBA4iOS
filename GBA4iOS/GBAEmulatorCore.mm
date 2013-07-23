@@ -17,9 +17,6 @@
 
 #import "SharedNamespace.hh"
 
-#import "MainApp.h"
-#import "ImagineUIViewController.h"
-
 // A class extension to declare private methods
 @interface EAGLView ()
 
@@ -309,22 +306,28 @@
 
 @end
 
+@interface GBAEmulatorCore ()
+
+@property (readwrite, strong, nonatomic) EAGLView *eaglView;
+
+@end
+
 @implementation GBAEmulatorCore
 
-- (id)initWithEAGLView:(EAGLView *)eaglView
+- (id)initWithROMFilepath:(NSString *)romFilepath
 {
     self = [super init];
     if (self)
     {
-        _eaglView = eaglView;
+        [self prepareEmulation];
     }
     
     return self;
 }
 
-- (void)start
+- (void)prepareEmulation
 {
-	using namespace Base;
+    using namespace Base;
 	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
 #ifndef NDEBUG
 	logMsg("iOS version %s", [currSysVer cStringUsingEncoding: NSASCIIStringEncoding]);
@@ -344,18 +347,50 @@
 	Gfx::viewMMHeight_ = std::round((mainWin.h / (float)unscaledDPI) * 25.4);
 	logMsg("set screen MM size %dx%d", Gfx::viewMMWidth_, Gfx::viewMMHeight_);
 	currWin = mainWin;
-	// Create a full-screen window
-	devWindow = [[UIWindow alloc] initWithFrame:rect];
-	
-#ifdef GREYSTRIPE
-	initGS(self);
-#endif
     
-	glView = self.eaglView;
+	// Create the OpenGL ES view
+	glView = [[EAGLView alloc] initWithFrame:rect];
+    
+    self.eaglView = glView;
+}
+
+- (void)start
+{
+	Base::engineInit();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	Base::setAutoOrientation(1);
+}
+
+- (void)startDeprecated
+{
     
 	Base::engineInit();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	Base::setAutoOrientation(1);
+}
+
+static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
+{
+	switch(orientation)
+	{
+		case UIDeviceOrientationPortrait: return Gfx::VIEW_ROTATE_0;
+		case UIDeviceOrientationLandscapeLeft: return Gfx::VIEW_ROTATE_90;
+		case UIDeviceOrientationLandscapeRight: return Gfx::VIEW_ROTATE_270;
+		case UIDeviceOrientationPortraitUpsideDown: return Gfx::VIEW_ROTATE_180;
+		default : return 255; // TODO: handle Face-up/down
+	}
+}
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+	uint o = iOSOrientationToGfx([[UIDevice currentDevice] orientation]);
+	if(o == 255)
+		return;
+	if(o == Gfx::VIEW_ROTATE_180 && !Base::isIPad)
+		return; // ignore upside-down orientation unless using iPad
+	logMsg("new orientation %s", Gfx::orientationName(o));
+	Gfx::preferedOrientation = o;
+	Gfx::setOrientation(Gfx::preferedOrientation);
 }
 
 @end

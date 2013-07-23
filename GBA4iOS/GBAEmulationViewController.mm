@@ -21,7 +21,7 @@
 
 @interface GBAEmulationViewController ()
 
-@property (strong, nonatomic) EAGLView *eaglView;
+@property (weak, nonatomic) EAGLView *eaglView;
 @property (strong, nonatomic) GBAEmulatorCore *emulatorCore;
 
 @end
@@ -36,10 +36,9 @@
     if (self)
     {
         _romFilepath = [romFilepath copy];
-        _eaglView = [[EAGLView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _eaglView.backgroundColor = [UIColor redColor];
         
-        _emulatorCore = [[GBAEmulatorCore alloc] initWithEAGLView:_eaglView];
+        _emulatorCore = [[GBAEmulatorCore alloc] initWithROMFilepath:_romFilepath];
+        _eaglView = _emulatorCore.eaglView;
         
     }
     
@@ -88,20 +87,6 @@
 
 - (void)startEmulation
 {
-    doOrExit(logger_init());
-	TimeMach::setTimebase();
-    
-#ifdef CONFIG_INPUT
-	doOrExit(Input::init());
-#endif
-	
-#ifdef CONFIG_AUDIO
-	Audio::initSession();
-#endif
-    
-    Base::grayColorSpace = CGColorSpaceCreateDeviceGray();
-	Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-    
     [self.emulatorCore start];
 }
 
