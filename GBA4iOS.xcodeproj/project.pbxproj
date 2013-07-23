@@ -209,6 +209,7 @@
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEmulationViewController.m; sourceTree = "<group>"; };
+		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA7147179D2E8800768D24 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		CCFA7148179D2E8800768D24 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		CCFA7149179D2E8800768D24 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -518,6 +519,7 @@
 				CC2D57071798F2EC00C616EB /* GBA4iOS-Info.plist */,
 				CC2D57081798F2EC00C616EB /* InfoPlist.strings */,
 				CC2D570B1798F2EC00C616EB /* main.m */,
+				CCF025A5179E4E49002A3BF6 /* config.h */,
 				CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -1158,12 +1160,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
 					"COCOAPODS=1",
 					"DEBUG=1",
-					"$(inherited)",
-					CONFIG_AUDIO,
-					CONFIG_AUDIO_COREAUDIO,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",

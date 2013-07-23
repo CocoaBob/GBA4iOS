@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@import GLKit;
-
 @interface GBAEmulationViewController : UIViewController
 
 @property (copy, nonatomic) NSString *romFilepath;
