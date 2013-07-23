@@ -212,6 +212,7 @@
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CCB0CF3B179E6DD800766FA5 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
 		CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = "emu-ex-plus-alpha/imagine/src/base/iphone/EAGLView.h"; sourceTree = SOURCE_ROOT; };
+		CCB0CF3E179E6E5900766FA5 /* SharedNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedNamespace.h; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA7147179D2E8800768D24 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		CCFA7148179D2E8800768D24 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -562,6 +563,7 @@
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
 				CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */,
 				CCB0CF3B179E6DD800766FA5 /* EAGLView.mm */,
+				CCB0CF3E179E6E5900766FA5 /* SharedNamespace.h */,
 				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";
