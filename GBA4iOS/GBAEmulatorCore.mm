@@ -17,6 +17,10 @@
 
 #import "Namespace.h"
 
+namespace EmuSystem {
+    extern int loadGame(const char *path);
+}
+
 // A class extension to declare private methods
 @interface EAGLView ()
 
@@ -319,6 +323,7 @@
     self = [super init];
     if (self)
     {
+        _romFilepath = [romFilepath copy];
         [self prepareEmulation];
     }
     
@@ -359,14 +364,12 @@
 	Base::engineInit();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	Base::setAutoOrientation(1);
-}
-
-- (void)startDeprecated
-{
     
-	Base::engineInit();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	Base::setAutoOrientation(1);
+    /*double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        EmuSystem::loadGame(strdup((char *)[self.romFilepath UTF8String]));
+    });*/
 }
 
 static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
