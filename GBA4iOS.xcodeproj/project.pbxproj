@@ -45,6 +45,7 @@
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
+		CCAB09A5179E7D0300D3A9AF /* ImagineUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCAB09A4179E7D0300D3A9AF /* ImagineUIViewController.m */; };
 		CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCB0CF42179E724400766FA5 /* EAGLView.mm */; };
 		CCFA7150179D2E8800768D24 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7148179D2E8800768D24 /* ioapi.c */; };
 		CCFA7151179D2E8800768D24 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714A179D2E8800768D24 /* mztools.c */; };
@@ -209,6 +210,10 @@
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
+		CCAB09A3179E7D0300D3A9AF /* ImagineUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagineUIViewController.h; sourceTree = "<group>"; };
+		CCAB09A4179E7D0300D3A9AF /* ImagineUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagineUIViewController.m; sourceTree = "<group>"; };
+		CCAB09A7179E7D4D00D3A9AF /* MainApp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MainApp.mm; sourceTree = "<group>"; };
+		CCAB09A9179E7D6D00D3A9AF /* MainApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainApp.h; path = "emu-ex-plus-alpha/imagine/src/base/iphone/MainApp.h"; sourceTree = SOURCE_ROOT; };
 		CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = "emu-ex-plus-alpha/imagine/src/base/iphone/EAGLView.h"; sourceTree = SOURCE_ROOT; };
 		CCB0CF3E179E6E5900766FA5 /* SharedNamespace.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SharedNamespace.hh; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
@@ -565,6 +570,10 @@
 				CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */,
 				CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */,
 				CCB0CF42179E724400766FA5 /* EAGLView.mm */,
+				CCAB09A3179E7D0300D3A9AF /* ImagineUIViewController.h */,
+				CCAB09A4179E7D0300D3A9AF /* ImagineUIViewController.m */,
+				CCAB09A9179E7D6D00D3A9AF /* MainApp.h */,
+				CCAB09A7179E7D4D00D3A9AF /* MainApp.mm */,
 				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";
@@ -829,6 +838,7 @@
 				CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
+				CCAB09A5179E7D0300D3A9AF /* ImagineUIViewController.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
 				CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */,
 				CCFA722A179D304700768D24 /* 7zIn.c in Sources */,
@@ -1160,7 +1170,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",

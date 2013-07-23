@@ -7,6 +7,7 @@
 //
 
 #import "GBAEmulationViewController.h"
+#import "EAGLView.h"
 
 // Emulator Includes
 #include <util/time/sys.hh>
@@ -40,6 +41,8 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
+    
+    [self startEmulation];
 }
 
 - (void)viewWillAppear:(BOOL)animated
