@@ -198,8 +198,6 @@
 		[EAGLContext setCurrentContext:nil];
 	}
     
-	[context release];
-	[super dealloc];
 }
 
 #ifdef CONFIG_INPUT

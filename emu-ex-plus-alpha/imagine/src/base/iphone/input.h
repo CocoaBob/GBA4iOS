@@ -85,7 +85,6 @@ uint startSysTextInput(InputTextDelegate callback, const char *initialText, cons
 		vkbdField = [ [ UITextField alloc ] initWithFrame: toCGRect(textRect) ];
 		setupTextView(vkbdField, [NSString stringWithCString:initialText encoding: NSUTF8StringEncoding /*NSASCIIStringEncoding*/]);
 		[ Base::devWindow addSubview: vkbdField ];
-		[ vkbdField release ];
 	}
 	else
 	{

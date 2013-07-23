@@ -45,7 +45,7 @@
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
-		CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCB0CF42179E724400766FA5 /* EAGLView.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCB0CF42179E724400766FA5 /* EAGLView.mm */; };
 		CCF025A8179E50C9002A3BF6 /* RSTExtras.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71BE179D302900768D24 /* RSTExtras.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		CCFA7150179D2E8800768D24 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7148179D2E8800768D24 /* ioapi.c */; };
 		CCFA7151179D2E8800768D24 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714A179D2E8800768D24 /* mztools.c */; };

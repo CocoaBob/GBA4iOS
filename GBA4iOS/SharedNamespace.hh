@@ -107,7 +107,7 @@ namespace Base
         if(ref)
         {
             logMsg("cancelling callback with ref %p", ref);
-            [NSObject cancelPreviousPerformRequestsWithTarget:mainApp selector:@selector(timerCallback:) object:(id)ref];
+            [NSObject cancelPreviousPerformRequestsWithTarget:mainApp selector:@selector(timerCallback:) object:CFBridgingRelease(ref)];
         }
     }
     
@@ -118,8 +118,10 @@ namespace Base
         NSData *callbackArg = [[NSData alloc] initWithBytes:&del length:sizeof(del)];
         assert(callbackArg);
         [mainApp performSelector:@selector(timerCallback:) withObject:(id)callbackArg afterDelay:(float)ms/1000.];
-        [callbackArg release];
-        return (CallbackRef*)callbackArg;
+        
+#warning Check memory usage
+        
+        return (CallbackRef*)CFBridgingRetain(callbackArg);
     }
     
     void openGLUpdateScreen()
@@ -163,7 +165,6 @@ namespace Base
     {
         auto formatStr = [[NSString alloc] initWithBytesNoCopy:(void*)format length:strlen(format) encoding:NSUTF8StringEncoding freeWhenDone:false];
         NSLogv(formatStr, arg);
-        [formatStr release];
     }
     
     void setVideoInterval(uint interval)
@@ -295,7 +296,6 @@ namespace Base
         [mainApp performSelectorOnMainThread:@selector(handleThreadMessage:)
                                   withObject:arg
                                waitUntilDone:NO];
-        [arg release];
     }
     
     static const char *docPath = 0;
