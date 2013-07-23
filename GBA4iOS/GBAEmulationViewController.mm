@@ -8,6 +8,15 @@
 
 #import "GBAEmulationViewController.h"
 
+// Emulator Includes
+#include <util/time/sys.hh>
+#include <base/Base.hh>
+#include <base/iphone/private.hh>
+
+#ifdef CONFIG_INPUT
+#include <input/Input.hh>
+#endif
+
 @interface GBAEmulationViewController ()
 
 @end
@@ -64,8 +73,24 @@
 
 #pragma mark - Emulation
 
+double TimeMach::timebaseNSec = 0, TimeMach::timebaseUSec = 0,
+TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
+
 - (void)startEmulation
 {
+    doOrExit(logger_init());
+	TimeMach::setTimebase();
+    
+#ifdef CONFIG_INPUT
+	doOrExit(Input::init());
+#endif
+	
+#ifdef CONFIG_AUDIO
+	Audio::initSession();
+#endif
+    
+    Base::grayColorSpace = CGColorSpaceCreateDeviceGray();
+	Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
     
 }
 

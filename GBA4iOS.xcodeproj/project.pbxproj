@@ -42,7 +42,7 @@
 		CC2D572C1798F2ED00C616EB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D572A1798F2ED00C616EB /* InfoPlist.strings */; };
 		CC2D572E1798F2ED00C616EB /* GBA4iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D572D1798F2ED00C616EB /* GBA4iOSTests.m */; };
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
-		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */; };
+		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
 		CCF025A8179E50C9002A3BF6 /* RSTExtras.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71BE179D302900768D24 /* RSTExtras.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
@@ -208,7 +208,7 @@
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
-		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEmulationViewController.m; sourceTree = "<group>"; };
+		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA7147179D2E8800768D24 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		CCFA7148179D2E8800768D24 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -556,7 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */,
-				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.m */,
+				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
 				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";
@@ -886,7 +886,7 @@
 				CCFA721A179D304700768D24 /* blargg_errors.cpp in Sources */,
 				CCFA7229179D304700768D24 /* 7zDec.c in Sources */,
 				CCFA722C179D304700768D24 /* Bcj2.c in Sources */,
-				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.m in Sources */,
+				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */,
 				CCFA7209179D304700768D24 /* Mode1.cpp in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
 				CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */,
