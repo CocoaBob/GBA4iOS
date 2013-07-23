@@ -45,7 +45,7 @@
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
-		CCB0CF3C179E6DD800766FA5 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCB0CF3B179E6DD800766FA5 /* EAGLView.mm */; };
+		CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCB0CF42179E724400766FA5 /* EAGLView.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CCF025A8179E50C9002A3BF6 /* RSTExtras.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71BE179D302900768D24 /* RSTExtras.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		CCFA7150179D2E8800768D24 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7148179D2E8800768D24 /* ioapi.c */; };
 		CCFA7151179D2E8800768D24 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA714A179D2E8800768D24 /* mztools.c */; };
@@ -210,9 +210,10 @@
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
-		CCB0CF3B179E6DD800766FA5 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
 		CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = "emu-ex-plus-alpha/imagine/src/base/iphone/EAGLView.h"; sourceTree = SOURCE_ROOT; };
 		CCB0CF3E179E6E5900766FA5 /* SharedNamespace.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SharedNamespace.hh; sourceTree = "<group>"; };
+		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
+		CCB0CF42179E724400766FA5 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLView.mm; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA7147179D2E8800768D24 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		CCFA7148179D2E8800768D24 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
@@ -561,9 +562,10 @@
 			children = (
 				CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */,
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
-				CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */,
-				CCB0CF3B179E6DD800766FA5 /* EAGLView.mm */,
 				CCB0CF3E179E6E5900766FA5 /* SharedNamespace.hh */,
+				CCB0CF3D179E6DEF00766FA5 /* EAGLView.h */,
+				CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */,
+				CCB0CF42179E724400766FA5 /* EAGLView.mm */,
 				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";
@@ -814,7 +816,6 @@
 				CCFA7213179D304700768D24 /* Blip_Buffer.cpp in Sources */,
 				CCFA7227179D304700768D24 /* 7zCrc.c in Sources */,
 				CCFA7237179D340400768D24 /* apple.mm in Sources */,
-				CCB0CF3C179E6DD800766FA5 /* EAGLView.mm in Sources */,
 				CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */,
 				CCFA720B179D304700768D24 /* Mode3.cpp in Sources */,
 				CCFA7205179D304700768D24 /* GBA.cpp in Sources */,
@@ -826,6 +827,7 @@
 				CCFA721F179D304700768D24 /* Gzip_Reader.cpp in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
+				CCB0CF43179E724400766FA5 /* EAGLView.mm in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,

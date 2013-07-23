@@ -13,10 +13,23 @@ namespace Base
 {
 	static UIWindow *devWindow;
 	static int pointScale = 1;
-	static MainApp *mainApp;
+	static NSObject *mainApp;
+}
+
+static CGAffineTransform makeTransformForOrientation(uint orientation)
+{
+	using namespace Gfx;
+	switch(orientation)
+	{
+		default: return CGAffineTransformIdentity;
+		case VIEW_ROTATE_270: return CGAffineTransformMakeRotation(3*M_PI / 2.0);
+		case VIEW_ROTATE_90: return CGAffineTransformMakeRotation(M_PI / 2.0);
+		case VIEW_ROTATE_180: return CGAffineTransformMakeRotation(M_PI);
+	}
 }
 
 #if defined(CONFIG_INPUT) && defined(IPHONE_VKEYBOARD)
+
 namespace Input
 {
 	//static UITextView *vkbdField = nil;
