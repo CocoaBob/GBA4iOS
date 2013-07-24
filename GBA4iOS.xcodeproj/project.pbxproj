@@ -195,6 +195,7 @@
 		CC15E53C179ECDCC00449972 /* xButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = xButton.png; path = "emu-ex-plus-alpha/GBA.emu/res/ios/xButton.png"; sourceTree = SOURCE_ROOT; };
 		CC15E540179F027300449972 /* GBAEmulatorCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorCore.h; sourceTree = "<group>"; };
 		CC15E541179F027300449972 /* GBAEmulatorCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorCore.mm; sourceTree = "<group>"; };
+		CC15E546179F6C4D00449972 /* EmuOptions.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmuOptions.hh; path = "emu-ex-plus-alpha/EmuFramework/include/EmuOptions.hh"; sourceTree = SOURCE_ROOT; };
 		CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBA4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC2D56FF1798F2EC00C616EB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CC2D57011798F2EC00C616EB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -649,6 +650,7 @@
 				CCFA719D179D2FE400768D24 /* MenuView.cc */,
 				CCFA719E179D2FE400768D24 /* EmuInput.cc */,
 				CCFA719F179D2FE400768D24 /* TextEntry.cc */,
+				CC15E546179F6C4D00449972 /* EmuOptions.hh */,
 				CCFA71A0179D2FE400768D24 /* EmuOptions.cc */,
 				CCFA71A1179D2FE400768D24 /* OptionView.cc */,
 				CCFA71A2179D2FE400768D24 /* EmuView.cc */,

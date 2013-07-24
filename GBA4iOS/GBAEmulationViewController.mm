@@ -10,15 +10,6 @@
 #import "GBAEmulatorCore.h"
 #import "EAGLView.h"
 
-// Emulator Includes
-#include <util/time/sys.hh>
-#include <base/Base.hh>
-#include <base/iphone/private.hh>
-
-#ifdef CONFIG_INPUT
-#include <input/Input.hh>
-#endif
-
 @interface GBAEmulationViewController ()
 
 @property (weak, nonatomic) EAGLView *eaglView;
@@ -39,6 +30,8 @@
         
         _emulatorCore = [[GBAEmulatorCore alloc] initWithROMFilepath:_romFilepath];
         _eaglView = _emulatorCore.eaglView;
+                
+        NSLog(@"%@", romFilepath);
         
     }
     
@@ -81,6 +74,11 @@
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 #pragma mark - Emulation

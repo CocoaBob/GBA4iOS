@@ -17,8 +17,10 @@
 
 #import "Namespace.h"
 
-namespace EmuSystem {
-    extern int loadGame(const char *path);
+#import <EmuOptions.hh>
+
+namespace GameFilePicker {
+    void onSelectFile(const char* name, const Input::Event &e);
 }
 
 // A class extension to declare private methods
@@ -350,13 +352,24 @@ namespace EmuSystem {
 	mainWin.h = mainWin.rect.y2 = rect.size.height;
 	Gfx::viewMMWidth_ = std::round((mainWin.w / (float)unscaledDPI) * 25.4);
 	Gfx::viewMMHeight_ = std::round((mainWin.h / (float)unscaledDPI) * 25.4);
+    
 	logMsg("set screen MM size %dx%d", Gfx::viewMMWidth_, Gfx::viewMMHeight_);
 	currWin = mainWin;
+    
+    logMsg("Pixel size: %dx%d", Gfx::viewPixelWidth(), Gfx::viewPixelHeight());
     
 	// Create the OpenGL ES view
 	glView = [[EAGLView alloc] initWithFrame:rect];
     
     self.eaglView = glView;
+    
+    [self setEmulatorOptions];
+}
+
+- (void)setEmulatorOptions
+{
+    optionAutoSaveState = 0;
+    optionConfirmAutoLoadState = NO;
 }
 
 - (void)start
@@ -365,11 +378,17 @@ namespace EmuSystem {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	Base::setAutoOrientation(1);
     
-    /*double delayInSeconds = 2.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        EmuSystem::loadGame(strdup((char *)[self.romFilepath UTF8String]));
-    });*/
+    using namespace Base;
+    using namespace Input;
+    
+    GameFilePicker::onSelectFile([self.romFilepath UTF8String], [self touchForTouchState:RELEASED]);
+}
+
+- (const Input::Event)touchForTouchState:(uint)touchState {
+    using namespace Base;
+    using namespace Input;
+    
+    return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
 }
 
 static uint iOSOrientationToGfx(UIDeviceOrientation orientation)

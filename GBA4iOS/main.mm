@@ -51,6 +51,6 @@ int main(int argc, char * argv[])
     doOrExit(Base::onInit(argc, argv));
     
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, @"GBAAppDelegate");
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([GBAAppDelegate class]));
     }
 }
