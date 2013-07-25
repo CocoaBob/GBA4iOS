@@ -24,3 +24,10 @@ GBAEmulator
 GBAEmulator.xcodeproj
 GBAEmulatorTests
 ./GBA.emu
+GBA.emu/en.lproj/InfoPlist.strings
+GBA.emu/GBA.emu-Info.plist
+GBA.emu/GBA.emu-Prefix.pch
+GBA.emu/GBAAppDelegate.h
+GBA.emu/GBAAppDelegate.m
+GBA.emu/Images.xcassets/AppIcon.appiconset/Contents.json
+GBA.emu/Images.xcassets/LaunchImage.launchimage/Contents.json
