@@ -22,6 +22,6 @@ SPEC CHECKSUMS:
   NJKWebViewProgress: 5181e8af629e60e8dd48c8b738b39e89eeecb351
   RSTAlertView: fe1aa23b517f6a4fd6fcc91d3aa5d0e0bff0cfcc
   RSTFileBrowserViewController: 8b5a87bf67bf5f9681210f854f5fc04bed6162a9
-  RSTWebViewController: 21c6a83b487edb21652bbc7c63e617721f259f09
+  RSTWebViewController: 7f424fc92a61625e354293bf37eccf87c06c4431
 
 COCOAPODS: 0.22.2

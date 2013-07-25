@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloads;
 @property (weak, nonatomic) UIProgressView *downloadProgressView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 
 @property (copy, nonatomic) RSTWebViewControllerStartDownloadBlock startDownloadBlock;
 @property (weak, nonatomic) NSURLSessionDownloadTask *tempDownloadTask;
@@ -74,7 +75,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     self.downloadProgressView = progressView;
     
     // iOS 6 UI
-    self.romTypeSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    if ([self.view respondsToSelector:@selector(setTintColor:)] == NO)
+    {
+        self.romTypeSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+        self.settingsButton.image = [UIImage imageNamed:@"Gear_Old"];
+        self.settingsButton.landscapeImagePhone = [UIImage imageNamed:@"Gear_Landscape"];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -244,6 +250,46 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     }
     
     return extension;
+}
+
+- (void)didRefreshCurrentDirectory
+{
+    [super didRefreshCurrentDirectory];
+    
+    NSArray *unsupportedFiles = [self.unsupportedFiles copy];
+    for (NSString *file in unsupportedFiles) {
+        
+        if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"])
+        {
+            NSString *filepath = [self filepathForFile:file];
+            [self importGBASkinFromPath:filepath];
+        }
+        
+    }
+}
+
+#pragma mark - Controller Skins
+
+- (NSString *)skinsDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSString *libraryDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    return [libraryDirectory stringByAppendingPathComponent:@"Skins"];
+}
+
+- (NSString *)GBASkinsDirectory
+{
+    return [[self skinsDirectory] stringByAppendingPathComponent:@"GBA"];
+}
+
+- (NSString *)GBCSkinsDirectory
+{
+    return [[self skinsDirectory] stringByAppendingPathComponent:@"GBC"];
+}
+
+- (void)importGBASkinFromPath:(NSString *)filepath
+{
+    NSLog(@"%@", filepath);
 }
 
 #pragma mark - UIAlertView delegate

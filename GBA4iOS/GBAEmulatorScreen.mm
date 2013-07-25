@@ -15,7 +15,6 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        NSLog(@"Initialized");
     }
     
     return self;
@@ -28,9 +27,6 @@
 
 - (void)setEaglView:(EAGLView *)eaglView
 {
-    
-    NSLog(@"Setting");
-    
     _eaglView = eaglView;
     
     [self addSubview:_eaglView];
