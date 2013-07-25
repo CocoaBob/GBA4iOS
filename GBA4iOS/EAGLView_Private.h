@@ -10,6 +10,8 @@
 
 @interface EAGLView ()
 
+@property (readonly, nonatomic) CGSize screenSize;
+
 - (BOOL) createFramebuffer;
 - (void) destroyFramebuffer;
 

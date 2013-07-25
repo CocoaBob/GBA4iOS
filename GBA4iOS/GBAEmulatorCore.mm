@@ -97,7 +97,21 @@ namespace GameFilePicker {
     
 	//[self drawView];
     
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    CGRect maskRect = {CGPointZero, [self screenSize]};
+    
+    CGPathRef path = CGPathCreateWithRect(maskRect, NULL);
+    maskLayer.path = path;
+    CGPathRelease(path);
+    
+    self.layer.mask = maskLayer;
+    
 	return self;
+}
+
+- (CGSize)screenSize
+{
+    return CGSizeMake(320, 240);
 }
 
 #ifdef CONFIG_BASE_IPHONE_NIB
@@ -334,6 +348,9 @@ namespace GameFilePicker {
 
 - (void)prepareEmulation
 {
+    
+    Base::setStatusBarHidden(YES);
+    
     using namespace Base;
 	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
 #ifndef NDEBUG
@@ -370,6 +387,7 @@ namespace GameFilePicker {
 {
     optionAutoSaveState = 0;
     optionConfirmAutoLoadState = NO;
+    optionHideStatusBar = YES;
 }
 
 - (void)start

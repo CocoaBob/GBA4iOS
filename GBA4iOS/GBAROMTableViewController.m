@@ -346,7 +346,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     NSString *filepath = [self filepathForIndexPath:indexPath];
     
-    GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROMFilepath:filepath];
+    GBAEmulationViewController *emulationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
+    emulationViewController.romFilepath = filepath;
     [self presentViewController:emulationViewController animated:YES completion:NULL];
 }
 
@@ -402,7 +403,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     switch (romType) {
         case GBAROMTypeAll:
-            self.supportedFileExtensions = @[@"gba", @"gbc", @"gb"];
+            self.supportedFileExtensions = @[@"gba", @"gbc", @"gb", @"zip"];
             break;
             
         case GBAROMTypeGBA:

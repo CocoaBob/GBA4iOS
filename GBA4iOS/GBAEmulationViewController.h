@@ -12,6 +12,4 @@
 
 @property (copy, nonatomic) NSString *romFilepath;
 
-- (id)initWithROMFilepath:(NSString *)romFilepath;
-
 @end
