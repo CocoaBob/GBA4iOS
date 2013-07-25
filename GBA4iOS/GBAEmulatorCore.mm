@@ -97,15 +97,6 @@ namespace GameFilePicker {
     
 	//[self drawView];
     
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    CGRect maskRect = {CGPointZero, [self screenSize]};
-    
-    CGPathRef path = CGPathCreateWithRect(maskRect, NULL);
-    maskLayer.path = path;
-    CGPathRelease(path);
-    
-    self.layer.mask = maskLayer;
-    
 	return self;
 }
 

@@ -24,23 +24,9 @@
 
 #pragma mark - UIViewController subclass
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-    }
-    
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.emulatorCore = [[GBAEmulatorCore alloc] initWithROMFilepath:self.romFilepath];
-    //self.emulatorScreen.eaglView = _emulatorCore.eaglView;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -57,7 +43,15 @@
 {
     [super viewDidAppear:animated];
     
-    [self startEmulation];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+        self.emulatorCore = [[GBAEmulatorCore alloc] initWithROMFilepath:_romFilepath];
+        self.emulatorScreen.eaglView = _emulatorCore.eaglView;
+        
+        [self startEmulation];
+        
+    });
 }
 
 - (void)viewWillDisappear:(BOOL)animated
