@@ -85,6 +85,26 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.emulatorScreen.eaglView touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.emulatorScreen.eaglView touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.emulatorScreen.eaglView touchesCancelled:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.emulatorScreen.eaglView touchesEnded:touches withEvent:event];
+}
+
 #define ROTATION_SHAPSHOT_TAG 13
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

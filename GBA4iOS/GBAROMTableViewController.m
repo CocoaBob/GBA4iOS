@@ -272,24 +272,52 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (NSString *)skinsDirectory
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *libraryDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    return [libraryDirectory stringByAppendingPathComponent:@"Skins"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    return [documentsDirectory stringByAppendingPathComponent:@"Skins"];
 }
 
 - (NSString *)GBASkinsDirectory
 {
-    return [[self skinsDirectory] stringByAppendingPathComponent:@"GBA"];
+    NSFileManager *fileManager = [NSFileManager defaultManager]; // Thread-safe as of iOS 5 WOOHOO
+    NSString *gbaSkinsDirectory = [[self skinsDirectory] stringByAppendingPathComponent:@"GBA"];
+    
+    NSError *error = nil;
+    if (![fileManager createDirectoryAtPath:gbaSkinsDirectory withIntermediateDirectories:YES attributes:nil error:&error])
+    {
+        ELog(error);
+    }
+    
+    return gbaSkinsDirectory;
 }
 
 - (NSString *)GBCSkinsDirectory
 {
-    return [[self skinsDirectory] stringByAppendingPathComponent:@"GBC"];
+    NSFileManager *fileManager = [NSFileManager defaultManager]; // Thread-safe as of iOS 5 WOOHOO
+    NSString *gbcSkinsDirectory = [[self skinsDirectory] stringByAppendingPathComponent:@"GBC"];
+    
+    NSError *error = nil;
+    if (![fileManager createDirectoryAtPath:gbcSkinsDirectory withIntermediateDirectories:YES attributes:nil error:&error])
+    {
+        ELog(error);
+    }
+    
+    return gbcSkinsDirectory;
 }
 
 - (void)importGBASkinFromPath:(NSString *)filepath
 {
-    NSLog(@"%@", filepath);
+    NSString *destinationPath = [[self GBASkinsDirectory] stringByAppendingPathComponent:[filepath lastPathComponent]];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager]; // Thread-safe as of iOS 5 WOOHOO
+    
+    NSError *error = nil;
+    [fileManager moveItemAtPath:filepath toPath:destinationPath error:&error];
+    
+    if (error)
+    {
+        ELog(error);
+    }
 }
 
 #pragma mark - UIAlertView delegate

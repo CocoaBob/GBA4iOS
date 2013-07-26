@@ -61,32 +61,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-3r-eIu" userLabel="Emulator Screen" customClass="GBAEmulatorScreen">
-                                <rect key="frame" x="0.0" y="44" width="320" height="240"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="GBA_Skin_Portrait_Default" translatesAutoresizingMaskIntoConstraints="NO" id="84F-gc-nVG" userLabel="Controller Skin">
                                 <rect key="frame" x="0.0" y="328" width="320" height="240"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSu-0n-xp1" userLabel="Emulator Screen Container View">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="325"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="220" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-3r-eIu" userLabel="Emulator Screen" customClass="GBAEmulatorScreen">
+                                        <rect key="frame" x="0.0" y="53" width="320" height="220"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="KTg-3r-eIu" secondAttribute="centerY" constant="-0.5" id="3xg-JA-ger"/>
+                                    <constraint firstItem="KTg-3r-eIu" firstAttribute="leading" secondItem="nSu-0n-xp1" secondAttribute="leading" id="5r5-sV-ChO"/>
+                                    <constraint firstItem="KTg-3r-eIu" firstAttribute="trailing" secondItem="nSu-0n-xp1" secondAttribute="trailing" id="O7A-7H-t5K"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="84F-gc-nVG" firstAttribute="trailing" secondItem="Ol9-Hl-eKG" secondAttribute="trailing" id="O2a-h6-jBY"/>
-                            <constraint firstItem="KTg-3r-eIu" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Ol9-Hl-eKG" secondAttribute="top" id="RXv-zK-Cki"/>
-                            <constraint firstItem="KTg-3r-eIu" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ol9-Hl-eKG" secondAttribute="trailing" id="huA-DT-xiC"/>
-                            <constraint firstItem="84F-gc-nVG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="KTg-3r-eIu" secondAttribute="bottom" id="l71-tg-8ch"/>
+                            <constraint firstItem="84F-gc-nVG" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="bottom" constant="3" id="TpH-FP-5hr"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="ZZp-IZ-VRD"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="top" secondItem="Ol9-Hl-eKG" secondAttribute="top" id="gXX-Tj-XMj"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="trailing" secondItem="Ol9-Hl-eKG" secondAttribute="trailing" id="mNv-wc-Dlp"/>
                             <constraint firstItem="84F-gc-nVG" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="nc7-dE-0Lt"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="KTg-3r-eIu" secondAttribute="bottom" id="rST-Ig-rg8"/>
-                            <constraint firstItem="KTg-3r-eIu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="t1l-Oo-YDs"/>
                             <constraint firstItem="84F-gc-nVG" firstAttribute="bottom" secondItem="Ol9-Hl-eKG" secondAttribute="bottom" id="vNA-Uz-pA9"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="bottomEmulatorScreenConstraint" destination="l71-tg-8ch" id="A0V-7m-jYm"/>
                         <outlet property="controllerImageView" destination="84F-gc-nVG" id="b6c-Ku-lMh"/>
                         <outlet property="emulatorScreen" destination="KTg-3r-eIu" id="T1r-be-SwC"/>
                     </connections>
