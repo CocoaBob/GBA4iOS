@@ -27,6 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to white in the storyboard for easier visual debugging
 }
 
 - (void)viewWillAppear:(BOOL)animated
