@@ -57,7 +57,7 @@
                         <viewControllerLayoutGuide type="top" id="zwA-iH-goq"/>
                         <viewControllerLayoutGuide type="bottom" id="dZi-qi-2Ue"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ol9-Hl-eKG">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Ol9-Hl-eKG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -97,6 +97,7 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="bottomEmulatorScreenConstraint" destination="TpH-FP-5hr" id="6ss-6d-1S1"/>
                         <outlet property="controllerImageView" destination="84F-gc-nVG" id="b6c-Ku-lMh"/>
                         <outlet property="emulatorScreen" destination="KTg-3r-eIu" id="T1r-be-SwC"/>
                     </connections>

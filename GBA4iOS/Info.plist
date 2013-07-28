@@ -22,16 +22,16 @@
 				<key>Center</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>100</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>120</integer>
 				</dict>
 				<key>Size</key>
 				<dict>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>120</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>120</integer>
 				</dict>
 			</dict>
 			<key>A</key>
@@ -669,9 +669,9 @@
 	<key>Assets</key>
 	<dict>
 		<key>iPhone</key>
-		<string></string>
+		<string>default</string>
 		<key>Retina</key>
-		<string></string>
+		<string>default@2x</string>
 		<key>Retina 4</key>
 		<string></string>
 		<key>iPad</key>

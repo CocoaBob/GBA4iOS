@@ -12,6 +12,8 @@
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
 
+#import <SSZipArchive/minizip/SSZipArchive.h>
+
 #define LEGAL_NOTICE_ALERT_TAG 15
 #define NAME_ROM_ALERT_TAG 17
 #define DELETE_ROM_ALERT_TAG 2
@@ -73,6 +75,13 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self.navigationController.navigationBar addSubview:progressView];
     
     self.downloadProgressView = progressView;
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
+    {
+        NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
+        [self importGBASkinFromPath:filepath];
+    }
     
     // iOS 6 UI
     if ([self.view respondsToSelector:@selector(setTintColor:)] == NO)
@@ -285,7 +294,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     NSError *error = nil;
     if (![fileManager createDirectoryAtPath:gbaSkinsDirectory withIntermediateDirectories:YES attributes:nil error:&error])
     {
-        ELog(error);
+        //ELog(error);
     }
     
     return gbaSkinsDirectory;
@@ -299,7 +308,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     NSError *error = nil;
     if (![fileManager createDirectoryAtPath:gbcSkinsDirectory withIntermediateDirectories:YES attributes:nil error:&error])
     {
-        ELog(error);
+        //ELog(error);
     }
     
     return gbcSkinsDirectory;
@@ -307,16 +316,19 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)importGBASkinFromPath:(NSString *)filepath
 {
-    NSString *destinationPath = [[self GBASkinsDirectory] stringByAppendingPathComponent:[filepath lastPathComponent]];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager]; // Thread-safe as of iOS 5 WOOHOO
+    NSString *destinationFilename = [filepath stringByDeletingPathExtension];
+    NSString *destinationPath = [self GBASkinsDirectory];
     
     NSError *error = nil;
-    [fileManager moveItemAtPath:filepath toPath:destinationPath error:&error];
+    
+    [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
     
     if (error)
     {
-        ELog(error);
+        //ELog(error);
     }
 }
 
@@ -422,6 +434,11 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     GBAEmulationViewController *emulationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
     emulationViewController.romFilepath = filepath;
+    
+    GBAControllerSkin *skin = [[GBAControllerSkin alloc] initWithDirectory:[[self GBASkinsDirectory] stringByAppendingPathComponent:@"Default"]];
+    emulationViewController.portraitControllerSkin = skin;
+    emulationViewController.landscapeControllerSkin = skin;
+    
     [self presentViewController:emulationViewController animated:YES completion:NULL];
 }
 
@@ -460,7 +477,15 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
 {
-    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:@"http://www.google.com/search?hl=en&source=hp&q=download+ROMs+gba+gameboy+advance&aq=f&oq=&aqi="];
+    NSString *address = @"http://www.google.com/search?hl=en&source=hp&q=download+ROMs+gba+gameboy+advance&aq=f&oq=&aqi=";
+    
+    if (![NSURLSession class]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:address]];
+        
+        return;
+    }
+    
+    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:address];
     webViewController.showDoneButton = YES;
     webViewController.delegate = self;
     

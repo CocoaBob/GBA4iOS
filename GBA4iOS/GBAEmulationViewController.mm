@@ -154,7 +154,7 @@
             [self.view addConstraint:self.bottomEmulatorScreenConstraint];
         }
         
-        self.controllerImageView.image = [UIImage imageNamed:@"GBA_Skin_Portrait_Default"];
+        self.controllerImageView.image = [self.portraitControllerSkin imageForOrientation:GBAControllerSkinOrientationPortrait];
         self.controllerImageView.alpha = 1.0f;
     }
     else
@@ -164,8 +164,7 @@
             [self.view removeConstraint:self.bottomEmulatorScreenConstraint];
         }
         
-        self.controllerImageView.image = [UIImage imageNamed:@"GBA_Skin_Landscape_Default"];
-        
+        self.controllerImageView.image = [self.portraitControllerSkin imageForOrientation:GBAControllerSkinOrientationLandscape];
         self.controllerImageView.alpha = 0.5;
     }
 }

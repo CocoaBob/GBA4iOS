@@ -229,7 +229,7 @@ namespace GameFilePicker {
 			{
 				auto &p = Input::m[i];
 				p.touch = touch;
-				CGPoint startTouchPosition = [touch locationInView:self];
+				CGPoint startTouchPosition = [touch locationInView:self.superview.superview.superview];
 				auto pos = pointerPos(startTouchPosition.x * pointScale, startTouchPosition.y * pointScale);
 				p.s.inWin = 1;
 				p.dragState.pointerEvent(Input::Pointer::LBUTTON, PUSHED, pos);
@@ -251,7 +251,7 @@ namespace GameFilePicker {
 			if(Input::m[i].touch == touch)
 			{
 				auto &p = Input::m[i];
-				CGPoint currentTouchPosition = [touch locationInView:self];
+				CGPoint currentTouchPosition = [touch locationInView:self.superview.superview.superview];
 				auto pos = pointerPos(currentTouchPosition.x * pointScale, currentTouchPosition.y * pointScale);
 				p.dragState.pointerEvent(Input::Pointer::LBUTTON, MOVED, pos);
 				Input::onInputEvent(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
@@ -274,7 +274,7 @@ namespace GameFilePicker {
 				auto &p = Input::m[i];
 				p.touch = nil;
 				p.s.inWin = 0;
-				CGPoint currentTouchPosition = [touch locationInView:self];
+				CGPoint currentTouchPosition = [touch locationInView:self.superview.superview.superview];
 				auto pos = pointerPos(currentTouchPosition.x * pointScale, currentTouchPosition.y * pointScale);
 				p.dragState.pointerEvent(Input::Pointer::LBUTTON, RELEASED, pos);
 				Input::onInputEvent(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
