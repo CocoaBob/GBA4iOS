@@ -31,6 +31,12 @@
     [super viewDidLoad];
     
     self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to white in the storyboard for easier visual debugging
+    
+    
+    UIView *helperView = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 120, 120)];
+    helperView.backgroundColor = [UIColor redColor];
+    helperView.alpha = 0.5;
+    [self.controllerImageView addSubview:helperView];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -80,6 +80,8 @@
 		CC347BAE17A3C8FF00309436 /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAControllerSkin.m */; };
 		CC41AEAA17A22EC90062DDD8 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
+		CC66AFA517A512FA00F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFA417A512FA00F51D9B /* Default.gbaskin */; };
+		CC66AFA617A512FA00F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFA417A512FA00F51D9B /* Default.gbaskin */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
@@ -259,6 +261,7 @@
 		CC347BAD17A3C8FF00309436 /* GBAControllerSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkin.m; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC66AFA217A50B5B00F51D9B /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		CC66AFA417A512FA00F51D9B /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
@@ -647,6 +650,7 @@
 		CC347BA217A33FC600309436 /* Controller Skins */ = {
 			isa = PBXGroup;
 			children = (
+				CC66AFA417A512FA00F51D9B /* Default.gbaskin */,
 			);
 			name = "Controller Skins";
 			sourceTree = "<group>";
@@ -875,6 +879,7 @@
 				CC275C4817A5075E006243FB /* xButton.png in Resources */,
 				CC275C4917A5075E006243FB /* InfoPlist.strings in Resources */,
 				CC275C4A17A5075E006243FB /* Main_iPhone.storyboard in Resources */,
+				CC66AFA617A512FA00F51D9B /* Default.gbaskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -891,6 +896,7 @@
 				CC15E53F179ECDCC00449972 /* xButton.png in Resources */,
 				CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */,
 				CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */,
+				CC66AFA517A512FA00F51D9B /* Default.gbaskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
