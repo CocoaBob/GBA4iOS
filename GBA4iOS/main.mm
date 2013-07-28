@@ -10,8 +10,7 @@
 
 #import "GBAAppDelegate.h"
 
-
-
+#if !(TARGET_IPHONE_SIMULATOR)
 
 #include <fs/sys.hh>
 
@@ -54,3 +53,14 @@ int main(int argc, char * argv[])
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([GBAAppDelegate class]));
     }
 }
+
+#else
+
+int main(int argc, char * argv[])
+{
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([GBAAppDelegate class]));
+    }
+}
+
+#endif

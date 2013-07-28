@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>GBA4iOS-Simulator.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>GBA4iOS.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>CC275BB317A5075E006243FB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>CC2D56FB1798F2EC00C616EB</key>
 		<dict>
 			<key>primary</key>

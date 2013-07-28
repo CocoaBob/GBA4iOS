@@ -13,10 +13,12 @@
 @interface GBAEmulationViewController ()
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
-@property (strong, nonatomic) GBAEmulatorCore *emulatorCore;
 @property (strong, nonatomic) IBOutlet UIImageView *controllerImageView;
-
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomEmulatorScreenConstraint;
+
+#if !(TARGET_IPHONE_SIMULATOR)
+@property (strong, nonatomic) GBAEmulatorCore *emulatorCore;
+#endif
 
 @end
 
@@ -45,6 +47,7 @@
 {
     [super viewDidAppear:animated];
     
+#if !(TARGET_IPHONE_SIMULATOR)
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
@@ -54,6 +57,7 @@
         [self startEmulation];
         
     });
+#endif
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -173,7 +177,9 @@
 
 - (void)startEmulation
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [self.emulatorCore start];
+#endif
 }
 
 @end
