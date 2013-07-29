@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "EAGLView.h"
+#import "GBAController.h"
 
 // Implements both GBAEmulatorCore AND EAGLView
 
@@ -20,5 +21,7 @@
 - (instancetype)initWithROMFilepath:(NSString *)romFilepath;
 
 - (void)start;
+
+- (void)setSelectedButtons:(GBAControllerButton)buttons;
 
 @end

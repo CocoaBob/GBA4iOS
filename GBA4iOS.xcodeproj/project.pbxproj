@@ -34,7 +34,7 @@
 		CC15E53F179ECDCC00449972 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC15E542179F027300449972 /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
-		CC275BE717A5075E006243FB /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAControllerView.m */; };
+		CC275BE717A5075E006243FB /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAController.m */; };
 		CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CC275BF417A5075E006243FB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
 		CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
@@ -72,7 +72,7 @@
 		CC2D572E1798F2ED00C616EB /* GBA4iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D572D1798F2ED00C616EB /* GBA4iOSTests.m */; };
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC347BA117A33E0400309436 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC347BAE17A3C8FF00309436 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAControllerView.m */; };
+		CC347BAE17A3C8FF00309436 /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAController.m */; };
 		CC41AEAA17A22EC90062DDD8 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
 		CC66AFAB17A5270700F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFAA17A5270700F51D9B /* Default.gbaskin */; };
@@ -248,8 +248,8 @@
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		CC347BAC17A3C8FF00309436 /* GBAControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerView.h; sourceTree = "<group>"; };
-		CC347BAD17A3C8FF00309436 /* GBAControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerView.m; sourceTree = "<group>"; };
+		CC347BAC17A3C8FF00309436 /* GBAController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAController.h; sourceTree = "<group>"; };
+		CC347BAD17A3C8FF00309436 /* GBAController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAController.m; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC66AFA217A50B5B00F51D9B /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		CC66AFAA17A5270700F51D9B /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
@@ -578,7 +578,7 @@
 				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
-				CC347BAF17A3C95500309436 /* Controller Skins */,
+				CC347BAF17A3C95500309436 /* Controller */,
 				CC8BB0611799A21000F9864F /* Emulation View Controller */,
 				CC1578A6179D051E0068A54E /* Emulator Code */,
 				CCC17744179FC7B200AB529A /* Categories */,
@@ -630,14 +630,14 @@
 			path = GBA4iOS;
 			sourceTree = "<group>";
 		};
-		CC347BAF17A3C95500309436 /* Controller Skins */ = {
+		CC347BAF17A3C95500309436 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				CC347BAC17A3C8FF00309436 /* GBAControllerView.h */,
-				CC347BAD17A3C8FF00309436 /* GBAControllerView.m */,
+				CC347BAC17A3C8FF00309436 /* GBAController.h */,
+				CC347BAD17A3C8FF00309436 /* GBAController.m */,
 				CC66AFAA17A5270700F51D9B /* Default.gbaskin */,
 			);
-			name = "Controller Skins";
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		CC8BB0611799A21000F9864F /* Emulation View Controller */ = {
@@ -927,7 +927,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */,
-				CC275BE717A5075E006243FB /* GBAControllerView.m in Sources */,
+				CC275BE717A5075E006243FB /* GBAController.m in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
@@ -989,7 +989,7 @@
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
-				CC347BAE17A3C8FF00309436 /* GBAControllerView.m in Sources */,
+				CC347BAE17A3C8FF00309436 /* GBAController.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
 				CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */,

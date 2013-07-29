@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GBAControllerView.h"
+#import "GBAController.h"
 
 @interface GBAEmulationViewController : UIViewController
 

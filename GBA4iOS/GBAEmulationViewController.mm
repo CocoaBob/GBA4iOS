@@ -9,12 +9,12 @@
 #import "GBAEmulationViewController.h"
 #import "GBAEmulatorCore.h"
 #import "GBAEmulatorScreen.h"
-#import "GBAControllerView.h"
+#import "GBAController.h"
 
 @interface GBAEmulationViewController ()
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
-@property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
+@property (strong, nonatomic) IBOutlet GBAController *controller;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -35,9 +35,10 @@
     self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to blue in the storyboard for easier visual debugging
 #endif
     
-    self.controllerView.skinFilepath = self.skinFilepath;
+    self.controller.skinFilepath = self.skinFilepath;
+    [self.controller addTarget:self action:@selector(selectedControllerButtonsDidChange:) forControlEvents:UIControlEventValueChanged];
     
-    [self.controllerView showButtonRects];
+    [self.controller showButtonRects];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,7 +99,14 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+#pragma mark Controls
+
+- (void)selectedControllerButtonsDidChange:(GBAController *)controller
+{
+    [self.emulatorCore setSelectedButtons:controller.pressedButtons];
+}
+
+/*- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.emulatorScreen.eaglView touchesBegan:touches withEvent:event];
 }
@@ -116,7 +124,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.emulatorScreen.eaglView touchesEnded:touches withEvent:event];
-}
+}*/
 
 #define ROTATION_SHAPSHOT_TAG 13
 
@@ -165,8 +173,8 @@
             [self.view addConstraint:self.portraitBottomLayoutConstraint];
         }
         
-        self.controllerView.orientation = GBAControllerOrientationPortrait;
-        self.controllerView.alpha = 1.0f;
+        self.controller.orientation = GBAControllerOrientationPortrait;
+        self.controller.alpha = 1.0f;
     }
     else
     {
@@ -175,8 +183,8 @@
             [self.view removeConstraint:self.portraitBottomLayoutConstraint];
         }
         
-        self.controllerView.orientation = GBAControllerOrientationLandscape;
-        self.controllerView.alpha = 0.5f;
+        self.controller.orientation = GBAControllerOrientationLandscape;
+        self.controller.alpha = 0.5f;
     }
 }
 

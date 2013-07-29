@@ -51,7 +51,7 @@
 				<key>Start</key>
 				<dict>
 					<key>X</key>
-					<integer>117</integer>
+					<integer>164</integer>
 					<key>Y</key>
 					<integer>200</integer>
 					<key>Width</key>
@@ -62,7 +62,7 @@
 				<key>Select</key>
 				<dict>
 					<key>X</key>
-					<integer>164</integer>
+					<integer>117</integer>
 					<key>Y</key>
 					<integer>200</integer>
 					<key>Width</key>
