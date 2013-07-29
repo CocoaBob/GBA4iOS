@@ -626,7 +626,7 @@ public:
 			auto vBtn = ptrElem[e.devId][i];
 			if(vBtn != -1 && !mem_findFirstValue(elem, vBtn))
 			{
-				//logMsg("releasing %d", vBtn);
+				logMsg("releasing %d", vBtn);
 				inputAction(Input::RELEASED, vBtn);
 			}
 		}
@@ -637,7 +637,7 @@ public:
 			auto vBtn = elem[i];
 			if(vBtn != -1 && !mem_findFirstValue(ptrElem[e.devId], vBtn))
 			{
-				//logMsg("pushing %d", vBtn);
+				logMsg("pushing %d", vBtn);
 				inputAction(Input::PUSHED, vBtn);
 				if(optionVibrateOnPush)
 				{

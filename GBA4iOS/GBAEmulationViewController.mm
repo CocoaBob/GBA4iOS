@@ -9,12 +9,13 @@
 #import "GBAEmulationViewController.h"
 #import "GBAEmulatorCore.h"
 #import "GBAEmulatorScreen.h"
+#import "GBAControllerView.h"
 
 @interface GBAEmulationViewController ()
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
-@property (strong, nonatomic) IBOutlet UIImageView *controllerImageView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomEmulatorScreenConstraint;
+@property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 
 #if !(TARGET_IPHONE_SIMULATOR)
 @property (strong, nonatomic) GBAEmulatorCore *emulatorCore;
@@ -30,13 +31,13 @@
 {
     [super viewDidLoad];
     
-    self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to white in the storyboard for easier visual debugging
+#if !(TARGET_IPHONE_SIMULATOR)
+    self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to blue in the storyboard for easier visual debugging
+#endif
     
+    self.controllerView.skinFilepath = self.skinFilepath;
     
-    UIView *helperView = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 120, 120)];
-    helperView.backgroundColor = [UIColor redColor];
-    helperView.alpha = 0.5;
-    [self.controllerImageView addSubview:helperView];
+    [self.controllerView showButtonRects];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -159,23 +160,23 @@
 {
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
     {
-        if ([[self.view constraints] containsObject:self.bottomEmulatorScreenConstraint] == NO)
+        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
         {
-            [self.view addConstraint:self.bottomEmulatorScreenConstraint];
+            [self.view addConstraint:self.portraitBottomLayoutConstraint];
         }
         
-        self.controllerImageView.image = [self.portraitControllerSkin imageForOrientation:GBAControllerSkinOrientationPortrait];
-        self.controllerImageView.alpha = 1.0f;
+        self.controllerView.orientation = GBAControllerOrientationPortrait;
+        self.controllerView.alpha = 1.0f;
     }
     else
     {
-        if ([[self.view constraints] containsObject:self.bottomEmulatorScreenConstraint])
+        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
         {
-            [self.view removeConstraint:self.bottomEmulatorScreenConstraint];
+            [self.view removeConstraint:self.portraitBottomLayoutConstraint];
         }
         
-        self.controllerImageView.image = [self.portraitControllerSkin imageForOrientation:GBAControllerSkinOrientationLandscape];
-        self.controllerImageView.alpha = 0.5;
+        self.controllerView.orientation = GBAControllerOrientationLandscape;
+        self.controllerView.alpha = 0.5f;
     }
 }
 

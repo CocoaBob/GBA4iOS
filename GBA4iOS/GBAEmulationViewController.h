@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GBAControllerSkin.h"
+#import "GBAControllerView.h"
 
 @interface GBAEmulationViewController : UIViewController
 
 @property (copy, nonatomic) NSString *romFilepath;
-
-@property (strong, nonatomic) GBAControllerSkin *portraitControllerSkin;
-@property (strong, nonatomic) GBAControllerSkin *landscapeControllerSkin;
+@property (copy, nonatomic) NSString *skinFilepath;
 
 @end

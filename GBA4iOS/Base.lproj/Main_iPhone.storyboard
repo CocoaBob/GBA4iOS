@@ -61,11 +61,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="240" translatesAutoresizingMaskIntoConstraints="NO" id="84F-gc-nVG" userLabel="Controller Skin">
-                                <rect key="frame" x="0.0" y="328" width="320" height="240"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSu-0n-xp1" userLabel="Emulator Screen Container View">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="328"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -73,33 +68,38 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="220" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-3r-eIu" userLabel="Emulator Screen" customClass="GBAEmulatorScreen">
                                         <rect key="frame" x="0.0" y="54" width="320" height="220"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerY" secondItem="KTg-3r-eIu" secondAttribute="centerY" constant="-0.5" id="3xg-JA-ger"/>
-                                    <constraint firstItem="KTg-3r-eIu" firstAttribute="leading" secondItem="nSu-0n-xp1" secondAttribute="leading" id="5r5-sV-ChO"/>
-                                    <constraint firstItem="KTg-3r-eIu" firstAttribute="trailing" secondItem="nSu-0n-xp1" secondAttribute="trailing" id="O7A-7H-t5K"/>
+                                    <constraint firstAttribute="centerX" secondItem="KTg-3r-eIu" secondAttribute="centerX" id="bvD-k9-QPw"/>
+                                    <constraint firstAttribute="centerY" secondItem="KTg-3r-eIu" secondAttribute="centerY" id="o7L-Ku-elf"/>
                                 </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="240" translatesAutoresizingMaskIntoConstraints="NO" id="3X0-Mp-OVJ" userLabel="Controller View" customClass="GBAControllerView">
+                                <rect key="frame" x="0.0" y="328" width="320" height="240"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="84F-gc-nVG" firstAttribute="trailing" secondItem="Ol9-Hl-eKG" secondAttribute="trailing" id="O2a-h6-jBY"/>
-                            <constraint firstItem="84F-gc-nVG" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="bottom" id="TpH-FP-5hr"/>
-                            <constraint firstItem="nSu-0n-xp1" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="ZZp-IZ-VRD"/>
-                            <constraint firstItem="nSu-0n-xp1" firstAttribute="top" secondItem="Ol9-Hl-eKG" secondAttribute="top" id="gXX-Tj-XMj"/>
-                            <constraint firstItem="nSu-0n-xp1" firstAttribute="trailing" secondItem="Ol9-Hl-eKG" secondAttribute="trailing" id="mNv-wc-Dlp"/>
-                            <constraint firstItem="84F-gc-nVG" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="nc7-dE-0Lt"/>
-                            <constraint firstItem="84F-gc-nVG" firstAttribute="bottom" secondItem="Ol9-Hl-eKG" secondAttribute="bottom" id="vNA-Uz-pA9"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="6ec-gw-pgx"/>
+                            <constraint firstItem="3X0-Mp-OVJ" firstAttribute="trailing" secondItem="Ol9-Hl-eKG" secondAttribute="trailing" id="FNR-4H-Ull"/>
+                            <constraint firstItem="3X0-Mp-OVJ" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="O5s-LQ-f05"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="trailing" secondItem="Ol9-Hl-eKG" secondAttribute="trailing" id="U5W-T0-PQP"/>
+                            <constraint firstItem="3X0-Mp-OVJ" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="bottom" id="Ufv-Ei-eMu"/>
+                            <constraint firstItem="dZi-qi-2Ue" firstAttribute="top" secondItem="3X0-Mp-OVJ" secondAttribute="bottom" id="V67-63-pKo"/>
+                            <constraint firstAttribute="bottom" secondItem="nSu-0n-xp1" secondAttribute="bottom" priority="850" id="iws-vd-O9Z"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="top" secondItem="zwA-iH-goq" secondAttribute="bottom" id="kdB-JX-aw6"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="bottomEmulatorScreenConstraint" destination="TpH-FP-5hr" id="6ss-6d-1S1"/>
-                        <outlet property="controllerImageView" destination="84F-gc-nVG" id="b6c-Ku-lMh"/>
+                        <outlet property="controllerView" destination="3X0-Mp-OVJ" id="5ue-lg-ene"/>
                         <outlet property="emulatorScreen" destination="KTg-3r-eIu" id="T1r-be-SwC"/>
+                        <outlet property="portraitBottomLayoutConstraint" destination="Ufv-Ei-eMu" id="Ss9-Pg-OPh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="stJ-6h-0Yb" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -76,8 +76,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     self.downloadProgressView = progressView;
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
+    //NSFileManager *fileManager = [NSFileManager defaultManager];
+    //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
     {
         NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
         [self importGBASkinFromPath:filepath];
@@ -434,10 +434,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     GBAEmulationViewController *emulationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
     emulationViewController.romFilepath = filepath;
-    
-    GBAControllerSkin *skin = [[GBAControllerSkin alloc] initWithDirectory:[[self GBASkinsDirectory] stringByAppendingPathComponent:@"Default"]];
-    emulationViewController.portraitControllerSkin = skin;
-    emulationViewController.landscapeControllerSkin = skin;
+    emulationViewController.skinFilepath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"Default"];
     
     [self presentViewController:emulationViewController animated:YES completion:NULL];
 }

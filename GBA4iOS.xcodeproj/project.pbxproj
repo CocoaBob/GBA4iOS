@@ -34,13 +34,10 @@
 		CC15E53F179ECDCC00449972 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC15E542179F027300449972 /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
-		CC275BE717A5075E006243FB /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAControllerSkin.m */; };
+		CC275BE717A5075E006243FB /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAControllerView.m */; };
 		CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CC275BF417A5075E006243FB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
-		CC275C0917A5075E006243FB /* GBADirectionalControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9F4DF17A026B0006C2587 /* GBADirectionalControl.m */; };
-		CC275C1C17A5075E006243FB /* NDSDirectionalControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9F4DB17A0266A006C2587 /* NDSDirectionalControl.m */; };
 		CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
-		CC275C2517A5075E006243FB /* NDSButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9F4D917A0266A006C2587 /* NDSButtonControl.m */; };
 		CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC275C3717A5075E006243FB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
@@ -53,7 +50,6 @@
 		CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC275C4017A5075E006243FB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
-		CC275C4217A5075E006243FB /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC347BAA17A3C1F900309436 /* Default.gbaskin */; };
 		CC275C4317A5075E006243FB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC275C4417A5075E006243FB /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC275C4517A5075E006243FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
@@ -76,19 +72,15 @@
 		CC2D572E1798F2ED00C616EB /* GBA4iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D572D1798F2ED00C616EB /* GBA4iOSTests.m */; };
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC347BA117A33E0400309436 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC347BAB17A3C1F900309436 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC347BAA17A3C1F900309436 /* Default.gbaskin */; };
-		CC347BAE17A3C8FF00309436 /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAControllerSkin.m */; };
+		CC347BAE17A3C8FF00309436 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC347BAD17A3C8FF00309436 /* GBAControllerView.m */; };
 		CC41AEAA17A22EC90062DDD8 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
-		CC66AFA517A512FA00F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFA417A512FA00F51D9B /* Default.gbaskin */; };
-		CC66AFA617A512FA00F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFA417A512FA00F51D9B /* Default.gbaskin */; };
+		CC66AFAB17A5270700F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFAA17A5270700F51D9B /* Default.gbaskin */; };
+		CC66AFAC17A5270700F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFAA17A5270700F51D9B /* Default.gbaskin */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
-		CCD9F4DC17A0266A006C2587 /* NDSButtonControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9F4D917A0266A006C2587 /* NDSButtonControl.m */; };
-		CCD9F4DD17A0266A006C2587 /* NDSDirectionalControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9F4DB17A0266A006C2587 /* NDSDirectionalControl.m */; };
-		CCD9F4E017A026B0006C2587 /* GBADirectionalControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9F4DF17A026B0006C2587 /* GBADirectionalControl.m */; };
 		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
 		CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
 		CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
@@ -256,24 +248,17 @@
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		CC347BAA17A3C1F900309436 /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
-		CC347BAC17A3C8FF00309436 /* GBAControllerSkin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkin.h; sourceTree = "<group>"; };
-		CC347BAD17A3C8FF00309436 /* GBAControllerSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkin.m; sourceTree = "<group>"; };
+		CC347BAC17A3C8FF00309436 /* GBAControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerView.h; sourceTree = "<group>"; };
+		CC347BAD17A3C8FF00309436 /* GBAControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerView.m; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC66AFA217A50B5B00F51D9B /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
-		CC66AFA417A512FA00F51D9B /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
+		CC66AFAA17A5270700F51D9B /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
 		CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Widescreen.h"; sourceTree = "<group>"; };
 		CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Widescreen.m"; sourceTree = "<group>"; };
-		CCD9F4D817A0266A006C2587 /* NDSButtonControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDSButtonControl.h; sourceTree = "<group>"; };
-		CCD9F4D917A0266A006C2587 /* NDSButtonControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDSButtonControl.m; sourceTree = "<group>"; };
-		CCD9F4DA17A0266A006C2587 /* NDSDirectionalControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDSDirectionalControl.h; sourceTree = "<group>"; };
-		CCD9F4DB17A0266A006C2587 /* NDSDirectionalControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDSDirectionalControl.m; sourceTree = "<group>"; };
-		CCD9F4DE17A026B0006C2587 /* GBADirectionalControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBADirectionalControl.h; sourceTree = "<group>"; };
-		CCD9F4DF17A026B0006C2587 /* GBADirectionalControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBADirectionalControl.m; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA7155179D2EAA00768D24 /* logger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = logger.cc; path = "emu-ex-plus-alpha/imagine/src/logger/stdio/logger.cc"; sourceTree = SOURCE_ROOT; };
 		CCFA7156179D2EAA00768D24 /* coreaudio.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coreaudio.cc; path = "emu-ex-plus-alpha/imagine/src/audio/coreaudio/coreaudio.cc"; sourceTree = SOURCE_ROOT; };
@@ -596,7 +581,6 @@
 				CC347BAF17A3C95500309436 /* Controller Skins */,
 				CC8BB0611799A21000F9864F /* Emulation View Controller */,
 				CC1578A6179D051E0068A54E /* Emulator Code */,
-				CC347BA217A33FC600309436 /* Controller Skins */,
 				CCC17744179FC7B200AB529A /* Categories */,
 				CC2D57061798F2EC00C616EB /* Supporting Files */,
 			);
@@ -637,7 +621,6 @@
 		CC2D57381798F40E00C616EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CC9EFD6217A325D200724657 /* Skins */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
 				CC15E53C179ECDCC00449972 /* xButton.png */,
@@ -647,19 +630,12 @@
 			path = GBA4iOS;
 			sourceTree = "<group>";
 		};
-		CC347BA217A33FC600309436 /* Controller Skins */ = {
-			isa = PBXGroup;
-			children = (
-				CC66AFA417A512FA00F51D9B /* Default.gbaskin */,
-			);
-			name = "Controller Skins";
-			sourceTree = "<group>";
-		};
 		CC347BAF17A3C95500309436 /* Controller Skins */ = {
 			isa = PBXGroup;
 			children = (
-				CC347BAC17A3C8FF00309436 /* GBAControllerSkin.h */,
-				CC347BAD17A3C8FF00309436 /* GBAControllerSkin.m */,
+				CC347BAC17A3C8FF00309436 /* GBAControllerView.h */,
+				CC347BAD17A3C8FF00309436 /* GBAControllerView.m */,
+				CC66AFAA17A5270700F51D9B /* Default.gbaskin */,
 			);
 			name = "Controller Skins";
 			sourceTree = "<group>";
@@ -671,19 +647,10 @@
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
 				CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */,
 				CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */,
-				CCD9F4D717A0263A006C2587 /* Controls */,
 				CC15E545179F2F3500449972 /* Core */,
 				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";
-			sourceTree = "<group>";
-		};
-		CC9EFD6217A325D200724657 /* Skins */ = {
-			isa = PBXGroup;
-			children = (
-				CC347BAA17A3C1F900309436 /* Default.gbaskin */,
-			);
-			name = Skins;
 			sourceTree = "<group>";
 		};
 		CCC17744179FC7B200AB529A /* Categories */ = {
@@ -693,19 +660,6 @@
 				CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */,
 			);
 			name = Categories;
-			sourceTree = "<group>";
-		};
-		CCD9F4D717A0263A006C2587 /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-				CCD9F4D817A0266A006C2587 /* NDSButtonControl.h */,
-				CCD9F4D917A0266A006C2587 /* NDSButtonControl.m */,
-				CCD9F4DA17A0266A006C2587 /* NDSDirectionalControl.h */,
-				CCD9F4DB17A0266A006C2587 /* NDSDirectionalControl.m */,
-				CCD9F4DE17A026B0006C2587 /* GBADirectionalControl.h */,
-				CCD9F4DF17A026B0006C2587 /* GBADirectionalControl.m */,
-			);
-			name = Controls;
 			sourceTree = "<group>";
 		};
 		CCFA7154179D2E9D00768D24 /* imagine */ = {
@@ -870,7 +824,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC275C4217A5075E006243FB /* Default.gbaskin in Resources */,
 				CC275C4317A5075E006243FB /* Images.xcassets in Resources */,
 				CC275C4417A5075E006243FB /* padButton.png in Resources */,
 				CC275C4517A5075E006243FB /* Default-568h@2x.png in Resources */,
@@ -879,7 +832,7 @@
 				CC275C4817A5075E006243FB /* xButton.png in Resources */,
 				CC275C4917A5075E006243FB /* InfoPlist.strings in Resources */,
 				CC275C4A17A5075E006243FB /* Main_iPhone.storyboard in Resources */,
-				CC66AFA617A512FA00F51D9B /* Default.gbaskin in Resources */,
+				CC66AFAC17A5270700F51D9B /* Default.gbaskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,7 +840,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC347BAB17A3C1F900309436 /* Default.gbaskin in Resources */,
 				CC2D571B1798F2EC00C616EB /* Images.xcassets in Resources */,
 				CC41AEAA17A22EC90062DDD8 /* padButton.png in Resources */,
 				CC347BA117A33E0400309436 /* Default-568h@2x.png in Resources */,
@@ -896,7 +848,7 @@
 				CC15E53F179ECDCC00449972 /* xButton.png in Resources */,
 				CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */,
 				CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */,
-				CC66AFA517A512FA00F51D9B /* Default.gbaskin in Resources */,
+				CC66AFAB17A5270700F51D9B /* Default.gbaskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,13 +927,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */,
-				CC275BE717A5075E006243FB /* GBAControllerSkin.m in Sources */,
+				CC275BE717A5075E006243FB /* GBAControllerView.m in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
-				CC275C0917A5075E006243FB /* GBADirectionalControl.m in Sources */,
-				CC275C1C17A5075E006243FB /* NDSDirectionalControl.m in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
-				CC275C2517A5075E006243FB /* NDSButtonControl.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
 				CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */,
 			);
@@ -1040,7 +989,7 @@
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
-				CC347BAE17A3C8FF00309436 /* GBAControllerSkin.m in Sources */,
+				CC347BAE17A3C8FF00309436 /* GBAControllerView.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
 				CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */,
@@ -1074,7 +1023,6 @@
 				CCFA7208179D304700768D24 /* Mode0.cpp in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
-				CCD9F4E017A026B0006C2587 /* GBADirectionalControl.m in Sources */,
 				CCFA7219179D304700768D24 /* blargg_common.cpp in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
@@ -1093,7 +1041,6 @@
 				CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */,
 				CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */,
 				CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */,
-				CCD9F4DD17A0266A006C2587 /* NDSDirectionalControl.m in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */,
 				CCFA7232179D304700768D24 /* Ppmd7.c in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
@@ -1102,7 +1049,6 @@
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
 				CCFA720D179D304700768D24 /* Mode5.cpp in Sources */,
 				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
-				CCD9F4DC17A0266A006C2587 /* NDSButtonControl.m in Sources */,
 				CCFA71B7179D2FE400768D24 /* EmuView.cc in Sources */,
 				CCFA722E179D304700768D24 /* Bra86.c in Sources */,
 				CCFA721A179D304700768D24 /* blargg_errors.cpp in Sources */,

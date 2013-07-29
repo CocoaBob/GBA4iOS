@@ -371,7 +371,17 @@ namespace GameFilePicker {
     
     self.eaglView = glView;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    
     [self setEmulatorOptions];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setEmulatorOptions
@@ -400,6 +410,8 @@ namespace GameFilePicker {
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
 }
 
+#pragma mark - Main App
+
 static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
 {
 	switch(orientation)
@@ -423,5 +435,71 @@ static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
 	Gfx::preferedOrientation = o;
 	Gfx::setOrientation(Gfx::preferedOrientation);
 }
+
+- (void)applicationWillResignActive:(NSNotification *)notification
+{
+	logMsg("resign active");
+	Base::stopAnimation();
+	glFinish();
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+	using namespace Base;
+	logMsg("became active");
+	if(!Base::openglViewIsInit)
+		[glView createFramebuffer];
+	Base::appState = APP_RUNNING;
+	if(Base::displayLink)
+		Base::startAnimation();
+	Base::onResume(1);
+#ifdef CONFIG_INPUT_ICADE
+	iCade.didBecomeActive();
+#endif
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+	using namespace Base;
+	logMsg("app exiting");
+	//Base::stopAnimation();
+	Base::appState = APP_EXITING;
+	Base::onExit(0);
+	logMsg("app exited");
+}
+
+- (void)applicationDidEnterBackground:(NSNotification *)notification
+{
+	using namespace Base;
+	logMsg("entering background");
+	appState = APP_PAUSED;
+	Base::stopAnimation();
+	Base::onExit(1);
+#ifdef CONFIG_INPUT_ICADE
+	iCade.didEnterBackground();
+#endif
+	glFinish();
+	[glView destroyFramebuffer];
+	logMsg("entered background");
+}
+
+- (void)timerCallback:(id)callback
+{
+	using namespace Base;
+	logMsg("running callback");
+	NSData *callbackData = (NSData*)callback;
+	CallbackDelegate del;
+	[callbackData getBytes:&del length:sizeof(del)];
+	del();
+}
+
+- (void)handleThreadMessage:(NSValue *)arg
+{
+	using namespace Base;
+	ThreadMsg msg;
+	[arg getValue:&msg];
+	processAppMsg(msg.type, msg.shortArg, msg.intArg, msg.intArg2);
+}
+
 
 @end
