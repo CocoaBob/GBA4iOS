@@ -2293,7 +2293,7 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
       CPUUpdateRender(*cpu.gba);
       // we only care about changes in BG0-BG3
       if(changeBG) {
-      	logMsg("changed bg mode: %d", ioMem.DISPCNT & 7);
+      	//logMsg("changed bg mode: %d", ioMem.DISPCNT & 7);
         CPUUpdateRenderBuffers(*cpu.gba, false);
       }
       break;

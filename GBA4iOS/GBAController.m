@@ -110,6 +110,8 @@ static unsigned long oldtouches[15];
 
 - (void)touchesBegan:(NSSet *)t withEvent:(UIEvent *)event
 {
+    NSLog(@"WTF");
+    
     // Oh man, the hours I spent trying to debug this because I didn't realize t only returns the CHANGED touches, while [event allTouches] actually has all touches
     NSSet *touches = [event allTouches];
         

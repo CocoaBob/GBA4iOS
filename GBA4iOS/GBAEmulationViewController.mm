@@ -38,22 +38,12 @@
     self.controller.skinFilepath = self.skinFilepath;
     [self.controller addTarget:self action:@selector(selectedControllerButtonsDidChange:) forControlEvents:UIControlEventValueChanged];
     
-    [self.controller showButtonRects];
+    // [self.controller showButtonRects];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (![self.view respondsToSelector:@selector(setTintColor:)])
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     
 #if !(TARGET_IPHONE_SIMULATOR)
     static dispatch_once_t onceToken;
@@ -66,6 +56,16 @@
         
     });
 #endif
+    
+    if (![self.view respondsToSelector:@selector(setTintColor:)])
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -103,7 +103,9 @@
 
 - (void)selectedControllerButtonsDidChange:(GBAController *)controller
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [self.emulatorCore setSelectedButtons:controller.pressedButtons];
+#endif
 }
 
 /*- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

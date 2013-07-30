@@ -10,7 +10,9 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
-			<array/>
+			<array>
+				<string>icon-60@2x</string>
+			</array>
 			<key>CFBundleTypeName</key>
 			<string>GBA Skin</string>
 			<key>CFBundleTypeRole</key>
@@ -57,6 +59,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -81,6 +85,10 @@
 			<string>GBA Skin</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.rileytestut.gbaskin</string>
+			<key>UTTypeSize320IconFile</key>
+			<string>icon-60@2x</string>
+			<key>UTTypeSize64IconFile</key>
+			<string>icon-60@2x</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

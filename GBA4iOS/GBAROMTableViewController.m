@@ -8,6 +8,7 @@
 
 #import "GBAROMTableViewController.h"
 #import "GBAEmulationViewController.h"
+#import "GBAPresentEmulationViewControllerAnimator.h"
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
@@ -24,7 +25,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeGBC,
 };
 
-@interface GBAROMTableViewController () <RSTWebViewControllerDelegate, UIAlertViewDelegate>
+@interface GBAROMTableViewController () <RSTWebViewControllerDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate>
 
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
@@ -373,8 +374,10 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView // Not working in iOS 7, hoping for fix http://openradar.appspot.com/14387317
 {
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    return [textField.text length] > 0;
+    //UITextField *textField = [alertView textFieldAtIndex:0];
+    //return [textField.text length] > 0;
+    
+    return YES;
 }
 
 #pragma mark - Private
@@ -436,6 +439,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     emulationViewController.romFilepath = filepath;
     emulationViewController.skinFilepath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"Default"];
     
+    if ([emulationViewController respondsToSelector:@selector(setTransitioningDelegate:)])
+    {
+        emulationViewController.transitioningDelegate = self;
+        emulationViewController.modalPresentationStyle = UIModalPresentationCustom;
+    }
+    
     [self presentViewController:emulationViewController animated:YES completion:NULL];
 }
 
@@ -462,6 +471,13 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             }
         }];
     }
+}
+
+#pragma mark - Presenting Emulation View Controller
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    return [[GBAPresentEmulationViewControllerAnimator alloc] init];
 }
 
 #pragma mark - IBActions

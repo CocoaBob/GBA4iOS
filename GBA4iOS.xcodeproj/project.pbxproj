@@ -77,6 +77,10 @@
 		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
 		CC66AFAB17A5270700F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFAA17A5270700F51D9B /* Default.gbaskin */; };
 		CC66AFAC17A5270700F51D9B /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC66AFAA17A5270700F51D9B /* Default.gbaskin */; };
+		CC86824F17A6D48600686607 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
+		CC86825017A6D48600686607 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
+		CC86825417A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
+		CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
@@ -253,6 +257,9 @@
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC66AFA217A50B5B00F51D9B /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		CC66AFAA17A5270700F51D9B /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
+		CC86824E17A6D48600686607 /* icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60@2x.png"; path = "GBA4iOS/Images.xcassets/AppIcon.appiconset/icon-60@2x.png"; sourceTree = "<group>"; };
+		CC86825217A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentEmulationViewControllerAnimator.h; sourceTree = "<group>"; };
+		CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPresentEmulationViewControllerAnimator.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
@@ -531,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				CC347BA017A33E0400309436 /* Default-568h@2x.png */,
+				CC86824E17A6D48600686607 /* icon-60@2x.png */,
 				CC2D57051798F2EC00C616EB /* GBA4iOS */,
 				CC2D57381798F40E00C616EB /* Resources */,
 				CC2D57271798F2ED00C616EB /* GBA4iOSTests */,
@@ -578,6 +586,7 @@
 				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
+				CC86825117A6DCC600686607 /* Custom Transitions */,
 				CC347BAF17A3C95500309436 /* Controller */,
 				CC8BB0611799A21000F9864F /* Emulation View Controller */,
 				CC1578A6179D051E0068A54E /* Emulator Code */,
@@ -638,6 +647,15 @@
 				CC66AFAA17A5270700F51D9B /* Default.gbaskin */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		CC86825117A6DCC600686607 /* Custom Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				CC86825217A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.h */,
+				CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */,
+			);
+			name = "Custom Transitions";
 			sourceTree = "<group>";
 		};
 		CC8BB0611799A21000F9864F /* Emulation View Controller */ = {
@@ -829,6 +847,7 @@
 				CC275C4517A5075E006243FB /* Default-568h@2x.png in Resources */,
 				CC275C4617A5075E006243FB /* overlays128.png in Resources */,
 				CC275C4717A5075E006243FB /* Main_iPad.storyboard in Resources */,
+				CC86825017A6D48600686607 /* icon-60@2x.png in Resources */,
 				CC275C4817A5075E006243FB /* xButton.png in Resources */,
 				CC275C4917A5075E006243FB /* InfoPlist.strings in Resources */,
 				CC275C4A17A5075E006243FB /* Main_iPhone.storyboard in Resources */,
@@ -845,6 +864,7 @@
 				CC347BA117A33E0400309436 /* Default-568h@2x.png in Resources */,
 				CC15E53D179ECDCC00449972 /* overlays128.png in Resources */,
 				CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */,
+				CC86824F17A6D48600686607 /* icon-60@2x.png in Resources */,
 				CC15E53F179ECDCC00449972 /* xButton.png in Resources */,
 				CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */,
 				CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */,
@@ -927,6 +947,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */,
+				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CC275BE717A5075E006243FB /* GBAController.m in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
@@ -989,6 +1010,7 @@
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
+				CC86825417A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CC347BAE17A3C8FF00309436 /* GBAController.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
@@ -1431,7 +1453,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1612,7 +1634,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
@@ -1699,6 +1721,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "03AA276F-D9E3-48ED-BD17-14EFDE025E2E";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1939,6 +1962,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yvette Testut";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",

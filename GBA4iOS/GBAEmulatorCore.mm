@@ -410,6 +410,8 @@ extern SysVController vController;
 
 - (void)setSelectedButtons:(GBAControllerButton)buttons
 {
+    NSLog(@"Pressed");
+    
     NSMutableSet *pressedButtons = [NSMutableSet setWithCapacity:15];
         
     // Up
@@ -550,7 +552,7 @@ extern SysVController vController;
             break;
             
         case GBAControllerButtonStart:
-            identifier = 1;
+            identifier = 8;
             break;
             
         case GBAControllerButtonSelect:
