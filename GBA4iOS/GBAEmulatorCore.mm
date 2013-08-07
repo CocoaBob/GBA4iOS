@@ -10,6 +10,7 @@
 
 #import "MainApp.h"
 #import "EAGLView.h"
+#import "GBASettingsViewController.h"
 
 #import "EAGLView_Private.h"
 
@@ -19,6 +20,7 @@
 
 #import <EmuOptions.hh>
 #import <VController.hh>
+#import <EmuView.hh>
 
 namespace GameFilePicker {
     void onSelectFile(const char* name, const Input::Event &e);
@@ -328,15 +330,20 @@ namespace GameFilePicker {
 
 @implementation GBAEmulatorCore
 
-- (id)initWithROMFilepath:(NSString *)romFilepath
-{
-    self = [super init];
-    if (self)
++ (instancetype)sharedCore {
+    static GBAEmulatorCore *sharedCore = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedCore = [[self alloc] init];
+    });
+    return sharedCore;
+}
+
+- (id)init {
+    if (self = [super init])
     {
-        _romFilepath = [romFilepath copy];
         [self prepareEmulation];
     }
-    
     return self;
 }
 
@@ -378,8 +385,9 @@ namespace GameFilePicker {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
     
-    [self setEmulatorOptions];
+    [self updateSettings:nil];
 }
 
 - (void)dealloc
@@ -387,18 +395,24 @@ namespace GameFilePicker {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setEmulatorOptions
+- (void)updateSettings:(NSNotification *)notification
 {
     optionAutoSaveState = 0;
     optionConfirmAutoLoadState = NO;
     optionHideStatusBar = YES;
+    
+    optionFrameSkip = [[NSUserDefaults standardUserDefaults] integerForKey:@"frameSkip"];
+    
 }
 
-- (void)start
+- (void)startEmulation
 {
-	Base::engineInit();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	Base::setAutoOrientation(1);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Base::engineInit();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        Base::setAutoOrientation(1);
+    });
     
     using namespace Base;
     using namespace Input;
@@ -406,12 +420,37 @@ namespace GameFilePicker {
     GameFilePicker::onSelectFile([self.romFilepath UTF8String], [self touchForTouchState:RELEASED]);
 }
 
+- (void)pauseEmulation
+{
+    logMsg("resign active");
+	Base::stopAnimation();
+	glFinish();
+}
+
+- (void)resumeEmulation
+{
+    using namespace Base;
+	logMsg("became active");
+	if(!Base::openglViewIsInit)
+		[glView createFramebuffer];
+	Base::appState = APP_RUNNING;
+	if(Base::displayLink)
+		Base::startAnimation();
+	Base::onResume(1);
+#ifdef CONFIG_INPUT_ICADE
+	iCade.didBecomeActive();
+#endif
+}
+
+- (void)endEmulation
+{
+    EmuSystem::closeGame(NO);
+}
+
 extern SysVController vController;
 
 - (void)setSelectedButtons:(GBAControllerButton)buttons
 {
-    NSLog(@"Pressed");
-    
     NSMutableSet *pressedButtons = [NSMutableSet setWithCapacity:15];
         
     // Up
@@ -420,55 +459,55 @@ extern SysVController vController;
         [pressedButtons addObject:@(GBAControllerButtonUp)];
     }
     
-    // Up
+    // Right
     if (buttons & GBAControllerButtonRight)
     {
         [pressedButtons addObject:@(GBAControllerButtonRight)];
     }
     
-    // Up
+    // Down
     if (buttons & GBAControllerButtonDown)
     {
         [pressedButtons addObject:@(GBAControllerButtonDown)];
     }
     
-    // Up
+    // Left
     if (buttons & GBAControllerButtonLeft)
     {
         [pressedButtons addObject:@(GBAControllerButtonLeft)];
     }
     
-    // Up
+    // A
     if (buttons & GBAControllerButtonA)
     {
         [pressedButtons addObject:@(GBAControllerButtonA)];
     }
     
-    // Up
+    // B
     if (buttons & GBAControllerButtonB)
     {
         [pressedButtons addObject:@(GBAControllerButtonB)];
     }
     
-    // Up
+    // Start
     if (buttons & GBAControllerButtonStart)
     {
         [pressedButtons addObject:@(GBAControllerButtonStart)];
     }
     
-    // Up
+    // Select
     if (buttons & GBAControllerButtonSelect)
     {
         [pressedButtons addObject:@(GBAControllerButtonSelect)];
     }
     
-    // Up
+    // L
     if (buttons & GBAControllerButtonL)
     {
         [pressedButtons addObject:@(GBAControllerButtonL)];
     }
     
-    // Up
+    // R
     if (buttons & GBAControllerButtonR)
     {
         [pressedButtons addObject:@(GBAControllerButtonR)];
@@ -487,7 +526,6 @@ extern SysVController vController;
         {
             NSInteger identifier = [self identifierForButton:(GBAControllerButton)[button integerValue]];
             
-            NSLog(@"Pushed: %d", identifier);
             vController.inputAction(Input::PUSHED, identifier);
         }
     }
@@ -515,7 +553,6 @@ extern SysVController vController;
         {
             NSInteger identifier = [self identifierForButton:(GBAControllerButton)[button integerValue]];
             
-            NSLog(@"Released: %d", identifier);
             vController.inputAction(Input::RELEASED, identifier);
         }
     }
@@ -552,7 +589,7 @@ extern SysVController vController;
             break;
             
         case GBAControllerButtonStart:
-            identifier = 8;
+            identifier = 1;
             break;
             
         case GBAControllerButtonSelect:
@@ -607,34 +644,17 @@ static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
-	logMsg("resign active");
-	Base::stopAnimation();
-	glFinish();
+	[self pauseEmulation];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-	using namespace Base;
-	logMsg("became active");
-	if(!Base::openglViewIsInit)
-		[glView createFramebuffer];
-	Base::appState = APP_RUNNING;
-	if(Base::displayLink)
-		Base::startAnimation();
-	Base::onResume(1);
-#ifdef CONFIG_INPUT_ICADE
-	iCade.didBecomeActive();
-#endif
+	[self resumeEmulation];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-	using namespace Base;
-	logMsg("app exiting");
-	//Base::stopAnimation();
-	Base::appState = APP_EXITING;
-	Base::onExit(0);
-	logMsg("app exited");
+	[self endEmulation];
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification

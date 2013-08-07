@@ -210,7 +210,7 @@ namespace Base
 #else
 		[sharedApp setStatusBarHidden: hidden ? YES : NO animated:YES];
 #endif
-        setViewportForStatusbar(sharedApp);
+        //Riley Testut setViewportForStatusbar(sharedApp);
         generic_resizeEvent(mainWin);
     }
     

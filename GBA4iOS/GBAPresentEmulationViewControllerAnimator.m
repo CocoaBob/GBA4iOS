@@ -31,12 +31,19 @@
     
     initialView.frame = [transitionContext initialFrameForViewController:initialViewController];
     [transitionContext.containerView addSubview:initialView];
+
     
     [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         initialView.alpha = 0.0;
         initialView.transform = CGAffineTransformMakeScale(2.0, 2.0);
         destinationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
     } completion:^(BOOL finished) {
+        
+        if (self.completionBlock)
+        {
+            self.completionBlock();
+        }
+        
         [transitionContext completeTransition:YES];
     }];
 }

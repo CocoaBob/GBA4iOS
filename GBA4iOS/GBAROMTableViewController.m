@@ -9,6 +9,9 @@
 #import "GBAROMTableViewController.h"
 #import "GBAEmulationViewController.h"
 #import "GBAPresentEmulationViewControllerAnimator.h"
+#import "GBASettingsViewController.h"
+#import "GBAPresentMenuViewControllerAnimator.h"
+#import "GBATransparentTableViewHeaderFooterView.h"
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
@@ -18,6 +21,15 @@
 #define LEGAL_NOTICE_ALERT_TAG 15
 #define NAME_ROM_ALERT_TAG 17
 #define DELETE_ROM_ALERT_TAG 2
+
+typedef NS_ENUM(NSInteger, GBAROMTableViewControllerTheme)
+{
+    GBAROMTableViewControllerThemeOpaque = 0,
+    GBAROMTableViewControllerThemeTranslucent = 1,
+};;
+
+
+#define RST_CONTAIN_IN_NAVIGATION_CONTROLLER(viewController)  ({ UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController]; navigationController; })
 
 typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeAll,
@@ -32,9 +44,15 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 @property (strong, nonatomic) NSMutableDictionary *currentDownloads;
 @property (weak, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
+@property (assign, nonatomic) GBAROMTableViewControllerTheme theme;
+@property (strong, nonatomic) UIViewController *backgroundViewController;
 
 @property (copy, nonatomic) RSTWebViewControllerStartDownloadBlock startDownloadBlock;
 @property (weak, nonatomic) NSURLSessionDownloadTask *tempDownloadTask;
+
+- (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl;
+- (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem;
+- (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem;
 
 @end
 
@@ -48,7 +66,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
         
-        self.currentDirectory = documentsDirectory;
+        self.currentDirectory = documentsDirectory; 
         self.showFileExtensions = YES;
         self.showFolders = NO;
         self.showSectionTitles = NO;
@@ -61,8 +79,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.clearsSelectionOnViewWillAppear = YES;
+    
     GBAROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"romType"];
     self.romType = romType;
+    
+    self.theme = GBAROMTableViewControllerThemeOpaque;
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
     progressView.frame = CGRectMake(0,
@@ -74,6 +96,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     progressView.progress = 0.0;
     progressView.alpha = 0.0;
     [self.navigationController.navigationBar addSubview:progressView];
+    
+    [self.tableView registerClass:[GBATransparentTableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     self.downloadProgressView = progressView;
     
@@ -97,6 +121,28 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillLayoutSubviews
+{
+    self.romTypeSegmentedControl.frame = ({
+        CGRect frame = self.romTypeSegmentedControl.frame;
+        frame.size.width = self.navigationController.navigationBar.bounds.size.width - (self.navigationItem.leftBarButtonItem.width + self.navigationItem.rightBarButtonItem.width);
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            {
+                frame.size.height = 33.0f;
+            }
+            else
+            {
+                frame.size.height = 25.0f;
+            }
+        }
+        
+        frame;
+    });
 }
 
 #pragma mark - RSTWebViewController delegate
@@ -124,10 +170,39 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     self.startDownloadBlock = startDownloadBlock;
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"By tapping Download below, you confirm that you legally own a physical copy of this ROM. GBA4iOS does not promote pirating in any form.", @"")
-                                                    message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
+                                                    message:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
     alert.tag = LEGAL_NOTICE_ALERT_TAG;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [alert show];
+        [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            
+            if (buttonIndex == 1)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM Name:", @"")
+                                                                message:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
+                alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                alert.tag = NAME_ROM_ALERT_TAG;
+                
+                [alert showWithCompletion:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
+                    
+                    if (namingButtonIndex == 1)
+                    {
+                        NSString *filename = [[alertView textFieldAtIndex:0] text];
+                        [self startDownloadWithFilename:filename];
+                    }
+                    else
+                    {
+                        [self cancelDownload];
+                    }
+                    
+                }];
+            }
+            else
+            {
+                [self cancelDownload];
+            }
+            
+        }];
     });
 }
 
@@ -186,7 +261,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     if (error)
     {
-        //ELog(error);
+        ELog(error);
         return;
     }
     
@@ -196,7 +271,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     if (error)
     {
-        //ELog(error);
+        ELog(error);
     }
 }
 
@@ -204,7 +279,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     if (error)
     {
-        //ELog(error);
+        ELog(error);
         
         NSDictionary *dictionary = self.currentDownloads[downloadTask.uniqueTaskIdentifier];
         
@@ -244,10 +319,37 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     else
     {
         cell.userInteractionEnabled = YES;
-        cell.textLabel.textColor = [UIColor blackColor];
+        
+        switch (self.theme) {
+            case GBAROMTableViewControllerThemeOpaque:
+                cell.textLabel.textColor = [UIColor blackColor];
+                break;
+                
+            case GBAROMTableViewControllerThemeTranslucent:
+                cell.textLabel.textColor = [UIColor whiteColor];
+                break;
+        }
+        
+        
     }
     
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return UITableViewAutomaticDimension;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    GBATransparentTableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Header"];
+    headerView.textLabel.text = [super tableView:tableView titleForHeaderInSection:section];
+    
+    return headerView;
 }
 
 - (NSString *)visibleFileExtensionForIndexPath:(NSIndexPath *)indexPath
@@ -295,7 +397,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     NSError *error = nil;
     if (![fileManager createDirectoryAtPath:gbaSkinsDirectory withIntermediateDirectories:YES attributes:nil error:&error])
     {
-        //ELog(error);
+        ELog(error);
     }
     
     return gbaSkinsDirectory;
@@ -309,7 +411,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     NSError *error = nil;
     if (![fileManager createDirectoryAtPath:gbcSkinsDirectory withIntermediateDirectories:YES attributes:nil error:&error])
     {
-        //ELog(error);
+        ELog(error);
     }
     
     return gbcSkinsDirectory;
@@ -329,55 +431,16 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     if (error)
     {
-        //ELog(error);
+        ELog(error);
     }
 }
 
 #pragma mark - UIAlertView delegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
 {
-    if (alertView.tag == LEGAL_NOTICE_ALERT_TAG)
-    {
-        if (buttonIndex == 1)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM Name:", @"")
-                                                            message:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
-            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-            alert.tag = NAME_ROM_ALERT_TAG;
-            
-            [alert show];
-        }
-        else
-        {
-            [self cancelDownload];
-        }
-    }
-    else if (alertView.tag == NAME_ROM_ALERT_TAG)
-    {
-        if (buttonIndex == 1)
-        {
-            NSString *filename = [[alertView textFieldAtIndex:0] text];
-            [self startDownloadWithFilename:filename];
-        }
-        else
-        {
-            [self cancelDownload];
-        }
-    }
-    else if (alertView.tag == DELETE_ROM_ALERT_TAG)
-    {
-    }
-}
-
-- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView // Not working in iOS 7, hoping for fix http://openradar.appspot.com/14387317
-{
-    //UITextField *textField = [alertView textFieldAtIndex:0];
-    //return [textField.text length] > 0;
-    
-    return YES;
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    return [textField.text length] > 0;
 }
 
 #pragma mark - Private
@@ -435,14 +498,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     NSString *filepath = [self filepathForIndexPath:indexPath];
     
-    GBAEmulationViewController *emulationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
-    emulationViewController.romFilepath = filepath;
+    GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROMFilepath:filepath];
     emulationViewController.skinFilepath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"Default"];
     
     if ([emulationViewController respondsToSelector:@selector(setTransitioningDelegate:)])
     {
         emulationViewController.transitioningDelegate = self;
-        emulationViewController.modalPresentationStyle = UIModalPresentationCustom;
     }
     
     [self presentViewController:emulationViewController animated:YES completion:NULL];
@@ -455,7 +516,10 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test" message:@"AWESOME" cancelButtonTitle:@"Cancel" otherButtonTitles:@"SWEET", @"COOL", nil];
-        [alert showWithCompletionHandler:^(UIAlertView *alertView, NSInteger buttonIndex)
+        UIView *contentView = [alert valueForKey:@"contentViewNeue"];
+        
+        [contentView addSubview:[[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 200, 44)]];
+        [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex)
         {
             if (buttonIndex == 0)
             {
@@ -473,11 +537,57 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     }
 }
 
-#pragma mark - Presenting Emulation View Controller
+#pragma mark - Presenting/Dismissing Emulation View Controller
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-    return [[GBAPresentEmulationViewControllerAnimator alloc] init];
+    GBAPresentEmulationViewControllerAnimator *animator = [[GBAPresentEmulationViewControllerAnimator alloc] init];
+    
+    animator.completionBlock = ^{
+        [self removeViewControllerFromBackground];
+    };
+    return animator;
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    GBAPresentMenuViewControllerAnimator *animator = [[GBAPresentMenuViewControllerAnimator alloc] init];
+    
+    __weak GBAPresentMenuViewControllerAnimator *weakAnimator = animator;
+    
+    animator.completionBlock = ^{
+        [self placeViewControllerInBackground:weakAnimator.emulationViewController];
+    };
+    self.theme = GBAROMTableViewControllerThemeTranslucent;
+    
+    return animator;
+}
+
+- (void)placeViewControllerInBackground:(UIViewController *)viewController
+{
+    UIView *view = viewController.view;
+    view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    [viewController willMoveToParentViewController:self];
+    [self addChildViewController:viewController];
+    [self.tableView.backgroundView insertSubview:view atIndex:0];
+    [viewController willMoveToParentViewController:self];
+    [viewController didMoveToParentViewController:self];
+    
+    self.backgroundViewController = viewController;
+}
+
+- (void)removeViewControllerFromBackground
+{
+    UIView *view = self.backgroundViewController.view;
+    
+    [self.backgroundViewController willMoveToParentViewController:nil];
+    [self.backgroundViewController removeFromParentViewController];
+    [view removeFromSuperview];
+    [self.backgroundViewController willMoveToParentViewController:nil];
+    [self.backgroundViewController didMoveToParentViewController:nil];
+    
+    self.backgroundViewController = nil;
 }
 
 #pragma mark - IBActions
@@ -506,6 +616,13 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
+- (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem
+{
+    GBASettingsViewController *settingsViewController = [[GBASettingsViewController alloc] init];
+    
+    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController) animated:YES completion:NULL];
+}
+
 #pragma mark - Getters/Setters
 
 - (void)setRomType:(GBAROMType)romType
@@ -530,7 +647,37 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     _romType = romType;
 }
 
-
+- (void)setTheme:(GBAROMTableViewControllerTheme)theme
+{
+    if (_theme == theme)
+    {
+        return;
+    }
+    
+    _theme = theme;
+    
+    switch (theme) {
+        case GBAROMTableViewControllerThemeTranslucent: {
+            self.tableView.backgroundColor = [UIColor clearColor];
+            
+            UIView *view = [[UIView alloc] init];
+            view.backgroundColor = [UIColor clearColor];
+            
+            self.tableView.backgroundView = view;
+            
+            self.tableView.rowHeight = 600;
+            
+            break;
+        }
+            
+        case GBAROMTableViewControllerThemeOpaque:
+            self.tableView.backgroundColor = [UIColor whiteColor];
+            self.tableView.backgroundView = nil;
+            break;
+    }
+    
+    [self.tableView reloadData];
+}
 
 
 @end

@@ -1,5 +1,5 @@
 //
-//  GBAControllerView.m
+//  GBAController.m
 //  GBA4iOS
 //
 //  Created by Riley Testut on 7/27/13.
@@ -28,7 +28,7 @@ static NSString *GBAScreenTypeRetina = @"Retina";
 static NSString *GBAScreenTypeRetina4 = @"Retina 4";
 static NSString *GBAScreenTypeiPad = @"iPad";
 
-@interface GBAController ()
+@interface GBAController () <UIGestureRecognizerDelegate>
 
 @property (copy, nonatomic) NSDictionary *infoDictionary;
 @property (strong, nonatomic) UIImageView *imageView;
@@ -70,13 +70,14 @@ static NSString *GBAScreenTypeiPad = @"iPad";
     self.multipleTouchEnabled = YES;
     self.backgroundColor = [UIColor clearColor];
     
+    self.exclusiveTouch = YES;
+    
     self.imageView = ({
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [self addSubview:imageView];
         imageView;
     });
-    
     self.orientation = GBAControllerOrientationPortrait;
 }
 
@@ -108,15 +109,45 @@ static unsigned long pressedButtons;
 static unsigned long newtouches[15];
 static unsigned long oldtouches[15];
 
-- (void)touchesBegan:(NSSet *)t withEvent:(UIEvent *)event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"WTF");
+    [self handleTouchEvent:event];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[self handleTouchEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[self handleTouchEvent:event];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject]; // Only get the new touch
+    CGPoint location = [touch locationInView:self];
+    
+    if (location.y > CGRectGetHeight(self.bounds) - 20.0f)
+    {
+        // Need to run on next run loop, because Apple delays touches in the bottom 20 pixels for Control Center
+        [self performSelector:@selector(handleTouchEvent:) withObject:event afterDelay:0.15];
+    }
+    else
+    {
+        [self handleTouchEvent:event];
+    }
+}
+
+- (void)handleTouchEvent:(UIEvent *)event
+{
     
     // Oh man, the hours I spent trying to debug this because I didn't realize t only returns the CHANGED touches, while [event allTouches] actually has all touches
     NSSet *touches = [event allTouches];
-        
+    
 	int touchstate[15];
-
+    
 	int touchcount = [touches count];
 	
 	for (int i = 0; i < 10; i++)
@@ -228,7 +259,7 @@ static unsigned long oldtouches[15];
 			}
 			else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectMenu], point))
 			{
-                //[emulatorViewController pauseMenu];
+                [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 			}
 			
 			if(oldtouches[i] != newtouches[i])
@@ -237,7 +268,7 @@ static unsigned long oldtouches[15];
 			}
 		}
 	}
-
+    
     
 	for (int i = 0; i < 10; i++)
 	{
@@ -257,30 +288,18 @@ static unsigned long oldtouches[15];
     }
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self touchesBegan:touches withEvent:event];
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self touchesBegan:touches withEvent:event];
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self touchesBegan:touches withEvent:event];
-}
-
 #pragma mark - Public
 
 - (void)showButtonRects
 {
     self.overlayView = (
-    {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
-        view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        view.userInteractionEnabled = NO;
-        [self addSubview:view];
-        view;
-    });
+                        {
+                            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+                            view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+                            view.userInteractionEnabled = NO;
+                            [self addSubview:view];
+                            view;
+                        });
     
     void(^AddOverlayForButton)(GBAControllerRect button) = ^(GBAControllerRect button)
     {

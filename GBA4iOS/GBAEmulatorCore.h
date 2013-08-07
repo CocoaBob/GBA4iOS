@@ -16,11 +16,14 @@
 @interface GBAEmulatorCore : NSObject
 
 @property (readonly, strong, nonatomic) EAGLView *eaglView;
-@property (readonly, copy, nonatomic) NSString *romFilepath;
+@property (copy, nonatomic) NSString *romFilepath;
 
-- (instancetype)initWithROMFilepath:(NSString *)romFilepath;
++ (instancetype)sharedCore;
 
-- (void)start;
+- (void)startEmulation;
+- (void)pauseEmulation;
+- (void)resumeEmulation;
+- (void)endEmulation;
 
 - (void)setSelectedButtons:(GBAControllerButton)buttons;
 

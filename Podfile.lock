@@ -1,5 +1,6 @@
 PODS:
   - NJKWebViewProgress (0.1.6)
+  - RSTActionSheet (1.0)
   - RSTAlertView (1.0)
   - RSTFileBrowserViewController (0.1)
   - RSTWebViewController (0.1):
@@ -7,12 +8,15 @@ PODS:
   - SSZipArchive (0.2.5)
 
 DEPENDENCIES:
+  - RSTActionSheet (from `/Users/riley.testut/Dropbox/Developer/RSTUtilities/RSTActionSheet`)
   - RSTAlertView (from `/Users/riley.testut/Dropbox/Developer/RSTUtilities/RSTAlertView`)
   - RSTFileBrowserViewController (from `/Users/riley.testut/Dropbox/Developer/RSTUtilities/RSTFileBrowserViewController`)
   - RSTWebViewController (from `/Users/riley.testut/Dropbox/Developer/RSTUtilities/RSTWebViewController`)
   - SSZipArchive
 
 EXTERNAL SOURCES:
+  RSTActionSheet:
+    :path: /Users/riley.testut/Dropbox/Developer/RSTUtilities/RSTActionSheet
   RSTAlertView:
     :path: /Users/riley.testut/Dropbox/Developer/RSTUtilities/RSTAlertView
   RSTFileBrowserViewController:
@@ -22,6 +26,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   NJKWebViewProgress: 5181e8af629e60e8dd48c8b738b39e89eeecb351
+  RSTActionSheet: 38ab33ff2f59d0e277c5e4301ba5ecfcb9d01e5a
   RSTAlertView: fe1aa23b517f6a4fd6fcc91d3aa5d0e0bff0cfcc
   RSTFileBrowserViewController: 8b5a87bf67bf5f9681210f854f5fc04bed6162a9
   RSTWebViewController: 7f424fc92a61625e354293bf37eccf87c06c4431

@@ -11,7 +11,11 @@
 
 @interface GBAEmulationViewController : UIViewController
 
-@property (copy, nonatomic) NSString *romFilepath;
+@property (readonly, nonatomic) NSString *romFilepath;
 @property (copy, nonatomic) NSString *skinFilepath;
+@property (strong, nonatomic) UIImageView *blurredSnapshot;
+@property (assign, nonatomic) BOOL showBlurredSnapshot;
+
+- (instancetype)initWithROMFilepath:(NSString *)romFilepath;
 
 @end

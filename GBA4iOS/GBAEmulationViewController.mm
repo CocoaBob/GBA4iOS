@@ -10,22 +10,40 @@
 #import "GBAEmulatorCore.h"
 #import "GBAEmulatorScreen.h"
 #import "GBAController.h"
+#import "UIImage+ImageEffects.h"
+
+#import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
+
+//#define USE_INCLUDED_UI
 
 @interface GBAEmulationViewController ()
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAController *controller;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
-
-#if !(TARGET_IPHONE_SIMULATOR)
-@property (strong, nonatomic) GBAEmulatorCore *emulatorCore;
-#endif
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 
 @end
 
 @implementation GBAEmulationViewController
 
 #pragma mark - UIViewController subclass
+
+- (instancetype)initWithROMFilepath:(NSString *)romFilepath
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
+    if (self)
+    {
+        _romFilepath = [romFilepath copy];
+        
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] setRomFilepath:romFilepath];
+#endif
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -37,25 +55,34 @@
     
     self.controller.skinFilepath = self.skinFilepath;
     [self.controller addTarget:self action:@selector(selectedControllerButtonsDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.controller addTarget:self action:@selector(pauseEmulation:) forControlEvents:UIControlEventTouchUpInside];
     
-    // [self.controller showButtonRects];
+#if !(TARGET_IPHONE_SIMULATOR)
+    self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
+#endif
+    
+    [self startEmulation];
+    
+#ifdef USE_INCLUDED_UI
+    
+    self.controller.hidden = YES;
+    self.emulatorScreen.clipsToBounds = NO;
+    [self.contentView addSubview:self.emulatorScreen];
+    self.emulatorScreen.frame = ({
+        CGRect frame = self.emulatorScreen.frame;
+        frame.origin.y = 0;
+        frame;
+    });
+    self.emulatorScreen.backgroundColor = [UIColor redColor];
+    
+#endif
+    
+    //[self.controller showButtonRects];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-#if !(TARGET_IPHONE_SIMULATOR)
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        self.emulatorCore = [[GBAEmulatorCore alloc] initWithROMFilepath:_romFilepath];
-        self.emulatorScreen.eaglView = _emulatorCore.eaglView;
-        
-        [self startEmulation];
-        
-    });
-#endif
     
     if (![self.view respondsToSelector:@selector(setTintColor:)])
     {
@@ -82,9 +109,49 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+#pragma mark - Controls
+
+- (void)selectedControllerButtonsDidChange:(GBAController *)controller
+{
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] setSelectedButtons:controller.pressedButtons];
+#endif
+}
+
+extern void restoreMenuFromGame();
+
+- (void)pauseEmulation:(GBAController *)controller
+{
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] pauseEmulation];
+#endif
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                                    otherButtonTitles:NSLocalizedString(@"Fast Forward", @""), NSLocalizedString(@"Save State", @""), NSLocalizedString(@"Load State", @""), NSLocalizedString(@"Cheats", @""), nil];
+    [actionSheet showInView:self.view completion:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+        if (buttonIndex == 0)
+        {
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+        }
+        else {
+#if !(TARGET_IPHONE_SIMULATOR)
+            [[GBAEmulatorCore sharedCore] resumeEmulation];
+#endif
+        }
+    }];
 }
 
 #pragma mark - Layout
@@ -99,16 +166,89 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-#pragma mark Controls
+#define ROTATION_SHAPSHOT_TAG 13
 
-- (void)selectedControllerButtonsDidChange:(GBAController *)controller
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-    [self.emulatorCore setSelectedButtons:controller.pressedButtons];
-#endif
+    if ([self.view respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)] && (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) != UIInterfaceOrientationIsPortrait(toInterfaceOrientation)))
+    {
+        UIView *snapshotView = [self.controller snapshotViewAfterScreenUpdates:NO];
+        snapshotView.frame = self.controller.frame;
+        snapshotView.tag = ROTATION_SHAPSHOT_TAG;
+        snapshotView.alpha = 1.0;
+        
+        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        {
+            self.controller.alpha = 0.0;
+            [self.contentView insertSubview:snapshotView belowSubview:self.controller];
+        }
+        else
+        {
+            [self.contentView addSubview:snapshotView];
+        }
+    }
 }
 
-/*- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if ([self.view respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
+    {
+        UIView *snapshotView = [self.view viewWithTag:ROTATION_SHAPSHOT_TAG];
+        snapshotView.alpha = 0.0;
+        snapshotView.frame = self.controller.frame;
+        
+        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        {
+            self.controller.alpha = 1.0;
+        }
+        
+    }
+    
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if ([self.view respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
+    {
+        UIView *snapshotView = [self.view viewWithTag:ROTATION_SHAPSHOT_TAG];
+        [snapshotView removeFromSuperview];
+    }
+}
+
+- (void)viewWillLayoutSubviews
+{
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+    {
+        if ([[self.contentView constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
+        {
+            
+            [self.contentView addConstraint:self.portraitBottomLayoutConstraint];
+        }
+        self.controller.orientation = GBAControllerOrientationPortrait;
+    }
+    else
+    {
+        if ([[self.contentView constraints] containsObject:self.portraitBottomLayoutConstraint])
+        {
+            [self.contentView removeConstraint:self.portraitBottomLayoutConstraint];
+        }
+        self.controller.orientation = GBAControllerOrientationLandscape;
+        [UIView performWithoutAnimation:^{
+            self.controller.alpha = 0.5f;
+        }];
+    }
+    
+    if (self.showBlurredSnapshot)
+    {
+        [self updateBlurredSnapshot];
+    }
+}
+
+#ifdef USE_INCLUDED_UI
+
+#pragma mark - Included UI
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.emulatorScreen.eaglView touchesBegan:touches withEvent:event];
 }
@@ -126,77 +266,69 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.emulatorScreen.eaglView touchesEnded:touches withEvent:event];
-}*/
-
-#define ROTATION_SHAPSHOT_TAG 13
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if ([self.view respondsToSelector:@selector(snapshotView)] && (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) != UIInterfaceOrientationIsPortrait(toInterfaceOrientation)))
-    {
-        UIView *snapshotView = [self.view snapshotView];
-        snapshotView.transform = self.view.transform;
-        snapshotView.frame = self.view.frame;
-        snapshotView.tag = ROTATION_SHAPSHOT_TAG;
-        
-        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-        [window addSubview:snapshotView];
-        
-        self.view.alpha = 0.0;
-    }
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if ([self.view respondsToSelector:@selector(snapshotView)])
-    {
-        UIView *snapshotView = [[[UIApplication sharedApplication] keyWindow] viewWithTag:ROTATION_SHAPSHOT_TAG];
-        snapshotView.alpha = 0.0;
-        self.view.alpha = 1.0;
-    }
-    
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    if ([self.view respondsToSelector:@selector(snapshotView)])
-    {
-        UIView *snapshotView = [[[UIApplication sharedApplication] keyWindow] viewWithTag:ROTATION_SHAPSHOT_TAG];
-        [snapshotView removeFromSuperview];
-    }
-}
-
-- (void)viewWillLayoutSubviews
-{
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-    {
-        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
-        {
-            [self.view addConstraint:self.portraitBottomLayoutConstraint];
-        }
-        
-        self.controller.orientation = GBAControllerOrientationPortrait;
-        self.controller.alpha = 1.0f;
-    }
-    else
-    {
-        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
-        {
-            [self.view removeConstraint:self.portraitBottomLayoutConstraint];
-        }
-        
-        self.controller.orientation = GBAControllerOrientationLandscape;
-        self.controller.alpha = 0.5f;
-    }
-}
+#endif
 
 #pragma mark - Emulation
 
 - (void)startEmulation
 {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [self.emulatorCore start];
+    [[GBAEmulatorCore sharedCore] startEmulation];
 #endif
 }
 
+#pragma mark - Blurring
+
+- (void)setShowBlurredSnapshot:(BOOL)showBlurredSnapshot
+{
+    if (_showBlurredSnapshot == showBlurredSnapshot)
+    {
+        return;
+    }
+    
+    _showBlurredSnapshot = showBlurredSnapshot;
+    
+    if (showBlurredSnapshot)
+    {
+        self.blurredSnapshot = ({
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+            imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            imageView.userInteractionEnabled = YES;
+            [self.view addSubview:imageView];
+            imageView;
+        });
+        
+        [self updateBlurredSnapshot];
+        
+    }
+    else
+    {
+        [self.blurredSnapshot removeFromSuperview];
+        self.blurredSnapshot = nil;
+    }
+}
+
+- (void)updateBlurredSnapshot
+{
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, [[UIScreen mainScreen] scale]);
+    [self.contentView drawViewHierarchyInRect:CGRectMake(0, 0, CGRectGetWidth(self.contentView.bounds), CGRectGetHeight(self.contentView.bounds)) afterScreenUpdates:NO];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.blurredSnapshot.image = [image applyDarkEffect];
+}
+
 @end
+
+
+
+
+
+
+
+
+
+
+

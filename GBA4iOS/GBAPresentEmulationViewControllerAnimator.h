@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^GBAPresentEmulationCompletionBlock)(void);
+
 @interface GBAPresentEmulationViewControllerAnimator : NSObject <UIViewControllerAnimatedTransitioning>
+
+@property (copy, nonatomic) GBAPresentEmulationCompletionBlock completionBlock;
 
 @end

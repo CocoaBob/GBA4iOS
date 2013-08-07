@@ -7,6 +7,7 @@
 //
 
 #import "GBAAppDelegate.h"
+#import "GBASettingsViewController.h"
 
 #import "EAGLView_Private.h"
 #import "GBAEmulatorCore.h"
@@ -18,7 +19,10 @@
     if ([self.window respondsToSelector:@selector(setTintColor:)])
     {
         self.window.tintColor = [UIColor purpleColor];
+        [[UISwitch appearance] setOnTintColor:[UIColor purpleColor]]; // Apparently UISwitches don't inherit tint color from superview
     }
+    
+    [GBASettingsViewController registerDefaults];
     
     return YES;
 }
