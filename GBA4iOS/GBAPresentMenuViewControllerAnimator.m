@@ -46,7 +46,7 @@
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
         destinationView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
         destinationView.alpha = 1.0f;
-       // initialView.transform = CGAffineTransformMakeScale(0.75f, 0.75f);
+        initialView.transform = CGAffineTransformMakeScale(0.50f, 0.50f);
         initialViewController.blurAlpha = 1.0f;
     } completion:^(BOOL finished) {
         

@@ -113,7 +113,7 @@ static unsigned long oldtouches[15];
 {
     if ([[touches anyObject] tapCount] > 1)
     {
-        [self sendActionsForControlEvents:UIControlEventTouchUpInside];
+        //[self sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
     [self handleTouchEvent:event];
 }

@@ -553,7 +553,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     animator.completionBlock = ^{
         [self placeViewControllerInBackground:weakAnimator.emulationViewController];
     };
-    self.theme = GBAROMTableViewControllerThemeTranslucent;
+    //self.theme = GBAROMTableViewControllerThemeTranslucent;
     
     return animator;
 }
