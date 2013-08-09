@@ -8,6 +8,12 @@
 
 #import "RSTFileBrowserViewController.h"
 
+typedef NS_ENUM(NSInteger, GBAROMTableViewControllerTheme)
+{
+    GBAROMTableViewControllerThemeOpaque = 0,
+    GBAROMTableViewControllerThemeTranslucent = 1,
+};
+
 @interface GBAROMTableViewController : RSTFileBrowserViewController
 
 @end

@@ -7,10 +7,12 @@
 //
 
 #import "GBATransparentTableViewHeaderFooterView.h"
+#import "GBAROMTableViewController.h"
 
 @interface GBATransparentTableViewHeaderFooterView ()
 
 @property (strong, nonatomic) UIView *originalBackgroundView;
+@property (strong, nonatomic) UIView *translucentBackgroundView;
 
 @end
 
@@ -25,13 +27,31 @@
         
         self.originalBackgroundView = [self.backgroundView snapshotViewAfterScreenUpdates:NO];
         
-        UIView *background = [[UIView alloc] init];
-        background.backgroundColor = [UIColor clearColor];
-        self.backgroundView = nil;
-        self.backgroundView = self.originalBackgroundView;
+        self.translucentBackgroundView = ({
+            UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+            view.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1.0];
+            view;
+        });
     }
     
     return self;
+}
+
+- (void)setTheme:(GBAROMTableViewControllerTheme)theme
+{
+    _theme = theme;
+    
+    switch (theme) {
+        case GBAROMTableViewControllerThemeOpaque:
+            self.backgroundView = self.originalBackgroundView;
+            break;
+            
+        case GBAROMTableViewControllerThemeTranslucent: {
+            self.tintColor = [UIColor clearColor];
+            self.backgroundView = self.translucentBackgroundView;
+            break;
+        }
+    }
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "GBAPresentMenuViewControllerAnimator.h"
+@import QuartzCore;
 
 @implementation GBAPresentMenuViewControllerAnimator
 
@@ -17,19 +18,23 @@
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-    
     UIViewController *destinationViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     GBAEmulationViewController *initialViewController = (GBAEmulationViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    initialViewController.showBlurredSnapshot = YES;
-    initialViewController.blurredSnapshot.alpha = 0.0;
+    [initialViewController blurWithInitialAlpha:0.0];
     
     UIView *destinationView = [destinationViewController view];
     UIView *initialView = [initialViewController view];
     
     initialView.frame = [transitionContext initialFrameForViewController:initialViewController];
+    initialView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     initialView.alpha = 1.0f;
     [[transitionContext containerView] addSubview:initialView];
+    
+    initialView.frame = ({
+        CGRect frame = initialView.frame;
+        frame.origin.y = 0.5; // Can't be zero, I have no idea why
+        frame;
+    });
     
     destinationView.frame = [transitionContext initialFrameForViewController:initialViewController];
     destinationView.transform = CGAffineTransformMakeScale(2.0f, 2.0f);
@@ -41,7 +46,8 @@
     [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
         destinationView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
         destinationView.alpha = 1.0f;
-        initialViewController.blurredSnapshot.alpha = 1.0f;
+       // initialView.transform = CGAffineTransformMakeScale(0.75f, 0.75f);
+        initialViewController.blurAlpha = 1.0f;
     } completion:^(BOOL finished) {
         
         if (self.completionBlock)

@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GBAROMTableViewController.h"
 
 extern NSString *const GBASettingsDidChangeNotification;
 
 @interface GBASettingsViewController : UITableViewController
+
+@property (assign, nonatomic) GBAROMTableViewControllerTheme theme;
 
 + (void)registerDefaults;
 

@@ -111,6 +111,10 @@ static unsigned long oldtouches[15];
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if ([[touches anyObject] tapCount] > 1)
+    {
+        [self sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }
     [self handleTouchEvent:event];
 }
 
@@ -126,18 +130,7 @@ static unsigned long oldtouches[15];
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch *touch = [touches anyObject]; // Only get the new touch
-    CGPoint location = [touch locationInView:self];
-    
-    if (location.y > CGRectGetHeight(self.bounds) - 20.0f)
-    {
-        // Need to run on next run loop, because Apple delays touches in the bottom 20 pixels for Control Center
-        [self performSelector:@selector(handleTouchEvent:) withObject:event afterDelay:0.15];
-    }
-    else
-    {
-        [self handleTouchEvent:event];
-    }
+    [self handleTouchEvent:event];
 }
 
 - (void)handleTouchEvent:(UIEvent *)event

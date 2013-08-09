@@ -13,9 +13,11 @@
 
 @property (readonly, nonatomic) NSString *romFilepath;
 @property (copy, nonatomic) NSString *skinFilepath;
-@property (strong, nonatomic) UIImageView *blurredSnapshot;
-@property (assign, nonatomic) BOOL showBlurredSnapshot;
+@property (assign, nonatomic) CGFloat blurAlpha;
 
 - (instancetype)initWithROMFilepath:(NSString *)romFilepath;
+
+- (void)blurWithInitialAlpha:(CGFloat)alpha;
+- (void)removeBlur;
 
 @end

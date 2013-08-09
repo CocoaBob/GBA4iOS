@@ -16,9 +16,7 @@
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
-{
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-    
+{    
     UIViewController *destinationViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIViewController *initialViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     

@@ -22,6 +22,11 @@
 @property (strong, nonatomic) IBOutlet GBAController *controller;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIView *screenContainerView;
+
+@property (assign, nonatomic) BOOL blurringContents;
+@property (strong, nonatomic) UIImageView *blurredScreenImageView;
+@property (strong, nonatomic) UIImageView *blurredControllerImageView;
 
 @end
 
@@ -216,7 +221,7 @@ extern void restoreMenuFromGame();
 }
 
 - (void)viewWillLayoutSubviews
-{
+{    
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
     {
         if ([[self.contentView constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
@@ -236,11 +241,6 @@ extern void restoreMenuFromGame();
         [UIView performWithoutAnimation:^{
             self.controller.alpha = 0.5f;
         }];
-    }
-    
-    if (self.showBlurredSnapshot)
-    {
-        [self updateBlurredSnapshot];
     }
 }
 
@@ -281,44 +281,73 @@ extern void restoreMenuFromGame();
 
 #pragma mark - Blurring
 
-- (void)setShowBlurredSnapshot:(BOOL)showBlurredSnapshot
+- (void)blurWithInitialAlpha:(CGFloat)alpha
 {
-    if (_showBlurredSnapshot == showBlurredSnapshot)
-    {
-        return;
-    }
+    self.blurredScreenImageView = ({
+        UIImage *blurredImage = [self blurredImageFromView:self.screenContainerView];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
+        [imageView sizeToFit];
+        imageView.center = self.emulatorScreen.center;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.alpha = alpha;
+        [self.screenContainerView.superview addSubview:imageView];
+        imageView;
+    });
     
-    _showBlurredSnapshot = showBlurredSnapshot;
+    self.blurredControllerImageView = ({
+        UIImage *blurredImage = [self blurredImageFromView:self.controller];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
+        [imageView sizeToFit];
+        imageView.center = self.controller.center;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.alpha = alpha;
+        [self.controller.superview addSubview:imageView];
+        imageView;
+    });
     
-    if (showBlurredSnapshot)
-    {
-        self.blurredSnapshot = ({
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-            imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-            imageView.userInteractionEnabled = YES;
-            [self.view addSubview:imageView];
-            imageView;
-        });
-        
-        [self updateBlurredSnapshot];
-        
-    }
-    else
-    {
-        [self.blurredSnapshot removeFromSuperview];
-        self.blurredSnapshot = nil;
-    }
+    self.blurringContents = YES;
 }
 
-- (void)updateBlurredSnapshot
+- (void)removeBlur
 {
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, [[UIScreen mainScreen] scale]);
-    [self.contentView drawViewHierarchyInRect:CGRectMake(0, 0, CGRectGetWidth(self.contentView.bounds), CGRectGetHeight(self.contentView.bounds)) afterScreenUpdates:NO];
+    self.blurringContents = NO;
+    
+    [self.blurredControllerImageView removeFromSuperview];
+    self.blurredControllerImageView = nil;
+    
+    [self.blurredScreenImageView removeFromSuperview];
+    self.blurredScreenImageView = nil;
+}
+
+- (void)setBlurAlpha:(CGFloat)blurAlpha
+{
+    _blurAlpha = blurAlpha;
+    self.blurredScreenImageView.alpha = blurAlpha;
+    self.blurredControllerImageView.alpha = blurAlpha;
+}
+
+- (UIImage *)blurredImageFromView:(UIView *)view
+{
+    CGFloat edgeExtension = 10;
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(view.bounds.size.width + edgeExtension * 2, view.bounds.size.height + edgeExtension * 2), YES, [[UIScreen mainScreen] scale]);
+    [view drawViewHierarchyInRect:CGRectMake(edgeExtension, edgeExtension, CGRectGetWidth(view.bounds), CGRectGetHeight(view.bounds)) afterScreenUpdates:NO];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    self.blurredSnapshot.image = [image applyDarkEffect];
+    UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
+    return [image applyBlurWithRadius:10 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
+
+
+
+
+
+
+
+
+
+
 
 @end
 

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "GBAROMTableViewController.h"
+
 @interface GBATransparentTableViewHeaderFooterView : UITableViewHeaderFooterView
+
+@property (assign, nonatomic) GBAROMTableViewControllerTheme theme;
 
 @end

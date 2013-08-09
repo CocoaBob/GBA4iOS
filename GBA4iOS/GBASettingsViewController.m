@@ -40,6 +40,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     [super viewDidLoad];
     
     [self updateControls];
+    
+    [self setTheme:self.theme];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,7 +87,63 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
+    switch (self.theme) {
+        case GBAROMTableViewControllerThemeOpaque:
+            cell.backgroundColor = [UIColor whiteColor];
+            cell.textLabel.textColor = [UIColor blackColor];
+            cell.textLabel.backgroundColor = [UIColor whiteColor];
+            cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
+            break;
+            
+        case GBAROMTableViewControllerThemeTranslucent: {
+            cell.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.5];
+            cell.textLabel.textColor = [UIColor whiteColor];
+            cell.detailTextLabel.textColor = [UIColor blackColor];
+            cell.textLabel.backgroundColor = [UIColor clearColor];
+            cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+            break;
+        }
+    }
+    
     return cell;
+}
+
+#pragma mark - Theming
+
+- (void)setTheme:(GBAROMTableViewControllerTheme)theme
+{
+    _theme = theme;
+    
+    if (![self isViewLoaded])
+    {
+        return;
+    }
+    
+    switch (theme) {
+        case GBAROMTableViewControllerThemeTranslucent: {
+            self.tableView.backgroundColor = [UIColor clearColor];
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            
+            UIView *view = [[UIView alloc] init];
+            view.backgroundColor = [UIColor clearColor];
+            
+            self.tableView.backgroundView = view;
+            
+            //self.tableView.rowHeight = 600;
+            
+            break;
+        }
+            
+        case GBAROMTableViewControllerThemeOpaque:
+            self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+            self.tableView.backgroundView = nil;
+            self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+            
+            
+            break;
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - IBActions

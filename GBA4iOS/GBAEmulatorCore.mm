@@ -350,7 +350,7 @@ namespace GameFilePicker {
 - (void)prepareEmulation
 {
     
-    Base::setStatusBarHidden(YES);
+    //Base::setStatusBarHidden(YES);
     
     using namespace Base;
 	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];

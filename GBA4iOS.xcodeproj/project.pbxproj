@@ -608,7 +608,6 @@
 				CCFA493517B00F5100386A43 /* Views */,
 				CCE3CDFA17AE9E5000FAB9C8 /* View Controllers */,
 				CC86825117A6DCC600686607 /* Custom Transitions */,
-				CC347BAF17A3C95500309436 /* Controller */,
 				CC1578A6179D051E0068A54E /* Emulator Code */,
 				CCC17744179FC7B200AB529A /* Categories */,
 				CC2D57061798F2EC00C616EB /* Supporting Files */,
@@ -734,6 +733,7 @@
 			children = (
 				CCFA493617B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.h */,
 				CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */,
+				CC347BAF17A3C95500309436 /* Controller */,
 			);
 			name = Views;
 			sourceTree = "<group>";

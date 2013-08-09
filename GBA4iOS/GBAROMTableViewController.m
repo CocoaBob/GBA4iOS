@@ -22,12 +22,6 @@
 #define NAME_ROM_ALERT_TAG 17
 #define DELETE_ROM_ALERT_TAG 2
 
-typedef NS_ENUM(NSInteger, GBAROMTableViewControllerTheme)
-{
-    GBAROMTableViewControllerThemeOpaque = 0,
-    GBAROMTableViewControllerThemeTranslucent = 1,
-};;
-
 
 #define RST_CONTAIN_IN_NAVIGATION_CONTROLLER(viewController)  ({ UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController]; navigationController; })
 
@@ -348,6 +342,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     GBATransparentTableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Header"];
     headerView.textLabel.text = [super tableView:tableView titleForHeaderInSection:section];
+    headerView.theme = self.theme;
     
     return headerView;
 }
@@ -619,7 +614,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem
 {
     GBASettingsViewController *settingsViewController = [[GBASettingsViewController alloc] init];
-    
+    settingsViewController.theme = self.theme;
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController) animated:YES completion:NULL];
 }
 
@@ -659,13 +654,17 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     switch (theme) {
         case GBAROMTableViewControllerThemeTranslucent: {
             self.tableView.backgroundColor = [UIColor clearColor];
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             
             UIView *view = [[UIView alloc] init];
             view.backgroundColor = [UIColor clearColor];
             
             self.tableView.backgroundView = view;
             
-            self.tableView.rowHeight = 600;
+            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateNormal];
+            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateSelected];
+            
+            //self.tableView.rowHeight = 600;
             
             break;
         }
@@ -673,6 +672,9 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         case GBAROMTableViewControllerThemeOpaque:
             self.tableView.backgroundColor = [UIColor whiteColor];
             self.tableView.backgroundView = nil;
+            self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+            
+            
             break;
     }
     
