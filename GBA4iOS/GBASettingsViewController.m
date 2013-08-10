@@ -59,7 +59,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 + (void)registerDefaults
 {
     NSDictionary *defaults = @{@"frameSkip": @(-1),
-                               @"autoSave": @(1)};
+                               @"autoSave": @(1),
+                               @"vibrate": @YES};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     

@@ -449,172 +449,22 @@ namespace GameFilePicker {
 
 extern SysVController vController;
 
-- (void)setSelectedButtons:(GBAControllerButton)buttons
+- (void)pressButtons:(NSSet *)buttons
 {
-    NSMutableSet *pressedButtons = [NSMutableSet setWithCapacity:15];
-        
-    // Up
-    if (buttons & GBAControllerButtonUp)
+    for (NSNumber *button in buttons)
     {
-        [pressedButtons addObject:@(GBAControllerButtonUp)];
-    }
-    
-    // Right
-    if (buttons & GBAControllerButtonRight)
-    {
-        [pressedButtons addObject:@(GBAControllerButtonRight)];
-    }
-    
-    // Down
-    if (buttons & GBAControllerButtonDown)
-    {
-        [pressedButtons addObject:@(GBAControllerButtonDown)];
-    }
-    
-    // Left
-    if (buttons & GBAControllerButtonLeft)
-    {
-        NSLog(@"Left");
-        [pressedButtons addObject:@(GBAControllerButtonLeft)];
-    }
-    
-    // A
-    if (buttons & GBAControllerButtonA)
-    {
-        [pressedButtons addObject:@(GBAControllerButtonA)];
-    }
-    
-    // B
-    if (buttons & GBAControllerButtonB)
-    {
-        [pressedButtons addObject:@(GBAControllerButtonB)];
-    }
-    
-    // Start
-    if (buttons & GBAControllerButtonStart)
-    {
-        NSLog(@"Start");
-        [pressedButtons addObject:@(GBAControllerButtonStart)];
-    }
-    
-    // Select
-    if (buttons & GBAControllerButtonSelect)
-    {
-        [pressedButtons addObject:@(GBAControllerButtonSelect)];
-    }
-    
-    // L
-    if (buttons & GBAControllerButtonL)
-    {
-        [pressedButtons addObject:@(GBAControllerButtonL)];
-    }
-    
-    // R
-    if (buttons & GBAControllerButtonR)
-    {
-        [pressedButtons addObject:@(GBAControllerButtonR)];
-    }
-    
-    [self updatePressedButtonsWithSet:pressedButtons];
-    
-    self.previousButtons = pressedButtons;
-}
-
-- (void)updatePressedButtonsWithSet:(NSSet *)pressedButtons
-{
-    for (NSNumber *button in pressedButtons)
-    {
-        if (![self.previousButtons containsObject:button])
-        {
-            NSInteger identifier = [self identifierForButton:(GBAControllerButton)[button integerValue]];
-            
-            NSLog(@"Pressed");
-            
-            vController.inputAction(Input::PUSHED, identifier);
-        }
-    }
-    
-    NSMutableSet *releasedButtons = [[NSMutableSet alloc] initWithObjects:
-                                     @(GBAControllerButtonUp),
-                                     @(GBAControllerButtonRight),
-                                     @(GBAControllerButtonDown),
-                                     @(GBAControllerButtonLeft),
-                                     @(GBAControllerButtonA),
-                                     @(GBAControllerButtonB),
-                                     @(GBAControllerButtonStart),
-                                     @(GBAControllerButtonSelect),
-                                     @(GBAControllerButtonL),
-                                     @(GBAControllerButtonR), nil];
-        
-    for (NSNumber *button in pressedButtons) {
-        [releasedButtons removeObject:button];
-    }
-    
-    for (NSNumber *button in releasedButtons)
-    {
-        if ([self.previousButtons containsObject:button])
-        {
-            if ([button integerValue] == 4)
-            {
-                NSLog(@"What");
-            }
-            
-            NSInteger identifier = [self identifierForButton:(GBAControllerButton)[button integerValue]];
-            
-            vController.inputAction(Input::RELEASED, identifier);
-        }
+        vController.inputAction(Input::PUSHED, [button integerValue]);
     }
     
 }
 
-- (NSInteger)identifierForButton:(GBAControllerButton)button
+- (void)releaseButtons:(NSSet *)buttons
 {
-    NSInteger identifier = 0;
-    
-    switch (button) {
-        case GBAControllerButtonUp:
-            identifier = 33;
-            break;
-            
-        case GBAControllerButtonDown:
-            identifier = 39;
-            break;
-            
-        case GBAControllerButtonLeft:
-            identifier = 35;
-            break;
-            
-        case GBAControllerButtonRight:
-            identifier = 37;
-            break;
-            
-        case GBAControllerButtonA:
-            identifier = 8;
-            break;
-            
-        case GBAControllerButtonB:
-            identifier = 9;
-            break;
-            
-        case GBAControllerButtonStart:
-            identifier = 1;
-            break;
-            
-        case GBAControllerButtonSelect:
-            identifier = 0;
-            break;
-            
-        case GBAControllerButtonL:
-            identifier = 10;
-            break;
-            
-        case GBAControllerButtonR:
-            identifier = 11;
-            break;
-            
+    for (NSNumber *button in buttons)
+    {
+        vController.inputAction(Input::RELEASED, [button integerValue]);
     }
     
-    return identifier;
 }
 
 - (const Input::Event)touchForTouchState:(uint)touchState {

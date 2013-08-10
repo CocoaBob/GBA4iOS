@@ -16,24 +16,34 @@ typedef NS_ENUM(NSInteger, GBAControllerOrientation)
 
 typedef NS_ENUM(NSInteger, GBAControllerButton)
 {
-    GBAControllerButtonUp          =  1 << 0,
-    GBAControllerButtonDown        =  1 << 1,
-    GBAControllerButtonLeft        =  1 << 2,
-    GBAControllerButtonRight       =  1 << 3,
-    GBAControllerButtonA           =  1 << 4,
-    GBAControllerButtonB           =  1 << 5,
-    GBAControllerButtonL           =  1 << 6,
-    GBAControllerButtonR           =  1 << 7,
-    GBAControllerButtonStart       =  1 << 8,
-    GBAControllerButtonSelect      =  1 << 9,
+    GBAControllerButtonUp          =  33,
+    GBAControllerButtonDown        =  39,
+    GBAControllerButtonLeft        =  35,
+    GBAControllerButtonRight       =  37,
+    GBAControllerButtonA           =  8,
+    GBAControllerButtonB           =  9,
+    GBAControllerButtonL           =  10,
+    GBAControllerButtonR           =  11,
+    GBAControllerButtonStart       =  1,
+    GBAControllerButtonSelect      =  0,
+    GBAControllerButtonMenu        =  50,
 };
 
-@interface GBAController : UIControl
+@class GBAController;
 
+@protocol GBAControllerDelegate <NSObject>
+
+- (void)controller:(GBAController *)controller didPressButtons:(NSSet *)buttons;
+- (void)controller:(GBAController *)controller didReleaseButtons:(NSSet *)buttons;
+- (void)controllerDidPressMenuButton:(GBAController *)controller;
+
+@end
+
+@interface GBAController : UIView
+
+@property (weak, nonatomic) id<GBAControllerDelegate> delegate;
 @property (copy, nonatomic) NSString *skinFilepath;
 @property (assign, nonatomic) GBAControllerOrientation orientation;
-
-@property (readonly, nonatomic) GBAControllerButton pressedButtons;
 
 // For button placement debugging
 - (void)showButtonRects;

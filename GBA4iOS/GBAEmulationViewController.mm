@@ -16,7 +16,7 @@
 
 //#define USE_INCLUDED_UI
 
-@interface GBAEmulationViewController ()
+@interface GBAEmulationViewController () <GBAControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAController *controller;
@@ -59,8 +59,7 @@
 #endif
     
     self.controller.skinFilepath = self.skinFilepath;
-    [self.controller addTarget:self action:@selector(selectedControllerButtonsDidChange:) forControlEvents:UIControlEventValueChanged];
-    [self.controller addTarget:self action:@selector(pauseEmulation:) forControlEvents:UIControlEventTouchUpInside];
+    self.controller.delegate = self;
     
 #if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
@@ -126,18 +125,20 @@
 
 #pragma mark - Controls
 
-- (void)selectedControllerButtonsDidChange:(GBAController *)controller
+- (void)controller:(GBAController *)controller didPressButtons:(NSSet *)buttons
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] setSelectedButtons:controller.pressedButtons];
-#endif
+    [[GBAEmulatorCore sharedCore] pressButtons:buttons];
+}
+
+- (void)controller:(GBAController *)controller didReleaseButtons:(NSSet *)buttons
+{
+    [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
 }
 
 extern void restoreMenuFromGame();
 
-- (void)pauseEmulation:(GBAController *)controller
+- (void)controllerDidPressMenuButton:(GBAController *)controller
 {
-    
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pauseEmulation];
 #endif

@@ -8,6 +8,8 @@
 
 #import "GBAController.h"
 #import "UIScreen+Widescreen.h"
+#import "UITouch+ControllerButtons.h"
+
 @import AudioToolbox;
 
 typedef NS_ENUM(NSInteger, GBAControllerRect)
@@ -22,7 +24,7 @@ typedef NS_ENUM(NSInteger, GBAControllerRect)
     GBAControllerRectSelect,
     GBAControllerRectMenu,
     GBAControllerRectScreen
-};
+}; 
 
 static NSString *GBAScreenTypeiPhone = @"iPhone";
 static NSString *GBAScreenTypeRetina = @"Retina";
@@ -33,8 +35,6 @@ static NSString *GBAScreenTypeiPad = @"iPad";
 
 @property (copy, nonatomic) NSDictionary *infoDictionary;
 @property (strong, nonatomic) UIImageView *imageView;
-
-@property (readwrite, nonatomic) GBAControllerButton pressedButtons;
 
 @property (strong, nonatomic) UIView *overlayView;
 
@@ -110,27 +110,235 @@ static unsigned long oldtouches[15];
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self handleTouchEvent:event forTouchPhase:UITouchPhaseBegan];
+    [self pressButtonsForTouches:touches];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	//[self handleTouchEvent:event forTouchPhase:UITouchPhaseMoved];
+	[self updateButtonsForTouches:touches];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[self handleTouchEvent:event forTouchPhase:UITouchPhaseCancelled];
+	[self releaseButtonsForTouches:touches];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self handleTouchEvent:event forTouchPhase:UITouchPhaseEnded];
+    [self releaseButtonsForTouches:touches];
 }
 
-- (void)handleTouchEvent:(UIEvent *)event forTouchPhase:(UITouchPhase)touchPhase
+#pragma mark Pressing Buttons
+
+
+- (void)pressButtonsForTouches:(NSSet *)touches
 {
-    NSLog(@"Event Count: %d", [[event allTouches] count]);
+    NSMutableSet *set = [NSMutableSet set];
+    
+    for (UITouch *touch in touches)
+    {
+        NSSet *pressedButtons = [self buttonsForTouch:touch];
+        [set unionSet:pressedButtons];
+        
+        touch.controllerButtons = pressedButtons;
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
+    {
+        [self vibrate];
+    }
+    
+    // Don't pass on menu button
+    [set removeObject:@(GBAControllerButtonMenu)];
+    
+    [self.delegate controller:self didPressButtons:set];
+}
+
+- (void)updateButtonsForTouches:(NSSet *)touches
+{
+    NSMutableSet *set = [NSMutableSet set];
+    
+    // Presses
+    for (UITouch *touch in touches)
+    {
+        NSMutableSet *pressedButtons = [[self buttonsForTouch:touch] mutableCopy];
+        NSSet *originalButtons = touch.controllerButtons;
+        
+        [pressedButtons minusSet:originalButtons];
+        
+        [set unionSet:pressedButtons];
+    }
+    
+    if (set.count > 0)
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
+        {
+            [self vibrate];
+        }
+        
+        // Don't pass on menu button
+        [set removeObject:@(GBAControllerButtonMenu)];
+        
+        [self.delegate controller:self didPressButtons:set];
+    }
+    
+    [set removeAllObjects];
+    
+    // Releases
+    for (UITouch *touch in touches)
+    {
+        NSMutableSet *originalButtons = [touch.controllerButtons mutableCopy];
+        NSSet *pressedButtons = [self buttonsForTouch:touch];
+        
+        // So it keeps it pressed down even if your finger shifts off the button into a no-button area. It'll still be released in releaseButtonsForTouches:
+        //if (pressedButtons.count > 0)
+        {
+            [originalButtons minusSet:pressedButtons];
+            [set unionSet:originalButtons];
+            touch.controllerButtons = pressedButtons;
+        }
+    }
+    
+    if (set.count > 0)
+    {
+        // Don't pass on menu button
+        [set removeObject:@(GBAControllerButtonMenu)];
+        [self.delegate controller:self didReleaseButtons:set];
+    }
+    
+}
+
+- (void)releaseButtonsForTouches:(NSSet *)touches
+{
+    NSMutableSet *set = [NSMutableSet set];
+    
+    for (UITouch *touch in touches)
+    {
+        [set unionSet:touch.controllerButtons];
+        
+        touch.controllerButtons = nil;
+    }
+    
+    if ([set containsObject:@(GBAControllerButtonMenu)])
+    {
+        [self.delegate controllerDidPressMenuButton:self];
+        [set removeObject:@(GBAControllerButtonMenu)];
+    }
+
+    [self.delegate controller:self didReleaseButtons:set];
+}
+
+- (void)vibrate
+{
+    AudioServicesStopSystemSound(kSystemSoundID_Vibrate);
+    
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    NSArray *pattern = @[@YES, @30, @NO, @1];
+    
+    dictionary[@"VibePattern"] = pattern;
+    dictionary[@"Intensity"] = @1;
+    
+    AudioServicesPlaySystemSoundWithVibration(kSystemSoundID_Vibrate, nil, dictionary);
+}
+
+- (NSSet *)buttonsForTouch:(UITouch *)touch
+{
+    NSMutableSet *buttons = [NSMutableSet set];
+    
+    CGPoint point = [touch locationInView:self];
+    
+    CGRect dPadRect = [self rectForButtonRect:GBAControllerRectDPad];
+    if (CGRectContainsPoint(dPadRect, point))
+    {
+        CGRect topRect            = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
+        CGRect bottomRect         = CGRectMake(dPadRect.origin.x, dPadRect.origin.y + dPadRect.size.height * (2.0f/3.0f), dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
+        CGRect leftRect           = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width * (1.0f/3.0f), dPadRect.size.height);
+        CGRect rightRect          = CGRectMake(dPadRect.origin.x + dPadRect.size.width * (2.0f/3.0f), dPadRect.origin.y, dPadRect.size.width * (1.0f/3.0f), dPadRect.size.height);
+        
+        CGRect topLeftRect        = CGRectIntersection(topRect, leftRect);
+        CGRect topRightRect       = CGRectIntersection(topRect, rightRect);
+        CGRect bottomLeftRect     = CGRectIntersection(bottomRect, leftRect);
+        CGRect bottomRightRect    = CGRectIntersection(bottomRect, rightRect);
+        
+        if (CGRectContainsPoint(topLeftRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonUp)];
+            [buttons addObject:@(GBAControllerButtonLeft)];
+        }
+        else if (CGRectContainsPoint(topRightRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonUp)];
+            [buttons addObject:@(GBAControllerButtonRight)];
+        }
+        else if (CGRectContainsPoint(bottomLeftRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonDown)];
+            [buttons addObject:@(GBAControllerButtonLeft)];
+        }
+        else if (CGRectContainsPoint(bottomRightRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonDown)];
+            [buttons addObject:@(GBAControllerButtonRight)];
+        }
+        else if (CGRectContainsPoint(topRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonUp)];
+        }
+        else if (CGRectContainsPoint(leftRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonLeft)];
+        }
+        else if (CGRectContainsPoint(bottomRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonDown)];
+        }
+        else if (CGRectContainsPoint(rightRect, point))
+        {
+            [buttons addObject:@(GBAControllerButtonRight)];
+        }
+        
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectA], point))
+    {
+        [buttons addObject:@(GBAControllerButtonA)];
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectB], point))
+    {
+        [buttons addObject:@(GBAControllerButtonB)];
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectAB], point))
+    {
+        [buttons addObject:@(GBAControllerButtonA)];
+        [buttons addObject:@(GBAControllerButtonB)];
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectL], point))
+    {
+        [buttons addObject:@(GBAControllerButtonL)];
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectR], point))
+    {
+        [buttons addObject:@(GBAControllerButtonR)];
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectSelect], point))
+    {
+        [buttons addObject:@(GBAControllerButtonSelect)];
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectStart], point))
+    {
+        [buttons addObject:@(GBAControllerButtonStart)];
+    }
+    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectMenu], point))
+    {
+        [buttons addObject:@(GBAControllerButtonMenu)];
+    }
+    
+    return buttons;
+
+}
+
+
+- (void)handleTouchEvent2:(UIEvent *)event forTouchPhase:(UITouchPhase)touchPhase
+{
     // Oh man, the hours I spent trying to debug this because I didn't realize t only returns the CHANGED touches, while [event allTouches] actually has all touches
     NSSet *touches = [event allTouches];
     
@@ -247,7 +455,7 @@ static unsigned long oldtouches[15];
 			}
 			else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectMenu], point))
 			{
-                [self sendActionsForControlEvents:UIControlEventTouchUpInside];
+               // [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 			}
 			
 			if(oldtouches[i] != newtouches[i])
@@ -268,7 +476,7 @@ static unsigned long oldtouches[15];
 		}
 	}
     
-    if (self.pressedButtons != pressedButtons)
+   /* if (self.pressedButtons != pressedButtons)
     {
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
@@ -290,7 +498,7 @@ static unsigned long oldtouches[15];
         self.pressedButtons = pressedButtons;
         
         [self sendActionsForControlEvents:UIControlEventValueChanged];
-    }
+    }*/
 }
 
 #pragma mark - Public

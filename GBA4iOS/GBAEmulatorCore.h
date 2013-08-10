@@ -25,6 +25,7 @@
 - (void)resumeEmulation;
 - (void)endEmulation;
 
-- (void)setSelectedButtons:(GBAControllerButton)buttons;
+- (void)pressButtons:(NSSet *)buttons;
+- (void)releaseButtons:(NSSet *)buttons;
 
 @end

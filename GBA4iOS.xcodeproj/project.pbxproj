@@ -73,6 +73,8 @@
 		CC347BA117A33E0400309436 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC41AEAA17A22EC90062DDD8 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
+		CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
+		CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
 		CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
 		CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
 		CC86824F17A6D48600686607 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
@@ -263,6 +265,8 @@
 		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC66AFA217A50B5B00F51D9B /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		CC7F4C9F17B5E6F8006888CE /* UITouch+ControllerButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITouch+ControllerButtons.h"; sourceTree = "<group>"; };
+		CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITouch+ControllerButtons.m"; sourceTree = "<group>"; };
 		CC823BC217B04A7A000A25E6 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		CC86824E17A6D48600686607 /* icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60@2x.png"; path = "GBA4iOS/Images.xcassets/AppIcon.appiconset/icon-60@2x.png"; sourceTree = "<group>"; };
@@ -673,6 +677,8 @@
 			children = (
 				CC823BC217B04A7A000A25E6 /* UIImage+ImageEffects.h */,
 				CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */,
+				CC7F4C9F17B5E6F8006888CE /* UITouch+ControllerButtons.h */,
+				CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1011,6 +1017,7 @@
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
+				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
 				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
 				CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
@@ -1051,6 +1058,7 @@
 				CCFA71FF179D304700768D24 /* Cheats.cpp in Sources */,
 				CCFA7217179D304700768D24 /* Multi_Buffer.cpp in Sources */,
 				CCFA71FA179D304700768D24 /* Main.cc in Sources */,
+				CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */,
 				CCFA721D179D304700768D24 /* File_Extractor.cpp in Sources */,
 				CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */,
@@ -1700,7 +1708,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
@@ -1737,7 +1746,6 @@
 					"-fno-threadsafe-statics",
 					"-pipe",
 					"-fvisibility=hidden",
-					"-O2",
 					"-ffast-math",
 					"-fmerge-all-constants",
 					"-g",
@@ -1771,7 +1779,6 @@
 					"-fno-threadsafe-statics",
 					"-pipe",
 					"-fvisibility=hidden",
-					"-O2",
 					"-ffast-math",
 					"-fmerge-all-constants",
 					"-g",
@@ -1782,13 +1789,14 @@
 					"-Wno-unused",
 					"-Wno-unused-parameter",
 					"-Wno-attributes",
+					"-O2",
 				);
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "03AA276F-D9E3-48ED-BD17-14EFDE025E2E";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1802,6 +1810,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
@@ -1834,7 +1843,6 @@
 					"-fno-threadsafe-statics",
 					"-pipe",
 					"-fvisibility=hidden",
-					"-O2",
 					"-ffast-math",
 					"-fmerge-all-constants",
 					"-g",
@@ -1868,7 +1876,6 @@
 					"-fno-threadsafe-statics",
 					"-pipe",
 					"-fvisibility=hidden",
-					"-O2",
 					"-ffast-math",
 					"-fmerge-all-constants",
 					"-g",
@@ -1879,12 +1886,14 @@
 					"-Wno-unused",
 					"-Wno-unused-parameter",
 					"-Wno-attributes",
+					"-O2",
 				);
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2030,7 +2039,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yvette Testut";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
@@ -2063,7 +2072,6 @@
 					"-fno-threadsafe-statics",
 					"-pipe",
 					"-fvisibility=hidden",
-					"-O2",
 					"-ffast-math",
 					"-fmerge-all-constants",
 					"-g",
@@ -2097,7 +2105,6 @@
 					"-fno-threadsafe-statics",
 					"-pipe",
 					"-fvisibility=hidden",
-					"-O2",
 					"-ffast-math",
 					"-fmerge-all-constants",
 					"-g",
@@ -2108,12 +2115,14 @@
 					"-Wno-unused",
 					"-Wno-unused-parameter",
 					"-Wno-attributes",
+					"-O2",
 				);
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
