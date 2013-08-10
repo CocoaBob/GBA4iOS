@@ -395,14 +395,21 @@ namespace GameFilePicker {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-
 - (void)updateSettings:(NSNotification *)notification
 {
     optionAutoSaveState = 0;
     optionConfirmAutoLoadState = NO;
     optionHideStatusBar = YES;
     
-    optionFrameSkip = [[NSUserDefaults standardUserDefaults] integerForKey:@"frameSkip"];
+    int frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:@"frameSkip"];
+    
+    if (frameskip < 0)
+    {
+        frameskip = 32; //optionFrameSkipAuto value
+    }
+    
+    optionFrameSkip = frameskip;
+    
     optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:@"mixAudio"];
 }
 
