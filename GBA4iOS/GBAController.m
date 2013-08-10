@@ -175,9 +175,12 @@ static unsigned long oldtouches[15];
         NSMutableSet *pressedButtons = [[self buttonsForTouch:touch] mutableCopy];
         NSSet *originalButtons = touch.controllerButtons;
         
-        [pressedButtons minusSet:originalButtons];
-        
-        [set unionSet:pressedButtons];
+        // Forbid sliding into L and R and Menu
+        if (!([pressedButtons containsObject:@(GBAControllerButtonL)] || [pressedButtons containsObject:@(GBAControllerButtonR)] || [pressedButtons containsObject:@(GBAControllerButtonMenu)]))
+        {
+            [pressedButtons minusSet:originalButtons];
+            [set unionSet:pressedButtons];
+        }
     }
     
     if (set.count > 0)
@@ -202,7 +205,8 @@ static unsigned long oldtouches[15];
         NSSet *pressedButtons = [self buttonsForTouch:touch];
         
         // So it keeps it pressed down even if your finger shifts off the button into a no-button area. It'll still be released in releaseButtonsForTouches:
-        //if (pressedButtons.count > 0)
+        // Also, forbids sliding into L and R and Menu
+        if (pressedButtons.count > 0 && !([pressedButtons containsObject:@(GBAControllerButtonL)] || [pressedButtons containsObject:@(GBAControllerButtonR)] || [pressedButtons containsObject:@(GBAControllerButtonMenu)]))
         {
             [originalButtons minusSet:pressedButtons];
             [set unionSet:originalButtons];
@@ -212,6 +216,7 @@ static unsigned long oldtouches[15];
     
     if (set.count > 0)
     {
+        NSLog(@"Set: %@", set);
         // Don't pass on menu button
         [set removeObject:@(GBAControllerButtonMenu)];
         [self.delegate controller:self didReleaseButtons:set];
