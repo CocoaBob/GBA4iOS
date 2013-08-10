@@ -126,7 +126,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         return;
     }
     
-    switch (theme) {
+    /*switch (theme) {
         case GBAROMTableViewControllerThemeTranslucent: {
             self.tableView.backgroundColor = [UIColor clearColor];
             self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -148,7 +148,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
             
             
             break;
-    }
+    }*/
     
     [self.tableView reloadData];
 }

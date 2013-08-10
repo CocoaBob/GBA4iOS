@@ -143,15 +143,26 @@ static unsigned long oldtouches[15];
         touch.controllerButtons = pressedButtons;
     }
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
+    if (set.count > 0)
     {
-        [self vibrate];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
+        {
+            [self vibrate];
+        }
     }
     
-    // Don't pass on menu button
+    // Don't pass on menu button. But we include it in the previous check cause we still want a vibration
     [set removeObject:@(GBAControllerButtonMenu)];
     
-    [self.delegate controller:self didPressButtons:set];
+    if (set.count > 0)
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
+        {
+            [self vibrate];
+        }
+        
+        [self.delegate controller:self didPressButtons:set];
+    }
 }
 
 - (void)updateButtonsForTouches:(NSSet *)touches
@@ -225,7 +236,10 @@ static unsigned long oldtouches[15];
         [set removeObject:@(GBAControllerButtonMenu)];
     }
 
-    [self.delegate controller:self didReleaseButtons:set];
+    if (set.count > 0)
+    {
+        [self.delegate controller:self didReleaseButtons:set];
+    }
 }
 
 - (void)vibrate

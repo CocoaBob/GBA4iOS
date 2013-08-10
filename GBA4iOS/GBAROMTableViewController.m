@@ -651,7 +651,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     _theme = theme;
     
-    switch (theme) {
+    /*switch (theme) {
         case GBAROMTableViewControllerThemeTranslucent: {
             self.tableView.backgroundColor = [UIColor clearColor];
             self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -676,7 +676,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             
             
             break;
-    }
+    }*/
     
     [self.tableView reloadData];
 }

@@ -23,7 +23,6 @@
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self)
     {
-        self.tintColor = [UIColor redColor];
         
         self.originalBackgroundView = [self.backgroundView snapshotViewAfterScreenUpdates:NO];
         
