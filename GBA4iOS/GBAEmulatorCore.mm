@@ -474,6 +474,7 @@ extern SysVController vController;
     // Left
     if (buttons & GBAControllerButtonLeft)
     {
+        NSLog(@"Left");
         [pressedButtons addObject:@(GBAControllerButtonLeft)];
     }
     
@@ -492,6 +493,7 @@ extern SysVController vController;
     // Start
     if (buttons & GBAControllerButtonStart)
     {
+        NSLog(@"Start");
         [pressedButtons addObject:@(GBAControllerButtonStart)];
     }
     
@@ -526,12 +528,13 @@ extern SysVController vController;
         {
             NSInteger identifier = [self identifierForButton:(GBAControllerButton)[button integerValue]];
             
+            NSLog(@"Pressed");
+            
             vController.inputAction(Input::PUSHED, identifier);
         }
     }
     
     NSMutableSet *releasedButtons = [[NSMutableSet alloc] initWithObjects:
-                                     
                                      @(GBAControllerButtonUp),
                                      @(GBAControllerButtonRight),
                                      @(GBAControllerButtonDown),
@@ -542,7 +545,7 @@ extern SysVController vController;
                                      @(GBAControllerButtonSelect),
                                      @(GBAControllerButtonL),
                                      @(GBAControllerButtonR), nil];
-    
+        
     for (NSNumber *button in pressedButtons) {
         [releasedButtons removeObject:button];
     }
@@ -551,6 +554,11 @@ extern SysVController vController;
     {
         if ([self.previousButtons containsObject:button])
         {
+            if ([button integerValue] == 4)
+            {
+                NSLog(@"What");
+            }
+            
             NSInteger identifier = [self identifierForButton:(GBAControllerButton)[button integerValue]];
             
             vController.inputAction(Input::RELEASED, identifier);

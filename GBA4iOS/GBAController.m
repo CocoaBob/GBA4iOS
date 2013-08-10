@@ -8,6 +8,7 @@
 
 #import "GBAController.h"
 #import "UIScreen+Widescreen.h"
+@import AudioToolbox;
 
 typedef NS_ENUM(NSInteger, GBAControllerRect)
 {
@@ -70,8 +71,6 @@ static NSString *GBAScreenTypeiPad = @"iPad";
     self.multipleTouchEnabled = YES;
     self.backgroundColor = [UIColor clearColor];
     
-    self.exclusiveTouch = YES;
-    
     self.imageView = ({
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -111,31 +110,27 @@ static unsigned long oldtouches[15];
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if ([[touches anyObject] tapCount] > 1)
-    {
-        //[self sendActionsForControlEvents:UIControlEventTouchUpInside];
-    }
-    [self handleTouchEvent:event];
+    [self handleTouchEvent:event forTouchPhase:UITouchPhaseBegan];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[self handleTouchEvent:event];
+	//[self handleTouchEvent:event forTouchPhase:UITouchPhaseMoved];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[self handleTouchEvent:event];
+	[self handleTouchEvent:event forTouchPhase:UITouchPhaseCancelled];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self handleTouchEvent:event];
+    [self handleTouchEvent:event forTouchPhase:UITouchPhaseEnded];
 }
 
-- (void)handleTouchEvent:(UIEvent *)event
+- (void)handleTouchEvent:(UIEvent *)event forTouchPhase:(UITouchPhase)touchPhase
 {
-    
+    NSLog(@"Event Count: %d", [[event allTouches] count]);
     // Oh man, the hours I spent trying to debug this because I didn't realize t only returns the CHANGED touches, while [event allTouches] actually has all touches
     NSSet *touches = [event allTouches];
     
@@ -275,6 +270,23 @@ static unsigned long oldtouches[15];
     
     if (self.pressedButtons != pressedButtons)
     {
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
+        {
+            AudioServicesStopSystemSound(kSystemSoundID_Vibrate);
+            
+            if (touchPhase == UITouchPhaseBegan || touchPhase == UITouchPhaseMoved)
+            {
+                NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+                NSArray *pattern = @[@YES, @30, @NO, @1];
+                
+                dictionary[@"VibePattern"] = pattern;
+                dictionary[@"Intensity"] = @1;
+                
+                AudioServicesPlaySystemSoundWithVibration(kSystemSoundID_Vibrate, nil, dictionary);
+            }
+        }
+        
         self.pressedButtons = pressedButtons;
         
         [self sendActionsForControlEvents:UIControlEventValueChanged];

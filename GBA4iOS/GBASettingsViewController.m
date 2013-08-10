@@ -14,11 +14,15 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *frameSkipSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISwitch *autoSaveSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *mixAudioSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
 - (IBAction)changeFrameSkip:(UISegmentedControl *)sender;
 - (IBAction)toggleAutoSave:(UISwitch *)sender;
+- (IBAction)toggleVibrate:(UISwitch *)sender;
+- (IBAction)toggleMixAudio:(UISwitch *)sender;
 
 @end
 
@@ -73,6 +77,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     self.frameSkipSegmentedControl.selectedSegmentIndex = selectedSegmentIndex;
     
     self.autoSaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"autoSave"];
+    self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"mixAudio"];
+    self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"];
 }
 
 #pragma mark - Table view data source
@@ -169,6 +175,18 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 - (IBAction)toggleAutoSave:(UISwitch *)sender
 {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"autoSave"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
+}
+
+- (IBAction)toggleVibrate:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"vibrate"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
+}
+
+- (IBAction)toggleMixAudio:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"mixAudio"];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
 }
 
