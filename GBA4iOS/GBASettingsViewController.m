@@ -90,6 +90,34 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     return [super numberOfSectionsInTableView:tableView];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        // Hide vibration info if not iPhone (no way to detect if hardware supports vibration)
+        if (![[UIDevice currentDevice].model hasPrefix:@"iPhone"])
+        {
+            return nil;
+        }
+    }
+    
+    return [super tableView:tableView viewForFooterInSection:section];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        // Hide vibration setting if not iPhone (no way to detect if hardware supports vibration)
+        if (![[UIDevice currentDevice].model hasPrefix:@"iPhone"])
+        {
+            return [super tableView:tableView numberOfRowsInSection:section] - 1;
+        }
+    }
+    
+    return [super tableView:tableView numberOfRowsInSection:section];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];

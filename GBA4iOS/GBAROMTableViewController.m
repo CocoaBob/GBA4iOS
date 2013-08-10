@@ -177,11 +177,15 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
                 alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                 alert.tag = NAME_ROM_ALERT_TAG;
                 
+                UITextField *textField = [alert textFieldAtIndex:0];
+                textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+                textField.autocorrectionType = UITextAutocorrectionTypeNo;
+                
                 [alert showWithCompletion:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
                     
                     if (namingButtonIndex == 1)
                     {
-                        NSString *filename = [[alertView textFieldAtIndex:0] text];
+                        NSString *filename = [[namingAlertView textFieldAtIndex:0] text];
                         [self startDownloadWithFilename:filename];
                     }
                     else
