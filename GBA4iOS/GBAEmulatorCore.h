@@ -22,6 +22,7 @@
 
 - (void)startEmulation;
 - (void)pauseEmulation;
+- (void)prepareToEnterBackground;
 - (void)resumeEmulation;
 - (void)endEmulation;
 

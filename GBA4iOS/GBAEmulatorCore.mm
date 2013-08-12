@@ -381,9 +381,6 @@ namespace GameFilePicker {
     
     self.eaglView = glView;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
     
@@ -507,23 +504,12 @@ static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
 	Gfx::preferedOrientation = o;
 	Gfx::setOrientation(Gfx::preferedOrientation);
 }
-
-- (void)applicationWillResignActive:(NSNotification *)notification
-{
-	[self pauseEmulation];
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)notification
-{
-	[self resumeEmulation];
-}
-
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
 	[self endEmulation];
 }
 
-- (void)applicationDidEnterBackground:(NSNotification *)notification
+- (void)prepareToEnterBackground
 {
 	using namespace Base;
 	logMsg("entering background");

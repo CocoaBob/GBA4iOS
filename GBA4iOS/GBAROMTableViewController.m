@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
                                                     message:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
     alert.tag = LEGAL_NOTICE_ALERT_TAG;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             
             if (buttonIndex == 1)
             {
@@ -181,7 +181,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
                 textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
                 textField.autocorrectionType = UITextAutocorrectionTypeNo;
                 
-                [alert showWithCompletion:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
+                [alert showWithSelectionHandler:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
                     
                     if (namingButtonIndex == 1)
                     {
@@ -206,7 +206,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)startDownloadWithFilename:(NSString *)filename
 {
-    
     filename = [filename stringByAppendingPathExtension:@"gba"];
     
     // Write temp file so it shows up in the file browser, but we'll then gray it out.
@@ -518,7 +517,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         UIView *contentView = [alert valueForKey:@"contentViewNeue"];
         
         [contentView addSubview:[[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 200, 44)]];
-        [alert showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex)
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex)
         {
             if (buttonIndex == 0)
             {

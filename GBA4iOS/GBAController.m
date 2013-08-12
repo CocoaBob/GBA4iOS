@@ -110,6 +110,10 @@ static unsigned long oldtouches[15];
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if (touches.count == 3)
+    {
+        [self.delegate controllerDidPressMenuButton:self];
+    }
     [self pressButtonsForTouches:touches];
 }
 

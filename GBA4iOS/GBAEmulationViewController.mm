@@ -24,6 +24,10 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
 
+// Sustaining Buttons
+@property (assign, nonatomic) BOOL selectingSustainedButton;
+@property (strong, nonatomic) NSMutableSet *sustainedButtonSet;
+
 @property (assign, nonatomic) BOOL blurringContents;
 @property (strong, nonatomic) UIImageView *blurredScreenImageView;
 @property (strong, nonatomic) UIImageView *blurredControllerImageView;
@@ -81,6 +85,11 @@
     
 #endif
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
     //[self.controller showButtonRects];
 }
 
@@ -131,13 +140,36 @@
 
 - (void)controller:(GBAController *)controller didPressButtons:(NSSet *)buttons
 {
+    if (self.selectingSustainedButton)
+    {
+        // Release previous sustained buttons
+        [[GBAEmulatorCore sharedCore] releaseButtons:self.sustainedButtonSet];
+        
+        self.sustainedButtonSet = [buttons mutableCopy];
+        [self exitSustainButtonSelectionMode];
+    }
+    else
+    {
+        // If the user re-taps a sustained button, we remove it from the sustainedButtonSet
+        [self.sustainedButtonSet minusSet:buttons];
+    }
+    
     [[GBAEmulatorCore sharedCore] pressButtons:buttons];
 }
 
 - (void)controller:(GBAController *)controller didReleaseButtons:(NSSet *)buttons
 {
+    if (self.sustainedButtonSet)
+    {
+        NSMutableSet *set = [buttons mutableCopy];
+        [set minusSet:self.sustainedButtonSet];
+        buttons = set;
+    }
+    
     [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
 }
+
+#pragma mark - Pause Menu
 
 extern void restoreMenuFromGame();
 
@@ -150,18 +182,70 @@ extern void restoreMenuFromGame();
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
-                                                    otherButtonTitles:NSLocalizedString(@"Fast Forward", @""), NSLocalizedString(@"Save State", @""), NSLocalizedString(@"Load State", @""), NSLocalizedString(@"Cheats", @""), nil];
-    [actionSheet showInView:self.view completion:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                                                    otherButtonTitles:
+                                  NSLocalizedString(@"Fast Forward", @""),
+                                  NSLocalizedString(@"Save State", @""),
+                                  NSLocalizedString(@"Load State", @""),
+                                  NSLocalizedString(@"Cheat Codes", @""),
+                                  NSLocalizedString(@"Sustain Button", @""), nil];
+    
+    [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
         if (buttonIndex == 0)
         {
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
         }
         else {
+            //buttonIndex = buttonIndex; // Reserved for later change
+            
+            if (buttonIndex == 5)
+            {
+                [self enterSustainButtonSelectionMode];
+            }
+            else {
 #if !(TARGET_IPHONE_SIMULATOR)
-            [[GBAEmulatorCore sharedCore] resumeEmulation];
+                [self resumeEmulation];
 #endif
+            }
         }
     }];
+}
+
+- (void)enterSustainButtonSelectionMode
+{
+    self.selectingSustainedButton = YES;
+}
+
+- (void)exitSustainButtonSelectionMode
+{
+    self.selectingSustainedButton = NO;
+    
+    [self resumeEmulation];
+}
+
+#pragma mark - App Status
+
+- (void)willResignActive:(NSNotification *)notification
+{
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] pauseEmulation];
+#endif
+}
+
+- (void)didBecomeActive:(NSNotification *)notification
+{
+    [self resumeEmulation];
+}
+
+- (void)didEnterBackground:(NSNotification *)notification
+{
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] prepareToEnterBackground];
+#endif
+}
+
+- (void)willEnterForeground:(NSNotification *)notification
+{
+    // Nothing foreground specific, everything handled in didBecomeActive
 }
 
 #pragma mark - Layout
@@ -282,6 +366,15 @@ extern void restoreMenuFromGame();
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] startEmulation];
 #endif
+}
+
+- (void)resumeEmulation
+{
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] resumeEmulation];
+#endif
+    
+    [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
 }
 
 #pragma mark - Blurring
