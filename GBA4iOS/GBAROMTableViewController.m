@@ -22,16 +22,13 @@
 #define NAME_ROM_ALERT_TAG 17
 #define DELETE_ROM_ALERT_TAG 2
 
-
-#define RST_CONTAIN_IN_NAVIGATION_CONTROLLER(viewController)  ({ UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController]; navigationController; })
-
 typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeAll,
     GBAROMTypeGBA,
     GBAROMTypeGBC,
 };
 
-@interface GBAROMTableViewController () <RSTWebViewControllerDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate>
+@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate>
 
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
@@ -127,7 +124,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         {
             if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
             {
-                frame.size.height = 33.0f;
+                frame.size.height = 29.0f;
             }
             else
             {
@@ -598,7 +595,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
 {
-    NSString *address = @"http://www.google.com/search?hl=en&source=hp&q=download+ROMs+gba+gameboy+advance&aq=f&oq=&aqi=";
+    NSString *address = @"https://www.google.com/#bav=on.2,or.r_cp.r_qf.&fp=1179bd4a420d46ef&q=Download+ROMs+GBA+";
     
     if (![NSURLSession class]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:address]];
@@ -608,7 +605,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:address];
     webViewController.showDoneButton = YES;
-    webViewController.delegate = self;
+    webViewController.downloadDelegate = self;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
     [self presentViewController:navigationController animated:YES completion:NULL];

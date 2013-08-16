@@ -11,12 +11,18 @@
 #import "GBAEmulatorScreen.h"
 #import "GBAController.h"
 #import "UIImage+ImageEffects.h"
+#import "GBASaveStateViewController.h"
 
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 
 //#define USE_INCLUDED_UI
 
-@interface GBAEmulationViewController () <GBAControllerDelegate>
+static GBAEmulationViewController *_emulationViewController;
+
+@interface GBAEmulationViewController () <GBAControllerDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate> {
+    CFAbsoluteTime _romStartTime;
+    CFAbsoluteTime _romPauseTime;
+}
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAController *controller;
@@ -44,6 +50,9 @@
     self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
     if (self)
     {
+        _emulationViewController = self;
+        InstallUncaughtExceptionHandler();
+        
         _romFilepath = [romFilepath copy];
         
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -103,6 +112,8 @@
     }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    [self resumeEmulation];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -143,7 +154,9 @@
     if (self.selectingSustainedButton)
     {
         // Release previous sustained buttons
+#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] releaseButtons:self.sustainedButtonSet];
+#endif
         
         self.sustainedButtonSet = [buttons mutableCopy];
         [self exitSustainButtonSelectionMode];
@@ -153,8 +166,9 @@
         // If the user re-taps a sustained button, we remove it from the sustainedButtonSet
         [self.sustainedButtonSet minusSet:buttons];
     }
-    
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pressButtons:buttons];
+#endif
 }
 
 - (void)controller:(GBAController *)controller didReleaseButtons:(NSSet *)buttons
@@ -165,16 +179,17 @@
         [set minusSet:self.sustainedButtonSet];
         buttons = set;
     }
-    
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
+#endif
 }
 
 #pragma mark - Pause Menu
 
-extern void restoreMenuFromGame();
-
 - (void)controllerDidPressMenuButton:(GBAController *)controller
 {
+    _romPauseTime = CFAbsoluteTimeGetCurrent();
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pauseEmulation];
 #endif
@@ -192,19 +207,40 @@ extern void restoreMenuFromGame();
     [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
         if (buttonIndex == 0)
         {
+            [self dismissEmulationViewController];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
         }
         else {
             //buttonIndex = buttonIndex; // Reserved for later change
-            
-            if (buttonIndex == 5)
+            if (buttonIndex == 1)
+            {
+                NSString *string = [[NSString alloc] init];
+                CFStringRef ref = (CFStringRef)CFBridgingRetain(string);
+                CFRelease(ref);
+                CFRelease(ref);
+                CFRelease(ref);
+                CFRelease(ref);
+                CFRelease(ref);
+                [self resumeEmulation];
+            }
+            if (buttonIndex == 2)
+            {
+                [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeSaving];
+            }
+            else if (buttonIndex == 3)
+            {
+                [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeLoading];
+            }
+            else if (buttonIndex == 4)
+            {
+                [@[@"HELLO"] objectAtIndex:3];
+            }
+            else if (buttonIndex == 5)
             {
                 [self enterSustainButtonSelectionMode];
             }
             else {
-#if !(TARGET_IPHONE_SIMULATOR)
                 [self resumeEmulation];
-#endif
             }
         }
     }];
@@ -220,6 +256,127 @@ extern void restoreMenuFromGame();
     self.selectingSustainedButton = NO;
     
     [self resumeEmulation];
+}
+
+#pragma mark - Save States
+
+- (void)presentSaveStateMenuWithMode:(GBASaveStateViewControllerMode)mode
+{
+    NSString *filename = [self.romFilepath lastPathComponent];
+    filename = [filename stringByDeletingPathExtension];
+    
+    GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithSaveStateDirectory:[self saveStateDirectory] mode:mode];
+    saveStateViewController.delegate = self;
+    saveStateViewController.modalPresentationStyle = UIModalPresentationCustom;
+    saveStateViewController.transitioningDelegate = self;
+    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController) animated:YES completion:nil];
+}
+
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateFromPath:(NSString *)filepath
+{
+    if ([[filepath lastPathComponent] hasPrefix:@"autosave"] && [self shouldAutosave])
+    {
+        NSString *backupFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"backup.sgm"];
+        
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] saveStateToFilepath:backupFilepath];
+#endif
+    }
+    else
+    {
+        if ([self shouldAutosave])
+        {
+            [self updateAutosaveState];
+        }
+    }
+}
+
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didLoadStateFromPath:(NSString *)filepath
+{
+    if ([[filepath lastPathComponent] hasPrefix:@"autosave"] && [self shouldAutosave])
+    {
+        NSString *autosaveFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"autosave.sgm"];
+        NSString *backupFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"backup.sgm"];
+        
+        [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:autosaveFilepath] withItemAtURL:[NSURL fileURLWithPath:backupFilepath] backupItemName:nil options:NSFileManagerItemReplacementUsingNewMetadataOnly resultingItemURL:nil error:nil];
+    }
+}
+
+void InstallUncaughtExceptionHandler()
+{
+	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+	signal(SIGABRT, SignalHandler);
+	signal(SIGILL, SignalHandler);
+	signal(SIGSEGV, SignalHandler);
+	signal(SIGFPE, SignalHandler);
+	signal(SIGBUS, SignalHandler);
+	signal(SIGPIPE, SignalHandler);
+}
+
+void SignalHandler(int signal)
+{
+    [_emulationViewController handleException];
+}
+
+void uncaughtExceptionHandler(NSException *exception)
+{
+    [_emulationViewController handleException];
+}
+
+- (void)handleException
+{
+    if ([self shouldAutosave]) {
+        [self updateAutosaveState];
+    }
+}
+
+- (BOOL)shouldAutosave
+{
+    // If the user loads a save state in the first 3 seconds, the autosave would probably be useless to them as it would take them back to the title screen of their game
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"autosave"] && (_romPauseTime - _romStartTime >= 3.0f);
+}
+
+- (void)updateAutosaveState
+{
+    NSString *autosaveFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"autosave.sgm"];
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] saveStateToFilepath:autosaveFilepath];
+#endif
+}
+
+- (NSString *)saveStateDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *romName = [[self.romFilepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Save States/%@", romName]];
+    
+    return directory;
+}
+
+#pragma mark - Presenting/Dismissing
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    return nil;
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    
+    return nil;
+}
+
+- (void)dismissEmulationViewController
+{
+    if ([self shouldAutosave])
+    {
+        [self updateAutosaveState];
+    }
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - App Status
@@ -238,6 +395,11 @@ extern void restoreMenuFromGame();
 
 - (void)didEnterBackground:(NSNotification *)notification
 {
+    if ([self shouldAutosave])
+    {
+        [self updateAutosaveState];
+    }
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] prepareToEnterBackground];
 #endif
@@ -315,7 +477,6 @@ extern void restoreMenuFromGame();
     {
         if ([[self.contentView constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
         {
-            
             [self.contentView addConstraint:self.portraitBottomLayoutConstraint];
         }
         self.controller.orientation = GBAControllerOrientationPortrait;
@@ -363,6 +524,8 @@ extern void restoreMenuFromGame();
 
 - (void)startEmulation
 {
+    _romStartTime = CFAbsoluteTimeGetCurrent();
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] startEmulation];
 #endif
@@ -372,9 +535,8 @@ extern void restoreMenuFromGame();
 {
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
-#endif
-    
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
+#endif
 }
 
 #pragma mark - Blurring

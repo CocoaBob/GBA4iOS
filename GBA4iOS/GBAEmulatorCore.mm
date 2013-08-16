@@ -21,6 +21,7 @@
 #import <EmuOptions.hh>
 #import <VController.hh>
 #import <EmuView.hh>
+#import <gba/GBA.h>
 
 namespace GameFilePicker {
     void onSelectFile(const char* name, const Input::Event &e);
@@ -405,7 +406,7 @@ namespace GameFilePicker {
         frameskip = 32; //optionFrameSkipAuto value
     }
     
-    optionFrameSkip = frameskip;
+    optionFrameSkip = 32;
     
     optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:@"mixAudio"];
 }
@@ -477,6 +478,20 @@ extern SysVController vController;
     using namespace Input;
     
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
+}
+
+#pragma mark - Save States
+
+extern GBASys gGba;
+
+- (void)saveStateToFilepath:(NSString *)filepath
+{
+    CPUWriteState(gGba, [filepath UTF8String]);
+}
+
+- (void)loadStateFromFilepath:(NSString *)filepath
+{
+    CPUReadState(gGba, [filepath UTF8String]);
 }
 
 #pragma mark - Main App

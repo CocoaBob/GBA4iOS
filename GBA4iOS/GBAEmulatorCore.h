@@ -26,6 +26,10 @@
 - (void)resumeEmulation;
 - (void)endEmulation;
 
+// Save States
+- (void)saveStateToFilepath:(NSString *)filepath;
+- (void)loadStateFromFilepath:(NSString *)filepath;
+
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;
 

@@ -13,7 +13,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 @interface GBASettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *frameSkipSegmentedControl;
-@property (weak, nonatomic) IBOutlet UISwitch *autoSaveSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *autosaveSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *mixAudioSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
 
@@ -59,7 +59,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 + (void)registerDefaults
 {
     NSDictionary *defaults = @{@"frameSkip": @(-1),
-                               @"autoSave": @(1),
+                               @"autosave": @(1),
                                @"vibrate": @YES};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
@@ -72,12 +72,12 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     
     if ((int)selectedSegmentIndex == -1)
     {
-        selectedSegmentIndex = 5;
+        selectedSegmentIndex = self.frameSkipSegmentedControl.numberOfSegments - 1;
     }
     
     self.frameSkipSegmentedControl.selectedSegmentIndex = selectedSegmentIndex;
     
-    self.autoSaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"autoSave"];
+    self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"autosave"];
     self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"mixAudio"];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"];
 }
@@ -203,7 +203,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (IBAction)toggleAutoSave:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"autoSave"];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"autosave"];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
 }
 

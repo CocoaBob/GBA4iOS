@@ -133,7 +133,7 @@
                                                         <action selector="toggleAutoSave:" destination="fFF-zm-sH1" eventType="valueChanged" id="jdw-Jw-39b"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Auto-Save" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ret-tW-Wta">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Auto Save" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ret-tW-Wta">
                                                     <rect key="frame" x="15" y="11" width="233" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -231,7 +231,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="autoSaveSwitch" destination="7vL-qH-dDW" id="Hjy-7S-LYr"/>
+                        <outlet property="autosaveSwitch" destination="7vL-qH-dDW" id="Oj6-0m-ARy"/>
                         <outlet property="frameSkipSegmentedControl" destination="wCX-6F-d72" id="jfC-Vu-4k6"/>
                         <outlet property="mixAudioSwitch" destination="2lV-ON-q1Q" id="oCd-XD-B7b"/>
                         <outlet property="vibrateSwitch" destination="Ocf-oz-ae8" id="Z9y-I1-YpG"/>
@@ -263,7 +263,7 @@
                             </connections>
                         </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="vw4-Ob-Njc">
-                            <rect key="frame" x="55" y="6" width="216" height="33"/>
+                            <rect key="frame" x="86" y="6" width="149" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="ALL"/>

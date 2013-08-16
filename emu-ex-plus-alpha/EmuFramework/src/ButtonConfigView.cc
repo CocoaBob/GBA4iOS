@@ -311,6 +311,7 @@ void ButtonConfigView::deinit()
 ButtonConfigView::ButtonConfigView():
 	reset
 	{
+#ifdef UNDO_GBA4iOS_CUSTOMIZATIONS
 		"Unbind All",
 		[this](TextMenuItem &t, const Input::Event &e)
 		{
@@ -332,5 +333,8 @@ ButtonConfigView::ButtonConfigView():
 				};
 			View::addModalView(ynAlertView);
 		}
+        
+#endif
 	}
+
 {}
