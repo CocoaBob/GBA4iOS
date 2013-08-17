@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Dynamic Library.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>GBA4iOS-Simulator.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -14,10 +19,30 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Resource Bundle.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>CC1B66B417BF4D77007B2787</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>CC275BB317A5075E006243FB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC2B67D217BEBA7C00084E95</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC2B67F117BEBF1100084E95</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -28,6 +53,41 @@
 			<true/>
 		</dict>
 		<key>CC2D571F1798F2ED00C616EB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC475AB217BEC6E800C53369</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC475AC817BEC6E800C53369</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC475AE317BEC7DE00C53369</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC475AFD17BEC82400C53369</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC475B2817BED6F900C53369</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC475B4417BED6F900C53369</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CCE93EF417BEDD0C008EADAF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -167,7 +167,7 @@
         [self.delegate saveStateViewController:self willSaveStateToPath:filepath];
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
+#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
     [[GBAEmulatorCore sharedCore] saveStateToFilepath:filepath];
 #endif
     
@@ -199,7 +199,7 @@
         [self.delegate saveStateViewController:self willLoadStateFromPath:filepath];
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
+#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
     [[GBAEmulatorCore sharedCore] loadStateFromFilepath:filepath];
 #endif
     

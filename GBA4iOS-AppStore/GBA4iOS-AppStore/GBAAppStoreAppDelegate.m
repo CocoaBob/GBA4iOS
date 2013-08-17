@@ -1,40 +1,19 @@
 //
 //  GBAAppDelegate.m
-//  GBA4iOS
+//  GBA4iOS-AppStore
 //
-//  Created by Riley Testut on 7/18/13.
+//  Created by Riley Testut on 8/16/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBAAppDelegate.h"
-#import "GBASettingsViewController.h"
+#import "GBAAppStoreAppDelegate.h"
 
-#import "EAGLView_Private.h"
-#import "GBAEmulatorCore.h"
-
-@implementation GBAAppDelegate
+@implementation GBAAppStoreAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:resourceBundle];
-    self.window.rootViewController = [storyboard instantiateInitialViewController];
-    
-    [self.window makeKeyAndVisible];
-    
-    if ([self.window respondsToSelector:@selector(setTintColor:)])
-    {
-        self.window.tintColor = [UIColor purpleColor];
-        [[UISwitch appearance] setOnTintColor:[UIColor purpleColor]]; // Apparently UISwitches don't inherit tint color from superview
-    }
-    
-    
-    [GBASettingsViewController registerDefaults];
-    
+    // Override point for customization after application launch.
+    self.window.backgroundColor = [UIColor greenColor];
     return YES;
 }
 							

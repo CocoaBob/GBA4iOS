@@ -30,9 +30,138 @@
 		CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
 		CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
 		CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
-		CC15E53D179ECDCC00449972 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
-		CC15E53F179ECDCC00449972 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC15E542179F027300449972 /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
+		CC1B663617BF0564007B2787 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C0179D304600768D24 /* Main.cc */; };
+		CC1B663717BF0564007B2787 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C1179D304600768D24 /* EmuControls.cc */; };
+		CC1B663817BF0564007B2787 /* VbamApi.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C2179D304600768D24 /* VbamApi.cc */; };
+		CC1B663917BF0564007B2787 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C3179D304600768D24 /* Cheats.cc */; };
+		CC1B663A17BF0564007B2787 /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C4179D304600768D24 /* bios.cpp */; };
+		CC1B663B17BF0564007B2787 /* Cheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C5179D304600768D24 /* Cheats.cpp */; };
+		CC1B663C17BF0564007B2787 /* CheatSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C6179D304600768D24 /* CheatSearch.cpp */; };
+		CC1B663D17BF0564007B2787 /* EEprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C7179D304600768D24 /* EEprom.cpp */; };
+		CC1B663E17BF0564007B2787 /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C8179D304600768D24 /* Flash.cpp */; };
+		CC1B663F17BF0564007B2787 /* GBA-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C9179D304600768D24 /* GBA-arm.cpp */; };
+		CC1B664017BF0564007B2787 /* GBA-thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CA179D304600768D24 /* GBA-thumb.cpp */; };
+		CC1B664117BF0564007B2787 /* GBA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CB179D304600768D24 /* GBA.cpp */; };
+		CC1B664217BF0564007B2787 /* gbafilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CC179D304600768D24 /* gbafilter.cpp */; };
+		CC1B664317BF0564007B2787 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CD179D304600768D24 /* Globals.cpp */; };
+		CC1B664417BF0564007B2787 /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CE179D304600768D24 /* Mode0.cpp */; };
+		CC1B664517BF0564007B2787 /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CF179D304600768D24 /* Mode1.cpp */; };
+		CC1B664617BF0564007B2787 /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D0179D304600768D24 /* Mode2.cpp */; };
+		CC1B664717BF0564007B2787 /* Mode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D1179D304600768D24 /* Mode3.cpp */; };
+		CC1B664817BF0564007B2787 /* Mode4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D2179D304600768D24 /* Mode4.cpp */; };
+		CC1B664917BF0564007B2787 /* Mode5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D3179D304600768D24 /* Mode5.cpp */; };
+		CC1B664A17BF0564007B2787 /* RTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D4179D304600768D24 /* RTC.cpp */; };
+		CC1B664B17BF0564007B2787 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D5179D304600768D24 /* Sound.cpp */; };
+		CC1B664C17BF0564007B2787 /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D6179D304600768D24 /* Sram.cpp */; };
+		CC1B664D17BF0564007B2787 /* Patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D7179D304600768D24 /* Patch.cpp */; };
+		CC1B664E17BF0564007B2787 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D8179D304600768D24 /* Util.cpp */; };
+		CC1B664F17BF0564007B2787 /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */; };
+		CC1B665017BF0564007B2787 /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */; };
+		CC1B665117BF0564007B2787 /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DB179D304700768D24 /* Gb_Apu.cpp */; };
+		CC1B665217BF0564007B2787 /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */; };
+		CC1B665317BF0564007B2787 /* Multi_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */; };
+		CC1B665417BF0564007B2787 /* Binary_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */; };
+		CC1B665517BF0564007B2787 /* blargg_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DF179D304700768D24 /* blargg_common.cpp */; };
+		CC1B665617BF0564007B2787 /* blargg_errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E0179D304700768D24 /* blargg_errors.cpp */; };
+		CC1B665717BF0564007B2787 /* Data_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E1179D304700768D24 /* Data_Reader.cpp */; };
+		CC1B665817BF0564007B2787 /* fex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E2179D304700768D24 /* fex.cpp */; };
+		CC1B665917BF0564007B2787 /* File_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E3179D304700768D24 /* File_Extractor.cpp */; };
+		CC1B665A17BF0564007B2787 /* Gzip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */; };
+		CC1B665B17BF0564007B2787 /* Gzip_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */; };
+		CC1B665C17BF0564007B2787 /* Rar_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */; };
+		CC1B665D17BF0564007B2787 /* Zip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */; };
+		CC1B665E17BF0564007B2787 /* Zip7_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */; };
+		CC1B665F17BF0564007B2787 /* Zlib_Inflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */; };
+		CC1B666017BF0564007B2787 /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EA179D304700768D24 /* memgzio.c */; };
+		CC1B666117BF0564007B2787 /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; };
+		CC1B666217BF0564007B2787 /* 7zBuf.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EC179D304700768D24 /* 7zBuf.c */; };
+		CC1B666317BF0564007B2787 /* 7zCrc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71ED179D304700768D24 /* 7zCrc.c */; };
+		CC1B666417BF0564007B2787 /* 7zCrcOpt.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EE179D304700768D24 /* 7zCrcOpt.c */; };
+		CC1B666517BF0564007B2787 /* 7zDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EF179D304700768D24 /* 7zDec.c */; };
+		CC1B666617BF0564007B2787 /* 7zIn.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F0179D304700768D24 /* 7zIn.c */; };
+		CC1B666717BF0564007B2787 /* 7zStream.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F1179D304700768D24 /* 7zStream.c */; };
+		CC1B666817BF0564007B2787 /* Bcj2.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F2179D304700768D24 /* Bcj2.c */; };
+		CC1B666917BF0564007B2787 /* Bra.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F3179D304700768D24 /* Bra.c */; };
+		CC1B666A17BF0564007B2787 /* Bra86.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F4179D304700768D24 /* Bra86.c */; };
+		CC1B666B17BF0564007B2787 /* CpuArch.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F5179D304700768D24 /* CpuArch.c */; };
+		CC1B666C17BF0564007B2787 /* Lzma2Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F6179D304700768D24 /* Lzma2Dec.c */; };
+		CC1B666D17BF0564007B2787 /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
+		CC1B666E17BF0564007B2787 /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
+		CC1B666F17BF0564007B2787 /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
+		CC1B667017BF056B007B2787 /* CreditsView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7194179D2FE400768D24 /* CreditsView.cc */; };
+		CC1B667117BF056B007B2787 /* MsgPopup.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7195179D2FE400768D24 /* MsgPopup.cc */; };
+		CC1B667217BF056B007B2787 /* FilePicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7196179D2FE400768D24 /* FilePicker.cc */; };
+		CC1B667317BF056B007B2787 /* EmuSystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7197179D2FE400768D24 /* EmuSystem.cc */; };
+		CC1B667417BF056B007B2787 /* Recent.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7198179D2FE400768D24 /* Recent.cc */; };
+		CC1B667517BF056B007B2787 /* Screenshot.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7199179D2FE400768D24 /* Screenshot.cc */; };
+		CC1B667617BF056B007B2787 /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
+		CC1B667717BF056B007B2787 /* VideoImageOverlay.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */; };
+		CC1B667817BF056B007B2787 /* StateSlotView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719C179D2FE400768D24 /* StateSlotView.cc */; };
+		CC1B667917BF056B007B2787 /* MenuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719D179D2FE400768D24 /* MenuView.cc */; };
+		CC1B667A17BF056B007B2787 /* EmuInput.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719E179D2FE400768D24 /* EmuInput.cc */; };
+		CC1B667B17BF056B007B2787 /* TextEntry.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719F179D2FE400768D24 /* TextEntry.cc */; };
+		CC1B667C17BF056B007B2787 /* EmuOptions.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A0179D2FE400768D24 /* EmuOptions.cc */; };
+		CC1B667D17BF056B007B2787 /* OptionView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A1179D2FE400768D24 /* OptionView.cc */; };
+		CC1B667E17BF056B007B2787 /* EmuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A2179D2FE400768D24 /* EmuView.cc */; };
+		CC1B667F17BF056B007B2787 /* ConfigFile.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A3179D2FE400768D24 /* ConfigFile.cc */; };
+		CC1B668017BF056B007B2787 /* InputManagerView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A4179D2FE400768D24 /* InputManagerView.cc */; };
+		CC1B668117BF056B007B2787 /* FileUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A5179D2FE400768D24 /* FileUtils.cc */; };
+		CC1B668217BF056B007B2787 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A6179D2FE400768D24 /* Cheats.cc */; };
+		CC1B668317BF056B007B2787 /* TouchConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */; };
+		CC1B668417BF056B007B2787 /* VController.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A8179D2FE400768D24 /* VController.cc */; };
+		CC1B668517BF0574007B2787 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
+		CC1B668617BF0574007B2787 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
+		CC1B668717BF0574007B2787 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
+		CC1B668817BF0574007B2787 /* opengl.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7158179D2EAA00768D24 /* opengl.cc */; };
+		CC1B668917BF0574007B2787 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7159179D2EAA00768D24 /* View.cc */; };
+		CC1B668A17BF0574007B2787 /* ScrollView1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */; };
+		CC1B668B17BF0574007B2787 /* GuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */; };
+		CC1B668C17BF0574007B2787 /* ScrollableGuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */; };
+		CC1B668D17BF0574007B2787 /* FsPosix.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715D179D2EAA00768D24 /* FsPosix.cc */; };
+		CC1B668E17BF0574007B2787 /* Io.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715E179D2EAA00768D24 /* Io.cc */; };
+		CC1B668F17BF0574007B2787 /* IoFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715F179D2EAA00768D24 /* IoFd.cc */; };
+		CC1B669017BF0574007B2787 /* IoMmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7160179D2EAA00768D24 /* IoMmap.cc */; };
+		CC1B669117BF0574007B2787 /* IoMmapFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */; };
+		CC1B669217BF0574007B2787 /* MenuItem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7169179D2EAA00768D24 /* MenuItem.cc */; };
+		CC1B669317BF0574007B2787 /* NavView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716A179D2EAA00768D24 /* NavView.cc */; };
+		CC1B669417BF0574007B2787 /* FSPicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716B179D2EAA00768D24 /* FSPicker.cc */; };
+		CC1B669517BF0574007B2787 /* AlertView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716C179D2EAA00768D24 /* AlertView.cc */; };
+		CC1B669617BF0574007B2787 /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716D179D2EAA00768D24 /* ResourceFace.cc */; };
+		CC1B669717BF0574007B2787 /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716E179D2EAA00768D24 /* ResourceFont.cc */; };
+		CC1B669817BF0574007B2787 /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716F179D2EAA00768D24 /* Quartz2d.cc */; };
+		CC1B669917BF0574007B2787 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; };
+		CC1B669A17BF0574007B2787 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; };
+		CC1B669B17BF0574007B2787 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; };
+		CC1B669C17BF057A007B2787 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD4179D1BC60068A54E /* png.c */; };
+		CC1B669D17BF057A007B2787 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD6179D1BC60068A54E /* pngerror.c */; };
+		CC1B669E17BF057A007B2787 /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD7179D1BC60068A54E /* pngget.c */; };
+		CC1B669F17BF057A007B2787 /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD8179D1BC60068A54E /* pngmem.c */; };
+		CC1B66A017BF057A007B2787 /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD9179D1BC60068A54E /* pngpread.c */; };
+		CC1B66A117BF057A007B2787 /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADA179D1BC60068A54E /* pngread.c */; };
+		CC1B66A217BF057A007B2787 /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADB179D1BC60068A54E /* pngrio.c */; };
+		CC1B66A317BF057A007B2787 /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADC179D1BC60068A54E /* pngrtran.c */; };
+		CC1B66A417BF057A007B2787 /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADD179D1BC60068A54E /* pngrutil.c */; };
+		CC1B66A517BF057A007B2787 /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADE179D1BC60068A54E /* pngset.c */; };
+		CC1B66A617BF057A007B2787 /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADF179D1BC60068A54E /* pngtrans.c */; };
+		CC1B66A717BF057A007B2787 /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE0179D1BC60068A54E /* pngwio.c */; };
+		CC1B66A817BF057A007B2787 /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
+		CC1B66A917BF057A007B2787 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
+		CC1B66AA17BF057A007B2787 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
+		CC1B66AB17BF068B007B2787 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
+		CC1B66AD17BF06FD007B2787 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1B66AC17BF06FD007B2787 /* libPods.a */; };
+		CC1B66C217BF56E2007B2787 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
+		CC1B66C317BF56E2007B2787 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
+		CC1B66C417BF56E2007B2787 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
+		CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
+		CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
+		CC1B66C717BF56E2007B2787 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CCB5F87A17A8EE85009D31CF /* Default.gbaskin */; };
+		CC1B66C817BF56E2007B2787 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		CC1B66C917BF56E2007B2787 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
+		CC1B66CA17BF56E2007B2787 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
+		CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
+		CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
+		CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
 		CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CC275BF417A5075E006243FB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
@@ -49,40 +178,35 @@
 		CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC275C4017A5075E006243FB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
-		CC275C4317A5075E006243FB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
-		CC275C4417A5075E006243FB /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
-		CC275C4517A5075E006243FB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC275C4617A5075E006243FB /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
-		CC275C4717A5075E006243FB /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
-		CC275C4817A5075E006243FB /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
-		CC275C4917A5075E006243FB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
-		CC275C4A17A5075E006243FB /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
-		CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
 		CC2D570C1798F2EC00C616EB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
 		CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
-		CC2D571B1798F2EC00C616EB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
-		CC2D57221798F2ED00C616EB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57211798F2ED00C616EB /* XCTest.framework */; };
-		CC2D57231798F2ED00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
-		CC2D57241798F2ED00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
-		CC2D572C1798F2ED00C616EB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D572A1798F2ED00C616EB /* InfoPlist.strings */; };
-		CC2D572E1798F2ED00C616EB /* GBA4iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D572D1798F2ED00C616EB /* GBA4iOSTests.m */; };
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
-		CC347BA117A33E0400309436 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC41AEAA17A22EC90062DDD8 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC491D4917BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
 		CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
+		CC770C9D17BEE3C100904259 /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
+		CC770C9E17BEE3C100904259 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
+		CC770C9F17BEE3C100904259 /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
+		CC770CA017BEE3C100904259 /* GBATransparentTableViewHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */; };
+		CC770CA117BEE3C100904259 /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAController.m */; };
+		CC770CA217BEE3C100904259 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
+		CC770CA317BEE3C100904259 /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
+		CC770CA417BEE3C100904259 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
+		CC770CA517BEE3C100904259 /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
+		CC770CA617BEE3C100904259 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
+		CC770CA717BEE3C100904259 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
+		CC770CA817BEE3C100904259 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
+		CC770CA917BEE3C100904259 /* GBAPresentMenuViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */; };
+		CC770D2217BEE3D200904259 /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
 		CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
 		CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
 		CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
-		CC86824F17A6D48600686607 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
-		CC86825017A6D48600686607 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
 		CC86825417A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
 		CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
 		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
@@ -90,15 +214,15 @@
 		CC8D5A7717AAE13700E89F43 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
 		CC8D5A7A17AAE3A800E89F43 /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAController.m */; };
 		CC8D5A7B17AAE3A800E89F43 /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAController.m */; };
-		CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
-		CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
-		CCB5F87B17A8EE85009D31CF /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CCB5F87A17A8EE85009D31CF /* Default.gbaskin */; };
-		CCB5F87C17A8EE85009D31CF /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CCB5F87A17A8EE85009D31CF /* Default.gbaskin */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		CCE3CE0517AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */; };
 		CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */; };
+		CCE93EF617BEDD0C008EADAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
+		CCE93EF717BEDD0C008EADAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
+		CCE93F0217BEDD0C008EADAF /* libGBA4iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCE93F0117BEDD0C008EADAF /* libGBA4iOS.mm */; };
+		CCE93F0D17BEDDD5008EADAF /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
 		CCFA493817B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */; };
 		CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */; };
 		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
@@ -204,16 +328,6 @@
 		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		CC2D57251798F2ED00C616EB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CC2D56FB1798F2EC00C616EB;
-			remoteInfo = GBA4iOS;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
 		CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorScreen.mm; sourceTree = "<group>"; };
@@ -244,6 +358,9 @@
 		CC15E540179F027300449972 /* GBAEmulatorCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorCore.h; sourceTree = "<group>"; };
 		CC15E541179F027300449972 /* GBAEmulatorCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorCore.mm; sourceTree = "<group>"; };
 		CC15E546179F6C4D00449972 /* EmuOptions.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmuOptions.hh; path = "emu-ex-plus-alpha/EmuFramework/include/EmuOptions.hh"; sourceTree = SOURCE_ROOT; };
+		CC1B66AC17BF06FD007B2787 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		CC1B66B517BF4D77007B2787 /* GBAResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GBAResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC1B66B917BF4D78007B2787 /* GBAResources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBAResources-Info.plist"; sourceTree = "<group>"; };
 		CC275C5017A5075E006243FB /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC275C5117A5075F006243FB /* GBA4iOS-Simulator-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GBA4iOS-Simulator-Info.plist"; path = "/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS-Simulator-Info.plist"; sourceTree = "<absolute>"; };
 		CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBA4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,14 +376,10 @@
 		CC2D57121798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		CC2D57151798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		CC2D571A1798F2EC00C616EB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		CC2D57201798F2ED00C616EB /* GBA4iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GBA4iOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC2D57211798F2ED00C616EB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		CC2D57291798F2ED00C616EB /* GBA4iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBA4iOSTests-Info.plist"; sourceTree = "<group>"; };
-		CC2D572B1798F2ED00C616EB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CC2D572D1798F2ED00C616EB /* GBA4iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBA4iOSTests.m; sourceTree = "<group>"; };
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
-		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC491D4717BCA5420060A107 /* GBAThemedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAThemedTableViewController.h; sourceTree = "<group>"; };
 		CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAThemedTableViewController.m; sourceTree = "<group>"; };
@@ -277,7 +390,7 @@
 		CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITouch+ControllerButtons.m"; sourceTree = "<group>"; };
 		CC823BC217B04A7A000A25E6 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
-		CC86824E17A6D48600686607 /* icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60@2x.png"; path = "GBA4iOS/Images.xcassets/AppIcon.appiconset/icon-60@2x.png"; sourceTree = "<group>"; };
+		CC86824E17A6D48600686607 /* icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60@2x.png"; path = "Images.xcassets/AppIcon.appiconset/icon-60@2x.png"; sourceTree = "<group>"; };
 		CC86825217A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentEmulationViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPresentEmulationViewControllerAnimator.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
@@ -293,6 +406,13 @@
 		CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASettingsViewController.m; sourceTree = "<group>"; };
 		CCE3CE0317AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentMenuViewControllerAnimator.h; sourceTree = "<group>"; };
 		CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPresentMenuViewControllerAnimator.m; sourceTree = "<group>"; };
+		CCE93EF517BEDD0C008EADAF /* libGBA4iOS.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libGBA4iOS.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCE93EFB17BEDD0C008EADAF /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
+		CCE93EFC17BEDD0C008EADAF /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
+		CCE93EFE17BEDD0C008EADAF /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
+		CCE93F0017BEDD0C008EADAF /* libGBA4iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libGBA4iOS.h; sourceTree = "<group>"; };
+		CCE93F0117BEDD0C008EADAF /* libGBA4iOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = libGBA4iOS.mm; sourceTree = "<group>"; };
+		CCE93F0517BEDD0C008EADAF /* 0xdeadfa11 */ = {isa = PBXFileReference; lastKnownFileType = text; name = 0xdeadfa11; path = Package/usr/lib/0xdeadfa11; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA493617B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBATransparentTableViewHeaderFooterView.h; sourceTree = "<group>"; };
 		CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBATransparentTableViewHeaderFooterView.m; sourceTree = "<group>"; };
@@ -405,6 +525,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		CC1B66B217BF4D77007B2787 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC275C3617A5075E006243FB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -441,13 +568,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC2D571D1798F2ED00C616EB /* Frameworks */ = {
+		CCE93EF117BEDD0C008EADAF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC2D57221798F2ED00C616EB /* XCTest.framework in Frameworks */,
-				CC2D57241798F2ED00C616EB /* UIKit.framework in Frameworks */,
-				CC2D57231798F2ED00C616EB /* Foundation.framework in Frameworks */,
+				CC1B66AD17BF06FD007B2787 /* libPods.a in Frameworks */,
+				CC1B66AB17BF068B007B2787 /* libz.dylib in Frameworks */,
+				CCE93EF617BEDD0C008EADAF /* Foundation.framework in Frameworks */,
+				CCE93EF717BEDD0C008EADAF /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,14 +692,21 @@
 			name = Core;
 			sourceTree = "<group>";
 		};
+		CC1B66B717BF4D78007B2787 /* GBAResources */ = {
+			isa = PBXGroup;
+			children = (
+				CC1B66B917BF4D78007B2787 /* GBAResources-Info.plist */,
+			);
+			path = GBAResources;
+			sourceTree = "<group>";
+		};
 		CC2D56F31798F2EC00C616EB = {
 			isa = PBXGroup;
 			children = (
-				CC347BA017A33E0400309436 /* Default-568h@2x.png */,
-				CC86824E17A6D48600686607 /* icon-60@2x.png */,
 				CC2D57051798F2EC00C616EB /* GBA4iOS */,
 				CC2D57381798F40E00C616EB /* Resources */,
-				CC2D57271798F2ED00C616EB /* GBA4iOSTests */,
+				CCE93EF817BEDD0C008EADAF /* libGBA4iOS */,
+				CC1B66B717BF4D78007B2787 /* GBAResources */,
 				CC2D56FE1798F2EC00C616EB /* Frameworks */,
 				CC2D56FD1798F2EC00C616EB /* Products */,
 				E497718ED60948D8A50CF8AA /* Pods.xcconfig */,
@@ -582,8 +717,9 @@
 			isa = PBXGroup;
 			children = (
 				CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */,
-				CC2D57201798F2ED00C616EB /* GBA4iOSTests.xctest */,
 				CC275C5017A5075E006243FB /* GBA4iOS copy.app */,
+				CCE93EF517BEDD0C008EADAF /* libGBA4iOS.dylib */,
+				CC1B66B517BF4D77007B2787 /* GBAResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -591,6 +727,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CC1B66AC17BF06FD007B2787 /* libPods.a */,
 				CC66AFA217A50B5B00F51D9B /* Reveal.framework */,
 				CC1577D7179CF1F80068A54E /* libz.dylib */,
 				CC1577CD179CF1B90068A54E /* AudioToolbox.framework */,
@@ -616,13 +753,13 @@
 				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
+				CC2D57061798F2EC00C616EB /* Supporting Files */,
 				CC823BC117B04A6D000A25E6 /* Categories */,
 				CCFA493517B00F5100386A43 /* Views */,
 				CCE3CDFA17AE9E5000FAB9C8 /* View Controllers */,
 				CC86825117A6DCC600686607 /* Custom Transitions */,
 				CC1578A6179D051E0068A54E /* Emulator Code */,
 				CCC17744179FC7B200AB529A /* Categories */,
-				CC2D57061798F2EC00C616EB /* Supporting Files */,
 			);
 			path = GBA4iOS;
 			sourceTree = "<group>";
@@ -640,27 +777,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		CC2D57271798F2ED00C616EB /* GBA4iOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				CC2D572D1798F2ED00C616EB /* GBA4iOSTests.m */,
-				CC2D57281798F2ED00C616EB /* Supporting Files */,
-			);
-			path = GBA4iOSTests;
-			sourceTree = "<group>";
-		};
-		CC2D57281798F2ED00C616EB /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CC2D57291798F2ED00C616EB /* GBA4iOSTests-Info.plist */,
-				CC2D572A1798F2ED00C616EB /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		CC2D57381798F40E00C616EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CC347BA017A33E0400309436 /* Default-568h@2x.png */,
+				CC86824E17A6D48600686607 /* icon-60@2x.png */,
 				CCB5F87A17A8EE85009D31CF /* Default.gbaskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
@@ -753,6 +874,59 @@
 			name = "View Controllers";
 			sourceTree = "<group>";
 		};
+		CCE93EF817BEDD0C008EADAF /* libGBA4iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CCE93F0017BEDD0C008EADAF /* libGBA4iOS.h */,
+				CCE93F0117BEDD0C008EADAF /* libGBA4iOS.mm */,
+				CCE93EF917BEDD0C008EADAF /* Package */,
+				CCE93EFD17BEDD0C008EADAF /* Supporting Files */,
+			);
+			path = libGBA4iOS;
+			sourceTree = "<group>";
+		};
+		CCE93EF917BEDD0C008EADAF /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				CCE93EFA17BEDD0C008EADAF /* DEBIAN */,
+				CCE93F0317BEDD0C008EADAF /* usr */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+		CCE93EFA17BEDD0C008EADAF /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				CCE93EFB17BEDD0C008EADAF /* control.txt */,
+				CCE93EFC17BEDD0C008EADAF /* control */,
+			);
+			name = DEBIAN;
+			sourceTree = "<group>";
+		};
+		CCE93EFD17BEDD0C008EADAF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CCE93EFE17BEDD0C008EADAF /* PackageVersion.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CCE93F0317BEDD0C008EADAF /* usr */ = {
+			isa = PBXGroup;
+			children = (
+				CCE93F0417BEDD0C008EADAF /* lib */,
+			);
+			name = usr;
+			sourceTree = "<group>";
+		};
+		CCE93F0417BEDD0C008EADAF /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				CCE93F0517BEDD0C008EADAF /* 0xdeadfa11 */,
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
 		CCFA493517B00F5100386A43 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -834,7 +1008,34 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		CCE93EF217BEDD0C008EADAF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		CC1B66B417BF4D77007B2787 /* Resource Bundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC1B66C117BF4D78007B2787 /* Build configuration list for PBXNativeTarget "Resource Bundle" */;
+			buildPhases = (
+				CC1B66B117BF4D77007B2787 /* Sources */,
+				CC1B66B217BF4D77007B2787 /* Frameworks */,
+				CC1B66B317BF4D77007B2787 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Resource Bundle";
+			productName = GBAResources;
+			productReference = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		CC275BB317A5075E006243FB /* GBA4iOS-Simulator */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC275C4C17A5075E006243FB /* Build configuration list for PBXNativeTarget "GBA4iOS-Simulator" */;
@@ -873,23 +1074,23 @@
 			productReference = CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CC2D571F1798F2ED00C616EB /* GBA4iOSTests */ = {
+		CCE93EF417BEDD0C008EADAF /* libGBA4iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CC2D57341798F2ED00C616EB /* Build configuration list for PBXNativeTarget "GBA4iOSTests" */;
+			buildConfigurationList = CCE93F0617BEDD0C008EADAF /* Build configuration list for PBXNativeTarget "libGBA4iOS" */;
 			buildPhases = (
-				CC2D571C1798F2ED00C616EB /* Sources */,
-				CC2D571D1798F2ED00C616EB /* Frameworks */,
-				CC2D571E1798F2ED00C616EB /* Resources */,
+				CCE93EF017BEDD0C008EADAF /* Sources */,
+				CCE93EF117BEDD0C008EADAF /* Frameworks */,
+				CCE93EF217BEDD0C008EADAF /* Headers */,
+				CCE93EF317BEDD0C008EADAF /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CC2D57261798F2ED00C616EB /* PBXTargetDependency */,
 			);
-			name = GBA4iOSTests;
-			productName = GBA4iOSTests;
-			productReference = CC2D57201798F2ED00C616EB /* GBA4iOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
+			name = libGBA4iOS;
+			productName = libGBA4iOS;
+			productReference = CCE93EF517BEDD0C008EADAF /* libGBA4iOS.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
@@ -903,9 +1104,6 @@
 				TargetAttributes = {
 					CC2D56FB1798F2EC00C616EB = {
 						DevelopmentTeam = 6XVY5G3U44;
-					};
-					CC2D571F1798F2ED00C616EB = {
-						TestTargetID = CC2D56FB1798F2EC00C616EB;
 					};
 				};
 			};
@@ -923,27 +1121,36 @@
 			projectRoot = "";
 			targets = (
 				CC2D56FB1798F2EC00C616EB /* GBA4iOS */,
-				CC2D571F1798F2ED00C616EB /* GBA4iOSTests */,
 				CC275BB317A5075E006243FB /* GBA4iOS-Simulator */,
+				CCE93EF417BEDD0C008EADAF /* libGBA4iOS */,
+				CC1B66B417BF4D77007B2787 /* Resource Bundle */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		CC1B66B317BF4D77007B2787 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC1B66C217BF56E2007B2787 /* Main_iPhone.storyboard in Resources */,
+				CC1B66C317BF56E2007B2787 /* Main_iPad.storyboard in Resources */,
+				CC1B66C417BF56E2007B2787 /* InfoPlist.strings in Resources */,
+				CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */,
+				CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */,
+				CC1B66C717BF56E2007B2787 /* Default.gbaskin in Resources */,
+				CC1B66C817BF56E2007B2787 /* padButton.png in Resources */,
+				CC1B66C917BF56E2007B2787 /* overlays128.png in Resources */,
+				CC1B66CA17BF56E2007B2787 /* xButton.png in Resources */,
+				CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC275C4117A5075E006243FB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC275C4317A5075E006243FB /* Images.xcassets in Resources */,
-				CC275C4417A5075E006243FB /* padButton.png in Resources */,
-				CC275C4517A5075E006243FB /* Default-568h@2x.png in Resources */,
-				CC275C4617A5075E006243FB /* overlays128.png in Resources */,
-				CC275C4717A5075E006243FB /* Main_iPad.storyboard in Resources */,
-				CC86825017A6D48600686607 /* icon-60@2x.png in Resources */,
-				CC275C4817A5075E006243FB /* xButton.png in Resources */,
-				CC275C4917A5075E006243FB /* InfoPlist.strings in Resources */,
-				CC275C4A17A5075E006243FB /* Main_iPhone.storyboard in Resources */,
-				CCB5F87C17A8EE85009D31CF /* Default.gbaskin in Resources */,
+				CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -951,24 +1158,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC2D571B1798F2EC00C616EB /* Images.xcassets in Resources */,
-				CC41AEAA17A22EC90062DDD8 /* padButton.png in Resources */,
-				CC347BA117A33E0400309436 /* Default-568h@2x.png in Resources */,
-				CC15E53D179ECDCC00449972 /* overlays128.png in Resources */,
-				CC9B5987179906E700DD9067 /* Main_iPad.storyboard in Resources */,
-				CC86824F17A6D48600686607 /* icon-60@2x.png in Resources */,
-				CC15E53F179ECDCC00449972 /* xButton.png in Resources */,
-				CC2D570A1798F2EC00C616EB /* InfoPlist.strings in Resources */,
-				CC9B5986179906E700DD9067 /* Main_iPhone.storyboard in Resources */,
-				CCB5F87B17A8EE85009D31CF /* Default.gbaskin in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC2D571E1798F2ED00C616EB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC2D572C1798F2ED00C616EB /* InfoPlist.strings in Resources */,
+				CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1017,6 +1207,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 		};
+		CCE93EF317BEDD0C008EADAF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
 		FE023BCB446F47D5895A54D5 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1034,6 +1237,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		CC1B66B117BF4D77007B2787 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC275BB517A5075E006243FB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1196,23 +1406,147 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC2D571C1798F2ED00C616EB /* Sources */ = {
+		CCE93EF017BEDD0C008EADAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC2D572E1798F2ED00C616EB /* GBA4iOSTests.m in Sources */,
+				CC1B666617BF0564007B2787 /* 7zIn.c in Sources */,
+				CC1B664917BF0564007B2787 /* Mode5.cpp in Sources */,
+				CC1B666D17BF0564007B2787 /* LzmaDec.c in Sources */,
+				CC1B668617BF0574007B2787 /* coreaudio.cc in Sources */,
+				CC770D2217BEE3D200904259 /* UIScreen+Widescreen.m in Sources */,
+				CC1B663917BF0564007B2787 /* Cheats.cc in Sources */,
+				CC1B669E17BF057A007B2787 /* pngget.c in Sources */,
+				CC1B668117BF056B007B2787 /* FileUtils.cc in Sources */,
+				CC1B668317BF056B007B2787 /* TouchConfigView.cc in Sources */,
+				CC770C9D17BEE3C100904259 /* GBAROMTableViewController.m in Sources */,
+				CC1B667117BF056B007B2787 /* MsgPopup.cc in Sources */,
+				CC1B663E17BF0564007B2787 /* Flash.cpp in Sources */,
+				CC1B665417BF0564007B2787 /* Binary_Extractor.cpp in Sources */,
+				CC1B664817BF0564007B2787 /* Mode4.cpp in Sources */,
+				CC1B669B17BF0574007B2787 /* Quartz2dUIKit.mm in Sources */,
+				CC1B664E17BF0564007B2787 /* Util.cpp in Sources */,
+				CC1B663817BF0564007B2787 /* VbamApi.cc in Sources */,
+				CC1B669417BF0574007B2787 /* FSPicker.cc in Sources */,
+				CC1B667A17BF056B007B2787 /* EmuInput.cc in Sources */,
+				CC1B669D17BF057A007B2787 /* pngerror.c in Sources */,
+				CC1B666717BF0564007B2787 /* 7zStream.c in Sources */,
+				CC1B665517BF0564007B2787 /* blargg_common.cpp in Sources */,
+				CC770C9E17BEE3C100904259 /* UIImage+ImageEffects.m in Sources */,
+				CC1B667517BF056B007B2787 /* Screenshot.cc in Sources */,
+				CC770C9F17BEE3C100904259 /* UITouch+ControllerButtons.m in Sources */,
+				CC1B668E17BF0574007B2787 /* Io.cc in Sources */,
+				CC1B666B17BF0564007B2787 /* CpuArch.c in Sources */,
+				CC1B668917BF0574007B2787 /* View.cc in Sources */,
+				CC1B664C17BF0564007B2787 /* Sram.cpp in Sources */,
+				CC1B669917BF0574007B2787 /* apple.mm in Sources */,
+				CC1B669717BF0574007B2787 /* ResourceFont.cc in Sources */,
+				CC1B66A317BF057A007B2787 /* pngrtran.c in Sources */,
+				CC1B669F17BF057A007B2787 /* pngmem.c in Sources */,
+				CC1B666A17BF0564007B2787 /* Bra86.c in Sources */,
+				CC1B66A417BF057A007B2787 /* pngrutil.c in Sources */,
+				CC770CA017BEE3C100904259 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
+				CC1B664F17BF0564007B2787 /* Blip_Buffer.cpp in Sources */,
+				CC1B665F17BF0564007B2787 /* Zlib_Inflater.cpp in Sources */,
+				CC1B66AA17BF057A007B2787 /* pngwutil.c in Sources */,
+				CC1B669017BF0574007B2787 /* IoMmap.cc in Sources */,
+				CC1B667317BF056B007B2787 /* EmuSystem.cc in Sources */,
+				CC1B665C17BF0564007B2787 /* Rar_Extractor.cpp in Sources */,
+				CC1B663B17BF0564007B2787 /* Cheats.cpp in Sources */,
+				CC1B66A517BF057A007B2787 /* pngset.c in Sources */,
+				CC1B668717BF0574007B2787 /* Pixmap.cc in Sources */,
+				CC1B664617BF0564007B2787 /* Mode2.cpp in Sources */,
+				CC1B664717BF0564007B2787 /* Mode3.cpp in Sources */,
+				CC1B666417BF0564007B2787 /* 7zCrcOpt.c in Sources */,
+				CC1B666917BF0564007B2787 /* Bra.c in Sources */,
+				CC1B666517BF0564007B2787 /* 7zDec.c in Sources */,
+				CC770CA117BEE3C100904259 /* GBAController.m in Sources */,
+				CC1B667717BF056B007B2787 /* VideoImageOverlay.cc in Sources */,
+				CC1B667E17BF056B007B2787 /* EmuView.cc in Sources */,
+				CC1B665117BF0564007B2787 /* Gb_Apu.cpp in Sources */,
+				CC1B663A17BF0564007B2787 /* bios.cpp in Sources */,
+				CC1B668A17BF0574007B2787 /* ScrollView1D.cc in Sources */,
+				CC1B666C17BF0564007B2787 /* Lzma2Dec.c in Sources */,
+				CC1B66A217BF057A007B2787 /* pngrio.c in Sources */,
+				CC1B665017BF0564007B2787 /* Gb_Apu_State.cpp in Sources */,
+				CC1B663C17BF0564007B2787 /* CheatSearch.cpp in Sources */,
+				CC1B665D17BF0564007B2787 /* Zip_Extractor.cpp in Sources */,
+				CC770CA217BEE3C100904259 /* GBASettingsViewController.m in Sources */,
+				CC1B667617BF056B007B2787 /* ButtonConfigView.cc in Sources */,
+				CC1B668B17BF0574007B2787 /* GuiTable1D.cc in Sources */,
+				CC1B665E17BF0564007B2787 /* Zip7_Extractor.cpp in Sources */,
+				CC1B669817BF0574007B2787 /* Quartz2d.cc in Sources */,
+				CC1B665717BF0564007B2787 /* Data_Reader.cpp in Sources */,
+				CC1B669317BF0574007B2787 /* NavView.cc in Sources */,
+				CC1B668F17BF0574007B2787 /* IoFd.cc in Sources */,
+				CC770CA317BEE3C100904259 /* GBAEmulationViewController.mm in Sources */,
+				CC1B66A617BF057A007B2787 /* pngtrans.c in Sources */,
+				CC1B664117BF0564007B2787 /* GBA.cpp in Sources */,
+				CC770CA417BEE3C100904259 /* GBAEmulatorScreen.mm in Sources */,
+				CC1B664517BF0564007B2787 /* Mode1.cpp in Sources */,
+				CC770CA517BEE3C100904259 /* GBAEmulatorCore.mm in Sources */,
+				CC1B665817BF0564007B2787 /* fex.cpp in Sources */,
+				CC1B668D17BF0574007B2787 /* FsPosix.cc in Sources */,
+				CC1B666017BF0564007B2787 /* memgzio.c in Sources */,
+				CC1B666E17BF0564007B2787 /* Ppmd7.c in Sources */,
+				CC770CA617BEE3C100904259 /* GBASaveStateViewController.mm in Sources */,
+				CC1B667D17BF056B007B2787 /* OptionView.cc in Sources */,
+				CC1B665217BF0564007B2787 /* Gb_Oscs.cpp in Sources */,
+				CC1B665317BF0564007B2787 /* Multi_Buffer.cpp in Sources */,
+				CC1B665917BF0564007B2787 /* File_Extractor.cpp in Sources */,
+				CC1B66A717BF057A007B2787 /* pngwio.c in Sources */,
+				CC1B664317BF0564007B2787 /* Globals.cpp in Sources */,
+				CC1B668517BF0574007B2787 /* logger.cc in Sources */,
+				CC1B669C17BF057A007B2787 /* png.c in Sources */,
+				CC1B664417BF0564007B2787 /* Mode0.cpp in Sources */,
+				CC1B667417BF056B007B2787 /* Recent.cc in Sources */,
+				CC1B666117BF0564007B2787 /* 7zAlloc.c in Sources */,
+				CC1B669617BF0574007B2787 /* ResourceFace.cc in Sources */,
+				CC1B668417BF056B007B2787 /* VController.cc in Sources */,
+				CC1B666F17BF0564007B2787 /* Ppmd7Dec.c in Sources */,
+				CC1B666317BF0564007B2787 /* 7zCrc.c in Sources */,
+				CC1B664D17BF0564007B2787 /* Patch.cpp in Sources */,
+				CC1B667F17BF056B007B2787 /* ConfigFile.cc in Sources */,
+				CC1B663617BF0564007B2787 /* Main.cc in Sources */,
+				CC1B667917BF056B007B2787 /* MenuView.cc in Sources */,
+				CC1B669517BF0574007B2787 /* AlertView.cc in Sources */,
+				CC1B667017BF056B007B2787 /* CreditsView.cc in Sources */,
+				CC1B66A917BF057A007B2787 /* pngwtran.c in Sources */,
+				CC770CA717BEE3C100904259 /* GBAThemedTableViewController.m in Sources */,
+				CC1B667217BF056B007B2787 /* FilePicker.cc in Sources */,
+				CC1B669117BF0574007B2787 /* IoMmapFd.cc in Sources */,
+				CC1B66A017BF057A007B2787 /* pngpread.c in Sources */,
+				CC1B665B17BF0564007B2787 /* Gzip_Reader.cpp in Sources */,
+				CC770CA817BEE3C100904259 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
+				CC1B665617BF0564007B2787 /* blargg_errors.cpp in Sources */,
+				CC1B668017BF056B007B2787 /* InputManagerView.cc in Sources */,
+				CC1B667C17BF056B007B2787 /* EmuOptions.cc in Sources */,
+				CC1B666817BF0564007B2787 /* Bcj2.c in Sources */,
+				CC1B663D17BF0564007B2787 /* EEprom.cpp in Sources */,
+				CC1B669217BF0574007B2787 /* MenuItem.cc in Sources */,
+				CC1B669A17BF0574007B2787 /* ResourceFontUIKit.mm in Sources */,
+				CC1B667B17BF056B007B2787 /* TextEntry.cc in Sources */,
+				CC770CA917BEE3C100904259 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
+				CC1B667817BF056B007B2787 /* StateSlotView.cc in Sources */,
+				CCE93F0217BEDD0C008EADAF /* libGBA4iOS.mm in Sources */,
+				CC1B66A117BF057A007B2787 /* pngread.c in Sources */,
+				CC1B668817BF0574007B2787 /* opengl.cc in Sources */,
+				CC1B663F17BF0564007B2787 /* GBA-arm.cpp in Sources */,
+				CC1B664A17BF0564007B2787 /* RTC.cpp in Sources */,
+				CC1B668C17BF0574007B2787 /* ScrollableGuiTable1D.cc in Sources */,
+				CC1B66A817BF057A007B2787 /* pngwrite.c in Sources */,
+				CC1B664B17BF0564007B2787 /* Sound.cpp in Sources */,
+				CCE93F0D17BEDDD5008EADAF /* GBAAppDelegate.mm in Sources */,
+				CC1B665A17BF0564007B2787 /* Gzip_Extractor.cpp in Sources */,
+				CC1B664217BF0564007B2787 /* gbafilter.cpp in Sources */,
+				CC1B664017BF0564007B2787 /* GBA-thumb.cpp in Sources */,
+				CC1B666217BF0564007B2787 /* 7zBuf.c in Sources */,
+				CC1B668217BF056B007B2787 /* Cheats.cc in Sources */,
+				CC1B663717BF0564007B2787 /* EmuControls.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		CC2D57261798F2ED00C616EB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CC2D56FB1798F2EC00C616EB /* GBA4iOS */;
-			targetProxy = CC2D57251798F2ED00C616EB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CC2D57081798F2EC00C616EB /* InfoPlist.strings */ = {
@@ -1239,17 +1573,69 @@
 			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
-		CC2D572A1798F2ED00C616EB /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CC2D572B1798F2ED00C616EB /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		CC1B66BE17BF4D78007B2787 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "GBAResources/GBAResources-Info.plist";
+				PRODUCT_NAME = GBAResources;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		CC1B66BF17BF4D78007B2787 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "GBAResources/GBAResources-Info.plist";
+				PRODUCT_NAME = GBAResources;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		CC1B66C017BF4D78007B2787 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "GBAResources/GBAResources-Info.plist";
+				PRODUCT_NAME = GBAResources;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = "Ad Hoc";
+		};
 		CC275C4D17A5075E006243FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E497718ED60948D8A50CF8AA /* Pods.xcconfig */;
@@ -1638,6 +2024,7 @@
 				PROVISIONING_PROFILE = "03AA276F-D9E3-48ED-BD17-14EFDE025E2E";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				iOSOpenDevBuildPackageOnAnyBuild = "";
 			};
 			name = Debug;
 		};
@@ -1730,6 +2117,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				iOSOpenDevBuildPackageOnAnyBuild = "";
 			};
 			name = Release;
 		};
@@ -1740,6 +2128,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1840,6 +2230,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1925,46 +2317,6 @@
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		CC2D57351798F2ED00C616EB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/GBA4iOS.app/GBA4iOS";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "GBA4iOSTests/GBA4iOSTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		CC2D57361798F2ED00C616EB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/GBA4iOS.app/GBA4iOS";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				INFOPLIST_FILE = "GBA4iOSTests/GBA4iOSTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -2057,6 +2409,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				iOSOpenDevBuildPackageOnAnyBuild = "";
 			};
 			name = "Ad Hoc";
 		};
@@ -2067,6 +2420,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2155,27 +2510,330 @@
 			};
 			name = "Ad Hoc";
 		};
-		CC347BB217A3CF2200309436 /* Ad Hoc */ = {
+		CCE93F0717BEDD0C008EADAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/GBA4iOS.app/GBA4iOS";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
+					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
+				);
+				GCC_OPTIMIZATION_LEVEL = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"COCOAPODS=1",
+				);
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+				);
+				INSTALL_PATH = /usr/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+				);
+				OTHER_LDFLAGS = (
+					"-Objc",
+					"-all_load",
+				);
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = libGBA4iOS;
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		CCE93F0817BEDD0C008EADAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
+					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				INFOPLIST_FILE = "GBA4iOSTests/GBA4iOSTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
+				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+				);
+				INSTALL_PATH = /usr/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+				);
+				OTHER_LDFLAGS = (
+					"-Objc",
+					"-all_load",
+				);
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = libGBA4iOS;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+		CCE93F0917BEDD0C008EADAF /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
+					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+				);
+				INSTALL_PATH = /usr/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+				);
+				OTHER_LDFLAGS = (
+					"-Objc",
+					"-all_load",
+				);
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PRODUCT_NAME = libGBA4iOS;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
 			};
 			name = "Ad Hoc";
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		CC1B66C117BF4D78007B2787 /* Build configuration list for PBXNativeTarget "Resource Bundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC1B66BE17BF4D78007B2787 /* Debug */,
+				CC1B66BF17BF4D78007B2787 /* Release */,
+				CC1B66C017BF4D78007B2787 /* Ad Hoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		CC275C4C17A5075E006243FB /* Build configuration list for PBXNativeTarget "GBA4iOS-Simulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2206,12 +2864,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CC2D57341798F2ED00C616EB /* Build configuration list for PBXNativeTarget "GBA4iOSTests" */ = {
+		CCE93F0617BEDD0C008EADAF /* Build configuration list for PBXNativeTarget "libGBA4iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC2D57351798F2ED00C616EB /* Debug */,
-				CC2D57361798F2ED00C616EB /* Release */,
-				CC347BB217A3CF2200309436 /* Ad Hoc */,
+				CCE93F0717BEDD0C008EADAF /* Debug */,
+				CCE93F0817BEDD0C008EADAF /* Release */,
+				CCE93F0917BEDD0C008EADAF /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

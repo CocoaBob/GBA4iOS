@@ -1,0 +1,17 @@
+Package: rileytestut.libGBA4iOS
+Name: libGBA4iOS
+Version: 0.1-1
+Description: 
+Section: System
+Depends: firmware (>= 5.0)
+Conflicts: 
+Replaces: 
+Priority: optional
+Architecture: iphoneos-arm
+Author: Riley Testut
+dev: 
+Homepage: 
+Depiction: 
+Maintainer: 
+Icon: 
+

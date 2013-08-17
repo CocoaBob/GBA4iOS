@@ -39,5 +39,4 @@
 #   define ELog(error) NSLog(@"%s [Line %d] Error:\n%@\n%@\n%@", __PRETTY_FUNCTION__, __LINE__, [error localizedDescription], [error localizedRecoverySuggestion], [error userInfo])
 #endif
 
-
 #define RST_CONTAIN_IN_NAVIGATION_CONTROLLER(viewController)  ({ UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController]; navigationController; })
