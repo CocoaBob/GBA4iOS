@@ -55,7 +55,7 @@ static GBAEmulationViewController *_emulationViewController;
         
         _romFilepath = [romFilepath copy];
         
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] setRomFilepath:romFilepath];
 #endif
     }
@@ -67,14 +67,14 @@ static GBAEmulationViewController *_emulationViewController;
 {
     [super viewDidLoad];
     
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to blue in the storyboard for easier visual debugging
 #endif
     
     self.controller.skinFilepath = self.skinFilepath;
     self.controller.delegate = self;
     
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
 #endif
     
@@ -154,7 +154,7 @@ static GBAEmulationViewController *_emulationViewController;
     if (self.selectingSustainedButton)
     {
         // Release previous sustained buttons
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] releaseButtons:self.sustainedButtonSet];
 #endif
         
@@ -166,7 +166,7 @@ static GBAEmulationViewController *_emulationViewController;
         // If the user re-taps a sustained button, we remove it from the sustainedButtonSet
         [self.sustainedButtonSet minusSet:buttons];
     }
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pressButtons:buttons];
 #endif
 }
@@ -179,7 +179,7 @@ static GBAEmulationViewController *_emulationViewController;
         [set minusSet:self.sustainedButtonSet];
         buttons = set;
     }
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
 #endif
 }
@@ -190,7 +190,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     _romPauseTime = CFAbsoluteTimeGetCurrent();
     
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pauseEmulation];
 #endif
     
@@ -271,7 +271,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         NSString *backupFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"backup.sgm"];
         
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] saveStateToFilepath:backupFilepath];
 #endif
     }
@@ -333,7 +333,7 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     NSString *autosaveFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"autosave.sgm"];
     
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] saveStateToFilepath:autosaveFilepath];
 #endif
 }
@@ -376,7 +376,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)willResignActive:(NSNotification *)notification
 {
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pauseEmulation];
 #endif
 }
@@ -393,7 +393,7 @@ void uncaughtExceptionHandler(NSException *exception)
         [self updateAutosaveState];
     }
     
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] prepareToEnterBackground];
 #endif
 }
@@ -519,14 +519,14 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] startEmulation];
 #endif
 }
 
 - (void)resumeEmulation
 {
-#if !(TARGET_IPHONE_SIMULATOR || GBA_LIBRARY_BUILD)
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
 #endif

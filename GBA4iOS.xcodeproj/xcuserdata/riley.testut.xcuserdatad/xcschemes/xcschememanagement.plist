@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>GBA.emu.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
 		<key>GBA4iOS-Simulator.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -83,6 +88,16 @@
 			<true/>
 		</dict>
 		<key>CC475B4417BED6F900C53369</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC96EF6417C2959800C7DD0C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CC96EF7A17C2959900C7DD0C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CC1B66D117BF57B9007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66D017BF57B9007B2787 /* GBAResources.bundle */; };
+		CC1B66D317BF5CB6007B2787 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66D217BF5CB6007B2787 /* icon-60@2x.png */; };
+		CC1B66D517BF5DB4007B2787 /* newsstand_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66D417BF5DB4007B2787 /* newsstand_icon.png */; };
 		CCE93EB917BED81B008EADAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE93EB817BED81B008EADAF /* Foundation.framework */; };
 		CCE93EBB17BED81B008EADAF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE93EBA17BED81B008EADAF /* CoreGraphics.framework */; };
 		CCE93EBD17BED81B008EADAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE93EBC17BED81B008EADAF /* UIKit.framework */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		CC1B66D017BF57B9007B2787 /* GBAResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GBAResources.bundle; path = "../../../../../../../Library/Developer/Xcode/DerivedData/GBA4iOS-dqkflotukruucqbxjyslhtfuekse/Build/Products/Debug-iphoneos/GBAResources.bundle"; sourceTree = "<group>"; };
+		CC1B66D217BF5CB6007B2787 /* icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-60@2x.png"; sourceTree = "<group>"; };
+		CC1B66D417BF5DB4007B2787 /* newsstand_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newsstand_icon.png; sourceTree = "<group>"; };
 		CCE93EB517BED81B008EADAF /* GBA4iOS-AppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS-AppStore.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCE93EB817BED81B008EADAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CCE93EBA17BED81B008EADAF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -100,6 +104,8 @@
 		CCE93EBF17BED81B008EADAF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CC1B66D417BF5DB4007B2787 /* newsstand_icon.png */,
+				CC1B66D217BF5CB6007B2787 /* icon-60@2x.png */,
 				CC1B66D017BF57B9007B2787 /* GBAResources.bundle */,
 				CCE93EC017BED81B008EADAF /* GBA4iOS-AppStore-Info.plist */,
 				CCE93EC117BED81B008EADAF /* InfoPlist.strings */,
@@ -163,8 +169,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCE93F0C17BEDD56008EADAF /* libGBA4iOS.dylib in Resources */,
+				CC1B66D517BF5DB4007B2787 /* newsstand_icon.png in Resources */,
 				CCE93ED117BED81B008EADAF /* Images.xcassets in Resources */,
 				CC1B66D117BF57B9007B2787 /* GBAResources.bundle in Resources */,
+				CC1B66D317BF5CB6007B2787 /* icon-60@2x.png in Resources */,
 				CCE93EC317BED81B008EADAF /* InfoPlist.strings in Resources */,
 				CCE93ECC17BED81B008EADAF /* Main.storyboard in Resources */,
 			);

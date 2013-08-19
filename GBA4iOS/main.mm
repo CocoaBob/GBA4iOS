@@ -10,6 +10,8 @@
 
 #import "GBAAppDelegate.h"
 
+// Everything in here should be reimplemented in 
+
 #if !(TARGET_IPHONE_SIMULATOR)
 
 #include <fs/sys.hh>
@@ -23,11 +25,26 @@
 #include <input/Input.hh>
 #endif
 
+typedef int (*PYStdWriter)(void *, const char *, int);
+static PYStdWriter _oldStdWrite;
+
+int __pyStderrWrite(void *inFD, const char *buffer, int size)
+{
+    if ( strncmp(buffer, "AssertMacros:", 13) == 0 ) {
+        return 0;
+    }
+    return _oldStdWrite(inFD, buffer, size);
+}
+
+
 double TimeMach::timebaseNSec = 0, TimeMach::timebaseUSec = 0,
 TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 int main(int argc, char * argv[])
 {
+    
+    _oldStdWrite = stderr->_write;
+    stderr->_write = __pyStderrWrite;
     
     doOrExit(logger_init());
 	TimeMach::setTimebase();
