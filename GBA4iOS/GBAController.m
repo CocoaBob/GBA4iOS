@@ -251,6 +251,9 @@ static unsigned long oldtouches[15];
     }
 }
 
+void AudioServicesStopSystemSound(int);
+void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
+
 - (void)vibrate
 {
     AudioServicesStopSystemSound(kSystemSoundID_Vibrate);

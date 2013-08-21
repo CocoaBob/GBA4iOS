@@ -70,7 +70,7 @@ static void setupTextView(UITextField *vkbdField, NSString *text)
 #endif
 	vkbdField.font = [UIFont systemFontOfSize:24.0];
 	vkbdField.text = text;
-	vkbdField.delegate = Base::mainApp;
+	vkbdField.delegate = (id<UITextFieldDelegate>) Base::mainApp;
 	//[ vkbdField setEnabled: YES ];
 	vkbdField.transform = makeTransformForOrientation(Gfx::rotateView);
 	logMsg("init vkeyboard");

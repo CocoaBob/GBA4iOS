@@ -9,6 +9,13 @@
 #ifndef GBA4iOS_SharedNamespace_h
 #define GBA4iOS_SharedNamespace_h
 
+@interface NSObject (GBAWarningSilencer)
+
+- (void)timerCallback:(NSTimer *)timer;
+- (void)handleThreadMessage:(NSValue *)value;
+
+@end
+
 namespace Base
 {
 	static UIWindow *devWindow;
