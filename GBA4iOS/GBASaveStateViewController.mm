@@ -87,13 +87,13 @@
             break;
     }
     
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissSaveStateViewController:)];
-    self.navigationItem.leftBarButtonItem = cancelButton;
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissSaveStateViewController:)];
+    self.navigationItem.rightBarButtonItem = doneButton;
     
     if (self.mode == GBASaveStateViewControllerModeSaving)
     {
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(tappedAddSaveState:)];
-        self.navigationItem.rightBarButtonItem = addButton;
+        self.navigationItem.leftBarButtonItem = addButton;
     }
     
 }

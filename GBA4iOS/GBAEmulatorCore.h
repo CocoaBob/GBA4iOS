@@ -10,6 +10,7 @@
 
 #import "EAGLView.h"
 #import "GBAController.h"
+#import "GBACheat.h"
 
 // Implements both GBAEmulatorCore AND EAGLView
 
@@ -17,6 +18,7 @@
 
 @property (readonly, strong, nonatomic) EAGLView *eaglView;
 @property (copy, nonatomic) NSString *romFilepath;
+@property (copy, nonatomic) NSString *cheatsDirectory;
 
 + (instancetype)sharedCore;
 
@@ -29,6 +31,11 @@
 // Save States
 - (void)saveStateToFilepath:(NSString *)filepath;
 - (void)loadStateFromFilepath:(NSString *)filepath;
+
+// Cheats
+- (void)addCheat:(GBACheat *)cheat;
+- (void)enableCheatAtIndex:(int)index;
+- (void)disableCheatAtIndex:(int)index;
 
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;

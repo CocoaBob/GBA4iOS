@@ -413,6 +413,8 @@ namespace GameFilePicker {
 
 - (void)startEmulation
 {
+    [self loadCheats];
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Base::engineInit();
@@ -492,6 +494,39 @@ extern GBASys gGba;
 - (void)loadStateFromFilepath:(NSString *)filepath
 {
     CPUReadState(gGba, [filepath UTF8String]);
+}
+
+#pragma mark - Cheats
+
+#define CHEATS_FILE_PATH [[self.cheatsDirectory stringByAppendingPathComponent:@"cheats.cheatindex"] UTF8String]
+
+- (void)loadCheats
+{
+    cheatsLoadCheatList(CHEATS_FILE_PATH);
+}
+
+- (void)addCheat:(GBACheat *)cheat
+{
+    [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger index, BOOL *stop) {
+        NSString *title = [NSString stringWithFormat:@"%@ %d", cheat.name, index];
+        cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
+    }];
+    
+    cheatsSaveCheatList(CHEATS_FILE_PATH);
+}
+
+- (void)enableCheatAtIndex:(int)index
+{
+    cheatsEnable(index);
+    
+    cheatsSaveCheatList(CHEATS_FILE_PATH);
+}
+
+- (void)disableCheatAtIndex:(int)index
+{
+    cheatsDisable(gGba.cpu, index);
+    
+    cheatsSaveCheatList(CHEATS_FILE_PATH);
 }
 
 #pragma mark - Main App

@@ -12,6 +12,7 @@
 #import "GBAController.h"
 #import "UIImage+ImageEffects.h"
 #import "GBASaveStateViewController.h"
+#import "GBACheatManagerViewController.h"
 
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 
@@ -19,7 +20,7 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
 }
@@ -46,7 +47,10 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (instancetype)initWithROMFilepath:(NSString *)romFilepath
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:resourceBundle];
     self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
     if (self)
     {
@@ -226,7 +230,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 4)
             {
-                [self resumeEmulation];
+                [self presentCheatManager];
             }
             else if (buttonIndex == 5)
             {
@@ -347,6 +351,43 @@ void uncaughtExceptionHandler(NSException *exception)
     NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Save States/%@", romName]];
     
     return directory;
+}
+
+#pragma mark - Cheats
+
+- (void)presentCheatManager
+{
+    GBACheatManagerViewController *cheatManagerViewController = [[GBACheatManagerViewController alloc] initWithCheatsDirectory:[self cheatsDirectory]];
+    cheatManagerViewController.delegate = self;
+    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatManagerViewController) animated:YES completion:nil];
+}
+
+- (NSString *)cheatsDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *romName = [[self.romFilepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Cheats/%@", romName]];
+    
+    return directory;
+}
+
+#pragma mark GBACheatManagerViewControllerDelegate
+
+- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didAddCheat:(GBACheat *)cheat
+{
+    [[GBAEmulatorCore sharedCore] addCheat:cheat];
+}
+
+- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didEnableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
+{
+    [[GBAEmulatorCore sharedCore] enableCheatAtIndex:index];
+}
+
+- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didDisableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
+{
+    [[GBAEmulatorCore sharedCore] disableCheatAtIndex:index];
 }
 
 #pragma mark - Presenting/Dismissing
@@ -520,6 +561,7 @@ void uncaughtExceptionHandler(NSException *exception)
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
 #if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] setCheatsDirectory:[self cheatsDirectory]];
     [[GBAEmulatorCore sharedCore] startEmulation];
 #endif
 }

@@ -30,7 +30,10 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (id)init
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:resourceBundle];
     self = [storyboard instantiateViewControllerWithIdentifier:@"settingsViewController"];
     if (self)
     {
