@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CC96EF7A17C2959900C7DD0C"
-               BuildableName = "GBA.emuTests.xctest"
-               BlueprintName = "GBA.emuTests"
-               ReferencedContainer = "container:GBA4iOS.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

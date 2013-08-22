@@ -17,7 +17,10 @@ int main(int argc, char * argv[])
     @autoreleasepool
     {
         
-        NSString *dylibPath = [[NSBundle mainBundle] pathForResource:@"libGBA4iOS" ofType:@"dylib"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+        
+        NSString *dylibPath = [documentsDirectory stringByAppendingPathComponent:@"libGBA4iOS.dylib"];
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:dylibPath])
         {

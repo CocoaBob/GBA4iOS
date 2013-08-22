@@ -468,6 +468,30 @@
 		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CC2BC0BE17C55FAF007CF771 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC1B66B417BF4D77007B2787;
+			remoteInfo = "Resource Bundle";
+		};
+		CC2BC0C017C55FB2007CF771 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC1B66B417BF4D77007B2787;
+			remoteInfo = "Resource Bundle";
+		};
+		CC2BC0C217C55FB8007CF771 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC1B66B417BF4D77007B2787;
+			remoteInfo = "Resource Bundle";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
 		CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorScreen.mm; sourceTree = "<group>"; };
@@ -1254,6 +1278,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CC2BC0C117C55FB2007CF771 /* PBXTargetDependency */,
 			);
 			name = "GBA4iOS-Simulator";
 			productName = GBA4iOS;
@@ -1273,6 +1298,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CC2BC0BF17C55FAF007CF771 /* PBXTargetDependency */,
 			);
 			name = GBA4iOS;
 			productName = GBA4iOS;
@@ -1307,6 +1333,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CC2BC0C317C55FB8007CF771 /* PBXTargetDependency */,
 			);
 			name = libGBA4iOS;
 			productName = libGBA4iOS;
@@ -1901,6 +1928,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		CC2BC0BF17C55FAF007CF771 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC1B66B417BF4D77007B2787 /* Resource Bundle */;
+			targetProxy = CC2BC0BE17C55FAF007CF771 /* PBXContainerItemProxy */;
+		};
+		CC2BC0C117C55FB2007CF771 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC1B66B417BF4D77007B2787 /* Resource Bundle */;
+			targetProxy = CC2BC0C017C55FB2007CF771 /* PBXContainerItemProxy */;
+		};
+		CC2BC0C317C55FB8007CF771 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC1B66B417BF4D77007B2787 /* Resource Bundle */;
+			targetProxy = CC2BC0C217C55FB8007CF771 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		CC2D57081798F2EC00C616EB /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -2298,7 +2343,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2388,7 +2433,7 @@
 					"-Wno-attributes",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
-				PROVISIONING_PROFILE = "03AA276F-D9E3-48ED-BD17-14EFDE025E2E";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = "";

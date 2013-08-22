@@ -377,17 +377,23 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didAddCheat:(GBACheat *)cheat
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] addCheat:cheat];
+#endif
 }
 
 - (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didEnableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] enableCheatAtIndex:index];
+#endif
 }
 
 - (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didDisableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] disableCheatAtIndex:index];
+#endif
 }
 
 #pragma mark - Presenting/Dismissing

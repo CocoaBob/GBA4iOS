@@ -19,7 +19,6 @@
 		CCE93ECC17BED81B008EADAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCE93ECA17BED81B008EADAF /* Main.storyboard */; };
 		CCE93ECF17BED81B008EADAF /* GBAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE93ECE17BED81B008EADAF /* GBAViewController.m */; };
 		CCE93ED117BED81B008EADAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCE93ED017BED81B008EADAF /* Images.xcassets */; };
-		CCE93F0C17BEDD56008EADAF /* libGBA4iOS.dylib in Resources */ = {isa = PBXBuildFile; fileRef = CCE93F0A17BEDD48008EADAF /* libGBA4iOS.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -168,7 +167,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCE93F0C17BEDD56008EADAF /* libGBA4iOS.dylib in Resources */,
 				CC1B66D517BF5DB4007B2787 /* newsstand_icon.png in Resources */,
 				CCE93ED117BED81B008EADAF /* Images.xcassets in Resources */,
 				CC1B66D117BF57B9007B2787 /* GBAResources.bundle in Resources */,

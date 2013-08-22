@@ -45,6 +45,8 @@
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(tappedAddCheatCode:)];
     self.navigationItem.leftBarButtonItem = addButton;
+    
+    self.title = NSLocalizedString(@"Cheat Codes", @"");
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,6 +84,11 @@
     
     [self.tableView reloadData];
     
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)newCheatViewControllerDidCancel:(GBANewCheatViewController *)newCheatViewController
+{
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
