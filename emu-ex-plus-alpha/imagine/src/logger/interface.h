@@ -50,10 +50,10 @@ static const uint LOG_E = LOGGER_ERROR;
 #define logger_modulePrintf(severity, msg, ...) logger_printf(severity, thisModuleName ": " msg, ## __VA_ARGS__)
 #define logger_modulePrintfn(severity, msg, ...) logger_printfn(severity, thisModuleName ": " msg, ## __VA_ARGS__)
 
-#define logMsg(msg, ...) logger_modulePrintfn(LOG_M, msg, ## __VA_ARGS__)
-#define logDMsg(msg, ...) logger_modulePrintfn(LOG_D, msg, ## __VA_ARGS__)
-#define logWarn(msg, ...) logger_modulePrintfn(LOG_W, msg, ## __VA_ARGS__)
-#define logErr(msg, ...) logger_modulePrintfn(LOG_E, msg, ## __VA_ARGS__)
+#define logMsg(msg, ...) //logger_modulePrintfn(LOG_M, msg, ## __VA_ARGS__)
+#define logDMsg(msg, ...) //logger_modulePrintfn(LOG_D, msg, ## __VA_ARGS__)
+#define logWarn(msg, ...) //logger_modulePrintfn(LOG_W, msg, ## __VA_ARGS__)
+#define logErr(msg, ...) //logger_modulePrintfn(LOG_E, msg, ## __VA_ARGS__)
 
 #define logMsgNoBreak(msg, ...) logger_modulePrintf(LOG_M, msg, ## __VA_ARGS__)
 #define logDMsgNoBreak(msg, ...) logger_modulePrintf(LOG_D, msg, ## __VA_ARGS__)

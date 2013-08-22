@@ -8,7 +8,29 @@
 
 #import "GBANewCheatViewController.h"
 
-@interface GBANewCheatViewController () <UITextViewDelegate, UITextFieldDelegate>
+@interface NSString (RemoveWhitespace)
+
+- (NSString *)stringByRemovingWhitespace;
+
+@end
+
+@implementation NSString (RemoveWhitespace)
+
+// Doesn't try to remove all whitespace, but these are the only ones we have to worry about
+- (NSString *)stringByRemovingWhitespace
+{
+    NSMutableString *text = [self mutableCopy];
+    [text replaceOccurrencesOfString:@" " withString:@"" options:0 range:NSMakeRange(0, text.length)];
+    [text replaceOccurrencesOfString:@"\n" withString:@"" options:0 range:NSMakeRange(0, text.length)];
+    
+    return text;
+}
+
+@end
+
+@interface GBANewCheatViewController () <UITextViewDelegate, UITextFieldDelegate> {
+    NSRange _selectionRange;
+}
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *codeTextView;
@@ -32,6 +54,7 @@
     if (self)
     {
         // Custom initialization
+        
     }
     return self;
 }
@@ -78,9 +101,7 @@
 {
     NSMutableArray *array = [[NSMutableArray alloc] init];
     
-    NSMutableString *text = [self.codeTextView.text mutableCopy];
-    [text replaceOccurrencesOfString:@" " withString:@"" options:0 range:NSMakeRange(0, text.length)];
-    [text replaceOccurrencesOfString:@"\n" withString:@"" options:0 range:NSMakeRange(0, text.length)];
+    NSMutableString *text = [[self.codeTextView.text stringByRemovingWhitespace] mutableCopy];
     
     while (text.length >= 16)
     {
@@ -93,13 +114,45 @@
     return array;
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, self.view.bounds.size.width, 10) animated:YES];
+}
+
 #pragma mark - UITextViewDelegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSInteger difference = textView.text.length - [textView.text stringByRemovingWhitespace].length;
+        
+    if (text.length > 0)
+    {
+        if ((range.location - difference + 1) % 8 == 0)
+        {
+            _selectionRange = NSMakeRange(range.location + 2, 0);
+        }
+        else
+        {
+            _selectionRange = NSMakeRange(range.location + 1, 0);
+        }
+    }
+    else
+    {
+        _selectionRange = NSMakeRange(range.location, 0);
+    }
+    return YES;
+}
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    NSMutableString *text = [textView.text mutableCopy];
-    [text replaceOccurrencesOfString:@" " withString:@"" options:0 range:NSMakeRange(0, text.length)];
-    [text replaceOccurrencesOfString:@"\n" withString:@"" options:0 range:NSMakeRange(0, text.length)];
+    NSString *text = [textView.text stringByRemovingWhitespace];
     
     NSMutableString *formattedText = [NSMutableString string];
     
@@ -128,7 +181,8 @@
     
     textView.text = formattedText;
     
+    [textView setSelectedRange:_selectionRange];
+    
 }
-
 
 @end

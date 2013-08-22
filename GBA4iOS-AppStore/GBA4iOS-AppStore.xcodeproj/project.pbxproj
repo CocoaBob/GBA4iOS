@@ -288,11 +288,7 @@
 				GCC_PREFIX_HEADER = "GBA4iOS-AppStore/GBA4iOS-AppStore-Prefix.pch";
 				HEADER_SEARCH_PATHS = ../libGBA4iOS/;
 				INFOPLIST_FILE = "GBA4iOS-AppStore/GBA4iOS-AppStore-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS-AppStore/GBA4iOS-AppStore",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/GBA4iOS-dqkflotukruucqbxjyslhtfuekse/Build/Products/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -307,11 +303,7 @@
 				GCC_PREFIX_HEADER = "GBA4iOS-AppStore/GBA4iOS-AppStore-Prefix.pch";
 				HEADER_SEARCH_PATHS = ../libGBA4iOS/;
 				INFOPLIST_FILE = "GBA4iOS-AppStore/GBA4iOS-AppStore-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS-AppStore/GBA4iOS-AppStore",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/GBA4iOS-dqkflotukruucqbxjyslhtfuekse/Build/Products/Debug-iphoneos",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
