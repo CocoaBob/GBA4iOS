@@ -8,24 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "GBACheat.h"
+#import "GBAROM.h"
 
 @class GBACheatManagerViewController;
 
-@protocol GBACheatManagerViewControllerDelegate <NSObject>
-
-@optional
-- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didAddCheat:(GBACheat *)cheat;
-- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didRemoveCheat:(GBACheat *)cheat;
-- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didEnableCheat:(GBACheat *)cheat atIndex:(NSInteger)index;
-- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didDisableCheat:(GBACheat *)cheat atIndex:(NSInteger)index;
-
-@end
-
 @interface GBACheatManagerViewController : UITableViewController
 
-@property (weak, nonatomic) id<GBACheatManagerViewControllerDelegate> delegate;
-@property (readonly, copy, nonatomic) NSString *cheatsDirectory;
+@property (readonly, copy, nonatomic) GBAROM *rom;
 
-- (instancetype)initWithCheatsDirectory:(NSString *)directory;
+- (instancetype)initWithROM:(GBAROM *)rom;
 
 @end

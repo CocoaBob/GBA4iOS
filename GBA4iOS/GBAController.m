@@ -220,7 +220,6 @@ static unsigned long oldtouches[15];
     
     if (set.count > 0)
     {
-        NSLog(@"Set: %@", set);
         // Don't pass on menu button
         [set removeObject:@(GBAControllerButtonMenu)];
         [self.delegate controller:self didReleaseButtons:set];

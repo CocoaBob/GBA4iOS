@@ -190,13 +190,13 @@
 		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
 		CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */; };
 		CC6A2D9017C508DC00EFC10E /* GBACheatManagerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */; };
-		CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.m */; };
-		CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.m */; };
-		CC6A2D9317C508DC00EFC10E /* GBACheatManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.m */; };
-		CC6A2D9717C50CE700EFC10E /* GBANewCheatViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6A2D9517C50CE700EFC10E /* GBANewCheatViewController.h */; };
-		CC6A2D9817C50CE700EFC10E /* GBANewCheatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBANewCheatViewController.m */; };
-		CC6A2D9917C50CE700EFC10E /* GBANewCheatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBANewCheatViewController.m */; };
-		CC6A2D9A17C50CE700EFC10E /* GBANewCheatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBANewCheatViewController.m */; };
+		CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
+		CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
+		CC6A2D9317C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
+		CC6A2D9717C50CE700EFC10E /* GBACheatEditorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6A2D9517C50CE700EFC10E /* GBACheatEditorViewController.h */; };
+		CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
+		CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
+		CC6A2D9A17C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
 		CC6A2D9D17C515E800EFC10E /* GBACheat.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6A2D9B17C515E800EFC10E /* GBACheat.h */; };
 		CC6A2D9E17C515E800EFC10E /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
 		CC6A2D9F17C515E800EFC10E /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
@@ -355,6 +355,10 @@
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
+		CCC7298617C7357E0001BC6F /* GBAROM.h in Headers */ = {isa = PBXBuildFile; fileRef = CCC7298417C7357E0001BC6F /* GBAROM.h */; };
+		CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
+		CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
+		CCC7298917C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
 		CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		CCE3CE0517AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */; };
@@ -552,9 +556,9 @@
 		CC66AFA217A50B5B00F51D9B /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OriginalImages.xcassets; path = GBA.emu/OriginalImages.xcassets; sourceTree = SOURCE_ROOT; };
 		CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerViewController.h; sourceTree = "<group>"; };
-		CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerViewController.m; sourceTree = "<group>"; };
-		CC6A2D9517C50CE700EFC10E /* GBANewCheatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBANewCheatViewController.h; sourceTree = "<group>"; };
-		CC6A2D9617C50CE700EFC10E /* GBANewCheatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBANewCheatViewController.m; sourceTree = "<group>"; };
+		CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBACheatManagerViewController.mm; sourceTree = "<group>"; };
+		CC6A2D9517C50CE700EFC10E /* GBACheatEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatEditorViewController.h; sourceTree = "<group>"; };
+		CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatEditorViewController.m; sourceTree = "<group>"; };
 		CC6A2D9B17C515E800EFC10E /* GBACheat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheat.h; sourceTree = "<group>"; };
 		CC6A2D9C17C515E800EFC10E /* GBACheat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheat.m; sourceTree = "<group>"; };
 		CC7F4C9F17B5E6F8006888CE /* UITouch+ControllerButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITouch+ControllerButtons.h"; sourceTree = "<group>"; };
@@ -578,6 +582,8 @@
 		CCB5F87A17A8EE85009D31CF /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Widescreen.h"; sourceTree = "<group>"; };
 		CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Widescreen.m"; sourceTree = "<group>"; };
+		CCC7298417C7357E0001BC6F /* GBAROM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROM.h; sourceTree = "<group>"; };
+		CCC7298517C7357E0001BC6F /* GBAROM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROM.m; sourceTree = "<group>"; };
 		CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASettingsViewController.h; sourceTree = "<group>"; };
 		CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASettingsViewController.m; sourceTree = "<group>"; };
 		CCE3CE0317AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentMenuViewControllerAnimator.h; sourceTree = "<group>"; };
@@ -874,10 +880,12 @@
 		CC15E545179F2F3500449972 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 				CC15E540179F027300449972 /* GBAEmulatorCore.h */,
 				CC15E541179F027300449972 /* GBAEmulatorCore.mm */,
 				CCB0CF3E179E6E5900766FA5 /* Namespace.h */,
 				CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */,
+				CC1578A6179D051E0068A54E /* Emulator Code */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -944,13 +952,12 @@
 				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
-				CC2D57061798F2EC00C616EB /* Supporting Files */,
+				CC7AC2EB17C694E800FB7642 /* Emulation */,
 				CC823BC117B04A6D000A25E6 /* Categories */,
 				CCFA493517B00F5100386A43 /* Views */,
-				CCE3CDFA17AE9E5000FAB9C8 /* View Controllers */,
+				CCE3CDFA17AE9E5000FAB9C8 /* Abstract View Controllers */,
 				CC86825117A6DCC600686607 /* Custom Transitions */,
-				CC1578A6179D051E0068A54E /* Emulator Code */,
-				CCC17744179FC7B200AB529A /* Categories */,
+				CC2D57061798F2EC00C616EB /* Supporting Files */,
 			);
 			path = GBA4iOS;
 			sourceTree = "<group>";
@@ -1005,13 +1012,27 @@
 			isa = PBXGroup;
 			children = (
 				CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */,
-				CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.m */,
-				CC6A2D9517C50CE700EFC10E /* GBANewCheatViewController.h */,
-				CC6A2D9617C50CE700EFC10E /* GBANewCheatViewController.m */,
+				CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */,
+				CC6A2D9517C50CE700EFC10E /* GBACheatEditorViewController.h */,
+				CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */,
 				CC6A2D9B17C515E800EFC10E /* GBACheat.h */,
 				CC6A2D9C17C515E800EFC10E /* GBACheat.m */,
 			);
 			name = Cheats;
+			sourceTree = "<group>";
+		};
+		CC7AC2EB17C694E800FB7642 /* Emulation */ = {
+			isa = PBXGroup;
+			children = (
+				CCC7298317C7347F0001BC6F /* ROM */,
+				CC8BB0611799A21000F9864F /* Emulation View Controller */,
+				CC15E545179F2F3500449972 /* Core */,
+				CC347BAF17A3C95500309436 /* Controller */,
+				CCFE7B3517BD172F00F099F2 /* Save States */,
+				CCE3CDF917AE9E4500FAB9C8 /* Settings */,
+				CC6A2D9417C508EA00EFC10E /* Cheats */,
+			);
+			name = Emulation;
 			sourceTree = "<group>";
 		};
 		CC823BC117B04A6D000A25E6 /* Categories */ = {
@@ -1021,6 +1042,8 @@
 				CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */,
 				CC7F4C9F17B5E6F8006888CE /* UITouch+ControllerButtons.h */,
 				CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */,
+				CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */,
+				CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1043,8 +1066,6 @@
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
 				CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */,
 				CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */,
-				CC15E545179F2F3500449972 /* Core */,
-				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 			);
 			name = "Emulation View Controller";
 			sourceTree = "<group>";
@@ -1070,13 +1091,13 @@
 			name = Targets;
 			sourceTree = "<group>";
 		};
-		CCC17744179FC7B200AB529A /* Categories */ = {
+		CCC7298317C7347F0001BC6F /* ROM */ = {
 			isa = PBXGroup;
 			children = (
-				CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */,
-				CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */,
+				CCC7298417C7357E0001BC6F /* GBAROM.h */,
+				CCC7298517C7357E0001BC6F /* GBAROM.m */,
 			);
-			name = Categories;
+			name = ROM;
 			sourceTree = "<group>";
 		};
 		CCE3CDF917AE9E4500FAB9C8 /* Settings */ = {
@@ -1088,16 +1109,12 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
-		CCE3CDFA17AE9E5000FAB9C8 /* View Controllers */ = {
+		CCE3CDFA17AE9E5000FAB9C8 /* Abstract View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				CC8BB0611799A21000F9864F /* Emulation View Controller */,
-				CCFE7B3517BD172F00F099F2 /* Save States */,
-				CCE3CDF917AE9E4500FAB9C8 /* Settings */,
 				CC491D4B17BCA5460060A107 /* Themed Table View Controller */,
-				CC6A2D9417C508EA00EFC10E /* Cheats */,
 			);
-			name = "View Controllers";
+			name = "Abstract View Controllers";
 			sourceTree = "<group>";
 		};
 		CCE93EF817BEDD0C008EADAF /* libGBA4iOS */ = {
@@ -1158,7 +1175,6 @@
 			children = (
 				CCFA493617B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.h */,
 				CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */,
-				CC347BAF17A3C95500309436 /* Controller */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1240,7 +1256,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC6A2D9017C508DC00EFC10E /* GBACheatManagerViewController.h in Headers */,
-				CC6A2D9717C50CE700EFC10E /* GBANewCheatViewController.h in Headers */,
+				CC6A2D9717C50CE700EFC10E /* GBACheatEditorViewController.h in Headers */,
+				CCC7298617C7357E0001BC6F /* GBAROM.h in Headers */,
 				CC6A2D9D17C515E800EFC10E /* GBACheat.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1497,8 +1514,9 @@
 				CC6A2D9F17C515E800EFC10E /* GBACheat.m in Sources */,
 				CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */,
 				CC8D5A7B17AAE3A800E89F43 /* GBAController.m in Sources */,
+				CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */,
 				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
-				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.m in Sources */,
+				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
@@ -1507,7 +1525,7 @@
 				CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */,
 				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
-				CC6A2D9917C50CE700EFC10E /* GBANewCheatViewController.m in Sources */,
+				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
 				CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
@@ -1604,10 +1622,11 @@
 				CCFA722F179D304700768D24 /* CpuArch.c in Sources */,
 				CC8D5A7A17AAE3A800E89F43 /* GBAController.m in Sources */,
 				CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */,
-				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.m in Sources */,
+				CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */,
+				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
 				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
-				CC6A2D9817C50CE700EFC10E /* GBANewCheatViewController.m in Sources */,
+				CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				CCFA7208179D304700768D24 /* Mode0.cpp in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
@@ -1872,10 +1891,11 @@
 				CC1B665317BF0564007B2787 /* Multi_Buffer.cpp in Sources */,
 				CC1B665917BF0564007B2787 /* File_Extractor.cpp in Sources */,
 				CC1B66A717BF057A007B2787 /* pngwio.c in Sources */,
-				CC6A2D9317C508DC00EFC10E /* GBACheatManagerViewController.m in Sources */,
+				CCC7298917C7357E0001BC6F /* GBAROM.m in Sources */,
+				CC6A2D9317C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC1B664317BF0564007B2787 /* Globals.cpp in Sources */,
 				CC1B668517BF0574007B2787 /* logger.cc in Sources */,
-				CC6A2D9A17C50CE700EFC10E /* GBANewCheatViewController.m in Sources */,
+				CC6A2D9A17C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				CC1B669C17BF057A007B2787 /* png.c in Sources */,
 				CC1B664417BF0564007B2787 /* Mode0.cpp in Sources */,
 				CC1B667417BF056B007B2787 /* Recent.cc in Sources */,

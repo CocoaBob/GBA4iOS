@@ -20,7 +20,7 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
 }
@@ -45,7 +45,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 #pragma mark - UIViewController subclass
 
-- (instancetype)initWithROMFilepath:(NSString *)romFilepath
+- (instancetype)initWithROM:(GBAROM *)rom
 {
     NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
@@ -57,10 +57,10 @@ static GBAEmulationViewController *_emulationViewController;
         _emulationViewController = self;
         InstallUncaughtExceptionHandler();
         
-        _romFilepath = [romFilepath copy];
+        _rom = rom;
         
 #if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] setRomFilepath:romFilepath];
+        [[GBAEmulatorCore sharedCore] setRom:self.rom];
 #endif
     }
     
@@ -117,7 +117,11 @@ static GBAEmulationViewController *_emulationViewController;
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-    [self resumeEmulation];
+    if (self.presentedViewController)
+    {
+        self.emulationPaused = NO;
+        [self resumeEmulation];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -194,6 +198,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     _romPauseTime = CFAbsoluteTimeGetCurrent();
     
+    self.emulationPaused = YES;
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pauseEmulation];
 #endif
@@ -218,6 +223,7 @@ static GBAEmulationViewController *_emulationViewController;
             //buttonIndex = buttonIndex; // Reserved for later change
             if (buttonIndex == 1)
             {
+                self.emulationPaused = NO;
                 [self resumeEmulation];
             }
             if (buttonIndex == 2)
@@ -237,6 +243,7 @@ static GBAEmulationViewController *_emulationViewController;
                 [self enterSustainButtonSelectionMode];
             }
             else {
+                self.emulationPaused = NO;
                 [self resumeEmulation];
             }
         }
@@ -252,6 +259,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     self.selectingSustainedButton = NO;
     
+    self.emulationPaused = NO;
     [self resumeEmulation];
 }
 
@@ -259,8 +267,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)presentSaveStateMenuWithMode:(GBASaveStateViewControllerMode)mode
 {
-    NSString *filename = [self.romFilepath lastPathComponent];
-    filename = [filename stringByDeletingPathExtension];
+    NSString *filename = self.rom.name;
     
     GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithSaveStateDirectory:[self saveStateDirectory] mode:mode];
     saveStateViewController.delegate = self;
@@ -347,7 +354,7 @@ void uncaughtExceptionHandler(NSException *exception)
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    NSString *romName = [[self.romFilepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *romName = self.rom.name;
     NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Save States/%@", romName]];
     
     return directory;
@@ -357,8 +364,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)presentCheatManager
 {
-    GBACheatManagerViewController *cheatManagerViewController = [[GBACheatManagerViewController alloc] initWithCheatsDirectory:[self cheatsDirectory]];
-    cheatManagerViewController.delegate = self;
+    GBACheatManagerViewController *cheatManagerViewController = [[GBACheatManagerViewController alloc] initWithROM:self.rom];
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatManagerViewController) animated:YES completion:nil];
 }
 
@@ -367,33 +373,10 @@ void uncaughtExceptionHandler(NSException *exception)
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    NSString *romName = [[self.romFilepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *romName = self.rom.name;
     NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Cheats/%@", romName]];
     
     return directory;
-}
-
-#pragma mark GBACheatManagerViewControllerDelegate
-
-- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didAddCheat:(GBACheat *)cheat
-{
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] addCheat:cheat];
-#endif
-}
-
-- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didEnableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
-{
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] enableCheatAtIndex:index];
-#endif
-}
-
-- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController didDisableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
-{
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] disableCheatAtIndex:index];
-#endif
 }
 
 #pragma mark - Presenting/Dismissing
@@ -567,17 +550,19 @@ void uncaughtExceptionHandler(NSException *exception)
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] setCheatsDirectory:[self cheatsDirectory]];
     [[GBAEmulatorCore sharedCore] startEmulation];
 #endif
 }
 
 - (void)resumeEmulation
 {
+    if (!self.emulationPaused)
+    {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] resumeEmulation];
-    [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
+        [[GBAEmulatorCore sharedCore] resumeEmulation];
+        [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
 #endif
+    }
 }
 
 #pragma mark - Blurring

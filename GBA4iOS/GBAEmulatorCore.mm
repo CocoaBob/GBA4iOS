@@ -413,8 +413,6 @@ namespace GameFilePicker {
 
 - (void)startEmulation
 {
-    [self loadCheats];
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Base::engineInit();
@@ -425,7 +423,9 @@ namespace GameFilePicker {
     using namespace Base;
     using namespace Input;
     
-    GameFilePicker::onSelectFile([self.romFilepath UTF8String], [self touchForTouchState:RELEASED]);
+    GameFilePicker::onSelectFile([self.rom.filepath UTF8String], [self touchForTouchState:RELEASED]);
+    
+    [self loadCheats];
 }
 
 - (void)pauseEmulation
@@ -498,35 +498,124 @@ extern GBASys gGba;
 
 #pragma mark - Cheats
 
-#define CHEATS_FILE_PATH [[self.cheatsDirectory stringByAppendingPathComponent:@"cheats.cheatindex"] UTF8String]
+- (NSString *)cheatsFilepath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *cheatsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    
+    NSString *filename = [NSString stringWithFormat:@"%@.plist", self.rom.name];
+    return [cheatsDirectory stringByAppendingPathComponent:filename];
+}
+
+// Not a property because we need to make sure it's always updated with latest changes
+- (NSArray *)cheatsArray
+{
+    NSMutableArray *array = [NSMutableArray arrayWithContentsOfFile:[self cheatsFilepath]];
+    
+    NSMutableArray *cheats = [NSMutableArray arrayWithCapacity:array.count];
+    
+    @autoreleasepool
+    {
+        for (NSData *data in array)
+        {
+            GBACheat *cheat = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [cheats addObject:cheat];
+        }
+    }
+    
+    return cheats;
+}
+
+- (NSInteger)initialCodeIndexOfCheat:(GBACheat *)initialCheat inCheatsArray:(NSArray *)cheatsArray
+{
+    __block NSInteger actualIndex = 0;
+    
+    [[cheatsArray copy] enumerateObjectsUsingBlock:^(GBACheat *cheat, NSUInteger idx, BOOL *stop)
+     {
+         if (![cheat.name isEqualToString:initialCheat.name])
+         {
+             actualIndex = actualIndex + [cheat.codes count];
+         }
+         else
+         {
+             *stop = YES;
+         }
+     }];
+    
+    DLog(@"Index: %d", actualIndex);
+    
+    return actualIndex;
+}
 
 - (void)loadCheats
 {
-    cheatsLoadCheatList(CHEATS_FILE_PATH);
+    cheatsDeleteAll(gGba.cpu, false);
+    NSArray *cheats = [self cheatsArray];
+    @autoreleasepool
+    {
+        for (GBACheat *cheat in cheats)
+        {
+            [self addCheat:cheat];
+            
+            if (!cheat.enabled)
+            {
+                // So we don't read from disk for EVERY disabled cheat, we use a cached version
+                NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:cheats];
+                [self disableCheat:cheat atIndex:index];
+            }
+        }
+    }
 }
 
-- (void)addCheat:(GBACheat *)cheat
+- (BOOL)addCheat:(GBACheat *)cheat
 {
+    if ([cheat.codes count] < 1)
+    {
+        return NO;
+    }
+    
+    __block BOOL succeeded = YES;
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger index, BOOL *stop) {
         NSString *title = [NSString stringWithFormat:@"%@ %d", cheat.name, index];
-        cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
+        succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
+        
+        if (!succeeded)
+        {
+            *stop = YES;
+        }
     }];
     
-    cheatsSaveCheatList(CHEATS_FILE_PATH);
+    return succeeded;
 }
 
-- (void)enableCheatAtIndex:(int)index
+- (void)removeCheat:(GBACheat *)cheat
 {
-    cheatsEnable(index);
-    
-    cheatsSaveCheatList(CHEATS_FILE_PATH);
+    NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
+    [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
+        cheatsDelete(gGba.cpu, index + enumertionIndex, true);
+    }];
 }
 
-- (void)disableCheatAtIndex:(int)index
+- (void)enableCheat:(GBACheat *)cheat
 {
-    cheatsDisable(gGba.cpu, index);
-    
-    cheatsSaveCheatList(CHEATS_FILE_PATH);
+    NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
+    [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
+        cheatsEnable(index + enumertionIndex);
+    }];
+}
+
+- (void)disableCheat:(GBACheat *)cheat
+{
+    NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
+    return [self disableCheat:cheat atIndex:index];
+}
+
+- (void)disableCheat:(GBACheat *)cheat atIndex:(int)index
+{
+    [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
+        cheatsDisable(gGba.cpu, index + enumertionIndex);
+    }];
 }
 
 #pragma mark - Main App

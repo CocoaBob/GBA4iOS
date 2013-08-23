@@ -8,6 +8,12 @@
 
 #import "GBACheat.h"
 
+@interface GBACheat ()
+
+@property (readwrite, copy, nonatomic) NSString *uid;
+
+@end
+
 @implementation GBACheat
 
 #pragma mark - Initializing
@@ -19,6 +25,11 @@
     {
         _name = [name copy];
         _codes = [codes copy];
+        
+        NSUUID *uid = [[NSUUID alloc] init];
+        _uid = [[uid UUIDString] copy];
+        
+        _enabled = YES;
     }
     
     return self;
@@ -30,14 +41,22 @@
 {
     [aCoder encodeObject:self.name forKey:@"name"];
     [aCoder encodeObject:self.codes forKey:@"codes"];
+    [aCoder encodeObject:self.uid forKey:@"uid"];
+    [aCoder encodeObject:@(self.enabled) forKey:@"enabled"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     NSString *name = [aDecoder decodeObjectForKey:@"name"];
     NSArray *codes = [aDecoder decodeObjectForKey:@"codes"];
+    NSString *uid = [aDecoder decodeObjectForKey:@"uid"];
+    NSNumber *enabled = [aDecoder decodeObjectForKey:@"enabled"];
     
-    return [self initWithName:name codes:codes];
+    self = [self initWithName:name codes:codes];
+    self.uid = uid;
+    self.enabled = [enabled boolValue];
+    
+    return self;
 }
 
 #pragma mark - Misc.

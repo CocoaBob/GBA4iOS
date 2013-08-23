@@ -10,8 +10,10 @@
 
 @interface GBACheat : NSObject <NSCoding>
 
-@property (readonly, copy, nonatomic) NSString *name;
-@property (readonly, copy, nonatomic) NSArray /* NSString */ *codes; // One cheat can consist of multiple codes.
+@property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSArray /* NSString */ *codes; // One cheat can consist of multiple codes.
+@property (readonly, copy, nonatomic) NSString *uid;
+@property (assign, nonatomic) BOOL enabled;
 
 - (instancetype)initWithName:(NSString *)name codes:(NSArray *)codes;
 

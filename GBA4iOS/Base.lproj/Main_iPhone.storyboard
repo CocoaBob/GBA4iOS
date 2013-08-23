@@ -241,10 +241,10 @@
             </objects>
             <point key="canvasLocation" x="1074" y="-486"/>
         </scene>
-        <!--New Cheat View Controller - New Cheat Code-->
+        <!--Cheat Editor View Controller - New Cheat Code-->
         <scene sceneID="5h7-ni-Euf">
             <objects>
-                <tableViewController storyboardIdentifier="newCheatViewController" id="Qk2-vr-KBW" customClass="GBANewCheatViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="cheatEditorViewController" id="Qk2-vr-KBW" customClass="GBACheatEditorViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Urf-we-0wp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -262,7 +262,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Cheat Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l8o-9P-x4c">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="Qk2-vr-KBW" id="SVO-S5-RSJ"/>
@@ -273,7 +273,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Code" footerTitle="Code will be formatted automatically as you type." id="iX4-B9-cGU">
+                            <tableViewSection headerTitle="Gameshark V3 Code" footerTitle="Code will be formatted automatically as you type." id="iX4-B9-cGU">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="190" id="UKc-cO-rtV">
                                         <rect key="frame" x="0.0" y="211" width="320" height="190"/>
@@ -282,7 +282,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="189"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APi-To-g4e">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="APi-To-g4e">
                                                     <rect key="frame" x="10" y="0.0" width="300" height="189"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -294,6 +294,12 @@
                                                     </connections>
                                                 </textView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="APi-To-g4e" secondAttribute="trailing" constant="10" id="Jrw-BT-GzN"/>
+                                                <constraint firstItem="APi-To-g4e" firstAttribute="top" secondItem="q6n-OA-Fee" secondAttribute="top" id="Pb5-uh-cdV"/>
+                                                <constraint firstAttribute="bottom" secondItem="APi-To-g4e" secondAttribute="bottom" id="miM-BS-lwT"/>
+                                                <constraint firstItem="APi-To-g4e" firstAttribute="leading" secondItem="q6n-OA-Fee" secondAttribute="leading" constant="10" id="wmc-mB-ngt"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -461,6 +467,13 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aHj-Iz-2fV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mix Audio With Other Apps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EjR-OD-sjH">
+                    <rect key="frame" x="0.0" y="0.0" width="233" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </objects>
             <point key="canvasLocation" x="568" y="219"/>
         </scene>

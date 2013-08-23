@@ -8,14 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "GBAController.h"
+#import "GBAROM.h"
 
 @interface GBAEmulationViewController : UIViewController
 
-@property (readonly, nonatomic) NSString *romFilepath;
+@property (readonly, nonatomic) GBAROM *rom;
 @property (copy, nonatomic) NSString *skinFilepath;
 @property (assign, nonatomic) CGFloat blurAlpha;
+@property (assign, nonatomic) BOOL emulationPaused;
 
-- (instancetype)initWithROMFilepath:(NSString *)romFilepath;
+- (instancetype)initWithROM:(GBAROM *)rom;
 
 - (void)blurWithInitialAlpha:(CGFloat)alpha;
 - (void)removeBlur;

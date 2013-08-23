@@ -12,6 +12,7 @@
 #import "GBASettingsViewController.h"
 #import "GBAPresentMenuViewControllerAnimator.h"
 #import "GBATransparentTableViewHeaderFooterView.h"
+#import "GBAROM.h"
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
@@ -88,7 +89,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     progressView.alpha = 0.0;
     [self.navigationController.navigationBar addSubview:progressView];
     
-    [self.tableView registerClass:[GBATransparentTableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
+    [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     self.downloadProgressView = progressView;
     
@@ -341,14 +342,14 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     return UITableViewAutomaticDimension;
 }
 
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+/*- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     GBATransparentTableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Header"];
     headerView.textLabel.text = [super tableView:tableView titleForHeaderInSection:section];
     headerView.theme = self.theme;
     
     return headerView;
-}
+}*/
 
 - (NSString *)visibleFileExtensionForIndexPath:(NSIndexPath *)indexPath
 {
@@ -496,7 +497,9 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     NSString *filepath = [self filepathForIndexPath:indexPath];
     
-    GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROMFilepath:filepath];
+    GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
+    
+    GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROM:rom];
     emulationViewController.skinFilepath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"Default"];
     
     if ([emulationViewController respondsToSelector:@selector(setTransitioningDelegate:)])

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBANewCheatViewController.h"
+#import "GBACheatEditorViewController.h"
 
 @interface NSString (RemoveWhitespace)
 
@@ -28,7 +28,7 @@
 
 @end
 
-@interface GBANewCheatViewController () <UITextViewDelegate, UITextFieldDelegate> {
+@interface GBACheatEditorViewController () <UITextViewDelegate, UITextFieldDelegate> {
     NSRange _selectionRange;
 }
 
@@ -40,7 +40,7 @@
 
 @end
 
-@implementation GBANewCheatViewController
+@implementation GBACheatEditorViewController
 
 - (id)init
 {
@@ -49,11 +49,9 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:resourceBundle];
     
-    
-    self = [storyboard instantiateViewControllerWithIdentifier:@"newCheatViewController"];
+    self = [storyboard instantiateViewControllerWithIdentifier:@"cheatEditorViewController"];
     if (self)
     {
-        // Custom initialization
         
     }
     return self;
@@ -63,12 +61,14 @@
 {
     [super viewDidLoad];
     
-    [self.nameTextField becomeFirstResponder];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self.nameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.nameTextField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,17 +83,17 @@
     NSArray *codes = [self codesFromTextView];
     GBACheat *cheat = [[GBACheat alloc] initWithName:self.nameTextField.text codes:codes];
         
-    if ([self.delegate respondsToSelector:@selector(newCheatViewController:didSaveCheat:)])
+    if ([self.delegate respondsToSelector:@selector(cheatEditorViewController:didSaveCheat:)])
     {
-        [self.delegate newCheatViewController:self didSaveCheat:cheat];
+        [self.delegate cheatEditorViewController:self didSaveCheat:cheat];
     }
 }
 
 - (IBAction)cancelSavingNewCheat:(UIBarButtonItem *)sender
 {
-    if ([self.delegate respondsToSelector:@selector(newCheatViewControllerDidCancel:)])
+    if ([self.delegate respondsToSelector:@selector(cheatEditorViewControllerDidCancel:)])
     {
-        [self.delegate newCheatViewControllerDidCancel:self];
+        [self.delegate cheatEditorViewControllerDidCancel:self];
     }
 }
 
@@ -121,6 +121,13 @@
     [self.tableView scrollRectToVisible:CGRectMake(0, 0, self.view.bounds.size.width, 10) animated:YES];
 }
 
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    self.title = textField.text;
+    
+    self.navigationItem.rightBarButtonItem.enabled = (self.nameTextField.text.length > 0 && self.codeTextView.text.length > 0);
+}
+
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -130,8 +137,8 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSInteger difference = textView.text.length - [textView.text stringByRemovingWhitespace].length;
-        
+    NSInteger difference = textView.text.length - [[textView.text stringByRemovingWhitespace] length];
+    
     if (text.length > 0)
     {
         if ((range.location - difference + 1) % 8 == 0)
@@ -182,6 +189,11 @@
     textView.text = formattedText;
     
     [textView setSelectedRange:_selectionRange];
+    
+    //NSRange range = NSMakeRange(textView.text.length - 1, 1);
+    //[textView scrollRangeToVisible:range];
+    
+    self.navigationItem.rightBarButtonItem.enabled = (self.nameTextField.text.length > 0 && self.codeTextView.text.length > 0);
     
 }
 
