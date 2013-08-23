@@ -406,7 +406,7 @@ namespace GameFilePicker {
         frameskip = 32; //optionFrameSkipAuto value
     }
     
-    optionFrameSkip = 32;
+    optionFrameSkip = frameskip;
     
     optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
 }
