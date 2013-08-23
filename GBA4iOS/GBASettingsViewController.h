@@ -11,6 +11,12 @@
 
 extern NSString *const GBASettingsDidChangeNotification;
 
+static NSString *GBASettingsFrameSkipKey = @"frameSkip";
+static NSString *GBASettingsAutosaveKey = @"autosave";
+static NSString *GBASettingsMixAudioKey = @"mixAudio";
+static NSString *GBASettingsVibrateKey = @"vibrate";
+static NSString *GBASettingsShowFramerateKey = @"showFramerate";
+
 @interface GBASettingsViewController : UITableViewController
 
 @property (assign, nonatomic) GBAROMTableViewControllerTheme theme;

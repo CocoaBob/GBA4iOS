@@ -399,7 +399,7 @@ namespace GameFilePicker {
     optionConfirmAutoLoadState = NO;
     optionHideStatusBar = YES;
     
-    int frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:@"frameSkip"];
+    int frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
     
     if (frameskip < 0)
     {
@@ -408,7 +408,7 @@ namespace GameFilePicker {
     
     optionFrameSkip = 32;
     
-    optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:@"mixAudio"];
+    optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
 }
 
 - (void)startEmulation

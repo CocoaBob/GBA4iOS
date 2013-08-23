@@ -13,6 +13,7 @@
 #import "UIImage+ImageEffects.h"
 #import "GBASaveStateViewController.h"
 #import "GBACheatManagerViewController.h"
+#import "GBASettingsViewController.h"
 
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 
@@ -30,6 +31,12 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
+@property (strong, nonatomic) CADisplayLink *displayLink;
+@property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
+
+@property (nonatomic) CFTimeInterval previousTimestamp;
+@property (nonatomic) NSInteger frameCount;
+@property (weak, nonatomic) IBOutlet UILabel *framerateLabel;
 
 // Sustaining Buttons
 @property (assign, nonatomic) BOOL selectingSustainedButton;
@@ -102,8 +109,15 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
     
     //[self.controller showButtonRects];
+    
+    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
+	[self.displayLink setFrameInterval:1];
+	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    
+    [self updateSettings:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -155,6 +169,32 @@ static GBAEmulationViewController *_emulationViewController;
     return YES;
 }
 
+#pragma mark - Private
+
+- (void)handleDisplayLink:(CADisplayLink *)displayLink
+{
+    CFTimeInterval now = CFAbsoluteTimeGetCurrent();
+    CFTimeInterval elapsed = now - self.previousTimestamp;
+    self.frameCount++;
+    
+    if (elapsed > 1.0)
+    {
+        CGFloat fps = self.frameCount / elapsed;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.framerateLabel.text = [NSString stringWithFormat:@"%.f FPS", fps];
+        });
+        self.previousTimestamp = now;
+        self.frameCount = 0;
+    }
+    
+    if (self.buttonsToPressForNextCycle)
+    {
+        [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
+        
+        self.buttonsToPressForNextCycle = nil;
+    }
+}
+
 #pragma mark - Controls
 
 - (void)controller:(GBAController *)controller didPressButtons:(NSSet *)buttons
@@ -169,14 +209,24 @@ static GBAEmulationViewController *_emulationViewController;
         self.sustainedButtonSet = [buttons mutableCopy];
         [self exitSustainButtonSelectionMode];
     }
+    else if ([self.sustainedButtonSet intersectsSet:buttons]) // We re-pressed a sustained button, so we need to release it then press it in the next emulation CPU cycle
+    {
+        NSMutableSet *sustainedButtons = [self.sustainedButtonSet mutableCopy];
+        [sustainedButtons intersectSet:buttons];
+        
+        [[GBAEmulatorCore sharedCore] releaseButtons:sustainedButtons];
+        
+        NSMutableSet *buttonsWithoutSustainButtons = [buttons mutableCopy];
+        [buttonsWithoutSustainButtons minusSet:self.sustainedButtonSet];
+        
+        self.buttonsToPressForNextCycle = buttons;
+    }
     else
     {
-        // If the user re-taps a sustained button, we remove it from the sustainedButtonSet
-        [self.sustainedButtonSet minusSet:buttons];
-    }
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] pressButtons:buttons];
+        [[GBAEmulatorCore sharedCore] pressButtons:buttons];
 #endif
+    }
 }
 
 - (void)controller:(GBAController *)controller didReleaseButtons:(NSSet *)buttons
@@ -368,15 +418,11 @@ void uncaughtExceptionHandler(NSException *exception)
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatManagerViewController) animated:YES completion:nil];
 }
 
-- (NSString *)cheatsDirectory
+#pragma mark - Settings
+
+- (void)updateSettings:(NSNotification *)notification
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    NSString *romName = self.rom.name;
-    NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Cheats/%@", romName]];
-    
-    return directory;
+    self.framerateLabel.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
 }
 
 #pragma mark - Presenting/Dismissing

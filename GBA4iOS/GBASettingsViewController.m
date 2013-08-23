@@ -16,6 +16,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 @property (weak, nonatomic) IBOutlet UISwitch *autosaveSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *mixAudioSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *showFramerateSwitch;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -23,6 +24,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 - (IBAction)toggleAutoSave:(UISwitch *)sender;
 - (IBAction)toggleVibrate:(UISwitch *)sender;
 - (IBAction)toggleMixAudio:(UISwitch *)sender;
+- (IBAction)toggleShowFramerate:(UISwitch *)sender;
 
 @end
 
@@ -61,9 +63,9 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 + (void)registerDefaults
 {
-    NSDictionary *defaults = @{@"frameSkip": @(-1),
-                               @"autosave": @(1),
-                               @"vibrate": @YES};
+    NSDictionary *defaults = @{GBASettingsFrameSkipKey: @(-1),
+                               GBASettingsAutosaveKey: @(1),
+                               GBASettingsVibrateKey: @YES};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
@@ -71,7 +73,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (void)updateControls
 {
-    NSUInteger selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"frameSkip"];
+    NSUInteger selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
     
     if ((int)selectedSegmentIndex == -1)
     {
@@ -80,9 +82,10 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     
     self.frameSkipSegmentedControl.selectedSegmentIndex = selectedSegmentIndex;
     
-    self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"autosave"];
-    self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"mixAudio"];
-    self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"];
+    self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
+    self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
+    self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
+    self.showFramerateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
 }
 
 #pragma mark - Table view data source
@@ -200,26 +203,32 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         frameSkip = -1;
     }
     
-    [[NSUserDefaults standardUserDefaults] setInteger:frameSkip forKey:@"frameSkip"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
+    [[NSUserDefaults standardUserDefaults] setInteger:frameSkip forKey:GBASettingsFrameSkipKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsFrameSkipKey, @"value": @(frameSkip)}];
 }
 
 - (IBAction)toggleAutoSave:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"autosave"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsAutosaveKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsAutosaveKey, @"value": @(sender.on)}];
 }
 
 - (IBAction)toggleVibrate:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"vibrate"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsVibrateKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsVibrateKey, @"value": @(sender.on)}];
 }
 
 - (IBAction)toggleMixAudio:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"mixAudio"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsMixAudioKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsMixAudioKey, @"value": @(sender.on)}];
+}
+
+- (IBAction)toggleShowFramerate:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsShowFramerateKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsShowFramerateKey, @"value": @(sender.on)}];
 }
 
 @end

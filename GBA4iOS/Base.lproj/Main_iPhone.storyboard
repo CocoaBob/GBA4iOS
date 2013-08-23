@@ -216,6 +216,41 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Developer" id="Qv4-Ds-oLm">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="JSV-nz-fiX">
+                                        <rect key="frame" x="0.0" y="849" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JSV-nz-fiX" id="5Bq-H8-JF3">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aHr-ty-EXJ">
+                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="toggleShowFramerate:" destination="fFF-zm-sH1" eventType="valueChanged" id="rnl-BM-39r"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Framerate" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHh-R9-Ygg">
+                                                    <rect key="frame" x="15" y="11" width="233" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="aHr-ty-EXJ" firstAttribute="leading" secondItem="UHh-R9-Ygg" secondAttribute="trailing" constant="8" id="eKY-Bt-8iP"/>
+                                                <constraint firstAttribute="centerY" secondItem="UHh-R9-Ygg" secondAttribute="centerY" id="gRd-R5-eBW"/>
+                                                <constraint firstAttribute="centerY" secondItem="aHr-ty-EXJ" secondAttribute="centerY" id="jJh-af-miC"/>
+                                                <constraint firstAttribute="trailing" secondItem="aHr-ty-EXJ" secondAttribute="trailing" constant="15" id="t6j-ND-H12"/>
+                                                <constraint firstItem="UHh-R9-Ygg" firstAttribute="leading" secondItem="5Bq-H8-JF3" secondAttribute="leading" constant="15" id="xAl-pr-653"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="fFF-zm-sH1" id="X3n-BY-3d7"/>
@@ -234,6 +269,7 @@
                         <outlet property="autosaveSwitch" destination="7vL-qH-dDW" id="Oj6-0m-ARy"/>
                         <outlet property="frameSkipSegmentedControl" destination="wCX-6F-d72" id="jfC-Vu-4k6"/>
                         <outlet property="mixAudioSwitch" destination="2lV-ON-q1Q" id="oCd-XD-B7b"/>
+                        <outlet property="showFramerateSwitch" destination="aHr-ty-EXJ" id="F6c-8e-KgA"/>
                         <outlet property="vibrateSwitch" destination="Ocf-oz-ae8" id="Z9y-I1-YpG"/>
                     </connections>
                 </tableViewController>
@@ -405,11 +441,20 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60 FPS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCc-iA-hy3">
+                                                <rect key="frame" x="15" y="15" width="57" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <color key="textColor" red="0.50196081399917603" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <constraints>
+                                            <constraint firstItem="VCc-iA-hy3" firstAttribute="leading" secondItem="nSu-0n-xp1" secondAttribute="leading" constant="15" id="R7o-LJ-SnD"/>
                                             <constraint firstAttribute="centerY" secondItem="KTg-3r-eIu" secondAttribute="centerY" id="X71-hi-JIS"/>
                                             <constraint firstAttribute="centerX" secondItem="KTg-3r-eIu" secondAttribute="centerX" id="a61-8Q-JV9"/>
+                                            <constraint firstItem="VCc-iA-hy3" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="top" constant="15" id="beH-DL-39W"/>
                                         </constraints>
                                     </view>
                                     <view multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="240" translatesAutoresizingMaskIntoConstraints="NO" id="3X0-Mp-OVJ" userLabel="Controller View" customClass="GBAController">
@@ -444,6 +489,7 @@
                         <outlet property="contentView" destination="U8T-35-g39" id="M18-Ay-hEp"/>
                         <outlet property="controller" destination="3X0-Mp-OVJ" id="99Q-zc-980"/>
                         <outlet property="emulatorScreen" destination="KTg-3r-eIu" id="T1r-be-SwC"/>
+                        <outlet property="framerateLabel" destination="VCc-iA-hy3" id="AeN-PW-gVb"/>
                         <outlet property="portraitBottomLayoutConstraint" destination="Hi4-Gs-HRs" id="nvj-bX-C8r"/>
                         <outlet property="screenContainerView" destination="nSu-0n-xp1" id="19d-dd-iNL"/>
                     </connections>
