@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
+		BFF66D8617C941D2002FDC14 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CE179CF1B90068A54E /* CoreAudio.framework */; };
@@ -351,7 +352,6 @@
 		CC96F00A17C2983800C7DD0C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC96F00917C2983800C7DD0C /* OpenGLES.framework */; };
 		CC96F00B17C2984200C7DD0C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC96F00C17C2984F00C7DD0C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
-		CC96F00E17C298A900C7DD0C /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC96F00D17C298A900C7DD0C /* GBAResources.bundle */; };
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
@@ -473,6 +473,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BFF66D8417C9414A002FDC14 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC1B66B417BF4D77007B2787;
+			remoteInfo = "Resource Bundle";
+		};
 		CC2BC0BE17C55FAF007CF771 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
@@ -576,7 +583,6 @@
 		CC96EF6B17C2959900C7DD0C /* GBA.emu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBA.emu-Info.plist"; sourceTree = "<group>"; };
 		CC96EF7117C2959900C7DD0C /* GBA.emu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA.emu-Prefix.pch"; sourceTree = "<group>"; };
 		CC96F00917C2983800C7DD0C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		CC96F00D17C298A900C7DD0C /* GBAResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GBAResources.bundle; path = "GBA4iOS-AppStore/GBA4iOS-AppStore/../../../../../../../Library/Developer/Xcode/DerivedData/GBA4iOS-dqkflotukruucqbxjyslhtfuekse/Build/Products/Debug-iphoneos/GBAResources.bundle"; sourceTree = SOURCE_ROOT; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
 		CCB5F87A17A8EE85009D31CF /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
@@ -1073,7 +1079,6 @@
 		CC96EF6917C2959900C7DD0C /* GBA.emu */ = {
 			isa = PBXGroup;
 			children = (
-				CC96F00D17C298A900C7DD0C /* GBAResources.bundle */,
 				CC96EF6B17C2959900C7DD0C /* GBA.emu-Info.plist */,
 				CC96EF7117C2959900C7DD0C /* GBA.emu-Prefix.pch */,
 				CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */,
@@ -1333,6 +1338,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BFF66D8517C9414A002FDC14 /* PBXTargetDependency */,
 			);
 			name = GBA.emu;
 			productName = GBA.emu;
@@ -1433,8 +1439,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF66D8617C941D2002FDC14 /* GBAResources.bundle in Resources */,
 				CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */,
-				CC96F00E17C298A900C7DD0C /* GBAResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1949,6 +1955,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BFF66D8517C9414A002FDC14 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC1B66B417BF4D77007B2787 /* Resource Bundle */;
+			targetProxy = BFF66D8417C9414A002FDC14 /* PBXContainerItemProxy */;
+		};
 		CC2BC0BF17C55FAF007CF771 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CC1B66B417BF4D77007B2787 /* Resource Bundle */;
