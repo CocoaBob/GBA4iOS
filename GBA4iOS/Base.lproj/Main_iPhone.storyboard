@@ -44,7 +44,6 @@
                                                 <constraint firstAttribute="centerY" secondItem="wCX-6F-d72" secondAttribute="centerY" id="1cL-KX-zBT"/>
                                                 <constraint firstAttribute="trailing" secondItem="wCX-6F-d72" secondAttribute="trailing" constant="15" id="CUg-6g-VyE"/>
                                                 <constraint firstItem="wCX-6F-d72" firstAttribute="leading" secondItem="L7R-p5-cLI" secondAttribute="leading" constant="15" id="uwL-UX-JjA"/>
-                                                <constraint firstAttribute="centerY" secondItem="wCX-6F-d72" secondAttribute="centerY" id="yUP-Hp-X88"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
