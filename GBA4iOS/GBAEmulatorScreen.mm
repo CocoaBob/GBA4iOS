@@ -25,7 +25,7 @@
     return CGSizeMake(320, 240);
 }
 
-- (void)setEaglView:(EAGLView *)eaglView
+- (void)setEaglView:(UIView *)eaglView
 {
     _eaglView = eaglView;
     

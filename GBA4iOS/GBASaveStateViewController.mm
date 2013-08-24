@@ -7,7 +7,10 @@
 //
 
 #import "GBASaveStateViewController.h"
+
+#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
+#endif
 
 #import <UIAlertView+RSTAdditions.h>
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>

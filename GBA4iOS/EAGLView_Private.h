@@ -6,9 +6,17 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
 #import "EAGLView.h"
 
 @interface EAGLView ()
+
+#else 
+
+@interface UIView ()
+
+#endif
 
 @property (readonly, nonatomic) CGSize screenSize;
 

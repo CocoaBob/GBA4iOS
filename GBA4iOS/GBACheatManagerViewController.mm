@@ -8,7 +8,10 @@
 
 #import "GBACheatManagerViewController.h"
 #import "GBACheatEditorViewController.h"
+
+#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
+#endif
 
 @interface GBACheatManagerViewController () <GBACheatEditorViewControllerDelegate>
 

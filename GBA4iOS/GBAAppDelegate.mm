@@ -8,9 +8,7 @@
 
 #import "GBAAppDelegate.h"
 #import "GBASettingsViewController.h"
-
-#import "EAGLView_Private.h"
-#import "GBAEmulatorCore.h"
+#import "DCIntrospect.h"
 
 @implementation GBAAppDelegate
 
@@ -34,6 +32,10 @@
     
     
     [GBASettingsViewController registerDefaults];
+    
+#if TARGET_IPHONE_SIMULATOR
+    [[DCIntrospect sharedIntrospector] start];
+#endif
     
     return YES;
 }

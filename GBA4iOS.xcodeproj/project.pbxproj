@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
 		BFF66D8617C941D2002FDC14 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
+		BFF66D9517C956D0002FDC14 /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFF66D9617C956D0002FDC14 /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFF66D9717C956D0002FDC14 /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8F17C956D0002FDC14 /* DCFrameView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFF66D9817C956D0002FDC14 /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8F17C956D0002FDC14 /* DCFrameView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFF66D9917C956D0002FDC14 /* DCIntrospect.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9117C956D0002FDC14 /* DCIntrospect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFF66D9A17C956D0002FDC14 /* DCIntrospect.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9117C956D0002FDC14 /* DCIntrospect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFF66D9B17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFF66D9C17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CE179CF1B90068A54E /* CoreAudio.framework */; };
@@ -188,7 +196,6 @@
 		CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
-		CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
 		CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */; };
 		CC6A2D9017C508DC00EFC10E /* GBACheatManagerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */; };
 		CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
@@ -224,7 +231,6 @@
 		CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
 		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
-		CC8D5A7717AAE13700E89F43 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC66AFA217A50B5B00F51D9B /* Reveal.framework */; };
 		CC8D5A7A17AAE3A800E89F43 /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAController.m */; };
 		CC8D5A7B17AAE3A800E89F43 /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAController.m */; };
 		CC96EF6617C2959900C7DD0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
@@ -504,6 +510,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BFF66D8C17C956D0002FDC14 /* DCCrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCrossHairView.h; sourceTree = "<group>"; };
+		BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCrossHairView.m; sourceTree = "<group>"; };
+		BFF66D8E17C956D0002FDC14 /* DCFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCFrameView.h; sourceTree = "<group>"; };
+		BFF66D8F17C956D0002FDC14 /* DCFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCFrameView.m; sourceTree = "<group>"; };
+		BFF66D9017C956D0002FDC14 /* DCIntrospect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntrospect.h; sourceTree = "<group>"; };
+		BFF66D9117C956D0002FDC14 /* DCIntrospect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCIntrospect.m; sourceTree = "<group>"; };
+		BFF66D9217C956D0002FDC14 /* DCIntrospectSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntrospectSettings.h; sourceTree = "<group>"; };
+		BFF66D9317C956D0002FDC14 /* DCStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStatusBarOverlay.h; sourceTree = "<group>"; };
+		BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStatusBarOverlay.m; sourceTree = "<group>"; };
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
 		CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorScreen.mm; sourceTree = "<group>"; };
 		CC1577CD179CF1B90068A54E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -560,7 +575,6 @@
 		CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAThemedTableViewController.m; sourceTree = "<group>"; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
 		CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASaveStateViewController.mm; sourceTree = "<group>"; };
-		CC66AFA217A50B5B00F51D9B /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OriginalImages.xcassets; path = GBA.emu/OriginalImages.xcassets; sourceTree = SOURCE_ROOT; };
 		CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerViewController.h; sourceTree = "<group>"; };
 		CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBACheatManagerViewController.mm; sourceTree = "<group>"; };
@@ -725,7 +739,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC275C3717A5075E006243FB /* libz.dylib in Frameworks */,
-				CC66AFA317A50B5B00F51D9B /* Reveal.framework in Frameworks */,
 				CC275C3817A5075E006243FB /* AudioToolbox.framework in Frameworks */,
 				CC275C3917A5075E006243FB /* CoreAudio.framework in Frameworks */,
 				CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */,
@@ -743,7 +756,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
-				CC8D5A7717AAE13700E89F43 /* Reveal.framework in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
@@ -784,6 +796,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BFF66D8A17C95663002FDC14 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				BFF66D8B17C956D0002FDC14 /* DCIntrospect */,
+			);
+			name = Debug;
+			sourceTree = "<group>";
+		};
+		BFF66D8B17C956D0002FDC14 /* DCIntrospect */ = {
+			isa = PBXGroup;
+			children = (
+				BFF66D8C17C956D0002FDC14 /* DCCrossHairView.h */,
+				BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */,
+				BFF66D8E17C956D0002FDC14 /* DCFrameView.h */,
+				BFF66D8F17C956D0002FDC14 /* DCFrameView.m */,
+				BFF66D9017C956D0002FDC14 /* DCIntrospect.h */,
+				BFF66D9117C956D0002FDC14 /* DCIntrospect.m */,
+				BFF66D9217C956D0002FDC14 /* DCIntrospectSettings.h */,
+				BFF66D9317C956D0002FDC14 /* DCStatusBarOverlay.h */,
+				BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */,
+			);
+			path = DCIntrospect;
+			sourceTree = "<group>";
+		};
 		CC1578A6179D051E0068A54E /* Emulator Code */ = {
 			isa = PBXGroup;
 			children = (
@@ -933,7 +969,6 @@
 			children = (
 				CC96F00917C2983800C7DD0C /* OpenGLES.framework */,
 				CC1B66AC17BF06FD007B2787 /* libPods.a */,
-				CC66AFA217A50B5B00F51D9B /* Reveal.framework */,
 				CC1577D7179CF1F80068A54E /* libz.dylib */,
 				CC1577CD179CF1B90068A54E /* AudioToolbox.framework */,
 				CC1577CE179CF1B90068A54E /* CoreAudio.framework */,
@@ -958,6 +993,7 @@
 				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
+				BFF66D8A17C95663002FDC14 /* Debug */,
 				CC7AC2EB17C694E800FB7642 /* Emulation */,
 				CC823BC117B04A6D000A25E6 /* Categories */,
 				CCFA493517B00F5100386A43 /* Views */,
@@ -1524,14 +1560,18 @@
 				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
+				BFF66D9817C956D0002FDC14 /* DCFrameView.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
 				CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */,
+				BFF66D9C17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */,
+				BFF66D9617C956D0002FDC14 /* DCCrossHairView.m in Sources */,
 				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
 				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
+				BFF66D9A17C956D0002FDC14 /* DCIntrospect.m in Sources */,
 				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
 				CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
@@ -1553,11 +1593,13 @@
 				CCFA7215179D304700768D24 /* Gb_Apu.cpp in Sources */,
 				CCFA71FD179D304700768D24 /* Cheats.cc in Sources */,
 				CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */,
+				BFF66D9B17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */,
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
 				CCFA7202179D304700768D24 /* Flash.cpp in Sources */,
 				CCFA7212179D304700768D24 /* Util.cpp in Sources */,
 				CCFA721B179D304700768D24 /* Data_Reader.cpp in Sources */,
 				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
+				BFF66D9917C956D0002FDC14 /* DCIntrospect.m in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
 				CCFA71FE179D304700768D24 /* bios.cpp in Sources */,
 				CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */,
@@ -1587,6 +1629,7 @@
 				CCFA720B179D304700768D24 /* Mode3.cpp in Sources */,
 				CCFA7205179D304700768D24 /* GBA.cpp in Sources */,
 				CCFA722D179D304700768D24 /* Bra.c in Sources */,
+				BFF66D9517C956D0002FDC14 /* DCCrossHairView.m in Sources */,
 				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
 				CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */,
 				CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */,
@@ -1671,6 +1714,7 @@
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */,
 				CCFA7209179D304700768D24 /* Mode1.cpp in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
+				BFF66D9717C956D0002FDC14 /* DCFrameView.m in Sources */,
 				CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,

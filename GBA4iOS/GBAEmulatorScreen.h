@@ -12,6 +12,10 @@
 
 @interface GBAEmulatorScreen : UIView
 
+#if !(TARGET_IPHONE_SIMULATOR)
 @property (strong, nonatomic) EAGLView *eaglView;
+#else
+@property (strong, nonatomic) UIView *eaglView;
+#endif
 
 @end

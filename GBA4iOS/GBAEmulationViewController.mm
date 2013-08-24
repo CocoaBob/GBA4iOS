@@ -7,13 +7,16 @@
 //
 
 #import "GBAEmulationViewController.h"
-#import "GBAEmulatorCore.h"
 #import "GBAEmulatorScreen.h"
 #import "GBAController.h"
 #import "UIImage+ImageEffects.h"
 #import "GBASaveStateViewController.h"
 #import "GBACheatManagerViewController.h"
 #import "GBASettingsViewController.h"
+
+#if !(TARGET_IPHONE_SIMULATOR)
+#import "GBAEmulatorCore.h"
+#endif
 
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 
@@ -189,7 +192,9 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (self.buttonsToPressForNextCycle)
     {
+#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
+#endif
         
         self.buttonsToPressForNextCycle = nil;
     }
@@ -214,7 +219,9 @@ static GBAEmulationViewController *_emulationViewController;
         NSMutableSet *sustainedButtons = [self.sustainedButtonSet mutableCopy];
         [sustainedButtons intersectSet:buttons];
         
+#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] releaseButtons:sustainedButtons];
+#endif
         
         NSMutableSet *buttonsWithoutSustainButtons = [buttons mutableCopy];
         [buttonsWithoutSustainButtons minusSet:self.sustainedButtonSet];
