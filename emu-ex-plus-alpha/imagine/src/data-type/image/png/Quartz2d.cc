@@ -110,7 +110,7 @@ CallResult PngFile::load(const char *name)
 CallResult PngFile::loadAsset(const char *name)
 {
 	FsSys::cPath fullPath;
-	string_printf(fullPath, "%s/GBAResources.bundle/%s", Base::appPath, name);
+	string_printf(fullPath, "%s/%s", Base::appPath, name);
 	return load(fullPath);
 }
 

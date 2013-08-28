@@ -36,6 +36,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
 @property (strong, nonatomic) CADisplayLink *displayLink;
 @property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
+@property (strong, nonatomic) UIWindow *airplayWindow;
 
 @property (nonatomic) CFTimeInterval previousTimestamp;
 @property (nonatomic) NSInteger frameCount;
@@ -88,6 +89,18 @@ static GBAEmulationViewController *_emulationViewController;
     self.controller.skinFilepath = self.skinFilepath;
     self.controller.delegate = self;
     
+    if ([[UIScreen screens] count] > 1)
+    {
+        UIScreen *newScreen = [UIScreen screens][1];
+        [self setUpAirplayScreen:newScreen];
+    }
+    else
+    {
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:CGSizeMake(320, 240)];
+    }
+    
+    [self.emulatorScreen invalidateIntrinsicContentSize];
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
 #endif
@@ -113,6 +126,8 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
     
     //[self.controller showButtonRects];
     
@@ -198,6 +213,65 @@ static GBAEmulationViewController *_emulationViewController;
         
         self.buttonsToPressForNextCycle = nil;
     }
+}
+
+#pragma mark - Airplay
+
+- (void)screenDidConnect:(NSNotification *)notification
+{
+    if (self.airplayWindow)
+    {
+        return;
+    }
+    
+    UIScreen *newScreen = [notification object];
+    [self setUpAirplayScreen:newScreen];
+}
+
+- (void)screenDidDisconnect:(NSNotification *)notification
+{
+    if (self.airplayWindow == nil)
+    {
+        return;
+    }
+    
+    [self tearDownAirplayScreen];
+}
+
+- (void)setUpAirplayScreen:(UIScreen *)screen
+{
+    CGRect screenBounds = screen.bounds;
+    
+    self.airplayWindow = ({
+        UIWindow *window = [[UIWindow alloc] initWithFrame:screenBounds];
+        window.screen = screen;
+        window.hidden = NO;
+        
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenBounds.size];
+        
+        self.emulatorScreen.center = CGPointMake(roundf(screenBounds.size.width/2), roundf(screenBounds.size.height/2));
+        
+        [window addSubview:self.emulatorScreen];
+        window;
+    });
+    
+    [self.emulatorScreen invalidateIntrinsicContentSize];
+}
+
+- (void)tearDownAirplayScreen
+{
+    [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:self.contentView.bounds.size];
+    [self.emulatorScreen invalidateIntrinsicContentSize];
+    
+    self.airplayWindow.hidden = YES;
+    [self.contentView addSubview:self.emulatorScreen];
+    self.airplayWindow = nil;
+    
+    self.emulatorScreen.frame = ({
+        CGRect frame = self.emulatorScreen.frame;
+        frame.origin = CGPointZero;
+        frame;
+    });
 }
 
 #pragma mark - Controls

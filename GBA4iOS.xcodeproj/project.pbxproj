@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
+		BF49397417CD94760072CFC7 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB5669317CD941F00003742 /* overlays128.png */; };
+		BF49397517CD94770072CFC7 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB5669317CD941F00003742 /* overlays128.png */; };
+		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BF49397717CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BFB5668C17CD938600003742 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
+		BFB5668D17CD93EF00003742 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BFB5668E17CD93F900003742 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
+		BFC43F7017CD474200FE861C /* GBACheatManagerTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */; };
+		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
+		BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
+		BFC43F7317CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFF66D8617C941D2002FDC14 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
 		BFF66D9517C956D0002FDC14 /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BFF66D9617C956D0002FDC14 /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -164,9 +175,6 @@
 		CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
 		CC1B66C717BF56E2007B2787 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CCB5F87A17A8EE85009D31CF /* Default.gbaskin */; };
-		CC1B66C817BF56E2007B2787 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
-		CC1B66C917BF56E2007B2787 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
-		CC1B66CA17BF56E2007B2787 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
 		CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
@@ -510,6 +518,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BFB5669317CD941F00003742 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = overlays128.png; path = ../../GBA4iOS_Original/GBA4iOS/overlays128.png; sourceTree = "<group>"; };
+		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
+		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFF66D8C17C956D0002FDC14 /* DCCrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCrossHairView.h; sourceTree = "<group>"; };
 		BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCrossHairView.m; sourceTree = "<group>"; };
 		BFF66D8E17C956D0002FDC14 /* DCFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCFrameView.h; sourceTree = "<group>"; };
@@ -1025,6 +1036,7 @@
 				CC86824E17A6D48600686607 /* icon-60@2x.png */,
 				CCB5F87A17A8EE85009D31CF /* Default.gbaskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
+				BFB5669317CD941F00003742 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
 				CC15E53C179ECDCC00449972 /* xButton.png */,
 			);
@@ -1055,6 +1067,8 @@
 			children = (
 				CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */,
 				CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */,
+				BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */,
+				BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */,
 				CC6A2D9517C50CE700EFC10E /* GBACheatEditorViewController.h */,
 				CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */,
 				CC6A2D9B17C515E800EFC10E /* GBACheat.h */,
@@ -1297,6 +1311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC6A2D9017C508DC00EFC10E /* GBACheatManagerViewController.h in Headers */,
+				BFC43F7017CD474200FE861C /* GBACheatManagerTableViewCell.h in Headers */,
 				CC6A2D9717C50CE700EFC10E /* GBACheatEditorViewController.h in Headers */,
 				CCC7298617C7357E0001BC6F /* GBAROM.h in Headers */,
 				CC6A2D9D17C515E800EFC10E /* GBACheat.h in Headers */,
@@ -1447,9 +1462,6 @@
 				CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */,
 				CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */,
 				CC1B66C717BF56E2007B2787 /* Default.gbaskin in Resources */,
-				CC1B66C817BF56E2007B2787 /* padButton.png in Resources */,
-				CC1B66C917BF56E2007B2787 /* overlays128.png in Resources */,
-				CC1B66CA17BF56E2007B2787 /* xButton.png in Resources */,
 				CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1458,7 +1470,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF49397417CD94760072CFC7 /* overlays128.png in Resources */,
 				CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */,
+				BF49397717CD947C0072CFC7 /* padButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,6 +1481,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
+				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
+				BF49397517CD94770072CFC7 /* overlays128.png in Resources */,
 				CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1476,7 +1492,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFF66D8617C941D2002FDC14 /* GBAResources.bundle in Resources */,
+				BFB5668D17CD93EF00003742 /* padButton.png in Resources */,
+				BFB5668C17CD938600003742 /* overlays128.png in Resources */,
 				CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */,
+				BFB5668E17CD93F900003742 /* xButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1575,6 +1594,7 @@
 				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
 				CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
+				BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1587,6 +1607,7 @@
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
 				CCFA7220179D304700768D24 /* Rar_Extractor.cpp in Sources */,
 				CCFA7207179D304700768D24 /* Globals.cpp in Sources */,
+				BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
 				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
 				CCFA7211179D304700768D24 /* Patch.cpp in Sources */,
@@ -1962,6 +1983,7 @@
 				CC1B667017BF056B007B2787 /* CreditsView.cc in Sources */,
 				CC1B66A917BF057A007B2787 /* pngwtran.c in Sources */,
 				CC770CA717BEE3C100904259 /* GBAThemedTableViewController.m in Sources */,
+				BFC43F7317CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC1B667217BF056B007B2787 /* FilePicker.cc in Sources */,
 				CC1B669117BF0574007B2787 /* IoMmapFd.cc in Sources */,
 				CC1B66A017BF057A007B2787 /* pngpread.c in Sources */,

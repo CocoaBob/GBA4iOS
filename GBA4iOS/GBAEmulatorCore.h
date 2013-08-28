@@ -22,6 +22,8 @@
 
 + (instancetype)sharedCore;
 
+- (void)updateEAGLViewForSize:(CGSize)size;
+
 - (void)startEmulation;
 - (void)pauseEmulation;
 - (void)prepareToEnterBackground;
@@ -34,9 +36,10 @@
 
 // Cheats
 - (BOOL)addCheat:(GBACheat *)cheat;
-- (void)removeCheat:(GBACheat *)cheat;
+// - (void)removeCheat:(GBACheat *)cheat; Call updateCheats instead
 - (void)enableCheat:(GBACheat *)cheat;
 - (void)disableCheat:(GBACheat *)cheat;
+- (void)updateCheats;
 
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;

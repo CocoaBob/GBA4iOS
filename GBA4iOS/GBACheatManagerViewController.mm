@@ -8,6 +8,7 @@
 
 #import "GBACheatManagerViewController.h"
 #import "GBACheatEditorViewController.h"
+#import "GBACheatManagerTableViewCell.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -39,10 +40,11 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissCheatManagerViewController:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(tappedAddCheatCode:)];
-    self.navigationItem.leftBarButtonItem = addButton;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
     self.title = NSLocalizedString(@"Cheat Codes", @"");
+    
+    [self.tableView registerClass:[GBACheatManagerTableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,13 +119,6 @@
     return YES;
 }
 
-- (void)removeCheat:(GBACheat *)cheat
-{
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] removeCheat:cheat];
-#endif
-}
-
 - (void)enableCheat:(GBACheat *)cheat
 {
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -136,6 +131,13 @@
     
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] disableCheat:cheat];
+#endif
+}
+
+- (void)updateCheats
+{
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] updateCheats];
 #endif
 }
 
@@ -185,13 +187,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        cell.detailTextLabel.textColor = [UIColor purpleColor];
-    }
+    GBACheatManagerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     GBACheat *cheat = [self.cheatsArray objectAtIndex:indexPath.row];
     
@@ -209,6 +205,8 @@
     return cell;
 }
 
+#pragma mark Editing
+
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -217,7 +215,26 @@
     return YES;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    
+    if (editing)
+    {
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(tappedAddCheatCode:)];
+        [self.navigationItem setRightBarButtonItem:addButton animated:animated];
+    }
+    else
+    {
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissCheatManagerViewController:)];
+        [self.navigationItem setRightBarButtonItem:doneButton animated:animated];
+    }
+}
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -226,15 +243,22 @@
     {
         GBACheat *cheat = self.cheatsArray[indexPath.row];
         
-        [self removeCheat:cheat];
-        
         [self.cheatsArray removeObjectAtIndex:indexPath.row];
         [self writeCheatsArrayToDisk];
+        
+        [self updateCheats];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    [self.cheatsArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+    [self writeCheatsArrayToDisk];
+    
+    [self updateCheats];
+}
 
 #pragma mark - UITableViewDelegate
 

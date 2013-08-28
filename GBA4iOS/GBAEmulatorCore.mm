@@ -354,38 +354,43 @@ namespace GameFilePicker {
     //Base::setStatusBarHidden(YES);
     
     using namespace Base;
-	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
 #ifndef NDEBUG
 	logMsg("iOS version %s", [currSysVer cStringUsingEncoding: NSASCIIStringEncoding]);
 #endif
 	mainApp = self;
     
-	uint unscaledDPI = 163;
-	if(isIPad)
-	{
-		unscaledDPI = 132;
-	}
-    
-	CGRect rect = [[UIScreen mainScreen] bounds];
-	mainWin.w = mainWin.rect.x2 = rect.size.width;
-	mainWin.h = mainWin.rect.y2 = rect.size.height;
-	Gfx::viewMMWidth_ = std::round((mainWin.w / (float)unscaledDPI) * 25.4);
-	Gfx::viewMMHeight_ = std::round((mainWin.h / (float)unscaledDPI) * 25.4);
-    
-	logMsg("set screen MM size %dx%d", Gfx::viewMMWidth_, Gfx::viewMMHeight_);
-	currWin = mainWin;
-    
-    logMsg("Pixel size: %dx%d", Gfx::viewPixelWidth(), Gfx::viewPixelHeight());
-    
-	// Create the OpenGL ES view
-	glView = [[EAGLView alloc] initWithFrame:rect];
-    
-    self.eaglView = glView;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
     
     [self updateSettings:nil];
+}
+
+- (void)updateEAGLViewForSize:(CGSize)size
+{
+    using namespace Base;
+	mainWin.w = mainWin.rect.x2 = size.width;
+	mainWin.h = mainWin.rect.y2 = size.height;
+    
+    // Controls size of built-in controls. Since we aren't using these, we just set these to a valid number so the assert doesn't crash us.
+	Gfx::viewMMWidth_ = 50;
+	Gfx::viewMMHeight_ = 50;
+    
+    logMsg("set screen MM size %dx%d", Gfx::viewMMWidth_, Gfx::viewMMHeight_);
+	currWin = mainWin;
+    
+    printf("Pixel size: %dx%d", Gfx::viewPixelWidth(), Gfx::viewPixelHeight());
+    
+    if (self.eaglView == nil)
+    {
+        // Create the OpenGL ES view
+        glView = [[EAGLView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+        
+        self.eaglView = glView;
+    }
+    else
+    {
+        glView.frame = CGRectMake(0, 0, size.width, size.height);
+    }
 }
 
 - (void)dealloc
@@ -415,6 +420,8 @@ namespace GameFilePicker {
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        [self prepareEmulation];
+        
         Base::engineInit();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         Base::setAutoOrientation(1);
@@ -591,10 +598,15 @@ extern GBASys gGba;
 
 - (void)removeCheat:(GBACheat *)cheat
 {
-    NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
+    // Too many edge-cases to code for when deleting codes, so we just reload them every time.
+    // Trust me, the alternative code would just be complicated, and you probably wouldn't know about some of the bugs until they pop up unproducibly.
+    
+    [self updateCheats];
+    
+    /* NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
         cheatsDelete(gGba.cpu, index + enumertionIndex, true);
-    }];
+    }]; */
 }
 
 - (void)enableCheat:(GBACheat *)cheat
@@ -616,6 +628,12 @@ extern GBASys gGba;
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
         cheatsDisable(gGba.cpu, index + enumertionIndex);
     }];
+}
+
+- (void)updateCheats
+{
+    cheatsDeleteAll(gGba.cpu, true);
+    [self loadCheats];
 }
 
 #pragma mark - Main App
