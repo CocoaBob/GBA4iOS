@@ -36,4 +36,9 @@
     [self addSubview:_eaglView];
 }
 
+- (void)layoutSubviews
+{
+    self.eaglView.center = CGPointMake(roundf(self.bounds.size.width/2.0f), roundf(self.bounds.size.height/2.0f));
+}
+
 @end

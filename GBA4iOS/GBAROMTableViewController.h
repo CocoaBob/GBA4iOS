@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "RSTFileBrowserViewController.h"
+#import <RSTFileBrowserViewController/RSTFileBrowserViewController.h>
 
 typedef NS_ENUM(NSInteger, GBAROMTableViewControllerTheme)
 {

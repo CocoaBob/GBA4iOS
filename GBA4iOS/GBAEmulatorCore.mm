@@ -390,6 +390,7 @@ namespace GameFilePicker {
     else
     {
         glView.frame = CGRectMake(0, 0, size.width, size.height);
+        [glView.superview layoutIfNeeded];
     }
 }
 

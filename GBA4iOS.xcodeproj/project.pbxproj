@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
+		1A5BAE8017D04B0A00BABC01 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
-		BF49397417CD94760072CFC7 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB5669317CD941F00003742 /* overlays128.png */; };
-		BF49397517CD94770072CFC7 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB5669317CD941F00003742 /* overlays128.png */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF49397717CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BFB5668C17CD938600003742 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
@@ -20,14 +20,6 @@
 		BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC43F7317CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFF66D8617C941D2002FDC14 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
-		BFF66D9517C956D0002FDC14 /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BFF66D9617C956D0002FDC14 /* DCCrossHairView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BFF66D9717C956D0002FDC14 /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8F17C956D0002FDC14 /* DCFrameView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BFF66D9817C956D0002FDC14 /* DCFrameView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D8F17C956D0002FDC14 /* DCFrameView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BFF66D9917C956D0002FDC14 /* DCIntrospect.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9117C956D0002FDC14 /* DCIntrospect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BFF66D9A17C956D0002FDC14 /* DCIntrospect.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9117C956D0002FDC14 /* DCIntrospect.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BFF66D9B17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BFF66D9C17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CE179CF1B90068A54E /* CoreAudio.framework */; };
@@ -168,7 +160,6 @@
 		CC1B66A917BF057A007B2787 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
 		CC1B66AA17BF057A007B2787 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
 		CC1B66AB17BF068B007B2787 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
-		CC1B66AD17BF06FD007B2787 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1B66AC17BF06FD007B2787 /* libPods.a */; };
 		CC1B66C217BF56E2007B2787 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
 		CC1B66C317BF56E2007B2787 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
 		CC1B66C417BF56E2007B2787 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
@@ -518,18 +509,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BFB5669317CD941F00003742 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = overlays128.png; path = ../../GBA4iOS_Original/GBA4iOS/overlays128.png; sourceTree = "<group>"; };
+		1A5BAE7E17D04B0A00BABC01 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlays128.png; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
-		BFF66D8C17C956D0002FDC14 /* DCCrossHairView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCrossHairView.h; sourceTree = "<group>"; };
-		BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCrossHairView.m; sourceTree = "<group>"; };
-		BFF66D8E17C956D0002FDC14 /* DCFrameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCFrameView.h; sourceTree = "<group>"; };
-		BFF66D8F17C956D0002FDC14 /* DCFrameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCFrameView.m; sourceTree = "<group>"; };
-		BFF66D9017C956D0002FDC14 /* DCIntrospect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntrospect.h; sourceTree = "<group>"; };
-		BFF66D9117C956D0002FDC14 /* DCIntrospect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCIntrospect.m; sourceTree = "<group>"; };
-		BFF66D9217C956D0002FDC14 /* DCIntrospectSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCIntrospectSettings.h; sourceTree = "<group>"; };
-		BFF66D9317C956D0002FDC14 /* DCStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStatusBarOverlay.h; sourceTree = "<group>"; };
-		BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStatusBarOverlay.m; sourceTree = "<group>"; };
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
 		CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorScreen.mm; sourceTree = "<group>"; };
 		CC1577CD179CF1B90068A54E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -559,7 +541,6 @@
 		CC15E540179F027300449972 /* GBAEmulatorCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorCore.h; sourceTree = "<group>"; };
 		CC15E541179F027300449972 /* GBAEmulatorCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorCore.mm; sourceTree = "<group>"; };
 		CC15E546179F6C4D00449972 /* EmuOptions.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmuOptions.hh; path = "emu-ex-plus-alpha/EmuFramework/include/EmuOptions.hh"; sourceTree = SOURCE_ROOT; };
-		CC1B66AC17BF06FD007B2787 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		CC1B66B517BF4D77007B2787 /* GBAResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GBAResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC1B66B917BF4D78007B2787 /* GBAResources-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBAResources-Info.plist"; sourceTree = "<group>"; };
 		CC275C5017A5075E006243FB /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -797,7 +778,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC1B66AD17BF06FD007B2787 /* libPods.a in Frameworks */,
 				CC1B66AB17BF068B007B2787 /* libz.dylib in Frameworks */,
 				CCE93EF617BEDD0C008EADAF /* Foundation.framework in Frameworks */,
 				CCE93EF717BEDD0C008EADAF /* UIKit.framework in Frameworks */,
@@ -810,25 +790,8 @@
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
-				BFF66D8B17C956D0002FDC14 /* DCIntrospect */,
 			);
 			name = Debug;
-			sourceTree = "<group>";
-		};
-		BFF66D8B17C956D0002FDC14 /* DCIntrospect */ = {
-			isa = PBXGroup;
-			children = (
-				BFF66D8C17C956D0002FDC14 /* DCCrossHairView.h */,
-				BFF66D8D17C956D0002FDC14 /* DCCrossHairView.m */,
-				BFF66D8E17C956D0002FDC14 /* DCFrameView.h */,
-				BFF66D8F17C956D0002FDC14 /* DCFrameView.m */,
-				BFF66D9017C956D0002FDC14 /* DCIntrospect.h */,
-				BFF66D9117C956D0002FDC14 /* DCIntrospect.m */,
-				BFF66D9217C956D0002FDC14 /* DCIntrospectSettings.h */,
-				BFF66D9317C956D0002FDC14 /* DCStatusBarOverlay.h */,
-				BFF66D9417C956D0002FDC14 /* DCStatusBarOverlay.m */,
-			);
-			path = DCIntrospect;
 			sourceTree = "<group>";
 		};
 		CC1578A6179D051E0068A54E /* Emulator Code */ = {
@@ -979,7 +942,6 @@
 			isa = PBXGroup;
 			children = (
 				CC96F00917C2983800C7DD0C /* OpenGLES.framework */,
-				CC1B66AC17BF06FD007B2787 /* libPods.a */,
 				CC1577D7179CF1F80068A54E /* libz.dylib */,
 				CC1577CD179CF1B90068A54E /* AudioToolbox.framework */,
 				CC1577CE179CF1B90068A54E /* CoreAudio.framework */,
@@ -1036,7 +998,7 @@
 				CC86824E17A6D48600686607 /* icon-60@2x.png */,
 				CCB5F87A17A8EE85009D31CF /* Default.gbaskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
-				BFB5669317CD941F00003742 /* overlays128.png */,
+				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
 				CC15E53C179ECDCC00449972 /* xButton.png */,
 			);
@@ -1470,8 +1432,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF49397417CD94760072CFC7 /* overlays128.png in Resources */,
 				CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */,
+				1A5BAE8017D04B0A00BABC01 /* overlays128.png in Resources */,
 				BF49397717CD947C0072CFC7 /* padButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1482,7 +1444,7 @@
 			files = (
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
-				BF49397517CD94770072CFC7 /* overlays128.png in Resources */,
+				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1579,18 +1541,14 @@
 				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
-				BFF66D9817C956D0002FDC14 /* DCFrameView.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
 				CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */,
-				BFF66D9C17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */,
-				BFF66D9617C956D0002FDC14 /* DCCrossHairView.m in Sources */,
 				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
 				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
-				BFF66D9A17C956D0002FDC14 /* DCIntrospect.m in Sources */,
 				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
 				CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
@@ -1614,13 +1572,11 @@
 				CCFA7215179D304700768D24 /* Gb_Apu.cpp in Sources */,
 				CCFA71FD179D304700768D24 /* Cheats.cc in Sources */,
 				CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */,
-				BFF66D9B17C956D0002FDC14 /* DCStatusBarOverlay.m in Sources */,
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
 				CCFA7202179D304700768D24 /* Flash.cpp in Sources */,
 				CCFA7212179D304700768D24 /* Util.cpp in Sources */,
 				CCFA721B179D304700768D24 /* Data_Reader.cpp in Sources */,
 				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
-				BFF66D9917C956D0002FDC14 /* DCIntrospect.m in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
 				CCFA71FE179D304700768D24 /* bios.cpp in Sources */,
 				CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */,
@@ -1650,7 +1606,6 @@
 				CCFA720B179D304700768D24 /* Mode3.cpp in Sources */,
 				CCFA7205179D304700768D24 /* GBA.cpp in Sources */,
 				CCFA722D179D304700768D24 /* Bra.c in Sources */,
-				BFF66D9517C956D0002FDC14 /* DCCrossHairView.m in Sources */,
 				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
 				CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */,
 				CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */,
@@ -1735,7 +1690,6 @@
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */,
 				CCFA7209179D304700768D24 /* Mode1.cpp in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
-				BFF66D9717C956D0002FDC14 /* DCFrameView.m in Sources */,
 				CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,
@@ -2143,6 +2097,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					"$(SRCROOT)",
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2243,6 +2198,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					"$(SRCROOT)",
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2339,6 +2295,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					"$(SRCROOT)",
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2655,6 +2612,10 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+				);
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2693,6 +2654,10 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2837,6 +2802,10 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2926,6 +2895,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 				);
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3035,6 +3005,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -3137,6 +3108,7 @@
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
+					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";

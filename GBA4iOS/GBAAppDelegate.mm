@@ -8,7 +8,6 @@
 
 #import "GBAAppDelegate.h"
 #import "GBASettingsViewController.h"
-#import "DCIntrospect.h"
 
 @implementation GBAAppDelegate
 
@@ -30,12 +29,7 @@
         [[UISwitch appearance] setOnTintColor:[UIColor purpleColor]]; // Apparently UISwitches don't inherit tint color from superview
     }
     
-    
     [GBASettingsViewController registerDefaults];
-    
-#if TARGET_IPHONE_SIMULATOR
-    [[DCIntrospect sharedIntrospector] start];
-#endif
     
     return YES;
 }

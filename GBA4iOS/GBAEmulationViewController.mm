@@ -27,6 +27,7 @@ static GBAEmulationViewController *_emulationViewController;
 @interface GBAEmulationViewController () <GBAControllerDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
+    BOOL _hasPerformedInitialLayout;
 }
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
@@ -94,18 +95,6 @@ static GBAEmulationViewController *_emulationViewController;
         UIScreen *newScreen = [UIScreen screens][1];
         [self setUpAirplayScreen:newScreen];
     }
-    else
-    {
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:CGSizeMake(320, 240)];
-    }
-    
-    [self.emulatorScreen invalidateIntrinsicContentSize];
-    
-#if !(TARGET_IPHONE_SIMULATOR)
-    self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
-#endif
-    
-    [self startEmulation];
     
 #ifdef USE_INCLUDED_UI
     
@@ -138,9 +127,35 @@ static GBAEmulationViewController *_emulationViewController;
     [self updateSettings:nil];
 }
 
+// called from viewDidLayoutSubviews
+- (void)performInitialLayout
+{    
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size]];
+#endif
+    [self.emulatorScreen invalidateIntrinsicContentSize];
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
+#endif
+    
+    [self startEmulation];
+}
+
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (!_hasPerformedInitialLayout)
+    {
+        [self performInitialLayout];
+        _hasPerformedInitialLayout = YES;
+    }
     
     if (![self.view respondsToSelector:@selector(setTintColor:)])
     {
@@ -215,6 +230,27 @@ static GBAEmulationViewController *_emulationViewController;
     }
 }
 
+- (CGSize)screenSizeForContainerSize:(CGSize)containerSize
+{
+    CGSize resolution = CGSizeMake(240, 160); // GBA Resolution
+    CGSize size = resolution;
+    CGFloat widthScale = containerSize.width/resolution.width;
+    CGFloat heightScale = containerSize.height/resolution.height;
+    
+    if (heightScale < widthScale)
+    {
+        // Use height scale to size to fit
+        size = CGSizeMake(resolution.width * heightScale, resolution.height * heightScale);
+    }
+    else
+    {
+        // Use width scale to size to fit
+        size = CGSizeMake(resolution.width * widthScale, resolution.height * widthScale);
+    }
+    
+    return size;
+}
+
 #pragma mark - Airplay
 
 - (void)screenDidConnect:(NSNotification *)notification
@@ -247,7 +283,9 @@ static GBAEmulationViewController *_emulationViewController;
         window.screen = screen;
         window.hidden = NO;
         
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenBounds.size];
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:screenBounds.size]];
+#endif
         
         self.emulatorScreen.center = CGPointMake(roundf(screenBounds.size.width/2), roundf(screenBounds.size.height/2));
         
@@ -260,11 +298,13 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)tearDownAirplayScreen
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:self.contentView.bounds.size];
+#endif
     [self.emulatorScreen invalidateIntrinsicContentSize];
     
     self.airplayWindow.hidden = YES;
-    [self.contentView addSubview:self.emulatorScreen];
+    [self.screenContainerView addSubview:self.emulatorScreen];
     self.airplayWindow = nil;
     
     self.emulatorScreen.frame = ({
@@ -610,6 +650,14 @@ void uncaughtExceptionHandler(NSException *exception)
         
     }
     
+    if (self.airplayWindow == nil)
+    {
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size]];
+        [self.emulatorScreen invalidateIntrinsicContentSize];
+#endif
+    }
+    
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -642,6 +690,11 @@ void uncaughtExceptionHandler(NSException *exception)
             self.controller.alpha = 0.5f;
         }];
     }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    // possible iOS 7 bug? self.screenContainerView.bounds still has old bounds when this method is called, so we can't really do anything.
 }
 
 #ifdef USE_INCLUDED_UI

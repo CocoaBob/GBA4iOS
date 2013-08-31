@@ -16,6 +16,7 @@
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
+#import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 
@@ -513,26 +514,20 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test" message:@"AWESOME" cancelButtonTitle:@"Cancel" otherButtonTitles:@"SWEET", @"COOL", nil];
-        UIView *contentView = [alert valueForKey:@"contentViewNeue"];
-        
-        [contentView addSubview:[[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 200, 44)]];
-        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex)
-        {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"What would you like to delete?", nil)
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                   destructiveButtonTitle:NSLocalizedString(@"ROM and all saved data", nil)
+                                                        otherButtonTitles:NSLocalizedString(@"ROM only", nil), nil];
+        [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *sheet, NSInteger buttonIndex) {
             if (buttonIndex == 0)
             {
-                DLog(@"Canceled");
+                DLog(@"Delete everything");
             }
             else if (buttonIndex == 1)
             {
-                DLog(@"Sweet");
-            }
-            else if (buttonIndex == 2)
-            {
-                DLog(@"COOL");
+                //[self deleteFileAtIndexPath:indexPath animated:YES];
             }
         }];
     }
