@@ -550,9 +550,7 @@ extern GBASys gGba;
              *stop = YES;
          }
      }];
-    
-    DLog(@"Index: %d", actualIndex);
-    
+        
     return actualIndex;
 }
 

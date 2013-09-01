@@ -56,7 +56,6 @@
         [self addSubview:imageView];
         imageView;
     });
-    self.orientation = GBAControllerOrientationPortrait;
 }
 
 #pragma mark - Getters / Setters
@@ -64,6 +63,8 @@
 - (void)setController:(GBAController *)controller
 {
     _controller = controller;
+    
+    [self update];
 }
 
 - (void)setOrientation:(GBAControllerOrientation)orientation

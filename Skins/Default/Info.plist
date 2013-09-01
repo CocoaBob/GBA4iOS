@@ -108,6 +108,8 @@
 	</dict>
 	<key>Landscape</key>
 	<dict>
+		<key>translucent</key>
+		<true/>
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>

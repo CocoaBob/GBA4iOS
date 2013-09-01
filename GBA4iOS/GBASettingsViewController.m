@@ -7,6 +7,7 @@
 //
 
 #import "GBASettingsViewController.h"
+#import "GBAControllerSkinDetailViewController.h"
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 
@@ -65,7 +66,9 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 {
     NSDictionary *defaults = @{GBASettingsFrameSkipKey: @(-1),
                                GBASettingsAutosaveKey: @(1),
-                               GBASettingsVibrateKey: @YES};
+                               GBASettingsVibrateKey: @YES,
+                               GBASettingsGBASkinsKey: @{@"portrait": @"Default", @"landscape": @"Default"},
+                               GBASettingsGBCSkinsKey: @{@"portrait": @"Default", @"landscape": @"Default"}};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
@@ -229,6 +232,28 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsShowFramerateKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsShowFramerateKey, @"value": @(sender.on)}];
+}
+
+#pragma mark - Selection
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Controller Skins
+    if (indexPath.section == 3)
+    {
+        GBAControllerSkinDetailViewController *controllerSkinDetailViewController = [[GBAControllerSkinDetailViewController alloc] init];
+        
+        if (indexPath.row == 0)
+        {
+            controllerSkinDetailViewController.controllerSkinType = GBAControllerSkinTypeGBA;
+        }
+        else
+        {
+            controllerSkinDetailViewController.controllerSkinType = GBAControllerSkinTypeGBC;
+        }
+        
+        [self.navigationController pushViewController:controllerSkinDetailViewController animated:YES];
+    }
 }
 
 @end

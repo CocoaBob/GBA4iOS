@@ -28,6 +28,12 @@ static NSString *GBAScreenTypeiPad = @"iPad";
     if (self)
     {
         _filepath = [filepath copy];
+        _infoDictionary = [[NSDictionary dictionaryWithContentsOfFile:[_filepath stringByAppendingPathComponent:@"Info.plist"]] copy];
+        
+        if (_infoDictionary == nil)
+        {
+            return nil;
+        }
     }
     
     return self;
@@ -37,6 +43,12 @@ static NSString *GBAScreenTypeiPad = @"iPad";
 {
     GBAController *controller = [[GBAController alloc] initWithContentsOfFile:filepath];
     return controller;
+}
+
+- (NSString *)name
+{
+    NSString *filename = [self.filepath lastPathComponent];
+    return [filename stringByDeletingPathExtension];
 }
 
 - (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation
@@ -178,6 +190,23 @@ static NSString *GBAScreenTypeiPad = @"iPad";
     }
     
     return dictionary;
+}
+
+- (GBAControllerOrientation)supportedOrientations
+{
+    GBAControllerOrientation supportedOrientations = 0;
+    
+    if ([self dictionaryForOrientation:GBAControllerOrientationPortrait])
+    {
+        supportedOrientations |= GBAControllerOrientationPortrait;
+    }
+    
+    if ([self dictionaryForOrientation:GBAControllerOrientationLandscape])
+    {
+        supportedOrientations |= GBAControllerOrientationLandscape;
+    }
+        
+    return supportedOrientations;
 }
 
 @end

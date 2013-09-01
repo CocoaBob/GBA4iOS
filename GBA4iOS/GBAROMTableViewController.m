@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
         
         NSString *filepath = [resourceBundle pathForResource:@"Default" ofType:@"gbaskin"];
-        [self importGBASkinFromPath:filepath];
+        [self importControllerSkinFromPath:filepath];
     }
     
     // iOS 6 UI
@@ -373,8 +373,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         
         if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"])
         {
-            NSString *filepath = [self filepathForFile:file];
-            [self importGBASkinFromPath:filepath];
+            NSString *filepath = [self filepathForFilename:file];
+            [self importControllerSkinFromPath:filepath];
         }
         
     }
@@ -417,7 +417,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     return gbcSkinsDirectory;
 }
 
-- (void)importGBASkinFromPath:(NSString *)filepath
+- (void)importControllerSkinFromPath:(NSString *)filepath
 {
     NSString *destinationFilename = [filepath stringByDeletingPathExtension];
     NSString *destinationPath = [self GBASkinsDirectory];
@@ -428,6 +428,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
+    [fileManager removeItemAtPath:filepath error:nil];
     
     if (error)
     {
@@ -501,7 +502,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
     
     GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROM:rom];
-    emulationViewController.skinFilepath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"Default"];
     
     if ([emulationViewController respondsToSelector:@selector(setTransitioningDelegate:)])
     {

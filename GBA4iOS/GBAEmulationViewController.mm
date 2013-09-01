@@ -87,8 +87,6 @@ static GBAEmulationViewController *_emulationViewController;
 #if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to blue in the storyboard for easier visual debugging
 #endif
-    GBAController *controller = [GBAController controllerWithContentsOfFile:self.skinFilepath];
-    self.controllerView.controller = controller;
     self.controllerView.delegate = self;
     
     if ([[UIScreen screens] count] > 1)
@@ -252,6 +250,21 @@ static GBAEmulationViewController *_emulationViewController;
     return size;
 }
 
+- (NSString *)filepathForSkinName:(NSString *)name
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
+    
+    NSString *controllerType = @"GBA";
+    
+    NSString *controllerTypeDirectory = [skinsDirectory stringByAppendingPathComponent:controllerType];
+    NSString *filepath = [controllerTypeDirectory stringByAppendingPathComponent:name];
+    
+    return filepath;
+}
+
+
 #pragma mark - Airplay
 
 - (void)screenDidConnect:(NSNotification *)notification
@@ -317,7 +330,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 #pragma mark - Controls
 
-- (void)controller:(GBAController *)controller didPressButtons:(NSSet *)buttons
+- (void)controllerView:(GBAControllerView *)controller didPressButtons:(NSSet *)buttons
 {
     if (self.selectingSustainedButton)
     {
@@ -351,7 +364,7 @@ static GBAEmulationViewController *_emulationViewController;
     }
 }
 
-- (void)controller:(GBAController *)controller didReleaseButtons:(NSSet *)buttons
+- (void)controllerView:(GBAControllerView *)controller didReleaseButtons:(NSSet *)buttons
 {
     if (self.sustainedButtonSet)
     {
@@ -366,7 +379,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 #pragma mark - Pause Menu
 
-- (void)controllerDidPressMenuButton:(GBAController *)controller
+- (void)controllerViewDidPressMenuButton:(GBAControllerView *)controller
 {
     _romPauseTime = CFAbsoluteTimeGetCurrent();
     
@@ -678,7 +691,12 @@ void uncaughtExceptionHandler(NSException *exception)
         {
             [self.contentView addConstraint:self.portraitBottomLayoutConstraint];
         }
+        
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
+        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
+        self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationPortrait;
+        
     }
     else
     {
@@ -686,7 +704,12 @@ void uncaughtExceptionHandler(NSException *exception)
         {
             [self.contentView removeConstraint:self.portraitBottomLayoutConstraint];
         }
+        
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
+        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
+        self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationLandscape;
+        
         [UIView performWithoutAnimation:^{
             self.controllerView.alpha = 0.5f;
         }];

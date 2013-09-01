@@ -16,6 +16,8 @@ static NSString *GBASettingsAutosaveKey = @"autosave";
 static NSString *GBASettingsMixAudioKey = @"mixAudio";
 static NSString *GBASettingsVibrateKey = @"vibrate";
 static NSString *GBASettingsShowFramerateKey = @"showFramerate";
+static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
+static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
 
 @interface GBASettingsViewController : UITableViewController
 

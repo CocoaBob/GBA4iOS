@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		1A5BAE8017D04B0A00BABC01 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
+		1AD65D7A17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD65D7817D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h */; };
+		1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
+		1AD65D7C17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
+		1AD65D7D17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
+		1AD65D8017D2E64900E2CF0C /* GBAControllerSkinPreviewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD65D7E17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.h */; };
+		1AD65D8117D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7F17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m */; };
+		1AD65D8217D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7F17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m */; };
+		1AD65D8317D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7F17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m */; };
 		1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		1AD971E817D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		1AD971E917D2B6F0007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
@@ -517,6 +525,10 @@
 
 /* Begin PBXFileReference section */
 		1A5BAE7E17D04B0A00BABC01 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlays128.png; sourceTree = "<group>"; };
+		1AD65D7817D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinSelectionViewController.h; sourceTree = "<group>"; };
+		1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinSelectionViewController.m; sourceTree = "<group>"; };
+		1AD65D7E17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinPreviewCell.h; sourceTree = "<group>"; };
+		1AD65D7F17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinPreviewCell.m; sourceTree = "<group>"; };
 		1AD971E517D2B6EC007097BC /* GBAControllerSkinDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDetailViewController.h; sourceTree = "<group>"; };
 		1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDetailViewController.m; sourceTree = "<group>"; };
 		1AD971F017D2C6ED007097BC /* GBAController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAController.h; sourceTree = "<group>"; };
@@ -798,6 +810,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1AD65D7717D2DB7100E2CF0C /* Controller Skins */ = {
+			isa = PBXGroup;
+			children = (
+				1AD971E517D2B6EC007097BC /* GBAControllerSkinDetailViewController.h */,
+				1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */,
+				1AD65D7817D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h */,
+				1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */,
+				1AD65D7E17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.h */,
+				1AD65D7F17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m */,
+			);
+			name = "Controller Skins";
+			sourceTree = "<group>";
+		};
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
@@ -1135,8 +1160,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
-				1AD971E517D2B6EC007097BC /* GBAControllerSkinDetailViewController.h */,
-				1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */,
+				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1288,8 +1312,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC6A2D9017C508DC00EFC10E /* GBACheatManagerViewController.h in Headers */,
+				1AD65D8017D2E64900E2CF0C /* GBAControllerSkinPreviewCell.h in Headers */,
 				1AD971F217D2C6ED007097BC /* GBAController.h in Headers */,
 				BFC43F7017CD474200FE861C /* GBACheatManagerTableViewCell.h in Headers */,
+				1AD65D7A17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h in Headers */,
 				CC6A2D9717C50CE700EFC10E /* GBACheatEditorViewController.h in Headers */,
 				CCC7298617C7357E0001BC6F /* GBAROM.h in Headers */,
 				CC6A2D9D17C515E800EFC10E /* GBACheat.h in Headers */,
@@ -1556,12 +1582,14 @@
 				CC8D5A7B17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
 				CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */,
 				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
+				1AD65D8217D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m in Sources */,
 				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
+				1AD65D7C17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */,
 				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
@@ -1633,7 +1661,9 @@
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
+				1AD65D8117D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m in Sources */,
 				CC86825417A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
+				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
 				CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */,
@@ -1905,7 +1935,9 @@
 				CC1B667717BF056B007B2787 /* VideoImageOverlay.cc in Sources */,
 				CC1B667E17BF056B007B2787 /* EmuView.cc in Sources */,
 				CC1B665117BF0564007B2787 /* Gb_Apu.cpp in Sources */,
+				1AD65D8317D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m in Sources */,
 				CC1B663A17BF0564007B2787 /* bios.cpp in Sources */,
+				1AD65D7D17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CC1B668A17BF0574007B2787 /* ScrollView1D.cc in Sources */,
 				CC1B666C17BF0564007B2787 /* Lzma2Dec.c in Sources */,
 				CC1B66A217BF057A007B2787 /* pngrio.c in Sources */,

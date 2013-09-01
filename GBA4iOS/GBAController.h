@@ -24,8 +24,8 @@ typedef NS_ENUM(NSInteger, GBAControllerRect)
 
 typedef NS_ENUM(NSInteger, GBAControllerOrientation)
 {
-    GBAControllerOrientationPortrait,
-    GBAControllerOrientationLandscape
+    GBAControllerOrientationPortrait   =    1 << 0,
+    GBAControllerOrientationLandscape  =    1 << 1,
 };
 
 typedef NS_ENUM(NSInteger, GBAControllerButton)
@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, GBAControllerButton)
 @interface GBAController : NSObject
 
 @property (readonly, copy, nonatomic) NSString *filepath;
+@property (readonly, copy, nonatomic) NSString *name;
 
 + (GBAController *)controllerWithContentsOfFile:(NSString *)filepath;
 
@@ -53,5 +54,6 @@ typedef NS_ENUM(NSInteger, GBAControllerButton)
 - (CGRect)rectForButtonRect:(GBAControllerRect)button orientation:(GBAControllerOrientation)orientation;
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation;
 - (NSString *)keyForButtonRect:(GBAControllerRect)button;
+- (GBAControllerOrientation)supportedOrientations;
 
 @end
