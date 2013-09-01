@@ -9,6 +9,7 @@
 #import "GBAEmulationViewController.h"
 #import "GBAEmulatorScreen.h"
 #import "GBAController.h"
+#import "GBAControllerView.h"
 #import "UIImage+ImageEffects.h"
 #import "GBASaveStateViewController.h"
 #import "GBACheatManagerViewController.h"
@@ -24,14 +25,14 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerViewDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     BOOL _hasPerformedInitialLayout;
 }
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
-@property (strong, nonatomic) IBOutlet GBAController *controller;
+@property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
@@ -86,9 +87,9 @@ static GBAEmulationViewController *_emulationViewController;
 #if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to blue in the storyboard for easier visual debugging
 #endif
-    
-    self.controller.skinFilepath = self.skinFilepath;
-    self.controller.delegate = self;
+    GBAController *controller = [GBAController controllerWithContentsOfFile:self.skinFilepath];
+    self.controllerView.controller = controller;
+    self.controllerView.delegate = self;
     
     if ([[UIScreen screens] count] > 1)
     {
@@ -618,15 +619,15 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     if ([self.view respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)] && (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) != UIInterfaceOrientationIsPortrait(toInterfaceOrientation)))
     {
-        UIView *snapshotView = [self.controller snapshotViewAfterScreenUpdates:NO];
-        snapshotView.frame = self.controller.frame;
+        UIView *snapshotView = [self.controllerView snapshotViewAfterScreenUpdates:NO];
+        snapshotView.frame = self.controllerView.frame;
         snapshotView.tag = ROTATION_SHAPSHOT_TAG;
         snapshotView.alpha = 1.0;
         
         if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
         {
-            self.controller.alpha = 0.0;
-            [self.contentView insertSubview:snapshotView belowSubview:self.controller];
+            self.controllerView.alpha = 0.0;
+            [self.contentView insertSubview:snapshotView belowSubview:self.controllerView];
         }
         else
         {
@@ -641,11 +642,11 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         UIView *snapshotView = [self.view viewWithTag:ROTATION_SHAPSHOT_TAG];
         snapshotView.alpha = 0.0;
-        snapshotView.frame = self.controller.frame;
+        snapshotView.frame = self.controllerView.frame;
         
         if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
         {
-            self.controller.alpha = 1.0;
+            self.controllerView.alpha = 1.0;
         }
         
     }
@@ -677,7 +678,7 @@ void uncaughtExceptionHandler(NSException *exception)
         {
             [self.contentView addConstraint:self.portraitBottomLayoutConstraint];
         }
-        self.controller.orientation = GBAControllerOrientationPortrait;
+        self.controllerView.orientation = GBAControllerOrientationPortrait;
     }
     else
     {
@@ -685,9 +686,9 @@ void uncaughtExceptionHandler(NSException *exception)
         {
             [self.contentView removeConstraint:self.portraitBottomLayoutConstraint];
         }
-        self.controller.orientation = GBAControllerOrientationLandscape;
+        self.controllerView.orientation = GBAControllerOrientationLandscape;
         [UIView performWithoutAnimation:^{
-            self.controller.alpha = 0.5f;
+            self.controllerView.alpha = 0.5f;
         }];
     }
 }
@@ -761,13 +762,13 @@ void uncaughtExceptionHandler(NSException *exception)
     });
     
     self.blurredControllerImageView = ({
-        UIImage *blurredImage = [self blurredImageFromView:self.controller];
+        UIImage *blurredImage = [self blurredImageFromView:self.controllerView];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
         [imageView sizeToFit];
-        imageView.center = self.controller.center;
+        imageView.center = self.controllerView.center;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.alpha = alpha;
-        [self.controller.superview addSubview:imageView];
+        [self.controllerView.superview addSubview:imageView];
         imageView;
     });
     

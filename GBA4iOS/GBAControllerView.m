@@ -1,46 +1,25 @@
 //
-//  GBAController.m
+//  GBAControllerView.m
 //  GBA4iOS
 //
 //  Created by Riley Testut on 7/27/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBAController.h"
+#import "GBAControllerView.h"
 #import "UIScreen+Widescreen.h"
 #import "UITouch+ControllerButtons.h"
 
 @import AudioToolbox;
 
-typedef NS_ENUM(NSInteger, GBAControllerRect)
-{
-    GBAControllerRectDPad,
-    GBAControllerRectA,
-    GBAControllerRectB,
-    GBAControllerRectAB,
-    GBAControllerRectL,
-    GBAControllerRectR,
-    GBAControllerRectStart,
-    GBAControllerRectSelect,
-    GBAControllerRectMenu,
-    GBAControllerRectScreen
-}; 
+@interface GBAControllerView () <UIGestureRecognizerDelegate>
 
-static NSString *GBAScreenTypeiPhone = @"iPhone";
-static NSString *GBAScreenTypeRetina = @"Retina";
-static NSString *GBAScreenTypeRetina4 = @"Retina 4";
-static NSString *GBAScreenTypeiPad = @"iPad";
-
-@interface GBAController () <UIGestureRecognizerDelegate>
-
-@property (copy, nonatomic) NSDictionary *infoDictionary;
 @property (strong, nonatomic) UIImageView *imageView;
-
 @property (strong, nonatomic) UIView *overlayView;
 
 @end
 
-@implementation GBAController
+@implementation GBAControllerView
 
 #pragma mark - Init
 
@@ -82,10 +61,9 @@ static NSString *GBAScreenTypeiPad = @"iPad";
 
 #pragma mark - Getters / Setters
 
-- (void)setSkinFilepath:(NSString *)skinFilepath
+- (void)setController:(GBAController *)controller
 {
-    _skinFilepath = [skinFilepath copy];
-    _infoDictionary = [NSDictionary dictionaryWithContentsOfFile:[skinFilepath stringByAppendingPathComponent:@"Info.plist"]];
+    _controller = controller;
 }
 
 - (void)setOrientation:(GBAControllerOrientation)orientation
@@ -112,7 +90,7 @@ static unsigned long oldtouches[15];
 {
     if (touches.count == 3)
     {
-        [self.delegate controllerDidPressMenuButton:self];
+        [self.delegate controllerViewDidPressMenuButton:self];
     }
     [self pressButtonsForTouches:touches];
 }
@@ -165,7 +143,7 @@ static unsigned long oldtouches[15];
             [self vibrate];
         }
         
-        [self.delegate controller:self didPressButtons:set];
+        [self.delegate controllerView:self didPressButtons:set];
     }
 }
 
@@ -197,7 +175,7 @@ static unsigned long oldtouches[15];
         // Don't pass on menu button
         [set removeObject:@(GBAControllerButtonMenu)];
         
-        [self.delegate controller:self didPressButtons:set];
+        [self.delegate controllerView:self didPressButtons:set];
     }
     
     [set removeAllObjects];
@@ -222,7 +200,7 @@ static unsigned long oldtouches[15];
     {
         // Don't pass on menu button
         [set removeObject:@(GBAControllerButtonMenu)];
-        [self.delegate controller:self didReleaseButtons:set];
+        [self.delegate controllerView:self didReleaseButtons:set];
     }
     
 }
@@ -240,13 +218,13 @@ static unsigned long oldtouches[15];
     
     if ([set containsObject:@(GBAControllerButtonMenu)])
     {
-        [self.delegate controllerDidPressMenuButton:self];
+        [self.delegate controllerViewDidPressMenuButton:self];
         [set removeObject:@(GBAControllerButtonMenu)];
     }
 
     if (set.count > 0)
     {
-        [self.delegate controller:self didReleaseButtons:set];
+        [self.delegate controllerView:self didReleaseButtons:set];
     }
 }
 
@@ -272,7 +250,7 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     
     CGPoint point = [touch locationInView:self];
     
-    CGRect dPadRect = [self rectForButtonRect:GBAControllerRectDPad];
+    CGRect dPadRect = [self.controller rectForButtonRect:GBAControllerRectDPad orientation:self.orientation];
     if (CGRectContainsPoint(dPadRect, point))
     {
         CGRect topRect            = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
@@ -323,36 +301,36 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
         }
         
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectA], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectA orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonA)];
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectB], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectB orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonB)];
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectAB], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectAB orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonA)];
         [buttons addObject:@(GBAControllerButtonB)];
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectL], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectL orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonL)];
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectR], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectR orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonR)];
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectSelect], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectSelect orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonSelect)];
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectStart], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectStart orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonStart)];
     }
-    else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectMenu], point))
+    else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectMenu orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonMenu)];
     }
@@ -388,7 +366,7 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
 			touchstate[i] = 1;
             
             
-            CGRect dPadRect = [self rectForButtonRect:GBAControllerRectDPad];
+            CGRect dPadRect = [self.controller rectForButtonRect:GBAControllerRectDPad orientation:self.orientation];
             if (CGRectContainsPoint(dPadRect, point))
             {
                 CGRect topRect            = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
@@ -443,42 +421,42 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
                 }
                 
             }
-            else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectA], point))
+            else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectA orientation:self.orientation], point))
 			{
 				pressedButtons |= GBAControllerButtonA;
 				newtouches[i] = GBAControllerButtonA;
 			}
-            else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectB], point))
+            else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectB orientation:self.orientation], point))
 			{
 				pressedButtons |= GBAControllerButtonB;
 				newtouches[i] = GBAControllerButtonB;
 			}
-            else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectAB], point))
+            else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectAB orientation:self.orientation], point))
 			{
 				pressedButtons |= GBAControllerButtonA | GBAControllerButtonB;
 				newtouches[i] = GBAControllerButtonA | GBAControllerButtonB;
 			}
-			else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectL], point))
+			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectL orientation:self.orientation], point))
 			{
 				pressedButtons |= GBAControllerButtonL;
 				newtouches[i] = GBAControllerButtonL;
 			}
-			else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectR], point))
+			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectR orientation:self.orientation], point))
 			{
 				pressedButtons |= GBAControllerButtonR;
 				newtouches[i] = GBAControllerButtonR;
 			}
-			else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectSelect], point))
+			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectSelect orientation:self.orientation], point))
 			{
 				pressedButtons |= GBAControllerButtonSelect;
 				newtouches[i] = GBAControllerButtonSelect;
 			}
-			else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectStart], point))
+			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectStart orientation:self.orientation], point))
 			{
 				pressedButtons |= GBAControllerButtonStart;
 				newtouches[i] = GBAControllerButtonStart;
 			}
-			else if (CGRectContainsPoint([self rectForButtonRect:GBAControllerRectMenu], point))
+			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectMenu orientation:self.orientation], point))
 			{
                // [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 			}
@@ -541,9 +519,9 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     
     void(^AddOverlayForButton)(GBAControllerRect button) = ^(GBAControllerRect button)
     {
-        UILabel *overlay = [[UILabel alloc] initWithFrame:[self rectForButtonRect:button]];
+        UILabel *overlay = [[UILabel alloc] initWithFrame:[self.controller rectForButtonRect:button orientation:self.orientation]];
         overlay.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5];
-        overlay.text = [self keyForButtonRect:button];
+        overlay.text = [self.controller keyForButtonRect:button];
         overlay.adjustsFontSizeToFitWidth = YES;
         overlay.textColor = [UIColor whiteColor];
         overlay.font = [UIFont boldSystemFontOfSize:18.0f];
@@ -574,151 +552,10 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
 
 - (void)update
 {
-    self.imageView.image = [self imageForOrientation:self.orientation];
+    self.imageView.image = [self.controller imageForOrientation:self.orientation];
     [self invalidateIntrinsicContentSize];
 }
 
 #pragma mark - Private Helper Methods
-
-- (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation
-{
-    NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
-    NSDictionary *assets = dictionary[@"Assets"];
-    
-    NSString *key = [self keyForCurrentDeviceWithDictionary:assets];
-    NSString *relativePath = assets[key];
-    
-    NSString *filepath = [self.skinFilepath stringByAppendingPathComponent:relativePath];
-    
-    CGFloat scale = [[UIScreen mainScreen] scale];
-    
-    if ([key isEqualToString:GBAScreenTypeiPhone] || [key isEqualToString:GBAScreenTypeiPad])
-    {
-        scale = 1.0f; // In case of a skin without retina artwork
-    }
-    
-    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfFile:filepath] scale:scale];
-    
-    return image;
-}
-
-- (CGRect)rectForButtonRect:(GBAControllerRect)button
-{
-    NSDictionary *dictionary = [self dictionaryForOrientation:self.orientation];
-    NSDictionary *layout = dictionary[@"Layout"];
-    
-    NSString *key = [self keyForCurrentDeviceWithDictionary:layout];
-    NSDictionary *rect = layout[key];
-    
-    key = [self keyForButtonRect:button];
-    NSDictionary *buttonRect = rect[key];
-    
-    return CGRectMake([buttonRect[@"X"] floatValue], [buttonRect[@"Y"] floatValue], [buttonRect[@"Width"] floatValue], [buttonRect[@"Height"] floatValue]);
-}
-
-- (NSString *)keyForButtonRect:(GBAControllerRect)button
-{
-    NSString *key = nil;
-    switch (button) {
-        case GBAControllerRectDPad:
-            key = @"D-Pad";
-            break;
-            
-        case GBAControllerRectA:
-            key = @"A";
-            break;
-            
-        case GBAControllerRectB:
-            key = @"B";
-            break;
-            
-        case GBAControllerRectAB:
-            key = @"AB";
-            break;
-            
-        case GBAControllerRectStart:
-            key = @"Start";
-            break;
-            
-        case GBAControllerRectSelect:
-            key = @"Select";
-            break;
-            
-        case GBAControllerRectL:
-            key = @"L";
-            break;
-            
-        case GBAControllerRectR:
-            key = @"R";
-            break;
-            
-        case GBAControllerRectMenu:
-            key = @"Menu";
-            break;
-            
-        case GBAControllerRectScreen:
-            key = @"Screen";
-            break;
-    }
-    
-    return key;
-}
-
-- (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary
-{
-    NSString *key = nil;
-    
-    if ([[UIScreen mainScreen] scale] == 2.0)
-    {
-        if ([[UIScreen mainScreen] isWidescreen])
-        {
-            if ([dictionary objectForKey:GBAScreenTypeRetina4])
-            {
-                key = GBAScreenTypeRetina4;
-            }
-            else if ([dictionary objectForKey:GBAScreenTypeRetina])
-            {
-                key = GBAScreenTypeRetina;
-            }
-            else {
-                key = GBAScreenTypeiPhone;
-            }
-            
-        }
-        else
-        {
-            if ([dictionary objectForKey:GBAScreenTypeRetina])
-            {
-                key = GBAScreenTypeRetina;
-            }
-            else {
-                key = GBAScreenTypeiPhone;
-            }
-        }
-    }
-    else
-    {
-        key = GBAScreenTypeiPhone;
-    }
-    
-    return key;
-}
-
-- (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation
-{
-    NSDictionary *dictionary = nil;
-    
-    switch (orientation) {
-        case GBAControllerOrientationPortrait:
-            dictionary = self.infoDictionary[@"Portrait"];
-            break;
-            
-        case GBAControllerOrientationLandscape:
-            dictionary = self.infoDictionary[@"Landscape"];
-            break;
-    }
-    
-    return dictionary;
-}
 
 @end
