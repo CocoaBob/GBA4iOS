@@ -12,7 +12,9 @@
 @interface GBAControllerSkinPreviewCell : UITableViewCell
 
 @property (strong, nonatomic) GBAController *controller;
+@property (assign, nonatomic) GBAControllerOrientation orientation;
+@property (assign, nonatomic) BOOL loadAsynchronously;
 
-- (void)setController:(GBAController *)controller orientation:(GBAControllerOrientation)orientation;
+- (void)update;
 
 @end

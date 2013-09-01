@@ -125,13 +125,17 @@
     if (indexPath.section == 0)
     {
         GBAController *portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:portraitSkin]];
-        [cell setController:portraitController orientation:GBAControllerOrientationPortrait];
+        cell.controller = portraitController;
+        cell.orientation = GBAControllerOrientationPortrait;
     }
     else
     {
         GBAController *landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:landscapeSkin]];
-        [cell setController:landscapeController orientation:GBAControllerOrientationLandscape];
+        cell.controller = landscapeController;
+        cell.orientation = GBAControllerOrientationLandscape;
     }
+    
+    [cell update];
     
     return cell;
 }

@@ -11,7 +11,9 @@
 #import "GBAControllerSkinPreviewCell.h"
 #import "GBASettingsViewController.h"
 
-@interface GBAControllerSkinSelectionViewController ()
+@interface GBAControllerSkinSelectionViewController () {
+    BOOL _viewDidAppear;
+}
 
 @property (copy, nonatomic) NSArray *filteredArray;
 
@@ -44,6 +46,18 @@
     
     self.clearsSelectionOnViewWillAppear = YES;
     [self.tableView registerClass:[GBAControllerSkinPreviewCell class] forCellReuseIdentifier:@"Cell"];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    _viewDidAppear = YES;
+    [super viewDidAppear:animated];
+    
+    // Load asynchronously so scrolling doesn't stutter
+    for (GBAControllerSkinPreviewCell *cell in [self.tableView visibleCells])
+    {
+        cell.loadAsynchronously = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -149,7 +163,15 @@
     GBAControllerSkinPreviewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     GBAController *controller = self.filteredArray[indexPath.section];
-    [cell setController:controller orientation:self.controllerOrientation];
+    cell.controller = controller;
+    cell.orientation = self.controllerOrientation;
+    
+    if (_viewDidAppear)
+    {
+        cell.loadAsynchronously = YES;
+    }
+    
+    [(GBAControllerSkinPreviewCell *)cell update];
         
     return cell;
 }
