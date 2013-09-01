@@ -126,7 +126,14 @@
                 
                 if (controller.supportedOrientations & self.controllerOrientation)
                 {
-                    [filteredArray addObject:controller];
+                    if ([name isEqualToString:@"Default"])
+                    {
+                        [filteredArray insertObject:controller atIndex:0];
+                    }
+                    else
+                    {
+                        [filteredArray addObject:controller];
+                    }
                 }
             }
         }

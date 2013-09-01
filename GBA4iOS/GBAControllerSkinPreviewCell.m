@@ -77,6 +77,11 @@
     // Configure the view for the selected state
 }
 
+- (void)prepareForReuse
+{
+    [self.skinImageView setImage:nil];
+}
+
 - (void)update
 {
     [self layoutIfNeeded];
