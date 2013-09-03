@@ -24,6 +24,10 @@
 		1AD971F317D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
 		1AD971F417D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
 		1AD971F517D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
+		1AF2115517D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */; };
+		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
+		1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
+		1AF2115817D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
 		581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF49397717CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
@@ -533,6 +537,8 @@
 		1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDetailViewController.m; sourceTree = "<group>"; };
 		1AD971F017D2C6ED007097BC /* GBAController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAController.h; sourceTree = "<group>"; };
 		1AD971F117D2C6ED007097BC /* GBAController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAController.m; sourceTree = "<group>"; };
+		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewController.h; sourceTree = "<group>"; };
+		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewController.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
@@ -817,6 +823,8 @@
 				1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */,
 				1AD65D7817D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h */,
 				1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */,
+				1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */,
+				1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */,
 				1AD65D7E17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.h */,
 				1AD65D7F17D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m */,
 			);
@@ -1319,6 +1327,7 @@
 				CC6A2D9717C50CE700EFC10E /* GBACheatEditorViewController.h in Headers */,
 				CCC7298617C7357E0001BC6F /* GBAROM.h in Headers */,
 				CC6A2D9D17C515E800EFC10E /* GBACheat.h in Headers */,
+				1AF2115517D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1584,6 +1593,7 @@
 				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				1AD65D8217D2E64900E2CF0C /* GBAControllerSkinPreviewCell.m in Sources */,
 				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
+				1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
@@ -1715,6 +1725,7 @@
 				CCFA7216179D304700768D24 /* Gb_Oscs.cpp in Sources */,
 				CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */,
 				CCFA7218179D304700768D24 /* Binary_Extractor.cpp in Sources */,
+				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CCFA7231179D304700768D24 /* LzmaDec.c in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
 				CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */,
@@ -1989,6 +2000,7 @@
 				CC1B669517BF0574007B2787 /* AlertView.cc in Sources */,
 				CC1B667017BF056B007B2787 /* CreditsView.cc in Sources */,
 				CC1B66A917BF057A007B2787 /* pngwtran.c in Sources */,
+				1AF2115817D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CC770CA717BEE3C100904259 /* GBAThemedTableViewController.m in Sources */,
 				BFC43F7317CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC1B667217BF056B007B2787 /* FilePicker.cc in Sources */,

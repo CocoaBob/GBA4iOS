@@ -10,6 +10,7 @@
 #import "UIScreen+Widescreen.h"
 #import "GBAControllerSkinPreviewCell.h"
 #import "GBASettingsViewController.h"
+#import "GBAControllerSkinDownloadViewController.h"
 
 @interface GBAControllerSkinSelectionViewController () {
     BOOL _viewDidAppear;
@@ -44,8 +45,22 @@
         self.tableView.rowHeight = 150;
     }
     
+    switch (self.controllerSkinType)
+    {
+        case GBAControllerSkinTypeGBA:
+            self.title = NSLocalizedString(@"GBA Controller Skins", @"");
+            break;
+            
+        case GBAControllerSkinTypeGBC:
+            self.title = NSLocalizedString(@"GBC Controller Skins", @"");
+            break;
+    }
+    
     self.clearsSelectionOnViewWillAppear = YES;
     [self.tableView registerClass:[GBAControllerSkinPreviewCell class] forCellReuseIdentifier:@"Cell"];
+    
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(downloadSkins:)];
+    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -64,6 +79,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Download Skins
+
+- (void)downloadSkins:(UIBarButtonItem *)sender
+{
+    GBAControllerSkinDownloadViewController *controllerSkinDownloadViewController = [[GBAControllerSkinDownloadViewController alloc] init];
+    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(controllerSkinDownloadViewController) animated:YES completion:nil];
 }
 
 #pragma mark - Helper Methods
@@ -178,7 +201,7 @@
         cell.loadAsynchronously = YES;
     }
     
-    [(GBAControllerSkinPreviewCell *)cell update];
+    [cell update];
         
     return cell;
 }
@@ -213,6 +236,28 @@
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0)
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        GBAController *controller = self.filteredArray[indexPath.section];
+        
+        [[NSFileManager defaultManager] removeItemAtPath:controller.filepath error:nil];
+        self.filteredArray = nil;
+        [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 @end

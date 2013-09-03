@@ -50,16 +50,7 @@
     
     self.clearsSelectionOnViewWillAppear = YES;
     
-    switch (self.controllerSkinType)
-    {
-        case GBAControllerSkinTypeGBA:
-            self.title = NSLocalizedString(@"GBA Controller Skins", @"");
-            break;
-            
-        case GBAControllerSkinTypeGBC:
-            self.title = NSLocalizedString(@"GBC Controller Skins", @"");
-            break;
-    }
+    self.title = NSLocalizedString(@"Current Skins", @"");
 }
 
 - (void)viewWillAppear:(BOOL)animated
