@@ -8,7 +8,8 @@
 
 #import "GBAControllerSkinDownloadViewController.h"
 #import "UIScreen+Widescreen.h"
-#import "GBAControllerSkinPreviewCell.h"
+#import "GBAAsynchronousImageTableViewCell.h"
+#import "GBAController.h"
 
 #define CONTROLLER_SKIN_DOWNLOAD_PLIST_URL [NSURL URLWithString:@"http://rileytestut.com/gba4ios/skins/root.plist"]
 
@@ -78,7 +79,7 @@
         self.tableView.rowHeight = 150;
     }
     
-    [self.tableView registerClass:[GBAControllerSkinPreviewCell class] forCellReuseIdentifier:@"Cell"];
+    [self.tableView registerClass:[GBAAsynchronousImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,13 +92,37 @@
 
 - (void)downloadControllerSkinInfo
 {
-    self.skinsArray = [NSArray arrayWithContentsOfURL:CONTROLLER_SKIN_DOWNLOAD_PLIST_URL];
+    NSArray *array = [NSArray arrayWithContentsOfURL:CONTROLLER_SKIN_DOWNLOAD_PLIST_URL];
+    NSArray *previousSkinsArray = [self.skinsArray copy];
+    
+    if (array == nil)
+    {
+        return;
+    }
+    
+    self.skinsArray = array;
     [self.skinsArray writeToFile:[self cachedControllerSkinInfoPath] atomically:YES];
     
-    [self.downloadingControllerSkinInfoActivityIndicatorView stopAnimating];
-    
-    DLog(@"%@", self.downloadingControllerSkinInfoActivityIndicatorView);
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.downloadingControllerSkinInfoActivityIndicatorView stopAnimating];
+        
+        if ([self.skinsArray isEqualToArray:previousSkinsArray])
+        {
+            // Just in case
+            [self.tableView reloadData];
+        }
+        else
+        {
+            // Animated reloadData FTW
+            [UIView transitionWithView:self.tableView
+                              duration:0.3f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^(void) {
+                                [self.tableView reloadData];
+                            } completion:NULL];
+        }
+        
+    });
 }
 
 #pragma mark - Dismissal
@@ -125,12 +150,12 @@
     
     NSInteger supportedOrientations = 0;
     
-    if (dictionary[@"portraitImage"])
+    if (dictionary[@"portraitAssets"])
     {
         supportedOrientations++;
     }
     
-    if (dictionary[@"landscapeImage"])
+    if (dictionary[@"landscapeAssets"])
     {
         supportedOrientations++;
     }
@@ -165,7 +190,36 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    GBAAsynchronousImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    NSInteger numberOfRows = [self.tableView numberOfRowsInSection:indexPath.section];
+    
+    NSDictionary *dictionary = [self dictionaryForSection:indexPath.section];
+    NSDictionary *portraitDictionary = dictionary[@"portraitAssets"];
+    NSDictionary *landscapeDictionary = dictionary[@"landscapeAssets"];
+    
+    if (numberOfRows == 1)
+    {
+        if (portraitDictionary)
+        {
+            cell.imageURL = [NSURL URLWithString:[self imageAddressForDictionary:portraitDictionary]];
+        }
+        else
+        {
+            cell.imageURL = [NSURL URLWithString:[self imageAddressForDictionary:landscapeDictionary]];
+        }
+    }
+    else if (numberOfRows == 2)
+    {
+        if (indexPath.row == 0)
+        {
+            cell.imageURL = [NSURL URLWithString:[self imageAddressForDictionary:portraitDictionary]];
+        }
+        else
+        {
+            cell.imageURL = [NSURL URLWithString:[self imageAddressForDictionary:landscapeDictionary]];
+        }
+    }
     
     // Configure the cell...
     
@@ -180,6 +234,13 @@
     section = section - 1;
     
     return self.skinsArray[section];
+}
+
+- (NSString *)imageAddressForDictionary:(NSDictionary *)dictionary
+{
+    NSString *key = [GBAController keyForCurrentDeviceWithDictionary:dictionary];
+    DLog(@"%@", dictionary);
+    return dictionary[key];
 }
 
 - (NSString *)cachedControllerSkinInfoPath

@@ -8,7 +8,7 @@
 
 #import "GBAControllerSkinSelectionViewController.h"
 #import "UIScreen+Widescreen.h"
-#import "GBAControllerSkinPreviewCell.h"
+#import "GBAAsynchronousImageTableViewCell.h"
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDownloadViewController.h"
 
@@ -57,7 +57,7 @@
     }
     
     self.clearsSelectionOnViewWillAppear = YES;
-    [self.tableView registerClass:[GBAControllerSkinPreviewCell class] forCellReuseIdentifier:@"Cell"];
+    [self.tableView registerClass:[GBAAsynchronousImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(downloadSkins:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -65,14 +65,22 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    _viewDidAppear = YES;
     [super viewDidAppear:animated];
     
+    _viewDidAppear = YES;
+    
     // Load asynchronously so scrolling doesn't stutter
-    for (GBAControllerSkinPreviewCell *cell in [self.tableView visibleCells])
+    for (GBAAsynchronousImageTableViewCell *cell in [self.tableView visibleCells])
     {
-        cell.loadAsynchronously = YES;
+        cell.loadSynchronously = NO;
     }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _viewDidAppear = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -190,19 +198,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    GBAControllerSkinPreviewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    GBAAsynchronousImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     GBAController *controller = self.filteredArray[indexPath.section];
-    cell.controller = controller;
-    cell.orientation = self.controllerOrientation;
     
     if (_viewDidAppear)
     {
-        cell.loadAsynchronously = YES;
+        cell.loadSynchronously = NO;
+    }
+    else
+    {
+        cell.loadSynchronously = YES;
     }
     
-    [cell update];
-        
+    cell.image = [controller imageForOrientation:self.controllerOrientation];
+    
     return cell;
 }
 

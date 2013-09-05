@@ -9,11 +9,6 @@
 #import "GBAController.h"
 #import "UIScreen+Widescreen.h"
 
-static NSString *GBAScreenTypeiPhone = @"iPhone";
-static NSString *GBAScreenTypeRetina = @"Retina";
-static NSString *GBAScreenTypeRetina4 = @"Retina 4";
-static NSString *GBAScreenTypeiPad = @"iPad";
-
 @interface GBAController ()
 
 @property (copy, nonatomic) NSDictionary *infoDictionary;
@@ -56,7 +51,7 @@ static NSString *GBAScreenTypeiPad = @"iPad";
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *assets = dictionary[@"Assets"];
     
-    NSString *key = [self keyForCurrentDeviceWithDictionary:assets];
+    NSString *key = [GBAController keyForCurrentDeviceWithDictionary:assets];
     NSString *relativePath = assets[key];
     
     NSString *filepath = [self.filepath stringByAppendingPathComponent:relativePath];
@@ -78,7 +73,7 @@ static NSString *GBAScreenTypeiPad = @"iPad";
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *layout = dictionary[@"Layout"];
     
-    NSString *key = [self keyForCurrentDeviceWithDictionary:layout];
+    NSString *key = [GBAController keyForCurrentDeviceWithDictionary:layout];
     NSDictionary *rect = layout[key];
     
     key = [self keyForButtonRect:button];
@@ -135,7 +130,7 @@ static NSString *GBAScreenTypeiPad = @"iPad";
     return key;
 }
 
-- (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary
++ (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary
 {
     NSString *key = nil;
     

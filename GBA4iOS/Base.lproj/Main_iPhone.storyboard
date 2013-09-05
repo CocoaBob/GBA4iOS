@@ -276,52 +276,6 @@
             </objects>
             <point key="canvasLocation" x="1074" y="-486"/>
         </scene>
-        <!--Controller Skin Detail View Controller - Controller Skins-->
-        <scene sceneID="K23-iY-hFi">
-            <objects>
-                <tableViewController storyboardIdentifier="controllerSkinsDetailViewController" id="DAp-Go-5tP" customClass="GBAControllerSkinDetailViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="CrZ-Db-DXi">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <sections>
-                            <tableViewSection headerTitle="Portrait" id="w35-pK-71Y">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="190" id="tnb-tK-tLm" customClass="GBAControllerSkinPreviewCell">
-                                        <rect key="frame" x="0.0" y="119" width="320" height="190"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tnb-tK-tLm" id="zFZ-TO-J9s">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="189"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Landscape" id="i5i-6I-c8L">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="190" id="dD6-5i-Nla" customClass="GBAControllerSkinPreviewCell">
-                                        <rect key="frame" x="0.0" y="357" width="320" height="190"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dD6-5i-Nla" id="X7I-2B-SRL">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="189"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="DAp-Go-5tP" id="Zyd-vm-WAC"/>
-                            <outlet property="delegate" destination="DAp-Go-5tP" id="jcb-4Q-xz0"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Controller Skins" id="eJg-Xd-JMG"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2CS-Bf-W77" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1473" y="-486"/>
-        </scene>
         <!--Cheat Editor View Controller - New Cheat Code-->
         <scene sceneID="5h7-ni-Euf">
             <objects>

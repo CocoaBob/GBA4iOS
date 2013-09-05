@@ -10,10 +10,12 @@
 #import "UIScreen+Widescreen.h"
 #import "GBAController.h"
 #import "GBASettingsViewController.h"
-#import "GBAControllerSkinPreviewCell.h"
+#import "GBAAsynchronousImageTableViewCell.h"
 #import "GBAControllerSkinSelectionViewController.h"
 
-@interface GBAControllerSkinDetailViewController ()
+@interface GBAControllerSkinDetailViewController () {
+    BOOL _viewDidAppear;
+}
 
 @property (weak, nonatomic) IBOutlet UIImageView *portraitControllerSkinImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *landscapeControllerSkinImageView;
@@ -24,11 +26,7 @@
 
 - (id)init
 {
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:resourceBundle];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"controllerSkinsDetailViewController"];
+    self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         // Custom initialization
     }
@@ -48,6 +46,8 @@
         self.tableView.rowHeight = 150;
     }
     
+    [self.tableView registerClass:[GBAAsynchronousImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
     self.clearsSelectionOnViewWillAppear = YES;
     
     self.title = NSLocalizedString(@"Current Skins", @"");
@@ -58,6 +58,25 @@
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    _viewDidAppear = YES;
+    [super viewDidAppear:animated];
+    
+    // Load asynchronously so scrolling doesn't stutter
+    for (GBAAsynchronousImageTableViewCell *cell in [self.tableView visibleCells])
+    {
+        cell.loadSynchronously = NO;
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _viewDidAppear = NO;
 }
 
 - (NSString *)filepathForSkinName:(NSString *)name
@@ -92,9 +111,33 @@
 
 #pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return NSLocalizedString(@"Portrait", @"");
+    }
+    else if (section == 1)
+    {
+        return NSLocalizedString(@"Landscape", @"");
+    }
+    
+    return nil;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GBAControllerSkinPreviewCell *cell = (GBAControllerSkinPreviewCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
+    GBAAsynchronousImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     NSDictionary *skinDictionary = nil;
     
@@ -113,20 +156,25 @@
     NSString *portraitSkin = skinDictionary[@"portrait"];
     NSString *landscapeSkin = skinDictionary[@"landscape"];
     
+    if (_viewDidAppear)
+    {
+        cell.loadSynchronously = NO;
+    }
+    else
+    {
+        cell.loadSynchronously = YES;
+    }
+    
     if (indexPath.section == 0)
     {
         GBAController *portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:portraitSkin]];
-        cell.controller = portraitController;
-        cell.orientation = GBAControllerOrientationPortrait;
+        cell.image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
     }
     else
     {
         GBAController *landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:landscapeSkin]];
-        cell.controller = landscapeController;
-        cell.orientation = GBAControllerOrientationLandscape;
+        cell.image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
     }
-    
-    [cell update];
     
     return cell;
 }

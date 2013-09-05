@@ -43,6 +43,11 @@ typedef NS_ENUM(NSInteger, GBAControllerButton)
     GBAControllerButtonMenu        =  50,
 };
 
+static NSString *GBAScreenTypeiPhone = @"iPhone";
+static NSString *GBAScreenTypeRetina = @"Retina";
+static NSString *GBAScreenTypeRetina4 = @"Retina 4";
+static NSString *GBAScreenTypeiPad = @"iPad";
+
 @interface GBAController : NSObject
 
 @property (readonly, copy, nonatomic) NSString *filepath;
@@ -55,5 +60,6 @@ typedef NS_ENUM(NSInteger, GBAControllerButton)
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation;
 - (NSString *)keyForButtonRect:(GBAControllerRect)button;
 - (GBAControllerOrientation)supportedOrientations;
++ (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary;
 
 @end
