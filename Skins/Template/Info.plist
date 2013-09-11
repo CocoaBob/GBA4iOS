@@ -4,8 +4,6 @@
 <dict>
 	<key>Portrait</key>
 	<dict>
-		<key>Asset Catelog</key>
-		<string></string>
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
@@ -364,8 +362,6 @@
 	</dict>
 	<key>Landscape</key>
 	<dict>
-		<key>Asset Catelog</key>
-		<string></string>
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
