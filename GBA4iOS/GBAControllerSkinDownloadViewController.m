@@ -18,6 +18,7 @@
 @property (copy, nonatomic) NSArray *skinsArray;
 @property (strong, nonatomic) UIProgressView *downloadProgressView;
 @property (strong, nonatomic) UIActivityIndicatorView *downloadingControllerSkinInfoActivityIndicatorView;
+@property (strong, nonatomic) NSCache *imageCache;
 
 @end
 
@@ -31,6 +32,8 @@
         // Custom initialization
         _skinsArray = [NSArray arrayWithContentsOfFile:[self cachedControllerSkinInfoPath]];
         self.title = NSLocalizedString(@"Download Skins", @"");
+        
+        _imageCache = [[NSCache alloc] init];
     }
     return self;
 }
@@ -197,6 +200,8 @@
     NSDictionary *dictionary = [self dictionaryForSection:indexPath.section];
     NSDictionary *portraitDictionary = dictionary[@"portraitAssets"];
     NSDictionary *landscapeDictionary = dictionary[@"landscapeAssets"];
+    
+    cell.imageCache = self.imageCache;
     
     if (numberOfRows == 1)
     {

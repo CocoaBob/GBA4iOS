@@ -17,6 +17,7 @@
 }
 
 @property (copy, nonatomic) NSArray *filteredArray;
+@property (strong, nonatomic) NSCache *imageCache;
 
 @end
 
@@ -27,7 +28,7 @@
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self)
     {
-        // Custom initialization
+        _imageCache = [[NSCache alloc] init];
     }
     return self;
 }
@@ -210,6 +211,8 @@
     {
         cell.loadSynchronously = YES;
     }
+    
+    cell.imageCache = self.imageCache;
     
     cell.image = [controller imageForOrientation:self.controllerOrientation];
     

@@ -111,6 +111,11 @@
 {
     [self layoutIfNeeded];
     
+    if ([self.imageCache objectForKey:self.imageURL] || [self.imageCache objectForKey:self.image])
+    {
+        self.loadSynchronously = YES;
+    }
+    
     [self.activityIndicatorView startAnimating];
     
     [self.operationQueue cancelAllOperations];
@@ -160,28 +165,45 @@
 {
     CANCEL_OPERATION_IF_NEEDED(operation);
     
+    id key = self.imageURL;
     UIImage *preparedImage = [self.imageCache objectForKey:self.imageURL];
+    
+    if (self.image)
+    {
+        key = self.image;
+        preparedImage = [self.imageCache objectForKey:self.image];
+    }
     
     if (preparedImage == nil)
     {
         preparedImage = [self imageByResizingImage:image toFitSize:self.backgroundImageView.bounds.size];
-        [self.imageCache setObject:image forKey:self.imageURL];
+        [self.imageCache setObject:preparedImage forKey:self.imageURL];
     }
     
     CANCEL_OPERATION_IF_NEEDED(operation);
     
+    void (^animationBlock)(void) = ^{
+        self.activityIndicatorView.alpha = 0.0;
+        self.downloadingErrorLabel.alpha = 0.0;
+        self.backgroundImageView.alpha = 1.0;
+    };
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         self.backgroundImageView.image = preparedImage;
         
-        [UIView animateWithDuration:0.2 animations:^{
-            self.activityIndicatorView.alpha = 0.0;
-            self.downloadingErrorLabel.alpha = 0.0;
-            self.backgroundImageView.alpha = 1.0;
-        } completion:^(BOOL finished) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.activityIndicatorView stopAnimating];
-            });
-        }];
+        if (self.loadSynchronously)
+        {
+            animationBlock();
+        }
+        else
+        {
+            [UIView animateWithDuration:0.2 animations:animationBlock completion:^(BOOL finished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.activityIndicatorView stopAnimating];
+                });
+            }];
+        }
+        
     });
 }
 
@@ -189,8 +211,17 @@
 
 - (void)loadRemoteImage
 {
-    self.imageData = [[NSMutableData alloc] init];
-    self.imageURLConnection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:self.imageURL] delegate:self];
+    UIImage *image = [self.imageCache objectForKey:self.imageURL];
+    if (image == nil)
+    {
+        DLog(@"Cahce: %@", self.imageCache);
+        self.imageData = [[NSMutableData alloc] init];
+        self.imageURLConnection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:self.imageURL] delegate:self];
+    }
+    else
+    {
+        [self prepareAndDisplayImage:image withOperation:nil];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

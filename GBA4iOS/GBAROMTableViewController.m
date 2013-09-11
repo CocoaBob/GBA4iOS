@@ -424,16 +424,20 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     NSError *error = nil;
     
-    [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
-    [fileManager removeItemAtPath:filepath error:nil];
-    
-    if (error)
-    {
-        ELog(error);
-    }
+    double delayInSeconds = 5.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
+        [fileManager removeItemAtPath:filepath error:nil];
+        
+        if (error)
+        {
+            ELog(error);
+        }
+    });
 }
 
 #pragma mark - UIAlertView delegate

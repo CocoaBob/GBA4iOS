@@ -180,7 +180,6 @@
 		CC1B66C417BF56E2007B2787 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
 		CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
-		CC1B66C717BF56E2007B2787 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CCB5F87A17A8EE85009D31CF /* Default.gbaskin */; };
 		CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
 		CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
@@ -618,7 +617,6 @@
 		CC96F00917C2983800C7DD0C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
-		CCB5F87A17A8EE85009D31CF /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Widescreen.h"; sourceTree = "<group>"; };
 		CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Widescreen.m"; sourceTree = "<group>"; };
 		CCC7298417C7357E0001BC6F /* GBAROM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROM.h; sourceTree = "<group>"; };
@@ -1041,7 +1039,6 @@
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 				CC347BA017A33E0400309436 /* Default-568h@2x.png */,
 				CC86824E17A6D48600686607 /* icon-60@2x.png */,
-				CCB5F87A17A8EE85009D31CF /* Default.gbaskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
@@ -1474,7 +1471,6 @@
 				CC1B66C417BF56E2007B2787 /* InfoPlist.strings in Resources */,
 				CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */,
 				CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */,
-				CC1B66C717BF56E2007B2787 /* Default.gbaskin in Resources */,
 				CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

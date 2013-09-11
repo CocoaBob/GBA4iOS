@@ -19,6 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *portraitControllerSkinImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *landscapeControllerSkinImageView;
+@property (strong, nonatomic) NSCache *imageCache;
 
 @end
 
@@ -27,8 +28,9 @@
 - (id)init
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+        _imageCache = [[NSCache alloc] init];
     }
     return self;
 }
@@ -138,6 +140,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GBAAsynchronousImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.imageCache = self.imageCache;
     
     NSDictionary *skinDictionary = nil;
     
