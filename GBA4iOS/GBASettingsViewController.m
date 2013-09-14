@@ -99,7 +99,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     return [super numberOfSectionsInTableView:tableView] - 1;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
     if (section == 1)
     {
@@ -110,7 +110,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         }
     }
     
-    return [super tableView:tableView viewForFooterInSection:section];
+    return [super tableView:tableView titleForFooterInSection:section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -126,6 +126,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     
     return [super tableView:tableView numberOfRowsInSection:section];
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
