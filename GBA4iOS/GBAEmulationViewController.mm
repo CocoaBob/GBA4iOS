@@ -659,11 +659,11 @@ void uncaughtExceptionHandler(NSException *exception)
         snapshotView.alpha = 0.0;
         snapshotView.frame = self.controllerView.frame;
         
-        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
-        {
-            self.controllerView.alpha = 1.0;
-        }
-        
+    }
+    
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+    {
+        self.controllerView.alpha = 1.0;
     }
     
     if (self.airplayWindow == nil)
@@ -712,9 +712,18 @@ void uncaughtExceptionHandler(NSException *exception)
         self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationLandscape;
         
-        [UIView performWithoutAnimation:^{
-            self.controllerView.alpha = 0.5f;
-        }];
+        if ([NSURLSession class])
+        {
+            [UIView performWithoutAnimation:^{
+                self.controllerView.alpha = 0.5f;
+            }];
+        }
+        else
+        {
+            [UIView animateWithDuration:0 animations:^{
+                self.controllerView.alpha = 0.5f;
+            }];
+        }
     }
 }
 
