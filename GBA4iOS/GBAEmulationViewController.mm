@@ -457,7 +457,11 @@ static GBAEmulationViewController *_emulationViewController;
     GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithSaveStateDirectory:[self saveStateDirectory] mode:mode];
     saveStateViewController.delegate = self;
     saveStateViewController.modalPresentationStyle = UIModalPresentationCustom;
-    saveStateViewController.transitioningDelegate = self;
+    
+    if ([saveStateViewController respondsToSelector:@selector(transitioningDelegate)])
+    {
+        saveStateViewController.transitioningDelegate = self;
+    }
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController) animated:YES completion:nil];
 }
 

@@ -109,6 +109,14 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Sometimes it loses it's color when the view appears
+    self.downloadProgressView.progressTintColor = [UIColor purpleColor];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -204,6 +212,11 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)startDownloadWithFilename:(NSString *)filename
 {
+    if (filename == nil)
+    {
+        filename = @"";
+    }
+    
     filename = [filename stringByAppendingPathExtension:@"gba"];
     
     // Write temp file so it shows up in the file browser, but we'll then gray it out.
@@ -408,9 +421,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
     
     NSString *filepath = [resourceBundle pathForResource:@"Default" ofType:@"gbaskin"];
-    
-    NSLog(@"%@", filepath);
-    
+        
     NSString *destinationFilename = [filepath stringByDeletingPathExtension];
     NSString *destinationPath = [self GBASkinsDirectory];
     

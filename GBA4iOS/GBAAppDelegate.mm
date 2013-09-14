@@ -35,7 +35,7 @@
     
     if (url)
     {
-        [self moveROMAtURLToDocumentsDirectory:url];
+        [self copyROMAtURLToDocumentsDirectory:url];
     }
     
     [GBASettingsViewController registerDefaults];
@@ -47,22 +47,20 @@
 {
     if ([url isFileURL])
     {
-        [self moveROMAtURLToDocumentsDirectory:url];
+        [self copyROMAtURLToDocumentsDirectory:url];
     }
     return YES;
 }
 
 #pragma mark - Copying ROMs
 
-- (void)moveROMAtURLToDocumentsDirectory:(NSURL *)url
+- (void)copyROMAtURLToDocumentsDirectory:(NSURL *)url
 {
     NSString *filepath = [url path];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    DLog(@"%@", [url absoluteString]);
-    
+        
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"])
     {
         [SSZipArchive unzipFileAtPath:filepath toDestination:documentsDirectory];
