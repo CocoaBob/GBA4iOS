@@ -78,7 +78,7 @@
     
     key = [self keyForButtonRect:button];
     NSDictionary *buttonRect = rect[key];
-    
+        
     return CGRectMake([buttonRect[@"X"] floatValue], [buttonRect[@"Y"] floatValue], [buttonRect[@"Width"] floatValue], [buttonRect[@"Height"] floatValue]);
 }
 

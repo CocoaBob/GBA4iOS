@@ -130,68 +130,68 @@
 				<key>D-Pad</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>-10</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>140</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>180</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>180</integer>
 				</dict>
 				<key>A</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>405</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>166</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>B</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>330</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>245</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>AB</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>405</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>241</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>79</integer>
 				</dict>
 				<key>Start</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>251</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>252</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>60</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>40</integer>
 				</dict>
 				<key>Select</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>172</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>252</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>60</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>40</integer>
 				</dict>
 				<key>L</key>
 				<dict>
@@ -200,42 +200,31 @@
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>R</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>405</integer>
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>Menu</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>201</integer>
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>80</integer>
 					<key>Height</key>
-					<integer>0</integer>
-				</dict>
-				<key>Screen</key>
-				<dict>
-					<key>X</key>
-					<integer>0</integer>
-					<key>Y</key>
-					<integer>0</integer>
-					<key>Width</key>
-					<integer>0</integer>
-					<key>Height</key>
-					<integer>0</integer>
+					<integer>40</integer>
 				</dict>
 			</dict>
 			<key>Retina 4</key>
@@ -243,68 +232,68 @@
 				<key>D-Pad</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>-10</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>140</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>180</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>180</integer>
 				</dict>
 				<key>A</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>493</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>166</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>B</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>418</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>245</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>AB</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>493</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>241</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>79</integer>
 				</dict>
 				<key>Start</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>296</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>252</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>60</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>40</integer>
 				</dict>
 				<key>Select</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>216</integer>
 					<key>Y</key>
-					<integer>0</integer>
+					<integer>252</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>60</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>40</integer>
 				</dict>
 				<key>L</key>
 				<dict>
@@ -313,42 +302,31 @@
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>R</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>493</integer>
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>75</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>75</integer>
 				</dict>
 				<key>Menu</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>245</integer>
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>80</integer>
 					<key>Height</key>
-					<integer>0</integer>
-				</dict>
-				<key>Screen</key>
-				<dict>
-					<key>X</key>
-					<integer>0</integer>
-					<key>Y</key>
-					<integer>0</integer>
-					<key>Width</key>
-					<integer>0</integer>
-					<key>Height</key>
-					<integer>0</integer>
+					<integer>40</integer>
 				</dict>
 			</dict>
 		</dict>

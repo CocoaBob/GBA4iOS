@@ -521,13 +521,16 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     void(^AddOverlayForButton)(GBAControllerRect button) = ^(GBAControllerRect button)
     {
         UILabel *overlay = [[UILabel alloc] initWithFrame:[self.controller rectForButtonRect:button orientation:self.orientation]];
+        
+        DLog(@"%@", self.controller);
+        
         overlay.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5];
         overlay.text = [self.controller keyForButtonRect:button];
         overlay.adjustsFontSizeToFitWidth = YES;
         overlay.textColor = [UIColor whiteColor];
         overlay.font = [UIFont boldSystemFontOfSize:18.0f];
         overlay.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:overlay];
+        [self.overlayView addSubview:overlay];
     };
     
     AddOverlayForButton(GBAControllerRectDPad);

@@ -12,6 +12,8 @@
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDownloadViewController.h"
 
+#import <SSZipArchive/minizip/SSZipArchive.h>
+
 @interface GBAControllerSkinSelectionViewController () {
     BOOL _viewDidAppear;
 }
@@ -64,6 +66,13 @@
     self.navigationItem.rightBarButtonItem = addButton;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self refreshControllerSkins];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -96,6 +105,61 @@
 {
     GBAControllerSkinDownloadViewController *controllerSkinDownloadViewController = [[GBAControllerSkinDownloadViewController alloc] init];
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(controllerSkinDownloadViewController) animated:YES completion:nil];
+}
+
+#pragma mark - Import Controller Skins
+
+- (void)refreshControllerSkins
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    BOOL importedSkin = NO;
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+    for (NSString *file in contents)
+    {
+        if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"])
+        {
+            NSString *filepath = [documentsDirectory stringByAppendingPathComponent:file];
+            [self importControllerSkinFromPath:filepath];
+            importedSkin = YES;
+        }
+        
+    }
+    
+    if (importedSkin)
+    {
+        self.filteredArray = nil;
+        [self.tableView reloadData];
+    }
+}
+
+- (void)importControllerSkinFromPath:(NSString *)filepath
+{
+    NSString *destinationFilename = [[filepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *destinationPath = [self skinsDirectory];
+    
+    NSError *error = nil;
+    
+    [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if ([[fileManager contentsOfDirectoryAtPath:[destinationPath stringByAppendingPathComponent:destinationFilename] error:nil] count] == 0)
+    {
+        DLog(@"Not finished yet");
+        // Unzipped before it was done copying over
+        return;
+    }
+    
+    [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
+    [fileManager removeItemAtPath:filepath error:nil];
+    
+    if (error)
+    {
+        ELog(error);
+    }
 }
 
 #pragma mark - Helper Methods

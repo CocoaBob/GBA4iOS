@@ -20,38 +20,38 @@
 					<key>X</key>
 					<integer>0</integer>
 					<key>Y</key>
-					<integer>43</integer>
+					<integer>45</integer>
 					<key>Width</key>
-					<integer>140</integer>
+					<integer>146</integer>
 					<key>Height</key>
-					<integer>140</integer>
+					<integer>146</integer>
 				</dict>
 				<key>A</key>
 				<dict>
 					<key>X</key>
-					<integer>240</integer>
+					<integer>259</integer>
 					<key>Y</key>
-					<integer>50</integer>
+					<integer>75</integer>
 					<key>Width</key>
-					<integer>70</integer>
+					<integer>48</integer>
 					<key>Height</key>
-					<integer>70</integer>
+					<integer>48</integer>
 				</dict>
 				<key>B</key>
 				<dict>
 					<key>X</key>
-					<integer>151</integer>
+					<integer>190</integer>
 					<key>Y</key>
-					<integer>90</integer>
+					<integer>106</integer>
 					<key>Width</key>
-					<integer>70</integer>
+					<integer>48</integer>
 					<key>Height</key>
-					<integer>70</integer>
+					<integer>48</integer>
 				</dict>
 				<key>Start</key>
 				<dict>
 					<key>X</key>
-					<integer>170</integer>
+					<integer>162</integer>
 					<key>Y</key>
 					<integer>200</integer>
 					<key>Width</key>
@@ -62,7 +62,7 @@
 				<key>Select</key>
 				<dict>
 					<key>X</key>
-					<integer>110</integer>
+					<integer>118</integer>
 					<key>Y</key>
 					<integer>200</integer>
 					<key>Width</key>
@@ -77,29 +77,29 @@
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>135</integer>
+					<integer>85</integer>
 					<key>Height</key>
-					<integer>40</integer>
+					<integer>37</integer>
 				</dict>
 				<key>R</key>
 				<dict>
 					<key>X</key>
-					<integer>184</integer>
+					<integer>235</integer>
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>135</integer>
+					<integer>85</integer>
 					<key>Height</key>
-					<integer>40</integer>
+					<integer>37</integer>
 				</dict>
 				<key>Menu</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>140</integer>
 					<key>Y</key>
-					<integer>200</integer>
+					<integer>0</integer>
 					<key>Width</key>
-					<integer>53</integer>
+					<integer>40</integer>
 					<key>Height</key>
 					<integer>40</integer>
 				</dict>

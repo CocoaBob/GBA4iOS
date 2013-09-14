@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+ 
     self.clearsSelectionOnViewWillAppear = YES;
     
     GBAROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"romType"];
@@ -97,11 +97,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     //NSFileManager *fileManager = [NSFileManager defaultManager];
     //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
     {
-        NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
-        NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-        
-        NSString *filepath = [resourceBundle pathForResource:@"Default" ofType:@"gbaskin"];
-        [self importControllerSkinFromPath:filepath];
+        [self importDefaultGBASkin];
     }
     
     // iOS 6 UI
@@ -367,17 +363,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (void)didRefreshCurrentDirectory
 {
     [super didRefreshCurrentDirectory];
-    
-    NSArray *unsupportedFiles = [self.unsupportedFiles copy];
-    for (NSString *file in unsupportedFiles) {
-        
-        if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"])
-        {
-            NSString *filepath = [self filepathForFilename:file];
-            [self importControllerSkinFromPath:filepath];
-        }
-        
-    }
 }
 
 #pragma mark - Controller Skins
@@ -417,27 +402,29 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     return gbcSkinsDirectory;
 }
 
-- (void)importControllerSkinFromPath:(NSString *)filepath
+- (void)importDefaultGBASkin
 {
+    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+    
+    NSString *filepath = [resourceBundle pathForResource:@"Default" ofType:@"gbaskin"];
+    
+    NSLog(@"%@", filepath);
+    
     NSString *destinationFilename = [filepath stringByDeletingPathExtension];
     NSString *destinationPath = [self GBASkinsDirectory];
     
     NSError *error = nil;
     
-    double delayInSeconds = 5.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
-        
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
-        [fileManager removeItemAtPath:filepath error:nil];
-        
-        if (error)
-        {
-            ELog(error);
-        }
-    });
+    [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
+    
+    if (error)
+    {
+        ELog(error);
+    }
 }
 
 #pragma mark - UIAlertView delegate
@@ -600,7 +587,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
 {
-    NSString *address = @"https://www.google.com/#bav=on.2,or.r_cp.r_qf.&fp=1179bd4a420d46ef&q=Download+ROMs+GBA+";
+    NSString *address = @"http://www.google.com/#q=Download+GBA+ROMs";
     
     if (![NSURLSession class]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:address]];

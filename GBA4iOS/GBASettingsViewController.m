@@ -96,7 +96,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [super numberOfSectionsInTableView:tableView];
+    return [super numberOfSectionsInTableView:tableView] - 1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section

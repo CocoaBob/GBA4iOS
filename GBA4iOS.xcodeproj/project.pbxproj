@@ -27,6 +27,8 @@
 		581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF49397717CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BFAF39AB17E3951A00C4BA93 /* RSTSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCEE289317E1698B00205302 /* RSTSafariActivity.m */; };
+		BFAF39AC17E3951A00C4BA93 /* RSTSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCEE289317E1698B00205302 /* RSTSafariActivity.m */; };
 		BFB5668C17CD938600003742 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
 		BFB5668D17CD93EF00003742 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BFB5668E17CD93F900003742 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
@@ -179,7 +181,6 @@
 		CC1B66C317BF56E2007B2787 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
 		CC1B66C417BF56E2007B2787 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57081798F2EC00C616EB /* InfoPlist.strings */; };
 		CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC86824E17A6D48600686607 /* icon-60@2x.png */; };
 		CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
 		CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC1B66B517BF4D77007B2787 /* GBAResources.bundle */; };
@@ -209,6 +210,9 @@
 		CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
+		CC4C14D517E2EFC200FFE396 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC4C14D417E2EFC200FFE396 /* Default.gbaskin */; };
+		CC4C14D617E2EFC200FFE396 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC4C14D417E2EFC200FFE396 /* Default.gbaskin */; };
+		CC4C14D717E2F00600FFE396 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC4C14D417E2EFC200FFE396 /* Default.gbaskin */; };
 		CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */; };
 		CC6A2D9017C508DC00EFC10E /* GBACheatManagerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */; };
 		CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
@@ -390,6 +394,7 @@
 		CCE93EF717BEDD0C008EADAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CCE93F0217BEDD0C008EADAF /* libGBA4iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCE93F0117BEDD0C008EADAF /* libGBA4iOS.mm */; };
 		CCE93F0D17BEDDD5008EADAF /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
+		CCEE289417E1698B00205302 /* RSTSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCEE289317E1698B00205302 /* RSTSafariActivity.m */; };
 		CCFA493817B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */; };
 		CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */; };
 		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
@@ -593,6 +598,7 @@
 		CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAThemedTableViewController.m; sourceTree = "<group>"; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
 		CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASaveStateViewController.mm; sourceTree = "<group>"; };
+		CC4C14D417E2EFC200FFE396 /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OriginalImages.xcassets; path = GBA.emu/OriginalImages.xcassets; sourceTree = SOURCE_ROOT; };
 		CC6A2D8E17C508DC00EFC10E /* GBACheatManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerViewController.h; sourceTree = "<group>"; };
 		CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBACheatManagerViewController.mm; sourceTree = "<group>"; };
@@ -604,7 +610,6 @@
 		CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITouch+ControllerButtons.m"; sourceTree = "<group>"; };
 		CC823BC217B04A7A000A25E6 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
-		CC86824E17A6D48600686607 /* icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-60@2x.png"; path = "Images.xcassets/AppIcon.appiconset/icon-60@2x.png"; sourceTree = "<group>"; };
 		CC86825217A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentEmulationViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPresentEmulationViewControllerAnimator.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
@@ -634,6 +639,8 @@
 		CCE93F0017BEDD0C008EADAF /* libGBA4iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libGBA4iOS.h; sourceTree = "<group>"; };
 		CCE93F0117BEDD0C008EADAF /* libGBA4iOS.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = libGBA4iOS.mm; sourceTree = "<group>"; };
 		CCE93F0517BEDD0C008EADAF /* 0xdeadfa11 */ = {isa = PBXFileReference; lastKnownFileType = text; name = 0xdeadfa11; path = Package/usr/lib/0xdeadfa11; sourceTree = "<group>"; };
+		CCEE289217E1698B00205302 /* RSTSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTSafariActivity.h; path = ../../../../RSTUtilities/RSTSafariActivity/RSTSafariActivity.h; sourceTree = "<group>"; };
+		CCEE289317E1698B00205302 /* RSTSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTSafariActivity.m; path = ../../../../RSTUtilities/RSTSafariActivity/RSTSafariActivity.m; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
 		CCFA493617B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBATransparentTableViewHeaderFooterView.h; sourceTree = "<group>"; };
 		CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBATransparentTableViewHeaderFooterView.m; sourceTree = "<group>"; };
@@ -1008,6 +1015,8 @@
 				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
+				CCEE289217E1698B00205302 /* RSTSafariActivity.h */,
+				CCEE289317E1698B00205302 /* RSTSafariActivity.m */,
 				BFF66D8A17C95663002FDC14 /* Debug */,
 				CC7AC2EB17C694E800FB7642 /* Emulation */,
 				CCE3CDF917AE9E4500FAB9C8 /* Settings */,
@@ -1037,8 +1046,8 @@
 			isa = PBXGroup;
 			children = (
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
+				CC4C14D417E2EFC200FFE396 /* Default.gbaskin */,
 				CC347BA017A33E0400309436 /* Default-568h@2x.png */,
-				CC86824E17A6D48600686607 /* icon-60@2x.png */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
@@ -1469,8 +1478,8 @@
 				CC1B66C217BF56E2007B2787 /* Main_iPhone.storyboard in Resources */,
 				CC1B66C317BF56E2007B2787 /* Main_iPad.storyboard in Resources */,
 				CC1B66C417BF56E2007B2787 /* InfoPlist.strings in Resources */,
+				CC4C14D717E2F00600FFE396 /* Default.gbaskin in Resources */,
 				CC1B66C517BF56E2007B2787 /* Default-568h@2x.png in Resources */,
-				CC1B66C617BF56E2007B2787 /* icon-60@2x.png in Resources */,
 				CC1B66CB17BF56E2007B2787 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1480,6 +1489,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC1B66CD17BF5744007B2787 /* GBAResources.bundle in Resources */,
+				CC4C14D617E2EFC200FFE396 /* Default.gbaskin in Resources */,
 				1A5BAE8017D04B0A00BABC01 /* overlays128.png in Resources */,
 				BF49397717CD947C0072CFC7 /* padButton.png in Resources */,
 			);
@@ -1493,6 +1503,7 @@
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC1B66CC17BF573D007B2787 /* GBAResources.bundle in Resources */,
+				CC4C14D517E2EFC200FFE396 /* Default.gbaskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1605,6 +1616,7 @@
 				CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
 				BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
+				BFAF39AB17E3951A00C4BA93 /* RSTSafariActivity.m in Sources */,
 				CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1655,6 +1667,7 @@
 				CCFA7227179D304700768D24 /* 7zCrc.c in Sources */,
 				CCFA7237179D340400768D24 /* apple.mm in Sources */,
 				CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */,
+				CCEE289417E1698B00205302 /* RSTSafariActivity.m in Sources */,
 				CCFA720B179D304700768D24 /* Mode3.cpp in Sources */,
 				CCFA7205179D304700768D24 /* GBA.cpp in Sources */,
 				CCFA722D179D304700768D24 /* Bra.c in Sources */,
@@ -1930,6 +1943,7 @@
 				CC1B669017BF0574007B2787 /* IoMmap.cc in Sources */,
 				CC1B667317BF056B007B2787 /* EmuSystem.cc in Sources */,
 				CC1B665C17BF0564007B2787 /* Rar_Extractor.cpp in Sources */,
+				BFAF39AC17E3951A00C4BA93 /* RSTSafariActivity.m in Sources */,
 				CC1B663B17BF0564007B2787 /* Cheats.cpp in Sources */,
 				CC1B66A517BF057A007B2787 /* pngset.c in Sources */,
 				CC1B668717BF0574007B2787 /* Pixmap.cc in Sources */,
@@ -2090,6 +2104,7 @@
 		CC1B66BE17BF4D78007B2787 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2112,6 +2127,7 @@
 		CC1B66BF17BF4D78007B2787 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2131,6 +2147,7 @@
 		CC1B66C017BF4D78007B2787 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2151,7 +2168,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E497718ED60948D8A50CF8AA /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2160,6 +2176,7 @@
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					"$(SRCROOT)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2252,7 +2269,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E497718ED60948D8A50CF8AA /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2261,6 +2277,7 @@
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					"$(SRCROOT)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2349,7 +2366,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E497718ED60948D8A50CF8AA /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2358,6 +2374,7 @@
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					"$(SRCROOT)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2446,6 +2463,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2560,6 +2578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2677,6 +2696,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2719,6 +2739,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2750,6 +2771,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2867,6 +2889,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2958,6 +2981,7 @@
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3068,6 +3092,7 @@
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -3171,6 +3196,7 @@
 					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
 					/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS,
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";

@@ -117,8 +117,6 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
     
-    //[self.controller showButtonRects];
-    
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
 	[self.displayLink setFrameInterval:1];
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -137,6 +135,8 @@ static GBAEmulationViewController *_emulationViewController;
 #if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
 #endif
+    
+    [self stopEmulation]; // Stop previously running ROM
     
     [self startEmulation];
 }
@@ -542,6 +542,8 @@ void uncaughtExceptionHandler(NSException *exception)
     NSString *romName = self.rom.name;
     NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Save States/%@", romName]];
     
+    [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
+    
     return directory;
 }
 
@@ -705,7 +707,7 @@ void uncaughtExceptionHandler(NSException *exception)
             [self.contentView removeConstraint:self.portraitBottomLayoutConstraint];
         }
         
-        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"landscape"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
         self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationLandscape;
@@ -755,6 +757,13 @@ void uncaughtExceptionHandler(NSException *exception)
     
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] startEmulation];
+#endif
+}
+
+- (void)stopEmulation
+{
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] endEmulation];
 #endif
 }
 
