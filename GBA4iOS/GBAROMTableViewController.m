@@ -587,7 +587,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
 {
-    NSString *address = @"http://www.google.com/#q=Download+GBA+ROMs";
+    NSString *address = @"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
     
     if (![NSURLSession class]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:address]];

@@ -9,6 +9,8 @@
 #import "GBAAppDelegate.h"
 #import "GBASettingsViewController.h"
 
+#import <SSZipArchive/minizip/SSZipArchive.h>
+
 @implementation GBAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -29,11 +31,50 @@
         [[UISwitch appearance] setOnTintColor:[UIColor purpleColor]]; // Apparently UISwitches don't inherit tint color from superview
     }
     
+    NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];
+    
+    if (url)
+    {
+        [self moveROMAtURLToDocumentsDirectory:url];
+    }
+    
     [GBASettingsViewController registerDefaults];
     
     return YES;
 }
-							
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([url isFileURL])
+    {
+        [self moveROMAtURLToDocumentsDirectory:url];
+    }
+    return YES;
+}
+
+#pragma mark - Copying ROMs
+
+- (void)moveROMAtURLToDocumentsDirectory:(NSURL *)url
+{
+    NSString *filepath = [url path];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    DLog(@"%@", [url absoluteString]);
+    
+    if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"])
+    {
+        [SSZipArchive unzipFileAtPath:filepath toDestination:documentsDirectory];
+        [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+    }
+    else
+    {
+        NSString *filename = [filepath lastPathComponent];
+        [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:filename] error:nil];
+    }
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
