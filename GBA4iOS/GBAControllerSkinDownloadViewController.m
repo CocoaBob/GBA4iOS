@@ -2,7 +2,7 @@
 //  GBAControllerSkinDownloadViewController.m
 //  GBA4iOS
 //
-//  Created by Yvette Testut on 9/2/13.
+//  Created by Riley Testut on 9/2/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 

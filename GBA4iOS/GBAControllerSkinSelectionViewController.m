@@ -2,7 +2,7 @@
 //  GBAControllerSkinSelectionViewController.m
 //  GBA4iOS
 //
-//  Created by Yvette Testut on 8/31/13.
+//  Created by Riley Testut on 8/31/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
@@ -117,6 +117,7 @@
     BOOL importedSkin = NO;
     
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+        
     for (NSString *file in contents)
     {
         if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"])

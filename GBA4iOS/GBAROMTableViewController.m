@@ -227,8 +227,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     self.startDownloadBlock(YES);
     
-    [self refreshDirectory];
-    
     [self dismissViewControllerAnimated:YES completion:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showDownloadProgressView];
@@ -298,9 +296,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         
         [self.currentDownloads removeObjectForKey:downloadTask.uniqueTaskIdentifier];
     }
-    
-    [self refreshDirectory];
-    
+        
     if ([self.currentDownloads count] == 0 || [self currentDownloadProgress] >= 1.0)
     {
         [self.currentDownloads removeAllObjects];

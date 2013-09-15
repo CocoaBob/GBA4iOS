@@ -381,6 +381,7 @@
 		CCBA43AD17E403A10014E66D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CCBA43AA17E403A10014E66D /* icon.png */; };
 		CCBA43AE17E403A10014E66D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CCBA43AB17E403A10014E66D /* icon@2x.png */; };
 		CCBA43AF17E403A10014E66D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CCBA43AB17E403A10014E66D /* icon@2x.png */; };
+		CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CCC7298617C7357E0001BC6F /* GBAROM.h in Headers */ = {isa = PBXBuildFile; fileRef = CCC7298417C7357E0001BC6F /* GBAROM.h */; };
 		CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
@@ -627,6 +628,8 @@
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
 		CCBA43AA17E403A10014E66D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Images.xcassets/AppIcon.appiconset/icon.png; sourceTree = "<group>"; };
 		CCBA43AB17E403A10014E66D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Images.xcassets/AppIcon.appiconset/icon@2x.png"; sourceTree = "<group>"; };
+		CCBEBEEF17E62C0000731F76 /* RSTHelperFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTHelperFile.h; sourceTree = "<group>"; };
+		CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTHelperFile.m; sourceTree = "<group>"; };
 		CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Widescreen.h"; sourceTree = "<group>"; };
 		CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Widescreen.m"; sourceTree = "<group>"; };
 		CCC7298417C7357E0001BC6F /* GBAROM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROM.h; sourceTree = "<group>"; };
@@ -1042,6 +1045,8 @@
 				CC2D570B1798F2EC00C616EB /* main.mm */,
 				CCF025A5179E4E49002A3BF6 /* config.h */,
 				CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */,
+				CCBEBEEF17E62C0000731F76 /* RSTHelperFile.h */,
+				CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1734,6 +1739,7 @@
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
 				CCFA7219179D304700768D24 /* blargg_common.cpp in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
+				CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
 				CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
