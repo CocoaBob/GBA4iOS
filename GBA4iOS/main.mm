@@ -10,8 +10,6 @@
 
 #import "GBAAppDelegate.h"
 
-// Everything in here should be reimplemented in libGBA4iOS.m
-
 #if !(TARGET_IPHONE_SIMULATOR)
 
 #include <fs/sys.hh>

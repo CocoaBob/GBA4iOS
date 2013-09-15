@@ -104,8 +104,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     if ([self.view respondsToSelector:@selector(setTintColor:)] == NO)
     {
         self.romTypeSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-        self.settingsButton.image = [UIImage imageNamed:@"GBAResources.bundle/Gear_Old"];
-        self.settingsButton.landscapeImagePhone = [UIImage imageNamed:@"GBAResources.bundle/Gear_Landscape"];
+        self.settingsButton.image = [UIImage imageNamed:@"Gear_Old"];
+        self.settingsButton.landscapeImagePhone = [UIImage imageNamed:@"Gear_Landscape"];
     }
 }
 
@@ -413,10 +413,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)importDefaultGBASkin
 {
-    NSString *resourceBundlePath = [[NSBundle mainBundle] pathForResource:@"GBAResources" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
-    
-    NSString *filepath = [resourceBundle pathForResource:@"Default" ofType:@"gbaskin"];
+    NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
         
     NSString *destinationFilename = [filepath stringByDeletingPathExtension];
     NSString *destinationPath = [self GBASkinsDirectory];
