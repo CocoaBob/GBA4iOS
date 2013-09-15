@@ -212,9 +212,9 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)startDownloadWithFilename:(NSString *)filename
 {
-    if (filename == nil)
+    if ([filename length] == 0)
     {
-        filename = @"";
+        filename = @" ";
     }
     
     filename = [filename stringByAppendingPathExtension:@"gba"];

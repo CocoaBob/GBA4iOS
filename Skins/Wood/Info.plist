@@ -95,11 +95,11 @@
 				<key>Menu</key>
 				<dict>
 					<key>X</key>
-					<integer>140</integer>
-					<key>Y</key>
 					<integer>0</integer>
+					<key>Y</key>
+					<integer>200</integer>
 					<key>Width</key>
-					<integer>40</integer>
+					<integer>53</integer>
 					<key>Height</key>
 					<integer>40</integer>
 				</dict>
