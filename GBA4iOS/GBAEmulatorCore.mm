@@ -59,10 +59,6 @@ namespace GameFilePicker {
 			logMsg("running on Retina Display");
 			eaglLayer.contentsScale = 2.0;
 			pointScale = 2;
-			mainWin.rect.x2 *= 2;
-			mainWin.rect.y2 *= 2;
-			mainWin.w *= 2;
-			mainWin.h *= 2;
 			currWin = mainWin;
 	    }
 	}
@@ -365,11 +361,14 @@ namespace GameFilePicker {
     [self updateSettings:nil];
 }
 
-- (void)updateEAGLViewForSize:(CGSize)size
+- (void)updateEAGLViewForSize:(CGSize)size screen:(UIScreen *)screen
 {
     using namespace Base;
-	mainWin.w = mainWin.rect.x2 = size.width;
-	mainWin.h = mainWin.rect.y2 = size.height;
+    
+    CGFloat scale = [screen scale];
+    
+	mainWin.w = mainWin.rect.x2 = size.width * scale;
+	mainWin.h = mainWin.rect.y2 = size.height * scale;
     
     // Controls size of built-in controls. Since we aren't using these, we just set these to a valid number so the assert doesn't crash us.
 	Gfx::viewMMWidth_ = 50;
@@ -378,7 +377,7 @@ namespace GameFilePicker {
     logMsg("set screen MM size %dx%d", Gfx::viewMMWidth_, Gfx::viewMMHeight_);
 	currWin = mainWin;
     
-    printf("Pixel size: %dx%d", Gfx::viewPixelWidth(), Gfx::viewPixelHeight());
+    //printf("Pixel size: %dx%d", Gfx::viewPixelWidth(), Gfx::viewPixelHeight());
     
     if (self.eaglView == nil)
     {
@@ -438,9 +437,15 @@ namespace GameFilePicker {
 
 - (void)pauseEmulation
 {
-    logMsg("resign active");
+    using namespace Base;
+	appState = APP_PAUSED;
 	Base::stopAnimation();
+	Base::onExit(1);
+#ifdef CONFIG_INPUT_ICADE
+	iCade.didEnterBackground();
+#endif
 	glFinish();
+	[glView destroyFramebuffer];
 }
 
 - (void)resumeEmulation
@@ -456,6 +461,8 @@ namespace GameFilePicker {
 #ifdef CONFIG_INPUT_ICADE
 	iCade.didBecomeActive();
 #endif
+    
+    Gfx::setOutputVideoMode(mainWin);
 }
 
 - (void)endEmulation
@@ -663,21 +670,6 @@ static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
 	[self endEmulation];
-}
-
-- (void)prepareToEnterBackground
-{
-	using namespace Base;
-	logMsg("entering background");
-	appState = APP_PAUSED;
-	Base::stopAnimation();
-	Base::onExit(1);
-#ifdef CONFIG_INPUT_ICADE
-	iCade.didEnterBackground();
-#endif
-	glFinish();
-	[glView destroyFramebuffer];
-	logMsg("entered background");
 }
 
 - (void)timerCallback:(id)callback

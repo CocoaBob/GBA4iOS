@@ -427,69 +427,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U8T-35-g39" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSu-0n-xp1" userLabel="Emulator Screen Container View">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="328"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSu-0n-xp1" userLabel="Emulator Screen Container View">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="328"/>
+                                    <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="220" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-3r-eIu" userLabel="Emulator Screen" customClass="GBAEmulatorScreen">
+                                        <rect key="frame" x="0.0" y="54" width="320" height="220"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="220" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-3r-eIu" userLabel="Emulator Screen" customClass="GBAEmulatorScreen">
-                                                <rect key="frame" x="0.0" y="54" width="320" height="220"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </view>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60 FPS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCc-iA-hy3">
-                                                <rect key="frame" x="15" y="15" width="57" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <color key="textColor" red="0.50196081399917603" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstItem="VCc-iA-hy3" firstAttribute="leading" secondItem="nSu-0n-xp1" secondAttribute="leading" constant="15" id="R7o-LJ-SnD"/>
-                                            <constraint firstAttribute="centerY" secondItem="KTg-3r-eIu" secondAttribute="centerY" id="X71-hi-JIS"/>
-                                            <constraint firstAttribute="centerX" secondItem="KTg-3r-eIu" secondAttribute="centerX" id="a61-8Q-JV9"/>
-                                            <constraint firstItem="VCc-iA-hy3" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="top" constant="15" id="beH-DL-39W"/>
-                                        </constraints>
+                                        <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
-                                    <view multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="240" translatesAutoresizingMaskIntoConstraints="NO" id="3X0-Mp-OVJ" userLabel="Controller View" customClass="GBAControllerView">
-                                        <rect key="frame" x="0.0" y="328" width="320" height="240"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60 FPS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCc-iA-hy3">
+                                        <rect key="frame" x="15" y="15" width="57" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" red="0.50196081399917603" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="nSu-0n-xp1" secondAttribute="bottom" priority="668" id="BJM-kl-3FH"/>
-                                    <constraint firstAttribute="trailing" secondItem="nSu-0n-xp1" secondAttribute="trailing" id="GrE-bU-wRK"/>
-                                    <constraint firstItem="3X0-Mp-OVJ" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="bottom" id="Hi4-Gs-HRs"/>
-                                    <constraint firstItem="nSu-0n-xp1" firstAttribute="top" secondItem="U8T-35-g39" secondAttribute="top" id="QAn-oW-YVS"/>
-                                    <constraint firstAttribute="trailing" secondItem="3X0-Mp-OVJ" secondAttribute="trailing" id="ab1-Fy-FYs"/>
-                                    <constraint firstAttribute="bottom" secondItem="3X0-Mp-OVJ" secondAttribute="bottom" id="fDK-T6-woa"/>
-                                    <constraint firstItem="3X0-Mp-OVJ" firstAttribute="leading" secondItem="U8T-35-g39" secondAttribute="leading" id="gaF-dw-9sh"/>
-                                    <constraint firstItem="nSu-0n-xp1" firstAttribute="leading" secondItem="U8T-35-g39" secondAttribute="leading" id="mjI-g6-wpb"/>
+                                    <constraint firstItem="VCc-iA-hy3" firstAttribute="leading" secondItem="nSu-0n-xp1" secondAttribute="leading" constant="15" id="R7o-LJ-SnD"/>
+                                    <constraint firstAttribute="centerY" secondItem="KTg-3r-eIu" secondAttribute="centerY" id="X71-hi-JIS"/>
+                                    <constraint firstAttribute="centerX" secondItem="KTg-3r-eIu" secondAttribute="centerX" id="a61-8Q-JV9"/>
+                                    <constraint firstItem="VCc-iA-hy3" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="top" constant="15" id="beH-DL-39W"/>
                                 </constraints>
+                            </view>
+                            <view multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="240" translatesAutoresizingMaskIntoConstraints="NO" id="3X0-Mp-OVJ" userLabel="Controller View" customClass="GBAControllerView">
+                                <rect key="frame" x="0.0" y="328" width="320" height="240"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="U8T-35-g39" firstAttribute="top" secondItem="zwA-iH-goq" secondAttribute="bottom" id="Sqp-h8-ZM1"/>
-                            <constraint firstItem="dZi-qi-2Ue" firstAttribute="top" secondItem="U8T-35-g39" secondAttribute="bottom" id="Y0y-gQ-nRJ"/>
-                            <constraint firstItem="U8T-35-g39" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="gXA-ah-obk"/>
-                            <constraint firstAttribute="trailing" secondItem="U8T-35-g39" secondAttribute="trailing" id="qFJ-tw-Bdq"/>
+                            <constraint firstItem="dZi-qi-2Ue" firstAttribute="top" secondItem="3X0-Mp-OVJ" secondAttribute="bottom" id="0C8-CN-NR6"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="AWC-he-Xx5"/>
+                            <constraint firstItem="3X0-Mp-OVJ" firstAttribute="leading" secondItem="Ol9-Hl-eKG" secondAttribute="leading" id="BPd-Sb-PyV"/>
+                            <constraint firstItem="3X0-Mp-OVJ" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="bottom" id="DRo-HN-e9g"/>
+                            <constraint firstAttribute="trailing" secondItem="3X0-Mp-OVJ" secondAttribute="trailing" id="ekR-fb-MqN"/>
+                            <constraint firstItem="dZi-qi-2Ue" firstAttribute="top" secondItem="nSu-0n-xp1" secondAttribute="bottom" priority="871" id="rh2-Ng-BfF"/>
+                            <constraint firstItem="nSu-0n-xp1" firstAttribute="top" secondItem="zwA-iH-goq" secondAttribute="bottom" id="tEe-h1-hvx"/>
+                            <constraint firstAttribute="trailing" secondItem="nSu-0n-xp1" secondAttribute="trailing" id="xps-86-WWl"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="contentView" destination="U8T-35-g39" id="M18-Ay-hEp"/>
                         <outlet property="controllerView" destination="3X0-Mp-OVJ" id="MXy-Gj-cDs"/>
                         <outlet property="emulatorScreen" destination="KTg-3r-eIu" id="T1r-be-SwC"/>
                         <outlet property="framerateLabel" destination="VCc-iA-hy3" id="AeN-PW-gVb"/>
-                        <outlet property="portraitBottomLayoutConstraint" destination="Hi4-Gs-HRs" id="nvj-bX-C8r"/>
+                        <outlet property="portraitBottomLayoutConstraint" destination="DRo-HN-e9g" id="1Qo-bT-MAW"/>
                         <outlet property="screenContainerView" destination="nSu-0n-xp1" id="19d-dd-iNL"/>
                     </connections>
                 </viewController>

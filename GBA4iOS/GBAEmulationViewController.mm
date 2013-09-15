@@ -20,8 +20,7 @@
 #endif
 
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
-
-//#define USE_INCLUDED_UI
+#include <sys/sysctl.h>
 
 static GBAEmulationViewController *_emulationViewController;
 
@@ -34,7 +33,6 @@ static GBAEmulationViewController *_emulationViewController;
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
-@property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
 @property (strong, nonatomic) CADisplayLink *displayLink;
 @property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
@@ -95,20 +93,6 @@ static GBAEmulationViewController *_emulationViewController;
         [self setUpAirplayScreen:newScreen];
     }
     
-#ifdef USE_INCLUDED_UI
-    
-    self.controller.hidden = YES;
-    self.emulatorScreen.clipsToBounds = NO;
-    [self.contentView addSubview:self.emulatorScreen];
-    self.emulatorScreen.frame = ({
-        CGRect frame = self.emulatorScreen.frame;
-        frame.origin.y = 0;
-        frame;
-    });
-    self.emulatorScreen.backgroundColor = [UIColor redColor];
-    
-#endif
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -121,29 +105,31 @@ static GBAEmulationViewController *_emulationViewController;
 	[self.displayLink setFrameInterval:1];
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
+    self.wantsFullScreenLayout = YES;
+    
     [self updateSettings:nil];
 }
 
 // called from viewDidLayoutSubviews
 - (void)performInitialLayout
-{    
+{
+    [self.view layoutIfNeeded];
+    
+    if (self.airplayWindow == nil)
+    {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size]];
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.view.bounds.size] screen:[UIScreen mainScreen]];
+        [self.emulatorScreen invalidateIntrinsicContentSize];
 #endif
-    [self.emulatorScreen invalidateIntrinsicContentSize];
+    }
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    self.emulatorScreen.eaglView = [GBAEmulatorCore sharedCore].eaglView;
+    self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
 #endif
     
     [self stopEmulation]; // Stop previously running ROM
     
     [self startEmulation];
-}
-
-- (void)updateViewConstraints
-{
-    [super updateViewConstraints];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -156,11 +142,7 @@ static GBAEmulationViewController *_emulationViewController;
         _hasPerformedInitialLayout = YES;
     }
     
-    if (![self.view respondsToSelector:@selector(setTintColor:)])
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-    }
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     if (self.presentedViewController)
@@ -177,11 +159,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    if (![self.view respondsToSelector:@selector(setTintColor:)])
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    }
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
@@ -205,20 +183,6 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)handleDisplayLink:(CADisplayLink *)displayLink
 {
-    CFTimeInterval now = CFAbsoluteTimeGetCurrent();
-    CFTimeInterval elapsed = now - self.previousTimestamp;
-    self.frameCount++;
-    
-    if (elapsed > 1.0)
-    {
-        CGFloat fps = self.frameCount / elapsed;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.framerateLabel.text = [NSString stringWithFormat:@"%.f FPS", fps];
-        });
-        self.previousTimestamp = now;
-        self.frameCount = 0;
-    }
-    
     if (self.buttonsToPressForNextCycle)
     {
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -298,7 +262,7 @@ static GBAEmulationViewController *_emulationViewController;
         window.hidden = NO;
         
 #if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:screenBounds.size]];
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:screenBounds.size] screen:screen];
 #endif
         
         self.emulatorScreen.center = CGPointMake(roundf(screenBounds.size.width/2), roundf(screenBounds.size.height/2));
@@ -313,7 +277,7 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)tearDownAirplayScreen
 {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:self.contentView.bounds.size];
+    [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:self.view.bounds.size screen:[UIScreen mainScreen]];
 #endif
     [self.emulatorScreen invalidateIntrinsicContentSize];
     
@@ -384,19 +348,35 @@ static GBAEmulationViewController *_emulationViewController;
     _romPauseTime = CFAbsoluteTimeGetCurrent();
     
     self.emulationPaused = YES;
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] pauseEmulation];
-#endif
+    [self pauseEmulation];
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                               destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
-                                                    otherButtonTitles:
-                                  NSLocalizedString(@"Fast Forward", @""),
-                                  NSLocalizedString(@"Save State", @""),
-                                  NSLocalizedString(@"Load State", @""),
-                                  NSLocalizedString(@"Cheat Codes", @""),
-                                  NSLocalizedString(@"Sustain Button", @""), nil];
+    UIActionSheet *actionSheet = nil;
+    
+    if ([self numberOfCPUCoresForCurrentDevice] == 1)
+    {
+        actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                    destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                         otherButtonTitles:
+                       NSLocalizedString(@"Save State", @""),
+                       NSLocalizedString(@"Load State", @""),
+                       NSLocalizedString(@"Cheat Codes", @""),
+                       NSLocalizedString(@"Sustain Button", @""), nil];
+    }
+    else
+    {
+        actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                    destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                         otherButtonTitles:
+                       NSLocalizedString(@"Fast Forward", @""),
+                       NSLocalizedString(@"Save State", @""),
+                       NSLocalizedString(@"Load State", @""),
+                       NSLocalizedString(@"Cheat Codes", @""),
+                       NSLocalizedString(@"Sustain Button", @""), nil];
+    }
+    
+    
     
     [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
         if (buttonIndex == 0)
@@ -405,13 +385,18 @@ static GBAEmulationViewController *_emulationViewController;
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
         }
         else {
-            //buttonIndex = buttonIndex; // Reserved for later change
+            if ([self numberOfCPUCoresForCurrentDevice] == 1)
+            {
+                // Compensate for lack of Fast Forward button
+                buttonIndex = buttonIndex + 1;
+            }
+            
             if (buttonIndex == 1)
             {
                 self.emulationPaused = NO;
                 [self resumeEmulation];
             }
-            if (buttonIndex == 2)
+            else if (buttonIndex == 2)
             {
                 [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeSaving];
             }
@@ -434,6 +419,18 @@ static GBAEmulationViewController *_emulationViewController;
         }
     }];
 }
+
+- (unsigned int)numberOfCPUCoresForCurrentDevice
+{
+    size_t len;
+    unsigned int ncpu;
+    
+    len = sizeof(ncpu);
+    sysctlbyname ("hw.ncpu",&ncpu,&len,NULL,0);
+    
+    return ncpu;
+}
+
 
 - (void)enterSustainButtonSelectionMode
 {
@@ -593,9 +590,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)willResignActive:(NSNotification *)notification
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] pauseEmulation];
-#endif
+    [self pauseEmulation];
 }
 
 - (void)didBecomeActive:(NSNotification *)notification
@@ -609,15 +604,11 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         [self updateAutosaveState];
     }
-    
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] prepareToEnterBackground];
-#endif
 }
 
 - (void)willEnterForeground:(NSNotification *)notification
 {
-    // Nothing foreground specific, everything handled in didBecomeActive
+    // Check didBecomeActive:
 }
 
 #pragma mark - Layout
@@ -646,11 +637,11 @@ void uncaughtExceptionHandler(NSException *exception)
         if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
         {
             self.controllerView.alpha = 0.0;
-            [self.contentView insertSubview:snapshotView belowSubview:self.controllerView];
+            [self.view insertSubview:snapshotView belowSubview:self.controllerView];
         }
         else
         {
-            [self.contentView addSubview:snapshotView];
+            [self.view addSubview:snapshotView];
         }
     }
 }
@@ -673,11 +664,10 @@ void uncaughtExceptionHandler(NSException *exception)
     if (self.airplayWindow == nil)
     {
 #if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size]];
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.view.bounds.size] screen:[UIScreen mainScreen]];
         [self.emulatorScreen invalidateIntrinsicContentSize];
 #endif
     }
-    
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -690,12 +680,12 @@ void uncaughtExceptionHandler(NSException *exception)
 }
 
 - (void)viewWillLayoutSubviews
-{    
+{
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
     {
-        if ([[self.contentView constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
+        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
         {
-            [self.contentView addConstraint:self.portraitBottomLayoutConstraint];
+            [self.view addConstraint:self.portraitBottomLayoutConstraint];
         }
         
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
@@ -706,9 +696,9 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     else
     {
-        if ([[self.contentView constraints] containsObject:self.portraitBottomLayoutConstraint])
+        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
         {
-            [self.contentView removeConstraint:self.portraitBottomLayoutConstraint];
+            [self.view removeConstraint:self.portraitBottomLayoutConstraint];
         }
         
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"landscape"];
@@ -734,6 +724,8 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)viewDidLayoutSubviews
 {
     // possible iOS 7 bug? self.screenContainerView.bounds still has old bounds when this method is called, so we can't really do anything.
+    
+    
 }
 
 #ifdef USE_INCLUDED_UI
@@ -777,6 +769,15 @@ void uncaughtExceptionHandler(NSException *exception)
 {
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] endEmulation];
+#endif
+    
+    [self resumeEmulation]; // In case the ROM never unpaused (just keep it here please)
+}
+
+- (void)pauseEmulation
+{
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] pauseEmulation];
 #endif
 }
 

@@ -1562,7 +1562,7 @@ void CPUUpdateRender(GBASys &gba)
 {
   if(gba.mem.ioMem.DISPCNT & 0x80)
   {
-	  systemMessage(0, "Set forced blank");
+	  //systemMessage(0, "Set forced blank");
 	  gba.lcd.renderLine = ((gba.mem.ioMem.DISPCNT & 7) == 0) ? blankLine : blankLineUpdateLastVCount;
   }
   else

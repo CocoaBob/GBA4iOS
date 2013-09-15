@@ -1347,8 +1347,6 @@ void cheatsAdd(ARM7TDMI &cpu, const char *codeStr,
     }
     cheatsNumber++;
   }
-    
-    printf("cheats number: %d", cheatsNumber);
 }
 
 void cheatsDelete(ARM7TDMI &cpu, int number, bool restore)

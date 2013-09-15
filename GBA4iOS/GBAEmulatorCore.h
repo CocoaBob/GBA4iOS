@@ -22,11 +22,10 @@
 
 + (instancetype)sharedCore;
 
-- (void)updateEAGLViewForSize:(CGSize)size;
+- (void)updateEAGLViewForSize:(CGSize)size screen:(UIScreen *)screen;
 
 - (void)startEmulation;
 - (void)pauseEmulation;
-- (void)prepareToEnterBackground;
 - (void)resumeEmulation;
 - (void)endEmulation;
 

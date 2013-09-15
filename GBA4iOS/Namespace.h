@@ -188,7 +188,7 @@ namespace Base
         mainWin.rect.x2 = mainWin.w;
         mainWin.rect.y2 = mainWin.h;
         //logMsg("status bar hidden %d", sharedApp.statusBarHidden);
-        if(!sharedApp.statusBarHidden)
+        /*if(!sharedApp.statusBarHidden)
         {
             bool isSideways = rotateView == VIEW_ROTATE_90 || rotateView == VIEW_ROTATE_270;
             auto statusBarHeight = (isSideways ? sharedApp.statusBarFrame.size.width : sharedApp.statusBarFrame.size.height) * pointScale;
@@ -205,7 +205,7 @@ namespace Base
             }
             logMsg("status bar height %d", (int)statusBarHeight);
             logMsg("adjusted window to %d:%d:%d:%d", mainWin.rect.x, mainWin.rect.y, mainWin.rect.x2, mainWin.rect.y2);
-        }
+        }*/
     }
     
     void setStatusBarHidden(uint hidden)
@@ -213,9 +213,9 @@ namespace Base
         auto sharedApp = [UIApplication sharedApplication];
         assert(sharedApp);
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 30200
-		[sharedApp setStatusBarHidden: hidden ? YES : NO withAnimation: UIStatusBarAnimationFade];
+		//[sharedApp setStatusBarHidden: hidden ? YES : NO withAnimation: UIStatusBarAnimationFade];
 #else
-		[sharedApp setStatusBarHidden: hidden ? YES : NO animated:YES];
+		//[sharedApp setStatusBarHidden: hidden ? YES : NO animated:YES];
 #endif
         //Riley Testut setViewportForStatusbar(sharedApp);
         generic_resizeEvent(mainWin);
