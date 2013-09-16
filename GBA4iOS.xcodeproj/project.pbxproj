@@ -72,12 +72,9 @@
 		CC4C14D517E2EFC200FFE396 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC4C14D417E2EFC200FFE396 /* Default.gbaskin */; };
 		CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC58C8D417E649C7008F472E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
-		CC58C8D517E649C7008F472E /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CCBA43AA17E403A10014E66D /* icon.png */; };
-		CC58C8D617E649C7008F472E /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CCBA43AB17E403A10014E66D /* icon@2x.png */; };
 		CC58C8D717E649C7008F472E /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC4C14D417E2EFC200FFE396 /* Default.gbaskin */; };
 		CC58C8D817E649C7008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC58C8D917E649C7008F472E /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
-		CC58C8DA17E649C7008F472E /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		CC58C8DB17E649C7008F472E /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
 		CC58C8DC17E649C7008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC58C8EF17E649CA008F472E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
@@ -1192,11 +1189,8 @@
 				CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */,
 				CC58C8DB17E649C7008F472E /* overlays128.png in Resources */,
 				CC58C8D917E649C7008F472E /* padButton.png in Resources */,
-				CC58C8DA17E649C7008F472E /* overlays128.png in Resources */,
 				CC58C8DC17E649C7008F472E /* xButton.png in Resources */,
-				CC58C8D617E649C7008F472E /* icon@2x.png in Resources */,
 				CC58C8D417E649C7008F472E /* Images.xcassets in Resources */,
-				CC58C8D517E649C7008F472E /* icon.png in Resources */,
 				CC58C8D717E649C7008F472E /* Default.gbaskin in Resources */,
 				CC58C8D817E649C7008F472E /* Default-568h@2x.png in Resources */,
 			);

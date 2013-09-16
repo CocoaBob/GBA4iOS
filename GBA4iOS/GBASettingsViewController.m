@@ -75,12 +75,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 {
     NSUInteger selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
     
-    if ((int)selectedSegmentIndex == -1)
-    {
-        selectedSegmentIndex = self.frameSkipSegmentedControl.numberOfSegments - 1;
-    }
-    
-    self.frameSkipSegmentedControl.selectedSegmentIndex = selectedSegmentIndex;
+    self.frameSkipSegmentedControl.selectedSegmentIndex = selectedSegmentIndex + 1;
     
     self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
     self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
@@ -93,7 +88,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [super numberOfSectionsInTableView:tableView] - 1;
+    return [super numberOfSectionsInTableView:tableView];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
@@ -197,13 +192,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (IBAction)changeFrameSkip:(UISegmentedControl *)sender
 {
-    NSUInteger frameSkip = sender.selectedSegmentIndex;
-    
-    if (frameSkip == sender.numberOfSegments - 1)
-    {
-        frameSkip = -1;
-    }
-    
+    NSUInteger frameSkip = sender.selectedSegmentIndex - 1; // -1 is auto, so this works
     [[NSUserDefaults standardUserDefaults] setInteger:frameSkip forKey:GBASettingsFrameSkipKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsFrameSkipKey, @"value": @(frameSkip)}];
 }
@@ -252,6 +241,65 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         
         [self.navigationController pushViewController:controllerSkinDetailViewController animated:YES];
     }
+    else if (indexPath.section == 5) // Credits
+    {
+        [self openLinkForIndexPath:indexPath];
+    }
+}
+
+#pragma mark - Credits
+
+- (void)openLinkForIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *username = @"";
+    
+    if (indexPath.row == 0)
+    {
+        username = @"rileytestut";
+    }
+    else if (indexPath.row == 1)
+    {
+        username = @"pau1thor";
+    }
+    else if (indexPath.row == 2)
+    {
+        username = @"alyssasurowiec";
+    }
+    else if (indexPath.row == 3)
+    {
+        username = @"rakashazi";
+    }
+    else if (indexPath.row == 4)
+    {
+        username = @"mrjuanfernandez";
+    }
+    
+    [self openTwitterProfileForUsername:username];
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)openTwitterProfileForUsername:(NSString *)username
+{
+    NSString *scheme = @"";
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot://"]]) // Tweetbot
+    {
+        scheme = [NSString stringWithFormat:@"tweetbot:///user_profile/%@", username];
+    }
+    else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitterrific://"]]) // Twitterrific
+    {
+        scheme = [NSString stringWithFormat:@"twitterrific:///profile?screen_name=%@", username];
+    }
+    else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
+    {
+        scheme = [NSString stringWithFormat:@"twitter://user?screen_name=%@", username];
+    }
+    else
+    {
+        scheme = [NSString stringWithFormat:@"http://twitter.com/%@", username];
+    }
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:scheme]];
 }
 
 @end

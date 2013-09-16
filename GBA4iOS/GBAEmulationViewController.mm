@@ -352,6 +352,7 @@ static GBAEmulationViewController *_emulationViewController;
     if ([self numberOfCPUCoresForCurrentDevice] == 1)
     {
         actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                  delegate:nil
                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                     destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
                                          otherButtonTitles:
@@ -363,6 +364,7 @@ static GBAEmulationViewController *_emulationViewController;
     else
     {
         actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                  delegate:nil
                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                     destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
                                          otherButtonTitles:

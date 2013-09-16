@@ -128,6 +128,7 @@
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot overwrite protected save state", @"")
                                                             message:NSLocalizedString(@"If you want to delete this save state, swipe it to the left then tap Delete", @"")
+                                                           delegate:nil
                                                   cancelButtonTitle:NSLocalizedString(@"OK", @"")
                                                   otherButtonTitles:nil];
             [alert show];
@@ -226,7 +227,7 @@
     UITableViewCell *cell = (UITableViewCell *)[gestureRecognizer view];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename Save State", @"") message:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename Save State", @"") message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     
     UITextField *textField = [alert textFieldAtIndex:0];
@@ -368,6 +369,7 @@
         }
         
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
+                                                                 delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                    destructiveButtonTitle:NSLocalizedString(@"Delete Save State", @"")
                                                         otherButtonTitles:nil];

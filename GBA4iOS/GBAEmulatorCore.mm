@@ -22,6 +22,7 @@
 #import <VController.hh>
 #import <EmuView.hh>
 #import <gba/GBA.h>
+#import <main/Main.hh>
 
 namespace GameFilePicker {
     void onSelectFile(const char* name, const Input::Event &e);
@@ -429,6 +430,8 @@ namespace GameFilePicker {
     
     using namespace Base;
     using namespace Input;
+    
+    optionRtcEmulation = RTC_EMU_ON; // Some hacked games use the RealTimeClock even when the game they're based off of doesn't (ex: Pokemon Liquid Crystal), so we always have it enabled.
     
     GameFilePicker::onSelectFile([self.rom.filepath UTF8String], [self touchForTouchState:RELEASED]);
     

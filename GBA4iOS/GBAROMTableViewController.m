@@ -170,7 +170,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     self.startDownloadBlock = startDownloadBlock;
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"By tapping Download below, you confirm that you legally own a physical copy of this ROM. GBA4iOS does not promote pirating in any form.", @"")
-                                                    message:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
+                                                    message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
     alert.tag = LEGAL_NOTICE_ALERT_TAG;
     dispatch_async(dispatch_get_main_queue(), ^{
         [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -179,6 +179,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM Name:", @"")
                                                                 message:nil
+                                                               delegate:self
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
                 alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                 alert.tag = NAME_ROM_ALERT_TAG;
@@ -512,6 +513,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"What would you like to delete?", nil)
+                                                                 delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                    destructiveButtonTitle:NSLocalizedString(@"ROM and all saved data", nil)
                                                         otherButtonTitles:NSLocalizedString(@"ROM only", nil), nil];
