@@ -65,13 +65,13 @@
 		CC2D570C1798F2EC00C616EB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
 		CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
+		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC491D4917BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
 		CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC4C14D517E2EFC200FFE396 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC4C14D417E2EFC200FFE396 /* Default.gbaskin */; };
 		CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC58C8D417E649C7008F472E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC58C8D717E649C7008F472E /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = CC4C14D417E2EFC200FFE396 /* Default.gbaskin */; };
 		CC58C8D817E649C7008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC58C8D917E649C7008F472E /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
@@ -412,6 +412,7 @@
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
+		CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CC491D4717BCA5420060A107 /* GBAThemedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAThemedTableViewController.h; sourceTree = "<group>"; };
 		CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAThemedTableViewController.m; sourceTree = "<group>"; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
@@ -589,6 +590,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */,
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
@@ -778,6 +780,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */,
 				CC96F00917C2983800C7DD0C /* OpenGLES.framework */,
 				CC1577D7179CF1F80068A54E /* libz.dylib */,
 				CC1577CD179CF1B90068A54E /* AudioToolbox.framework */,
@@ -1190,7 +1193,6 @@
 				CC58C8DB17E649C7008F472E /* overlays128.png in Resources */,
 				CC58C8D917E649C7008F472E /* padButton.png in Resources */,
 				CC58C8DC17E649C7008F472E /* xButton.png in Resources */,
-				CC58C8D417E649C7008F472E /* Images.xcassets in Resources */,
 				CC58C8D717E649C7008F472E /* Default.gbaskin in Resources */,
 				CC58C8D817E649C7008F472E /* Default-568h@2x.png in Resources */,
 			);

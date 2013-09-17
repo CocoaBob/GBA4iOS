@@ -18,6 +18,7 @@ static NSString *GBASettingsVibrateKey = @"vibrate";
 static NSString *GBASettingsShowFramerateKey = @"showFramerate";
 static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
 static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
+static NSString *GBASettingsControllerOpacity = @"controllerOpacity";
 
 @interface GBASettingsViewController : UITableViewController
 

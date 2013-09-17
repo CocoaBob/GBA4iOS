@@ -18,6 +18,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 @property (weak, nonatomic) IBOutlet UISwitch *mixAudioSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *showFramerateSwitch;
+@property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
+@property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -26,6 +28,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 - (IBAction)toggleVibrate:(UISwitch *)sender;
 - (IBAction)toggleMixAudio:(UISwitch *)sender;
 - (IBAction)toggleShowFramerate:(UISwitch *)sender;
+- (IBAction)changeControllerOpacity:(UISlider *)sender;
 
 @end
 
@@ -65,7 +68,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
                                GBASettingsAutosaveKey: @(1),
                                GBASettingsVibrateKey: @YES,
                                GBASettingsGBASkinsKey: @{@"portrait": @"Default", @"landscape": @"Default"},
-                               GBASettingsGBCSkinsKey: @{@"portrait": @"Default", @"landscape": @"Default"}};
+                               GBASettingsGBCSkinsKey: @{@"portrait": @"Default", @"landscape": @"Default"},
+                               GBASettingsControllerOpacity: @0.5};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
@@ -81,6 +85,12 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
     self.showFramerateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
+    self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+    
+    NSString *percentage = [NSString stringWithFormat:@"%.f", self.controllerOpacitySlider.value * 100];
+    percentage = [percentage stringByAppendingString:@"%"];
+    
+    self.controllerOpacityLabel.text = percentage;
 }
 
 #pragma mark - Table view data source
@@ -145,6 +155,25 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return UITableViewAutomaticDimension;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == [tableView numberOfSections] - 1)
+    {
+        UILabel *versionLabel = [[UILabel alloc] init];
+        versionLabel.textAlignment = NSTextAlignmentCenter;
+        versionLabel.textColor = [UIColor grayColor];
+        versionLabel.text = @"GBA4iOS 2.0 Beta 3";
+        return versionLabel;
+    }
+    
+    return [super tableView:tableView viewForFooterInSection:section];
+}
+
 #pragma mark - Theming
 
 - (void)setTheme:(GBAROMTableViewControllerTheme)theme
@@ -187,6 +216,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem
 {
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -221,6 +251,18 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsShowFramerateKey, @"value": @(sender.on)}];
 }
 
+- (IBAction)changeControllerOpacity:(UISlider *)sender
+{
+    CGFloat roundedValue = roundf(sender.value / 0.05) * 0.05;
+    NSString *percentage = [NSString stringWithFormat:@"%.f", roundedValue * 100];
+    percentage = [percentage stringByAppendingString:@"%"];
+    
+    self.controllerOpacityLabel.text = percentage;
+    
+    [[NSUserDefaults standardUserDefaults] setFloat:roundedValue forKey:GBASettingsControllerOpacity];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsControllerOpacity, @"value": @(roundedValue)}];
+}
+
 #pragma mark - Selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -241,7 +283,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         
         [self.navigationController pushViewController:controllerSkinDetailViewController animated:YES];
     }
-    else if (indexPath.section == 5) // Credits
+    else if (indexPath.section == 6) // Credits
     {
         [self openLinkForIndexPath:indexPath];
     }

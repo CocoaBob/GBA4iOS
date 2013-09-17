@@ -139,7 +139,11 @@ static GBAEmulationViewController *_emulationViewController;
         _hasPerformedInitialLayout = YES;
     }
     
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    if (![NSURLSession class])
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    }
+    
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
     if (self.presentedViewController)
@@ -156,7 +160,10 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    if (![NSURLSession class])
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    }
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
@@ -560,6 +567,17 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)updateSettings:(NSNotification *)notification
 {
     self.framerateLabel.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
+    
+    BOOL translucent = [[self.controllerView.controller dictionaryForOrientation:self.controllerView.orientation][@"translucent"] boolValue];
+    
+    if (translucent)
+    {
+        self.controllerView.alpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+    }
+    else
+    {
+        self.controllerView.alpha = 1.0f;
+    }
 }
 
 #pragma mark - Presenting/Dismissing
@@ -692,6 +710,17 @@ void uncaughtExceptionHandler(NSException *exception)
         self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationPortrait;
         
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationPortrait][@"translucent"] boolValue];
+        
+        if (translucent)
+        {
+            self.controllerView.alpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+        }
+        else
+        {
+            self.controllerView.alpha = 1.0f;
+        }
+        
     }
     else
     {
@@ -705,7 +734,18 @@ void uncaughtExceptionHandler(NSException *exception)
         self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationLandscape;
         
-        if ([NSURLSession class])
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationLandscape][@"translucent"] boolValue];
+        
+        if (translucent)
+        {
+            self.controllerView.alpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+        }
+        else
+        {
+            self.controllerView.alpha = 1.0f;
+        }
+        
+        /*if ([NSURLSession class])
         {
             [UIView performWithoutAnimation:^{
                 self.controllerView.alpha = 0.5f;
@@ -716,7 +756,7 @@ void uncaughtExceptionHandler(NSException *exception)
             [UIView animateWithDuration:0 animations:^{
                 self.controllerView.alpha = 0.5f;
             }];
-        }
+        }*/
     }
 }
 

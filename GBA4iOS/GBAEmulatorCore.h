@@ -15,6 +15,12 @@
 
 // Implements both GBAEmulatorCore AND EAGLView
 
+#if TARGET_IPHONE_SIMULATOR
+
+#error This target cannot be compiled for the simulator. To compile for simulator, use the GBA4iOS-Simulator target.
+
+#endif
+
 @interface GBAEmulatorCore : NSObject
 
 @property (readonly, strong, nonatomic) EAGLView *eaglView;

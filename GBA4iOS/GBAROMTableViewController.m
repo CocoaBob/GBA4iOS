@@ -107,6 +107,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         self.settingsButton.image = [UIImage imageNamed:@"Gear_Old"];
         self.settingsButton.landscapeImagePhone = [UIImage imageNamed:@"Gear_Landscape"];
     }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -503,7 +504,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     {
         emulationViewController.transitioningDelegate = self;
     }
-    
+        
     [self presentViewController:emulationViewController animated:YES completion:NULL];
 }
 
