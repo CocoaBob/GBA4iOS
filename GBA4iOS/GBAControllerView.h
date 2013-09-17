@@ -24,6 +24,7 @@
 @property (weak, nonatomic) id<GBAControllerViewDelegate> delegate;
 @property (strong, nonatomic) GBAController *controller;
 @property (assign, nonatomic) GBAControllerOrientation orientation;
+@property (assign, nonatomic) CGFloat skinOpacity;
 
 // For button placement debugging
 - (void)showButtonRects;

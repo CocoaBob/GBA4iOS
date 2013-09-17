@@ -572,11 +572,11 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (translucent)
     {
-        self.controllerView.alpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+        self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
     }
     else
     {
-        self.controllerView.alpha = 1.0f;
+        self.controllerView.skinOpacity = 1.0f;
     }
 }
 
@@ -714,11 +714,11 @@ void uncaughtExceptionHandler(NSException *exception)
         
         if (translucent)
         {
-            self.controllerView.alpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+            self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
         }
         else
         {
-            self.controllerView.alpha = 1.0f;
+            self.controllerView.skinOpacity = 1.0f;
         }
         
     }
@@ -738,11 +738,11 @@ void uncaughtExceptionHandler(NSException *exception)
         
         if (translucent)
         {
-            self.controllerView.alpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+            self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
         }
         else
         {
-            self.controllerView.alpha = 1.0f;
+            self.controllerView.skinOpacity = 1.0f;
         }
         
         /*if ([NSURLSession class])

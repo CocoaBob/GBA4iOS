@@ -74,6 +74,13 @@
     [self update];
 }
 
+- (void)setSkinOpacity:(CGFloat)skinOpacity
+{
+    _skinOpacity = skinOpacity;
+    
+    self.imageView.alpha = skinOpacity;
+}
+
 #pragma mark - UIView subclass
 
 - (CGSize)intrinsicContentSize

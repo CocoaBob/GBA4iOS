@@ -115,7 +115,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [super viewWillAppear:animated];
     
     // Sometimes it loses it's color when the view appears
-    self.downloadProgressView.progressTintColor = [UIColor purpleColor];
+    self.downloadProgressView.progressTintColor = GBA4iOS_PURPLE_COLOR;
 }
 
 - (void)didReceiveMemoryWarning

@@ -218,6 +218,9 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="changeControllerOpacity:" destination="fFF-zm-sH1" eventType="valueChanged" id="M3d-zU-Y11"/>
+                                                        <action selector="jumpToRoundedOpacityValue:" destination="fFF-zm-sH1" eventType="touchCancel" id="1s6-wG-oeP"/>
+                                                        <action selector="jumpToRoundedOpacityValue:" destination="fFF-zm-sH1" eventType="touchUpOutside" id="PUb-Kc-0Ok"/>
+                                                        <action selector="jumpToRoundedOpacityValue:" destination="fFF-zm-sH1" eventType="touchUpInside" id="R3n-nr-QA0"/>
                                                     </connections>
                                                 </slider>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DCB-nd-WvQ">

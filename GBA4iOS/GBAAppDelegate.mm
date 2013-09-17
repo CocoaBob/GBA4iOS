@@ -24,8 +24,8 @@
     
     if ([self.window respondsToSelector:@selector(setTintColor:)])
     {
-        self.window.tintColor = [UIColor purpleColor];
-        [[UISwitch appearance] setOnTintColor:[UIColor purpleColor]]; // Apparently UISwitches don't inherit tint color from superview
+        self.window.tintColor = GBA4iOS_PURPLE_COLOR;
+        [[UISwitch appearance] setOnTintColor:GBA4iOS_PURPLE_COLOR]; // Apparently UISwitches don't inherit tint color from superview
     }
     
     NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];

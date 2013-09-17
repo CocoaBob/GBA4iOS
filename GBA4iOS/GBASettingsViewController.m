@@ -29,6 +29,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 - (IBAction)toggleMixAudio:(UISwitch *)sender;
 - (IBAction)toggleShowFramerate:(UISwitch *)sender;
 - (IBAction)changeControllerOpacity:(UISlider *)sender;
+- (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender;
 
 @end
 
@@ -261,6 +262,12 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     
     [[NSUserDefaults standardUserDefaults] setFloat:roundedValue forKey:GBASettingsControllerOpacity];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsControllerOpacity, @"value": @(roundedValue)}];
+}
+
+- (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender
+{
+    CGFloat roundedValue = roundf(sender.value / 0.05) * 0.05;
+    sender.value = roundedValue;
 }
 
 #pragma mark - Selection

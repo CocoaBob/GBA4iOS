@@ -15,7 +15,7 @@
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        self.detailTextLabel.textColor = [UIColor purpleColor];
+        self.detailTextLabel.textColor = GBA4iOS_PURPLE_COLOR;
         self.showsReorderControl = YES;
     }
     return self;
