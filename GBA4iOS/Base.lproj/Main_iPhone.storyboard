@@ -214,7 +214,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EMX-TK-39P">
-                                                    <rect key="frame" x="74" y="5" width="233" height="34"/>
+                                                    <rect key="frame" x="74" y="5" width="223" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
                                                         <action selector="changeControllerOpacity:" destination="fFF-zm-sH1" eventType="valueChanged" id="M3d-zU-Y11"/>
@@ -238,7 +238,7 @@
                                             <constraints>
                                                 <constraint firstItem="EMX-TK-39P" firstAttribute="leading" secondItem="DCB-nd-WvQ" secondAttribute="trailing" constant="15" id="1Ds-ly-5NS"/>
                                                 <constraint firstAttribute="centerY" secondItem="EMX-TK-39P" secondAttribute="centerY" id="FIZ-Tu-6Vv"/>
-                                                <constraint firstAttribute="trailing" secondItem="EMX-TK-39P" secondAttribute="trailing" constant="15" id="PRJ-aH-ViU"/>
+                                                <constraint firstAttribute="trailing" secondItem="EMX-TK-39P" secondAttribute="trailing" constant="25" id="PRJ-aH-ViU"/>
                                                 <constraint firstItem="DCB-nd-WvQ" firstAttribute="leading" secondItem="GfQ-4T-6i1" secondAttribute="leading" constant="15" id="bSF-pO-Uzp"/>
                                                 <constraint firstItem="DCB-nd-WvQ" firstAttribute="top" secondItem="GfQ-4T-6i1" secondAttribute="top" constant="11" id="jrO-ia-Jfh"/>
                                             </constraints>

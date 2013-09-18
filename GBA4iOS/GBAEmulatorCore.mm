@@ -593,6 +593,7 @@ extern GBASys gGba;
     
     __block BOOL succeeded = YES;
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger index, BOOL *stop) {
+        NSLog(@"%@", code);
         NSString *title = [NSString stringWithFormat:@"%@ %d", cheat.name, index];
         succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
         

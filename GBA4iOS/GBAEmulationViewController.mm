@@ -468,9 +468,9 @@ static GBAEmulationViewController *_emulationViewController;
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController) animated:YES completion:nil];
 }
 
-- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateFromPath:(NSString *)filepath
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateWithFilename:(NSString *)filename
 {
-    if ([[filepath lastPathComponent] hasPrefix:@"autosave"] && [self shouldAutosave])
+    if ([filename hasPrefix:@"autosave"] && [self shouldAutosave])
     {
         NSString *backupFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"backup.sgm"];
         
@@ -487,9 +487,9 @@ static GBAEmulationViewController *_emulationViewController;
     }
 }
 
-- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didLoadStateFromPath:(NSString *)filepath
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didLoadStateWithFilename:(NSString *)filename
 {
-    if ([[filepath lastPathComponent] hasPrefix:@"autosave"] && [self shouldAutosave])
+    if ([filename hasPrefix:@"autosave"] && [self shouldAutosave])
     {
         NSString *autosaveFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"autosave.sgm"];
         NSString *backupFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"backup.sgm"];

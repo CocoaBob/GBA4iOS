@@ -13,6 +13,7 @@
 #import "GBAPresentMenuViewControllerAnimator.h"
 #import "GBATransparentTableViewHeaderFooterView.h"
 #import "GBAROM.h"
+#import "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
@@ -23,6 +24,7 @@
 #define LEGAL_NOTICE_ALERT_TAG 15
 #define NAME_ROM_ALERT_TAG 17
 #define DELETE_ROM_ALERT_TAG 2
+#define RENAME_GESTURE_RECOGNIZER_TAG 22
 
 typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeAll,
@@ -179,7 +181,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             if (buttonIndex == 1)
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM Name:", @"")
-                                                                message:nil
+                                                                message:@"\n\n\n"
                                                                delegate:self
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
                 alert.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -188,6 +190,9 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
                 UITextField *textField = [alert textFieldAtIndex:0];
                 textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
                 textField.autocorrectionType = UITextAutocorrectionTypeNo;
+                
+                // Workaround iOS 7 preventing adding subviews to UIAlertView (and because they took away the promised contentView API :( )
+                [self performSelector:@selector(modifyAlertView:) withObject:alert afterDelay:0];
                 
                 [alert showWithSelectionHandler:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
                     
@@ -210,6 +215,13 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             
         }];
     });
+}
+
+- (void)modifyAlertView:(UIAlertView *)alertView
+{
+    UIView *testUIView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    testUIView.backgroundColor = [UIColor redColor];
+    [alertView addSubview:testUIView];
 }
 
 - (void)startDownloadWithFilename:(NSString *)filename
@@ -313,7 +325,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    RSTFileBrowserTableViewCell *cell = (RSTFileBrowserTableViewCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
     
     NSString *filename = [self filenameForIndexPath:indexPath];
     
@@ -335,8 +347,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
                 cell.textLabel.textColor = [UIColor whiteColor];
                 break;
         }
-        
-        
+    }
+    
+    if (cell.longPressGestureRecognizer == nil)
+    {
+        UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showRenameAlert:)];
+        [cell setLongPressGestureRecognizer:longPressGestureRecognizer];
     }
     
     cell.textLabel.backgroundColor = [UIColor clearColor];
@@ -376,7 +392,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [super didRefreshCurrentDirectory];
 }
 
-#pragma mark - Controller Skins
+#pragma mark - Directories
 
 - (NSString *)skinsDirectory
 {
@@ -412,6 +428,28 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     return gbcSkinsDirectory;
 }
+
+- (NSString *)saveStateDirectoryForROM:(GBAROM *)rom
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    
+    return [saveStateDirectory stringByAppendingPathComponent:rom.name];
+}
+
+- (NSString *)cheatCodeFileForROM:(GBAROM *)rom
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *cheatCodeDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    
+    return nil;
+}
+
+#pragma mark - Controller Skins
 
 - (void)importDefaultGBASkin
 {
@@ -513,22 +551,96 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"What would you like to delete?", nil)
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to delete this ROM and all of its saved data? This cannot be undone.", nil)
                                                                  delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:NSLocalizedString(@"ROM and all saved data", nil)
-                                                        otherButtonTitles:NSLocalizedString(@"ROM only", nil), nil];
+                                                   destructiveButtonTitle:NSLocalizedString(@"Delete ROM and Saved Data", nil)
+                                                        otherButtonTitles:nil];
         [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *sheet, NSInteger buttonIndex) {
+            
             if (buttonIndex == 0)
             {
-                DLog(@"Delete everything");
-            }
-            else if (buttonIndex == 1)
-            {
-                //[self deleteFileAtIndexPath:indexPath animated:YES];
+                [self deleteROMAtIndexPath:indexPath];
             }
         }];
     }
+}
+
+#pragma mark - Deleting/Renaming
+
+- (void)showRenameAlert:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
+    {
+        return;
+    }
+    
+    UITableViewCell *cell = (UITableViewCell *)[gestureRecognizer view];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename ROM", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    
+    UITextField *textField = [alert textFieldAtIndex:0];
+    textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    
+#warning Present Alert if ROM is running in background
+    
+    [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 1)
+        {
+            UITextField *textField = [alertView textFieldAtIndex:0];
+            [self renameROMAtIndexPath:indexPath toName:textField.text];
+        }
+    }];
+}
+
+- (void)deleteROMAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *filepath = [self filepathForIndexPath:indexPath];
+    NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
+    
+    NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *cheatsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    
+    NSString *cheatsFilename = [NSString stringWithFormat:@"%@.plist", romName];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[cheatsDirectory stringByAppendingPathComponent:cheatsFilename] error:nil];
+    
+    [self deleteFileAtIndexPath:indexPath animated:YES];
+}
+
+- (void)renameROMAtIndexPath:(NSIndexPath *)indexPath toName:(NSString *)newName
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *filepath = [self filepathForIndexPath:indexPath];
+    NSString *extension = [filepath pathExtension];
+    
+    NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *newRomFilename = [NSString stringWithFormat:@"%@.%@", newName, extension]; // Includes extension
+    
+    NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
+    NSString *newSaveFile = [NSString stringWithFormat:@"%@.sav", newName];
+    
+    NSString *cheatsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    
+    NSString *cheatsFilename = [NSString stringWithFormat:@"%@.plist", romName];
+    NSString *newCheatsFilename = [NSString stringWithFormat:@"%@.plist", newName];
+    
+    [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:newRomFilename] error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:[cheatsDirectory stringByAppendingPathComponent:cheatsFilename] toPath:[cheatsDirectory stringByAppendingPathComponent:newCheatsFilename] error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] toPath:[saveStateDirectory stringByAppendingPathComponent:newName] error:nil];
 }
 
 #pragma mark - Presenting/Dismissing Emulation View Controller

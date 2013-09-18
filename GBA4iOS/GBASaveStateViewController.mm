@@ -54,16 +54,17 @@
         
         if (attributes)
         {
+            // In case we've added an autosave, we need to add it to the array. Use the file modification date as the date
             NSDate *date = [attributes fileModificationDate];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-            [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+            [dateFormatter setDateStyle:NSDateFormatterLongStyle];
             
             NSString *name = [dateFormatter stringFromDate:date];
             
             NSMutableArray *array = [_saveStateArray[0] mutableCopy];
-            array[0] = @{@"filepath": autosaveFilepath, @"name": name, @"protected": @YES};
+            array[0] = @{@"filename": @"autosave.sgm", @"name": name, @"protected": @YES};
             _saveStateArray[0] = array;
         }
         else
@@ -141,7 +142,6 @@
     
     NSDate *date = [NSDate date];
     NSString *filename = [NSString stringWithFormat:@"%@.sgm", date];
-    NSString *filepath = [self.saveStateDirectory stringByAppendingPathComponent:filename];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
@@ -151,7 +151,7 @@
     
     NSMutableArray *generalArray = [self.saveStateArray[1] mutableCopy];
     
-    NSDictionary *dictionary = @{@"filepath": filepath, @"name": name, @"protected": @NO};
+    NSDictionary *dictionary = @{@"filename": filename, @"name": name, @"protected": @NO};
     if (indexPath.section == -1)
     {
         [generalArray addObject:dictionary];
@@ -166,18 +166,18 @@
     self.saveStateArray[1] = generalArray;
     [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
     
-    if ([self.delegate respondsToSelector:@selector(saveStateViewController:willSaveStateToPath:)])
+    if ([self.delegate respondsToSelector:@selector(saveStateViewController:willSaveStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self willSaveStateToPath:filepath];
+        [self.delegate saveStateViewController:self willSaveStateWithFilename:filename];
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] saveStateToFilepath:filepath];
+    [[GBAEmulatorCore sharedCore] saveStateToFilepath:[self.saveStateDirectory stringByAppendingPathComponent:filename]];
 #endif
     
-    if ([self.delegate respondsToSelector:@selector(saveStateViewController:didSaveStateToPath:)])
+    if ([self.delegate respondsToSelector:@selector(saveStateViewController:didSaveStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self didSaveStateToPath:filepath];
+        [self.delegate saveStateViewController:self didSaveStateWithFilename:filename];
     }
     
     // If they added a new one, give them a chance to rename it
@@ -196,20 +196,20 @@
     NSArray *array = self.saveStateArray[indexPath.section];
     NSDictionary *dictionary = array[indexPath.row];
     
-    NSString *filepath = dictionary[@"filepath"];
+    NSString *filename = dictionary[@"filename"];
     
-    if ([self.delegate respondsToSelector:@selector(saveStateViewController:willLoadStateFromPath:)])
+    if ([self.delegate respondsToSelector:@selector(saveStateViewController:willLoadStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self willLoadStateFromPath:filepath];
+        [self.delegate saveStateViewController:self willLoadStateWithFilename:filename];
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] loadStateFromFilepath:filepath];
+    [[GBAEmulatorCore sharedCore] loadStateFromFilepath:[self.saveStateDirectory stringByAppendingPathComponent:filename]];
 #endif
     
-    if ([self.delegate respondsToSelector:@selector(saveStateViewController:didLoadStateFromPath:)])
+    if ([self.delegate respondsToSelector:@selector(saveStateViewController:didLoadStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self didLoadStateFromPath:filepath];
+        [self.delegate saveStateViewController:self didLoadStateWithFilename:filename];
     }
     
     [self dismissSaveStateViewController:nil];
@@ -227,7 +227,7 @@
     UITableViewCell *cell = (UITableViewCell *)[gestureRecognizer view];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename Save State", @"") message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename Save State", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     
     UITextField *textField = [alert textFieldAtIndex:0];
@@ -269,6 +269,14 @@
     [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
     
     [self.tableView reloadData];
+}
+
+#pragma mark - UIAlertView delegate
+
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    return [textField.text length] > 0;
 }
 
 #pragma mark - Dismissal
@@ -381,7 +389,7 @@
                 NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
                 NSDictionary *dictionary = array[indexPath.row];
                 
-                [[NSFileManager defaultManager] removeItemAtPath:dictionary[@"filepath"] error:nil];
+                [[NSFileManager defaultManager] removeItemAtPath:[self.saveStateDirectory stringByAppendingPathComponent:dictionary[@"filename"]] error:nil];
                 [array removeObjectAtIndex:indexPath.row];
                 
                 self.saveStateArray[indexPath.section] = array;

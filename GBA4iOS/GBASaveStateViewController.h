@@ -20,10 +20,10 @@ typedef NS_ENUM(NSInteger, GBASaveStateViewControllerMode)
 @protocol GBASaveStateViewControllerDelegate <NSObject>
 
 @optional
-- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willSaveStateToPath:(NSString *)filepath;
-- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didSaveStateToPath:(NSString *)filepath;
-- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateFromPath:(NSString *)filepath;
-- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didLoadStateFromPath:(NSString *)filepath;
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willSaveStateWithFilename:(NSString *)filename;
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didSaveStateWithFilename:(NSString *)filename;
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateWithFilename:(NSString *)filename;
+- (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didLoadStateWithFilename:(NSString *)filename;
 
 @end
 
