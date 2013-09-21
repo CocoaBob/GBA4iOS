@@ -565,10 +565,14 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     UITableViewCell *cell = (UITableViewCell *)[gestureRecognizer view];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
+    NSString *filepath = [self filepathForIndexPath:indexPath];
+    NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename ROM", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     
     UITextField *textField = [alert textFieldAtIndex:0];
+    textField.text = romName;
     textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     
 #warning Present Alert if ROM is running in background

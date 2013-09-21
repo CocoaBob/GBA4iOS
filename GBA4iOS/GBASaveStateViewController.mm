@@ -118,15 +118,22 @@
 
 - (void)saveStateAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSMutableArray *generalArray = nil;
+    NSDictionary *currentDictionary = nil;
+    
     if (indexPath.section == -1)
     {
+        generalArray = self.saveStateArray[1];
+        currentDictionary = nil; // keep it nil
+        
         [[NSFileManager defaultManager] createDirectoryAtPath:self.saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     }
     else
     {
-        NSArray *array = self.saveStateArray[indexPath.section];
-        NSDictionary *dictionary = array[indexPath.row];
-        if ([dictionary[@"protected"] boolValue])
+        generalArray = self.saveStateArray[indexPath.section];
+        currentDictionary = generalArray[indexPath.row];
+        
+        if ([currentDictionary[@"protected"] boolValue])
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot overwrite protected save state", @"")
                                                             message:NSLocalizedString(@"If you want to delete this save state, swipe it to the left then tap Delete", @"")
@@ -144,15 +151,22 @@
     NSDate *date = [NSDate date];
     NSString *filename = [NSString stringWithFormat:@"%@.sgm", date];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+    NSString *name = nil;
+    BOOL renamed = [currentDictionary[@"renamed"] boolValue];
     
-    NSString *name = [dateFormatter stringFromDate:date];
+    if (renamed)
+    {
+        name = currentDictionary[@"name"];
+    }
+    else
+    {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+        name = [dateFormatter stringFromDate:date];
+    }
     
-    NSMutableArray *generalArray = [self.saveStateArray[1] mutableCopy];
-    
-    NSDictionary *dictionary = @{@"filename": filename, @"name": name, @"protected": @NO};
+    NSDictionary *dictionary = @{@"filename": filename, @"name": name, @"protected": @NO, @"renamed": @(renamed)};
     if (indexPath.section == -1)
     {
         [generalArray addObject:dictionary];
@@ -181,7 +195,6 @@
         [self.delegate saveStateViewController:self didSaveStateWithFilename:filename];
     }
     
-    // If they added a new one, give them a chance to rename it
     if (indexPath.section == -1)
     {
         [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:generalArray.count - 1 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
@@ -314,12 +327,36 @@
 
 - (void)setSaveStateProtected:(BOOL)saveStateProtected atIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
-    NSMutableDictionary *dictionary = [array[indexPath.row] mutableCopy];
+    NSMutableArray *previousArray = [self.saveStateArray[indexPath.section] mutableCopy];
+    NSMutableDictionary *dictionary = [previousArray[indexPath.row] mutableCopy];
+    
+    BOOL alreadyProtected = [dictionary[@"protected"] boolValue];
+    
+    if (alreadyProtected == saveStateProtected)
+    {
+        return; // No change
+    }
+    
+    NSInteger newSection = 0;
+    
+    if (saveStateProtected)
+    {
+        newSection = 2;
+    }
+    else
+    {
+        newSection = 1;
+    }
+    
+    NSMutableArray *destinationArray = [self.saveStateArray[newSection] mutableCopy];
     
     dictionary[@"protected"] = @(saveStateProtected);
-    array[indexPath.row] = dictionary;
-    self.saveStateArray[indexPath.section] = array;
+    
+    [previousArray removeObjectAtIndex:indexPath.row];
+    [destinationArray addObject:dictionary];
+    
+    self.saveStateArray[indexPath.section] = previousArray;
+    self.saveStateArray[newSection] = destinationArray;
     
     [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
     
@@ -388,11 +425,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    GBASaveStateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil)
     {
-        cell = [[GBASaveStateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didDetectLongPressGesture:)];
         [cell addGestureRecognizer:gestureRecognizer];
@@ -401,8 +438,6 @@
     NSArray *array = self.saveStateArray[indexPath.section];
     NSDictionary *dictionary = array[indexPath.row];
     cell.textLabel.text = dictionary[@"name"];
-    
-    cell.protectedSaveState = ([dictionary[@"protected"] boolValue] && indexPath.section != 0);
     
     return cell;
 }
