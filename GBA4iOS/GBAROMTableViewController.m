@@ -455,20 +455,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
         
-    NSString *destinationFilename = [filepath stringByDeletingPathExtension];
-    NSString *destinationPath = [self GBASkinsDirectory];
-    
-    NSError *error = nil;
-    
-    [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
-    
-    if (error)
-    {
-        ELog(error);
-    }
+    [GBAController extractSkinAtPathToSkinsDirectory:filepath];
 }
 
 #pragma mark - UIAlertView delegate

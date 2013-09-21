@@ -68,8 +68,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     NSDictionary *defaults = @{GBASettingsFrameSkipKey: @(-1),
                                GBASettingsAutosaveKey: @(1),
                                GBASettingsVibrateKey: @YES,
-                               GBASettingsGBASkinsKey: @{@"portrait": @"Default", @"landscape": @"Default"},
-                               GBASettingsGBCSkinsKey: @{@"portrait": @"Default", @"landscape": @"Default"},
+                               GBASettingsGBASkinsKey: @{@"portrait": @"com.GBA4iOS.default", @"landscape": @"com.GBA4iOS.default"},
+                               GBASettingsGBCSkinsKey: @{@"portrait": @"com.GBA4iOS.default", @"landscape": @"com.GBA4iOS.default"},
                                GBASettingsControllerOpacity: @0.5};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];

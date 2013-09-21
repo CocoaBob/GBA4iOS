@@ -8,6 +8,7 @@
 
 #import "GBAController.h"
 #import "UIScreen+Widescreen.h"
+#import <SSZipArchive/minizip/SSZipArchive.h>
 
 @interface GBAController ()
 
@@ -40,10 +41,60 @@
     return controller;
 }
 
++ (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *name = [[filepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *tempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:tempDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    [SSZipArchive unzipFileAtPath:filepath toDestination:tempDirectory];
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tempDirectory error:nil];
+    
+    GBAController *controller = [GBAController controllerWithContentsOfFile:tempDirectory];
+    
+    NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
+    NSString *skinTypeDirectory = nil;
+    
+    if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"gbcskin"])
+    {
+        skinTypeDirectory = [skinsDirectory stringByAppendingPathComponent:@"GBC"];
+    }
+    else
+    {
+        skinTypeDirectory = [skinsDirectory stringByAppendingPathComponent:@"GBA"];
+    }
+    
+    NSError *error = nil;
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:skinTypeDirectory withIntermediateDirectories:YES attributes:nil error:&error])
+    {
+        ELog(error);
+    }
+    
+    NSString *destinationPath = [skinTypeDirectory stringByAppendingPathComponent:controller.identifier];
+        
+    [[NSFileManager defaultManager] moveItemAtPath:tempDirectory toPath:destinationPath error:nil];
+    
+    if ([[[NSFileManager defaultManager] contentsOfDirectoryAtPath:destinationPath error:nil] count] == 0)
+    {
+        DLog(@"Not finished yet");
+        // Unzipped before it was done copying over
+        return NO;
+    }
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[destinationPath stringByAppendingString:@"__MACOSX"] error:nil];
+    
+    return YES;
+}
+
 - (NSString *)name
 {
-    NSString *filename = [self.filepath lastPathComponent];
-    return [filename stringByDeletingPathExtension];
+    NSString *filename = self.infoDictionary[@"Name"];
+    return filename;
 }
 
 - (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation
@@ -202,6 +253,11 @@
     }
         
     return supportedOrientations;
+}
+
+- (NSString *)identifier
+{
+    return self.infoDictionary[@"Identifier"];
 }
 
 @end

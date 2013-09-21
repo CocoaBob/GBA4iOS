@@ -106,6 +106,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>Identifier</key>
+	<string>com.GBA4iOS.default</string>
+	<key>Name</key>
+	<string>Default</string>
 	<key>Landscape</key>
 	<dict>
 		<key>translucent</key>

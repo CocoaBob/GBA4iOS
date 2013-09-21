@@ -8,6 +8,8 @@
 
 #import "GBAROM.h"
 
+#import <SSZipArchive/minizip/SSZipArchive.h>
+
 @interface GBAROM ()
 
 @property (readwrite, copy, nonatomic) NSString *name;
@@ -24,6 +26,36 @@
     rom.name = [[filepath lastPathComponent] stringByDeletingPathExtension];
     
     return rom;
+}
+
++ (void)unzipROMAtPathToROMDirectory:(NSString *)filepath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *name = [[filepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *tempDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:name];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:tempDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    [SSZipArchive unzipFileAtPath:filepath toDestination:tempDirectory];
+
+    NSString *romFilename = nil;
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tempDirectory error:nil];
+    
+    for (NSString *filename in contents)
+    {
+        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
+            [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"])
+        {
+            romFilename = filename;
+            break;
+        }
+    }
+    
+    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:romFilename] toPath:[documentsDirectory stringByAppendingPathComponent:romFilename] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
 }
 
 @end

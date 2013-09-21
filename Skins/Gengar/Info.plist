@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Identifier</key>
+	<string>com.paulthorsen.gengar</string>
+	<key>Name</key>
+	<string>Gengar</string>
 	<key>Portrait</key>
 	<dict>
 		<key>Assets</key>

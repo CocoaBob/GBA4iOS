@@ -360,6 +360,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>Identifier</key>
+	<string></string>
+	<key>Name</key>
+	<string></string>
 	<key>Landscape</key>
 	<dict>
 		<key>Assets</key>

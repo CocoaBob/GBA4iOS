@@ -8,7 +8,7 @@
 
 #import "GBAControllerSkinDownloadViewController.h"
 #import "UIScreen+Widescreen.h"
-#import "GBAAsynchronousImageTableViewCell.h"
+#import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBAController.h"
 
 #define CONTROLLER_SKIN_DOWNLOAD_PLIST_URL [NSURL URLWithString:@"http://rileytestut.com/gba4ios/skins/root.plist"]
@@ -82,7 +82,7 @@
         self.tableView.rowHeight = 150;
     }
     
-    [self.tableView registerClass:[GBAAsynchronousImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [self.tableView registerClass:[GBAAsynchronousLocalImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -193,7 +193,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    GBAAsynchronousImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    GBAAsynchronousLocalImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     NSInteger numberOfRows = [self.tableView numberOfRowsInSection:indexPath.section];
     
@@ -244,7 +244,6 @@
 - (NSString *)imageAddressForDictionary:(NSDictionary *)dictionary
 {
     NSString *key = [GBAController keyForCurrentDeviceWithDictionary:dictionary];
-    DLog(@"%@", dictionary);
     return dictionary[key];
 }
 

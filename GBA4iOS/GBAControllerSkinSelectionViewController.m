@@ -8,7 +8,7 @@
 
 #import "GBAControllerSkinSelectionViewController.h"
 #import "UIScreen+Widescreen.h"
-#import "GBAAsynchronousImageTableViewCell.h"
+#import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDownloadViewController.h"
 
@@ -60,7 +60,7 @@
     }
     
     self.clearsSelectionOnViewWillAppear = YES;
-    [self.tableView registerClass:[GBAAsynchronousImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [self.tableView registerClass:[GBAAsynchronousLocalImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(downloadSkins:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -80,7 +80,7 @@
     _viewDidAppear = YES;
     
     // Load asynchronously so scrolling doesn't stutter
-    for (GBAAsynchronousImageTableViewCell *cell in [self.tableView visibleCells])
+    for (GBAAsynchronousLocalImageTableViewCell *cell in [self.tableView visibleCells])
     {
         cell.loadSynchronously = NO;
     }
@@ -123,7 +123,7 @@
         if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"])
         {
             NSString *filepath = [documentsDirectory stringByAppendingPathComponent:file];
-            [self importControllerSkinFromPath:filepath];
+            [GBAController extractSkinAtPathToSkinsDirectory:filepath];
             importedSkin = YES;
         }
         
@@ -133,33 +133,6 @@
     {
         self.filteredArray = nil;
         [self.tableView reloadData];
-    }
-}
-
-- (void)importControllerSkinFromPath:(NSString *)filepath
-{
-    NSString *destinationFilename = [[filepath lastPathComponent] stringByDeletingPathExtension];
-    NSString *destinationPath = [self skinsDirectory];
-    
-    NSError *error = nil;
-    
-    [SSZipArchive unzipFileAtPath:filepath toDestination:destinationPath];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    if ([[fileManager contentsOfDirectoryAtPath:[destinationPath stringByAppendingPathComponent:destinationFilename] error:nil] count] == 0)
-    {
-        DLog(@"Not finished yet");
-        // Unzipped before it was done copying over
-        return;
-    }
-    
-    [fileManager removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
-    [fileManager removeItemAtPath:filepath error:nil];
-    
-    if (error)
-    {
-        ELog(error);
     }
 }
 
@@ -264,9 +237,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    GBAAsynchronousImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    GBAAsynchronousLocalImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     GBAController *controller = self.filteredArray[indexPath.section];
+    cell.cacheKey = controller.identifier;
+    
+    DLog(@"%@", controller.identifier);
     
     if (_viewDidAppear)
     {
@@ -295,7 +271,7 @@
         case GBAControllerSkinTypeGBA:
         {
             NSMutableDictionary *skinDictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            [skinDictionary setObject:controller.name forKey:[self keyForControllerOrientation:self.controllerOrientation]];
+            [skinDictionary setObject:controller.identifier forKey:[self keyForControllerOrientation:self.controllerOrientation]];
             [[NSUserDefaults standardUserDefaults] setObject:skinDictionary forKey:GBASettingsGBASkinsKey];
             
             break;
@@ -305,7 +281,7 @@
         case GBAControllerSkinTypeGBC:
         {
             NSMutableDictionary *skinDictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBCSkinsKey] mutableCopy];
-            [skinDictionary setObject:controller.name forKey:[self keyForControllerOrientation:self.controllerOrientation]];
+            [skinDictionary setObject:controller.identifier forKey:[self keyForControllerOrientation:self.controllerOrientation]];
             [[NSUserDefaults standardUserDefaults] setObject:skinDictionary forKey:GBASettingsGBCSkinsKey];
             
             break;

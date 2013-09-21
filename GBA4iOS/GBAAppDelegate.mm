@@ -8,6 +8,7 @@
 
 #import "GBAAppDelegate.h"
 #import "GBASettingsViewController.h"
+#import "GBAController.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 
@@ -32,7 +33,7 @@
     
     if (url)
     {
-        [self copyROMAtURLToDocumentsDirectory:url];
+        [self handleFileURL:url];
     }
     
     [GBASettingsViewController registerDefaults];
@@ -44,17 +45,29 @@
 {
     if ([url isFileURL])
     {
-        [self copyROMAtURLToDocumentsDirectory:url];
+        [self handleFileURL:url];
     }
     return YES;
 }
 
-#pragma mark - Copying ROMs
-
-- (void)copyROMAtURLToDocumentsDirectory:(NSURL *)url
+- (void)handleFileURL:(NSURL *)url
 {
     NSString *filepath = [url path];
     
+    if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"gbaskin"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gbcskin"])
+    {
+        [self copySkinAtPathToDocumentsDirectory:filepath];
+    }
+    else if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gba"])
+    {
+        [self copyROMAtPathToDocumentsDirectory:filepath];
+    }
+}
+
+#pragma mark - Copying Files
+
+- (void)copyROMAtPathToDocumentsDirectory:(NSString *)filepath
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
         
@@ -68,6 +81,16 @@
         NSString *filename = [filepath lastPathComponent];
         [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:filename] error:nil];
     }
+}
+
+- (void)copySkinAtPathToDocumentsDirectory:(NSString *)filepath
+{
+    [GBAController extractSkinAtPathToSkinsDirectory:filepath];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:@"Inbox"] error:nil]; // Delete Inbox folder
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

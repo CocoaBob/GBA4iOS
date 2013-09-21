@@ -10,7 +10,7 @@
 #import "UIScreen+Widescreen.h"
 #import "GBAController.h"
 #import "GBASettingsViewController.h"
-#import "GBAAsynchronousImageTableViewCell.h"
+#import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBAControllerSkinSelectionViewController.h"
 
 @interface GBAControllerSkinDetailViewController () {
@@ -48,7 +48,7 @@
         self.tableView.rowHeight = 150;
     }
     
-    [self.tableView registerClass:[GBAAsynchronousImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [self.tableView registerClass:[GBAAsynchronousLocalImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
     
     self.clearsSelectionOnViewWillAppear = YES;
     
@@ -68,7 +68,7 @@
     [super viewDidAppear:animated];
     
     // Load asynchronously so scrolling doesn't stutter
-    for (GBAAsynchronousImageTableViewCell *cell in [self.tableView visibleCells])
+    for (GBAAsynchronousLocalImageTableViewCell *cell in [self.tableView visibleCells])
     {
         cell.loadSynchronously = NO;
     }
@@ -79,9 +79,12 @@
     [super viewDidDisappear:animated];
     
     _viewDidAppear = NO;
+    
+    // If user picks a new skin, make sure the old one isn't displayed
+    [self.imageCache removeAllObjects];
 }
 
-- (NSString *)filepathForSkinName:(NSString *)name
+- (NSString *)filepathForSkinIdentifier:(NSString *)identifier
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -100,7 +103,7 @@
     }
     
     NSString *controllerTypeDirectory = [skinsDirectory stringByAppendingPathComponent:controllerType];
-    NSString *filepath = [controllerTypeDirectory stringByAppendingPathComponent:name];
+    NSString *filepath = [controllerTypeDirectory stringByAppendingPathComponent:identifier];
     
     return filepath;
 }
@@ -139,7 +142,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GBAAsynchronousImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    GBAAsynchronousLocalImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.imageCache = self.imageCache;
     
     NSDictionary *skinDictionary = nil;
@@ -170,12 +173,16 @@
     
     if (indexPath.section == 0)
     {
-        GBAController *portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:portraitSkin]];
+        cell.cacheKey = @"Portrait";
+        
+        GBAController *portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:portraitSkin]];
         cell.image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
     }
     else
     {
-        GBAController *landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:landscapeSkin]];
+        cell.cacheKey = @"Landscape";
+        
+        GBAController *landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:landscapeSkin]];
         cell.image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
     }
     

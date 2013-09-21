@@ -55,11 +55,14 @@ static NSString *GBAScreenTypeiPad = @"iPad";
 
 + (GBAController *)controllerWithContentsOfFile:(NSString *)filepath;
 
++ (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath;
+
 - (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation;
 - (CGRect)rectForButtonRect:(GBAControllerRect)button orientation:(GBAControllerOrientation)orientation;
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation;
 - (NSString *)keyForButtonRect:(GBAControllerRect)button;
 - (GBAControllerOrientation)supportedOrientations;
 + (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary;
+- (NSString *)identifier;
 
 @end

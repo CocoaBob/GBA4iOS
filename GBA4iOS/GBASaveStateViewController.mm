@@ -7,6 +7,7 @@
 //
 
 #import "GBASaveStateViewController.h"
+#import "GBASaveStateTableViewCell.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -43,7 +44,7 @@
         {
             _saveStateArray = [[NSMutableArray alloc] init];
             
-            // Autosave, General, and Protected save states
+            // Autosave and General
             [_saveStateArray addObject:[NSArray array]];
             [_saveStateArray addObject:[NSArray array]];
             [_saveStateArray addObject:[NSArray array]];
@@ -215,9 +216,9 @@
     [self dismissSaveStateViewController:nil];
 }
 
-#pragma mark - Renaming
+#pragma mark - Renaming / Protecting
 
-- (void)showRenameAlert:(UILongPressGestureRecognizer *)gestureRecognizer
+- (void)didDetectLongPressGesture:(UILongPressGestureRecognizer *)gestureRecognizer
 {
     if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
     {
@@ -227,11 +228,65 @@
     UITableViewCell *cell = (UITableViewCell *)[gestureRecognizer view];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
+    if (indexPath.section == 0)
+    {
+        return; // Can't rename auto save
+    }
+    
+    NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
+    NSDictionary *dictionary = [array[indexPath.row] mutableCopy];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:nil
+                                                    cancelButtonTitle:nil
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"Rename Save State", @""), nil];
+    
+    BOOL saveStateProtected = [dictionary[@"protected"] boolValue];
+    
+    if (saveStateProtected)
+    {
+        [actionSheet addButtonWithTitle:NSLocalizedString(@"Unprotect Save State", @"")];
+    }
+    else
+    {
+        [actionSheet addButtonWithTitle:NSLocalizedString(@"Protect Save State", @"")];
+    }
+    
+    [actionSheet addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
+    [actionSheet setCancelButtonIndex:actionSheet.numberOfButtons - 1];
+    
+    [actionSheet showFromRect:[self.tableView rectForRowAtIndexPath:indexPath] inView:self.tableView animated:YES selectionHandler:^(UIActionSheet *sheet, NSInteger buttonIndex) {
+        
+        if (buttonIndex == 0)
+        {
+            [self showRenameAlertForSaveStateAtIndexPath:indexPath];
+        }
+        else if (buttonIndex == 1)
+        {
+            //
+            [self setSaveStateProtected:!saveStateProtected atIndexPath:indexPath];
+        }
+        
+    }];
+    
+}
+
+- (void)showRenameAlertForSaveStateAtIndexPath:(NSIndexPath *)indexPath
+{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename Save State", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     
+    NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
+    NSDictionary *dictionary = [array[indexPath.row] mutableCopy];
+    
     UITextField *textField = [alert textFieldAtIndex:0];
     textField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+    
+    if ([dictionary[@"renamed"] boolValue])
+    {
+        textField.text = dictionary[@"name"];
+    }
     
     [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1)
@@ -246,25 +301,25 @@
 {
     NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
     NSMutableDictionary *dictionary = [array[indexPath.row] mutableCopy];
+    
     dictionary[@"name"] = name;
+    dictionary[@"renamed"] = @YES;
+    array[indexPath.row] = dictionary;
+    self.saveStateArray[indexPath.section] = array;
     
-    if ([dictionary[@"protected"] boolValue])
-    {
-        array[indexPath.row] = dictionary;
-        self.saveStateArray[indexPath.section] = array;
-    }
-    else
-    {
-        dictionary[@"protected"] = @YES;
-        
-        [array removeObjectAtIndex:indexPath.row];
-        self.saveStateArray[indexPath.section] = array;
-        
-        NSMutableArray *protectedArray = [self.saveStateArray[2] mutableCopy];
-        [protectedArray insertObject:dictionary atIndex:0];
-        self.saveStateArray[2] = protectedArray;
-    }
+    [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
     
+    [self.tableView reloadData];
+}
+
+- (void)setSaveStateProtected:(BOOL)saveStateProtected atIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
+    NSMutableDictionary *dictionary = [array[indexPath.row] mutableCopy];
+    
+    dictionary[@"protected"] = @(saveStateProtected);
+    array[indexPath.row] = dictionary;
+    self.saveStateArray[indexPath.section] = array;
     
     [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
     
@@ -333,18 +388,21 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    GBASaveStateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[GBASaveStateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
-        UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showRenameAlert:)];
+        UILongPressGestureRecognizer *gestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didDetectLongPressGesture:)];
         [cell addGestureRecognizer:gestureRecognizer];
     }
     
     NSArray *array = self.saveStateArray[indexPath.section];
-    cell.textLabel.text = array[indexPath.row][@"name"];
+    NSDictionary *dictionary = array[indexPath.row];
+    cell.textLabel.text = dictionary[@"name"];
+    
+    cell.protectedSaveState = ([dictionary[@"protected"] boolValue] && indexPath.section != 0);
     
     return cell;
 }
