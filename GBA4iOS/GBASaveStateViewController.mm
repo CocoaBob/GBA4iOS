@@ -123,14 +123,14 @@
     
     if (indexPath.section == -1)
     {
-        generalArray = self.saveStateArray[1];
+        generalArray = [self.saveStateArray[1] mutableCopy];
         currentDictionary = nil; // keep it nil
         
         [[NSFileManager defaultManager] createDirectoryAtPath:self.saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     }
     else
     {
-        generalArray = self.saveStateArray[indexPath.section];
+        generalArray = [self.saveStateArray[indexPath.section] mutableCopy];
         currentDictionary = generalArray[indexPath.row];
         
         if ([currentDictionary[@"protected"] boolValue])
@@ -147,7 +147,7 @@
             return;
         }
     }
-    
+        
     NSDate *date = [NSDate date];
     NSString *filename = [NSString stringWithFormat:@"%@.sgm", date];
     

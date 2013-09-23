@@ -91,7 +91,7 @@ static s64 readVarPtr(FILE *f)
 static uLong computePatchCRC(FILE *f, unsigned int size)
 {
   Bytef buf[4096];
-  long readed;
+  size_t readed;
 
   uLong crc = crc32(0L, Z_NULL, 0);
   do {

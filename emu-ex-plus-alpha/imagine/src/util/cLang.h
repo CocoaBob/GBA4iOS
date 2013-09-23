@@ -20,7 +20,7 @@
 // 0 to <counts> - 1, i_s caches the value of counts (type of value is maintained)
 #define iterateTimesTyped(counts, i) for(typeof (counts) i = 0, i ## _s = counts; i < (i ## _s); i++)
 // 0 to <counts> - 1, i_s caches the value of counts
-#define iterateTimes(counts, i) for(unsigned int i = 0, i ## _s = counts; i < (i ## _s); i++)
+#define iterateTimes(counts, i) for(size_t i = 0, i ## _s = counts; i < (i ## _s); i++)
 // <limit> - 1 to 0
 #define iterateTimesRev(limit, i) for(int i = (limit)-1; i >= 0; i--)
 

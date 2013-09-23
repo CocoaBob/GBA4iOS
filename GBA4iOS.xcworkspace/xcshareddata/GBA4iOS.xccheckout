@@ -5,56 +5,58 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>7FF7F828-5BF3-4EC3-AB5E-0E9222837858</string>
+	<string>597D43A5-150C-442B-AE85-E8AED38C6566</string>
 	<key>IDESourceControlProjectName</key>
 	<string>GBA4iOS</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>039EA269-23CB-4B71-904B-489A72706C28</key>
-		<string>https://bitbucket.org/rileytestut/rstalertview.git</string>
-		<key>134D433A-68CB-4324-A50C-EEA07A0DFE1C</key>
-		<string>https://bitbucket.org/rileytestut/rstwebviewcontroller.git</string>
-		<key>49E9C3BB-467F-4115-A2F8-644DFE71FA75</key>
+		<key>2291AA48-2D22-4F43-87E6-4438858D184D</key>
 		<string>https://bitbucket.org/rileytestut/rstactionsheet.git</string>
-		<key>6AA18A12-7523-496E-B8EB-DEA78AF72C41</key>
-		<string>https://github.com/rileytestut/GBA4iOS-2.0.git</string>
+		<key>A9A9DE51-98D8-4150-B9DF-ED6ABD6F4150</key>
+		<string>https://bitbucket.org/rileytestut/rstfilebrowserviewcontroller.git</string>
+		<key>B1EFA5D3-A4A7-4C5E-8C03-93DE707906A0</key>
+		<string>ssh://github.com/rileytestut/GBA4iOS-2.0.git</string>
+		<key>D90DCB55-AD5D-4B4F-8B76-EC4E416152C1</key>
+		<string>https://bitbucket.org/rileytestut/rstalertview.git</string>
+		<key>E7CC37F1-1E49-455E-BF9A-EDBB7EFC4246</key>
+		<string>https://bitbucket.org/rileytestut/rstwebviewcontroller.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>GBA4iOS.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>039EA269-23CB-4B71-904B-489A72706C28</key>
-		<string>../../../../RSTUtilities/RSTAlertView</string>
-		<key>134D433A-68CB-4324-A50C-EEA07A0DFE1C</key>
-		<string>../../../../RSTUtilities/RSTWebViewController</string>
-		<key>49E9C3BB-467F-4115-A2F8-644DFE71FA75</key>
+		<key>2291AA48-2D22-4F43-87E6-4438858D184D</key>
 		<string>../../../../RSTUtilities/RSTActionSheet</string>
-		<key>5664DC49-A51D-4B49-9248-1F3DBE109796</key>
+		<key>A9A9DE51-98D8-4150-B9DF-ED6ABD6F4150</key>
 		<string>../../../../RSTUtilities/RSTFileBrowserViewController</string>
-		<key>6AA18A12-7523-496E-B8EB-DEA78AF72C41</key>
+		<key>B1EFA5D3-A4A7-4C5E-8C03-93DE707906A0</key>
 		<string>..</string>
+		<key>D90DCB55-AD5D-4B4F-8B76-EC4E416152C1</key>
+		<string>../../../../RSTUtilities/RSTAlertView</string>
+		<key>E7CC37F1-1E49-455E-BF9A-EDBB7EFC4246</key>
+		<string>../../../../RSTUtilities/RSTWebViewController</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/rileytestut/GBA4iOS-2.0.git</string>
+	<string>ssh://github.com/rileytestut/GBA4iOS-2.0.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>6AA18A12-7523-496E-B8EB-DEA78AF72C41</string>
+	<string>B1EFA5D3-A4A7-4C5E-8C03-93DE707906A0</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6AA18A12-7523-496E-B8EB-DEA78AF72C41</string>
+			<string>B1EFA5D3-A4A7-4C5E-8C03-93DE707906A0</string>
 			<key>IDESourceControlWCCName</key>
-			<string>GBA4iOS</string>
+			<string>GBA4iOS-2</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>49E9C3BB-467F-4115-A2F8-644DFE71FA75</string>
+			<string>2291AA48-2D22-4F43-87E6-4438858D184D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RSTActionSheet</string>
 		</dict>
@@ -62,7 +64,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>039EA269-23CB-4B71-904B-489A72706C28</string>
+			<string>D90DCB55-AD5D-4B4F-8B76-EC4E416152C1</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RSTAlertView</string>
 		</dict>
@@ -70,7 +72,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5664DC49-A51D-4B49-9248-1F3DBE109796</string>
+			<string>A9A9DE51-98D8-4150-B9DF-ED6ABD6F4150</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RSTFileBrowserViewController</string>
 		</dict>
@@ -78,7 +80,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>134D433A-68CB-4324-A50C-EEA07A0DFE1C</string>
+			<string>E7CC37F1-1E49-455E-BF9A-EDBB7EFC4246</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RSTWebViewController</string>
 		</dict>
