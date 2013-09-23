@@ -168,7 +168,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         UILabel *versionLabel = [[UILabel alloc] init];
         versionLabel.textAlignment = NSTextAlignmentCenter;
         versionLabel.textColor = [UIColor grayColor];
-        versionLabel.text = @"GBA4iOS 2.0 Beta 3";
+        versionLabel.text = [super tableView:tableView titleForFooterInSection:section];
         return versionLabel;
     }
     

@@ -36,6 +36,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.clearsSelectionOnViewWillAppear = YES;
+    self.tableView.allowsSelectionDuringEditing = YES;
 
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissCheatManagerViewController:)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -134,19 +137,19 @@
 #endif
 }
 
-- (void)updateCheats
+- (BOOL)updateCheats
 {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] updateCheats];
+    return [[GBAEmulatorCore sharedCore] updateCheats];
 #endif
+    
+    return YES;
 }
 
 #pragma mark - GBANewCheatViewControllerDelegate
 
 - (void)cheatEditorViewController:(GBACheatEditorViewController *)cheatEditorViewController didSaveCheat:(GBACheat *)cheat
 {
-    [[NSFileManager defaultManager] createDirectoryAtPath:[self cheatsDirectory] withIntermediateDirectories:YES attributes:nil error:nil];
-    
     if (![self addCheat:cheat])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Cheat", @"")
@@ -155,12 +158,29 @@
                                               cancelButtonTitle:NSLocalizedString(@"OK", @"")
                                               otherButtonTitles:nil];
         [alert show];
+                
         return;
     }
     
-    [self.cheatsArray addObject:cheat];
+    BOOL cheatAlreadyExists = [self.cheatsArray containsObject:cheat];
     
-    [self writeCheatsArrayToDisk];
+    if (cheatAlreadyExists)
+    {
+        NSUInteger index = [self.cheatsArray indexOfObject:cheat];
+        [self.cheatsArray replaceObjectAtIndex:index withObject:cheat];
+        
+        [self writeCheatsArrayToDisk];
+        
+        [self updateCheats]; // to make sure the cheats are in the right order
+    }
+    else
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:[self cheatsDirectory] withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        [self.cheatsArray addObject:cheat];
+        
+        [self writeCheatsArrayToDisk];
+    }
     
     [self.tableView reloadData];
     
@@ -266,20 +286,30 @@
 {
     GBACheat *cheat = [self.cheatsArray objectAtIndex:indexPath.row];
     
-    if (cheat.enabled)
+    if ([self.tableView isEditing])
     {
-        cheat.enabled = NO;
-        [self disableCheat:cheat];
+        GBACheatEditorViewController *cheatEditorViewController = [[GBACheatEditorViewController alloc] init];
+        cheatEditorViewController.cheat = cheat;
+        cheatEditorViewController.delegate = self;
+        [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatEditorViewController) animated:YES completion:NULL];
     }
     else
     {
-        cheat.enabled = YES;
-        [self enableCheat:cheat];
-    }
-    
-    [self writeCheatsArrayToDisk];
+        if (cheat.enabled)
+        {
+            cheat.enabled = NO;
+            [self disableCheat:cheat];
+        }
+        else
+        {
+            cheat.enabled = YES;
+            [self enableCheat:cheat];
+        }
         
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self writeCheatsArrayToDisk];
+        
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 #pragma mark - Dismissal

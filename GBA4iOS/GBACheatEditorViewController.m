@@ -58,6 +58,22 @@
 {
     [super viewDidLoad];
     
+    if (self.cheat)
+    {
+        self.title = self.cheat.name;
+        self.nameTextField.text = self.cheat.name;
+        
+        NSMutableString *codes = [NSMutableString string];
+        
+        for (NSString *code in self.cheat.codes)
+        {
+            [codes appendString:code];
+        }
+        
+        self.codeTextView.text = codes;
+        [self textViewDidChange:self.codeTextView];
+    }
+    
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self.nameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 }
@@ -78,8 +94,20 @@
 - (IBAction)saveCheat:(UIBarButtonItem *)sender
 {
     NSArray *codes = [self codesFromTextView];
-    GBACheat *cheat = [[GBACheat alloc] initWithName:self.nameTextField.text codes:codes];
-        
+    
+    GBACheat *cheat = [self.cheat copy];
+    
+    if (self.cheat == nil)
+    {
+        cheat = [[GBACheat alloc] initWithName:self.nameTextField.text codes:codes];
+    }
+    else
+    {
+        cheat = [self.cheat copy];
+        cheat.name = self.nameTextField.text;
+        cheat.codes = codes;
+    }
+    
     if ([self.delegate respondsToSelector:@selector(cheatEditorViewController:didSaveCheat:)])
     {
         [self.delegate cheatEditorViewController:self didSaveCheat:cheat];
@@ -100,9 +128,10 @@
     
     NSMutableString *text = [[self.codeTextView.text stringByRemovingWhitespace] mutableCopy];
     
-    while (text.length >= 16)
+    while (text.length >= 1)
     {
-        NSRange range = NSMakeRange(0, 16);
+        int16_t maxRange = MIN(text.length, 16);
+        NSRange range = NSMakeRange(0, maxRange);
         NSString *code = [text substringWithRange:range];
         [array addObject:code];
         [text deleteCharactersInRange:range];
@@ -183,7 +212,7 @@
         }
     }
     
-    textView.text = formattedText;
+    textView.text = [formattedText uppercaseString];
     
     [textView setSelectedRange:_selectionRange];
     

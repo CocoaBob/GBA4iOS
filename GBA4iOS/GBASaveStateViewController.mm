@@ -197,7 +197,14 @@
     
     if (indexPath.section == -1)
     {
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:generalArray.count - 1 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
+        if ([self.tableView numberOfRowsInSection:1] == 0)
+        {
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else
+        {
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:generalArray.count - 1 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
     else
     {
@@ -489,7 +496,9 @@
                 [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
                 
                 // Delete the row from the data source
-                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+                
+                
             }
             
             [self.tableView setEditing:NO animated:YES];

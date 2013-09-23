@@ -59,11 +59,29 @@
     return self;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    GBACheat *cheat = [[GBACheat alloc] init];
+    cheat.name = self.name;
+    cheat.codes = self.codes;
+    cheat.uid = self.uid;
+    cheat.enabled = self.enabled;
+    
+    return cheat;
+}
+
 #pragma mark - Misc.
 
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"Name: %@\nCodes: %@", self.name, self.codes];
+}
+
+- (BOOL)isEqual:(id)object
+{
+    return [self.uid isEqualToString:[(GBACheat *)object uid]];
 }
 
 @end

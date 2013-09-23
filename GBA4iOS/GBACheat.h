@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GBACheat : NSObject <NSCoding>
+@interface GBACheat : NSObject <NSCoding, NSCopying>
 
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSArray /* NSString */ *codes; // One cheat can consist of multiple codes.

@@ -22,6 +22,6 @@
 @interface GBACheatEditorViewController : UITableViewController
 
 @property (weak, nonatomic) id<GBACheatEditorViewControllerDelegate> delegate;
-@property (readonly, strong, nonatomic) GBACheat *cheat;
+@property (strong, nonatomic) GBACheat *cheat;
 
 @end

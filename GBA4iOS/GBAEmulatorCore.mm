@@ -564,7 +564,7 @@ extern GBASys gGba;
     return actualIndex;
 }
 
-- (void)loadCheats
+- (BOOL)loadCheats
 {
     cheatsDeleteAll(gGba.cpu, false);
     NSArray *cheats = [self cheatsArray];
@@ -572,7 +572,10 @@ extern GBASys gGba;
     {
         for (GBACheat *cheat in cheats)
         {
-            [self addCheat:cheat];
+            if (![self addCheat:cheat])
+            {
+                return NO;
+            }
             
             if (!cheat.enabled)
             {
@@ -582,18 +585,20 @@ extern GBASys gGba;
             }
         }
     }
+    
+    return YES;
 }
 
 - (BOOL)addCheat:(GBACheat *)cheat
 {
-    if ([cheat.codes count] < 1)
+    // Must have at least one code, and it must be a complete code
+    if ([cheat.codes count] < 1 || [(NSString *)[cheat.codes lastObject] length] % 16 != 0)
     {
         return NO;
     }
     
     __block BOOL succeeded = YES;
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger index, BOOL *stop) {
-        NSLog(@"%@", code);
         NSString *title = [NSString stringWithFormat:@"%@ %d", cheat.name, index];
         succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
         
@@ -640,10 +645,10 @@ extern GBASys gGba;
     }];
 }
 
-- (void)updateCheats
+- (BOOL)updateCheats
 {
     cheatsDeleteAll(gGba.cpu, true);
-    [self loadCheats];
+    return [self loadCheats];
 }
 
 #pragma mark - Main App

@@ -44,7 +44,7 @@
 // - (void)removeCheat:(GBACheat *)cheat; Call updateCheats instead
 - (void)enableCheat:(GBACheat *)cheat;
 - (void)disableCheat:(GBACheat *)cheat;
-- (void)updateCheats;
+- (BOOL)updateCheats;
 
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;
