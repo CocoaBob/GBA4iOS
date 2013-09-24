@@ -9,6 +9,7 @@
 #import "GBAAppDelegate.h"
 #import "GBASettingsViewController.h"
 #import "GBAController.h"
+#import "GBAROM.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 
@@ -73,7 +74,7 @@
         
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"])
     {
-        [SSZipArchive unzipFileAtPath:filepath toDestination:documentsDirectory];
+        [GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredFilename:nil];
         [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
     }
     else

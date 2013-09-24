@@ -16,6 +16,6 @@
 
 + (GBAROM *)romWithContentsOfFile:(NSString *)filepath;
 
-+ (void)unzipROMAtPathToROMDirectory:(NSString *)filepath;
++ (void)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredFilename:(NSString *)filename;
 
 @end

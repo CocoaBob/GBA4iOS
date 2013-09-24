@@ -277,6 +277,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     NSError *error = nil;
     
+    [self beginIgnoringDirectoryContentChanges];
+    
     [fileManager removeItemAtURL:destinationURL error:&error];
     
     if (error)
@@ -285,10 +287,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         return;
     }
     
-    [fileManager moveItemAtURL:fileURL toURL:destinationURL error:&error];
-    
-    DLog(@"Download Complete: %@", filename);
-    
+    [GBAROM unzipROMAtPathToROMDirectory:[fileURL path] withPreferredFilename:filename];
+        
     if (error)
     {
         ELog(error);
@@ -319,6 +319,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             [self hideDownloadProgressView];
         });
     }
+    
+    [self endIgnoringDirectoryContentChanges];
 }
 
 #pragma mark - RSTFileBrowserViewController Subclass

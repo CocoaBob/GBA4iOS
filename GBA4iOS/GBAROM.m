@@ -28,7 +28,7 @@
     return rom;
 }
 
-+ (void)unzipROMAtPathToROMDirectory:(NSString *)filepath
++ (void)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredFilename:(NSString *)preferredFilename
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -54,7 +54,12 @@
         }
     }
     
-    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:romFilename] toPath:[documentsDirectory stringByAppendingPathComponent:romFilename] error:nil];
+    if (preferredFilename == nil)
+    {
+        preferredFilename = romFilename;
+    }
+    
+    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:romFilename] toPath:[documentsDirectory stringByAppendingPathComponent:preferredFilename] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
 }
 
