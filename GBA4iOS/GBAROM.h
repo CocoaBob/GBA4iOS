@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GBAROM : NSObject
+@interface GBAROM : NSObject <UIActivityItemSource>
 
 @property (readonly, copy, nonatomic) NSString *name;
 @property (readonly, copy, nonatomic) NSString *filepath;

@@ -102,7 +102,7 @@ static GBAEmulationViewController *_emulationViewController;
 	[self.displayLink setFrameInterval:1];
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
-    self.wantsFullScreenLayout = YES;
+    self.extendedLayoutIncludesOpaqueBars = YES;
     
     [self updateSettings:nil];
 }

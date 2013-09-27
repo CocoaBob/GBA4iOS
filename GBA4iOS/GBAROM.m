@@ -63,4 +63,21 @@
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
 }
 
+#pragma mark - UIActivityItemSource
+
+- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
+{
+    return [NSData data];
+}
+
+- (NSString *)activityViewController:(UIActivityViewController *)activityViewController dataTypeIdentifierForActivityType:(NSString *)activityType
+{
+    return @"public.image";
+}
+
+- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType
+{
+    return [NSData dataWithContentsOfFile:self.filepath];
+}
+
 @end

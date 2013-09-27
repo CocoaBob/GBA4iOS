@@ -14,6 +14,7 @@
 #import "GBATransparentTableViewHeaderFooterView.h"
 #import "GBAROM.h"
 #import "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"
+#import "GBAMailActivity.h"
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
@@ -76,6 +77,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
  
     self.clearsSelectionOnViewWillAppear = YES;
     
+    self.edgesForExtendedLayout = UIRectEdgeTop;
+    
     GBAROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"romType"];
     self.romType = romType;
     
@@ -100,14 +103,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
     {
         [self importDefaultGBASkin];
-    }
-    
-    // iOS 6 UI
-    if ([self.view respondsToSelector:@selector(setTintColor:)] == NO)
-    {
-        self.romTypeSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-        self.settingsButton.image = [UIImage imageNamed:@"Gear_Old"];
-        self.settingsButton.landscapeImagePhone = [UIImage imageNamed:@"Gear_Landscape"];
     }
     
 }
@@ -180,19 +175,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             
             if (buttonIndex == 1)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM Name:", @"")
-                                                                message:@"\n\n\n"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                message:@"\n"
                                                                delegate:self
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
                 alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                 alert.tag = NAME_ROM_ALERT_TAG;
-                
-                UITextField *textField = [alert textFieldAtIndex:0];
-                textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
-                textField.autocorrectionType = UITextAutocorrectionTypeNo;
-                
-                // Workaround iOS 7 preventing adding subviews to UIAlertView (and because they took away the promised contentView API :( )
-                [self performSelector:@selector(modifyAlertView:) withObject:alert afterDelay:0];
                 
                 [alert showWithSelectionHandler:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
                     
@@ -219,9 +207,16 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)modifyAlertView:(UIAlertView *)alertView
 {
-    UIView *testUIView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
-    testUIView.backgroundColor = [UIColor redColor];
-    [alertView addSubview:testUIView];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    UIView *alertContentView = textField.superview.superview;     // Alert view frame - Complete alternative to contentView,
+    
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"GBA", @"GBC"]];
+    segmentedControl.selectedSegmentIndex = 0;
+    textField.frame = CGRectMake(CGRectGetMinX(textField.superview.frame), CGRectGetMinY(textField.superview.frame) - CGRectGetHeight(textField.superview.frame) - 5, CGRectGetWidth(textField.superview.frame), CGRectGetHeight(textField.superview.frame));
+    
+    //segmentedControl.frame = textField.superview.frame;
+    
+    [alertContentView addSubview:segmentedControl];     // Can add it!
 }
 
 - (void)startDownloadWithFilename:(NSString *)filename
@@ -287,7 +282,18 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         return;
     }
     
-    [GBAROM unzipROMAtPathToROMDirectory:[fileURL path] withPreferredFilename:filename];
+    DLog(@"%@", downloadTask.response.suggestedFilename);
+    
+    NSURL *remoteURL = downloadTask.originalRequest.URL;
+    
+    if ([[[remoteURL absoluteString] pathExtension] isEqualToString:@"zip"] || [remoteURL.host hasPrefix:@"dl.coolrom"])
+    {
+        [GBAROM unzipROMAtPathToROMDirectory:[fileURL path] withPreferredFilename:filename];
+    }
+    else
+    {
+        [[NSFileManager defaultManager] moveItemAtURL:fileURL toURL:destinationURL error:nil];
+    }    
         
     if (error)
     {
@@ -353,7 +359,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     if (cell.longPressGestureRecognizer == nil)
     {
-        UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showRenameAlert:)];
+        UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didDetectLongPressGesture:)];
         [cell setLongPressGestureRecognizer:longPressGestureRecognizer];
     }
     
@@ -555,9 +561,9 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     }
 }
 
-#pragma mark - Deleting/Renaming
+#pragma mark - Deleting/Renaming/Sharing
 
-- (void)showRenameAlert:(UILongPressGestureRecognizer *)gestureRecognizer
+- (void)didDetectLongPressGesture:(UILongPressGestureRecognizer *)gestureRecognizer
 {
     if (gestureRecognizer.state != UIGestureRecognizerStateBegan)
     {
@@ -567,6 +573,27 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     UITableViewCell *cell = (UITableViewCell *)[gestureRecognizer view];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:NSLocalizedString(@"Rename ROM", @""), NSLocalizedString(@"Share ROM", @""), nil];
+    
+    [actionSheet showFromRect:[self.tableView rectForRowAtIndexPath:indexPath] inView:self.view animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+         if (buttonIndex == 0)
+         {
+             [self showRenameAlertForROMAtIndexPath:indexPath];
+         }
+        else if (buttonIndex == 1)
+        {
+            [self shareROMAtIndexPath:indexPath];
+        }
+     }];
+    
+}
+
+- (void)showRenameAlertForROMAtIndexPath:(NSIndexPath *)indexPath
+{
     NSString *filepath = [self filepathForIndexPath:indexPath];
     NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
     
@@ -634,6 +661,24 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[cheatsDirectory stringByAppendingPathComponent:cheatsFilename] toPath:[cheatsDirectory stringByAppendingPathComponent:newCheatsFilename] error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] toPath:[saveStateDirectory stringByAppendingPathComponent:newName] error:nil];
+}
+
+- (void)shareROMAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSString *romFilepath = [self filepathForIndexPath:indexPath];
+    
+    NSString *romName = [[romFilepath lastPathComponent] stringByDeletingPathExtension];
+    NSString *saveFilepath = [documentsDirectory stringByAppendingPathComponent:[romName stringByAppendingString:@".sav"]];
+    
+    NSURL *romFileURL = [NSURL fileURLWithPath:romFilepath];
+    NSURL *saveFileURL = [NSURL fileURLWithPath:saveFilepath];
+    
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[romFileURL] applicationActivities:@[[[GBAMailActivity alloc] init]]];
+    activityViewController.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail]; // Can't install from Messages app, and we use our own Mail activity that supports custom file types
+    [self presentViewController:activityViewController animated:YES completion:NULL];
 }
 
 #pragma mark - Presenting/Dismissing Emulation View Controller
