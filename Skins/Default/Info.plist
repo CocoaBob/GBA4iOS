@@ -7,9 +7,11 @@
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
-			<string>portrait.png</string>
-			<key>Retina</key>
 			<string>portrait@2x.png</string>
+			<key>iPad</key>
+			<string>portrait-ipad.png</string>
+			<key>iPad Retina</key>
+			<string>portrait-ipad@2x.png</string>
 		</dict>
 		<key>Layout</key>
 		<dict>
@@ -104,6 +106,97 @@
 					<integer>40</integer>
 				</dict>
 			</dict>
+			<key>iPad</key>
+			<dict>
+				<key>D-Pad</key>
+				<dict>
+					<key>X</key>
+					<integer>7</integer>
+					<key>Y</key>
+					<integer>63</integer>
+					<key>Width</key>
+					<integer>120</integer>
+					<key>Height</key>
+					<integer>120</integer>
+				</dict>
+				<key>A</key>
+				<dict>
+					<key>X</key>
+					<integer>256</integer>
+					<key>Y</key>
+					<integer>80</integer>
+					<key>Width</key>
+					<integer>60</integer>
+					<key>Height</key>
+					<integer>60</integer>
+				</dict>
+				<key>B</key>
+				<dict>
+					<key>X</key>
+					<integer>181</integer>
+					<key>Y</key>
+					<integer>112</integer>
+					<key>Width</key>
+					<integer>60</integer>
+					<key>Height</key>
+					<integer>60</integer>
+				</dict>
+				<key>Start</key>
+				<dict>
+					<key>X</key>
+					<integer>164</integer>
+					<key>Y</key>
+					<integer>200</integer>
+					<key>Width</key>
+					<integer>40</integer>
+					<key>Height</key>
+					<integer>40</integer>
+				</dict>
+				<key>Select</key>
+				<dict>
+					<key>X</key>
+					<integer>117</integer>
+					<key>Y</key>
+					<integer>200</integer>
+					<key>Width</key>
+					<integer>40</integer>
+					<key>Height</key>
+					<integer>40</integer>
+				</dict>
+				<key>L</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>100</integer>
+					<key>Height</key>
+					<integer>40</integer>
+				</dict>
+				<key>R</key>
+				<dict>
+					<key>X</key>
+					<integer>220</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>100</integer>
+					<key>Height</key>
+					<integer>40</integer>
+				</dict>
+				<key>Menu</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>316</integer>
+					<key>Width</key>
+					<integer>40</integer>
+					<key>Height</key>
+					<integer>40</integer>
+				</dict>
+			</dict>
 		</dict>
 	</dict>
 	<key>Identifier</key>
@@ -117,10 +210,8 @@
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
-			<string>landscape.png</string>
-			<key>Retina</key>
 			<string>landscape@2x.png</string>
-			<key>Retina 4</key>
+			<key>iPhone Widescreen</key>
 			<string>landscape@R4.png</string>
 			<key>iPad</key>
 			<string></string>
@@ -231,7 +322,7 @@
 					<integer>40</integer>
 				</dict>
 			</dict>
-			<key>Retina 4</key>
+			<key>iPhone Widescreen</key>
 			<dict>
 				<key>D-Pad</key>
 				<dict>

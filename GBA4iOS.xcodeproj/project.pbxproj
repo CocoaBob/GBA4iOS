@@ -84,10 +84,8 @@
 		CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC58C8F417E649CA008F472E /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC58C8F517E649CA008F472E /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
-		CC58C8F817E64A20008F472E /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
-		CC58C8F917E64A25008F472E /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
-		CC58C8FA17E64A25008F472E /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */; };
-		CC58C8FB17E64A28008F472E /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */; };
+		CC58C8F817E64A20008F472E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
+		CC58C8FB17E64A28008F472E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
 		CC58C8FC17E64A91008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC58C8FD17E64A92008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */; };
@@ -271,6 +269,8 @@
 		CC96F00C17C2984F00C7DD0C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
+		CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
+		CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
 		CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
 		CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
@@ -443,8 +443,7 @@
 		CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA4iOS-Prefix.pch"; sourceTree = "<group>"; };
 		CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAAppDelegate.h; sourceTree = "<group>"; };
 		CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAAppDelegate.mm; sourceTree = "<group>"; };
-		CC2D57121798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		CC2D57151798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		CC2D57121798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CC2D571A1798F2EC00C616EB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CC2D57211798F2ED00C616EB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
@@ -516,6 +515,8 @@
 		CC96EF6B17C2959900C7DD0C /* GBA.emu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBA.emu-Info.plist"; sourceTree = "<group>"; };
 		CC96EF7117C2959900C7DD0C /* GBA.emu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA.emu-Prefix.pch"; sourceTree = "<group>"; };
 		CC96F00917C2983800C7DD0C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		CCA1056917F6A5F80018D364 /* GBASplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASplitViewController.h; sourceTree = "<group>"; };
+		CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASplitViewController.m; sourceTree = "<group>"; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
 		CCBEBEEF17E62C0000731F76 /* RSTHelperFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTHelperFile.h; sourceTree = "<group>"; };
@@ -889,8 +890,7 @@
 			children = (
 				CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */,
 				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */,
-				CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */,
-				CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */,
+				CC2D57111798F2EC00C616EB /* Main.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
 				CCBF363017F27CD500704A5B /* Sharing */,
@@ -899,7 +899,7 @@
 				CCE3CDF917AE9E4500FAB9C8 /* Settings */,
 				CC823BC117B04A6D000A25E6 /* Categories */,
 				CCFA493517B00F5100386A43 /* Views */,
-				CCE3CDFA17AE9E5000FAB9C8 /* Abstract View Controllers */,
+				CCE3CDFA17AE9E5000FAB9C8 /* Other View Controllers */,
 				CC86825117A6DCC600686607 /* Custom Transitions */,
 				CC2D57061798F2EC00C616EB /* Supporting Files */,
 			);
@@ -1080,6 +1080,15 @@
 			name = Targets;
 			sourceTree = "<group>";
 		};
+		CCA1056817F6A5E00018D364 /* GBASplitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CCA1056917F6A5F80018D364 /* GBASplitViewController.h */,
+				CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */,
+			);
+			name = GBASplitViewController;
+			sourceTree = "<group>";
+		};
 		CCBF363017F27CD500704A5B /* Sharing */ = {
 			isa = PBXGroup;
 			children = (
@@ -1108,12 +1117,13 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
-		CCE3CDFA17AE9E5000FAB9C8 /* Abstract View Controllers */ = {
+		CCE3CDFA17AE9E5000FAB9C8 /* Other View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CCA1056817F6A5E00018D364 /* GBASplitViewController */,
 				CC491D4B17BCA5460060A107 /* Themed Table View Controller */,
 			);
-			name = "Abstract View Controllers";
+			name = "Other View Controllers";
 			sourceTree = "<group>";
 		};
 		CCFA493517B00F5100386A43 /* Views */ = {
@@ -1303,10 +1313,9 @@
 				BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */,
 				CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */,
 				CC58C8FD17E64A92008F472E /* xButton.png in Resources */,
-				CC58C8FA17E64A25008F472E /* Main_iPad.storyboard in Resources */,
 				CC58C8F517E649CA008F472E /* overlays128.png in Resources */,
 				CC58C8F417E649CA008F472E /* padButton.png in Resources */,
-				CC58C8FB17E64A28008F472E /* Main_iPhone.storyboard in Resources */,
+				CC58C8FB17E64A28008F472E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1314,9 +1323,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC58C8F817E64A20008F472E /* Main_iPhone.storyboard in Resources */,
+				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
-				CC58C8F917E64A25008F472E /* Main_iPad.storyboard in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
@@ -1446,6 +1454,7 @@
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
 				BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC81EAC717EBA2BC006FD348 /* UIButton+AFNetworking.m in Sources */,
+				CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */,
 				CC81EAA917EBA2B0006FD348 /* AFSecurityPolicy.m in Sources */,
 				CC76CF0317ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
 				CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */,
@@ -1520,6 +1529,7 @@
 				CC86825417A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
+				CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */,
 				CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
 				CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */,
@@ -1760,20 +1770,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		CC2D57111798F2EC00C616EB /* Main_iPhone.storyboard */ = {
+		CC2D57111798F2EC00C616EB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				CC2D57121798F2EC00C616EB /* Base */,
 			);
-			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		CC2D57141798F2EC00C616EB /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CC2D57151798F2EC00C616EB /* Base */,
-			);
-			name = Main_iPad.storyboard;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1811,6 +1813,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
 					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
 					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
@@ -1874,7 +1877,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1907,6 +1910,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
 					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
 					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
@@ -1970,7 +1974,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2003,6 +2007,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
 					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
 					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
@@ -2066,7 +2071,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";
@@ -2324,13 +2329,14 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2364,13 +2370,14 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2512,13 +2519,14 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "299A1ED8-44E8-4849-9DB9-F8CC69ACC672";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";

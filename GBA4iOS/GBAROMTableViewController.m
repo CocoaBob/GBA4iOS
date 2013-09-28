@@ -15,6 +15,7 @@
 #import "GBAROM.h"
 #import "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"
 #import "GBAMailActivity.h"
+#import "GBASplitViewController.h"
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
@@ -54,9 +55,10 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 @implementation GBAROMTableViewController
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithCoder:aDecoder];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    self = [storyboard instantiateViewControllerWithIdentifier:@"romTableViewController"];
     if (self)
     {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -98,13 +100,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     self.downloadProgressView = progressView;
-    
+        
     //NSFileManager *fileManager = [NSFileManager defaultManager];
     //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
     {
         [self importDefaultGBASkin];
     }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -329,6 +330,18 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self endIgnoringDirectoryContentChanges];
 }
 
+#pragma mark - UISplitViewControllerDelegate
+
+- (BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation
+{
+    return YES;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+    DLog(@"%@", barButtonItem);
+}
+
 #pragma mark - RSTFileBrowserViewController Subclass
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -531,14 +544,23 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
     
-    GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROM:rom];
-    
-    if ([emulationViewController respondsToSelector:@selector(setTransitioningDelegate:)])
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        emulationViewController.transitioningDelegate = self;
-    }
+        GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROM:rom];
         
-    [self presentViewController:emulationViewController animated:YES completion:NULL];
+        if ([emulationViewController respondsToSelector:@selector(setTransitioningDelegate:)])
+        {
+            emulationViewController.transitioningDelegate = self;
+        }
+        
+        [self presentViewController:emulationViewController animated:YES completion:NULL];
+    }
+    else
+    {
+        GBASplitViewController *splitViewController = (GBASplitViewController *)self.splitViewController;
+        splitViewController.emulationViewController.rom = rom;
+        [splitViewController hideROMTableViewControllerWithAnimation:YES];
+    }
 }
 
 // Override to support editing the table view.

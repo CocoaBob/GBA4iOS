@@ -81,7 +81,17 @@
 
 - (BOOL)isEqual:(id)object
 {
+    if (![object isKindOfClass:[GBACheat class]])
+    {
+        return NO;
+    }
+    
     return [self.uid isEqualToString:[(GBACheat *)object uid]];
+}
+
+- (NSUInteger)hash
+{
+    return [self.uid hash];
 }
 
 @end

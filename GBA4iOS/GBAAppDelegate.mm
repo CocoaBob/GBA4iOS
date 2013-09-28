@@ -10,6 +10,7 @@
 #import "GBASettingsViewController.h"
 #import "GBAController.h"
 #import "GBAROM.h"
+#import "GBASplitViewController.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 
@@ -18,17 +19,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.tintColor = GBA4iOS_PURPLE_COLOR;
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    self.window.rootViewController = [storyboard instantiateInitialViewController];
-    
-    [self.window makeKeyAndVisible];
-    
-    if ([self.window respondsToSelector:@selector(setTintColor:)])
-    {
-        self.window.tintColor = GBA4iOS_PURPLE_COLOR;
-        [[UISwitch appearance] setOnTintColor:GBA4iOS_PURPLE_COLOR]; // Apparently UISwitches don't inherit tint color from superview
-    }
+    [[UISwitch appearance] setOnTintColor:GBA4iOS_PURPLE_COLOR]; // Apparently UISwitches don't inherit tint color from superview
     
     NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];
     
@@ -38,6 +31,23 @@
     }
     
     [GBASettingsViewController registerDefaults];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        GBAROMTableViewController *romTableViewController = [[GBAROMTableViewController alloc] init];
+        UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(romTableViewController);
+        
+        self.window.rootViewController = navigationController;
+    }
+    else
+    {
+        GBASplitViewController *splitViewController = [[GBASplitViewController alloc] init];
+        self.window.rootViewController = splitViewController;
+    }
+    
+    [self.window makeKeyAndVisible];
     
     return YES;
 }

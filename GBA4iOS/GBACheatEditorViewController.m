@@ -44,7 +44,7 @@
 
 - (id)init
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     self = [storyboard instantiateViewControllerWithIdentifier:@"cheatEditorViewController"];
     if (self)

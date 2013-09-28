@@ -63,21 +63,21 @@
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
 }
 
-#pragma mark - UIActivityItemSource
-
-- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
+- (BOOL)isEqual:(id)object
 {
-    return [NSData data];
+    if (![object isKindOfClass:[GBAROM class]])
+    {
+        return NO;
+    }
+    
+    GBAROM *otherROM = (GBAROM *)object;
+    
+    return [self.filepath isEqualToString:otherROM.filepath];
 }
 
-- (NSString *)activityViewController:(UIActivityViewController *)activityViewController dataTypeIdentifierForActivityType:(NSString *)activityType
+- (NSUInteger)hash
 {
-    return @"public.image";
-}
-
-- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType
-{
-    return [NSData dataWithContentsOfFile:self.filepath];
+    return [self.filepath hash];
 }
 
 @end

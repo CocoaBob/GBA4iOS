@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GBAAppDelegate : UIResponder <UIApplicationDelegate>
+@interface GBAAppDelegate : UIResponder <UIApplicationDelegate, UISplitViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

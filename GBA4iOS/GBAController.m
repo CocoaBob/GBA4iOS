@@ -106,7 +106,7 @@
     NSString *relativePath = assets[key];
     
     NSString *filepath = [self.filepath stringByAppendingPathComponent:relativePath];
-    
+        
     CGFloat scale = [[UIScreen mainScreen] scale];
     
     if ([key isEqualToString:GBAScreenTypeiPhone] || [key isEqualToString:GBAScreenTypeiPad])
@@ -185,37 +185,42 @@
 {
     NSString *key = nil;
     
-    if ([[UIScreen mainScreen] scale] == 2.0)
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         if ([[UIScreen mainScreen] isWidescreen])
         {
-            if ([dictionary objectForKey:GBAScreenTypeRetina4])
+            if ([dictionary objectForKey:GBAScreenTypeiPhoneWidescreen])
             {
-                key = GBAScreenTypeRetina4;
+                key = GBAScreenTypeiPhoneWidescreen;
             }
-            else if ([dictionary objectForKey:GBAScreenTypeRetina])
+            else
             {
-                key = GBAScreenTypeRetina;
+                key = GBAScreenTypeiPhoneWidescreen;
             }
-            else {
-                key = GBAScreenTypeiPhone;
-            }
-            
         }
         else
         {
-            if ([dictionary objectForKey:GBAScreenTypeRetina])
-            {
-                key = GBAScreenTypeRetina;
-            }
-            else {
-                key = GBAScreenTypeiPhone;
-            }
+            key = GBAScreenTypeiPhone;
         }
+        
     }
     else
     {
-        key = GBAScreenTypeiPhone;
+        if ([[UIScreen mainScreen] scale] == 2.0)
+        {
+            if ([dictionary objectForKey:GBAScreenTypeiPadRetina])
+            {
+                key = GBAScreenTypeiPadRetina;
+            }
+            else
+            {
+                key = GBAScreenTypeiPad;
+            }
+        }
+        else
+        {
+            key = GBAScreenTypeiPad;
+        }
     }
     
     return key;

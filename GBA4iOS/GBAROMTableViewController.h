@@ -14,6 +14,6 @@ typedef NS_ENUM(NSInteger, GBAROMTableViewControllerTheme)
     GBAROMTableViewControllerThemeTranslucent = 1,
 };
 
-@interface GBAROMTableViewController : RSTFileBrowserViewController
+@interface GBAROMTableViewController : RSTFileBrowserViewController <UISplitViewControllerDelegate>
 
 @end

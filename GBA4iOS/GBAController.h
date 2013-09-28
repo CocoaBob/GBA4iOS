@@ -44,9 +44,9 @@ typedef NS_ENUM(NSInteger, GBAControllerButton)
 };
 
 static NSString *GBAScreenTypeiPhone = @"iPhone";
-static NSString *GBAScreenTypeRetina = @"Retina";
-static NSString *GBAScreenTypeRetina4 = @"Retina 4";
+static NSString *GBAScreenTypeiPhoneWidescreen = @"iPhone Widescreen";
 static NSString *GBAScreenTypeiPad = @"iPad";
+static NSString *GBAScreenTypeiPadRetina = @"iPad Retina";
 
 @interface GBAController : NSObject
 

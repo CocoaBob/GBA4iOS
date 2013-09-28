@@ -14,6 +14,7 @@
 #import "GBASaveStateViewController.h"
 #import "GBACheatManagerViewController.h"
 #import "GBASettingsViewController.h"
+#import "GBASplitViewController.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -58,18 +59,14 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (instancetype)initWithROM:(GBAROM *)rom
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
     if (self)
     {
         _emulationViewController = self;
         InstallUncaughtExceptionHandler();
         
-        _rom = rom;
-        
-#if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] setRom:self.rom];
-#endif
+        [self setRom:rom];
     }
     
     return self;
@@ -124,9 +121,17 @@ static GBAEmulationViewController *_emulationViewController;
     self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
 #endif
     
-    [self stopEmulation]; // Stop previously running ROM
+    if (self.rom)
+    {        
+        [self startEmulation];
+    }
     
-    [self startEmulation];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
+        });
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -382,13 +387,10 @@ static GBAEmulationViewController *_emulationViewController;
                        NSLocalizedString(@"Sustain Button", @""), nil];
     }
     
-    
-    
-    [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+    void (^selectionHandler)(UIActionSheet *actionSheet, NSInteger buttonIndex) = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
         if (buttonIndex == 0)
         {
-            [self dismissEmulationViewController];
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+            [self returnToROMTableViewController];
         }
         else {
             if ([self numberOfCPUCoresForCurrentDevice] == 1)
@@ -423,7 +425,20 @@ static GBAEmulationViewController *_emulationViewController;
                 [self resumeEmulation];
             }
         }
-    }];
+    };
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [actionSheet showInView:self.view selectionHandler:selectionHandler];
+    }
+    else
+    {
+        CGRect rect = [self.controllerView.controller rectForButtonRect:GBAControllerRectMenu orientation:self.controllerView.orientation];
+        
+        CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
+        
+        [actionSheet showFromRect:convertedRect inView:self.view animated:YES selectionHandler:selectionHandler];
+    }
 }
 
 - (unsigned int)numberOfCPUCoresForCurrentDevice
@@ -593,14 +608,21 @@ void uncaughtExceptionHandler(NSException *exception)
     return nil;
 }
 
-- (void)dismissEmulationViewController
+- (void)returnToROMTableViewController
 {
     if ([self shouldAutosave])
     {
         [self updateAutosaveState];
     }
     
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    }
+    else
+    {
+        [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:YES];
+    }
 }
 
 #pragma mark - App Status
@@ -707,6 +729,7 @@ void uncaughtExceptionHandler(NSException *exception)
         
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
+                
         self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationPortrait;
         
@@ -797,6 +820,8 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)startEmulation
 {
+    [self stopEmulation]; // Stop previously running ROM
+    
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -891,7 +916,35 @@ void uncaughtExceptionHandler(NSException *exception)
     return [image applyBlurWithRadius:10 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
+#pragma mark - Getters/Setters
 
+- (void)setRom:(GBAROM *)rom
+{
+    if (rom == nil)
+    {
+        return;
+    }
+    
+    self.emulationPaused = NO;
+    [self resumeEmulation];
+    
+    if ([_rom isEqual:rom])
+    {
+        return;
+    }
+    
+    _rom = rom;
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] setRom:self.rom];
+#endif
+    
+    if (_hasPerformedInitialLayout) // Has already appeared, so we can start the ROM!
+    {
+        [self startEmulation];
+    }
+    
+}
 
 
 

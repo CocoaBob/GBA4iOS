@@ -12,7 +12,7 @@
 
 @interface GBAEmulationViewController : UIViewController
 
-@property (readonly, nonatomic) GBAROM *rom;
+@property (strong, nonatomic) GBAROM *rom;
 @property (assign, nonatomic) CGFloat blurAlpha;
 @property (assign, nonatomic) BOOL emulationPaused;
 
