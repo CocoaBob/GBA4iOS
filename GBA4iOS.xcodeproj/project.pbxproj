@@ -271,9 +271,19 @@
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
 		CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
+		CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
+		CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
+		CCBD34F717F761F800592602 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCBD34F617F761F800592602 /* Reveal.framework */; };
+		CCBD34F817F761F800592602 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCBD34F617F761F800592602 /* Reveal.framework */; };
 		CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
 		CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
+		CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
+		CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
+		CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
+		CCC0F23417FA9C0700235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
+		CCC0F23517FA9C0700235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
+		CCC0F23617FA9C0700235781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
 		CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
@@ -519,10 +529,16 @@
 		CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASplitViewController.m; sourceTree = "<group>"; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
+		CCBD34EF17F7492F00592602 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
+		CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
+		CCBD34F617F761F800592602 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		CCBEBEEF17E62C0000731F76 /* RSTHelperFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTHelperFile.h; sourceTree = "<group>"; };
 		CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTHelperFile.m; sourceTree = "<group>"; };
 		CCBF363117F27DA100704A5B /* GBAMailActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAMailActivity.h; sourceTree = "<group>"; };
 		CCBF363217F27DA100704A5B /* GBAMailActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAMailActivity.m; sourceTree = "<group>"; };
+		CCC0F22E17FA95A700235781 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CCC0F23017FA95B500235781 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		CCC0F23217FA95C600235781 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Widescreen.h"; sourceTree = "<group>"; };
 		CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Widescreen.m"; sourceTree = "<group>"; };
 		CCC7298417C7357E0001BC6F /* GBAROM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROM.h; sourceTree = "<group>"; };
@@ -651,12 +667,16 @@
 			files = (
 				CC81E96C17EBA162006FD348 /* SystemConfiguration.framework in Frameworks */,
 				CC275C3717A5075E006243FB /* libz.dylib in Frameworks */,
+				CCC0F23617FA9C0700235781 /* AVFoundation.framework in Frameworks */,
 				CC275C3817A5075E006243FB /* AudioToolbox.framework in Frameworks */,
+				CCBD34F817F761F800592602 /* Reveal.framework in Frameworks */,
 				CC275C3917A5075E006243FB /* CoreAudio.framework in Frameworks */,
 				CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */,
 				CC275C3B17A5075E006243FB /* MessageUI.framework in Frameworks */,
 				CC275C3C17A5075E006243FB /* QuartzCore.framework in Frameworks */,
 				CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */,
+				CCC0F23517FA9C0700235781 /* AssetsLibrary.framework in Frameworks */,
+				CCC0F23417FA9C0700235781 /* CoreMedia.framework in Frameworks */,
 				CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */,
 				CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */,
 				CC275C4017A5075E006243FB /* libPods.a in Frameworks */,
@@ -667,9 +687,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */,
+				CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */,
+				CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */,
 				CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */,
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
+				CCBD34F717F761F800592602 /* Reveal.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
@@ -867,6 +891,10 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CCC0F23217FA95C600235781 /* CoreMedia.framework */,
+				CCC0F23017FA95B500235781 /* AssetsLibrary.framework */,
+				CCC0F22E17FA95A700235781 /* AVFoundation.framework */,
+				CCBD34F617F761F800592602 /* Reveal.framework */,
 				CC81EA8C17EBA2B0006FD348 /* AFNetworking */,
 				CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */,
 				CC96F00917C2983800C7DD0C /* OpenGLES.framework */,
@@ -1036,6 +1064,8 @@
 				CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */,
 				BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */,
 				BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */,
+				CCBD34EF17F7492F00592602 /* UIDevice-Hardware.h */,
+				CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1418,6 +1448,7 @@
 				CC81EAC117EBA2BC006FD348 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				CC8D5A7B17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
 				BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
+				CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */,
 				CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */,
 				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CC81EAB117EBA2B0006FD348 /* AFURLSessionManager.m in Sources */,
@@ -1619,6 +1650,7 @@
 				CCFA722C179D304700768D24 /* Bcj2.c in Sources */,
 				CC81EAA217EBA2B0006FD348 /* AFHTTPRequestOperationManager.m in Sources */,
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */,
+				CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */,
 				CCFA7209179D304700768D24 /* Mode1.cpp in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
 				CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */,
@@ -1794,6 +1826,8 @@
 					"$(SRCROOT)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -1895,6 +1929,8 @@
 					"$(SRCROOT)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -1992,6 +2028,8 @@
 					"$(SRCROOT)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2313,6 +2351,8 @@
 					"$(inherited)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2355,6 +2395,8 @@
 					"$(inherited)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2498,12 +2540,14 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yvette Testut";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yvette Testut";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2525,7 +2569,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "299A1ED8-44E8-4849-9DB9-F8CC69ACC672";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

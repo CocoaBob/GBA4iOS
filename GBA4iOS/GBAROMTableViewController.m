@@ -36,6 +36,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 @interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate>
 
+@property (readwrite, assign, nonatomic) BOOL viewIsVisible;
+
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloads;
@@ -114,6 +116,21 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     // Sometimes it loses it's color when the view appears
     self.downloadProgressView.progressTintColor = GBA4iOS_PURPLE_COLOR;
+    
+    if ([self.appearanceDelegate respondsToSelector:@selector(romTableViewControllerWillAppear:)])
+    {
+        [self.appearanceDelegate romTableViewControllerWillAppear:self];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([self.appearanceDelegate respondsToSelector:@selector(romTableViewControllerWillDisappear:)])
+    {
+        [self.appearanceDelegate romTableViewControllerWillDisappear:self];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -176,12 +193,15 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
             
             if (buttonIndex == 1)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                                message:@"\n"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM Name", @"")
+                                                                message:nil
                                                                delegate:self
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
                 alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                 alert.tag = NAME_ROM_ALERT_TAG;
+                
+                UITextField *textField = [alert textFieldAtIndex:0];
+                textField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
                 
                 [alert showWithSelectionHandler:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
                     

@@ -11,8 +11,6 @@
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
-			<string>portrait.png</string>
-			<key>Retina</key>
 			<string>portrait@2x.png</string>
 		</dict>
 		<key>Layout</key>

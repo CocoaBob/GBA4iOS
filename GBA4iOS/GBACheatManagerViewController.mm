@@ -39,6 +39,8 @@
     
     self.clearsSelectionOnViewWillAppear = YES;
     self.tableView.allowsSelectionDuringEditing = YES;
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissCheatManagerViewController:)];
     self.navigationItem.rightBarButtonItem = doneButton;
@@ -274,7 +276,9 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    [self.cheatsArray exchangeObjectAtIndex:sourceIndexPath.row withObjectAtIndex:destinationIndexPath.row];
+    GBACheat *cheat = self.cheatsArray[sourceIndexPath.row];
+    [self.cheatsArray removeObjectAtIndex:sourceIndexPath.row];
+    [self.cheatsArray insertObject:cheat atIndex:destinationIndexPath.row];
     [self writeCheatsArrayToDisk];
     
     [self updateCheats];

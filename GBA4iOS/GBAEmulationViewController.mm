@@ -29,7 +29,6 @@ static GBAEmulationViewController *_emulationViewController;
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     BOOL _hasPerformedInitialLayout;
-    BOOL _testStatusBar;
 }
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
@@ -69,7 +68,6 @@ static GBAEmulationViewController *_emulationViewController;
         
         [self setRom:rom];
         
-        _testStatusBar = YES;
     }
     
     return self;
@@ -83,7 +81,7 @@ static GBAEmulationViewController *_emulationViewController;
     self.emulatorScreen.backgroundColor = [UIColor blackColor]; // It's set to blue in the storyboard for easier visual debugging
 #endif
     self.controllerView.delegate = self;
-    
+        
     if ([[UIScreen screens] count] > 1)
     {
         UIScreen *newScreen = [UIScreen screens][1];
@@ -135,11 +133,6 @@ static GBAEmulationViewController *_emulationViewController;
         });
     }
     
-    double delayInSeconds = 2.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self.controllerView showButtonRects];
-    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -156,7 +149,6 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (self.presentedViewController)
     {
-        self.emulationPaused = NO;
         [self resumeEmulation];
     }
 }
@@ -164,6 +156,8 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -262,6 +256,8 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)setUpAirplayScreen:(UIScreen *)screen
 {
+    
+    return;
     CGRect screenBounds = screen.bounds;
     
     self.airplayWindow = ({
@@ -355,7 +351,6 @@ static GBAEmulationViewController *_emulationViewController;
 {
     _romPauseTime = CFAbsoluteTimeGetCurrent();
     
-    self.emulationPaused = YES;
     [self pauseEmulation];
     
     UIActionSheet *actionSheet = nil;
@@ -400,7 +395,6 @@ static GBAEmulationViewController *_emulationViewController;
             
             if (buttonIndex == 1)
             {
-                self.emulationPaused = NO;
                 [self resumeEmulation];
             }
             else if (buttonIndex == 2)
@@ -420,7 +414,6 @@ static GBAEmulationViewController *_emulationViewController;
                 [self enterSustainButtonSelectionMode];
             }
             else {
-                self.emulationPaused = NO;
                 [self resumeEmulation];
             }
         }
@@ -435,6 +428,10 @@ static GBAEmulationViewController *_emulationViewController;
         CGRect rect = [self.controllerView.controller rectForButtonRect:GBAControllerRectMenu orientation:self.controllerView.orientation];
         
         CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
+        
+        // Create a rect that will make the action sheet appear ABOVE the menu button, not to the right
+        convertedRect.origin.x = 0;
+        convertedRect.size.width = self.controllerView.bounds.size.width;
         
         [actionSheet showFromRect:convertedRect inView:self.view animated:YES selectionHandler:selectionHandler];
     }
@@ -461,7 +458,6 @@ static GBAEmulationViewController *_emulationViewController;
 {
     self.selectingSustainedButton = NO;
     
-    self.emulationPaused = NO;
     [self resumeEmulation];
 }
 
@@ -766,10 +762,6 @@ void uncaughtExceptionHandler(NSException *exception)
         {
             self.controllerView.skinOpacity = 1.0f;
         }
-        
-        [UIView performWithoutAnimation:^{
-            self.controllerView.alpha = 0.5f;
-        }];
     }
 }
 
@@ -837,13 +829,10 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)resumeEmulation
 {
-    if (!self.emulationPaused)
-    {
 #if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] resumeEmulation];
-        [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
+    [[GBAEmulatorCore sharedCore] resumeEmulation];
+    [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
 #endif
-    }
 }
 
 #pragma mark - Blurring
@@ -917,7 +906,6 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (_rom) // If there was a previous ROM make sure to unpause it!
     {
-        self.emulationPaused = NO;
         [self resumeEmulation];
     }
     

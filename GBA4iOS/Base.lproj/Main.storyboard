@@ -537,7 +537,7 @@
                                 <action selector="switchROMTypes:" destination="8cV-d5-THO" eventType="valueChanged" id="peA-y8-8YM"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="lhi-LK-iGI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lhi-LK-iGI">
                             <connections>
                                 <action selector="searchForROMs:" destination="8cV-d5-THO" id="4U1-ve-tRv"/>
                             </connections>
@@ -572,7 +572,7 @@
                                     <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="220" translatesAutoresizingMaskIntoConstraints="NO" id="KTg-3r-eIu" userLabel="Emulator Screen" customClass="GBAEmulatorScreen">
                                         <rect key="frame" x="0.0" y="54" width="320" height="220"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60 FPS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCc-iA-hy3">
                                         <rect key="frame" x="15" y="15" width="57" height="21"/>

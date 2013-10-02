@@ -13,7 +13,7 @@
 
 @interface GBASplitViewController : UISplitViewController
 
-@property (readonly, assign, nonatomic) BOOL romTableViewControllerHidden;
+@property (readonly, assign, nonatomic) BOOL romTableViewControllerIsVisible;
 
 @property (readonly, strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (readonly, strong, nonatomic) GBAEmulationViewController *emulationViewController;

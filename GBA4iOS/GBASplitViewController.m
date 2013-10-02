@@ -8,9 +8,9 @@
 
 #import "GBASplitViewController.h"
 
-@interface GBASplitViewController () <UISplitViewControllerDelegate>
+@interface GBASplitViewController () <UISplitViewControllerDelegate, GBAROMTableViewControllerAppearanceDelegate>
 
-@property (readwrite, assign, nonatomic) BOOL romTableViewControllerHidden;
+@property (readwrite, assign, nonatomic) BOOL romTableViewControllerIsVisible;
 @property (assign, nonatomic) UIBarButtonItem *barButtonItem;
 
 @end
@@ -22,9 +22,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        _romTableViewControllerHidden = YES;
+        _romTableViewControllerIsVisible = NO;
         
         _romTableViewController = [[GBAROMTableViewController alloc] init];
+        _romTableViewController.appearanceDelegate = self;
         UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(_romTableViewController);
         
         _emulationViewController = [[GBAEmulationViewController alloc] initWithROM:nil];
@@ -47,41 +48,46 @@
 
 - (void)showROMTableViewControllerWithAnimation:(BOOL)animated
 {
+    if ([self romTableViewControllerIsVisible])
+    {
+        return;
+    }
+    
     if (animated)
     {
-        [self setRomTableViewControllerHidden:NO];
+        [self showHideROMTableViewController];
     }
     else
     {
         [UIView performWithoutAnimation:^{
-            [self setRomTableViewControllerHidden:NO];
+            [self showHideROMTableViewController];
         }];
     }
 }
 
 - (void)hideROMTableViewControllerWithAnimation:(BOOL)animated
 {
-    if (animated)
-    {
-        [self setRomTableViewControllerHidden:YES];
-    }
-    else
-    {
-        [UIView performWithoutAnimation:^{
-            [self setRomTableViewControllerHidden:YES];
-        }];
-    }
-}
-
-- (void)setRomTableViewControllerHidden:(BOOL)romTableViewControllerHidden
-{
-    if (_romTableViewControllerHidden == romTableViewControllerHidden)
+    if (![self romTableViewControllerIsVisible])
     {
         return;
     }
     
-    _romTableViewControllerHidden = romTableViewControllerHidden;
-    
+    if (animated)
+    {
+        [self showHideROMTableViewController];
+    }
+    else
+    {
+        [UIView performWithoutAnimation:^{
+            [self showHideROMTableViewController];
+        }];
+    }
+}
+
+#pragma mark - Private
+
+- (void)showHideROMTableViewController
+{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     
@@ -89,6 +95,18 @@
     
 #pragma clang diagnostic pop
     
+}
+
+#pragma mark - GBAROMTableViewControllerAppearanceDelegate
+
+- (void)romTableViewControllerWillAppear:(GBAROMTableViewController *)romTableViewController
+{
+    self.romTableViewControllerIsVisible = YES;
+}
+
+- (void)romTableViewControllerWillDisappear:(GBAROMTableViewController *)romTableViewController
+{
+    self.romTableViewControllerIsVisible = NO;
 }
 
 #pragma mark - UISplitViewControllerDelegate

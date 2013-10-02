@@ -14,6 +14,19 @@ typedef NS_ENUM(NSInteger, GBAROMTableViewControllerTheme)
     GBAROMTableViewControllerThemeTranslucent = 1,
 };
 
+@class GBAROMTableViewController;
+
+@protocol GBAROMTableViewControllerAppearanceDelegate <NSObject>
+
+@optional
+
+- (void)romTableViewControllerWillAppear:(GBAROMTableViewController *)romTableViewController;
+- (void)romTableViewControllerWillDisappear:(GBAROMTableViewController *)romTableViewController;
+
+@end
+
 @interface GBAROMTableViewController : RSTFileBrowserViewController <UISplitViewControllerDelegate>
+
+@property (weak, nonatomic) id<GBAROMTableViewControllerAppearanceDelegate> appearanceDelegate;
 
 @end
