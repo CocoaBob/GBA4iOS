@@ -38,6 +38,11 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 #pragma mark - Public
 
 - (void)showROMTableViewControllerWithAnimation:(BOOL)animated

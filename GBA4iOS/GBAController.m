@@ -109,7 +109,7 @@
         
     CGFloat scale = [[UIScreen mainScreen] scale];
     
-    if ([key isEqualToString:GBAScreenTypeiPhone] || [key isEqualToString:GBAScreenTypeiPad])
+    if ([key isEqualToString:GBAScreenTypeiPad])
     {
         scale = 1.0f; // In case of a skin without retina artwork
     }
@@ -195,7 +195,7 @@
             }
             else
             {
-                key = GBAScreenTypeiPhoneWidescreen;
+                key = GBAScreenTypeiPhone;
             }
         }
         else

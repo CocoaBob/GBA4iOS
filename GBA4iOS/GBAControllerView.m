@@ -9,6 +9,7 @@
 #import "GBAControllerView.h"
 #import "UIScreen+Widescreen.h"
 #import "UITouch+ControllerButtons.h"
+#import "UIDevice-Hardware.h"
 
 @import AudioToolbox;
 
@@ -246,6 +247,12 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     NSArray *pattern = @[@YES, @30, @NO, @1];
     
+    if ([[UIDevice currentDevice] platformType] == UIDevice5SiPhone)
+    {
+        // iPhone 5S has a weaker vibration motor, so we vibrate for 10ms longer to compensate
+        pattern = @[@YES, @40, @NO, @1];
+    }
+    
     dictionary[@"VibePattern"] = pattern;
     dictionary[@"Intensity"] = @1;
     
@@ -345,171 +352,6 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     
     return buttons;
 
-}
-
-
-- (void)handleTouchEvent2:(UIEvent *)event forTouchPhase:(UITouchPhase)touchPhase
-{
-    // Oh man, the hours I spent trying to debug this because I didn't realize t only returns the CHANGED touches, while [event allTouches] actually has all touches
-    NSSet *touches = [event allTouches];
-    
-	int touchstate[15];
-    
-	int touchcount = [touches count];
-	
-	for (int i = 0; i < 10; i++)
-	{
-		touchstate[i] = 0;
-		oldtouches[i] = newtouches[i];
-	}
-    
-	for (int i = 0; i < touchcount; i++)
-	{
-		UITouch *touch = [[touches allObjects] objectAtIndex:i];
-		
-		if (touch != nil && (touch.phase == UITouchPhaseBegan || touch.phase == UITouchPhaseMoved || touch.phase == UITouchPhaseStationary) )
-		{
-			CGPoint point = [touch locationInView:self];
-            
-			touchstate[i] = 1;
-            
-            
-            CGRect dPadRect = [self.controller rectForButtonRect:GBAControllerRectDPad orientation:self.orientation];
-            if (CGRectContainsPoint(dPadRect, point))
-            {
-                CGRect topRect            = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
-                CGRect bottomRect         = CGRectMake(dPadRect.origin.x, dPadRect.origin.y + dPadRect.size.height * (2.0f/3.0f), dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
-                CGRect leftRect           = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width * (1.0f/3.0f), dPadRect.size.height);
-                CGRect rightRect          = CGRectMake(dPadRect.origin.x + dPadRect.size.width * (2.0f/3.0f), dPadRect.origin.y, dPadRect.size.width * (1.0f/3.0f), dPadRect.size.height);
-                
-                CGRect topLeftRect        = CGRectIntersection(topRect, leftRect);
-                CGRect topRightRect       = CGRectIntersection(topRect, rightRect);
-                CGRect bottomLeftRect     = CGRectIntersection(bottomRect, leftRect);
-                CGRect bottomRightRect    = CGRectIntersection(bottomRect, rightRect);
-                
-                if (CGRectContainsPoint(topLeftRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonUp | GBAControllerButtonLeft;
-                    newtouches[i] = GBAControllerButtonUp | GBAControllerButtonLeft;
-                }
-                else if (CGRectContainsPoint(topRightRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonUp | GBAControllerButtonRight;
-                    newtouches[i] = GBAControllerButtonUp | GBAControllerButtonRight;
-                }
-                else if (CGRectContainsPoint(bottomLeftRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonDown | GBAControllerButtonLeft;
-                    newtouches[i] = GBAControllerButtonDown | GBAControllerButtonLeft;
-                }
-                else if (CGRectContainsPoint(bottomRightRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonDown | GBAControllerButtonRight;
-                    newtouches[i] = GBAControllerButtonDown | GBAControllerButtonRight;
-                }
-                else if (CGRectContainsPoint(topRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonUp;
-                    newtouches[i] = GBAControllerButtonUp;
-                }
-                else if (CGRectContainsPoint(leftRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonLeft;
-                    newtouches[i] = GBAControllerButtonLeft;
-                }
-                else if (CGRectContainsPoint(bottomRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonDown;
-                    newtouches[i] = GBAControllerButtonDown;
-                }
-                else if (CGRectContainsPoint(rightRect, point))
-                {
-                    pressedButtons |= GBAControllerButtonRight;
-                    newtouches[i] = GBAControllerButtonRight;
-                }
-                
-            }
-            else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectA orientation:self.orientation], point))
-			{
-				pressedButtons |= GBAControllerButtonA;
-				newtouches[i] = GBAControllerButtonA;
-			}
-            else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectB orientation:self.orientation], point))
-			{
-				pressedButtons |= GBAControllerButtonB;
-				newtouches[i] = GBAControllerButtonB;
-			}
-            else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectAB orientation:self.orientation], point))
-			{
-				pressedButtons |= GBAControllerButtonA | GBAControllerButtonB;
-				newtouches[i] = GBAControllerButtonA | GBAControllerButtonB;
-			}
-			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectL orientation:self.orientation], point))
-			{
-				pressedButtons |= GBAControllerButtonL;
-				newtouches[i] = GBAControllerButtonL;
-			}
-			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectR orientation:self.orientation], point))
-			{
-				pressedButtons |= GBAControllerButtonR;
-				newtouches[i] = GBAControllerButtonR;
-			}
-			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectSelect orientation:self.orientation], point))
-			{
-				pressedButtons |= GBAControllerButtonSelect;
-				newtouches[i] = GBAControllerButtonSelect;
-			}
-			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectStart orientation:self.orientation], point))
-			{
-				pressedButtons |= GBAControllerButtonStart;
-				newtouches[i] = GBAControllerButtonStart;
-			}
-			else if (CGRectContainsPoint([self.controller rectForButtonRect:GBAControllerRectMenu orientation:self.orientation], point))
-			{
-               // [self sendActionsForControlEvents:UIControlEventTouchUpInside];
-			}
-			
-			if(oldtouches[i] != newtouches[i])
-			{
-				pressedButtons &= ~(oldtouches[i]);
-			}
-		}
-	}
-    
-    
-	for (int i = 0; i < 10; i++)
-	{
-		if(touchstate[i] == 0)
-		{
-			pressedButtons &= ~(newtouches[i]);
-			newtouches[i] = 0;
-			oldtouches[i] = 0;
-		}
-	}
-    
-   /* if (self.pressedButtons != pressedButtons)
-    {
-        
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
-        {
-            AudioServicesStopSystemSound(kSystemSoundID_Vibrate);
-            
-            if (touchPhase == UITouchPhaseBegan || touchPhase == UITouchPhaseMoved)
-            {
-                NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-                NSArray *pattern = @[@YES, @30, @NO, @1];
-                
-                dictionary[@"VibePattern"] = pattern;
-                dictionary[@"Intensity"] = @1;
-                
-                AudioServicesPlaySystemSoundWithVibration(kSystemSoundID_Vibrate, nil, dictionary);
-            }
-        }
-        
-        self.pressedButtons = pressedButtons;
-        
-        [self sendActionsForControlEvents:UIControlEventValueChanged];
-    }*/
 }
 
 #pragma mark - Public

@@ -475,6 +475,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (void)importDefaultGBASkin
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"] error:nil];
         
     [GBAController extractSkinAtPathToSkinsDirectory:filepath];
 }

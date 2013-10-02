@@ -29,6 +29,7 @@ static GBAEmulationViewController *_emulationViewController;
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     BOOL _hasPerformedInitialLayout;
+    BOOL _testStatusBar;
 }
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
@@ -67,6 +68,8 @@ static GBAEmulationViewController *_emulationViewController;
         InstallUncaughtExceptionHandler();
         
         [self setRom:rom];
+        
+        _testStatusBar = YES;
     }
     
     return self;
@@ -104,7 +107,6 @@ static GBAEmulationViewController *_emulationViewController;
     [self updateSettings:nil];
 }
 
-// called from viewDidLayoutSubviews
 - (void)performInitialLayout
 {
     [self.view layoutIfNeeded];
@@ -132,6 +134,12 @@ static GBAEmulationViewController *_emulationViewController;
             [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
         });
     }
+    
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.controllerView showButtonRects];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -142,11 +150,6 @@ static GBAEmulationViewController *_emulationViewController;
     {
         [self performInitialLayout];
         _hasPerformedInitialLayout = YES;
-    }
-    
-    if (![NSURLSession class])
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
@@ -165,10 +168,6 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    if (![NSURLSession class])
-    {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    }
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
@@ -768,18 +767,9 @@ void uncaughtExceptionHandler(NSException *exception)
             self.controllerView.skinOpacity = 1.0f;
         }
         
-        /*if ([NSURLSession class])
-        {
-            [UIView performWithoutAnimation:^{
-                self.controllerView.alpha = 0.5f;
-            }];
-        }
-        else
-        {
-            [UIView animateWithDuration:0 animations:^{
-                self.controllerView.alpha = 0.5f;
-            }];
-        }*/
+        [UIView performWithoutAnimation:^{
+            self.controllerView.alpha = 0.5f;
+        }];
     }
 }
 
@@ -925,9 +915,13 @@ void uncaughtExceptionHandler(NSException *exception)
         return;
     }
     
-    self.emulationPaused = NO;
-    [self resumeEmulation];
+    if (_rom) // If there was a previous ROM make sure to unpause it!
+    {
+        self.emulationPaused = NO;
+        [self resumeEmulation];
+    }
     
+    // Put this after the resume because even if the ROM is the same, we need to resume the game since we paused it
     if ([_rom isEqual:rom])
     {
         return;
