@@ -71,8 +71,6 @@
 		CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
-		CC491D4917BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
-		CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
@@ -136,8 +134,6 @@
 		CC81EACD17EBA2BC006FD348 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81EABF17EBA2BC006FD348 /* UIWebView+AFNetworking.m */; };
 		CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
 		CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
-		CC86825417A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
-		CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */; };
 		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
@@ -291,10 +287,6 @@
 		CCE18DED17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
-		CCE3CE0517AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */; };
-		CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */; };
-		CCFA493817B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */; };
-		CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */; };
 		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
 		CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
 		CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
@@ -463,8 +455,6 @@
 		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		CC491D4717BCA5420060A107 /* GBAThemedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAThemedTableViewController.h; sourceTree = "<group>"; };
-		CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAThemedTableViewController.m; sourceTree = "<group>"; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
 		CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASaveStateViewController.mm; sourceTree = "<group>"; };
 		CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OriginalImages.xcassets; path = GBA.emu/OriginalImages.xcassets; sourceTree = SOURCE_ROOT; };
@@ -515,8 +505,6 @@
 		CC81EABF17EBA2BC006FD348 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		CC823BC217B04A7A000A25E6 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
-		CC86825217A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentEmulationViewControllerAnimator.h; sourceTree = "<group>"; };
-		CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPresentEmulationViewControllerAnimator.m; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CC8D5A7817AAE3A800E89F43 /* GBAControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerView.h; sourceTree = "<group>"; };
@@ -547,11 +535,7 @@
 		CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAAsynchronousLocalImageTableViewCell.m; sourceTree = "<group>"; };
 		CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASettingsViewController.h; sourceTree = "<group>"; };
 		CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASettingsViewController.m; sourceTree = "<group>"; };
-		CCE3CE0317AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentMenuViewControllerAnimator.h; sourceTree = "<group>"; };
-		CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPresentMenuViewControllerAnimator.m; sourceTree = "<group>"; };
 		CCF025A5179E4E49002A3BF6 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = "emu-ex-plus-alpha/imagine/build/ios-armv7/gen/config.h"; sourceTree = SOURCE_ROOT; };
-		CCFA493617B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBATransparentTableViewHeaderFooterView.h; sourceTree = "<group>"; };
-		CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBATransparentTableViewHeaderFooterView.m; sourceTree = "<group>"; };
 		CCFA7155179D2EAA00768D24 /* logger.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = logger.cc; path = "emu-ex-plus-alpha/imagine/src/logger/stdio/logger.cc"; sourceTree = SOURCE_ROOT; };
 		CCFA7156179D2EAA00768D24 /* coreaudio.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coreaudio.cc; path = "emu-ex-plus-alpha/imagine/src/audio/coreaudio/coreaudio.cc"; sourceTree = SOURCE_ROOT; };
 		CCFA7157179D2EAA00768D24 /* Pixmap.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pixmap.cc; path = "emu-ex-plus-alpha/imagine/src/pixmap/Pixmap.cc"; sourceTree = SOURCE_ROOT; };
@@ -928,7 +912,6 @@
 				CC823BC117B04A6D000A25E6 /* Categories */,
 				CCFA493517B00F5100386A43 /* Views */,
 				CCE3CDFA17AE9E5000FAB9C8 /* Other View Controllers */,
-				CC86825117A6DCC600686607 /* Custom Transitions */,
 				CC2D57061798F2EC00C616EB /* Supporting Files */,
 			);
 			path = GBA4iOS;
@@ -972,15 +955,6 @@
 				1AD971F117D2C6ED007097BC /* GBAController.m */,
 			);
 			name = Controller;
-			sourceTree = "<group>";
-		};
-		CC491D4B17BCA5460060A107 /* Themed Table View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				CC491D4717BCA5420060A107 /* GBAThemedTableViewController.h */,
-				CC491D4817BCA5420060A107 /* GBAThemedTableViewController.m */,
-			);
-			name = "Themed Table View Controller";
 			sourceTree = "<group>";
 		};
 		CC6A2D9417C508EA00EFC10E /* Cheats */ = {
@@ -1070,17 +1044,6 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		CC86825117A6DCC600686607 /* Custom Transitions */ = {
-			isa = PBXGroup;
-			children = (
-				CC86825217A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.h */,
-				CC86825317A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m */,
-				CCE3CE0317AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.h */,
-				CCE3CE0417AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m */,
-			);
-			name = "Custom Transitions";
-			sourceTree = "<group>";
-		};
 		CC8BB0611799A21000F9864F /* Emulation View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -1151,7 +1114,6 @@
 			isa = PBXGroup;
 			children = (
 				CCA1056817F6A5E00018D364 /* GBASplitViewController */,
-				CC491D4B17BCA5460060A107 /* Themed Table View Controller */,
 			);
 			name = "Other View Controllers";
 			sourceTree = "<group>";
@@ -1159,8 +1121,6 @@
 		CCFA493517B00F5100386A43 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CCFA493617B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.h */,
-				CCFA493717B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1450,7 +1410,6 @@
 				BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
 				CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */,
 				CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */,
-				CC86825517A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CC81EAB117EBA2B0006FD348 /* AFURLSessionManager.m in Sources */,
 				CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
 				CC81EAA517EBA2B0006FD348 /* AFHTTPSessionManager.m in Sources */,
@@ -1472,16 +1431,13 @@
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
 				CC81EAC517EBA2BC006FD348 /* UIAlertView+AFNetworking.m in Sources */,
 				1AD65D7C17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
-				CC491D4A17BCA5420060A107 /* GBAThemedTableViewController.m in Sources */,
 				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CC81EAA717EBA2B0006FD348 /* AFNetworkReachabilityManager.m in Sources */,
-				CCE3CE0617AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
 				CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */,
 				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				1AD971E817D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */,
 				CC81EAAB17EBA2B0006FD348 /* AFURLConnectionOperation.m in Sources */,
 				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
-				CCFA493917B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
 				BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC81EAC717EBA2BC006FD348 /* UIButton+AFNetworking.m in Sources */,
@@ -1526,11 +1482,9 @@
 				CCFA720A179D304700768D24 /* Mode2.cpp in Sources */,
 				CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */,
 				CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */,
-				CC491D4917BCA5420060A107 /* GBAThemedTableViewController.m in Sources */,
 				CCFA7178179D2EAB00768D24 /* View.cc in Sources */,
 				CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */,
 				CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
-				CCFA493817B00F7600386A43 /* GBATransparentTableViewHeaderFooterView.m in Sources */,
 				CCFA71FF179D304700768D24 /* Cheats.cpp in Sources */,
 				CCFA7217179D304700768D24 /* Multi_Buffer.cpp in Sources */,
 				CCFA71FA179D304700768D24 /* Main.cc in Sources */,
@@ -1557,7 +1511,6 @@
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
-				CC86825417A6DD0A00686607 /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
 				CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */,
@@ -1570,7 +1523,6 @@
 				CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */,
-				CCE3CE0517AF807300FAB9C8 /* GBAPresentMenuViewControllerAnimator.m in Sources */,
 				CC81EAC017EBA2BC006FD348 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */,
 				CCFA7201179D304700768D24 /* EEprom.cpp in Sources */,

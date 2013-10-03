@@ -8,10 +8,7 @@
 
 #import "GBAROMTableViewController.h"
 #import "GBAEmulationViewController.h"
-#import "GBAPresentEmulationViewControllerAnimator.h"
 #import "GBASettingsViewController.h"
-#import "GBAPresentMenuViewControllerAnimator.h"
-#import "GBATransparentTableViewHeaderFooterView.h"
 #import "GBAROM.h"
 #import "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"
 #import "GBAMailActivity.h"
@@ -36,14 +33,11 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 @interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate>
 
-@property (readwrite, assign, nonatomic) BOOL viewIsVisible;
-
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloads;
 @property (weak, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
-@property (assign, nonatomic) GBAROMTableViewControllerTheme theme;
 @property (strong, nonatomic) UIViewController *backgroundViewController;
 
 @property (copy, nonatomic) RSTWebViewControllerStartDownloadBlock startDownloadBlock;
@@ -85,8 +79,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     GBAROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"romType"];
     self.romType = romType;
-    
-    self.theme = GBAROMTableViewControllerThemeOpaque;
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
     progressView.frame = CGRectMake(0,
@@ -379,15 +371,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     {
         cell.userInteractionEnabled = YES;
         
-        switch (self.theme) {
-            case GBAROMTableViewControllerThemeOpaque:
-                cell.textLabel.textColor = [UIColor blackColor];
-                break;
-                
-            case GBAROMTableViewControllerThemeTranslucent:
-                cell.textLabel.textColor = [UIColor whiteColor];
-                break;
-        }
+        cell.textLabel.textColor = [UIColor blackColor];
     }
     
     if (cell.longPressGestureRecognizer == nil)
@@ -406,15 +390,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     return UITableViewAutomaticDimension;
 }
-
-/*- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    GBATransparentTableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Header"];
-    headerView.textLabel.text = [super tableView:tableView titleForHeaderInSection:section];
-    headerView.theme = self.theme;
-    
-    return headerView;
-}*/
 
 - (NSString *)visibleFileExtensionForIndexPath:(NSIndexPath *)indexPath
 {
@@ -725,59 +700,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self presentViewController:activityViewController animated:YES completion:NULL];
 }
 
-#pragma mark - Presenting/Dismissing Emulation View Controller
-
-- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
-{
-    GBAPresentEmulationViewControllerAnimator *animator = [[GBAPresentEmulationViewControllerAnimator alloc] init];
-    
-    animator.completionBlock = ^{
-        [self removeViewControllerFromBackground];
-    };
-    return animator;
-}
-
-- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
-{
-    GBAPresentMenuViewControllerAnimator *animator = [[GBAPresentMenuViewControllerAnimator alloc] init];
-    
-    __weak GBAPresentMenuViewControllerAnimator *weakAnimator = animator;
-    
-    animator.completionBlock = ^{
-        [self placeViewControllerInBackground:weakAnimator.emulationViewController];
-    };
-    //self.theme = GBAROMTableViewControllerThemeTranslucent;
-    
-    return animator;
-}
-
-- (void)placeViewControllerInBackground:(UIViewController *)viewController
-{
-    UIView *view = viewController.view;
-    view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    
-    [viewController willMoveToParentViewController:self];
-    [self addChildViewController:viewController];
-    [self.tableView.backgroundView insertSubview:view atIndex:0];
-    [viewController willMoveToParentViewController:self];
-    [viewController didMoveToParentViewController:self];
-    
-    self.backgroundViewController = viewController;
-}
-
-- (void)removeViewControllerFromBackground
-{
-    UIView *view = self.backgroundViewController.view;
-    
-    [self.backgroundViewController willMoveToParentViewController:nil];
-    [self.backgroundViewController removeFromParentViewController];
-    [view removeFromSuperview];
-    [self.backgroundViewController willMoveToParentViewController:nil];
-    [self.backgroundViewController didMoveToParentViewController:nil];
-    
-    self.backgroundViewController = nil;
-}
-
 #pragma mark - IBActions
 
 - (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl
@@ -807,7 +729,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem
 {
     GBASettingsViewController *settingsViewController = [[GBASettingsViewController alloc] init];
-    settingsViewController.theme = self.theme;
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController) animated:YES completion:NULL];
 }
 
@@ -834,45 +755,5 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     _romType = romType;
 }
-
-- (void)setTheme:(GBAROMTableViewControllerTheme)theme
-{
-    if (_theme == theme)
-    {
-        return;
-    }
-    
-    _theme = theme;
-    
-    /*switch (theme) {
-        case GBAROMTableViewControllerThemeTranslucent: {
-            self.tableView.backgroundColor = [UIColor clearColor];
-            self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-            
-            UIView *view = [[UIView alloc] init];
-            view.backgroundColor = [UIColor clearColor];
-            
-            self.tableView.backgroundView = view;
-            
-            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateNormal];
-            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateSelected];
-            
-            //self.tableView.rowHeight = 600;
-            
-            break;
-        }
-            
-        case GBAROMTableViewControllerThemeOpaque:
-            self.tableView.backgroundColor = [UIColor whiteColor];
-            self.tableView.backgroundView = nil;
-            self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-            
-            
-            break;
-    }*/
-    
-    [self.tableView reloadData];
-}
-
 
 @end

@@ -22,8 +22,6 @@ static NSString *GBASettingsControllerOpacity = @"controllerOpacity";
 
 @interface GBASettingsViewController : UITableViewController
 
-@property (assign, nonatomic) GBAROMTableViewControllerTheme theme;
-
 + (void)registerDefaults;
 
 @end
