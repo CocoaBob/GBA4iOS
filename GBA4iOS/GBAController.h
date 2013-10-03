@@ -24,8 +24,8 @@ typedef NS_ENUM(NSInteger, GBAControllerRect)
 
 typedef NS_ENUM(NSInteger, GBAControllerOrientation)
 {
-    GBAControllerOrientationPortrait   =    1 << 0,
-    GBAControllerOrientationLandscape  =    1 << 1,
+    GBAControllerOrientationPortrait   =    0,
+    GBAControllerOrientationLandscape  =    1,
 };
 
 typedef NS_ENUM(NSInteger, GBAControllerButton)

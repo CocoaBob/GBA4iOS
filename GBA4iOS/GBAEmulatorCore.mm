@@ -405,7 +405,7 @@ namespace GameFilePicker {
     optionConfirmAutoLoadState = NO;
     optionHideStatusBar = YES;
     
-    int frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
+    NSInteger frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
     
     if (frameskip < 0)
     {
@@ -479,7 +479,7 @@ extern SysVController vController;
 {
     for (NSNumber *button in buttons)
     {
-        vController.inputAction(Input::PUSHED, [button integerValue]);
+        vController.inputAction(Input::PUSHED, [button unsignedIntValue]);
     }
     
 }
@@ -488,7 +488,7 @@ extern SysVController vController;
 {
     for (NSNumber *button in buttons)
     {
-        vController.inputAction(Input::RELEASED, [button integerValue]);
+        vController.inputAction(Input::RELEASED, [button unsignedIntValue]);
     }
     
 }
@@ -599,7 +599,7 @@ extern GBASys gGba;
     
     __block BOOL succeeded = YES;
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger index, BOOL *stop) {
-        NSString *title = [NSString stringWithFormat:@"%@ %d", cheat.name, index];
+        NSString *title = [NSString stringWithFormat:@"%@ %lull", cheat.name, (unsigned long)index];
         succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
         
         if (!succeeded)
@@ -638,7 +638,7 @@ extern GBASys gGba;
     return [self disableCheat:cheat atIndex:index];
 }
 
-- (void)disableCheat:(GBACheat *)cheat atIndex:(int)index
+- (void)disableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
 {
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
         cheatsDisable(gGba.cpu, index + enumertionIndex);

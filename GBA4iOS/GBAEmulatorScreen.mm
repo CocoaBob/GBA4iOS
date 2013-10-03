@@ -43,6 +43,9 @@
 - (void)layoutSubviews
 {
     self.eaglView.center = CGPointMake(roundf(self.bounds.size.width/2.0f), roundf(self.bounds.size.height/2.0f));
+    self.eaglView.frame = CGRectIntegral(self.eaglView.frame);
+    
+    DLog(@"%@", NSStringFromCGRect(self.eaglView.frame));
 }
 
 @end

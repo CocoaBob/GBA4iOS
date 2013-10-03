@@ -256,8 +256,6 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)setUpAirplayScreen:(UIScreen *)screen
 {
-    
-    return;
     CGRect screenBounds = screen.bounds;
     
     self.airplayWindow = ({

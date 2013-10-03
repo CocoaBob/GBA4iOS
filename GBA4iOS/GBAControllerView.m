@@ -263,7 +263,7 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
 {
     NSMutableSet *buttons = [NSMutableSet set];
     
-    CGPoint point = [touch locationInView:self];
+    CGPoint point = [touch locationInView:self.imageView]; // In case, for example, a widescreen iPhone is using a skin that doesn't support the 4" screen
     
     CGRect dPadRect = [self.controller rectForButtonRect:GBAControllerRectDPad orientation:self.orientation];
     if (CGRectContainsPoint(dPadRect, point))
@@ -370,9 +370,7 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     void(^AddOverlayForButton)(GBAControllerRect button) = ^(GBAControllerRect button)
     {
         UILabel *overlay = [[UILabel alloc] initWithFrame:[self.controller rectForButtonRect:button orientation:self.orientation]];
-        
-        DLog(@"%@", self.controller);
-        
+                
         overlay.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5];
         overlay.text = [self.controller keyForButtonRect:button];
         overlay.adjustsFontSizeToFitWidth = YES;
