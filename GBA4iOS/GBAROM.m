@@ -28,7 +28,7 @@
     return rom;
 }
 
-+ (void)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredFilename:(NSString *)preferredFilename
++ (void)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)preferredName
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -41,6 +41,7 @@
     [SSZipArchive unzipFileAtPath:filepath toDestination:tempDirectory];
 
     NSString *romFilename = nil;
+    NSString *extension = nil;
     
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tempDirectory error:nil];
     
@@ -49,17 +50,20 @@
         if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
             [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"])
         {
-            romFilename = filename;
+            romFilename = [filename stringByDeletingPathExtension];
+            extension = [filename pathExtension];
             break;
         }
     }
     
-    if (preferredFilename == nil)
+    if (preferredName == nil)
     {
-        preferredFilename = romFilename;
+        preferredName = romFilename;
     }
     
-    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:romFilename] toPath:[documentsDirectory stringByAppendingPathComponent:preferredFilename] error:nil];
+    NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
+    
+    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:romFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
 }
 

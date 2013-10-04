@@ -87,7 +87,7 @@ static char *string_copy(char *dest, const char *src, size_t destSize)
 			break;
 	}*/
 
-	uint charsToCopy = std::min(destSize-1, strlen(src));
+	uint charsToCopy = (uint)std::min(destSize-1, strlen(src));
 	memcpy(dest, src, charsToCopy);
 	dest[charsToCopy] = '\0';
 

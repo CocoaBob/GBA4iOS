@@ -84,7 +84,7 @@
         
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"])
     {
-        [GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredFilename:nil];
+        [GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:nil];
         [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
     }
     else

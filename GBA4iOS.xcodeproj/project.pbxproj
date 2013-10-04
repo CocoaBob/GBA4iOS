@@ -265,6 +265,8 @@
 		CC96F00C17C2984F00C7DD0C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
+		CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
+		CC9EA6CE17FE7FC4005BD5E6 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
 		CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
 		CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
 		CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
@@ -513,6 +515,8 @@
 		CC96EF6B17C2959900C7DD0C /* GBA.emu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBA.emu-Info.plist"; sourceTree = "<group>"; };
 		CC96EF7117C2959900C7DD0C /* GBA.emu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA.emu-Prefix.pch"; sourceTree = "<group>"; };
 		CC96F00917C2983800C7DD0C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		CC9EA6C917FE7CE1005BD5E6 /* UITableViewController+Theming.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+Theming.h"; sourceTree = "<group>"; };
+		CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+Theming.m"; sourceTree = "<group>"; };
 		CCA1056917F6A5F80018D364 /* GBASplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASplitViewController.h; sourceTree = "<group>"; };
 		CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASplitViewController.m; sourceTree = "<group>"; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
@@ -909,7 +913,7 @@
 				BFF66D8A17C95663002FDC14 /* Debug */,
 				CC7AC2EB17C694E800FB7642 /* Emulation */,
 				CCE3CDF917AE9E4500FAB9C8 /* Settings */,
-				CC823BC117B04A6D000A25E6 /* Categories */,
+				CC823BC117B04A6D000A25E6 /* Categories / Protocols */,
 				CCFA493517B00F5100386A43 /* Views */,
 				CCE3CDFA17AE9E5000FAB9C8 /* Other View Controllers */,
 				CC2D57061798F2EC00C616EB /* Supporting Files */,
@@ -1025,7 +1029,7 @@
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
-		CC823BC117B04A6D000A25E6 /* Categories */ = {
+		CC823BC117B04A6D000A25E6 /* Categories / Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				CC33F0E117E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h */,
@@ -1040,8 +1044,10 @@
 				BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */,
 				CCBD34EF17F7492F00592602 /* UIDevice-Hardware.h */,
 				CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */,
+				CC9EA6C917FE7CE1005BD5E6 /* UITableViewController+Theming.h */,
+				CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */,
 			);
-			name = Categories;
+			name = "Categories / Protocols";
 			sourceTree = "<group>";
 		};
 		CC8BB0611799A21000F9864F /* Emulation View Controller */ = {
@@ -1419,6 +1425,7 @@
 				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC81EACD17EBA2BC006FD348 /* UIWebView+AFNetworking.m in Sources */,
 				CC81EAAD17EBA2B0006FD348 /* AFURLRequestSerialization.m in Sources */,
+				CC9EA6CE17FE7FC4005BD5E6 /* UITableViewController+Theming.m in Sources */,
 				1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC81EAC917EBA2BC006FD348 /* UIImageView+AFNetworking.m in Sources */,
@@ -1510,6 +1517,7 @@
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
+				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
 				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,

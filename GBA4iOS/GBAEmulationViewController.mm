@@ -103,11 +103,19 @@ static GBAEmulationViewController *_emulationViewController;
     self.extendedLayoutIncludesOpaqueBars = YES;
     
     [self updateSettings:nil];
+    
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self blurWithInitialAlpha:1.0f];
+    });
 }
 
 - (void)performInitialLayout
 {
     [self.view layoutIfNeeded];
+    
+    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
     
     if (self.airplayWindow == nil)
     {
@@ -652,77 +660,121 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (NSUInteger)supportedInterfaceOrientations
 {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        return UIInterfaceOrientationMaskAll;
+    }
+    
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-#define ROTATION_SHAPSHOT_TAG 13
+#define CONTROLLER_SNAPSHOT_TAG 17
+#define SCREEN_SNAPSHOT_TAG 15
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if ([self.view respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)] && (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) != UIInterfaceOrientationIsPortrait(toInterfaceOrientation)))
+    UIView *controllerSnapshot = nil;
+    UIView *screenSnapshot = nil;
+    
+    [self updateControllerSkinForInterfaceOrientation:toInterfaceOrientation];
+    
+    if (self.blurringContents)
     {
-        UIView *snapshotView = [self.controllerView snapshotViewAfterScreenUpdates:NO];
-        snapshotView.frame = self.controllerView.frame;
-        snapshotView.tag = ROTATION_SHAPSHOT_TAG;
-        snapshotView.alpha = 1.0;
+        controllerSnapshot = [self.blurredControllerImageView snapshotViewAfterScreenUpdates:NO];
+        screenSnapshot = [self.blurredScreenImageView snapshotViewAfterScreenUpdates:NO];
+        self.blurredControllerImageView.alpha = 1.0;
         
-        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
-        {
-            self.controllerView.alpha = 0.0;
-            [self.view insertSubview:snapshotView belowSubview:self.controllerView];
-        }
-        else
-        {
-            [self.view addSubview:snapshotView];
-        }
+        //self.blurredControllerImageView.image = [self blurredImageFromView:self.controllerView];
     }
+    else
+    {
+        controllerSnapshot = [self.controllerView snapshotViewAfterScreenUpdates:NO];
+        screenSnapshot = [self.screenContainerView snapshotViewAfterScreenUpdates:NO];
+        self.controllerView.alpha = 0.0;
+        
+    }
+    
+    // Possible iOS 7 bug? Attempting to set this in willAnimateRotationToInterfaceOrientation:duration: simply overrides the above setting of opacity
+    // This way, it is definitely animated
+    [UIView animateWithDuration:duration animations:^{
+        self.controllerView.alpha = 1.0;
+        self.blurredControllerImageView.alpha = 1.0;
+    }];
+    
+    controllerSnapshot.frame = self.controllerView.frame;
+    controllerSnapshot.tag = CONTROLLER_SNAPSHOT_TAG;
+    controllerSnapshot.alpha = 1.0;
+    
+    screenSnapshot.frame = self.screenContainerView.frame;
+    screenSnapshot.tag = SCREEN_SNAPSHOT_TAG;
+    screenSnapshot.alpha = 1.0;
+    
+    //[self.view addSubview:controllerSnapshot];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if ([self.view respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
-    {
-        UIView *snapshotView = [self.view viewWithTag:ROTATION_SHAPSHOT_TAG];
-        snapshotView.alpha = 0.0;
-        snapshotView.frame = self.controllerView.frame;
-        
-    }
+    UIView *controllerSnapshot = [self.view viewWithTag:CONTROLLER_SNAPSHOT_TAG];
+    controllerSnapshot.alpha = 0.0;
+    controllerSnapshot.frame = self.controllerView.frame;
     
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
-    {
-        self.controllerView.alpha = 1.0;
-    }
+    // Doesn't seem to work as of 7.0.2; overrides setting of alpha in willRotateToInterfaceOrientation:duration:, so no animation occurs
+    //self.controllerView.alpha = 1.0;
+    //self.blurredControllerImageView.alpha = 1.0;
     
     if (self.airplayWindow == nil)
     {
 #if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.view.bounds.size] screen:[UIScreen mainScreen]];
         [self.emulatorScreen invalidateIntrinsicContentSize];
+#else 
+        
+        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        {
+            self.emulatorScreen.bounds = CGRectMake(0, 0, 320, 240);
+        }
+        else
+        {
+            self.emulatorScreen.bounds = CGRectMake(0, 0, 480, 320);
+        }
+        
 #endif
+        
+        self.blurredScreenImageView.frame = self.emulatorScreen.frame;
     }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    if ([self.view respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
-    {
-        UIView *snapshotView = [self.view viewWithTag:ROTATION_SHAPSHOT_TAG];
-        [snapshotView removeFromSuperview];
-    }
+    UIView *snapshotView = [self.view viewWithTag:CONTROLLER_SNAPSHOT_TAG];
+    [snapshotView removeFromSuperview];
 }
 
 - (void)viewWillLayoutSubviews
 {
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
     {
-        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint] == NO)
+        if (![[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
         {
             [self.view addConstraint:self.portraitBottomLayoutConstraint];
         }
-        
+    }
+    else
+    {
+        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
+        {
+            [self.view removeConstraint:self.portraitBottomLayoutConstraint];
+        }
+    }
+}
+
+- (void)updateControllerSkinForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
-                
+        
         self.controllerView.controller = controller;
         self.controllerView.orientation = GBAControllerOrientationPortrait;
         
@@ -740,11 +792,6 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     else
     {
-        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
-        {
-            [self.view removeConstraint:self.portraitBottomLayoutConstraint];
-        }
-        
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"landscape"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
         self.controllerView.controller = controller;
@@ -840,6 +887,7 @@ void uncaughtExceptionHandler(NSException *exception)
     self.blurredScreenImageView = ({
         UIImage *blurredImage = [self blurredImageFromView:self.screenContainerView];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
+        imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [imageView sizeToFit];
         imageView.center = self.emulatorScreen.center;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -848,9 +896,12 @@ void uncaughtExceptionHandler(NSException *exception)
         imageView;
     });
     
+    self.emulatorScreen.hidden = YES;
+    
     self.blurredControllerImageView = ({
         UIImage *blurredImage = [self blurredImageFromView:self.controllerView];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
+        imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [imageView sizeToFit];
         imageView.center = self.controllerView.center;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -858,6 +909,46 @@ void uncaughtExceptionHandler(NSException *exception)
         [self.controllerView.superview addSubview:imageView];
         imageView;
     });
+    
+    self.controllerView.hidden = YES;
+    
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.blurredScreenImageView
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self.emulatorScreen
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                 multiplier:1.0
+                                                                   constant:0];
+    [self.screenContainerView.superview addConstraint:constraint];
+    
+    constraint = [NSLayoutConstraint constraintWithItem:self.blurredScreenImageView
+                                                    attribute:NSLayoutAttributeCenterY
+                                                    relatedBy:NSLayoutRelationEqual
+                                                       toItem:self.emulatorScreen
+                                                    attribute:NSLayoutAttributeCenterY
+                                                   multiplier:1.0
+                                                     constant:0];
+    [self.screenContainerView.superview addConstraint:constraint];
+    
+    constraint = [NSLayoutConstraint constraintWithItem:self.blurredControllerImageView
+                                              attribute:NSLayoutAttributeCenterX
+                                              relatedBy:NSLayoutRelationEqual
+                                                 toItem:self.controllerView
+                                              attribute:NSLayoutAttributeCenterX
+                                             multiplier:1.0
+                                               constant:0];
+    [self.controllerView.superview addConstraint:constraint];
+    
+    constraint = [NSLayoutConstraint constraintWithItem:self.blurredControllerImageView
+                                              attribute:NSLayoutAttributeCenterY
+                                              relatedBy:NSLayoutRelationEqual
+                                                 toItem:self.controllerView
+                                              attribute:NSLayoutAttributeCenterY
+                                             multiplier:1.0
+                                               constant:0];
+    [self.controllerView.superview addConstraint:constraint];
+    
+    
     
     self.blurringContents = YES;
 }
@@ -868,9 +959,11 @@ void uncaughtExceptionHandler(NSException *exception)
     
     [self.blurredControllerImageView removeFromSuperview];
     self.blurredControllerImageView = nil;
+    self.controllerView.hidden = NO;
     
     [self.blurredScreenImageView removeFromSuperview];
     self.blurredScreenImageView = nil;
+    self.controllerView.hidden = NO;
 }
 
 - (void)setBlurAlpha:(CGFloat)blurAlpha

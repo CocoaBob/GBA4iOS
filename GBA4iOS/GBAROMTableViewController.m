@@ -13,6 +13,7 @@
 #import "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"
 #import "GBAMailActivity.h"
 #import "GBASplitViewController.h"
+#import "UITableViewController+Theming.h"
 
 #import <RSTWebViewController.h>
 #import <UIAlertView+RSTAdditions.h>
@@ -31,7 +32,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeGBC,
 };
 
-@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate>
+@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, GBAThemedTableViewController>
 
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
@@ -50,6 +51,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 @end
 
 @implementation GBAROMTableViewController
+@synthesize theme = _theme;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -94,6 +96,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     self.downloadProgressView = progressView;
+    
+    self.theme = GBAThemedTableViewControllerThemeTranslucent;
         
     //NSFileManager *fileManager = [NSFileManager defaultManager];
     //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
@@ -239,8 +243,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         filename = @" ";
     }
     
-    filename = [filename stringByAppendingPathExtension:@"gba"];
-    
     // Write temp file so it shows up in the file browser, but we'll then gray it out.
     [filename writeToFile:[self.currentDirectory stringByAppendingPathComponent:filename] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
@@ -301,7 +303,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     if ([[[remoteURL absoluteString] pathExtension] isEqualToString:@"zip"] || [remoteURL.host hasPrefix:@"dl.coolrom"])
     {
-        [GBAROM unzipROMAtPathToROMDirectory:[fileURL path] withPreferredFilename:filename];
+        [GBAROM unzipROMAtPathToROMDirectory:[fileURL path] withPreferredROMTitle:[filename stringByDeletingPathExtension]];
     }
     else
     {
@@ -362,6 +364,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     NSString *filename = [self filenameForIndexPath:indexPath];
     
+    [self themeTableViewCell:cell];
+    
     if ([self isDownloadingFile:filename])
     {
         cell.userInteractionEnabled = NO;
@@ -370,8 +374,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     else
     {
         cell.userInteractionEnabled = YES;
-        
-        cell.textLabel.textColor = [UIColor blackColor];
     }
     
     if (cell.longPressGestureRecognizer == nil)
@@ -379,9 +381,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didDetectLongPressGesture:)];
         [cell setLongPressGestureRecognizer:longPressGestureRecognizer];
     }
-    
-    cell.textLabel.backgroundColor = [UIColor clearColor];
-    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -406,6 +405,18 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (void)didRefreshCurrentDirectory
 {
     [super didRefreshCurrentDirectory];
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.currentDirectory error:nil];
+    
+    for (NSString *filename in contents)
+    {
+        if ([[filename lowercaseString] hasSuffix:@"zip"] && ![self isDownloadingFile:filename])
+        {
+            NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
+            [GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension]];
+            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+        }
+    }
 }
 
 #pragma mark - Directories
@@ -754,6 +765,30 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     }
     
     _romType = romType;
+}
+
+- (void)setTheme:(GBAThemedTableViewControllerTheme)theme
+{
+    if (_theme == theme)
+    {
+        return;
+    }
+    
+    _theme = theme;
+    
+    switch (theme) {
+        case GBAThemedTableViewControllerThemeOpaque:
+            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: GBA4iOS_PURPLE_COLOR} forState:UIControlStateNormal];
+            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateSelected];
+            break;
+            
+        case GBAThemedTableViewControllerThemeTranslucent:
+            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateNormal];
+            [self.romTypeSegmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]} forState:UIControlStateSelected];
+            break;
+    }
+    
+    [self updateTheme];
 }
 
 @end
