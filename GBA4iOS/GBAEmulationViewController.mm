@@ -48,8 +48,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) NSMutableSet *sustainedButtonSet;
 
 @property (assign, nonatomic) BOOL blurringContents;
-@property (strong, nonatomic) UIImageView *blurredScreenImageView;
-@property (strong, nonatomic) UIImageView *blurredControllerImageView;
+@property (strong, nonatomic) UIImageView *blurredContentsImageView;
 
 @end
 
@@ -103,12 +102,6 @@ static GBAEmulationViewController *_emulationViewController;
     self.extendedLayoutIncludesOpaqueBars = YES;
     
     [self updateSettings:nil];
-    
-    double delayInSeconds = 2.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self blurWithInitialAlpha:1.0f];
-    });
 }
 
 - (void)performInitialLayout
@@ -401,6 +394,7 @@ static GBAEmulationViewController *_emulationViewController;
             
             if (buttonIndex == 1)
             {
+                [self blurWithInitialAlpha:1.0f];
                 [self resumeEmulation];
             }
             else if (buttonIndex == 2)
@@ -668,48 +662,40 @@ void uncaughtExceptionHandler(NSException *exception)
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-#define CONTROLLER_SNAPSHOT_TAG 17
-#define SCREEN_SNAPSHOT_TAG 15
+#define BLURRED_SNAPSHOT_TAG 17
+#define CONTROLLER_SNAPSHOT_TAG 15
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    UIView *controllerSnapshot = nil;
-    UIView *screenSnapshot = nil;
-    
-    [self updateControllerSkinForInterfaceOrientation:toInterfaceOrientation];
+    UIView *controllerSnapshot = [self.controllerView snapshotViewAfterScreenUpdates:NO];
+    controllerSnapshot.frame = self.controllerView.frame;
+    controllerSnapshot.tag = CONTROLLER_SNAPSHOT_TAG;
+    controllerSnapshot.alpha = 1.0;
+    [self.view insertSubview:controllerSnapshot aboveSubview:self.controllerView];
     
     if (self.blurringContents)
     {
-        controllerSnapshot = [self.blurredControllerImageView snapshotViewAfterScreenUpdates:NO];
-        screenSnapshot = [self.blurredScreenImageView snapshotViewAfterScreenUpdates:NO];
-        self.blurredControllerImageView.alpha = 1.0;
+        UIView *blurredSnapshot = [self.blurredContentsImageView snapshotViewAfterScreenUpdates:NO];
+        blurredSnapshot.frame = self.blurredContentsImageView.frame;
+        blurredSnapshot.tag = BLURRED_SNAPSHOT_TAG;
+        blurredSnapshot.alpha = 1.0;
         
-        //self.blurredControllerImageView.image = [self blurredImageFromView:self.controllerView];
-    }
-    else
-    {
-        controllerSnapshot = [self.controllerView snapshotViewAfterScreenUpdates:NO];
-        screenSnapshot = [self.screenContainerView snapshotViewAfterScreenUpdates:NO];
-        self.controllerView.alpha = 0.0;
+        [self.view addSubview:blurredSnapshot];
         
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation];
     }
+    
+    [self updateControllerSkinForInterfaceOrientation:toInterfaceOrientation];
+    
+    self.controllerView.alpha = 0.0;
+    //self.blurredContentsImageView.alpha = 0.0;
     
     // Possible iOS 7 bug? Attempting to set this in willAnimateRotationToInterfaceOrientation:duration: simply overrides the above setting of opacity
     // This way, it is definitely animated
     [UIView animateWithDuration:duration animations:^{
         self.controllerView.alpha = 1.0;
-        self.blurredControllerImageView.alpha = 1.0;
+        self.blurredContentsImageView.alpha = 1.0;
     }];
-    
-    controllerSnapshot.frame = self.controllerView.frame;
-    controllerSnapshot.tag = CONTROLLER_SNAPSHOT_TAG;
-    controllerSnapshot.alpha = 1.0;
-    
-    screenSnapshot.frame = self.screenContainerView.frame;
-    screenSnapshot.tag = SCREEN_SNAPSHOT_TAG;
-    screenSnapshot.alpha = 1.0;
-    
-    //[self.view addSubview:controllerSnapshot];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -717,6 +703,12 @@ void uncaughtExceptionHandler(NSException *exception)
     UIView *controllerSnapshot = [self.view viewWithTag:CONTROLLER_SNAPSHOT_TAG];
     controllerSnapshot.alpha = 0.0;
     controllerSnapshot.frame = self.controllerView.frame;
+    
+    UIView *blurredSnapshot = [self.view viewWithTag:BLURRED_SNAPSHOT_TAG];
+    blurredSnapshot.alpha = 0.0;
+    blurredSnapshot.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
+    
+    self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     
     // Doesn't seem to work as of 7.0.2; overrides setting of alpha in willRotateToInterfaceOrientation:duration:, so no animation occurs
     //self.controllerView.alpha = 1.0;
@@ -739,15 +731,16 @@ void uncaughtExceptionHandler(NSException *exception)
         }
         
 #endif
-        
-        self.blurredScreenImageView.frame = self.emulatorScreen.frame;
     }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    UIView *snapshotView = [self.view viewWithTag:CONTROLLER_SNAPSHOT_TAG];
-    [snapshotView removeFromSuperview];
+    UIView *controllerSnapshot = [self.view viewWithTag:CONTROLLER_SNAPSHOT_TAG];
+    [controllerSnapshot removeFromSuperview];
+    
+    UIView *blurredSnapshot = [self.view viewWithTag:BLURRED_SNAPSHOT_TAG];
+    [blurredSnapshot removeFromSuperview];
 }
 
 - (void)viewWillLayoutSubviews
@@ -884,71 +877,37 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)blurWithInitialAlpha:(CGFloat)alpha
 {
-    self.blurredScreenImageView = ({
-        UIImage *blurredImage = [self blurredImageFromView:self.screenContainerView];
+    self.blurredContentsImageView = ({
+        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [imageView sizeToFit];
         imageView.center = self.emulatorScreen.center;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.alpha = alpha;
-        [self.screenContainerView.superview addSubview:imageView];
-        imageView;
-    });
-    
-    self.emulatorScreen.hidden = YES;
-    
-    self.blurredControllerImageView = ({
-        UIImage *blurredImage = [self blurredImageFromView:self.controllerView];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
-        imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        [imageView sizeToFit];
-        imageView.center = self.controllerView.center;
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        imageView.alpha = alpha;
-        [self.controllerView.superview addSubview:imageView];
+        [self.view addSubview:imageView];
         imageView;
     });
     
     self.controllerView.hidden = YES;
     
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.blurredScreenImageView
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.blurredContentsImageView
                                                                   attribute:NSLayoutAttributeCenterX
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.emulatorScreen
+                                                                     toItem:self.view
                                                                   attribute:NSLayoutAttributeCenterX
                                                                  multiplier:1.0
                                                                    constant:0];
-    [self.screenContainerView.superview addConstraint:constraint];
+    [self.view addConstraint:constraint];
     
-    constraint = [NSLayoutConstraint constraintWithItem:self.blurredScreenImageView
+    constraint = [NSLayoutConstraint constraintWithItem:self.blurredContentsImageView
                                                     attribute:NSLayoutAttributeCenterY
                                                     relatedBy:NSLayoutRelationEqual
-                                                       toItem:self.emulatorScreen
+                                                       toItem:self.view
                                                     attribute:NSLayoutAttributeCenterY
                                                    multiplier:1.0
                                                      constant:0];
-    [self.screenContainerView.superview addConstraint:constraint];
-    
-    constraint = [NSLayoutConstraint constraintWithItem:self.blurredControllerImageView
-                                              attribute:NSLayoutAttributeCenterX
-                                              relatedBy:NSLayoutRelationEqual
-                                                 toItem:self.controllerView
-                                              attribute:NSLayoutAttributeCenterX
-                                             multiplier:1.0
-                                               constant:0];
-    [self.controllerView.superview addConstraint:constraint];
-    
-    constraint = [NSLayoutConstraint constraintWithItem:self.blurredControllerImageView
-                                              attribute:NSLayoutAttributeCenterY
-                                              relatedBy:NSLayoutRelationEqual
-                                                 toItem:self.controllerView
-                                              attribute:NSLayoutAttributeCenterY
-                                             multiplier:1.0
-                                               constant:0];
-    [self.controllerView.superview addConstraint:constraint];
-    
-    
+    [self.view addConstraint:constraint];
     
     self.blurringContents = YES;
 }
@@ -957,28 +916,77 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     self.blurringContents = NO;
     
-    [self.blurredControllerImageView removeFromSuperview];
-    self.blurredControllerImageView = nil;
     self.controllerView.hidden = NO;
     
-    [self.blurredScreenImageView removeFromSuperview];
-    self.blurredScreenImageView = nil;
-    self.controllerView.hidden = NO;
+    [self.blurredContentsImageView removeFromSuperview];
+    self.blurredContentsImageView = nil;
 }
 
 - (void)setBlurAlpha:(CGFloat)blurAlpha
 {
     _blurAlpha = blurAlpha;
-    self.blurredScreenImageView.alpha = blurAlpha;
-    self.blurredControllerImageView.alpha = blurAlpha;
+    self.blurredContentsImageView.alpha = blurAlpha;
 }
 
-- (UIImage *)blurredImageFromView:(UIView *)view
+- (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    CGFloat edgeExtension = 10;
+    // Can be modified if wanting to eventually blur separate parts of the view, so it extends outwards into the black (smoother)
+    CGFloat edgeExtension = 0;
     
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(view.bounds.size.width + edgeExtension * 2, view.bounds.size.height + edgeExtension * 2), YES, [[UIScreen mainScreen] scale]);
-    [view drawViewHierarchyInRect:CGRectMake(edgeExtension, edgeExtension, CGRectGetWidth(view.bounds), CGRectGetHeight(view.bounds)) afterScreenUpdates:NO];
+    CGSize viewSize = CGSizeZero;
+    
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
+        viewSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    }
+    else
+    {
+        viewSize = CGSizeMake([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2,
+                                                      viewSize.height + edgeExtension * 2),
+                                           YES, 0.0);
+    
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
+        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
+        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
+        
+        CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
+        CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+        
+        [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
+                                                                edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                                                screenSize.width,
+                                                                screenSize.height) afterScreenUpdates:NO];
+        
+        [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
+                                              edgeExtension + screenContainerSize.height,
+                                              controllerSkin.size.width,
+                                              controllerSkin.size.height)];
+    }
+    else
+    {
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"landscape"];
+        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinName:name]];
+        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationLandscape];
+        
+        CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
+        CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+        
+        [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
+                                                                     edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                                                     screenSize.width,
+                                                                     screenSize.height) afterScreenUpdates:NO];
+        
+        [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
+                                              edgeExtension,
+                                              controllerSkin.size.width,
+                                              controllerSkin.size.height)];
+    }
+    
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
