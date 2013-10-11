@@ -214,7 +214,7 @@
 			<key>iPhone Widescreen</key>
 			<string>landscape@R4.png</string>
 			<key>iPad</key>
-			<string>landscape@R4.png</string>
+			<string></string>
 			<key>iPad Retina</key>
 			<string></string>
 		</dict>

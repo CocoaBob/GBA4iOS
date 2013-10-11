@@ -9,12 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "GBACheat.h"
 #import "GBAROM.h"
+#import "UITableViewController+Theming.h"
 
 @class GBACheatManagerViewController;
 
-@interface GBACheatManagerViewController : UITableViewController
+@protocol GBACheatManagerViewControllerDelegate <NSObject>
+
+@optional
+- (void)cheatManagerViewControllerWillDismiss:(GBACheatManagerViewController *)cheatManagerViewController;
+
+@end
+
+@interface GBACheatManagerViewController : UITableViewController <GBAThemedTableViewController>
 
 @property (readonly, copy, nonatomic) GBAROM *rom;
+@property (weak, nonatomic) id<GBACheatManagerViewControllerDelegate> delegate;
 
 - (instancetype)initWithROM:(GBAROM *)rom;
 

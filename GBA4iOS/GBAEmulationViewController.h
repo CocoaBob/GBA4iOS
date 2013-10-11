@@ -14,10 +14,11 @@
 
 @property (strong, nonatomic) GBAROM *rom;
 @property (assign, nonatomic) CGFloat blurAlpha;
+@property (strong, nonatomic) UIImageView *blurredContentsImageView;
 
-- (instancetype)initWithROM:(GBAROM *)rom;
-
-- (void)blurWithInitialAlpha:(CGFloat)alpha;
+- (void)blurWithInitialAlpha:(CGFloat)alpha darkened:(BOOL)darkened;
 - (void)removeBlur;
+
+- (void)resumeEmulation;
 
 @end

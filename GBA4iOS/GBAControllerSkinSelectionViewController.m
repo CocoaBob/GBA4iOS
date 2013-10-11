@@ -43,6 +43,10 @@
     {
         self.tableView.rowHeight = 190;
     }
+    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        self.tableView.rowHeight = 240;
+    }
     else
     {
         self.tableView.rowHeight = 150;
@@ -188,20 +192,24 @@
         
         NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:skinsDirectoryPath error:nil];
         
-        for (NSString *name in contents)
+        for (NSString *identifier in contents)
         {
             @autoreleasepool
             {
-                GBAController *controller = [GBAController controllerWithContentsOfFile:[skinsDirectoryPath stringByAppendingPathComponent:name]];
+                GBAController *controller = [GBAController controllerWithContentsOfFile:[skinsDirectoryPath stringByAppendingPathComponent:identifier]];
+                
                 
                 if (controller.supportedOrientations & self.controllerOrientation)
                 {
-                    if ([name isEqualToString:@"Default"])
+                    
+                    
+                    if ([identifier isEqualToString:@"com.GBA4iOS.default"])
                     {
                         [filteredArray insertObject:controller atIndex:0];
                     }
                     else
                     {
+                        DLog(@"Adding %@", identifier);
                         [filteredArray addObject:controller];
                     }
                 }
@@ -241,9 +249,7 @@
     
     GBAController *controller = self.filteredArray[indexPath.section];
     cell.cacheKey = controller.identifier;
-    
-    DLog(@"%@", controller.identifier);
-    
+        
     if (_viewDidAppear)
     {
         cell.loadSynchronously = NO;

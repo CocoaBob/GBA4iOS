@@ -90,6 +90,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
 
 - (IBAction)saveCheat:(UIBarButtonItem *)sender
 {

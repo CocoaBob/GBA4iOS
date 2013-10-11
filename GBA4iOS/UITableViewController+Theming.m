@@ -39,6 +39,33 @@
     }
 }
 
+- (void)themeHeader:(UITableViewHeaderFooterView *)header
+{
+    NSAssert([self conformsToProtocol:@protocol(GBAThemedTableViewController)], @"Table View Controller must conform to the GBAThemedTableViewController protocol to support theming");
+    
+    GBAThemedTableViewControllerTheme theme = [[self valueForKey:@"theme"] integerValue];
+    
+    switch (theme)
+    {
+        case GBAThemedTableViewControllerThemeOpaque:
+        {
+            header.contentView.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1.0];
+            header.textLabel.textColor = [UIColor blackColor];
+            break;
+        }
+            
+        case GBAThemedTableViewControllerThemeTranslucent:
+        {
+            UIView *backgroundView = [[UIView alloc] init];
+            backgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.6];
+            header.backgroundView = backgroundView;
+            header.textLabel.textColor = [UIColor whiteColor];
+            
+            break;
+        }
+    }
+}
+
 - (void)updateTheme
 {
     NSAssert([self conformsToProtocol:@protocol(GBAThemedTableViewController)], @"Table View Controller must conform to the GBAThemedTableViewController protocol to support theming");

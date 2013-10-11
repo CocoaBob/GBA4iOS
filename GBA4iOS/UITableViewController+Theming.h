@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, GBAThemedTableViewControllerTheme)
 @interface UITableViewController (Theming)
 
 - (void)themeTableViewCell:(UITableViewCell *)cell;
-- (UITableViewCell *)themedHeaderForHeader:(UITableViewHeaderFooterView *)header;
+- (void)themeHeader:(UITableViewHeaderFooterView *)header;
 - (void)updateTheme;
 
 @end

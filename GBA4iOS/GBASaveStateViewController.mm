@@ -26,6 +26,7 @@
 @end
 
 @implementation GBASaveStateViewController
+@synthesize theme = _theme;
 
 - (id)initWithSaveStateDirectory:(NSString *)directory mode:(GBASaveStateViewControllerMode)mode
 {
@@ -95,6 +96,8 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissSaveStateViewController:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
+    [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
+    
     if (self.mode == GBASaveStateViewControllerModeSaving)
     {
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(tappedAddSaveState:)];
@@ -107,6 +110,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - Save States
@@ -312,6 +325,7 @@
         if (buttonIndex == 1)
         {
             UITextField *textField = [alertView textFieldAtIndex:0];
+            [textField resignFirstResponder];
             [self renameSaveStateAtIndexPath:indexPath toName:textField.text];
         }
     }];
@@ -382,6 +396,10 @@
 
 - (void)dismissSaveStateViewController:(UIBarButtonItem *)barButtonItem
 {
+    if ([self.delegate respondsToSelector:@selector(saveStateViewControllerWillDismiss:)])
+    {
+        [self.delegate saveStateViewControllerWillDismiss:self];
+    }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -446,7 +464,22 @@
     NSDictionary *dictionary = array[indexPath.row];
     cell.textLabel.text = dictionary[@"name"];
     
+    [self themeTableViewCell:cell];
+    
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return UITableViewAutomaticDimension;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *headerView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Header"];
+    [self themeHeader:headerView];
+    
+    return headerView;
 }
 
 
@@ -534,6 +567,16 @@
             [self saveStateAtIndexPath:indexPath];
             break;
     }
+}
+
+
+#pragma mark - Getters / Setters
+
+- (void)setTheme:(GBAThemedTableViewControllerTheme)theme
+{
+    _theme = theme;
+    
+    [self updateTheme];
 }
 
 

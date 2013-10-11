@@ -17,6 +17,7 @@
     {
         self.detailTextLabel.textColor = GBA4iOS_PURPLE_COLOR;
         self.showsReorderControl = YES;
+        self.detailTextLabel.font = [UIFont boldSystemFontOfSize:self.detailTextLabel.font.pointSize];
     }
     return self;
 }

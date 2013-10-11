@@ -28,7 +28,7 @@
         _romTableViewController.appearanceDelegate = self;
         UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(_romTableViewController);
         
-        _emulationViewController = [[GBAEmulationViewController alloc] initWithROM:nil];
+        _emulationViewController = [[GBAEmulationViewController alloc] init];
         
         self.viewControllers = @[navigationController, _emulationViewController];
         
@@ -101,11 +101,24 @@
 
 - (void)romTableViewControllerWillAppear:(GBAROMTableViewController *)romTableViewController
 {
+    [self.emulationViewController blurWithInitialAlpha:0.0 darkened:YES];
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.emulationViewController setBlurAlpha:1.0];
+    }];
+    
     self.romTableViewControllerIsVisible = YES;
 }
 
 - (void)romTableViewControllerWillDisappear:(GBAROMTableViewController *)romTableViewController
 {
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.emulationViewController setBlurAlpha:0.0];
+    } completion:^(BOOL finished) {
+        [self.emulationViewController removeBlur];
+    }];
+    
+    [self.emulationViewController resumeEmulation];
+    
     self.romTableViewControllerIsVisible = NO;
 }
 

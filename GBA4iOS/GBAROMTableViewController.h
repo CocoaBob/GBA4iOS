@@ -8,6 +8,9 @@
 
 #import <RSTFileBrowserViewController/RSTFileBrowserViewController.h>
 
+#import "GBAEmulationViewController.h"
+#import "UITableViewController+Theming.h"
+
 @class GBAROMTableViewController;
 
 @protocol GBAROMTableViewControllerAppearanceDelegate <NSObject>
@@ -19,8 +22,9 @@
 
 @end
 
-@interface GBAROMTableViewController : RSTFileBrowserViewController <UISplitViewControllerDelegate>
+@interface GBAROMTableViewController : RSTFileBrowserViewController <UISplitViewControllerDelegate, GBAThemedTableViewController>
 
 @property (weak, nonatomic) id<GBAROMTableViewControllerAppearanceDelegate> appearanceDelegate;
+@property (weak, nonatomic) GBAEmulationViewController *emulationViewController;
 
 @end

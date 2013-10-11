@@ -59,6 +59,16 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
 #pragma mark - Settings
 
 + (void)registerDefaults
@@ -267,6 +277,10 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     }
     else if (indexPath.row == 4)
     {
+        username = @"zodttd";
+    }
+    else if (indexPath.row == 4)
+    {
         username = @"mrjuanfernandez";
     }
     
@@ -286,11 +300,11 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     {
         scheme = [NSString stringWithFormat:@"twitterrific:///profile?screen_name=%@", username];
     }
-    else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
+    else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) // Twitter
     {
         scheme = [NSString stringWithFormat:@"twitter://user?screen_name=%@", username];
     }
-    else
+    else // Twitter website
     {
         scheme = [NSString stringWithFormat:@"http://twitter.com/%@", username];
     }

@@ -15,6 +15,9 @@
 #import "GBACheatManagerViewController.h"
 #import "GBASettingsViewController.h"
 #import "GBASplitViewController.h"
+#import "GBAROMTableViewControllerAnimator.h"
+#import "GBAPresentEmulationViewControllerAnimator.h"
+#import "GBAPresentOverlayViewControllerAnimator.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -25,7 +28,7 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerViewDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerViewDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     BOOL _hasPerformedInitialLayout;
@@ -35,9 +38,10 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
-@property (strong, nonatomic) CADisplayLink *displayLink;
 @property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
 @property (strong, nonatomic) UIWindow *airplayWindow;
+@property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
+@property (strong, nonatomic) UIImageView *splashScreenImageView;
 
 @property (nonatomic) CFTimeInterval previousTimestamp;
 @property (nonatomic) NSInteger frameCount;
@@ -48,7 +52,6 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) NSMutableSet *sustainedButtonSet;
 
 @property (assign, nonatomic) BOOL blurringContents;
-@property (strong, nonatomic) UIImageView *blurredContentsImageView;
 
 @end
 
@@ -56,7 +59,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 #pragma mark - UIViewController subclass
 
-- (instancetype)initWithROM:(GBAROM *)rom
+- (instancetype)init
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
@@ -64,9 +67,6 @@ static GBAEmulationViewController *_emulationViewController;
     {
         _emulationViewController = self;
         InstallUncaughtExceptionHandler();
-        
-        [self setRom:rom];
-        
     }
     
     return self;
@@ -95,11 +95,14 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
     
-    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
-	[self.displayLink setFrameInterval:1];
-	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    
     self.extendedLayoutIncludesOpaqueBars = YES;
+    
+    self.view.clipsToBounds = NO;
+    
+    // Because we need to present the ROM Table View Controller stealthily
+    self.splashScreenImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:self.splashScreenImageView];
     
     [self updateSettings:nil];
 }
@@ -122,18 +125,6 @@ static GBAEmulationViewController *_emulationViewController;
     self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
 #endif
     
-    if (self.rom)
-    {        
-        [self startEmulation];
-    }
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
-        });
-    }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -147,18 +138,34 @@ static GBAEmulationViewController *_emulationViewController;
     }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-    
-    if (self.presentedViewController)
-    {
-        [self resumeEmulation];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
+    if ([self.splashScreenImageView superview])
+    {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            self.romTableViewController = [[GBAROMTableViewController alloc] init];
+            UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController);
+            navigationController.modalPresentationStyle = UIModalPresentationCustom;
+            navigationController.transitioningDelegate = self;
+            
+            [self presentViewController:navigationController animated:NO completion:NULL];
+        }
+        else
+        {
+            self.romTableViewController = [(GBASplitViewController *)self.splitViewController romTableViewController];
+            [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
+        }
+        
+        self.romTableViewController.emulationViewController = self;
+        
+        [self.splashScreenImageView removeFromSuperview];
+        self.splashScreenImageView = nil;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -311,6 +318,11 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else if ([self.sustainedButtonSet intersectsSet:buttons]) // We re-pressed a sustained button, so we need to release it then press it in the next emulation CPU cycle
     {
+        if ([buttons count] == 0)
+        {
+            return;
+        }
+        
         NSMutableSet *sustainedButtons = [self.sustainedButtonSet mutableCopy];
         [sustainedButtons intersectSet:buttons];
         
@@ -325,6 +337,11 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
+        if ([buttons count] == 0)
+        {
+            return;
+        }
+        
 #if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] pressButtons:buttons];
 #endif
@@ -354,13 +371,15 @@ static GBAEmulationViewController *_emulationViewController;
     
     UIActionSheet *actionSheet = nil;
     
-    if ([self numberOfCPUCoresForCurrentDevice] == 1)
+    // iOS 7 has trouble adding buttons to UIActionSheet after it's created, so we just create a different action sheet depending on hardware
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
                                                   delegate:nil
                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                    destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                    destructiveButtonTitle:NSLocalizedString(@"Show ROM List", @"")
                                          otherButtonTitles:
+                       NSLocalizedString(@"Fast Forward", @""),
                        NSLocalizedString(@"Save State", @""),
                        NSLocalizedString(@"Load State", @""),
                        NSLocalizedString(@"Cheat Codes", @""),
@@ -368,16 +387,31 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
-        actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                  delegate:nil
-                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                    destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
-                                         otherButtonTitles:
-                       NSLocalizedString(@"Fast Forward", @""),
-                       NSLocalizedString(@"Save State", @""),
-                       NSLocalizedString(@"Load State", @""),
-                       NSLocalizedString(@"Cheat Codes", @""),
-                       NSLocalizedString(@"Sustain Button", @""), nil];
+        if ([self numberOfCPUCoresForCurrentDevice] == 1)
+        {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                      delegate:nil
+                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                        destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                             otherButtonTitles:
+                           NSLocalizedString(@"Save State", @""),
+                           NSLocalizedString(@"Load State", @""),
+                           NSLocalizedString(@"Cheat Codes", @""),
+                           NSLocalizedString(@"Sustain Button", @""), nil];
+        }
+        else
+        {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                      delegate:nil
+                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                        destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                             otherButtonTitles:
+                           NSLocalizedString(@"Fast Forward", @""),
+                           NSLocalizedString(@"Save State", @""),
+                           NSLocalizedString(@"Load State", @""),
+                           NSLocalizedString(@"Cheat Codes", @""),
+                           NSLocalizedString(@"Sustain Button", @""), nil];
+        }
     }
     
     void (^selectionHandler)(UIActionSheet *actionSheet, NSInteger buttonIndex) = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
@@ -394,7 +428,6 @@ static GBAEmulationViewController *_emulationViewController;
             
             if (buttonIndex == 1)
             {
-                [self blurWithInitialAlpha:1.0f];
                 [self resumeEmulation];
             }
             else if (buttonIndex == 2)
@@ -469,13 +502,29 @@ static GBAEmulationViewController *_emulationViewController;
     
     GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithSaveStateDirectory:[self saveStateDirectory] mode:mode];
     saveStateViewController.delegate = self;
-    saveStateViewController.modalPresentationStyle = UIModalPresentationCustom;
     
-    if ([saveStateViewController respondsToSelector:@selector(transitioningDelegate)])
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController);
+    
+    BOOL darkened = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
+    [self blurWithInitialAlpha:0.0 darkened:darkened];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        saveStateViewController.transitioningDelegate = self;
+        saveStateViewController.theme = GBAThemedTableViewControllerThemeTranslucent;
+        navigationController.modalPresentationStyle = UIModalPresentationCustom;
+        navigationController.transitioningDelegate = self;
     }
-    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController) animated:YES completion:nil];
+    else
+    {
+        saveStateViewController.theme = GBAThemedTableViewControllerThemeOpaque;
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            [self setBlurAlpha:1.0];
+        }];
+    }
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateWithFilename:(NSString *)filename
@@ -505,6 +554,20 @@ static GBAEmulationViewController *_emulationViewController;
         NSString *backupFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"backup.sgm"];
         
         [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:autosaveFilepath] withItemAtURL:[NSURL fileURLWithPath:backupFilepath] backupItemName:nil options:NSFileManagerItemReplacementUsingNewMetadataOnly resultingItemURL:nil error:nil];
+    }
+}
+
+- (void)saveStateViewControllerWillDismiss:(GBASaveStateViewController *)saveStateViewController
+{
+    [self resumeEmulation];
+
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            [self setBlurAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [self removeBlur];
+        }];
     }
 }
 
@@ -569,7 +632,44 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)presentCheatManager
 {
     GBACheatManagerViewController *cheatManagerViewController = [[GBACheatManagerViewController alloc] initWithROM:self.rom];
-    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatManagerViewController) animated:YES completion:nil];
+    cheatManagerViewController.delegate = self;
+    
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatManagerViewController);
+    
+    BOOL darkened = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
+    [self blurWithInitialAlpha:0.0 darkened:darkened];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        cheatManagerViewController.theme = GBAThemedTableViewControllerThemeTranslucent;
+        navigationController.modalPresentationStyle = UIModalPresentationCustom;
+        navigationController.transitioningDelegate = self;
+    }
+    else
+    {
+        cheatManagerViewController.theme = GBAThemedTableViewControllerThemeOpaque;
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            [self setBlurAlpha:1.0];
+        }];
+    }
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)cheatManagerViewControllerWillDismiss:(GBACheatManagerViewController *)cheatManagerViewController
+{
+    [self resumeEmulation];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            [self setBlurAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [self removeBlur];
+        }];
+    }
 }
 
 #pragma mark - Settings
@@ -592,16 +692,6 @@ void uncaughtExceptionHandler(NSException *exception)
 
 #pragma mark - Presenting/Dismissing
 
-- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
-{
-    return nil;
-}
-
-- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
-{
-    
-    return nil;
-}
 
 - (void)returnToROMTableViewController
 {
@@ -612,12 +702,81 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+        UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController);
+        self.romTableViewController.theme = GBAThemedTableViewControllerThemeTranslucent;
+        navigationController.transitioningDelegate = self;
+        navigationController.modalPresentationStyle = UIModalPresentationCustom;
+        [self presentViewController:navigationController animated:YES completion:NULL];
     }
     else
     {
         [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:YES];
     }
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+    
+    UIViewController *viewController = presented;
+    
+    if ([viewController isKindOfClass:[UINavigationController class]])
+    {
+        viewController = [[(UINavigationController *)viewController viewControllers] firstObject];
+    }
+    
+    if ([viewController isKindOfClass:[GBAROMTableViewController class]])
+    {
+        if ([(GBAROMTableViewController *)viewController theme] == GBAThemedTableViewControllerThemeTranslucent)
+        {
+            GBAROMTableViewControllerAnimator *animator = [[GBAROMTableViewControllerAnimator alloc] init];
+            animator.presenting = YES;
+            return animator;
+        }
+        else
+        {
+            return nil;
+        }
+    }
+    else if ([viewController isKindOfClass:[GBASaveStateViewController class]] || [viewController isKindOfClass:[GBACheatManagerViewController class]])
+    {
+        GBAPresentOverlayViewControllerAnimator *animator = [[GBAPresentOverlayViewControllerAnimator alloc] init];
+        animator.presenting = YES;
+        return animator;
+    }
+    
+    return nil;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    
+    UIViewController *viewController = dismissed;
+    
+    if ([viewController isKindOfClass:[UINavigationController class]])
+    {
+        viewController = [[(UINavigationController *)viewController viewControllers] firstObject];
+    }
+    
+    if ([viewController isKindOfClass:[GBAROMTableViewController class]])
+    {
+        if ([(GBAROMTableViewController *)viewController theme] == GBAThemedTableViewControllerThemeOpaque)
+        {
+            GBAPresentEmulationViewControllerAnimator *animator = [[GBAPresentEmulationViewControllerAnimator alloc] init];
+            return animator;
+        }
+        else
+        {
+            GBAROMTableViewControllerAnimator *animator = [[GBAROMTableViewControllerAnimator alloc] init];
+            return animator;
+        }
+    }
+    else if ([viewController isKindOfClass:[GBASaveStateViewController class]] || [viewController isKindOfClass:[GBACheatManagerViewController class]])
+    {
+        GBAPresentOverlayViewControllerAnimator *animator = [[GBAPresentOverlayViewControllerAnimator alloc] init];
+        return animator;
+    }
+    
+    return nil;
 }
 
 #pragma mark - App Status
@@ -675,6 +834,9 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (self.blurringContents)
     {
+        self.emulatorScreen.hidden = YES;
+        self.controllerView.hidden = YES;
+        
         UIView *blurredSnapshot = [self.blurredContentsImageView snapshotViewAfterScreenUpdates:NO];
         blurredSnapshot.frame = self.blurredContentsImageView.frame;
         blurredSnapshot.tag = BLURRED_SNAPSHOT_TAG;
@@ -682,7 +844,9 @@ void uncaughtExceptionHandler(NSException *exception)
         
         [self.view addSubview:blurredSnapshot];
         
-        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation];
+        BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
+        
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation darkenImage:darkenImage];
     }
     
     [self updateControllerSkinForInterfaceOrientation:toInterfaceOrientation];
@@ -741,6 +905,12 @@ void uncaughtExceptionHandler(NSException *exception)
     
     UIView *blurredSnapshot = [self.view viewWithTag:BLURRED_SNAPSHOT_TAG];
     [blurredSnapshot removeFromSuperview];
+    
+    if (self.blurringContents)
+    {
+        self.emulatorScreen.hidden = NO;
+        self.controllerView.hidden = NO;
+    }
 }
 
 - (void)viewWillLayoutSubviews
@@ -875,21 +1045,20 @@ void uncaughtExceptionHandler(NSException *exception)
 
 #pragma mark - Blurring
 
-- (void)blurWithInitialAlpha:(CGFloat)alpha
+- (void)blurWithInitialAlpha:(CGFloat)alpha darkened:(BOOL)darkened
 {
     self.blurredContentsImageView = ({
-        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation];
+        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation darkenImage:darkened];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
+        imageView.clipsToBounds = YES;
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [imageView sizeToFit];
         imageView.center = self.emulatorScreen.center;
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.contentMode = UIViewContentModeBottom;
         imageView.alpha = alpha;
         [self.view addSubview:imageView];
         imageView;
     });
-    
-    self.controllerView.hidden = YES;
     
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.blurredContentsImageView
                                                                   attribute:NSLayoutAttributeCenterX
@@ -928,7 +1097,7 @@ void uncaughtExceptionHandler(NSException *exception)
     self.blurredContentsImageView.alpha = blurAlpha;
 }
 
-- (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation darkenImage:(BOOL)darkenImage
 {
     // Can be modified if wanting to eventually blur separate parts of the view, so it extends outwards into the black (smoother)
     CGFloat edgeExtension = 0;
@@ -990,7 +1159,13 @@ void uncaughtExceptionHandler(NSException *exception)
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
+    UIColor *tintColor = nil;
+    
+    if (darkenImage)
+    {
+        tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
+    }
+    
     return [image applyBlurWithRadius:10 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
@@ -998,6 +1173,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)setRom:(GBAROM *)rom
 {
+    // We want to be able to restart the ROM
     if (rom == nil)
     {
         return;
@@ -1009,10 +1185,11 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     
     // Put this after the resume because even if the ROM is the same, we need to resume the game since we paused it
-    if ([_rom isEqual:rom])
+    // We want to be able to restart the ROM
+    /*if ([_rom isEqual:rom])
     {
         return;
-    }
+    }*/
     
     _rom = rom;
     
@@ -1020,10 +1197,7 @@ void uncaughtExceptionHandler(NSException *exception)
     [[GBAEmulatorCore sharedCore] setRom:self.rom];
 #endif
     
-    if (_hasPerformedInitialLayout) // Has already appeared, so we can start the ROM!
-    {
-        [self startEmulation];
-    }
+    [self startEmulation];
     
 }
 

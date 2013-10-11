@@ -32,14 +32,14 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeGBC,
 };
 
-@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, GBAThemedTableViewController>
+@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate>
 
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloads;
 @property (weak, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
-@property (strong, nonatomic) UIViewController *backgroundViewController;
+@property (strong, nonatomic) UIPopoverController *activityPopoverController;
 
 @property (copy, nonatomic) RSTWebViewControllerStartDownloadBlock startDownloadBlock;
 @property (weak, nonatomic) NSURLSessionDownloadTask *tempDownloadTask;
@@ -97,8 +97,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     self.downloadProgressView = progressView;
     
-    self.theme = GBAThemedTableViewControllerThemeTranslucent;
-        
     //NSFileManager *fileManager = [NSFileManager defaultManager];
     //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
     {
@@ -155,6 +153,16 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         
         frame;
     });
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 
 #pragma mark - RSTWebViewController delegate
@@ -390,6 +398,14 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     return UITableViewAutomaticDimension;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *headerView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Header"];
+    [self themeHeader:headerView];
+    
+    return headerView;
+}
+
 - (NSString *)visibleFileExtensionForIndexPath:(NSIndexPath *)indexPath
 {
     NSString *extension = [[super visibleFileExtensionForIndexPath:indexPath] uppercaseString];
@@ -552,22 +568,49 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    void(^showEmulationViewController)(void) = ^(void)
     {
-        GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] initWithROM:rom];
-        
-        if ([emulationViewController respondsToSelector:@selector(setTransitioningDelegate:)])
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
-            emulationViewController.transitioningDelegate = self;
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
-        
-        [self presentViewController:emulationViewController animated:YES completion:NULL];
+        else
+        {
+            [(GBASplitViewController *)self.splitViewController hideROMTableViewControllerWithAnimation:YES];
+        }
+    };
+    
+    if ([self.emulationViewController.rom isEqual:rom])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM already in use", @"")
+                                                        message:NSLocalizedString(@"Would you like to resume where you left off, or restart the ROM?", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                              otherButtonTitles:NSLocalizedString(@"Resume", @""), NSLocalizedString(@"Restart", @""), nil];
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 0)
+            {
+                [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+            }
+            else if (buttonIndex == 1)
+            {
+                showEmulationViewController();
+            }
+            else if (buttonIndex == 2)
+            {
+                self.emulationViewController.rom = rom;
+                
+                showEmulationViewController();
+            }
+                
+        }];
     }
     else
     {
-        GBASplitViewController *splitViewController = (GBASplitViewController *)self.splitViewController;
-        splitViewController.emulationViewController.rom = rom;
-        [splitViewController hideROMTableViewControllerWithAnimation:YES];
+        self.emulationViewController.rom = rom;
+        
+        showEmulationViewController();
+        
     }
 }
 
@@ -608,8 +651,16 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:NSLocalizedString(@"Rename ROM", @""), NSLocalizedString(@"Share ROM", @""), nil];
+    UIView *presentationView = self.view;
+    CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
     
-    [actionSheet showFromRect:[self.tableView rectForRowAtIndexPath:indexPath] inView:self.view animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        presentationView = self.splitViewController.view;
+        rect = [presentationView convertRect:rect fromView:self.tableView];
+    }
+    
+    [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
          if (buttonIndex == 0)
          {
              [self showRenameAlertForROMAtIndexPath:indexPath];
@@ -708,7 +759,27 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[romFileURL] applicationActivities:@[[[GBAMailActivity alloc] init]]];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail]; // Can't install from Messages app, and we use our own Mail activity that supports custom file types
-    [self presentViewController:activityViewController animated:YES completion:NULL];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [self presentViewController:activityViewController animated:YES completion:NULL];
+    }
+    else
+    {
+        CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+        rect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
+        
+        self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+        self.activityPopoverController.delegate = self;
+        [self.activityPopoverController presentPopoverFromRect:rect inView:self.splitViewController.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    }
+}
+
+#pragma mark - UIPopoverController delegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    self.activityPopoverController = nil;
 }
 
 #pragma mark - IBActions
@@ -740,7 +811,13 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem
 {
     GBASettingsViewController *settingsViewController = [[GBASettingsViewController alloc] init];
-    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController) animated:YES completion:NULL];
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
 #pragma mark - Getters/Setters
@@ -769,10 +846,11 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)setTheme:(GBAThemedTableViewControllerTheme)theme
 {
-    if (_theme == theme)
+    // Navigation controller is different each time, so we need to update theme every time we present this view controller
+    /*if (_theme == theme)
     {
         return;
-    }
+    }*/
     
     _theme = theme;
     

@@ -7,6 +7,7 @@
 //
 
 #import "GBAAppDelegate.h"
+#import "GBAEmulationViewController.h"
 #import "GBASettingsViewController.h"
 #import "GBAController.h"
 #import "GBAROM.h"
@@ -36,10 +37,9 @@
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        GBAROMTableViewController *romTableViewController = [[GBAROMTableViewController alloc] init];
-        UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(romTableViewController);
+        GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] init];
         
-        self.window.rootViewController = navigationController;
+        self.window.rootViewController = emulationViewController;
     }
     else
     {

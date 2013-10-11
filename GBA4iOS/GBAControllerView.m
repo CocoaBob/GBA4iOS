@@ -151,9 +151,9 @@ static unsigned long oldtouches[15];
         {
             [self vibrate];
         }
-        
-        [self.delegate controllerView:self didPressButtons:set];
     }
+    
+    [self.delegate controllerView:self didPressButtons:set];
 }
 
 - (void)updateButtonsForTouches:(NSSet *)touches

@@ -21,6 +21,7 @@
 @end
 
 @implementation GBACheatManagerViewController
+@synthesize theme = _theme;
 
 - (id)initWithROM:(GBAROM *)rom
 {
@@ -56,6 +57,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - Helper Methods
@@ -224,6 +235,8 @@
         cell.detailTextLabel.text = @"";
     }
     
+    [self themeTableViewCell:cell];
+    
     return cell;
 }
 
@@ -320,7 +333,21 @@
 
 - (void)dismissCheatManagerViewController:(UIBarButtonItem *)button
 {
+    if ([self.delegate respondsToSelector:@selector(cheatManagerViewControllerWillDismiss:)])
+    {
+        [self.delegate cheatManagerViewControllerWillDismiss:self];
+    }
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - Getters/Setters
+
+- (void)setTheme:(GBAThemedTableViewControllerTheme)theme
+{
+    _theme = theme;
+    
+    [self updateTheme];
 }
 
 @end

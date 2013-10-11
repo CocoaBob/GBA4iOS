@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <RSTFileBrowserViewController.h>
 
+#import "UITableViewController+Theming.h"
+
 typedef NS_ENUM(NSInteger, GBASaveStateViewControllerMode)
 {
     GBASaveStateViewControllerModeSaving = 0,
@@ -24,10 +26,11 @@ typedef NS_ENUM(NSInteger, GBASaveStateViewControllerMode)
 - (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didSaveStateWithFilename:(NSString *)filename;
 - (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateWithFilename:(NSString *)filename;
 - (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController didLoadStateWithFilename:(NSString *)filename;
+- (void)saveStateViewControllerWillDismiss:(GBASaveStateViewController *)saveStateViewController;
 
 @end
 
-@interface GBASaveStateViewController : UITableViewController
+@interface GBASaveStateViewController : UITableViewController <GBAThemedTableViewController>
 
 @property (weak, nonatomic) id <GBASaveStateViewControllerDelegate> delegate;
 @property (readonly, copy, nonatomic) NSString *saveStateDirectory;

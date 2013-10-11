@@ -22,10 +22,10 @@ typedef NS_ENUM(NSInteger, GBAControllerRect)
     GBAControllerRectScreen
 };
 
-typedef NS_ENUM(NSInteger, GBAControllerOrientation)
+typedef NS_ENUM(NSInteger, GBAControllerOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
 {
-    GBAControllerOrientationPortrait   =    0,
-    GBAControllerOrientationLandscape  =    1,
+    GBAControllerOrientationPortrait   =    1 << 0,
+    GBAControllerOrientationLandscape  =    1 << 1,
 };
 
 typedef NS_ENUM(NSInteger, GBAControllerButton)
