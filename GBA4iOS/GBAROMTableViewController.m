@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloads;
+@property (strong, nonatomic) NSMutableSet *currentUnzippingOperations;
 @property (weak, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
@@ -231,20 +232,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     });
 }
 
-- (void)modifyAlertView:(UIAlertView *)alertView
-{
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    UIView *alertContentView = textField.superview.superview;     // Alert view frame - Complete alternative to contentView,
-    
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"GBA", @"GBC"]];
-    segmentedControl.selectedSegmentIndex = 0;
-    textField.frame = CGRectMake(CGRectGetMinX(textField.superview.frame), CGRectGetMinY(textField.superview.frame) - CGRectGetHeight(textField.superview.frame) - 5, CGRectGetWidth(textField.superview.frame), CGRectGetHeight(textField.superview.frame));
-    
-    //segmentedControl.frame = textField.superview.frame;
-    
-    [alertContentView addSubview:segmentedControl];     // Can add it!
-}
-
 - (void)startDownloadWithFilename:(NSString *)filename
 {
     if ([filename length] == 0)
@@ -252,8 +239,17 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         filename = @" ";
     }
     
+    NSString *fileExtension = self.tempDownloadTask.originalRequest.URL.pathExtension;
+    
+    if (fileExtension == nil || [fileExtension isEqualToString:@""])
+    {
+        fileExtension = @"zip";
+    }
+    
+    filename = [filename stringByAppendingPathExtension:fileExtension];
+    
     // Write temp file so it shows up in the file browser, but we'll then gray it out.
-    [filename writeToFile:[self.currentDirectory stringByAppendingPathComponent:[filename stringByAppendingString:@".zip"]] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    [filename writeToFile:[self.currentDirectory stringByAppendingPathComponent:filename] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
     NSMutableDictionary *currentDownload = [@{@"filename" : filename, @"progress" : @0} mutableCopy];
     [self.currentDownloads setObject:currentDownload forKey:self.tempDownloadTask.uniqueTaskIdentifier];
@@ -291,7 +287,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
     NSString *filename = [self.currentDownloads objectForKey:downloadTask.uniqueTaskIdentifier][@"filename"];
-    NSString *destinationPath = [self.currentDirectory stringByAppendingPathComponent:[filename stringByAppendingString:@".zip"]];
+    NSString *destinationPath = [self.currentDirectory stringByAppendingPathComponent:filename];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
     
     NSError *error = nil;
@@ -312,15 +308,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     [[NSFileManager defaultManager] removeItemAtURL:destinationURL error:nil];
     [[NSFileManager defaultManager] moveItemAtURL:fileURL toURL:destinationURL error:nil];
-    
-    /*if ([[[remoteURL absoluteString] pathExtension] isEqualToString:@"zip"] || [remoteURL.host hasPrefix:@"dl.coolrom"])
-    {
-        [GBAROM unzipROMAtPathToROMDirectory:[fileURL path] withPreferredROMTitle:[filename stringByDeletingPathExtension]];
-    }
-    else
-    {
-        [[NSFileManager defaultManager] moveItemAtURL:fileURL toURL:destinationURL error:nil];
-    } */
         
     if (error)
     {
@@ -418,21 +405,19 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     for (NSString *filename in contents)
     {
-        if ([[filename lowercaseString] hasSuffix:@"zip"] && ![self isDownloadingFile:filename])
+        if ([[filename lowercaseString] hasSuffix:@"zip"] && ![self isDownloadingFile:filename] && ![self.unavailableFiles containsObject:filename])
         {
-            NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
+            [self setIgnoreDirectoryContentChanges:YES];
             
-            DLog(@"Attemping to unzip...");
+            NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
             
             if ([GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension]])
             {
-                DLog(@"Succeeded!");
                 [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
             }
-            else
-            {
-                DLog(@"Failed :(");
-            }
+            
+            [self setIgnoreDirectoryContentChanges:NO];
+            
         }
     }
 }
@@ -523,7 +508,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [allValues enumerateObjectsUsingBlock:^(NSDictionary *dictionary, NSUInteger index, BOOL *stop) {
         NSString *downloadingFilename = dictionary[@"filename"];
         
-        if ([downloadingFilename isEqualToString:[filename stringByDeletingPathExtension]])
+        if ([downloadingFilename isEqualToString:filename])
         {
             downloadingFile = YES;
             *stop = YES;
@@ -831,7 +816,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     switch (romType) {
         case GBAROMTypeAll:
-            self.supportedFileExtensions = @[@"gba", @"gbc", @"gb", @"zip", @"mov"];
+            self.supportedFileExtensions = @[@"gba", @"gbc", @"gb", @"zip"];
             break;
             
         case GBAROMTypeGBA:
