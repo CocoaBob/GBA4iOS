@@ -19,6 +19,8 @@
 - (void)blurWithInitialAlpha:(CGFloat)alpha darkened:(BOOL)darkened;
 - (void)removeBlur;
 
+- (void)refreshLayout;
+
 - (void)resumeEmulation;
 
 @end

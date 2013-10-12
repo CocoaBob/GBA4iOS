@@ -7,6 +7,7 @@
 //
 
 #import "GBAPresentEmulationViewControllerAnimator.h"
+#import "GBAEmulationViewController.h"
 
 @implementation GBAPresentEmulationViewControllerAnimator
 
@@ -22,9 +23,7 @@
     
     // Below make sure the view is laid out correctly
     UIInterfaceOrientation interfaceOrientation = toViewController.interfaceOrientation;
-    [toViewController willRotateToInterfaceOrientation:fromViewController.interfaceOrientation duration:0];
-    [toViewController willAnimateRotationToInterfaceOrientation:fromViewController.interfaceOrientation duration:0];
-    [toViewController didRotateFromInterfaceOrientation:interfaceOrientation];
+    [(GBAEmulationViewController *)toViewController refreshLayout];
     
     CGAffineTransform initialToTransform = toViewController.view.transform;
     CGAffineTransform initialFromTransform = fromViewController.view.transform;

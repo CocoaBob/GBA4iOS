@@ -980,6 +980,38 @@ void uncaughtExceptionHandler(NSException *exception)
     
 }
 
+- (void)refreshLayout
+{
+    [self.view layoutIfNeeded];
+    
+    if (self.airplayWindow == nil)
+    {
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.view.bounds.size] screen:[UIScreen mainScreen]];
+        [self.emulatorScreen invalidateIntrinsicContentSize];
+#else
+        
+        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        {
+            self.emulatorScreen.bounds = CGRectMake(0, 0, 320, 240);
+        }
+        else
+        {
+            self.emulatorScreen.bounds = CGRectMake(0, 0, 480, 320);
+        }
+        
+#endif
+    }
+    
+    if (self.blurringContents)
+    {
+        BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation darkenImage:darkenImage];
+    }
+    
+    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
+}
+
 #ifdef USE_INCLUDED_UI
 
 #pragma mark - Included UI

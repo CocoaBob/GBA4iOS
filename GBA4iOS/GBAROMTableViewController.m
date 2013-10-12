@@ -66,6 +66,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         self.showFileExtensions = YES;
         self.showFolders = NO;
         self.showSectionTitles = NO;
+        self.showUnavailableFiles = YES;
     }
     return self;
 }
@@ -295,7 +296,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     NSError *error = nil;
     
-    [self beginIgnoringDirectoryContentChanges];
+    [self setIgnoreDirectoryContentChanges:YES];
     
     [fileManager removeItemAtURL:destinationURL error:&error];
     
@@ -352,19 +353,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         });
     }
     
-    [self endIgnoringDirectoryContentChanges];
-}
-
-#pragma mark - UISplitViewControllerDelegate
-
-- (BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation
-{
-    return YES;
-}
-
-- (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
-{
-    DLog(@"%@", barButtonItem);
+    [self setIgnoreDirectoryContentChanges:NO];
 }
 
 #pragma mark - RSTFileBrowserViewController Subclass
@@ -377,7 +366,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     [self themeTableViewCell:cell];
     
-    if ([self isDownloadingFile:filename])
+    if ([self isDownloadingFile:filename] || [self.unavailableFiles containsObject:filename])
     {
         cell.userInteractionEnabled = NO;
         cell.textLabel.textColor = [UIColor grayColor];
@@ -425,7 +414,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 {
     [super didRefreshCurrentDirectory];
     
-    /*NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.currentDirectory error:nil];
+    NSArray *contents = [self allFiles];
     
     for (NSString *filename in contents)
     {
@@ -433,12 +422,19 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         {
             NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
             
-            DLog(@"%@", filepath);
+            DLog(@"Attemping to unzip...");
             
-            [GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension]];
-            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+            if ([GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension]])
+            {
+                DLog(@"Succeeded!");
+                [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+            }
+            else
+            {
+                DLog(@"Failed :(");
+            }
         }
-    }*/
+    }
 }
 
 #pragma mark - Directories
@@ -835,7 +831,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     
     switch (romType) {
         case GBAROMTypeAll:
-            self.supportedFileExtensions = @[@"gba", @"gbc", @"gb", @"zip"];
+            self.supportedFileExtensions = @[@"gba", @"gbc", @"gb", @"zip", @"mov"];
             break;
             
         case GBAROMTypeGBA:
