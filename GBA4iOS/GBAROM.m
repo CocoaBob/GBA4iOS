@@ -63,6 +63,8 @@
     
     NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
     
+    DLog(@"Destination: %@", destinationFilename);
+    
     [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:romFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
 }

@@ -124,7 +124,16 @@
 {
     GBACheatEditorViewController *cheatEditorViewController = [[GBACheatEditorViewController alloc] init];
     cheatEditorViewController.delegate = self;
-    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatEditorViewController) animated:YES completion:NULL];
+    
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatEditorViewController);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    
+    [self presentViewController:navigationController animated:YES completion:NULL];
+    
 }
 
 - (BOOL)addCheat:(GBACheat *)cheat
@@ -308,7 +317,15 @@
         GBACheatEditorViewController *cheatEditorViewController = [[GBACheatEditorViewController alloc] init];
         cheatEditorViewController.cheat = cheat;
         cheatEditorViewController.delegate = self;
-        [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatEditorViewController) animated:YES completion:NULL];
+        
+        UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatEditorViewController);
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        }
+        
+        [self presentViewController:navigationController animated:YES completion:NULL];
     }
     else
     {
