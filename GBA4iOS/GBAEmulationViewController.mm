@@ -42,6 +42,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) UIWindow *airplayWindow;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (strong, nonatomic) UIImageView *splashScreenImageView;
+@property (assign, nonatomic) BOOL userPausedEmulation;
 
 @property (nonatomic) CFTimeInterval previousTimestamp;
 @property (nonatomic) NSInteger frameCount;
@@ -366,7 +367,8 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)controllerViewDidPressMenuButton:(GBAControllerView *)controller
 {
     _romPauseTime = CFAbsoluteTimeGetCurrent();
-    
+
+    self.userPausedEmulation = YES;
     [self pauseEmulation];
     
     UIActionSheet *actionSheet = nil;
@@ -788,7 +790,10 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)didBecomeActive:(NSNotification *)notification
 {
-    [self resumeEmulation];
+    if (!self.userPausedEmulation)
+    {
+        [self resumeEmulation];
+    }
 }
 
 - (void)didEnterBackground:(NSNotification *)notification
@@ -1069,6 +1074,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)resumeEmulation
 {
+    self.userPausedEmulation = NO;
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
