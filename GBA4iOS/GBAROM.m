@@ -44,9 +44,7 @@
     NSString *extension = nil;
     
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tempDirectory error:nil];
-    
-    DLog(@"Contents: %@", contents);
-    
+        
     for (NSString *filename in contents)
     {
         if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] ||

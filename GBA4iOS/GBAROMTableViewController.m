@@ -79,8 +79,6 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
  
     self.clearsSelectionOnViewWillAppear = YES;
     
-    self.edgesForExtendedLayout = UIRectEdgeTop;
-    
     GBAROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"romType"];
     self.romType = romType;
     
@@ -109,6 +107,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle] animated:YES];
     
     // Sometimes it loses it's color when the view appears
     self.downloadProgressView.progressTintColor = GBA4iOS_PURPLE_COLOR;
@@ -164,7 +164,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleDefault;
+    if (self.theme == GBAThemedTableViewControllerThemeOpaque)
+    {
+        return UIStatusBarStyleDefault;
+    }
+    
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - RSTWebViewController delegate
@@ -791,6 +796,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     webViewController.showDoneButton = YES;
     webViewController.downloadDelegate = self;
     
+    [[UIApplication sharedApplication] setStatusBarStyle:[webViewController preferredStatusBarStyle] animated:YES];
+    
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
     [self presentViewController:navigationController animated:YES completion:NULL];
 }
@@ -798,6 +805,9 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem
 {
     GBASettingsViewController *settingsViewController = [[GBASettingsViewController alloc] init];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:[settingsViewController preferredStatusBarStyle] animated:YES];
+    
     UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController);
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)

@@ -187,6 +187,11 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (BOOL)prefersStatusBarHidden
 {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom == nil)
+    {
+        return NO;
+    }
+    
     return YES;
 }
 
@@ -826,6 +831,16 @@ void uncaughtExceptionHandler(NSException *exception)
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+    
+    // No way to set constraints in relation to top of superview in Interface Builder, only Top Layout Guide. Since we show and hide the status bar, this causes the emulation screen to jump
+    // This way, the screen stays in place regardless of whether the status bar is showing or not
+    NSArray *array = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[screenContainerView]" options:0 metrics:0 views:@{@"screenContainerView" : self.screenContainerView}];
+    [self.view addConstraints:array];
+}
+
 #define BLURRED_SNAPSHOT_TAG 17
 #define CONTROLLER_SNAPSHOT_TAG 15
 
@@ -996,7 +1011,7 @@ void uncaughtExceptionHandler(NSException *exception)
         [self.emulatorScreen invalidateIntrinsicContentSize];
 #else
         
-        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
         {
             self.emulatorScreen.bounds = CGRectMake(0, 0, 320, 240);
         }

@@ -25,12 +25,12 @@
     
     CGRect rect = [transitionContext initialFrameForViewController:fromViewController];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:[toViewController preferredStatusBarStyle] animated:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:[toViewController prefersStatusBarHidden] withAnimation:UIStatusBarAnimationFade];
+    
     if ([self isPresenting])
     {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-        //[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-        
-        //[[[(UINavigationController *)toViewController viewControllers] firstObject] navigationItem].prompt = @"";
+        [[transitionContext containerView] addSubview:toViewController.view];
         
         if (UIInterfaceOrientationIsPortrait(fromViewController.interfaceOrientation))
         {
@@ -42,8 +42,6 @@
         }
         
         toViewController.view.frame = rect;
-        
-        [[transitionContext containerView] addSubview:toViewController.view];
         
         [(GBAEmulationViewController *)fromViewController setBlurAlpha:1.0]; // Don't need to animate
         [(GBAEmulationViewController *)fromViewController blurredContentsImageView].frame = CGRectMake(0, CGRectGetHeight(fromViewController.view.bounds), CGRectGetWidth(fromViewController.view.bounds), 0);
@@ -61,6 +59,8 @@
     }
     else
     {
+        [[transitionContext containerView] insertSubview:toViewController.view atIndex:0];
+        
         if (UIInterfaceOrientationIsPortrait(fromViewController.interfaceOrientation))
         {
             rect.origin.y = CGRectGetHeight(fromViewController.view.frame);
@@ -71,8 +71,6 @@
         }
         
         fromViewController.view.frame = CGRectMake(0, 0, CGRectGetWidth(fromViewController.view.frame), CGRectGetHeight(fromViewController.view.frame));
-        
-        [[transitionContext containerView] insertSubview:toViewController.view atIndex:0];
         
         [(GBAEmulationViewController *)toViewController blurredContentsImageView].frame = CGRectMake(0, 0, CGRectGetWidth(fromViewController.view.bounds), CGRectGetHeight(fromViewController.view.bounds));
         

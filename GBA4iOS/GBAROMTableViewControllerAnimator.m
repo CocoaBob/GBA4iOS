@@ -22,13 +22,21 @@
     UIViewController* toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
-    toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController]; // Set the initial frame to where it'll end up, then we simply transform it
-    
     CGAffineTransform initialTransform = toViewController.view.transform;
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:[toViewController preferredStatusBarStyle] animated:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:[toViewController prefersStatusBarHidden] withAnimation:UIStatusBarAnimationFade];
     
     if ([self isPresenting])
     {
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:[toViewController preferredStatusBarStyle] animated:YES];
+        [[UIApplication sharedApplication] setStatusBarHidden:[toViewController prefersStatusBarHidden] withAnimation:UIStatusBarAnimationFade];
+        
         [[transitionContext containerView] addSubview:toViewController.view];
+        
+        // Set the initial frame to where it'll end up, then we simply transform it. Must go after adding to container view for correct status bar behavior
+        toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
         
         toViewController.view.alpha = 0;
         toViewController.view.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(2.0, 2.0));
@@ -42,12 +50,14 @@
             toViewController.view.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(1.0, 1.0));
         } completion:^(BOOL finished) {
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-            
         }];
     }
     else
     {
         [[transitionContext containerView] insertSubview:toViewController.view atIndex:0];
+        
+        // Set the initial frame to where it'll end up, then we simply transform it. Must go after adding to container view for correct status bar behavior
+        toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
         
         [(GBAEmulationViewController *)toViewController resumeEmulation];
         
@@ -56,6 +66,7 @@
             
             fromViewController.view.alpha = 0.0;
             fromViewController.view.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(2.0, 2.0));
+                        
         } completion:^(BOOL finished) {
              [(GBAEmulationViewController *)toViewController removeBlur];
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
