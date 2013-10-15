@@ -24,7 +24,7 @@ CallResult Quartz2dImage::writeImage(const Pixmap &pix, const char *name)
 	auto provider = CGDataProviderCreateWithData(nullptr, pix.data, pix.sizeOfImage(), nullptr);
 	int bitsPerComponent = 8;
 	CGBitmapInfo bitmapInfo = kCGImageAlphaNone;
-	auto imageRef = CGImageCreate(pix.x, pix.y, bitsPerComponent, pix.format.bitsPerPixel, pix.pitch, Base::grayColorSpace, bitmapInfo,
+	auto imageRef = CGImageCreate(pix.x, pix.y, bitsPerComponent, pix.format.bitsPerPixel, pix.pitch, Base::rgbColorSpace, bitmapInfo,
 		provider, nullptr, NO, kCGRenderingIntentDefault);
 	CGDataProviderRelease(provider);
 	@autoreleasepool
