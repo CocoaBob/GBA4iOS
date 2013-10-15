@@ -50,6 +50,7 @@
         case GBAThemedTableViewControllerThemeOpaque:
         {
             header.contentView.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1.0];
+            header.backgroundView = nil;
             header.textLabel.textColor = [UIColor blackColor];
             break;
         }
@@ -58,6 +59,7 @@
         {
             UIView *backgroundView = [[UIView alloc] init];
             backgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.6];
+            header.contentView.backgroundColor = [UIColor clearColor];
             header.backgroundView = backgroundView;
             header.textLabel.textColor = [UIColor whiteColor];
             
