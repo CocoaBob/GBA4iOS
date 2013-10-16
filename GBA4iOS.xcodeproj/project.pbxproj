@@ -70,6 +70,10 @@
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
+		CC43887C180F49470064C74A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC96F00917C2983800C7DD0C /* OpenGLES.framework */; };
+		CC43887D180F494B0064C74A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
+		CC43887E180F49500064C74A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
+		CC43887F180F49570064C74A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
 		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
@@ -921,6 +925,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC43887F180F49570064C74A /* libz.dylib in Frameworks */,
+				CC43887E180F49500064C74A /* QuartzCore.framework in Frameworks */,
+				CC43887D180F494B0064C74A /* AudioToolbox.framework in Frameworks */,
+				CC43887C180F49470064C74A /* OpenGLES.framework in Frameworks */,
 				CC57568B180C727C00BF3DA5 /* CoreGraphics.framework in Frameworks */,
 				CC57568C180C727C00BF3DA5 /* UIKit.framework in Frameworks */,
 				CC57568A180C727C00BF3DA5 /* Foundation.framework in Frameworks */,
@@ -3141,6 +3149,14 @@
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+				);
 				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3160,6 +3176,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBC.emu/GBC.emu-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+				);
 				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3179,6 +3203,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBC.emu/GBC.emu-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+				);
 				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
