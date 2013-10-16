@@ -17,7 +17,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "cpu.h"
-#include "memory.h"
+#include "memory_GBC.h"
 #include "savestate.h"
 
 namespace gambatte {

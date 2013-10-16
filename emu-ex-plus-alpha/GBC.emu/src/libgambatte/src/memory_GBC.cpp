@@ -16,9 +16,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "memory.h"
+#include "memory_GBC.h"
 #include "video.h"
-#include "sound.h"
+#include "sound_GBC.h"
 #include "inputgetter.h"
 #include "savestate.h"
 #include <cstring>

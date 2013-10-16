@@ -23,7 +23,7 @@
 #include "mem/cartridge.h"
 #include "interrupter.h"
 #include "pakinfo.h"
-#include "sound.h"
+#include "sound_GBC.h"
 #include "tima.h"
 #include "video.h"
 

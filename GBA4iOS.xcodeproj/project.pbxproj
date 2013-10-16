@@ -166,8 +166,8 @@
 		CC57574B180C748C00BF3DA5 /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; };
 		CC57574D180C748C00BF3DA5 /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; };
 		CC57574F180C748C00BF3DA5 /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; };
-		CC575751180C748C00BF3DA5 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory.cpp */; };
-		CC575753180C748C00BF3DA5 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound.cpp */; };
+		CC575751180C748C00BF3DA5 /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; };
+		CC575753180C748C00BF3DA5 /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; };
 		CC575755180C748C00BF3DA5 /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; };
 		CC575757180C748C00BF3DA5 /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
 		CC575759180C748C00BF3DA5 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
@@ -639,8 +639,8 @@
 		CC57573C180C748B00BF3DA5 /* interrupter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = interrupter.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/interrupter.cpp"; sourceTree = SOURCE_ROOT; };
 		CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = interruptrequester.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/interruptrequester.cpp"; sourceTree = SOURCE_ROOT; };
 		CC57573E180C748B00BF3DA5 /* loadres.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = loadres.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/loadres.cpp"; sourceTree = SOURCE_ROOT; };
-		CC57573F180C748B00BF3DA5 /* memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = memory.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/memory.cpp"; sourceTree = SOURCE_ROOT; };
-		CC575740180C748B00BF3DA5 /* sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/sound.cpp"; sourceTree = SOURCE_ROOT; };
+		CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = memory_GBC.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/memory_GBC.cpp"; sourceTree = SOURCE_ROOT; };
+		CC575740180C748B00BF3DA5 /* sound_GBC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sound_GBC.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/sound_GBC.cpp"; sourceTree = SOURCE_ROOT; };
 		CC575741180C748B00BF3DA5 /* statesaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = statesaver.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/statesaver.cpp"; sourceTree = SOURCE_ROOT; };
 		CC575742180C748B00BF3DA5 /* tima.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tima.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/tima.cpp"; sourceTree = SOURCE_ROOT; };
 		CC575743180C748B00BF3DA5 /* video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/video.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1240,8 +1240,8 @@
 				CC57573C180C748B00BF3DA5 /* interrupter.cpp */,
 				CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */,
 				CC57573E180C748B00BF3DA5 /* loadres.cpp */,
-				CC57573F180C748B00BF3DA5 /* memory.cpp */,
-				CC575740180C748B00BF3DA5 /* sound.cpp */,
+				CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */,
+				CC575740180C748B00BF3DA5 /* sound_GBC.cpp */,
 				CC575741180C748B00BF3DA5 /* statesaver.cpp */,
 				CC575742180C748B00BF3DA5 /* tima.cpp */,
 				CC575743180C748B00BF3DA5 /* video.cpp */,
@@ -2125,7 +2125,7 @@
 				CC5756BE180C72D000BF3DA5 /* MenuView.cc in Sources */,
 				CC575712180C745E00BF3DA5 /* envelope_unit.cpp in Sources */,
 				CC5756E6180C72DE00BF3DA5 /* pngpread.c in Sources */,
-				CC575751180C748C00BF3DA5 /* memory.cpp in Sources */,
+				CC575751180C748C00BF3DA5 /* memory_GBC.cpp in Sources */,
 				CC575747180C748C00BF3DA5 /* gambatte.cpp in Sources */,
 				CC575727180C746600BF3DA5 /* resamplerinfo.cpp in Sources */,
 				CC57570C180C745E00BF3DA5 /* channel3.cpp in Sources */,
@@ -2146,7 +2146,7 @@
 				CC5756CA180C72D700BF3DA5 /* logger.cc in Sources */,
 				CC575738180C748100BF3DA5 /* rtc.cpp in Sources */,
 				CC5756D4180C72D700BF3DA5 /* IoFd.cc in Sources */,
-				CC575753180C748C00BF3DA5 /* sound.cpp in Sources */,
+				CC575753180C748C00BF3DA5 /* sound_GBC.cpp in Sources */,
 				CC5756C8180C72D000BF3DA5 /* TouchConfigView.cc in Sources */,
 				CC5756ED180C72DE00BF3DA5 /* pngwio.c in Sources */,
 				CC5756C3180C72D000BF3DA5 /* EmuView.cc in Sources */,
