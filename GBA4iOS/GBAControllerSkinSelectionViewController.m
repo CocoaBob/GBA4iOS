@@ -249,7 +249,7 @@
     
     GBAController *controller = self.filteredArray[indexPath.section];
     cell.cacheKey = controller.identifier;
-        
+    
     if (_viewDidAppear)
     {
         cell.loadSynchronously = NO;

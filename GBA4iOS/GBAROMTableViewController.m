@@ -137,6 +137,8 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (void)viewWillLayoutSubviews
 {
+    [super viewWillLayoutSubviews];
+    
     self.romTypeSegmentedControl.frame = ({
         CGRect frame = self.romTypeSegmentedControl.frame;
         frame.size.width = self.navigationController.navigationBar.bounds.size.width - (self.navigationItem.leftBarButtonItem.width + self.navigationItem.rightBarButtonItem.width);

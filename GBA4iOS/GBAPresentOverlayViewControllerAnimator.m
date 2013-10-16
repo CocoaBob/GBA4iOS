@@ -30,6 +30,8 @@
     
     if ([self isPresenting])
     {
+        toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
+        
         [[transitionContext containerView] addSubview:toViewController.view];
         
         if (UIInterfaceOrientationIsPortrait(fromViewController.interfaceOrientation))
@@ -50,9 +52,6 @@
             [(GBAEmulationViewController *)fromViewController blurredContentsImageView].frame = CGRectMake(0, 0, CGRectGetWidth(fromViewController.view.bounds), CGRectGetHeight(fromViewController.view.bounds));
             toViewController.view.frame = CGRectMake(0, 0, CGRectGetWidth(toViewController.view.frame), CGRectGetHeight(toViewController.view.frame));
         } completion:^(BOOL finished) {
-            [UIView performWithoutAnimation:^{
-                //[[[(UINavigationController *)toViewController viewControllers] firstObject] navigationItem].prompt = nil;
-            }];
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
             
         }];

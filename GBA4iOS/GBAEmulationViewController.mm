@@ -1027,6 +1027,7 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
         self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation darkenImage:darkenImage];
+        self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     }
     
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];

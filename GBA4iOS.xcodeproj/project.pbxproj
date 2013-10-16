@@ -16,7 +16,6 @@
 		1AD971F417D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
 		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
 		1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
-		581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
@@ -63,7 +62,6 @@
 		CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
-		CC275C4017A5075E006243FB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC7FC68338514E99889F3D95 /* libPods.a */; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
@@ -245,6 +243,44 @@
 		CC81EACD17EBA2BC006FD348 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = CC81EABF17EBA2BC006FD348 /* UIWebView+AFNetworking.m */; };
 		CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
 		CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
+		CC83258B180E2DB800001899 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CC83258A180E2DB800001899 /* UIActionSheet+RSTAdditions.m */; };
+		CC83258C180E2DB800001899 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CC83258A180E2DB800001899 /* UIActionSheet+RSTAdditions.m */; };
+		CC83258F180E2DC100001899 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CC83258E180E2DC100001899 /* UIAlertView+RSTAdditions.m */; };
+		CC832590180E2DC100001899 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CC83258E180E2DC100001899 /* UIAlertView+RSTAdditions.m */; };
+		CC832597180E2DCB00001899 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = CC832594180E2DCB00001899 /* RSTDirectoryMonitor.m */; };
+		CC832598180E2DCB00001899 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = CC832594180E2DCB00001899 /* RSTDirectoryMonitor.m */; };
+		CC832599180E2DCB00001899 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC832595180E2DCB00001899 /* RSTFileBrowserTableViewCell.m */; };
+		CC83259A180E2DCB00001899 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC832595180E2DCB00001899 /* RSTFileBrowserTableViewCell.m */; };
+		CC83259B180E2DCB00001899 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC832596180E2DCB00001899 /* RSTFileBrowserViewController.m */; };
+		CC83259C180E2DCB00001899 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC832596180E2DCB00001899 /* RSTFileBrowserViewController.m */; };
+		CC8325A1180E2DDB00001899 /* Back Button.png in Resources */ = {isa = PBXBuildFile; fileRef = CC83259D180E2DDB00001899 /* Back Button.png */; };
+		CC8325A2180E2DDB00001899 /* Back Button.png in Resources */ = {isa = PBXBuildFile; fileRef = CC83259D180E2DDB00001899 /* Back Button.png */; };
+		CC8325A3180E2DDB00001899 /* Back Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC83259E180E2DDB00001899 /* Back Button@2x.png */; };
+		CC8325A4180E2DDB00001899 /* Back Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC83259E180E2DDB00001899 /* Back Button@2x.png */; };
+		CC8325A5180E2DDB00001899 /* Forward Button.png in Resources */ = {isa = PBXBuildFile; fileRef = CC83259F180E2DDB00001899 /* Forward Button.png */; };
+		CC8325A6180E2DDB00001899 /* Forward Button.png in Resources */ = {isa = PBXBuildFile; fileRef = CC83259F180E2DDB00001899 /* Forward Button.png */; };
+		CC8325A7180E2DDB00001899 /* Forward Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC8325A0180E2DDB00001899 /* Forward Button@2x.png */; };
+		CC8325A8180E2DDB00001899 /* Forward Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC8325A0180E2DDB00001899 /* Forward Button@2x.png */; };
+		CC8325B1180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325AD180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m */; };
+		CC8325B2180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325AD180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m */; };
+		CC8325B3180E2DE500001899 /* RSTSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325AE180E2DE500001899 /* RSTSafariActivity.m */; };
+		CC8325B4180E2DE500001899 /* RSTSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325AE180E2DE500001899 /* RSTSafariActivity.m */; };
+		CC8325B5180E2DE500001899 /* RSTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325AF180E2DE500001899 /* RSTWebViewController.m */; };
+		CC8325B6180E2DE500001899 /* RSTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325AF180E2DE500001899 /* RSTWebViewController.m */; };
+		CC8325B7180E2DE500001899 /* RSTWebViewControllerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325B0180E2DE500001899 /* RSTWebViewControllerProtocol.m */; };
+		CC8325B8180E2DE500001899 /* RSTWebViewControllerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325B0180E2DE500001899 /* RSTWebViewControllerProtocol.m */; };
+		CC8325BF180E2F5300001899 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325BE180E2F5300001899 /* NJKWebViewProgress.m */; };
+		CC8325C0180E2F5300001899 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325BE180E2F5300001899 /* NJKWebViewProgress.m */; };
+		CC8325C3180E2F6300001899 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C2180E2F6300001899 /* SSZipArchive.m */; };
+		CC8325C4180E2F6300001899 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C2180E2F6300001899 /* SSZipArchive.m */; };
+		CC8325CE180E2F6A00001899 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C6180E2F6A00001899 /* ioapi.c */; };
+		CC8325CF180E2F6A00001899 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C6180E2F6A00001899 /* ioapi.c */; };
+		CC8325D0180E2F6A00001899 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C8180E2F6A00001899 /* mztools.c */; };
+		CC8325D1180E2F6A00001899 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C8180E2F6A00001899 /* mztools.c */; };
+		CC8325D2180E2F6A00001899 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CA180E2F6A00001899 /* unzip.c */; };
+		CC8325D3180E2F6A00001899 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CA180E2F6A00001899 /* unzip.c */; };
+		CC8325D4180E2F6A00001899 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CC180E2F6A00001899 /* zip.c */; };
+		CC8325D5180E2F6A00001899 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CC180E2F6A00001899 /* zip.c */; };
 		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
@@ -382,8 +418,6 @@
 		CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
 		CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
 		CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
-		CCBD34F717F761F800592602 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCBD34F617F761F800592602 /* Reveal.framework */; };
-		CCBD34F817F761F800592602 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCBD34F617F761F800592602 /* Reveal.framework */; };
 		CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
 		CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
@@ -668,6 +702,41 @@
 		CC81EABF17EBA2BC006FD348 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		CC823BC217B04A7A000A25E6 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		CC832589180E2DB800001899 /* UIActionSheet+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+RSTAdditions.h"; sourceTree = "<group>"; };
+		CC83258A180E2DB800001899 /* UIActionSheet+RSTAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+RSTAdditions.m"; sourceTree = "<group>"; };
+		CC83258D180E2DC100001899 /* UIAlertView+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+RSTAdditions.h"; sourceTree = "<group>"; };
+		CC83258E180E2DC100001899 /* UIAlertView+RSTAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+RSTAdditions.m"; sourceTree = "<group>"; };
+		CC832591180E2DCB00001899 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTDirectoryMonitor.h; sourceTree = "<group>"; };
+		CC832592180E2DCB00001899 /* RSTFileBrowserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTFileBrowserTableViewCell.h; sourceTree = "<group>"; };
+		CC832593180E2DCB00001899 /* RSTFileBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTFileBrowserViewController.h; sourceTree = "<group>"; };
+		CC832594180E2DCB00001899 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTDirectoryMonitor.m; sourceTree = "<group>"; };
+		CC832595180E2DCB00001899 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
+		CC832596180E2DCB00001899 /* RSTFileBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTFileBrowserViewController.m; sourceTree = "<group>"; };
+		CC83259D180E2DDB00001899 /* Back Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back Button.png"; sourceTree = "<group>"; };
+		CC83259E180E2DDB00001899 /* Back Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back Button@2x.png"; sourceTree = "<group>"; };
+		CC83259F180E2DDB00001899 /* Forward Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Forward Button.png"; sourceTree = "<group>"; };
+		CC8325A0180E2DDB00001899 /* Forward Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Forward Button@2x.png"; sourceTree = "<group>"; };
+		CC8325A9180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSessionTask+UniqueTaskIdentifier.h"; sourceTree = "<group>"; };
+		CC8325AA180E2DE500001899 /* RSTSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTSafariActivity.h; sourceTree = "<group>"; };
+		CC8325AB180E2DE500001899 /* RSTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTWebViewController.h; sourceTree = "<group>"; };
+		CC8325AC180E2DE500001899 /* RSTWebViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTWebViewControllerProtocol.h; sourceTree = "<group>"; };
+		CC8325AD180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionTask+UniqueTaskIdentifier.m"; sourceTree = "<group>"; };
+		CC8325AE180E2DE500001899 /* RSTSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTSafariActivity.m; sourceTree = "<group>"; };
+		CC8325AF180E2DE500001899 /* RSTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTWebViewController.m; sourceTree = "<group>"; };
+		CC8325B0180E2DE500001899 /* RSTWebViewControllerProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTWebViewControllerProtocol.m; sourceTree = "<group>"; };
+		CC8325BD180E2F5300001899 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = Pods/NJKWebViewProgress/NJKWebViewProgress/NJKWebViewProgress.h; sourceTree = "<group>"; };
+		CC8325BE180E2F5300001899 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = Pods/NJKWebViewProgress/NJKWebViewProgress/NJKWebViewProgress.m; sourceTree = "<group>"; };
+		CC8325C1180E2F6300001899 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = Pods/SSZipArchive/SSZipArchive/SSZipArchive.h; sourceTree = "<group>"; };
+		CC8325C2180E2F6300001899 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = Pods/SSZipArchive/SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
+		CC8325C5180E2F6A00001899 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = Pods/SSZipArchive/minizip/crypt.h; sourceTree = "<group>"; };
+		CC8325C6180E2F6A00001899 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = Pods/SSZipArchive/minizip/ioapi.c; sourceTree = "<group>"; };
+		CC8325C7180E2F6A00001899 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = Pods/SSZipArchive/minizip/ioapi.h; sourceTree = "<group>"; };
+		CC8325C8180E2F6A00001899 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = Pods/SSZipArchive/minizip/mztools.c; sourceTree = "<group>"; };
+		CC8325C9180E2F6A00001899 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mztools.h; path = Pods/SSZipArchive/minizip/mztools.h; sourceTree = "<group>"; };
+		CC8325CA180E2F6A00001899 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = Pods/SSZipArchive/minizip/unzip.c; sourceTree = "<group>"; };
+		CC8325CB180E2F6A00001899 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = Pods/SSZipArchive/minizip/unzip.h; sourceTree = "<group>"; };
+		CC8325CC180E2F6A00001899 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zip.c; path = Pods/SSZipArchive/minizip/zip.c; sourceTree = "<group>"; };
+		CC8325CD180E2F6A00001899 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zip.h; path = Pods/SSZipArchive/minizip/zip.h; sourceTree = "<group>"; };
 		CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulationViewController.h; sourceTree = "<group>"; };
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CC8D5A7817AAE3A800E89F43 /* GBAControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerView.h; sourceTree = "<group>"; };
@@ -684,7 +753,6 @@
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
 		CCBD34EF17F7492F00592602 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
 		CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
-		CCBD34F617F761F800592602 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		CCBEBEEF17E62C0000731F76 /* RSTHelperFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTHelperFile.h; sourceTree = "<group>"; };
 		CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTHelperFile.m; sourceTree = "<group>"; };
 		CCBF363117F27DA100704A5B /* GBAMailActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAMailActivity.h; sourceTree = "<group>"; };
@@ -805,7 +873,6 @@
 		CCFA71F7179D304700768D24 /* LzmaDec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LzmaDec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/LzmaDec.c"; sourceTree = SOURCE_ROOT; };
 		CCFA71F8179D304700768D24 /* Ppmd7.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Ppmd7.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Ppmd7.c"; sourceTree = SOURCE_ROOT; };
 		CCFA71F9179D304700768D24 /* Ppmd7Dec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Ppmd7Dec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Ppmd7Dec.c"; sourceTree = SOURCE_ROOT; };
-		DC7FC68338514E99889F3D95 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E497718ED60948D8A50CF8AA /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -818,7 +885,6 @@
 				CC275C3717A5075E006243FB /* libz.dylib in Frameworks */,
 				CCC0F23617FA9C0700235781 /* AVFoundation.framework in Frameworks */,
 				CC275C3817A5075E006243FB /* AudioToolbox.framework in Frameworks */,
-				CCBD34F817F761F800592602 /* Reveal.framework in Frameworks */,
 				CC275C3917A5075E006243FB /* CoreAudio.framework in Frameworks */,
 				CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */,
 				CC275C3B17A5075E006243FB /* MessageUI.framework in Frameworks */,
@@ -828,7 +894,6 @@
 				CCC0F23417FA9C0700235781 /* CoreMedia.framework in Frameworks */,
 				CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */,
 				CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */,
-				CC275C4017A5075E006243FB /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -842,7 +907,6 @@
 				CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */,
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
-				CCBD34F717F761F800592602 /* Reveal.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
@@ -850,7 +914,6 @@
 				CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */,
 				CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */,
 				CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */,
-				581D3893B2BF44B9AE8320E5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,6 +1090,7 @@
 		CC2D56F31798F2EC00C616EB = {
 			isa = PBXGroup;
 			children = (
+				CC832588180E2D9000001899 /* Pods */,
 				CC2D57051798F2EC00C616EB /* GBA4iOS */,
 				CC96EF9117C295EE00C7DD0C /* Targets */,
 				CC2D57381798F40E00C616EB /* Resources */,
@@ -1053,7 +1117,6 @@
 				CCC0F23217FA95C600235781 /* CoreMedia.framework */,
 				CCC0F23017FA95B500235781 /* AssetsLibrary.framework */,
 				CCC0F22E17FA95A700235781 /* AVFoundation.framework */,
-				CCBD34F617F761F800592602 /* Reveal.framework */,
 				CC81EA8C17EBA2B0006FD348 /* AFNetworking */,
 				CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */,
 				CC96F00917C2983800C7DD0C /* OpenGLES.framework */,
@@ -1067,7 +1130,6 @@
 				CC2D57011798F2EC00C616EB /* CoreGraphics.framework */,
 				CC2D57031798F2EC00C616EB /* UIKit.framework */,
 				CC2D57211798F2ED00C616EB /* XCTest.framework */,
-				DC7FC68338514E99889F3D95 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1299,6 +1361,88 @@
 				CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */,
 			);
 			name = "Categories / Protocols";
+			sourceTree = "<group>";
+		};
+		CC832588180E2D9000001899 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CC8325D6180E2F6E00001899 /* SSZipArchive */,
+				CC8325BC180E2E0900001899 /* RSTActionSheet */,
+				CC8325BB180E2E0000001899 /* RSTAlertView */,
+				CC8325BA180E2DF800001899 /* RSTFileBrowserViewController */,
+				CC8325B9180E2DEE00001899 /* RSTWebBrowserViewController */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CC8325B9180E2DEE00001899 /* RSTWebBrowserViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CC8325BD180E2F5300001899 /* NJKWebViewProgress.h */,
+				CC8325BE180E2F5300001899 /* NJKWebViewProgress.m */,
+				CC83259D180E2DDB00001899 /* Back Button.png */,
+				CC83259E180E2DDB00001899 /* Back Button@2x.png */,
+				CC83259F180E2DDB00001899 /* Forward Button.png */,
+				CC8325A0180E2DDB00001899 /* Forward Button@2x.png */,
+				CC8325A9180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.h */,
+				CC8325AA180E2DE500001899 /* RSTSafariActivity.h */,
+				CC8325AB180E2DE500001899 /* RSTWebViewController.h */,
+				CC8325AC180E2DE500001899 /* RSTWebViewControllerProtocol.h */,
+				CC8325AD180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m */,
+				CC8325AE180E2DE500001899 /* RSTSafariActivity.m */,
+				CC8325AF180E2DE500001899 /* RSTWebViewController.m */,
+				CC8325B0180E2DE500001899 /* RSTWebViewControllerProtocol.m */,
+			);
+			name = RSTWebBrowserViewController;
+			sourceTree = "<group>";
+		};
+		CC8325BA180E2DF800001899 /* RSTFileBrowserViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CC832591180E2DCB00001899 /* RSTDirectoryMonitor.h */,
+				CC832592180E2DCB00001899 /* RSTFileBrowserTableViewCell.h */,
+				CC832593180E2DCB00001899 /* RSTFileBrowserViewController.h */,
+				CC832594180E2DCB00001899 /* RSTDirectoryMonitor.m */,
+				CC832595180E2DCB00001899 /* RSTFileBrowserTableViewCell.m */,
+				CC832596180E2DCB00001899 /* RSTFileBrowserViewController.m */,
+			);
+			name = RSTFileBrowserViewController;
+			sourceTree = "<group>";
+		};
+		CC8325BB180E2E0000001899 /* RSTAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				CC83258D180E2DC100001899 /* UIAlertView+RSTAdditions.h */,
+				CC83258E180E2DC100001899 /* UIAlertView+RSTAdditions.m */,
+			);
+			name = RSTAlertView;
+			sourceTree = "<group>";
+		};
+		CC8325BC180E2E0900001899 /* RSTActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				CC832589180E2DB800001899 /* UIActionSheet+RSTAdditions.h */,
+				CC83258A180E2DB800001899 /* UIActionSheet+RSTAdditions.m */,
+			);
+			name = RSTActionSheet;
+			sourceTree = "<group>";
+		};
+		CC8325D6180E2F6E00001899 /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				CC8325C5180E2F6A00001899 /* crypt.h */,
+				CC8325C6180E2F6A00001899 /* ioapi.c */,
+				CC8325C7180E2F6A00001899 /* ioapi.h */,
+				CC8325C8180E2F6A00001899 /* mztools.c */,
+				CC8325C9180E2F6A00001899 /* mztools.h */,
+				CC8325CA180E2F6A00001899 /* unzip.c */,
+				CC8325CB180E2F6A00001899 /* unzip.h */,
+				CC8325CC180E2F6A00001899 /* zip.c */,
+				CC8325CD180E2F6A00001899 /* zip.h */,
+				CC8325C1180E2F6300001899 /* SSZipArchive.h */,
+				CC8325C2180E2F6300001899 /* SSZipArchive.m */,
+			);
+			name = SSZipArchive;
 			sourceTree = "<group>";
 		};
 		CC8BB0611799A21000F9864F /* Emulation View Controller */ = {
@@ -1576,11 +1720,15 @@
 			files = (
 				CC58C8EF17E649CA008F472E /* Images.xcassets in Resources */,
 				BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */,
+				CC8325A4180E2DDB00001899 /* Back Button@2x.png in Resources */,
 				CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */,
 				CC58C8FD17E64A92008F472E /* xButton.png in Resources */,
 				CC58C8F517E649CA008F472E /* overlays128.png in Resources */,
+				CC8325A6180E2DDB00001899 /* Forward Button.png in Resources */,
 				CC58C8F417E649CA008F472E /* padButton.png in Resources */,
+				CC8325A8180E2DDB00001899 /* Forward Button@2x.png in Resources */,
 				CC58C8FB17E64A28008F472E /* Main.storyboard in Resources */,
+				CC8325A2180E2DDB00001899 /* Back Button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1589,10 +1737,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC57576A180C766C00BF3DA5 /* GBCImages.xcassets in Resources */,
+				CC8325A5180E2DDB00001899 /* Forward Button.png in Resources */,
+				CC8325A1180E2DDB00001899 /* Back Button.png in Resources */,
 				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
+				CC8325A7180E2DDB00001899 /* Forward Button@2x.png in Resources */,
+				CC8325A3180E2DDB00001899 /* Back Button@2x.png in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */,
@@ -1689,8 +1841,13 @@
 				CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */,
 				CC81EAA317EBA2B0006FD348 /* AFHTTPRequestOperationManager.m in Sources */,
 				1AD971F417D2C6ED007097BC /* GBAController.m in Sources */,
+				CC8325C0180E2F5300001899 /* NJKWebViewProgress.m in Sources */,
 				CC81EAC117EBA2BC006FD348 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				CC8325C4180E2F6300001899 /* SSZipArchive.m in Sources */,
+				CC8325B2180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */,
+				CC83258C180E2DB800001899 /* UIActionSheet+RSTAdditions.m in Sources */,
 				CC8D5A7B17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
+				CC8325B8180E2DE500001899 /* RSTWebViewControllerProtocol.m in Sources */,
 				BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
 				CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */,
 				CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */,
@@ -1706,33 +1863,43 @@
 				CC81EAAD17EBA2B0006FD348 /* AFURLRequestSerialization.m in Sources */,
 				CC9EA6CE17FE7FC4005BD5E6 /* UITableViewController+Theming.m in Sources */,
 				1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
+				CC832598180E2DCB00001899 /* RSTDirectoryMonitor.m in Sources */,
 				CC0978731804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				CC81EAC917EBA2BC006FD348 /* UIImageView+AFNetworking.m in Sources */,
 				CC76CF0717ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
 				CCE18DED17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
+				CC8325D3180E2F6A00001899 /* unzip.c in Sources */,
+				CC8325B4180E2DE500001899 /* RSTSafariActivity.m in Sources */,
 				CC275BF417A5075E006243FB /* main.mm in Sources */,
 				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CC81EACB17EBA2BC006FD348 /* UIProgressView+AFNetworking.m in Sources */,
 				CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
+				CC8325D5180E2F6A00001899 /* zip.c in Sources */,
 				CC81EAC517EBA2BC006FD348 /* UIAlertView+AFNetworking.m in Sources */,
 				1AD65D7C17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
+				CC83259C180E2DCB00001899 /* RSTFileBrowserViewController.m in Sources */,
 				CC81EAA717EBA2B0006FD348 /* AFNetworkReachabilityManager.m in Sources */,
 				CC6D0A9C18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
+				CC832590180E2DC100001899 /* UIAlertView+RSTAdditions.m in Sources */,
 				CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */,
 				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				1AD971E817D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */,
 				CC81EAAB17EBA2B0006FD348 /* AFURLConnectionOperation.m in Sources */,
 				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
+				CC83259A180E2DCB00001899 /* RSTFileBrowserTableViewCell.m in Sources */,
 				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
 				BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
+				CC8325D1180E2F6A00001899 /* mztools.c in Sources */,
 				CC81EAC717EBA2BC006FD348 /* UIButton+AFNetworking.m in Sources */,
+				CC8325CF180E2F6A00001899 /* ioapi.c in Sources */,
 				CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */,
 				CC81EAA917EBA2B0006FD348 /* AFSecurityPolicy.m in Sources */,
 				CC76CF0317ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
 				CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */,
+				CC8325B6180E2DE500001899 /* RSTWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1742,10 +1909,12 @@
 			files = (
 				CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
 				CCFA717D179D2EAB00768D24 /* Io.cc in Sources */,
+				CC8325C3180E2F6300001899 /* SSZipArchive.m in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
 				CCFA7220179D304700768D24 /* Rar_Extractor.cpp in Sources */,
 				CCFA7207179D304700768D24 /* Globals.cpp in Sources */,
 				CC81EAC817EBA2BC006FD348 /* UIImageView+AFNetworking.m in Sources */,
+				CC8325B5180E2DE500001899 /* RSTWebViewController.m in Sources */,
 				BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC81EAC617EBA2BC006FD348 /* UIButton+AFNetworking.m in Sources */,
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
@@ -1796,7 +1965,9 @@
 				CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */,
 				CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */,
 				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
+				CC8325CE180E2F6A00001899 /* ioapi.c in Sources */,
 				CCFA721F179D304700768D24 /* Gzip_Reader.cpp in Sources */,
+				CC8325D2180E2F6A00001899 /* unzip.c in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
@@ -1811,6 +1982,7 @@
 				CCFA722A179D304700768D24 /* 7zIn.c in Sources */,
 				CCFA7221179D304700768D24 /* Zip_Extractor.cpp in Sources */,
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
+				CC8325D0180E2F6A00001899 /* mztools.c in Sources */,
 				CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */,
@@ -1842,6 +2014,7 @@
 				CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
 				CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */,
 				CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */,
+				CC8325B1180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC81EAAA17EBA2B0006FD348 /* AFURLConnectionOperation.m in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
@@ -1864,8 +2037,10 @@
 				1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */,
 				CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */,
 				CCFA7216179D304700768D24 /* Gb_Oscs.cpp in Sources */,
+				CC832597180E2DCB00001899 /* RSTDirectoryMonitor.m in Sources */,
 				CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */,
 				CCFA7218179D304700768D24 /* Binary_Extractor.cpp in Sources */,
+				CC8325B7180E2DE500001899 /* RSTWebViewControllerProtocol.m in Sources */,
 				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CC81EAAC17EBA2B0006FD348 /* AFURLRequestSerialization.m in Sources */,
 				CCFA7231179D304700768D24 /* LzmaDec.c in Sources */,
@@ -1874,6 +2049,7 @@
 				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
 				CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */,
+				CC83258F180E2DC100001899 /* UIAlertView+RSTAdditions.m in Sources */,
 				1AD971F317D2C6ED007097BC /* GBAController.m in Sources */,
 				CC81EAA017EBA2B0006FD348 /* AFHTTPRequestOperation.m in Sources */,
 				CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */,
@@ -1886,7 +2062,9 @@
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
 				CCFA720D179D304700768D24 /* Mode5.cpp in Sources */,
 				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
+				CC8325BF180E2F5300001899 /* NJKWebViewProgress.m in Sources */,
 				CCFA71B7179D2FE400768D24 /* EmuView.cc in Sources */,
+				CC83259B180E2DCB00001899 /* RSTFileBrowserViewController.m in Sources */,
 				CCFA722E179D304700768D24 /* Bra86.c in Sources */,
 				CCFA721A179D304700768D24 /* blargg_errors.cpp in Sources */,
 				CCFA7229179D304700768D24 /* 7zDec.c in Sources */,
@@ -1899,12 +2077,16 @@
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
 				CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
+				CC83258B180E2DB800001899 /* UIActionSheet+RSTAdditions.m in Sources */,
+				CC832599180E2DCB00001899 /* RSTFileBrowserTableViewCell.m in Sources */,
 				CC81EAC217EBA2BC006FD348 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,
 				CCFA721C179D304700768D24 /* fex.cpp in Sources */,
+				CC8325B3180E2DE500001899 /* RSTSafariActivity.m in Sources */,
 				CCFA71BD179D2FE400768D24 /* VController.cc in Sources */,
 				CC6A2D9E17C515E800EFC10E /* GBACheat.m in Sources */,
 				CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */,
+				CC8325D4180E2F6A00001899 /* zip.c in Sources */,
 				CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */,
 				CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */,
 			);
@@ -3076,6 +3258,7 @@
 				CC5756B0180C727E00BF3DA5 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CC96EF8917C2959900C7DD0C /* Build configuration list for PBXNativeTarget "GBA.emu" */ = {
 			isa = XCConfigurationList;

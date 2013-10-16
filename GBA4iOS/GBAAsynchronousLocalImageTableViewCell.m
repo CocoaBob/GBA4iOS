@@ -74,14 +74,14 @@
 
 - (void)prepareForReuse
 {
+    [super prepareForReuse];
+    
     self.backgroundImageView.image = nil;
     self.backgroundImageView.alpha = 0.0;
     self.image = nil;
     self.imageURL = nil;
     self.activityIndicatorView.alpha = 1.0f;
     self.cacheKey = nil;
-    
-    [self setEditing:NO];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
