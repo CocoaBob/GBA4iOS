@@ -2696,6 +2696,8 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/libgambatte/include\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2808,6 +2810,8 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/libgambatte/include\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -3002,6 +3006,8 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/libgambatte/include\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (

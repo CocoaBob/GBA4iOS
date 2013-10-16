@@ -345,6 +345,8 @@ const KeyConfig defaultZeemoteProfile[] =
 };
 
 const uint defaultZeemoteProfiles = sizeofArray(defaultZeemoteProfile);
+    
+    /* Riley Testut
 
 const KeyConfig defaultPS3Profile[] =
 {
@@ -370,6 +372,6 @@ const KeyConfig defaultPS3Profile[] =
 	},
 };
 
-const uint defaultPS3Profiles = sizeofArray(defaultPS3Profile);
+const uint defaultPS3Profiles = sizeofArray(defaultPS3Profile); */
 
 };

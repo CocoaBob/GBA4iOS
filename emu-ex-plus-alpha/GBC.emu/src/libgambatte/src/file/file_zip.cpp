@@ -24,7 +24,7 @@ Free Software Foundation, Inc.,
 #include <cstring>
 
 namespace zlib {
-#include <unzip.h>
+#include "unzip.h"
 }
 
 namespace {
