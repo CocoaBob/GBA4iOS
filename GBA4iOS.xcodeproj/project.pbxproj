@@ -2753,6 +2753,10 @@
 					"-Wno-unused",
 					"-Wno-unused-parameter",
 					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PROVISIONING_PROFILE = "603313D4-2692-4215-98C6-15A90787F1F5";
@@ -2860,6 +2864,10 @@
 					"-Wno-unused",
 					"-Wno-unused-parameter",
 					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PROVISIONING_PROFILE = "";
@@ -3050,6 +3058,10 @@
 					"-Wno-unused",
 					"-Wno-unused-parameter",
 					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
 				PROVISIONING_PROFILE = "879165B9-4F5B-4CA1-95E1-EE2A9DF21354";
