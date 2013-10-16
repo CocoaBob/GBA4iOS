@@ -12,7 +12,7 @@
 #include <CommonFrameworkIncludes.hh>
 #include <gambatte.h>
 #include <resample/resamplerinfo.h>
-#include <main/Cheats.hh>
+#include <main/Cheats_GBC.hh>
 
 const char *creditsViewStr = CREDITS_INFO_STRING "(c) 2011-2013\nRobert Broglia\nwww.explusalpha.com\n\n(c) 2011\nthe Gambatte Team\ngambatte.sourceforge.net";
 gambatte::GB gbEmu;

@@ -3,7 +3,7 @@
 #include <TextEntry.hh>
 #include <util/gui/ViewStack.hh>
 #include "EmuCheatViews.hh"
-#include <main/Cheats.hh>
+#include <main/Cheats_GBC.hh>
 #include <gambatte.h>
 extern MsgPopup popup;
 extern ViewStack viewStack;

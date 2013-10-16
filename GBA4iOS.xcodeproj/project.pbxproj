@@ -173,7 +173,7 @@
 		CC575759180C748C00BF3DA5 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
 		CC57575D180C74B000BF3DA5 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575A180C74B000BF3DA5 /* ioapi.c */; };
 		CC57575F180C74B000BF3DA5 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575B180C74B000BF3DA5 /* unzip.c */; };
-		CC575764180C759900BF3DA5 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats.cc */; };
+		CC575764180C759900BF3DA5 /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
 		CC575766180C759900BF3DA5 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
 		CC575768180C759900BF3DA5 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
 		CC57576A180C766C00BF3DA5 /* GBCImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC575769180C766C00BF3DA5 /* GBCImages.xcassets */; };
@@ -646,7 +646,7 @@
 		CC575743180C748B00BF3DA5 /* video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/video.cpp"; sourceTree = SOURCE_ROOT; };
 		CC57575A180C74B000BF3DA5 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/zlib/zlib-1.2.8/contrib/minizip/ioapi.c"; sourceTree = SOURCE_ROOT; };
 		CC57575B180C74B000BF3DA5 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/zlib/zlib-1.2.8/contrib/minizip/unzip.c"; sourceTree = SOURCE_ROOT; };
-		CC575760180C759900BF3DA5 /* Cheats.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cheats.cc; path = "emu-ex-plus-alpha/GBC.emu/src/main/Cheats.cc"; sourceTree = SOURCE_ROOT; };
+		CC575760180C759900BF3DA5 /* Cheats_GBC.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Cheats_GBC.cc; path = "emu-ex-plus-alpha/GBC.emu/src/main/Cheats_GBC.cc"; sourceTree = SOURCE_ROOT; };
 		CC575761180C759900BF3DA5 /* EmuControls.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmuControls.cc; path = "emu-ex-plus-alpha/GBC.emu/src/main/EmuControls.cc"; sourceTree = SOURCE_ROOT; };
 		CC575762180C759900BF3DA5 /* Main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cc; path = "emu-ex-plus-alpha/GBC.emu/src/main/Main.cc"; sourceTree = SOURCE_ROOT; };
 		CC575769180C766C00BF3DA5 /* GBCImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = GBCImages.xcassets; sourceTree = "<group>"; };
@@ -1207,7 +1207,7 @@
 		CC575684180C726200BF3DA5 /* GBC */ = {
 			isa = PBXGroup;
 			children = (
-				CC575760180C759900BF3DA5 /* Cheats.cc */,
+				CC575760180C759900BF3DA5 /* Cheats_GBC.cc */,
 				CC575761180C759900BF3DA5 /* EmuControls.cc */,
 				CC575762180C759900BF3DA5 /* Main.cc */,
 				CC5756F1180C745200BF3DA5 /* ly_counter.cpp */,
@@ -2097,7 +2097,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC5756E5180C72DE00BF3DA5 /* pngmem.c in Sources */,
-				CC575764180C759900BF3DA5 /* Cheats.cc in Sources */,
+				CC575764180C759900BF3DA5 /* Cheats_GBC.cc in Sources */,
 				CC5756D3180C72D700BF3DA5 /* Io.cc in Sources */,
 				CC5756B7180C72D000BF3DA5 /* FilePicker.cc in Sources */,
 				CC5756EE180C72DE00BF3DA5 /* pngwrite.c in Sources */,
@@ -2698,6 +2698,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2812,6 +2813,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -3008,6 +3010,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (

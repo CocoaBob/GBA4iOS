@@ -1,6 +1,6 @@
 #pragma once
 #include <Cheats.hh>
-#include <main/Cheats.hh>
+#include <main/Cheats_GBC.hh>
 
 class SystemEditCheatView : public EditCheatView
 {
