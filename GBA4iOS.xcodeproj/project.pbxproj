@@ -2698,6 +2698,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -2813,6 +2814,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -3010,6 +3012,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
