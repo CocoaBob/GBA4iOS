@@ -128,6 +128,7 @@
         {
             NSString *filepath = [documentsDirectory stringByAppendingPathComponent:file];
             [GBAController extractSkinAtPathToSkinsDirectory:filepath];
+            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
             importedSkin = YES;
         }
         
@@ -209,7 +210,6 @@
                     }
                     else
                     {
-                        DLog(@"Adding %@", identifier);
                         [filteredArray addObject:controller];
                     }
                 }

@@ -25,6 +25,7 @@ typedef NS_OPTIONS(NSInteger, RSTWebViewControllerSharingActivity) {
 
 @protocol RSTWebViewControllerDelegate <NSObject>
 
+@optional
 /**
  *	Called when the web view is actually done loading content, unlike the UIWebViewDelegate method
  *  webViewDidFinishLoad: which is called after every frame.
@@ -32,6 +33,13 @@ typedef NS_OPTIONS(NSInteger, RSTWebViewControllerSharingActivity) {
  *	@param	webViewController	The RSTWebViewController loading the content
  */
 - (void)webViewControllerDidFinishLoad:(RSTWebViewController *)webViewController;
+
+/**
+ *  Called when RSTWebViewController is about to be dismissed
+ *
+ *  @param webViewController The RSTWebViewController to be dismissed
+ */
+- (void)webViewControllerWillDismiss:(RSTWebViewController *)webViewController;
 
 @end
 

@@ -86,7 +86,7 @@
         return NO;
     }
     
-    [[NSFileManager defaultManager] removeItemAtPath:[destinationPath stringByAppendingString:@"__MACOSX"] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[destinationPath stringByAppendingPathComponent:@"__MACOSX"] error:nil];
     
     return YES;
 }

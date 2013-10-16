@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     GBAROMTypeGBC,
 };
 
-@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate>
+@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, RSTWebViewControllerDelegate, GBASettingsViewControllerDelegate>
 
 @property (assign, nonatomic) GBAROMType romType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
@@ -350,6 +350,11 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [self setIgnoreDirectoryContentChanges:NO];
 }
 
+- (void)webViewControllerWillDismiss:(RSTWebViewController *)webViewController
+{
+    [self dismissedModalViewController];
+}
+
 #pragma mark - RSTFileBrowserViewController Subclass
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -552,6 +557,12 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     [UIView animateWithDuration:0.4 animations:^{
         [self.downloadProgressView setAlpha:0.0];
     }];
+}
+
+- (void)dismissedModalViewController
+{
+    [self.tableView reloadData]; // Fixes incorrectly-sized cell dividers after changing orientation when a modal view controller is shown
+    [self.emulationViewController refreshLayout];
 }
 
 #pragma mark - UITableView Delegate
@@ -797,6 +808,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
     RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:address];
     webViewController.showDoneButton = YES;
     webViewController.downloadDelegate = self;
+    webViewController.delegate = self;
     
     [[UIApplication sharedApplication] setStatusBarStyle:[webViewController preferredStatusBarStyle] animated:YES];
     
@@ -807,6 +819,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 - (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem
 {
     GBASettingsViewController *settingsViewController = [[GBASettingsViewController alloc] init];
+    settingsViewController.delegate = self;
     
     [[UIApplication sharedApplication] setStatusBarStyle:[settingsViewController preferredStatusBarStyle] animated:YES];
     
@@ -817,6 +830,13 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     [self presentViewController:navigationController animated:YES completion:NULL];
+}
+
+#pragma mark - Settings
+
+- (void)settingsViewControllerWillDismiss:(GBASettingsViewController *)settingsViewController
+{
+    [self dismissedModalViewController];
 }
 
 #pragma mark - Getters/Setters

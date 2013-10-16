@@ -20,7 +20,18 @@ static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
 static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
 static NSString *GBASettingsControllerOpacity = @"controllerOpacity";
 
+@class GBASettingsViewController;
+
+@protocol GBASettingsViewControllerDelegate <NSObject>
+
+- (void)settingsViewControllerWillDismiss:(GBASettingsViewController *)settingsViewController;
+
+@end
+
+
 @interface GBASettingsViewController : UITableViewController
+
+@property (weak, nonatomic) id<GBASettingsViewControllerDelegate> delegate;
 
 + (void)registerDefaults;
 

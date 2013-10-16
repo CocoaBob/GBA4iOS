@@ -174,6 +174,11 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem
 {
+    if ([self.delegate respondsToSelector:@selector(settingsViewControllerWillDismiss:)])
+    {
+        [self.delegate settingsViewControllerWillDismiss:self];
+    }
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }

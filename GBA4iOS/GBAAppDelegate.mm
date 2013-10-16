@@ -69,7 +69,10 @@
     {
         [self copySkinAtPathToDocumentsDirectory:filepath];
     }
-    else if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gba"])
+    else if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"] ||
+             [[[filepath pathExtension] lowercaseString] isEqualToString:@"gba"] ||
+             [[[filepath pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
+             [[[filepath pathExtension] lowercaseString] isEqualToString:@"gb"])
     {
         [self copyROMAtPathToDocumentsDirectory:filepath];
     }
@@ -101,7 +104,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:@"Inbox"] error:nil]; // Delete Inbox folder
+    [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

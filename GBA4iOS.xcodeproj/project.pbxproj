@@ -1090,7 +1090,6 @@
 		CC2D56F31798F2EC00C616EB = {
 			isa = PBXGroup;
 			children = (
-				CC832588180E2D9000001899 /* Pods */,
 				CC2D57051798F2EC00C616EB /* GBA4iOS */,
 				CC96EF9117C295EE00C7DD0C /* Targets */,
 				CC2D57381798F40E00C616EB /* Resources */,
@@ -1114,6 +1113,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CC832588180E2D9000001899 /* Pods */,
 				CCC0F23217FA95C600235781 /* CoreMedia.framework */,
 				CCC0F23017FA95B500235781 /* AssetsLibrary.framework */,
 				CCC0F22E17FA95A700235781 /* AVFoundation.framework */,

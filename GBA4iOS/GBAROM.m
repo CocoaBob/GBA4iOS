@@ -44,6 +44,8 @@
     NSString *extension = nil;
     
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tempDirectory error:nil];
+    
+    DLog(@"%@", contents);
         
     for (NSString *filename in contents)
     {

@@ -410,6 +410,11 @@
 
 - (void)dismissWebViewController:(UIBarButtonItem *)barButtonItem
 {
+    if ([self.delegate respondsToSelector:@selector(webViewControllerWillDismiss:)])
+    {
+        [self.delegate webViewControllerWillDismiss:self];
+    }
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
