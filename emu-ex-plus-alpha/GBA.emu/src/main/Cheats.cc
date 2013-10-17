@@ -24,7 +24,7 @@ void SystemEditCheatView::removed()
 	refreshCheatViews();
 }
 
-void SystemEditCheatView::init(bool highlightFirst, int cheatIdx)
+void SystemEditCheatView::init_gba(bool highlightFirst, int cheatIdx)
 {
 	idx = cheatIdx;
 	auto &cheat = cheatsList[idx];
@@ -67,7 +67,7 @@ void EditCheatListView::loadCheatItems(MenuItem *item[], uint &items)
 			[this, c](TextMenuItem &, const Input::Event &e)
 			{
 				auto &editCheatView = *menuAllocator.allocNew<SystemEditCheatView>();
-				editCheatView.init(!e.isPointer(), c);
+				editCheatView.init_gba(!e.isPointer(), c);
 				viewStack.pushAndShow(&editCheatView, &menuAllocator);
 			};
 	}

@@ -1,19 +1,31 @@
 #pragma once
 #include <Cheats.hh>
 
+#ifdef GBC_EMU_BUILD
+#include <main/Cheats_GBC.hh>
+#endif
+
 class SystemEditCheatView : public EditCheatView
 {
 private:
+    DualTextMenuItem ggCode;
 	DualTextMenuItem code;
 	uint idx = 0;
+    
+#ifdef GBC_EMU_BUILD
+    GbcCheat *cheat = nullptr;
+#endif
 	MenuItem *item[5] {nullptr};
 
 	void renamed(const char *str) override;
 	void removed() override;
-
+    
 public:
 	SystemEditCheatView();
-	void init(bool highlightFirst, int cheatIdx);
+	void init_gba(bool highlightFirst, int cheatIdx);
+#ifdef GBC_EMU_BUILD
+    void init_gbc(bool highlightFirst, GbcCheat &cheat);
+#endif
 };
 
 class EditCheatListView : public BaseEditCheatListView
@@ -21,6 +33,7 @@ class EditCheatListView : public BaseEditCheatListView
 private:
 	TextMenuItem addGS12CBCode, addGS3Code;
 	TextMenuItem cheat[EmuCheats::MAX];
+    TextMenuItem addGGGS;
 
 	void loadAddCheatItems(MenuItem *item[], uint &items) override;
 	void loadCheatItems(MenuItem *item[], uint &items) override;

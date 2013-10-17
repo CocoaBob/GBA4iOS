@@ -3147,6 +3147,9 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"COCOAPODS=1",
+					"DEBUG=1",
+					"GBC_EMU_BUILD=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				HEADER_SEARCH_PATHS = (
@@ -3156,6 +3159,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3183,6 +3187,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3210,6 +3215,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3231,6 +3237,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"GBA_EMU_BUILD=1",
 				);
 				INFOPLIST_FILE = "GBA.emu/GBA.emu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";

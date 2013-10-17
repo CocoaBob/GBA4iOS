@@ -3,6 +3,9 @@
 
 class SystemOptionView : public OptionView
 {
+    
+#ifdef GBA_EMU_BUILD
+    
 	MultiChoiceSelectMenuItem rtc
 	{
 		"RTC Emulation",
@@ -33,6 +36,82 @@ class SystemOptionView : public OptionView
 		};
 		rtc.init(str, optionRtcEmulation, sizeofArray(str));
 	}
+    
+#endif
+    
+#ifdef GBC_EMU_BUILD
+    
+	MultiChoiceSelectMenuItem gbPalette
+	{
+		"GB Palette",
+		[](MultiChoiceMenuItem &, int val)
+		{
+			optionGBPal.val = val;
+			applyGBPalette(val);
+		}
+	};
+    
+	void gbPaletteInit()
+	{
+		static const char *str[] =
+		{
+			"Original", "Brown", "Red", "Dark Brown", "Pastel", "Orange", "Yellow", "Blue", "Dark Blue", "Gray", "Green", "Dark Green", "Reverse"
+		};
+		gbPalette.init(str, int(optionGBPal), sizeofArray(str));
+	}
+    
+	MultiChoiceSelectMenuItem resampler
+	{
+		"Resampler",
+		[](MultiChoiceMenuItem &, int val)
+		{
+			optionAudioResampler = val;
+			EmuSystem::configAudioPlayback();
+		}
+	};
+    
+	const char *resamplerName[4] {nullptr};
+    
+	void resamplerInit()
+	{
+		logMsg("%d resamplers", (int)ResamplerInfo::num());
+		auto resamplers = std::min(ResamplerInfo::num(), sizeofArray(resamplerName));
+		iterateTimes(resamplers, i)
+		{
+			ResamplerInfo r = ResamplerInfo::get(i);
+			logMsg("%d %s", i, r.desc);
+			resamplerName[i] = r.desc;
+		}
+		resampler.init(resamplerName, int(optionAudioResampler), resamplers);
+	}
+    
+    
+    
+	BoolMenuItem reportAsGba
+	{
+		"Report Hardware as GBA",
+		[](BoolMenuItem &item, const Input::Event &e)
+		{
+			item.toggle();
+			optionReportAsGba = item.on;
+		}
+	};
+    
+	BoolMenuItem fullSaturation
+	{
+		"Saturated GBC Colors",
+		[](BoolMenuItem &item, const Input::Event &e)
+		{
+			item.toggle();
+			optionFullGbcSaturation = item.on;
+			if(EmuSystem::gameIsRunning())
+			{
+				gbEmu.refreshPalettes();
+			}
+		}
+	};
+    
+#endif
 
 public:
 
@@ -40,11 +119,37 @@ public:
 public:
 	SystemOptionView() { }
 
-	void loadSystemItems(MenuItem *item[], uint &items)
+#ifdef GBA_EMU_BUILD
+	void loadSystemItems_GBA(MenuItem *item[], uint &items)
 	{
 		OptionView::loadSystemItems(item, items);
 		rtcInit(); item[items++] = &rtc;
 	}
+    
+#endif
+    
+#ifdef GBC_EMU_BUILD
+    
+    void loadAudioItems_GBC(MenuItem *item[], uint &items)
+	{
+		OptionView::loadAudioItems(item, items);
+		resamplerInit(); item[items++] = &resampler;
+	}
+    
+	void loadVideoItems_GBC(MenuItem *item[], uint &items)
+	{
+		OptionView::loadVideoItems(item, items);
+		gbPaletteInit(); item[items++] = &gbPalette;
+		fullSaturation.init(optionFullGbcSaturation); item[items++] = &fullSaturation;
+	}
+    
+	void loadSystemItems_GBC(MenuItem *item[], uint &items)
+	{
+		OptionView::loadSystemItems(item, items);
+		reportAsGba.init(optionReportAsGba); item[items++] = &reportAsGba;
+	}
+    
+#endif
 };
 
 #include "EmuCheatViews.hh"

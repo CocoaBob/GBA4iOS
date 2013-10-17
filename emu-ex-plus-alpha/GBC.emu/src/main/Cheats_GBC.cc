@@ -2,7 +2,7 @@
 #include <MsgPopup.hh>
 #include <TextEntry.hh>
 #include <util/gui/ViewStack.hh>
-#include "EmuCheatViews.hh"
+#include <main/EmuCheatViews.hh>
 #include <main/Cheats_GBC.hh>
 #include <gambatte.h>
 extern MsgPopup popup;
@@ -142,7 +142,7 @@ void SystemEditCheatView::removed()
 	applyCheats();
 }
 
-void SystemEditCheatView::init(bool highlightFirst, GbcCheat &cheat)
+void SystemEditCheatView::init_gbc(bool highlightFirst, GbcCheat &cheat)
 {
 	this->cheat = &cheat;
 
@@ -205,7 +205,7 @@ void EditCheatListView::loadCheatItems(MenuItem *item[], uint &items)
 			[this, c](TextMenuItem &, const Input::Event &e)
 			{
 				auto &editCheatView = *menuAllocator.allocNew<SystemEditCheatView>();
-				editCheatView.init(!e.isPointer(), *cheatList.index(c));
+				editCheatView.init_gbc(!e.isPointer(), *cheatList.index(c));
 				viewStack.pushAndShow(&editCheatView, &menuAllocator);
 			};
 		it.advance();
