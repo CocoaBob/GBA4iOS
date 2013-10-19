@@ -591,8 +591,24 @@ extern GBASys gGba;
 
 - (BOOL)addCheat:(GBACheat *)cheat
 {
+    NSUInteger cheatCodeLength = 0;
+    
+    switch (cheat.type) {
+        case GBACheatCodeTypeCodeBreaker:
+            cheatCodeLength = 12ul;
+            break;
+            
+        case GBACheatCodeTypeGameSharkV3:
+            cheatCodeLength = 16ul;
+            break;
+            
+        case GBACheatCodeTypeActionReplay:
+            cheatCodeLength = 16ul;
+            break;
+    }
+    
     // Must have at least one code, and it must be a complete code
-    if ([cheat.codes count] < 1 || [(NSString *)[cheat.codes lastObject] length] % 16 != 0)
+    if ([cheat.codes count] < 1 || [(NSString *)[cheat.codes lastObject] length] % cheatCodeLength != 0)
     {
         return NO;
     }
@@ -600,7 +616,29 @@ extern GBASys gGba;
     __block BOOL succeeded = YES;
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger index, BOOL *stop) {
         NSString *title = [NSString stringWithFormat:@"%@ %lull", cheat.name, (unsigned long)index];
-        succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
+        
+        switch (cheat.type)
+        {
+            case GBACheatCodeTypeCodeBreaker: {
+                // Unlike the add Gameshark method, VBA's add Code Breaker method requires the space to be in the code
+                NSMutableString *modifiedCode = [code mutableCopy];
+                [modifiedCode insertString:@" " atIndex:8];
+                
+                succeeded = cheatsAddCBACode(gGba.cpu, [modifiedCode UTF8String], [title UTF8String]);
+                break;
+            }
+                
+            case GBACheatCodeTypeGameSharkV3:
+                succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
+                break;
+                
+            // Action Replay and GameShark v3 codes are interchangable
+            case GBACheatCodeTypeActionReplay:
+                succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
+                break;
+                
+                
+        }
         
         if (!succeeded)
         {
@@ -617,11 +655,6 @@ extern GBASys gGba;
     // Trust me, the alternative code would just be complicated, and you probably wouldn't know about some of the bugs until they pop up unproducibly.
     
     [self updateCheats];
-    
-    /* NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
-    [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
-        cheatsDelete(gGba.cpu, index + enumertionIndex, true);
-    }]; */
 }
 
 - (void)enableCheat:(GBACheat *)cheat

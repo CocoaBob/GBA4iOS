@@ -43,6 +43,7 @@
     [aCoder encodeObject:self.codes forKey:@"codes"];
     [aCoder encodeObject:self.uid forKey:@"uid"];
     [aCoder encodeObject:@(self.enabled) forKey:@"enabled"];
+    [aCoder encodeObject:@(self.type) forKey:@"type"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -51,10 +52,12 @@
     NSArray *codes = [aDecoder decodeObjectForKey:@"codes"];
     NSString *uid = [aDecoder decodeObjectForKey:@"uid"];
     NSNumber *enabled = [aDecoder decodeObjectForKey:@"enabled"];
+    NSNumber *type = [aDecoder decodeObjectForKey:@"type"];
     
     self = [self initWithName:name codes:codes];
     self.uid = uid;
     self.enabled = [enabled boolValue];
+    self.type = [type integerValue];
     
     return self;
 }
@@ -68,6 +71,7 @@
     cheat.codes = self.codes;
     cheat.uid = self.uid;
     cheat.enabled = self.enabled;
+    cheat.type = self.type;
     
     return cheat;
 }
@@ -76,7 +80,18 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Name: %@\nCodes: %@", self.name, self.codes];
+    NSString *codeType = @"Code Breaker";
+    
+    if (self.type == GBACheatCodeTypeGameSharkV3)
+    {
+        codeType = @"GameShark V3";
+    }
+    else if (self.type == GBACheatCodeTypeActionReplay)
+    {
+        codeType = @"Action Replay";
+    }
+    
+    return [NSString stringWithFormat:@"Name: %@\nType: %@\nCodes: %@", self.name, codeType, self.codes];
 }
 
 - (BOOL)isEqual:(id)object

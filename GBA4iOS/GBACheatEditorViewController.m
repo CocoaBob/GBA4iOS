@@ -33,10 +33,12 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *codeTypeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UITextView *codeTextView;
 
 - (IBAction)saveCheat:(UIBarButtonItem *)sender;
 - (IBAction)cancelSavingNewCheat:(UIBarButtonItem *)sender;
+- (IBAction)switchCheatType:(UISegmentedControl *)sender;
 
 @end
 
@@ -62,6 +64,21 @@
     {
         self.title = self.cheat.name;
         self.nameTextField.text = self.cheat.name;
+        
+        switch (self.cheat.type)
+        {
+            case GBACheatCodeTypeActionReplay:
+                self.codeTypeSegmentedControl.selectedSegmentIndex = 0;
+                break;
+                
+            case GBACheatCodeTypeGameSharkV3:
+                self.codeTypeSegmentedControl.selectedSegmentIndex = 1;
+                break;
+                
+            case GBACheatCodeTypeCodeBreaker:
+                self.codeTypeSegmentedControl.selectedSegmentIndex = 2;
+                break;
+        }
         
         NSMutableString *codes = [NSMutableString string];
         
@@ -101,6 +118,28 @@
 }
 
 
+- (IBAction)switchCheatType:(UISegmentedControl *)sender
+{
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+    [self textViewDidChange:self.codeTextView];
+}
+
+- (GBACheatCodeType)currentCheatCodeType
+{
+    if (self.codeTypeSegmentedControl.selectedSegmentIndex == 1)
+    {
+        return GBACheatCodeTypeGameSharkV3;
+    }
+    else if (self.codeTypeSegmentedControl.selectedSegmentIndex == 2)
+    {
+        return GBACheatCodeTypeCodeBreaker;
+    }
+    
+    return GBACheatCodeTypeActionReplay;
+}
+
+
 - (IBAction)saveCheat:(UIBarButtonItem *)sender
 {
     NSArray *codes = [self codesFromTextView];
@@ -117,6 +156,8 @@
         cheat.name = self.nameTextField.text;
         cheat.codes = codes;
     }
+    
+    cheat.type = [self currentCheatCodeType];
     
     if ([self.delegate respondsToSelector:@selector(cheatEditorViewController:didSaveCheat:)])
     {
@@ -138,9 +179,16 @@
     
     NSMutableString *text = [[self.codeTextView.text stringByRemovingWhitespace] mutableCopy];
     
+    NSUInteger codeLength = 12u;
+    
+    if ([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3 || [self currentCheatCodeType] == GBACheatCodeTypeActionReplay)
+    {
+        codeLength = 16u;
+    }
+    
     while (text.length >= 1)
     {
-        int16_t maxRange = MIN(text.length, 16);
+        int16_t maxRange = MIN(text.length, codeLength);
         NSRange range = NSMakeRange(0, maxRange);
         NSString *code = [text substringWithRange:range];
         [array addObject:code];
@@ -154,7 +202,10 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self.tableView scrollRectToVisible:CGRectMake(0, 0, self.view.bounds.size.width, 10) animated:YES];
+    // Have to animate it manually ourselves, or else it conflicts with the default table view behavior of only scrolling to the text field and not the entire section (including header)
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }];
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
@@ -168,16 +219,24 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     NSInteger difference = textView.text.length - [[textView.text stringByRemovingWhitespace] length];
     
+    NSUInteger codeLength = 12u;
+    
+    if ([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3 || [self currentCheatCodeType] == GBACheatCodeTypeActionReplay)
+    {
+        codeLength = 16u;
+    }
+    
     if (text.length > 0)
     {
-        if ((range.location - difference + 1) % 8 == 0)
+        if ((([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3 || [self currentCheatCodeType] == GBACheatCodeTypeActionReplay) && (range.location - difference + 1) % 8 == 0) ||
+            ([self currentCheatCodeType] == GBACheatCodeTypeCodeBreaker && ((range.location - difference + 1) % codeLength == 0 || (range.location - difference + 1 - 8) % codeLength == 0)))
         {
             _selectionRange = NSMakeRange(range.location + 2, 0);
         }
@@ -199,15 +258,23 @@
     
     NSMutableString *formattedText = [NSMutableString string];
     
+    NSUInteger codeLength = 12u;
+    
+    if ([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3 || [self currentCheatCodeType] == GBACheatCodeTypeActionReplay)
+    {
+        codeLength = 16u;
+    }
+    
     for (int i = 0; i < (int)text.length; i++)
     {
         if (i > 0)
         {
-            if ((i + 1) % 16 == 0)
+            if ((i + 1) % codeLength == 0)
             {
                 [formattedText appendFormat:@"%c\n", [text characterAtIndex:i]];
             }
-            else if ((i + 1) % 8 == 0)
+            else if ((([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3 || [self currentCheatCodeType] == GBACheatCodeTypeActionReplay) && (i + 1) % 8 == 0) ||
+                     ([self currentCheatCodeType] == GBACheatCodeTypeCodeBreaker && (i + 1 - 8) % codeLength == 0 && i != 3))
             {
                 [formattedText appendFormat:@"%c ", [text characterAtIndex:i]];
             }
@@ -226,11 +293,31 @@
     
     [textView setSelectedRange:_selectionRange];
     
-    //NSRange range = NSMakeRange(textView.text.length - 1, 1);
-    //[textView scrollRangeToVisible:range];
-    
     self.navigationItem.rightBarButtonItem.enabled = (self.nameTextField.text.length > 0 && self.codeTextView.text.length > 0);
     
+}
+
+#pragma mark - UITableView Data Source
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 1)
+    {
+        if ([self currentCheatCodeType] == GBACheatCodeTypeCodeBreaker)
+        {
+            return NSLocalizedString(@"Code format is XXXXXXXX YYYY.", @"The X's and Y's are just to show placeholder characters. No need to translate them");
+        }
+        else if ([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3)
+        {
+            return NSLocalizedString(@"Code format is XXXXXXXX YYYYYYYY.\nGameShark SP codes are not supported, only GameShark Advance.", @"The X's and Y's are just to show placeholder characters. No need to translate them");
+        }
+        else
+        {
+            return NSLocalizedString(@"Code format is XXXXXXXX YYYYYYYY.", @"The X's and Y's are just to show placeholder characters. No need to translate them");
+        }
+    }
+    
+    return [super tableView:tableView titleForFooterInSection:section];
 }
 
 @end

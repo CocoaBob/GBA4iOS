@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8cV-d5-THO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8cV-d5-THO">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <development version="5000" identifier="xcode"/>
@@ -448,7 +448,7 @@
                         <sections>
                             <tableViewSection headerTitle="Name" id="IRp-bi-6xE">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="u2W-Dw-4h5">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatNameCell" id="u2W-Dw-4h5">
                                         <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u2W-Dw-4h5" id="ZPl-l5-ldd">
@@ -469,10 +469,42 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Gameshark V3 Code" footerTitle="Code will be formatted automatically as you type." id="iX4-B9-cGU">
+                            <tableViewSection headerTitle="Type" footerTitle="Code format is XXXXXXXX YYYYYYYY." id="rb8-cQ-kZU">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="190" id="UKc-cO-rtV">
-                                        <rect key="frame" x="0.0" y="211" width="320" height="190"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatTypeCell" id="gAs-q5-UHI">
+                                        <rect key="frame" x="0.0" y="211" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gAs-q5-UHI" id="Goz-4w-FPB">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fl2-uD-BuI">
+                                                    <rect key="frame" x="15" y="8" width="290" height="29"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <segments>
+                                                        <segment title="Action Replay"/>
+                                                        <segment title="GameShark"/>
+                                                        <segment title="Code Breaker"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="switchCheatType:" destination="Qk2-vr-KBW" eventType="valueChanged" id="haK-FQ-Q00"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="fl2-uD-BuI" secondAttribute="bottom" constant="7" id="Eu7-T9-FsC"/>
+                                                <constraint firstAttribute="trailing" secondItem="fl2-uD-BuI" secondAttribute="trailing" constant="15" id="ZyV-Jc-kKS"/>
+                                                <constraint firstItem="fl2-uD-BuI" firstAttribute="top" secondItem="Goz-4w-FPB" secondAttribute="top" constant="8" id="caT-Qf-r8s"/>
+                                                <constraint firstItem="fl2-uD-BuI" firstAttribute="leading" secondItem="Goz-4w-FPB" secondAttribute="leading" constant="15" id="mI0-pC-NtH"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Code" footerTitle="Code will be formatted automatically as you type." id="iX4-B9-cGU">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatCodeCell" rowHeight="190" id="UKc-cO-rtV">
+                                        <rect key="frame" x="0.0" y="330" width="320" height="190"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UKc-cO-rtV" id="q6n-OA-Fee">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="189"/>
@@ -482,7 +514,6 @@
                                                     <rect key="frame" x="10" y="0.0" width="300" height="189"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-15" maxY="0.0"/>
                                                     <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="26"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no"/>
                                                     <connections>
@@ -518,9 +549,11 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="codeTextView" destination="APi-To-g4e" id="8rq-7h-N8m"/>
+                        <outlet property="codeTypeSegmentedControl" destination="fl2-uD-BuI" id="kBG-zy-uJa"/>
                         <outlet property="nameTextField" destination="l8o-9P-x4c" id="8eU-nD-JIc"/>
                     </connections>
                 </tableViewController>

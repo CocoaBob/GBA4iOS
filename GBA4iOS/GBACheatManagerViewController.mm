@@ -132,6 +132,8 @@
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
+    [[UIApplication sharedApplication] setStatusBarStyle:[cheatEditorViewController preferredStatusBarStyle] animated:YES];
+    
     [self presentViewController:navigationController animated:YES completion:NULL];
     
 }
@@ -172,10 +174,12 @@
 
 - (void)cheatEditorViewController:(GBACheatEditorViewController *)cheatEditorViewController didSaveCheat:(GBACheat *)cheat
 {
+    NSLog(@"%@", cheat);
+    
     if (![self addCheat:cheat])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Cheat", @"")
-                                                        message:NSLocalizedString(@"Please make sure you typed the cheat code correctly and try again.", @"")
+                                                        message:NSLocalizedString(@"Please make sure you typed the cheat code in the correct format and try again.", @"")
                                                        delegate:nil
                                               cancelButtonTitle:NSLocalizedString(@"OK", @"")
                                               otherButtonTitles:nil];
@@ -207,11 +211,15 @@
     [self.tableView reloadData];
     
     [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle] animated:YES];
 }
 
 - (void)cheatEditorViewControllerDidCancel:(GBACheatEditorViewController *)cheatEditorViewController
 {
     [self dismissViewControllerAnimated:YES completion:NULL];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle] animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -325,6 +333,7 @@
             navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
         }
         
+        [[UIApplication sharedApplication] setStatusBarStyle:[cheatEditorViewController preferredStatusBarStyle] animated:YES];
         [self presentViewController:navigationController animated:YES completion:NULL];
     }
     else
