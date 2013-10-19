@@ -29,8 +29,8 @@ void LCD::setDmgPalette(PixelType *const palette, const PixelType *const dmgColo
 	palette[2] = dmgColors[data >> 4 & 3];
 	palette[3] = dmgColors[data >> 6 & 3];
 }
-
-bool useFullColorSaturation = 0;
+    
+bool useFullColorSaturation = 1;
 
 static unsigned long gbcToRgb32(const unsigned bgr15) {
 	const unsigned long r = bgr15       & 0x1F;

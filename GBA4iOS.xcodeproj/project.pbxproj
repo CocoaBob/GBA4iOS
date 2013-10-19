@@ -62,6 +62,88 @@
 		CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
+		CC29340F18133AB80016EF82 /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
+		CC29341018133AB80016EF82 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
+		CC29341118133AB80016EF82 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
+		CC29341218133AB80016EF82 /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F1180C745200BF3DA5 /* ly_counter.cpp */; };
+		CC29341318133AB80016EF82 /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F2180C745200BF3DA5 /* lyc_irq.cpp */; };
+		CC29341418133AB80016EF82 /* next_m0_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F3180C745200BF3DA5 /* next_m0_time.cpp */; };
+		CC29341518133AB80016EF82 /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F4180C745200BF3DA5 /* ppu.cpp */; };
+		CC29341618133AB80016EF82 /* sprite_mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F5180C745200BF3DA5 /* sprite_mapper.cpp */; };
+		CC29341718133AB80016EF82 /* channel1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575700180C745E00BF3DA5 /* channel1.cpp */; };
+		CC29341818133AB80016EF82 /* channel2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575701180C745E00BF3DA5 /* channel2.cpp */; };
+		CC29341918133AB80016EF82 /* channel3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575702180C745E00BF3DA5 /* channel3.cpp */; };
+		CC29341A18133AB80016EF82 /* channel4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575703180C745E00BF3DA5 /* channel4.cpp */; };
+		CC29341B18133AB80016EF82 /* duty_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575704180C745E00BF3DA5 /* duty_unit.cpp */; };
+		CC29341C18133AB80016EF82 /* envelope_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575705180C745E00BF3DA5 /* envelope_unit.cpp */; };
+		CC29341D18133AB80016EF82 /* length_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575706180C745E00BF3DA5 /* length_counter.cpp */; };
+		CC29341E18133AB80016EF82 /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575715180C746600BF3DA5 /* chainresampler.cpp */; };
+		CC29341F18133AB80016EF82 /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575716180C746600BF3DA5 /* i0.cpp */; };
+		CC29342018133AB80016EF82 /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575717180C746600BF3DA5 /* kaiser50sinc.cpp */; };
+		CC29342118133AB80016EF82 /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575718180C746600BF3DA5 /* kaiser70sinc.cpp */; };
+		CC29342218133AB80016EF82 /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575719180C746600BF3DA5 /* makesinckernel.cpp */; };
+		CC29342318133AB80016EF82 /* resamplerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */; };
+		CC29342418133AB80016EF82 /* u48div.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571B180C746600BF3DA5 /* u48div.cpp */; };
+		CC29342518133AB80016EF82 /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572A180C747800BF3DA5 /* file_zip.cpp */; };
+		CC29342618133AB80016EF82 /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572D180C748100BF3DA5 /* cartridge.cpp */; };
+		CC29342718133AB80016EF82 /* memptrs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572E180C748100BF3DA5 /* memptrs.cpp */; };
+		CC29342818133AB80016EF82 /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572F180C748100BF3DA5 /* pakinfo.cpp */; };
+		CC29342918133AB80016EF82 /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575730180C748100BF3DA5 /* rtc.cpp */; };
+		CC29342A18133AB80016EF82 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575739180C748B00BF3DA5 /* cpu.cpp */; };
+		CC29342B18133AB80016EF82 /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573A180C748B00BF3DA5 /* gambatte.cpp */; };
+		CC29342C18133AB80016EF82 /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573B180C748B00BF3DA5 /* initstate.cpp */; };
+		CC29342D18133AB80016EF82 /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; };
+		CC29342E18133AB80016EF82 /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; };
+		CC29342F18133AB80016EF82 /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; };
+		CC29343018133AB80016EF82 /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; };
+		CC29343118133AB80016EF82 /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; };
+		CC29343218133AB80016EF82 /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; };
+		CC29343318133AB80016EF82 /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
+		CC29343418133AB80016EF82 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
+		CC29343518133AB80016EF82 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575A180C74B000BF3DA5 /* ioapi.c */; };
+		CC29343618133AB80016EF82 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575B180C74B000BF3DA5 /* unzip.c */; };
+		CC29343718133AB90016EF82 /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
+		CC29343818133AB90016EF82 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
+		CC29343918133AB90016EF82 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
+		CC29343A18133AB90016EF82 /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F1180C745200BF3DA5 /* ly_counter.cpp */; };
+		CC29343B18133AB90016EF82 /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F2180C745200BF3DA5 /* lyc_irq.cpp */; };
+		CC29343C18133AB90016EF82 /* next_m0_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F3180C745200BF3DA5 /* next_m0_time.cpp */; };
+		CC29343D18133AB90016EF82 /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F4180C745200BF3DA5 /* ppu.cpp */; };
+		CC29343E18133AB90016EF82 /* sprite_mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F5180C745200BF3DA5 /* sprite_mapper.cpp */; };
+		CC29343F18133AB90016EF82 /* channel1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575700180C745E00BF3DA5 /* channel1.cpp */; };
+		CC29344018133AB90016EF82 /* channel2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575701180C745E00BF3DA5 /* channel2.cpp */; };
+		CC29344118133AB90016EF82 /* channel3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575702180C745E00BF3DA5 /* channel3.cpp */; };
+		CC29344218133AB90016EF82 /* channel4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575703180C745E00BF3DA5 /* channel4.cpp */; };
+		CC29344318133AB90016EF82 /* duty_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575704180C745E00BF3DA5 /* duty_unit.cpp */; };
+		CC29344418133AB90016EF82 /* envelope_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575705180C745E00BF3DA5 /* envelope_unit.cpp */; };
+		CC29344518133AB90016EF82 /* length_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575706180C745E00BF3DA5 /* length_counter.cpp */; };
+		CC29344618133AB90016EF82 /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575715180C746600BF3DA5 /* chainresampler.cpp */; };
+		CC29344718133AB90016EF82 /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575716180C746600BF3DA5 /* i0.cpp */; };
+		CC29344818133AB90016EF82 /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575717180C746600BF3DA5 /* kaiser50sinc.cpp */; };
+		CC29344918133AB90016EF82 /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575718180C746600BF3DA5 /* kaiser70sinc.cpp */; };
+		CC29344A18133AB90016EF82 /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575719180C746600BF3DA5 /* makesinckernel.cpp */; };
+		CC29344B18133AB90016EF82 /* resamplerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */; };
+		CC29344C18133AB90016EF82 /* u48div.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571B180C746600BF3DA5 /* u48div.cpp */; };
+		CC29344D18133AB90016EF82 /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572A180C747800BF3DA5 /* file_zip.cpp */; };
+		CC29344E18133AB90016EF82 /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572D180C748100BF3DA5 /* cartridge.cpp */; };
+		CC29344F18133AB90016EF82 /* memptrs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572E180C748100BF3DA5 /* memptrs.cpp */; };
+		CC29345018133AB90016EF82 /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572F180C748100BF3DA5 /* pakinfo.cpp */; };
+		CC29345118133AB90016EF82 /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575730180C748100BF3DA5 /* rtc.cpp */; };
+		CC29345218133AB90016EF82 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575739180C748B00BF3DA5 /* cpu.cpp */; };
+		CC29345318133AB90016EF82 /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573A180C748B00BF3DA5 /* gambatte.cpp */; };
+		CC29345418133AB90016EF82 /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573B180C748B00BF3DA5 /* initstate.cpp */; };
+		CC29345518133AB90016EF82 /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; };
+		CC29345618133AB90016EF82 /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; };
+		CC29345718133AB90016EF82 /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; };
+		CC29345818133AB90016EF82 /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; };
+		CC29345918133AB90016EF82 /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; };
+		CC29345A18133AB90016EF82 /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; };
+		CC29345B18133AB90016EF82 /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
+		CC29345C18133AB90016EF82 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
+		CC29345D18133AB90016EF82 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575A180C74B000BF3DA5 /* ioapi.c */; };
+		CC29345E18133AB90016EF82 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575B180C74B000BF3DA5 /* unzip.c */; };
+		CC29346218133CA50016EF82 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C8180E2F6A00001899 /* mztools.c */; };
+		CC29346418133CA50016EF82 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CC180E2F6A00001899 /* zip.c */; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
@@ -140,46 +222,6 @@
 		CC5756EE180C72DE00BF3DA5 /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
 		CC5756EF180C72DE00BF3DA5 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
 		CC5756F0180C72DE00BF3DA5 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
-		CC5756F7180C745200BF3DA5 /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F1180C745200BF3DA5 /* ly_counter.cpp */; };
-		CC5756F9180C745200BF3DA5 /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F2180C745200BF3DA5 /* lyc_irq.cpp */; };
-		CC5756FB180C745300BF3DA5 /* next_m0_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F3180C745200BF3DA5 /* next_m0_time.cpp */; };
-		CC5756FD180C745300BF3DA5 /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F4180C745200BF3DA5 /* ppu.cpp */; };
-		CC5756FF180C745300BF3DA5 /* sprite_mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F5180C745200BF3DA5 /* sprite_mapper.cpp */; };
-		CC575708180C745E00BF3DA5 /* channel1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575700180C745E00BF3DA5 /* channel1.cpp */; };
-		CC57570A180C745E00BF3DA5 /* channel2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575701180C745E00BF3DA5 /* channel2.cpp */; };
-		CC57570C180C745E00BF3DA5 /* channel3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575702180C745E00BF3DA5 /* channel3.cpp */; };
-		CC57570E180C745E00BF3DA5 /* channel4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575703180C745E00BF3DA5 /* channel4.cpp */; };
-		CC575710180C745E00BF3DA5 /* duty_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575704180C745E00BF3DA5 /* duty_unit.cpp */; };
-		CC575712180C745E00BF3DA5 /* envelope_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575705180C745E00BF3DA5 /* envelope_unit.cpp */; };
-		CC575714180C745E00BF3DA5 /* length_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575706180C745E00BF3DA5 /* length_counter.cpp */; };
-		CC57571D180C746600BF3DA5 /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575715180C746600BF3DA5 /* chainresampler.cpp */; };
-		CC57571F180C746600BF3DA5 /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575716180C746600BF3DA5 /* i0.cpp */; };
-		CC575721180C746600BF3DA5 /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575717180C746600BF3DA5 /* kaiser50sinc.cpp */; };
-		CC575723180C746600BF3DA5 /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575718180C746600BF3DA5 /* kaiser70sinc.cpp */; };
-		CC575725180C746600BF3DA5 /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575719180C746600BF3DA5 /* makesinckernel.cpp */; };
-		CC575727180C746600BF3DA5 /* resamplerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */; };
-		CC575729180C746600BF3DA5 /* u48div.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571B180C746600BF3DA5 /* u48div.cpp */; };
-		CC57572C180C747800BF3DA5 /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572A180C747800BF3DA5 /* file_zip.cpp */; };
-		CC575732180C748100BF3DA5 /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572D180C748100BF3DA5 /* cartridge.cpp */; };
-		CC575734180C748100BF3DA5 /* memptrs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572E180C748100BF3DA5 /* memptrs.cpp */; };
-		CC575736180C748100BF3DA5 /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572F180C748100BF3DA5 /* pakinfo.cpp */; };
-		CC575738180C748100BF3DA5 /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575730180C748100BF3DA5 /* rtc.cpp */; };
-		CC575745180C748C00BF3DA5 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575739180C748B00BF3DA5 /* cpu.cpp */; };
-		CC575747180C748C00BF3DA5 /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573A180C748B00BF3DA5 /* gambatte.cpp */; };
-		CC575749180C748C00BF3DA5 /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573B180C748B00BF3DA5 /* initstate.cpp */; };
-		CC57574B180C748C00BF3DA5 /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; };
-		CC57574D180C748C00BF3DA5 /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; };
-		CC57574F180C748C00BF3DA5 /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; };
-		CC575751180C748C00BF3DA5 /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; };
-		CC575753180C748C00BF3DA5 /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; };
-		CC575755180C748C00BF3DA5 /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; };
-		CC575757180C748C00BF3DA5 /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
-		CC575759180C748C00BF3DA5 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
-		CC57575D180C74B000BF3DA5 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575A180C74B000BF3DA5 /* ioapi.c */; };
-		CC57575F180C74B000BF3DA5 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575B180C74B000BF3DA5 /* unzip.c */; };
-		CC575764180C759900BF3DA5 /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
-		CC575766180C759900BF3DA5 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
-		CC575768180C759900BF3DA5 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
 		CC57576A180C766C00BF3DA5 /* GBCImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC575769180C766C00BF3DA5 /* GBCImages.xcassets */; };
 		CC57576B180C766C00BF3DA5 /* GBCImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC575769180C766C00BF3DA5 /* GBCImages.xcassets */; };
 		CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
@@ -277,13 +319,9 @@
 		CC8325C0180E2F5300001899 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325BE180E2F5300001899 /* NJKWebViewProgress.m */; };
 		CC8325C3180E2F6300001899 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C2180E2F6300001899 /* SSZipArchive.m */; };
 		CC8325C4180E2F6300001899 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C2180E2F6300001899 /* SSZipArchive.m */; };
-		CC8325CE180E2F6A00001899 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C6180E2F6A00001899 /* ioapi.c */; };
 		CC8325CF180E2F6A00001899 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C6180E2F6A00001899 /* ioapi.c */; };
-		CC8325D0180E2F6A00001899 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C8180E2F6A00001899 /* mztools.c */; };
 		CC8325D1180E2F6A00001899 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C8180E2F6A00001899 /* mztools.c */; };
-		CC8325D2180E2F6A00001899 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CA180E2F6A00001899 /* unzip.c */; };
 		CC8325D3180E2F6A00001899 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CA180E2F6A00001899 /* unzip.c */; };
-		CC8325D4180E2F6A00001899 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CC180E2F6A00001899 /* zip.c */; };
 		CC8325D5180E2F6A00001899 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CC180E2F6A00001899 /* zip.c */; };
 		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
@@ -478,64 +516,6 @@
 		CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A6179D2FE400768D24 /* Cheats.cc */; };
 		CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */; };
 		CCFA71BD179D2FE400768D24 /* VController.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A8179D2FE400768D24 /* VController.cc */; };
-		CCFA71FA179D304700768D24 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C0179D304600768D24 /* Main.cc */; };
-		CCFA71FB179D304700768D24 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C1179D304600768D24 /* EmuControls.cc */; };
-		CCFA71FC179D304700768D24 /* VbamApi.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C2179D304600768D24 /* VbamApi.cc */; };
-		CCFA71FD179D304700768D24 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C3179D304600768D24 /* Cheats.cc */; };
-		CCFA71FE179D304700768D24 /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C4179D304600768D24 /* bios.cpp */; };
-		CCFA71FF179D304700768D24 /* Cheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C5179D304600768D24 /* Cheats.cpp */; };
-		CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C6179D304600768D24 /* CheatSearch.cpp */; };
-		CCFA7201179D304700768D24 /* EEprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C7179D304600768D24 /* EEprom.cpp */; };
-		CCFA7202179D304700768D24 /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C8179D304600768D24 /* Flash.cpp */; };
-		CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C9179D304600768D24 /* GBA-arm.cpp */; };
-		CCFA7204179D304700768D24 /* GBA-thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CA179D304600768D24 /* GBA-thumb.cpp */; };
-		CCFA7205179D304700768D24 /* GBA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CB179D304600768D24 /* GBA.cpp */; };
-		CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CC179D304600768D24 /* gbafilter.cpp */; };
-		CCFA7207179D304700768D24 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CD179D304600768D24 /* Globals.cpp */; };
-		CCFA7208179D304700768D24 /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CE179D304600768D24 /* Mode0.cpp */; };
-		CCFA7209179D304700768D24 /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CF179D304600768D24 /* Mode1.cpp */; };
-		CCFA720A179D304700768D24 /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D0179D304600768D24 /* Mode2.cpp */; };
-		CCFA720B179D304700768D24 /* Mode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D1179D304600768D24 /* Mode3.cpp */; };
-		CCFA720C179D304700768D24 /* Mode4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D2179D304600768D24 /* Mode4.cpp */; };
-		CCFA720D179D304700768D24 /* Mode5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D3179D304600768D24 /* Mode5.cpp */; };
-		CCFA720E179D304700768D24 /* RTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D4179D304600768D24 /* RTC.cpp */; };
-		CCFA720F179D304700768D24 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D5179D304600768D24 /* Sound.cpp */; };
-		CCFA7210179D304700768D24 /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D6179D304600768D24 /* Sram.cpp */; };
-		CCFA7211179D304700768D24 /* Patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D7179D304600768D24 /* Patch.cpp */; };
-		CCFA7212179D304700768D24 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D8179D304600768D24 /* Util.cpp */; };
-		CCFA7213179D304700768D24 /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */; };
-		CCFA7214179D304700768D24 /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */; };
-		CCFA7215179D304700768D24 /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DB179D304700768D24 /* Gb_Apu.cpp */; };
-		CCFA7216179D304700768D24 /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */; };
-		CCFA7217179D304700768D24 /* Multi_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */; };
-		CCFA7218179D304700768D24 /* Binary_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */; };
-		CCFA7219179D304700768D24 /* blargg_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DF179D304700768D24 /* blargg_common.cpp */; };
-		CCFA721A179D304700768D24 /* blargg_errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E0179D304700768D24 /* blargg_errors.cpp */; };
-		CCFA721B179D304700768D24 /* Data_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E1179D304700768D24 /* Data_Reader.cpp */; };
-		CCFA721C179D304700768D24 /* fex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E2179D304700768D24 /* fex.cpp */; };
-		CCFA721D179D304700768D24 /* File_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E3179D304700768D24 /* File_Extractor.cpp */; };
-		CCFA721E179D304700768D24 /* Gzip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */; };
-		CCFA721F179D304700768D24 /* Gzip_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */; };
-		CCFA7220179D304700768D24 /* Rar_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */; };
-		CCFA7221179D304700768D24 /* Zip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */; };
-		CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */; };
-		CCFA7223179D304700768D24 /* Zlib_Inflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */; };
-		CCFA7224179D304700768D24 /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EA179D304700768D24 /* memgzio.c */; };
-		CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CCFA7226179D304700768D24 /* 7zBuf.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EC179D304700768D24 /* 7zBuf.c */; };
-		CCFA7227179D304700768D24 /* 7zCrc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71ED179D304700768D24 /* 7zCrc.c */; };
-		CCFA7228179D304700768D24 /* 7zCrcOpt.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EE179D304700768D24 /* 7zCrcOpt.c */; };
-		CCFA7229179D304700768D24 /* 7zDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EF179D304700768D24 /* 7zDec.c */; };
-		CCFA722A179D304700768D24 /* 7zIn.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F0179D304700768D24 /* 7zIn.c */; };
-		CCFA722B179D304700768D24 /* 7zStream.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F1179D304700768D24 /* 7zStream.c */; };
-		CCFA722C179D304700768D24 /* Bcj2.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F2179D304700768D24 /* Bcj2.c */; };
-		CCFA722D179D304700768D24 /* Bra.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F3179D304700768D24 /* Bra.c */; };
-		CCFA722E179D304700768D24 /* Bra86.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F4179D304700768D24 /* Bra86.c */; };
-		CCFA722F179D304700768D24 /* CpuArch.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F5179D304700768D24 /* CpuArch.c */; };
-		CCFA7230179D304700768D24 /* Lzma2Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F6179D304700768D24 /* Lzma2Dec.c */; };
-		CCFA7231179D304700768D24 /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
-		CCFA7232179D304700768D24 /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
-		CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
 		CCFA7237179D340400768D24 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; };
 		CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -1915,144 +1895,130 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC29342718133AB80016EF82 /* memptrs.cpp in Sources */,
+				CC29343418133AB80016EF82 /* video.cpp in Sources */,
 				CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
 				CCFA717D179D2EAB00768D24 /* Io.cc in Sources */,
 				CC8325C3180E2F6300001899 /* SSZipArchive.m in Sources */,
+				CC29342818133AB80016EF82 /* pakinfo.cpp in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
-				CCFA7220179D304700768D24 /* Rar_Extractor.cpp in Sources */,
-				CCFA7207179D304700768D24 /* Globals.cpp in Sources */,
 				CC81EAC817EBA2BC006FD348 /* UIImageView+AFNetworking.m in Sources */,
 				CC8325B5180E2DE500001899 /* RSTWebViewController.m in Sources */,
+				CC29341818133AB80016EF82 /* channel2.cpp in Sources */,
 				BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC81EAC617EBA2BC006FD348 /* UIButton+AFNetworking.m in Sources */,
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
+				CC29346418133CA50016EF82 /* zip.c in Sources */,
 				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
-				CCFA7211179D304700768D24 /* Patch.cpp in Sources */,
-				CCFA7215179D304700768D24 /* Gb_Apu.cpp in Sources */,
+				CC29342918133AB80016EF82 /* rtc.cpp in Sources */,
 				CC76CF0217ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
+				CC29343218133AB80016EF82 /* statesaver.cpp in Sources */,
 				CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */,
-				CCFA71FD179D304700768D24 /* Cheats.cc in Sources */,
+				CC29342D18133AB80016EF82 /* interrupter.cpp in Sources */,
 				CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */,
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
 				CC81EACC17EBA2BC006FD348 /* UIWebView+AFNetworking.m in Sources */,
-				CCFA7202179D304700768D24 /* Flash.cpp in Sources */,
 				CC81EAAE17EBA2B0006FD348 /* AFURLResponseSerialization.m in Sources */,
-				CCFA7212179D304700768D24 /* Util.cpp in Sources */,
-				CCFA721B179D304700768D24 /* Data_Reader.cpp in Sources */,
 				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
-				CCFA71FE179D304700768D24 /* bios.cpp in Sources */,
+				CC29341218133AB80016EF82 /* ly_counter.cpp in Sources */,
+				CC29342F18133AB80016EF82 /* loadres.cpp in Sources */,
 				CC81EACA17EBA2BC006FD348 /* UIProgressView+AFNetworking.m in Sources */,
 				CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */,
-				CCFA720F179D304700768D24 /* Sound.cpp in Sources */,
-				CCFA720A179D304700768D24 /* Mode2.cpp in Sources */,
 				CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */,
 				CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */,
 				CCFA7178179D2EAB00768D24 /* View.cc in Sources */,
 				CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */,
 				CC6D0A9B18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
+				CC29341318133AB80016EF82 /* lyc_irq.cpp in Sources */,
 				CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
-				CCFA71FF179D304700768D24 /* Cheats.cpp in Sources */,
-				CCFA7217179D304700768D24 /* Multi_Buffer.cpp in Sources */,
-				CCFA71FA179D304700768D24 /* Main.cc in Sources */,
 				CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */,
-				CCFA721D179D304700768D24 /* File_Extractor.cpp in Sources */,
 				CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */,
 				CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */,
 				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
-				CCFA721E179D304700768D24 /* Gzip_Extractor.cpp in Sources */,
-				CCFA7213179D304700768D24 /* Blip_Buffer.cpp in Sources */,
-				CCFA7227179D304700768D24 /* 7zCrc.c in Sources */,
+				CC29342018133AB80016EF82 /* kaiser50sinc.cpp in Sources */,
+				CC29342418133AB80016EF82 /* u48div.cpp in Sources */,
 				CCFA7237179D340400768D24 /* apple.mm in Sources */,
-				CCFA7233179D304700768D24 /* Ppmd7Dec.c in Sources */,
-				CCFA720B179D304700768D24 /* Mode3.cpp in Sources */,
-				CCFA7205179D304700768D24 /* GBA.cpp in Sources */,
-				CCFA722D179D304700768D24 /* Bra.c in Sources */,
+				CC29343518133AB80016EF82 /* ioapi.c in Sources */,
 				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
+				CC29342B18133AB80016EF82 /* gambatte.cpp in Sources */,
 				CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */,
 				CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */,
 				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
-				CC8325CE180E2F6A00001899 /* ioapi.c in Sources */,
-				CCFA721F179D304700768D24 /* Gzip_Reader.cpp in Sources */,
-				CC8325D2180E2F6A00001899 /* unzip.c in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
-				CCFA7222179D304700768D24 /* Zip7_Extractor.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
-				CCFA7206179D304700768D24 /* gbafilter.cpp in Sources */,
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
+				CC29346218133CA50016EF82 /* mztools.c in Sources */,
 				CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */,
 				CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
-				CCFA7200179D304700768D24 /* CheatSearch.cpp in Sources */,
-				CCFA722A179D304700768D24 /* 7zIn.c in Sources */,
-				CCFA7221179D304700768D24 /* Zip_Extractor.cpp in Sources */,
+				CC29341B18133AB80016EF82 /* duty_unit.cpp in Sources */,
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
-				CC8325D0180E2F6A00001899 /* mztools.c in Sources */,
+				CC29343118133AB80016EF82 /* sound_GBC.cpp in Sources */,
 				CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */,
 				CC81EAC017EBA2BC006FD348 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */,
-				CCFA7201179D304700768D24 /* EEprom.cpp in Sources */,
+				CC29342C18133AB80016EF82 /* initstate.cpp in Sources */,
 				CCFA71AE179D2FE400768D24 /* Screenshot.cc in Sources */,
-				CCFA720C179D304700768D24 /* Mode4.cpp in Sources */,
 				CC2D570C1798F2EC00C616EB /* main.mm in Sources */,
 				CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
-				CCFA7228179D304700768D24 /* 7zCrcOpt.c in Sources */,
-				CCFA7224179D304700768D24 /* memgzio.c in Sources */,
-				CCFA71FC179D304700768D24 /* VbamApi.cc in Sources */,
-				CCFA7230179D304700768D24 /* Lzma2Dec.c in Sources */,
-				CCFA7210179D304700768D24 /* Sram.cpp in Sources */,
-				CCFA720E179D304700768D24 /* RTC.cpp in Sources */,
+				CC29341E18133AB80016EF82 /* chainresampler.cpp in Sources */,
 				CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */,
 				CC6420B41807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
 				CC81EAC417EBA2BC006FD348 /* UIAlertView+AFNetworking.m in Sources */,
-				CCFA722B179D304700768D24 /* 7zStream.c in Sources */,
-				CCFA7226179D304700768D24 /* 7zBuf.c in Sources */,
+				CC29340F18133AB80016EF82 /* Cheats_GBC.cc in Sources */,
 				CC81EAA817EBA2B0006FD348 /* AFSecurityPolicy.m in Sources */,
+				CC29341C18133AB80016EF82 /* envelope_unit.cpp in Sources */,
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
-				CCFA7223179D304700768D24 /* Zlib_Inflater.cpp in Sources */,
-				CCFA71FB179D304700768D24 /* EmuControls.cc in Sources */,
+				CC29342E18133AB80016EF82 /* interruptrequester.cpp in Sources */,
 				CC81EAA417EBA2B0006FD348 /* AFHTTPSessionManager.m in Sources */,
 				CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */,
-				CCFA722F179D304700768D24 /* CpuArch.c in Sources */,
+				CC29341F18133AB80016EF82 /* i0.cpp in Sources */,
 				CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
+				CC29343018133AB80016EF82 /* memory_GBC.cpp in Sources */,
+				CC29341918133AB80016EF82 /* channel3.cpp in Sources */,
 				CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */,
+				CC29341718133AB80016EF82 /* channel1.cpp in Sources */,
 				CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */,
 				CC8325B1180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CC81EAAA17EBA2B0006FD348 /* AFURLConnectionOperation.m in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
+				CC29341518133AB80016EF82 /* ppu.cpp in Sources */,
 				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
 				CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
-				CCFA7208179D304700768D24 /* Mode0.cpp in Sources */,
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
+				CC29341018133AB80016EF82 /* EmuControls.cc in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
-				CCFA7219179D304700768D24 /* blargg_common.cpp in Sources */,
+				CC29343318133AB80016EF82 /* tima.cpp in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
 				CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */,
+				CC29342A18133AB80016EF82 /* cpu.cpp in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
 				CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
+				CC29341618133AB80016EF82 /* sprite_mapper.cpp in Sources */,
 				CCFA7189179D2EAB00768D24 /* NavView.cc in Sources */,
 				CC81EAA617EBA2B0006FD348 /* AFNetworkReachabilityManager.m in Sources */,
-				CCFA7214179D304700768D24 /* Gb_Apu_State.cpp in Sources */,
 				1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */,
 				CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */,
-				CCFA7216179D304700768D24 /* Gb_Oscs.cpp in Sources */,
 				CC832597180E2DCB00001899 /* RSTDirectoryMonitor.m in Sources */,
 				CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */,
-				CCFA7218179D304700768D24 /* Binary_Extractor.cpp in Sources */,
+				CC29341D18133AB80016EF82 /* length_counter.cpp in Sources */,
 				CC8325B7180E2DE500001899 /* RSTWebViewControllerProtocol.m in Sources */,
 				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
+				CC29341118133AB80016EF82 /* Main.cc in Sources */,
 				CC81EAAC17EBA2B0006FD348 /* AFURLRequestSerialization.m in Sources */,
-				CCFA7231179D304700768D24 /* LzmaDec.c in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
+				CC29342318133AB80016EF82 /* resamplerinfo.cpp in Sources */,
+				CC29341A18133AB80016EF82 /* channel4.cpp in Sources */,
 				CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */,
 				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
@@ -2060,41 +2026,35 @@
 				CC83258F180E2DC100001899 /* UIAlertView+RSTAdditions.m in Sources */,
 				1AD971F317D2C6ED007097BC /* GBAController.m in Sources */,
 				CC81EAA017EBA2B0006FD348 /* AFHTTPRequestOperation.m in Sources */,
-				CCFA7225179D304700768D24 /* 7zAlloc.c in Sources */,
 				CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */,
-				CCFA7232179D304700768D24 /* Ppmd7.c in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
-				CCFA7204179D304700768D24 /* GBA-thumb.cpp in Sources */,
+				CC29342518133AB80016EF82 /* file_zip.cpp in Sources */,
 				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
-				CCFA720D179D304700768D24 /* Mode5.cpp in Sources */,
 				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
 				CC8325BF180E2F5300001899 /* NJKWebViewProgress.m in Sources */,
 				CCFA71B7179D2FE400768D24 /* EmuView.cc in Sources */,
 				CC83259B180E2DCB00001899 /* RSTFileBrowserViewController.m in Sources */,
-				CCFA722E179D304700768D24 /* Bra86.c in Sources */,
-				CCFA721A179D304700768D24 /* blargg_errors.cpp in Sources */,
-				CCFA7229179D304700768D24 /* 7zDec.c in Sources */,
 				CC81EAB017EBA2B0006FD348 /* AFURLSessionManager.m in Sources */,
-				CCFA722C179D304700768D24 /* Bcj2.c in Sources */,
 				CC81EAA217EBA2B0006FD348 /* AFHTTPRequestOperationManager.m in Sources */,
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */,
+				CC29342618133AB80016EF82 /* cartridge.cpp in Sources */,
 				CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */,
-				CCFA7209179D304700768D24 /* Mode1.cpp in Sources */,
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
-				CCFA7203179D304700768D24 /* GBA-arm.cpp in Sources */,
+				CC29343618133AB80016EF82 /* unzip.c in Sources */,
+				CC29341418133AB80016EF82 /* next_m0_time.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CC83258B180E2DB800001899 /* UIActionSheet+RSTAdditions.m in Sources */,
 				CC832599180E2DCB00001899 /* RSTFileBrowserTableViewCell.m in Sources */,
 				CC81EAC217EBA2BC006FD348 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,
-				CCFA721C179D304700768D24 /* fex.cpp in Sources */,
 				CC8325B3180E2DE500001899 /* RSTSafariActivity.m in Sources */,
 				CCFA71BD179D2FE400768D24 /* VController.cc in Sources */,
 				CC6A2D9E17C515E800EFC10E /* GBACheat.m in Sources */,
+				CC29342118133AB80016EF82 /* kaiser70sinc.cpp in Sources */,
 				CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */,
-				CC8325D4180E2F6A00001899 /* zip.c in Sources */,
+				CC29342218133AB80016EF82 /* makesinckernel.cpp in Sources */,
 				CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */,
 				CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */,
 			);
@@ -2104,104 +2064,104 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC29343918133AB90016EF82 /* Main.cc in Sources */,
+				CC29345A18133AB90016EF82 /* statesaver.cpp in Sources */,
+				CC29344D18133AB90016EF82 /* file_zip.cpp in Sources */,
 				CC5756E5180C72DE00BF3DA5 /* pngmem.c in Sources */,
-				CC575764180C759900BF3DA5 /* Cheats_GBC.cc in Sources */,
+				CC29344118133AB90016EF82 /* channel3.cpp in Sources */,
 				CC5756D3180C72D700BF3DA5 /* Io.cc in Sources */,
+				CC29343A18133AB90016EF82 /* ly_counter.cpp in Sources */,
 				CC5756B7180C72D000BF3DA5 /* FilePicker.cc in Sources */,
+				CC29343818133AB90016EF82 /* EmuControls.cc in Sources */,
 				CC5756EE180C72DE00BF3DA5 /* pngwrite.c in Sources */,
 				CC5756B5180C72D000BF3DA5 /* CreditsView.cc in Sources */,
+				CC29344C18133AB90016EF82 /* u48div.cpp in Sources */,
 				CC5756DA180C72D700BF3DA5 /* AlertView.cc in Sources */,
-				CC575732180C748100BF3DA5 /* cartridge.cpp in Sources */,
-				CC5756FF180C745300BF3DA5 /* sprite_mapper.cpp in Sources */,
 				CC5756E4180C72DE00BF3DA5 /* pngget.c in Sources */,
 				CC5756DD180C72D700BF3DA5 /* Quartz2d.cc in Sources */,
+				CC29344818133AB90016EF82 /* kaiser50sinc.cpp in Sources */,
+				CC29345918133AB90016EF82 /* sound_GBC.cpp in Sources */,
 				CC5756CC180C72D700BF3DA5 /* Pixmap.cc in Sources */,
+				CC29345618133AB90016EF82 /* interruptrequester.cpp in Sources */,
 				CC5756C5180C72D000BF3DA5 /* InputManagerView.cc in Sources */,
-				CC575725180C746600BF3DA5 /* makesinckernel.cpp in Sources */,
-				CC575710180C745E00BF3DA5 /* duty_unit.cpp in Sources */,
-				CC575755180C748C00BF3DA5 /* statesaver.cpp in Sources */,
 				CC5756BC180C72D000BF3DA5 /* VideoImageOverlay.cc in Sources */,
 				CC5756DE180C72D700BF3DA5 /* iphone.mm in Sources */,
 				CC5756EB180C72DE00BF3DA5 /* pngset.c in Sources */,
 				CC5756E3180C72DE00BF3DA5 /* pngerror.c in Sources */,
-				CC575723180C746600BF3DA5 /* kaiser70sinc.cpp in Sources */,
-				CC575766180C759900BF3DA5 /* EmuControls.cc in Sources */,
 				CC5756C7180C72D000BF3DA5 /* Cheats.cc in Sources */,
-				CC5756F7180C745200BF3DA5 /* ly_counter.cpp in Sources */,
+				CC29343C18133AB90016EF82 /* next_m0_time.cpp in Sources */,
 				CC5756DC180C72D700BF3DA5 /* ResourceFont.cc in Sources */,
 				CC5756CE180C72D700BF3DA5 /* View.cc in Sources */,
+				CC29343E18133AB90016EF82 /* sprite_mapper.cpp in Sources */,
+				CC29345518133AB90016EF82 /* interrupter.cpp in Sources */,
+				CC29344418133AB90016EF82 /* envelope_unit.cpp in Sources */,
+				CC29345118133AB90016EF82 /* rtc.cpp in Sources */,
 				CC5756BE180C72D000BF3DA5 /* MenuView.cc in Sources */,
-				CC575712180C745E00BF3DA5 /* envelope_unit.cpp in Sources */,
+				CC29345B18133AB90016EF82 /* tima.cpp in Sources */,
 				CC5756E6180C72DE00BF3DA5 /* pngpread.c in Sources */,
-				CC575751180C748C00BF3DA5 /* memory_GBC.cpp in Sources */,
-				CC575747180C748C00BF3DA5 /* gambatte.cpp in Sources */,
-				CC575727180C746600BF3DA5 /* resamplerinfo.cpp in Sources */,
-				CC57570C180C745E00BF3DA5 /* channel3.cpp in Sources */,
 				CC5756CD180C72D700BF3DA5 /* opengl.cc in Sources */,
 				CC5756E9180C72DE00BF3DA5 /* pngrtran.c in Sources */,
-				CC575714180C745E00BF3DA5 /* length_counter.cpp in Sources */,
 				CC5756B9180C72D000BF3DA5 /* Recent.cc in Sources */,
-				CC57571F180C746600BF3DA5 /* i0.cpp in Sources */,
+				CC29345718133AB90016EF82 /* loadres.cpp in Sources */,
 				CC5756D2180C72D700BF3DA5 /* FsPosix.cc in Sources */,
 				CC5756D6180C72D700BF3DA5 /* IoMmapFd.cc in Sources */,
-				CC57570A180C745E00BF3DA5 /* channel2.cpp in Sources */,
+				CC29345418133AB90016EF82 /* initstate.cpp in Sources */,
 				CC5756C2180C72D000BF3DA5 /* OptionView.cc in Sources */,
 				CC5756BB180C72D000BF3DA5 /* ButtonConfigView.cc in Sources */,
+				CC29344918133AB90016EF82 /* kaiser70sinc.cpp in Sources */,
+				CC29344518133AB90016EF82 /* length_counter.cpp in Sources */,
 				CC5756C9180C72D000BF3DA5 /* VController.cc in Sources */,
 				CC5756C6180C72D000BF3DA5 /* FileUtils.cc in Sources */,
 				CC5756B6180C72D000BF3DA5 /* MsgPopup.cc in Sources */,
-				CC57575F180C74B000BF3DA5 /* unzip.c in Sources */,
 				CC5756CA180C72D700BF3DA5 /* logger.cc in Sources */,
-				CC575738180C748100BF3DA5 /* rtc.cpp in Sources */,
 				CC5756D4180C72D700BF3DA5 /* IoFd.cc in Sources */,
-				CC575753180C748C00BF3DA5 /* sound_GBC.cpp in Sources */,
+				CC29345C18133AB90016EF82 /* video.cpp in Sources */,
+				CC29344B18133AB90016EF82 /* resamplerinfo.cpp in Sources */,
 				CC5756C8180C72D000BF3DA5 /* TouchConfigView.cc in Sources */,
 				CC5756ED180C72DE00BF3DA5 /* pngwio.c in Sources */,
+				CC29344618133AB90016EF82 /* chainresampler.cpp in Sources */,
 				CC5756C3180C72D000BF3DA5 /* EmuView.cc in Sources */,
-				CC575745180C748C00BF3DA5 /* cpu.cpp in Sources */,
-				CC57574F180C748C00BF3DA5 /* loadres.cpp in Sources */,
-				CC5756FB180C745300BF3DA5 /* next_m0_time.cpp in Sources */,
-				CC57572C180C747800BF3DA5 /* file_zip.cpp in Sources */,
-				CC575736180C748100BF3DA5 /* pakinfo.cpp in Sources */,
+				CC29344318133AB90016EF82 /* duty_unit.cpp in Sources */,
 				CC5756EA180C72DE00BF3DA5 /* pngrutil.c in Sources */,
-				CC575708180C745E00BF3DA5 /* channel1.cpp in Sources */,
+				CC29345018133AB90016EF82 /* pakinfo.cpp in Sources */,
 				CC5756E2180C72DE00BF3DA5 /* png.c in Sources */,
+				CC29343718133AB90016EF82 /* Cheats_GBC.cc in Sources */,
 				CC5756F0180C72DE00BF3DA5 /* pngwutil.c in Sources */,
+				CC29343D18133AB90016EF82 /* ppu.cpp in Sources */,
 				CC5756D0180C72D700BF3DA5 /* GuiTable1D.cc in Sources */,
 				CC5756D5180C72D700BF3DA5 /* IoMmap.cc in Sources */,
+				CC29345E18133AB90016EF82 /* unzip.c in Sources */,
+				CC29344018133AB90016EF82 /* channel2.cpp in Sources */,
+				CC29344F18133AB90016EF82 /* memptrs.cpp in Sources */,
 				CC5756BF180C72D000BF3DA5 /* EmuInput.cc in Sources */,
 				CC5756EC180C72DE00BF3DA5 /* pngtrans.c in Sources */,
+				CC29344E18133AB90016EF82 /* cartridge.cpp in Sources */,
+				CC29344218133AB90016EF82 /* channel4.cpp in Sources */,
 				CC5756DB180C72D700BF3DA5 /* ResourceFace.cc in Sources */,
-				CC5756FD180C745300BF3DA5 /* ppu.cpp in Sources */,
 				CC5756EF180C72DE00BF3DA5 /* pngwtran.c in Sources */,
-				CC575757180C748C00BF3DA5 /* tima.cpp in Sources */,
-				CC575734180C748100BF3DA5 /* memptrs.cpp in Sources */,
 				CC5756C4180C72D000BF3DA5 /* ConfigFile.cc in Sources */,
 				CC5756B8180C72D000BF3DA5 /* EmuSystem.cc in Sources */,
-				CC5756F9180C745200BF3DA5 /* lyc_irq.cpp in Sources */,
 				CC5756D8180C72D700BF3DA5 /* NavView.cc in Sources */,
+				CC29343F18133AB90016EF82 /* channel1.cpp in Sources */,
+				CC29344A18133AB90016EF82 /* makesinckernel.cpp in Sources */,
+				CC29344718133AB90016EF82 /* i0.cpp in Sources */,
+				CC29345318133AB90016EF82 /* gambatte.cpp in Sources */,
 				CC5756CF180C72D700BF3DA5 /* ScrollView1D.cc in Sources */,
-				CC57575D180C74B000BF3DA5 /* ioapi.c in Sources */,
-				CC575759180C748C00BF3DA5 /* video.cpp in Sources */,
 				CC5756C0180C72D000BF3DA5 /* TextEntry.cc in Sources */,
 				CC5756BA180C72D000BF3DA5 /* Screenshot.cc in Sources */,
 				CC5756D9180C72D700BF3DA5 /* FSPicker.cc in Sources */,
 				CC5756D7180C72D700BF3DA5 /* MenuItem.cc in Sources */,
-				CC57574D180C748C00BF3DA5 /* interruptrequester.cpp in Sources */,
 				CC5756BD180C72D000BF3DA5 /* StateSlotView.cc in Sources */,
 				CC5756E7180C72DE00BF3DA5 /* pngread.c in Sources */,
+				CC29343B18133AB90016EF82 /* lyc_irq.cpp in Sources */,
+				CC29345218133AB90016EF82 /* cpu.cpp in Sources */,
 				CC5756E0180C72D700BF3DA5 /* ResourceFontUIKit.mm in Sources */,
+				CC29345818133AB90016EF82 /* memory_GBC.cpp in Sources */,
 				CC5756DF180C72D700BF3DA5 /* apple.mm in Sources */,
-				CC575749180C748C00BF3DA5 /* initstate.cpp in Sources */,
-				CC57574B180C748C00BF3DA5 /* interrupter.cpp in Sources */,
-				CC575729180C746600BF3DA5 /* u48div.cpp in Sources */,
-				CC57570E180C745E00BF3DA5 /* channel4.cpp in Sources */,
-				CC57571D180C746600BF3DA5 /* chainresampler.cpp in Sources */,
 				CC5756C1180C72D000BF3DA5 /* EmuOptions.cc in Sources */,
-				CC575768180C759900BF3DA5 /* Main.cc in Sources */,
 				CC5756E8180C72DE00BF3DA5 /* pngrio.c in Sources */,
 				CC5756D1180C72D700BF3DA5 /* ScrollableGuiTable1D.cc in Sources */,
-				CC575721180C746600BF3DA5 /* kaiser50sinc.cpp in Sources */,
+				CC29345D18133AB90016EF82 /* ioapi.c in Sources */,
 				CC5756E1180C72D700BF3DA5 /* Quartz2dUIKit.mm in Sources */,
 				CC5756CB180C72D700BF3DA5 /* coreaudio.cc in Sources */,
 			);
@@ -2903,13 +2863,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2922,15 +2875,77 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
+					"-DGBC_EMU_BUILD",
+				);
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2944,13 +2959,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2963,15 +2971,77 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
+					"-DGBC_EMU_BUILD",
+				);
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -3101,13 +3171,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3120,15 +3183,77 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
+					"-DGBC_EMU_BUILD",
+				);
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";
@@ -3405,13 +3530,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3424,15 +3542,77 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
+					"-DGBC_EMU_BUILD",
+				);
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = MBS;

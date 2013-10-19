@@ -431,11 +431,19 @@ namespace GameFilePicker {
     using namespace Base;
     using namespace Input;
     
+#ifdef GBA_EMU_BUILD
+    
     optionRtcEmulation = RTC_EMU_ON; // Some hacked games use the RealTimeClock even when the game they're based off of doesn't (ex: Pokemon Liquid Crystal), so we always have it enabled.
+    
+#endif
     
     GameFilePicker::onSelectFile([self.rom.filepath UTF8String], [self touchForTouchState:RELEASED]);
     
+#ifdef GBA_EMU_BUILD
+    
     [self loadCheats];
+    
+#endif
 }
 
 - (void)pauseEmulation
@@ -499,6 +507,8 @@ extern SysVController vController;
     
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
 }
+
+#ifdef GBA_EMU_BUILD
 
 #pragma mark - Save States
 
@@ -683,6 +693,8 @@ extern GBASys gGba;
     cheatsDeleteAll(gGba.cpu, true);
     return [self loadCheats];
 }
+
+#endif
 
 #pragma mark - Main App
 
