@@ -176,6 +176,16 @@
         cell.cacheKey = @"Portrait";
         
         GBAController *portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:portraitSkin]];
+        
+        if (portraitController == nil)
+        {
+            portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
+            
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
+            skins[@"portrait"] = GBADefaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
+        }
+        
         cell.image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
     }
     else
@@ -183,6 +193,16 @@
         cell.cacheKey = @"Landscape";
         
         GBAController *landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:landscapeSkin]];
+        
+        if (landscapeController == nil)
+        {
+            landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
+            
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
+            skins[@"landscape"] = GBADefaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
+        }
+        
         cell.image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
     }
     

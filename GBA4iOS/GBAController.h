@@ -48,6 +48,8 @@ static NSString *GBAScreenTypeiPhoneWidescreen = @"iPhone Widescreen";
 static NSString *GBAScreenTypeiPad = @"iPad";
 static NSString *GBAScreenTypeiPadRetina = @"iPad Retina";
 
+static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
+
 @interface GBAController : NSObject
 
 @property (readonly, copy, nonatomic) NSString *filepath;

@@ -376,7 +376,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         {
             UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
             backgroundView.backgroundColor = GBA4iOS_PURPLE_COLOR;
-            backgroundView.alpha = 0.75;
+            backgroundView.alpha = 0.6;
             cell.backgroundView = backgroundView;
         }
         
