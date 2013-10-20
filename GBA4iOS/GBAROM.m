@@ -14,6 +14,7 @@
 
 @property (readwrite, copy, nonatomic) NSString *name;
 @property (readwrite, copy, nonatomic) NSString *filepath;
+@property (readwrite, assign, nonatomic) GBAROMType type;
 
 @end
 
@@ -24,6 +25,15 @@
     GBAROM *rom = [[GBAROM alloc] init];
     rom.filepath = filepath;
     rom.name = [[filepath lastPathComponent] stringByDeletingPathExtension];
+    
+    if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gbc"])
+    {
+        rom.type = GBAROMTypeGBC;
+    }
+    else
+    {
+        rom.type = GBAROMTypeGBA;
+    }
     
     return rom;
 }
@@ -45,8 +55,6 @@
     
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tempDirectory error:nil];
     
-    DLog(@"%@", contents);
-        
     for (NSString *filename in contents)
     {
         if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
@@ -70,8 +78,6 @@
     
     NSString *originalFilename = [romFilename stringByAppendingPathExtension:extension];
     NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
-    
-    DLog(@"From: %@ Destination: %@", [tempDirectory stringByAppendingPathComponent:originalFilename], [documentsDirectory stringByAppendingPathComponent:destinationFilename]);
     
     [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:originalFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];

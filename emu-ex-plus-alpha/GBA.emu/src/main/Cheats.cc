@@ -6,7 +6,7 @@
 #include <gba/Cheats.h>
 extern MsgPopup popup;
 extern ViewStack viewStack;
-static bool cheatsModified = false;
+bool cheatsModified = false;
 
 void SystemEditCheatView::renamed(const char *str)
 {

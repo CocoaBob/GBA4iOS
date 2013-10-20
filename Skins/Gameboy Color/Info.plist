@@ -359,17 +359,17 @@
 		</dict>
 	</dict>
 	<key>Identifier</key>
-	<string></string>
+	<string>com.GBA4iOS.gbc</string>
 	<key>Name</key>
-	<string></string>
+	<string>Gameboy Color</string>
 	<key>Landscape</key>
 	<dict>
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
-			<string></string>
+			<string>gbclandscape4.png</string>
 			<key>iPhone Widescreen</key>
-			<string></string>
+			<string>landscape@R4.png</string>
 			<key>iPad</key>
 			<string></string>
 			<key>iPad Retina</key>
@@ -594,13 +594,13 @@
 				<key>Screen</key>
 				<dict>
 					<key>X</key>
-					<integer>0</integer>
+					<integer>164</integer>
 					<key>Y</key>
 					<integer>0</integer>
 					<key>Width</key>
-					<integer>0</integer>
+					<integer>240</integer>
 					<key>Height</key>
-					<integer>0</integer>
+					<integer>216</integer>
 				</dict>
 			</dict>
 			<key>iPad</key>

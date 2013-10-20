@@ -64,5 +64,6 @@ static NSString *GBAScreenTypeiPadRetina = @"iPad Retina";
 - (GBAControllerOrientation)supportedOrientations;
 + (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary;
 - (NSString *)identifier;
+- (CGRect)screenRectForOrientation:(GBAControllerOrientation)orientation;
 
 @end

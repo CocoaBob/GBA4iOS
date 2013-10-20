@@ -26,15 +26,15 @@
 #define DELETE_ROM_ALERT_TAG 2
 #define RENAME_GESTURE_RECOGNIZER_TAG 22
 
-typedef NS_ENUM(NSInteger, GBAROMType) {
-    GBAROMTypeAll,
-    GBAROMTypeGBA,
-    GBAROMTypeGBC,
+typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
+    GBAVisibleROMTypeAll,
+    GBAVisibleROMTypeGBA,
+    GBAVisibleROMTypeGBC,
 };
 
 @interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, RSTWebViewControllerDelegate, GBASettingsViewControllerDelegate>
 
-@property (assign, nonatomic) GBAROMType romType;
+@property (assign, nonatomic) GBAVisibleROMType visibleRomType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloads;
 @property (strong, nonatomic) NSMutableSet *currentUnzippingOperations;
@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
  
     self.clearsSelectionOnViewWillAppear = YES;
     
-    GBAROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"romType"];
+    GBAVisibleROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"visibleROMType"];
     self.romType = romType;
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
@@ -791,7 +791,7 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 - (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl
 {
-    GBAROMType romType = segmentedControl.selectedSegmentIndex;
+    GBAVisibleROMType romType = segmentedControl.selectedSegmentIndex;
     self.romType = romType;
 }
 
@@ -841,26 +841,26 @@ typedef NS_ENUM(NSInteger, GBAROMType) {
 
 #pragma mark - Getters/Setters
 
-- (void)setRomType:(GBAROMType)romType
+- (void)setRomType:(GBAVisibleROMType)romType
 {
     self.romTypeSegmentedControl.selectedSegmentIndex = romType;
     [[NSUserDefaults standardUserDefaults] setInteger:romType forKey:@"romType"];
     
     switch (romType) {
-        case GBAROMTypeAll:
+        case GBAVisibleROMTypeAll:
             self.supportedFileExtensions = @[@"gba", @"gbc", @"gb", @"zip"];
             break;
             
-        case GBAROMTypeGBA:
+        case GBAVisibleROMTypeGBA:
             self.supportedFileExtensions = @[@"gba"];
             break;
             
-        case GBAROMTypeGBC:
+        case GBAVisibleROMTypeGBC:
             self.supportedFileExtensions = @[@"gb", @"gbc"];
             break;
     }
     
-    _romType = romType;
+    _visibleRomType = romType;
 }
 
 - (void)setTheme:(GBAThemedTableViewControllerTheme)theme

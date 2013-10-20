@@ -36,7 +36,6 @@ static GBAEmulationViewController *_emulationViewController;
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
 @property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
 @property (strong, nonatomic) UIWindow *airplayWindow;
@@ -47,6 +46,10 @@ static GBAEmulationViewController *_emulationViewController;
 @property (nonatomic) CFTimeInterval previousTimestamp;
 @property (nonatomic) NSInteger frameCount;
 @property (weak, nonatomic) IBOutlet UILabel *framerateLabel;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *screenVerticalCenterLayoutConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *screenHorizontalCenterLayoutConstraint;
 
 // Sustaining Buttons
 @property (assign, nonatomic) BOOL selectingSustainedButton;
@@ -96,8 +99,6 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
     
-    self.extendedLayoutIncludesOpaqueBars = YES;
-    
     self.view.clipsToBounds = NO;
     
     // Because we need to present the ROM Table View Controller stealthily
@@ -114,17 +115,11 @@ static GBAEmulationViewController *_emulationViewController;
     
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
     
-    if (self.airplayWindow == nil)
-    {
-#if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.view.bounds.size] screen:[UIScreen mainScreen]];
-        [self.emulatorScreen invalidateIntrinsicContentSize];
-#endif
-    }
-    
 #if !(TARGET_IPHONE_SIMULATOR)
     self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
 #endif
+    
+    // [self updateEmulatorScreenFrame]; Initial layout of screen should be with ROM loaded, or else super issues happen
     
 }
 
@@ -211,7 +206,19 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (CGSize)screenSizeForContainerSize:(CGSize)containerSize
 {
-    CGSize resolution = CGSizeMake(240, 160); // GBA Resolution
+    CGSize resolution = CGSizeZero;
+    
+    switch (self.rom.type)
+    {
+        case GBAROMTypeGBA:
+            resolution = CGSizeMake(240, 160);
+            break;
+            
+        case GBAROMTypeGBC:
+            resolution = CGSizeMake(160, 144);
+            break;
+    }
+    
     CGSize size = resolution;
     CGFloat widthScale = containerSize.width/resolution.width;
     CGFloat heightScale = containerSize.height/resolution.height;
@@ -226,6 +233,8 @@ static GBAEmulationViewController *_emulationViewController;
         // Use width scale to size to fit
         size = CGSizeMake(resolution.width * widthScale, resolution.height * widthScale);
     }
+    
+    DLog(@"%@", NSStringFromCGSize(size));
     
     return size;
 }
@@ -277,11 +286,7 @@ static GBAEmulationViewController *_emulationViewController;
         window.screen = screen;
         window.hidden = NO;
         
-#if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:screenBounds.size] screen:screen];
-#endif
-        
-        self.emulatorScreen.center = CGPointMake(roundf(screenBounds.size.width/2), roundf(screenBounds.size.height/2));
+        [self updateEmulatorScreenFrame];
         
         [window addSubview:self.emulatorScreen];
         window;
@@ -292,20 +297,11 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)tearDownAirplayScreen
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:self.view.bounds.size screen:[UIScreen mainScreen]];
-#endif
-    [self.emulatorScreen invalidateIntrinsicContentSize];
-    
     self.airplayWindow.hidden = YES;
     [self.screenContainerView addSubview:self.emulatorScreen];
     self.airplayWindow = nil;
     
-    self.emulatorScreen.frame = ({
-        CGRect frame = self.emulatorScreen.frame;
-        frame.origin = CGPointZero;
-        frame;
-    });
+    [self updateEmulatorScreenFrame];
 }
 
 #pragma mark - Controls
@@ -898,24 +894,7 @@ void uncaughtExceptionHandler(NSException *exception)
     //self.controllerView.alpha = 1.0;
     //self.blurredControllerImageView.alpha = 1.0;
     
-    if (self.airplayWindow == nil)
-    {
-#if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.view.bounds.size] screen:[UIScreen mainScreen]];
-        [self.emulatorScreen invalidateIntrinsicContentSize];
-#else 
-        
-        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
-        {
-            self.emulatorScreen.bounds = CGRectMake(0, 0, 320, 240);
-        }
-        else
-        {
-            self.emulatorScreen.bounds = CGRectMake(0, 0, 480, 320);
-        }
-        
-#endif
-    }
+    [self updateEmulatorScreenFrame];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -991,6 +970,74 @@ void uncaughtExceptionHandler(NSException *exception)
             self.controllerView.skinOpacity = 1.0f;
         }
     }
+    
+    [self updateEmulatorScreenFrame];
+}
+
+- (void)updateEmulatorScreenFrame
+{
+    if (self.airplayWindow == nil)
+    {
+        CGRect screenRect = [self.controllerView.controller screenRectForOrientation:self.controllerView.orientation];
+        
+        if (CGRectIsEmpty(screenRect))
+        {
+            if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
+            {
+                [self.screenContainerView addConstraint:self.screenHorizontalCenterLayoutConstraint];
+            }
+            
+            if (![self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
+            {
+                [self.screenContainerView addConstraint:self.screenVerticalCenterLayoutConstraint];
+            }
+            
+            
+#if !(TARGET_IPHONE_SIMULATOR)
+            [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size] screen:[UIScreen mainScreen]];
+            [self.emulatorScreen invalidateIntrinsicContentSize];
+#else
+            
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            {
+                self.emulatorScreen.bounds = CGRectMake(0, 0, 320, 240);
+            }
+            else
+            {
+                self.emulatorScreen.bounds = CGRectMake(0, 0, 480, 320);
+            }
+            
+#endif
+        }
+        else
+        {
+            if ([self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
+            {
+                [self.screenContainerView removeConstraint:self.screenHorizontalCenterLayoutConstraint];
+            }
+            
+            if ([self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
+            {
+                [self.screenContainerView removeConstraint:self.screenVerticalCenterLayoutConstraint];
+            }
+            
+            self.emulatorScreen.frame = screenRect;
+            
+#if !(TARGET_IPHONE_SIMULATOR)
+            [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
+            [self.emulatorScreen invalidateIntrinsicContentSize];
+#endif
+            
+        }
+        
+    }
+    else
+    {
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.airplayWindow.bounds.size] screen:self.airplayWindow.screen];
+        [self.emulatorScreen invalidateIntrinsicContentSize];
+#endif
+    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -1004,25 +1051,6 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     [self.view layoutIfNeeded];
     
-    if (self.airplayWindow == nil)
-    {
-#if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.view.bounds.size] screen:[UIScreen mainScreen]];
-        [self.emulatorScreen invalidateIntrinsicContentSize];
-#else
-        
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            self.emulatorScreen.bounds = CGRectMake(0, 0, 320, 240);
-        }
-        else
-        {
-            self.emulatorScreen.bounds = CGRectMake(0, 0, 480, 320);
-        }
-        
-#endif
-    }
-    
     if (self.blurringContents)
     {
         BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
@@ -1031,6 +1059,7 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
+    [self updateEmulatorScreenFrame];
 }
 
 #ifdef USE_INCLUDED_UI
@@ -1178,12 +1207,21 @@ void uncaughtExceptionHandler(NSException *exception)
         UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
-        CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+        CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationPortrait];
         
-        [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
-                                                                edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
-                                                                screenSize.width,
-                                                                screenSize.height) afterScreenUpdates:NO];
+        if (CGRectIsEmpty(screenRect))
+        {
+            CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+            
+            [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
+                                                                    edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                                                    screenSize.width,
+                                                                    screenSize.height) afterScreenUpdates:NO];
+        }
+        else
+        {
+            [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
+        }
         
         [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
                                               edgeExtension + screenContainerSize.height,
@@ -1197,12 +1235,21 @@ void uncaughtExceptionHandler(NSException *exception)
         UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationLandscape];
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
-        CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+        CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationLandscape];
         
-        [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
-                                                                     edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
-                                                                     screenSize.width,
-                                                                     screenSize.height) afterScreenUpdates:NO];
+        if (CGRectIsEmpty(screenRect))
+        {
+            CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+            
+            [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
+                                                                    edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                                                    screenSize.width,
+                                                                    screenSize.height) afterScreenUpdates:NO];
+        }
+        else
+        {
+            [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
+        }
         
         [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
                                               edgeExtension,

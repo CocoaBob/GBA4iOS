@@ -243,6 +243,11 @@
     return dictionary;
 }
 
+- (CGRect)screenRectForOrientation:(GBAControllerOrientation)orientation
+{
+    return [self rectForButtonRect:GBAControllerRectScreen orientation:orientation];
+}
+
 - (GBAControllerOrientation)supportedOrientations
 {
     GBAControllerOrientation supportedOrientations = 0;

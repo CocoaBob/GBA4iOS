@@ -508,6 +508,11 @@ extern SysVController vController;
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
 }
 
+- (void)saveStateToFilepath:(NSString *)filepath
+{
+    
+}
+
 #ifdef GBA_EMU_BUILD
 
 #pragma mark - Save States

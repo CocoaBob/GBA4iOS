@@ -661,6 +661,8 @@
                         <outlet property="emulatorScreen" destination="KTg-3r-eIu" id="T1r-be-SwC"/>
                         <outlet property="portraitBottomLayoutConstraint" destination="DRo-HN-e9g" id="1Qo-bT-MAW"/>
                         <outlet property="screenContainerView" destination="nSu-0n-xp1" id="19d-dd-iNL"/>
+                        <outlet property="screenHorizontalCenterLayoutConstraint" destination="a61-8Q-JV9" id="K6g-DJ-YRw"/>
+                        <outlet property="screenVerticalCenterLayoutConstraint" destination="X71-hi-JIS" id="2uP-Hl-nvF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="stJ-6h-0Yb" userLabel="First Responder" sceneMemberID="firstResponder"/>
