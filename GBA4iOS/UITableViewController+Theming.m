@@ -21,6 +21,7 @@
         case GBAThemedTableViewControllerThemeOpaque:
         {
             cell.textLabel.textColor = [UIColor blackColor];
+            cell.detailTextLabel.textColor = [UIColor grayColor];
             cell.backgroundColor = [UIColor whiteColor];
             cell.textLabel.backgroundColor = [UIColor whiteColor];
             cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
@@ -30,6 +31,7 @@
         case GBAThemedTableViewControllerThemeTranslucent:
         {
             cell.textLabel.textColor = [UIColor whiteColor];
+            cell.detailTextLabel.textColor = [UIColor grayColor];
             cell.backgroundColor = [UIColor clearColor];
             cell.textLabel.backgroundColor = [UIColor clearColor];
             cell.detailTextLabel.backgroundColor = [UIColor clearColor];
@@ -37,6 +39,10 @@
             break;
         }
     }
+    
+    cell.backgroundView = nil;
+    cell.textLabel.font = [UIFont systemFontOfSize:cell.textLabel.font.pointSize];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:cell.detailTextLabel.font.pointSize];
 }
 
 - (void)themeHeader:(UITableViewHeaderFooterView *)header

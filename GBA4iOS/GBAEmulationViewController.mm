@@ -31,7 +31,6 @@ static GBAEmulationViewController *_emulationViewController;
 @interface GBAEmulationViewController () <GBAControllerViewDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
-    BOOL _hasPerformedInitialLayout;
 }
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
@@ -109,29 +108,9 @@ static GBAEmulationViewController *_emulationViewController;
     [self updateSettings:nil];
 }
 
-- (void)performInitialLayout
-{
-    [self.view layoutIfNeeded];
-    
-    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
-    
-#if !(TARGET_IPHONE_SIMULATOR)
-    self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
-#endif
-    
-    // [self updateEmulatorScreenFrame]; Initial layout of screen should be with ROM loaded, or else super issues happen
-    
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (!_hasPerformedInitialLayout)
-    {
-        [self performInitialLayout];
-        _hasPerformedInitialLayout = YES;
-    }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
@@ -970,8 +949,6 @@ void uncaughtExceptionHandler(NSException *exception)
             self.controllerView.skinOpacity = 1.0f;
         }
     }
-    
-    [self updateEmulatorScreenFrame];
 }
 
 - (void)updateEmulatorScreenFrame
@@ -1023,11 +1000,18 @@ void uncaughtExceptionHandler(NSException *exception)
             
             self.emulatorScreen.frame = screenRect;
             
+            DLog(@"%@", NSStringFromCGRect(screenRect));
+            
 #if !(TARGET_IPHONE_SIMULATOR)
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
             [self.emulatorScreen invalidateIntrinsicContentSize];
 #endif
             
+        }
+        
+        if (self.emulatorScreen.eaglView == nil)
+        {
+            self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
         }
         
     }
@@ -1120,6 +1104,12 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)resumeEmulation
 {
     self.userPausedEmulation = NO;
+    
+    if (self.rom == nil)
+    {
+        return;
+    }
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
@@ -1293,6 +1283,8 @@ void uncaughtExceptionHandler(NSException *exception)
     }*/
     
     _rom = rom;
+    
+    [self refreshLayout];
     
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] setRom:self.rom];

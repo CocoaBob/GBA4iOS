@@ -355,7 +355,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [self dismissedModalViewController];
 }
 
-#pragma mark - RSTFileBrowserViewController Subclass
+#pragma mark - UITableViewController data source
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -372,6 +372,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     else
     {
+        if ([self.emulationViewController.rom.name isEqualToString:[filename stringByDeletingPathExtension]])
+        {
+            UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+            backgroundView.backgroundColor = GBA4iOS_PURPLE_COLOR;
+            backgroundView.alpha = 0.75;
+            cell.backgroundView = backgroundView;
+        }
+        
         cell.userInteractionEnabled = YES;
     }
     
@@ -396,6 +404,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     return headerView;
 }
+
+#pragma mark - RSTFileBrowserViewController
 
 - (NSString *)visibleFileExtensionForIndexPath:(NSIndexPath *)indexPath
 {

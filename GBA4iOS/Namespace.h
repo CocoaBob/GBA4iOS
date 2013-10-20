@@ -271,7 +271,7 @@ namespace Base
         onExit(0);
         ::exit(returnVal);
     }
-    void abort() { ::abort(); }
+    void abort() { }
     
     void displayNeedsUpdate()
     {
