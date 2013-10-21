@@ -22,6 +22,12 @@ typedef NS_ENUM(NSInteger, GBAControllerRect)
     GBAControllerRectScreen
 };
 
+typedef NS_ENUM(NSInteger, GBAControllerSkinType)
+{
+    GBAControllerSkinTypeGBA = 0,
+    GBAControllerSkinTypeGBC = 1
+};
+
 typedef NS_ENUM(NSInteger, GBAControllerOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
 {
     GBAControllerOrientationPortrait   =    1 << 0,
@@ -54,8 +60,10 @@ static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *name;
+@property (readonly, assign, nonatomic) GBAControllerSkinType type;
 
 + (GBAController *)controllerWithContentsOfFile:(NSString *)filepath;
++ (GBAController *)defaultControllerForSkinType:(GBAControllerSkinType)skinType;
 
 + (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath;
 

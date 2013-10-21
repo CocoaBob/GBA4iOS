@@ -41,6 +41,29 @@
     return controller;
 }
 
++ (GBAController *)defaultControllerForSkinType:(GBAControllerSkinType)skinType
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
+    
+    NSString *filepath = nil;
+    
+    switch (skinType)
+    {
+        case GBAControllerSkinTypeGBA:
+            filepath = [skinsDirectory stringByAppendingPathComponent:[@"GBA/" stringByAppendingString:GBADefaultSkinIdentifier]];
+            break;
+            
+        case GBAControllerSkinTypeGBC:
+            filepath = [skinsDirectory stringByAppendingPathComponent:[@"GBC/" stringByAppendingString:GBADefaultSkinIdentifier]];
+            break;
+    }
+            
+    GBAController *controller = [[GBAController alloc] initWithContentsOfFile:filepath];
+    return controller;
+}
+
 + (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -59,14 +82,17 @@
     
     NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
     NSString *skinTypeDirectory = nil;
+    GBAControllerSkinType skinType = GBAControllerSkinTypeGBA;
     
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"gbcskin"])
     {
         skinTypeDirectory = [skinsDirectory stringByAppendingPathComponent:@"GBC"];
+        skinType = GBAControllerSkinTypeGBC;
     }
     else
     {
         skinTypeDirectory = [skinsDirectory stringByAppendingPathComponent:@"GBA"];
+        skinType = GBAControllerSkinTypeGBA;
     }
     
     NSError *error = nil;
@@ -79,7 +105,14 @@
         
     [[NSFileManager defaultManager] moveItemAtPath:tempDirectory toPath:destinationPath error:nil];
     
-    if ([[[NSFileManager defaultManager] contentsOfDirectoryAtPath:destinationPath error:nil] count] == 0)
+#warning may eventually change filename away from Info.plist
+    
+    NSString *infoDictionaryPath = [destinationPath stringByAppendingPathComponent:@"Info.plist"];
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:infoDictionaryPath];
+    dictionary[@"type"] = @(skinType);
+    [dictionary writeToFile:infoDictionaryPath atomically:YES];
+    
+    if ([contents count] == 0)
     {
         DLog(@"Not finished yet");
         // Unzipped before it was done copying over
@@ -179,6 +212,11 @@
     }
     
     return key;
+}
+
+- (GBAControllerSkinType)type
+{
+    return [self.infoDictionary[@"type"] integerValue];
 }
 
 + (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary

@@ -7,12 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef NS_ENUM(NSInteger, GBAControllerSkinType)
-{
-    GBAControllerSkinTypeGBA,
-    GBAControllerSkinTypeGBC
-};
+#import "GBAController.h"
 
 @interface GBAControllerSkinDetailViewController : UITableViewController
 

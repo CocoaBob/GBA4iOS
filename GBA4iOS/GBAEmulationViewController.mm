@@ -224,10 +224,7 @@ static GBAEmulationViewController *_emulationViewController;
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
     
-    NSString *controllerType = @"GBA";
-    
-    NSString *controllerTypeDirectory = [skinsDirectory stringByAppendingPathComponent:controllerType];
-    NSString *filepath = [controllerTypeDirectory stringByAppendingPathComponent:identifier];
+    NSString *filepath = [skinsDirectory stringByAppendingPathComponent:identifier];
     
     return filepath;
 }
@@ -911,18 +908,38 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)updateControllerSkinForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    NSString *defaultSkinIdentifier = nil;
+    NSString *skinsKey = nil;
+    GBAControllerSkinType skinType = GBAControllerSkinTypeGBA;
+    
+    switch (self.rom.type)
+    {
+        case GBAROMTypeGBA:
+            defaultSkinIdentifier = [@"GBA/" stringByAppendingString:GBADefaultSkinIdentifier];
+            skinsKey = GBASettingsGBASkinsKey;
+            skinType = GBAControllerSkinTypeGBA;
+            break;
+            
+        case GBAROMTypeGBC:
+            defaultSkinIdentifier = [@"GBC/" stringByAppendingString:GBADefaultSkinIdentifier];
+            skinsKey = GBASettingsGBCSkinsKey;
+            skinType = GBAControllerSkinTypeGBC;
+            break;
+    }
+    
     if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
     {
-        NSString *identifier = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
+        NSString *identifier = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"portrait"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:identifier]];
+        UIImage *image = [controller imageForOrientation:GBAControllerOrientationPortrait];
         
-        if (controller == nil)
+        if (image == nil)
         {
-            controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
+            controller = [GBAController defaultControllerForSkinType:skinType];
             
-            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            skins[@"portrait"] = GBADefaultSkinIdentifier;
-            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
+            skins[@"portrait"] = defaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
         }
         
         self.controllerView.controller = controller;
@@ -942,16 +959,17 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     else
     {
-        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"landscape"];
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"landscape"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:name]];
+        UIImage *image = [controller imageForOrientation:GBAControllerOrientationLandscape];
         
-        if (controller == nil)
+        if (image == nil)
         {
-            controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
+            controller = [GBAController defaultControllerForSkinType:skinType];
             
-            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            skins[@"landscape"] = GBADefaultSkinIdentifier;
-            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
+            skins[@"landscape"] = defaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
         }
         
         self.controllerView.controller = controller;
@@ -1017,6 +1035,16 @@ void uncaughtExceptionHandler(NSException *exception)
                 [self.screenContainerView removeConstraint:self.screenVerticalCenterLayoutConstraint];
             }
             
+            self.emulatorScreen.frame = ({
+                CGRect frame = self.emulatorScreen.frame;
+                CGSize aspectSize = [self screenSizeForContainerSize:screenRect.size];
+                
+                frame.origin = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f - aspectSize.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f - aspectSize.height/2.0f);
+                frame.size = aspectSize;
+                
+                frame;
+            });
+            self.emulatorScreen.center = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f);
             self.emulatorScreen.frame = screenRect;
             
             DLog(@"%@", NSStringFromCGRect(screenRect));
@@ -1028,10 +1056,12 @@ void uncaughtExceptionHandler(NSException *exception)
             
         }
         
+#if !(TARGET_IPHONE_SIMULATOR)
         if (self.emulatorScreen.eaglView == nil)
         {
             self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
         }
+#endif
         
     }
     else
@@ -1213,21 +1243,43 @@ void uncaughtExceptionHandler(NSException *exception)
                                                       viewSize.height + edgeExtension * 2),
                                            YES, 0.0);
     
+    
+    NSString *defaultSkinIdentifier = nil;
+    NSString *skinsKey = nil;
+    GBAControllerSkinType skinType = GBAControllerSkinTypeGBA;
+    
+    switch (self.rom.type)
+    {
+        case GBAROMTypeGBA:
+            defaultSkinIdentifier = [@"GBA/" stringByAppendingString:GBADefaultSkinIdentifier];
+            skinsKey = GBASettingsGBASkinsKey;
+            skinType = GBAControllerSkinTypeGBA;
+            break;
+            
+        case GBAROMTypeGBC:
+            defaultSkinIdentifier = [@"GBC/" stringByAppendingString:GBADefaultSkinIdentifier];
+            skinsKey = GBASettingsGBCSkinsKey;
+            skinType = GBAControllerSkinTypeGBC;
+            break;
+    }
+    
+    
     if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
     {
-        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"portrait"];
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"portrait"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:name]];
+        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
         
         if (controller == nil)
         {
-            controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
+            controller = [GBAController defaultControllerForSkinType:skinType];
             
-            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            skins[@"portrait"] = GBADefaultSkinIdentifier;
-            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
+            skins[@"portrait"] = defaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
+            
+            controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
         }
-        
-        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
         CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationPortrait];
@@ -1253,19 +1305,20 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     else
     {
-        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey][@"landscape"];
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"landscape"];
         GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:name]];
-        
-        if (controller == nil)
-        {
-            controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
-            
-            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            skins[@"landscape"] = GBADefaultSkinIdentifier;
-            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
-        }
-        
         UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationLandscape];
+        
+        if (controllerSkin == nil)
+        {
+            controller = [GBAController defaultControllerForSkinType:skinType];
+            
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
+            skins[@"landscape"] = defaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
+            
+            controllerSkin = [controller imageForOrientation:GBAControllerOrientationLandscape];
+        }
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
         CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationLandscape];

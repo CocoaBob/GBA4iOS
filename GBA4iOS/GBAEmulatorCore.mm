@@ -362,6 +362,12 @@ namespace GameFilePicker {
     [self updateSettings:nil];
 }
 
+- (void)resetEAGLView
+{
+    Base::glView = nil;
+    self.eaglView = nil;
+}
+
 - (void)updateEAGLViewForSize:(CGSize)size screen:(UIScreen *)screen
 {
     using namespace Base;

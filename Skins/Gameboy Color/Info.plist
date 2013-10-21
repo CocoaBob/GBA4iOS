@@ -367,7 +367,7 @@
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
-			<string>gbclandscape4.png</string>
+			<string>landscape.png</string>
 			<key>iPhone Widescreen</key>
 			<string>landscape@R4.png</string>
 			<key>iPad</key>

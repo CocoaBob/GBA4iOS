@@ -124,14 +124,13 @@
         
     for (NSString *file in contents)
     {
-        if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"])
+        if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"] || [[[file pathExtension] lowercaseString] isEqualToString:@"gbcskin"])
         {
             NSString *filepath = [documentsDirectory stringByAppendingPathComponent:file];
             [GBAController extractSkinAtPathToSkinsDirectory:filepath];
             [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
             importedSkin = YES;
         }
-        
     }
     
     if (importedSkin)
@@ -143,23 +142,26 @@
 
 #pragma mark - Helper Methods
 
-- (NSString *)skinsDirectory
+- (NSString *)GBASkinsDirectory
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
     
-    NSString *controllerType = nil;
+    NSString *controllerType = @"GBA";
     
-    switch (self.controllerSkinType) {
-        case GBAControllerSkinTypeGBA:
-            controllerType = @"GBA";
-            break;
-            
-        case GBAControllerSkinTypeGBC:
-            controllerType = @"GBC";
-            break;
-    }
+    NSString *controllerTypeDirectory = [skinsDirectory stringByAppendingPathComponent:controllerType];
+    
+    return controllerTypeDirectory;
+}
+
+- (NSString *)GBCSkinsDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
+    
+    NSString *controllerType = @"GBC";
     
     NSString *controllerTypeDirectory = [skinsDirectory stringByAppendingPathComponent:controllerType];
     
@@ -182,6 +184,34 @@
     return key;
 }
 
+- (NSArray *)controllersFromDirectory:(NSString *)directory prioritizeDefaultSkin:(BOOL)prioritizeDefaultSkin
+{
+    NSMutableArray *array = [NSMutableArray array];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directory error:nil];
+    
+    for (NSString *identifier in contents)
+    {
+        @autoreleasepool
+        {
+            GBAController *controller = [GBAController controllerWithContentsOfFile:[directory stringByAppendingPathComponent:identifier]];
+            
+            if (controller.supportedOrientations & self.controllerOrientation)
+            {
+                if ([identifier isEqualToString:@"com.GBA4iOS.default"] && prioritizeDefaultSkin)
+                {
+                    [array insertObject:controller atIndex:0];
+                }
+                else
+                {
+                    [array addObject:controller];
+                }
+            }
+        }
+    }
+    
+    return array;
+}
+
 #pragma mark - Getters/Setters
 
 - (NSArray *)filteredArray
@@ -189,33 +219,18 @@
     if (_filteredArray == nil)
     {
         NSMutableArray *filteredArray = [NSMutableArray array];
-        NSString *skinsDirectoryPath = [self skinsDirectory];
         
-        NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:skinsDirectoryPath error:nil];
+        BOOL prioritizeDefaultSkin = YES;
         
-        for (NSString *identifier in contents)
+        if (self.controllerSkinType == GBAControllerSkinTypeGBC)
         {
-            @autoreleasepool
-            {
-                GBAController *controller = [GBAController controllerWithContentsOfFile:[skinsDirectoryPath stringByAppendingPathComponent:identifier]];
-                
-                
-                if (controller.supportedOrientations & self.controllerOrientation)
-                {
-                    
-                    
-                    if ([identifier isEqualToString:@"com.GBA4iOS.default"])
-                    {
-                        [filteredArray insertObject:controller atIndex:0];
-                    }
-                    else
-                    {
-                        [filteredArray addObject:controller];
-                    }
-                }
-            }
+            [filteredArray addObjectsFromArray:[self controllersFromDirectory:[self GBCSkinsDirectory] prioritizeDefaultSkin:YES]];
+            prioritizeDefaultSkin = NO;
         }
-        
+                
+        // Both GBC and GBA games can use GBA skins
+        [filteredArray addObjectsFromArray:[self controllersFromDirectory:[self GBASkinsDirectory] prioritizeDefaultSkin:prioritizeDefaultSkin]];
+                
         _filteredArray = [filteredArray copy];
     }
     
@@ -239,7 +254,25 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     GBAController *controller = self.filteredArray[section];
-    return controller.name;
+    
+    NSString *name = controller.name;
+    
+    // Change the name of the default skin of the other type so it's not confusing to the user
+    if ([controller.identifier isEqualToString:GBADefaultSkinIdentifier] && controller.type != self.controllerSkinType)
+    {
+        switch (controller.type)
+        {
+            case GBAControllerSkinTypeGBA:
+                name = @"GBA Default";
+                break;
+                
+            case GBAControllerSkinTypeGBC:
+                name = @"GBC Default";
+                break;
+        }
+    }
+    
+    return name;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -248,7 +281,21 @@
     GBAAsynchronousLocalImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     GBAController *controller = self.filteredArray[indexPath.section];
-    cell.cacheKey = controller.identifier;
+
+    NSString *prefix = nil;
+    
+    switch (controller.type)
+    {
+        case GBAControllerSkinTypeGBA:
+            prefix = @"GBA/";
+            break;
+            
+        case GBAControllerSkinTypeGBC:
+            prefix = @"GBC/";
+            break;
+    }
+    
+    cell.cacheKey = [prefix stringByAppendingString:controller.identifier];
     
     if (_viewDidAppear)
     {
@@ -272,12 +319,25 @@
 {
     GBAController *controller = self.filteredArray[indexPath.section];
     
+    NSString *identifier = nil;
+    
+    switch (controller.type)
+    {
+        case GBAControllerSkinTypeGBA:
+            identifier = [@"GBA/" stringByAppendingString:controller.identifier];
+            break;
+            
+        case GBAControllerSkinTypeGBC:
+            identifier = [@"GBC/" stringByAppendingString:controller.identifier];
+            break;
+    }
+    
     switch (self.controllerSkinType)
     {
         case GBAControllerSkinTypeGBA:
         {
             NSMutableDictionary *skinDictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            [skinDictionary setObject:controller.identifier forKey:[self keyForControllerOrientation:self.controllerOrientation]];
+            [skinDictionary setObject:identifier forKey:[self keyForControllerOrientation:self.controllerOrientation]];
             [[NSUserDefaults standardUserDefaults] setObject:skinDictionary forKey:GBASettingsGBASkinsKey];
             
             break;
@@ -287,7 +347,7 @@
         case GBAControllerSkinTypeGBC:
         {
             NSMutableDictionary *skinDictionary = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBCSkinsKey] mutableCopy];
-            [skinDictionary setObject:controller.identifier forKey:[self keyForControllerOrientation:self.controllerOrientation]];
+            [skinDictionary setObject:identifier forKey:[self keyForControllerOrientation:self.controllerOrientation]];
             [[NSUserDefaults standardUserDefaults] setObject:skinDictionary forKey:GBASettingsGBCSkinsKey];
             
             break;

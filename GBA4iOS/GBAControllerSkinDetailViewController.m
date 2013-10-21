@@ -8,7 +8,6 @@
 
 #import "GBAControllerSkinDetailViewController.h"
 #import "UIScreen+Widescreen.h"
-#import "GBAController.h"
 #import "GBASettingsViewController.h"
 #import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBAControllerSkinSelectionViewController.h"
@@ -90,21 +89,8 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
     
-    NSString *controllerType = nil;
-    
-    switch (self.controllerSkinType) {
-        case GBAControllerSkinTypeGBA:
-            controllerType = @"GBA";
-            break;
-            
-        case GBAControllerSkinTypeGBC:
-            controllerType = @"GBC";
-            break;
-    }
-    
-    NSString *controllerTypeDirectory = [skinsDirectory stringByAppendingPathComponent:controllerType];
-    NSString *filepath = [controllerTypeDirectory stringByAppendingPathComponent:identifier];
-    
+    NSString *filepath = [skinsDirectory stringByAppendingPathComponent:identifier];
+        
     return filepath;
 }
 
@@ -146,16 +132,21 @@
     cell.imageCache = self.imageCache;
     
     NSDictionary *skinDictionary = nil;
+    NSString *defaultSkinIdentifier = nil;
+    NSString *skinsKey = nil;
     
     switch (self.controllerSkinType)
     {
         case GBAControllerSkinTypeGBA:
             skinDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey];
-            
+            defaultSkinIdentifier = [@"GBA/" stringByAppendingString:GBADefaultSkinIdentifier];
+            skinsKey = GBASettingsGBASkinsKey;
             break;
             
         case GBAControllerSkinTypeGBC:
             skinDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBCSkinsKey];
+            defaultSkinIdentifier = [@"GBC/" stringByAppendingString:GBADefaultSkinIdentifier];
+            skinsKey = GBASettingsGBCSkinsKey;
             break;
     }
     
@@ -176,34 +167,41 @@
         cell.cacheKey = @"Portrait";
         
         GBAController *portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:portraitSkin]];
+                
+        UIImage *image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
         
-        if (portraitController == nil)
+        if (image == nil)
         {
-            portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
+            portraitController = [GBAController defaultControllerForSkinType:self.controllerSkinType];
             
-            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            skins[@"portrait"] = GBADefaultSkinIdentifier;
-            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
+            skins[@"portrait"] = defaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
+            
+            image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
         }
         
-        cell.image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
+        cell.image = image;
     }
     else
     {
         cell.cacheKey = @"Landscape";
         
         GBAController *landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:landscapeSkin]];
+        UIImage *image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
         
-        if (landscapeController == nil)
+        if (image == nil)
         {
-            landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:GBADefaultSkinIdentifier]];
+            landscapeController = [GBAController defaultControllerForSkinType:self.controllerSkinType];
             
-            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsGBASkinsKey] mutableCopy];
-            skins[@"landscape"] = GBADefaultSkinIdentifier;
-            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:GBASettingsGBASkinsKey];
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
+            skins[@"landscape"] = defaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
+            
+            image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
         }
         
-        cell.image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
+        cell.image = image;
     }
     
     return cell;
