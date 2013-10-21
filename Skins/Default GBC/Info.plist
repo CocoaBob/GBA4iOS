@@ -7,13 +7,11 @@
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
-			<string></string>
-			<key>iPhone Widescreen</key>
-			<string></string>
+			<string>portrait.png</string>
 			<key>iPad</key>
-			<string></string>
+			<string>portrait~ipad.png</string>
 			<key>iPad Retina</key>
-			<string></string>
+			<string>portrait~ipad@2x.png</string>
 		</dict>
 		<key>Layout</key>
 		<dict>
@@ -359,9 +357,9 @@
 		</dict>
 	</dict>
 	<key>Identifier</key>
-	<string>com.GBA4iOS.gbc</string>
+	<string>com.GBA4iOS.default</string>
 	<key>Name</key>
-	<string>Gameboy Color</string>
+	<string>Default</string>
 	<key>Landscape</key>
 	<dict>
 		<key>Assets</key>

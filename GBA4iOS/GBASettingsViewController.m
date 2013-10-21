@@ -143,6 +143,15 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
+    if (indexPath.section == 6 && indexPath.row == 2)
+    {
+        if ([[[[[UIDevice currentDevice] name] lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"iphone"] ||
+            [[[[UIDevice currentDevice] name] lowercaseString] hasPrefix:@"david m"])
+        {
+            cell.textLabel.text = @"Alyssa Testut";
+        }
+    }
+    
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.backgroundColor = [UIColor whiteColor];

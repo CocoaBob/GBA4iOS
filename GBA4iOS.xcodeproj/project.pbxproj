@@ -159,6 +159,8 @@
 		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
+		CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
+		CC5044E81814C474009F7B9E /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
 		CC57568A180C727C00BF3DA5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC57568B180C727C00BF3DA5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC57568C180C727C00BF3DA5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
@@ -590,6 +592,7 @@
 		CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
 		CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASaveStateViewController.mm; sourceTree = "<group>"; };
+		CC5044E61814C474009F7B9E /* Default.gbcskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbcskin; path = "Skins/Default GBC/Default.gbcskin"; sourceTree = SOURCE_ROOT; };
 		CC575689180C727C00BF3DA5 /* GBC.emu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBC.emu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC57568F180C727C00BF3DA5 /* GBC.emu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBC.emu-Info.plist"; sourceTree = "<group>"; };
 		CC575695180C727C00BF3DA5 /* GBC.emu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBC.emu-Prefix.pch"; sourceTree = "<group>"; };
@@ -1161,6 +1164,7 @@
 			children = (
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
+				CC5044E61814C474009F7B9E /* Default.gbcskin */,
 				CC347BA017A33E0400309436 /* Default-568h@2x.png */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
@@ -1709,6 +1713,7 @@
 				CC58C8EF17E649CA008F472E /* Images.xcassets in Resources */,
 				BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */,
 				CC8325A4180E2DDB00001899 /* Back Button@2x.png in Resources */,
+				CC5044E81814C474009F7B9E /* Default.gbcskin in Resources */,
 				CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */,
 				CC58C8FD17E64A92008F472E /* xButton.png in Resources */,
 				CC58C8F517E649CA008F472E /* overlays128.png in Resources */,
@@ -1736,6 +1741,7 @@
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */,
+				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -100,7 +100,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     //NSFileManager *fileManager = [NSFileManager defaultManager];
     //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
     {
-        [self importDefaultGBASkin];
+        [self importDefaultSkins];
     }
 }
 
@@ -481,7 +481,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     return gbcSkinsDirectory;
 }
 
-- (NSString *)saveStateDirectoryForROM:(GBAROM *)rom
+- (NSString *)saveStateDirectoryFovrROM:(GBAROM *)rom
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -503,12 +503,27 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 #pragma mark - Controller Skins
 
+- (void)importDefaultSkins
+{
+    [self importDefaultGBASkin];
+    [self importDefaultGBCSkin];
+}
+
 - (void)importDefaultGBASkin
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
     
     [[NSFileManager defaultManager] removeItemAtPath:[[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"] error:nil];
         
+    [GBAController extractSkinAtPathToSkinsDirectory:filepath];
+}
+
+- (void)importDefaultGBCSkin
+{
+    NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbcskin"];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[[self GBCSkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"] error:nil];
+    
     [GBAController extractSkinAtPathToSkinsDirectory:filepath];
 }
 
