@@ -199,8 +199,8 @@ static int gbaFsFilter(const char *name, int type)
 	return type == Fs::TYPE_DIR || isGBAExtension(name);
 }
 
-FsDirFilterFunc EmuFilePicker::defaultFsFilter = gbaFsFilter;
-FsDirFilterFunc EmuFilePicker::defaultBenchmarkFsFilter = gbaFsFilter;
+FsDirFilterFunc EmuFilePicker::defaultFsFilter;
+FsDirFilterFunc EmuFilePicker::defaultBenchmarkFsFilter;
 
 #define USE_PIX_RGB565
 #ifdef USE_PIX_RGB565
@@ -267,7 +267,7 @@ int EmuSystem::loadState(int saveStateSlot)
 		return STATE_RESULT_IO_ERROR;
 }
 
-void EmuSystem::saveAutoState()
+void EmuSystem::saveAutoState_GBA()
 {
 	if(gameIsRunning() && optionAutoSaveState)
 	{
@@ -348,8 +348,11 @@ static bool applyGamePatches(const char *patchDir, const char *romName, u8 *rom,
 	return true; // no patch found
 }
 
-int EmuSystem::loadGame(const char *path)
+int EmuSystem::loadGame_GBA(const char *path)
 {
+    EmuFilePicker::defaultFsFilter = gbaFsFilter;
+    EmuFilePicker::defaultBenchmarkFsFilter = gbaFsFilter;
+    
 	closeGame();
 	emuView.initImage(0, 240, 160);
 	setupGamePaths(path);

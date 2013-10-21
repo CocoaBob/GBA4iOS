@@ -58,15 +58,18 @@ class EmuSystem
 	{
 		sprintStateFilename(str, S, slot, statePath, gameName);
 	}
-	static bool loadAutoState();
-	static void saveAutoState();
+	static bool loadAutoState_GBA();
+    static bool loadAutoState_GBC();
+	static void saveAutoState_GBA();
+    static void saveAutoState_GBC();
 	static void saveBackupMem();
 	static void savePathChanged();
 	static void resetGame();
 	static void initOptions();
 	static void writeConfig(Io *io);
 	static bool readConfig(Io *io, uint key, uint readSize);
-	static int loadGame(const char *path);
+	static int loadGame_GBA(const char *path);
+    static int loadGame_GBC(const char *path);
 	typedef DelegateFunc<void (uint result, const Input::Event &e)> LoadGameCompleteDelegate;
 	static LoadGameCompleteDelegate loadGameCompleteDel;
 	static LoadGameCompleteDelegate &onLoadGameComplete() { return loadGameCompleteDel; }

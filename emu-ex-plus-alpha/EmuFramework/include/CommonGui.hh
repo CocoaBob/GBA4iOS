@@ -39,6 +39,7 @@
 #endif
 #include <meta.h>
 
+extern bool isGBAROM;
 bool isMenuDismissKey(const Input::Event &e);
 void startGameFromMenu();
 bool touchControlsApplicable();
@@ -193,7 +194,14 @@ void onExit(bool backgrounded)
 	EmuSystem::pause();
 	if(backgrounded)
 	{
-		EmuSystem::saveAutoState();
+		if (isGBAROM)
+        {
+            EmuSystem::loadAutoState_GBA();
+        }
+        else
+        {
+            EmuSystem::loadAutoState_GBC();
+        }
 		EmuSystem::saveBackupMem();
 		if(optionNotificationIcon)
 		{

@@ -137,8 +137,8 @@ static int gbcFsFilter(const char *name, int type)
 	return type == Fs::TYPE_DIR || isGBCExtension(name);
 }
 
-FsDirFilterFunc EmuFilePicker::defaultFsFilter = gbcFsFilter;
-FsDirFilterFunc EmuFilePicker::defaultBenchmarkFsFilter = gbcFsFilter;
+extern FsDirFilterFunc EmuFilePicker::defaultFsFilter;
+extern FsDirFilterFunc EmuFilePicker::defaultBenchmarkFsFilter;
 
 static const int gbResX = 160, gbResY = 144;
 
@@ -281,7 +281,7 @@ void EmuSystem::savePathChanged()
 	gbEmu.setSaveDir(savePath());
 }
 
-void EmuSystem::saveAutoState()
+void EmuSystem::saveAutoState_GBC()
 {
 	if(gameIsRunning() && optionAutoSaveState)
 	{
@@ -306,8 +306,11 @@ uint EmuSystem::multiresVideoBaseX() { return 0; }
 uint EmuSystem::multiresVideoBaseY() { return 0; }
 bool touchControlsApplicable() { return 1; }
 
-int EmuSystem::loadGame(const char *path)
+int EmuSystem::loadGame_GBC(const char *path)
 {
+    EmuFilePicker::defaultFsFilter = gbcFsFilter;
+    EmuFilePicker::defaultBenchmarkFsFilter = gbcFsFilter;
+    
 	emuView.initImage(0, gbResX, gbResY);
 	closeGame();
 	setupGamePaths(path);

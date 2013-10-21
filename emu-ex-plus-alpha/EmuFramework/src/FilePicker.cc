@@ -23,6 +23,7 @@
 #include <gui/FSPicker/FSPicker.hh>
 #include <gui/AlertView.hh>
 
+extern bool isGBAROM;
 extern ViewStack viewStack;
 void startGameFromMenu();
 bool isMenuDismissKey(const Input::Event &e);
@@ -44,8 +45,16 @@ void EmuFilePicker::init(bool highlightFirst, FsDirFilterFunc filter, bool singl
 
 void loadGameComplete(bool tryAutoState, bool addToRecent)
 {
-	if(tryAutoState)
-		EmuSystem::loadAutoState();
+	if(tryAutoState) {
+        if (isGBAROM)
+        {
+            EmuSystem::loadAutoState_GBA();
+        }
+        else
+        {
+            EmuSystem::loadAutoState_GBC();
+        }
+    }
 	if(addToRecent)
 		recent_addGame();
 	startGameFromMenu();
@@ -101,7 +110,18 @@ void GameFilePicker::onSelectFile(const char* name, const Input::Event &e)
 		{
 			loadGameCompleteFromFilePicker(result, e);
 		};
-	auto res = EmuSystem::loadGame(name);
+    
+    auto res = 0;
+    
+    if (isGBAROM)
+    {
+        res = EmuSystem::loadGame_GBA(name);
+    }
+    else
+    {
+        res = EmuSystem::loadGame_GBC(name);
+    }
+    
 	if(res == 1)
 	{
 		loadGameCompleteFromFilePicker(1, e);
@@ -140,7 +160,16 @@ void EmuFilePicker::initForBenchmark(bool highlightFirst, bool singleDir)
 				{
 					loadGameCompleteFromBenchmarkFilePicker(result, e);
 				};
-			auto res = EmuSystem::loadGame(name);
+			auto res = 0;
+            
+            if (isGBAROM)
+            {
+                res = EmuSystem::loadGame_GBA(name);
+            }
+            else
+            {
+                res = EmuSystem::loadGame_GBC(name);
+            }
 			if(res == 1)
 			{
 				loadGameCompleteFromBenchmarkFilePicker(1, e);

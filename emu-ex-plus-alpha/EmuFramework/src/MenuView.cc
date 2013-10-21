@@ -31,6 +31,8 @@
 	#include <bluetooth/sys.hh>
 	#include <bluetooth/BluetoothInputDevScanner.hh>
 #endif
+
+extern bool isGBAROM;
 extern MsgPopup popup;
 extern ViewStack viewStack;
 extern const char *creditsViewStr;
@@ -478,7 +480,16 @@ void RecentGameInfo::handleMenuSelection(TextMenuItem &, const Input::Event &e)
 		{
 			loadGameCompleteFromRecentItem(result, e);
 		};
-	auto res = EmuSystem::loadGame(path);
+	auto res = 0;
+    
+    if (isGBAROM)
+    {
+        res = EmuSystem::loadGame_GBA(name);
+    }
+    else
+    {
+        res = EmuSystem::loadGame_GBC(name);
+    }
 	if(res == 1)
 	{
 		loadGameCompleteFromRecentItem(1, e);

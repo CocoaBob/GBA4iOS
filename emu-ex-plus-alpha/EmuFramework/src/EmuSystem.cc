@@ -18,6 +18,7 @@
 #include <audio/Audio.hh>
 #include <algorithm>
 
+extern bool isGBAROM;
 EmuSystem::State EmuSystem::state = EmuSystem::State::OFF;
 FsSys::cPath EmuSystem::gamePath = "";
 FsSys::cPath EmuSystem::fullGamePath = "";
@@ -41,7 +42,16 @@ static Base::CallbackDelegate autoSaveStateCallback()
 	return []()
 		{
 			logMsg("auto-save state timer fired");
-			EmuSystem::saveAutoState();
+            
+            if (isGBAROM)
+            {
+                EmuSystem::saveAutoState_GBA();
+            }
+            else
+            {
+                EmuSystem::saveAutoState_GBC();
+            }
+            
 			EmuSystem::autoSaveStateCallbackRef = Base::callbackAfterDelaySec(autoSaveStateCallback(), 60*optionAutoSaveState);
 		};
 }
@@ -91,7 +101,20 @@ bool EmuSystem::stateExists(int slot)
 	return FsSys::fileExists(saveStr);
 }
 
-bool EmuSystem::loadAutoState()
+bool EmuSystem::loadAutoState_GBA() // Riley Testut
+{
+	if(optionAutoSaveState)
+	{
+		if(loadState(-1))
+		{
+			logMsg("loaded autosave-state");
+			return 1;
+		}
+	}
+	return 0;
+}
+
+bool EmuSystem::loadAutoState_GBC() // Riley Testut
 {
 	if(optionAutoSaveState)
 	{
@@ -233,7 +256,17 @@ void EmuSystem::closeGame(bool allowAutosaveState)
 		if(Audio::isOpen())
 			Audio::clearPcm();
 		if(allowAutosaveState)
-			saveAutoState();
+        {
+            if (isGBAROM)
+            {
+                saveAutoState_GBA();
+            }
+            else
+            {
+                saveAutoState_GBC();
+            }
+        }
+			
 		logMsg("closing game %s", gameName);
 		closeSystem();
 		clearGamePaths();
