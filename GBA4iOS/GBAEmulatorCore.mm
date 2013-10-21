@@ -24,6 +24,8 @@
 #import <gba/GBA.h>
 #import <main/Main.hh>
 
+extern bool isGBAROM;
+
 namespace GameFilePicker {
     void onSelectFile(const char* name, const Input::Event &e);
 }
@@ -421,6 +423,20 @@ namespace GameFilePicker {
     optionFrameSkip = frameskip;
     
     optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
+}
+
+- (void)setRom:(GBAROM *)rom
+{
+    _rom = rom;
+    
+    if (rom.type == GBAROMTypeGBA)
+    {
+        isGBAROM = YES;
+    }
+    else
+    {
+        isGBAROM = NO;
+    }
 }
 
 - (void)startEmulation

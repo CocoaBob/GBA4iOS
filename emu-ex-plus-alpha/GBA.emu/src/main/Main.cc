@@ -41,6 +41,9 @@ bool CPUWriteBatteryFile(GBASys &gba, const char *);
 bool CPUReadState(GBASys &gba, const char *);
 bool CPUWriteState(GBASys &gba, const char *);
 
+
+bool isGBAROM = false;
+
 const char *creditsViewStr = "(c) 2012-2013\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com";
 const uint EmuSystem::maxPlayers = 1;
 uint EmuSystem::aspectRatioX = 3, EmuSystem::aspectRatioY = 2;
@@ -286,7 +289,7 @@ void EmuSystem::saveBackupMem()
 		if(Config::envIsIOSJB)
 			fixFilePermissions(saveStr);
 		CPUWriteBatteryFile(gGba, saveStr);
-		writeCheatFile();
+		writeCheatFile_GBA();
 	}
 }
 
@@ -368,7 +371,7 @@ int EmuSystem::loadGame(const char *path)
 	FsSys::cPath saveStr;
 	snprintf(saveStr, sizeof(saveStr), "%s/%s.sav", savePath(), gameName);
 	CPUReadBatteryFile(gGba, saveStr);
-	readCheatFile();
+	readCheatFile_GBA();
 	logMsg("started emu");
 	return 1;
 }

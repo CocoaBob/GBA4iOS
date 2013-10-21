@@ -273,7 +273,7 @@ void EmuSystem::saveBackupMem()
 	logMsg("saving battery");
 	gbEmu.saveSavedata();
 
-	writeCheatFile();
+	writeCheatFile_GBC();
 }
 
 void EmuSystem::savePathChanged()
@@ -318,7 +318,7 @@ int EmuSystem::loadGame(const char *path)
 		return 0;
 	}
 
-	readCheatFile();
+	readCheatFile_GBC();
 	applyCheats();
 
 	logMsg("started emu");

@@ -32,5 +32,5 @@ struct GbcCheat
 extern bool cheatsModified;
 extern StaticDLList<GbcCheat, EmuCheats::MAX> cheatList;
 void applyCheats();
-void readCheatFile();
-void writeCheatFile();
+void readCheatFile_GBC();
+void writeCheatFile_GBC();

@@ -19,6 +19,7 @@
 #include <util/gui/ViewStack.hh>
 #include <main/EmuCheatViews.hh>
 
+extern bool isGBAROM;
 extern MsgPopup popup;
 extern ViewStack viewStack;
 EditCheatListView editCheatListView;
@@ -68,7 +69,15 @@ EditCheatView::EditCheatView(const char *viewName): BaseMenuView(viewName),
 				if(str)
 				{
 					logMsg("setting cheat name %s", str);
-					renamed(str);
+                    
+                    if (isGBAROM)
+                    {
+                        renamed_GBA(str);
+                    }
+                    else
+                    {
+                        renamed_GBC(str);
+                    }
 					name.compile();
 					Base::displayNeedsUpdate();
 				}
@@ -83,7 +92,14 @@ EditCheatView::EditCheatView(const char *viewName): BaseMenuView(viewName),
 		"Delete Cheat",
 		[this](TextMenuItem &item, const Input::Event &e)
 		{
-			removed();
+            if (isGBAROM)
+            {
+                removed_GBA();
+            }
+            else
+            {
+                removed_GBC();
+            }
 			viewStack.popAndShow();
 		}
 	}
@@ -92,9 +108,27 @@ EditCheatView::EditCheatView(const char *viewName): BaseMenuView(viewName),
 void BaseEditCheatListView::init(bool highlightFirst)
 {
 	uint i = 0;
-	loadAddCheatItems(item, i);
+    
+    if (isGBAROM)
+    {
+        loadAddCheatItems_GBA(item, i);
+    }
+    else
+    {
+        loadAddCheatItems_GBC(item, i);
+    }
+    
 	assert(i == EmuCheats::MAX_CODE_TYPES);
-	loadCheatItems(item, i);
+    
+    if (isGBAROM)
+    {
+        loadCheatItems_GBA(item, i);
+    }
+    else
+    {
+        loadCheatItems_GBC(item, i);
+    }
+    
 	assert(i <= sizeofArray(item));
 	BaseMenuView::init(item, i, highlightFirst);
 }

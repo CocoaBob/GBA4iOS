@@ -177,9 +177,6 @@
 		CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
 		CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
 		CC5045221814DC69009F7B9E /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
-		CC5045251814DCF9009F7B9E /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C6180E2F6A00001899 /* ioapi.c */; };
-		CC5045261814DCF9009F7B9E /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325C8180E2F6A00001899 /* mztools.c */; };
-		CC5045271814DCF9009F7B9E /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CA180E2F6A00001899 /* unzip.c */; };
 		CC5045281814DCF9009F7B9E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CC180E2F6A00001899 /* zip.c */; };
 		CC57568A180C727C00BF3DA5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC57568B180C727C00BF3DA5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
@@ -494,6 +491,46 @@
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
 		CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
+		CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
+		CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
+		CCC9B8931815AC7E005C90EE /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
+		CCC9B8941815AC7E005C90EE /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F1180C745200BF3DA5 /* ly_counter.cpp */; };
+		CCC9B8951815AC7E005C90EE /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F2180C745200BF3DA5 /* lyc_irq.cpp */; };
+		CCC9B8961815AC7E005C90EE /* next_m0_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F3180C745200BF3DA5 /* next_m0_time.cpp */; };
+		CCC9B8971815AC7E005C90EE /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F4180C745200BF3DA5 /* ppu.cpp */; };
+		CCC9B8981815AC7E005C90EE /* sprite_mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F5180C745200BF3DA5 /* sprite_mapper.cpp */; };
+		CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575700180C745E00BF3DA5 /* channel1.cpp */; };
+		CCC9B89A1815AC7E005C90EE /* channel2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575701180C745E00BF3DA5 /* channel2.cpp */; };
+		CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575702180C745E00BF3DA5 /* channel3.cpp */; };
+		CCC9B89C1815AC7E005C90EE /* channel4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575703180C745E00BF3DA5 /* channel4.cpp */; };
+		CCC9B89D1815AC7E005C90EE /* duty_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575704180C745E00BF3DA5 /* duty_unit.cpp */; };
+		CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575705180C745E00BF3DA5 /* envelope_unit.cpp */; };
+		CCC9B89F1815AC7E005C90EE /* length_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575706180C745E00BF3DA5 /* length_counter.cpp */; };
+		CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575715180C746600BF3DA5 /* chainresampler.cpp */; };
+		CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575716180C746600BF3DA5 /* i0.cpp */; };
+		CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575717180C746600BF3DA5 /* kaiser50sinc.cpp */; };
+		CCC9B8A31815AC7E005C90EE /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575718180C746600BF3DA5 /* kaiser70sinc.cpp */; };
+		CCC9B8A41815AC7E005C90EE /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575719180C746600BF3DA5 /* makesinckernel.cpp */; };
+		CCC9B8A51815AC7E005C90EE /* resamplerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */; };
+		CCC9B8A61815AC7E005C90EE /* u48div.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571B180C746600BF3DA5 /* u48div.cpp */; };
+		CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572A180C747800BF3DA5 /* file_zip.cpp */; };
+		CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572D180C748100BF3DA5 /* cartridge.cpp */; };
+		CCC9B8A91815AC7E005C90EE /* memptrs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572E180C748100BF3DA5 /* memptrs.cpp */; };
+		CCC9B8AA1815AC7E005C90EE /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572F180C748100BF3DA5 /* pakinfo.cpp */; };
+		CCC9B8AB1815AC7E005C90EE /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575730180C748100BF3DA5 /* rtc.cpp */; };
+		CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575739180C748B00BF3DA5 /* cpu.cpp */; };
+		CCC9B8AD1815AC7E005C90EE /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573A180C748B00BF3DA5 /* gambatte.cpp */; };
+		CCC9B8AE1815AC7E005C90EE /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573B180C748B00BF3DA5 /* initstate.cpp */; };
+		CCC9B8AF1815AC7E005C90EE /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; };
+		CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; };
+		CCC9B8B11815AC7E005C90EE /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; };
+		CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; };
+		CCC9B8B31815AC7E005C90EE /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; };
+		CCC9B8B41815AC7E005C90EE /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; };
+		CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
+		CCC9B8B61815AC7E005C90EE /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
+		CCC9B8B71815AC7E005C90EE /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575A180C74B000BF3DA5 /* ioapi.c */; };
+		CCC9B8B81815AC7E005C90EE /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575B180C74B000BF3DA5 /* unzip.c */; };
 		CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		CCE18DED17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
@@ -1921,22 +1958,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCC9B8A91815AC7E005C90EE /* memptrs.cpp in Sources */,
+				CCC9B8B61815AC7E005C90EE /* video.cpp in Sources */,
 				CC50450C1814DC69009F7B9E /* File_Extractor.cpp in Sources */,
 				CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
 				CCFA717D179D2EAB00768D24 /* Io.cc in Sources */,
+				CCC9B8AA1815AC7E005C90EE /* pakinfo.cpp in Sources */,
 				CC5044F71814DC69009F7B9E /* Mode0.cpp in Sources */,
 				CC8325C3180E2F6300001899 /* SSZipArchive.m in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
 				CC81EAC817EBA2BC006FD348 /* UIImageView+AFNetworking.m in Sources */,
 				CC8325B5180E2DE500001899 /* RSTWebViewController.m in Sources */,
+				CCC9B89A1815AC7E005C90EE /* channel2.cpp in Sources */,
 				CC5045081814DC69009F7B9E /* blargg_common.cpp in Sources */,
 				BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC81EAC617EBA2BC006FD348 /* UIButton+AFNetworking.m in Sources */,
 				CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */,
 				CC50451D1814DC69009F7B9E /* Bra86.c in Sources */,
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
+				CCC9B8AB1815AC7E005C90EE /* rtc.cpp in Sources */,
 				CC5045181814DC69009F7B9E /* 7zDec.c in Sources */,
+				CCC9B8B41815AC7E005C90EE /* statesaver.cpp in Sources */,
 				CC5044F51814DC69009F7B9E /* gbafilter.cpp in Sources */,
+				CCC9B8AF1815AC7E005C90EE /* interrupter.cpp in Sources */,
 				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
 				CC50451A1814DC69009F7B9E /* 7zStream.c in Sources */,
 				CC76CF0217ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
@@ -1948,6 +1992,8 @@
 				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
 				CC81EACA17EBA2BC006FD348 /* UIProgressView+AFNetworking.m in Sources */,
+				CCC9B8941815AC7E005C90EE /* ly_counter.cpp in Sources */,
+				CCC9B8B11815AC7E005C90EE /* loadres.cpp in Sources */,
 				CC5045101814DC69009F7B9E /* Zip_Extractor.cpp in Sources */,
 				CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */,
 				CC5044EB1814DC69009F7B9E /* VbamApi.cc in Sources */,
@@ -1957,6 +2003,7 @@
 				CC5044EC1814DC69009F7B9E /* Cheats.cc in Sources */,
 				CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */,
 				CC6D0A9B18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
+				CCC9B8951815AC7E005C90EE /* lyc_irq.cpp in Sources */,
 				CC5045161814DC69009F7B9E /* 7zCrc.c in Sources */,
 				CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CC5045091814DC69009F7B9E /* blargg_errors.cpp in Sources */,
@@ -1968,6 +2015,8 @@
 				CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */,
 				CC5044FE1814DC69009F7B9E /* Sound.cpp in Sources */,
 				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
+				CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */,
+				CCC9B8A61815AC7E005C90EE /* u48div.cpp in Sources */,
 				CCFA7237179D340400768D24 /* apple.mm in Sources */,
 				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
 				CC50451E1814DC69009F7B9E /* CpuArch.c in Sources */,
@@ -1975,13 +2024,13 @@
 				CC5044FB1814DC69009F7B9E /* Mode4.cpp in Sources */,
 				CC50450A1814DC69009F7B9E /* Data_Reader.cpp in Sources */,
 				CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */,
+				CCC9B8B71815AC7E005C90EE /* ioapi.c in Sources */,
 				CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */,
+				CCC9B8AD1815AC7E005C90EE /* gambatte.cpp in Sources */,
 				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
-				CC5045251814DCF9009F7B9E /* ioapi.c in Sources */,
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
-				CC5045271814DCF9009F7B9E /* unzip.c in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
@@ -1992,16 +2041,18 @@
 				CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
 				CC50451B1814DC69009F7B9E /* Bcj2.c in Sources */,
+				CCC9B89D1815AC7E005C90EE /* duty_unit.cpp in Sources */,
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
 				CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				CC5045071814DC69009F7B9E /* Binary_Extractor.cpp in Sources */,
-				CC5045261814DCF9009F7B9E /* mztools.c in Sources */,
+				CCC9B8B31815AC7E005C90EE /* sound_GBC.cpp in Sources */,
 				CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */,
 				CC81EAC017EBA2BC006FD348 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */,
 				CCFA71AE179D2FE400768D24 /* Screenshot.cc in Sources */,
 				CC2D570C1798F2EC00C616EB /* main.mm in Sources */,
+				CCC9B8AE1815AC7E005C90EE /* initstate.cpp in Sources */,
 				CC5045141814DC69009F7B9E /* 7zAlloc.c in Sources */,
 				CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
 				CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */,
@@ -2010,6 +2061,7 @@
 				CC5044F11814DC69009F7B9E /* Flash.cpp in Sources */,
 				CC81EAA817EBA2B0006FD348 /* AFSecurityPolicy.m in Sources */,
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
+				CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */,
 				CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */,
 				CC81EAA417EBA2B0006FD348 /* AFHTTPSessionManager.m in Sources */,
 				CC5044FD1814DC69009F7B9E /* RTC.cpp in Sources */,
@@ -2018,33 +2070,45 @@
 				CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */,
 				CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */,
 				CC5044EA1814DC69009F7B9E /* EmuControls.cc in Sources */,
+				CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */,
 				CC8325B1180E2DE500001899 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */,
+				CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
+				CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */,
 				CC81EAAA17EBA2B0006FD348 /* AFURLConnectionOperation.m in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
 				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
 				CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
+				CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */,
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
+				CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */,
+				CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */,
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
+				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
 				CC5045021814DC69009F7B9E /* Blip_Buffer.cpp in Sources */,
 				CC5044F01814DC69009F7B9E /* EEprom.cpp in Sources */,
 				CC50451F1814DC69009F7B9E /* Lzma2Dec.c in Sources */,
+				CCC9B8971815AC7E005C90EE /* ppu.cpp in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
 				CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */,
 				CC5044F21814DC69009F7B9E /* GBA-arm.cpp in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
 				CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */,
+				CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */,
 				CC5045121814DC69009F7B9E /* Zlib_Inflater.cpp in Sources */,
 				CC5044F61814DC69009F7B9E /* Globals.cpp in Sources */,
+				CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */,
 				CC50450D1814DC69009F7B9E /* Gzip_Extractor.cpp in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				CC5045001814DC69009F7B9E /* Patch.cpp in Sources */,
+				CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */,
 				CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */,
 				CCFA7189179D2EAB00768D24 /* NavView.cc in Sources */,
 				CC81EAA617EBA2B0006FD348 /* AFNetworkReachabilityManager.m in Sources */,
+				CCC9B8981815AC7E005C90EE /* sprite_mapper.cpp in Sources */,
 				CC50450E1814DC69009F7B9E /* Gzip_Reader.cpp in Sources */,
 				1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */,
 				CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */,
@@ -2054,11 +2118,15 @@
 				CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */,
 				CC50450B1814DC69009F7B9E /* fex.cpp in Sources */,
 				CC8325B7180E2DE500001899 /* RSTWebViewControllerProtocol.m in Sources */,
+				CCC9B89F1815AC7E005C90EE /* length_counter.cpp in Sources */,
 				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CC81EAAC17EBA2B0006FD348 /* AFURLRequestSerialization.m in Sources */,
+				CCC9B8931815AC7E005C90EE /* Main.cc in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
 				CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */,
 				CC5044FC1814DC69009F7B9E /* Mode5.cpp in Sources */,
+				CCC9B8A51815AC7E005C90EE /* resamplerinfo.cpp in Sources */,
+				CCC9B89C1815AC7E005C90EE /* channel4.cpp in Sources */,
 				CC5045011814DC69009F7B9E /* Util.cpp in Sources */,
 				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
@@ -2072,6 +2140,7 @@
 				CC50450F1814DC69009F7B9E /* Rar_Extractor.cpp in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
 				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
+				CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */,
 				CC5044F41814DC69009F7B9E /* GBA.cpp in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
 				CC157AEF179D1BC60068A54E /* pngwio.c in Sources */,
@@ -2086,10 +2155,13 @@
 				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
 				CC5044FA1814DC69009F7B9E /* Mode3.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
+				CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */,
 				CC5045031814DC69009F7B9E /* Gb_Apu_State.cpp in Sources */,
 				CC83258B180E2DB800001899 /* UIActionSheet+RSTAdditions.m in Sources */,
 				CC5045131814DC69009F7B9E /* memgzio.c in Sources */,
+				CCC9B8B81815AC7E005C90EE /* unzip.c in Sources */,
 				CC832599180E2DCB00001899 /* RSTFileBrowserTableViewCell.m in Sources */,
+				CCC9B8961815AC7E005C90EE /* next_m0_time.cpp in Sources */,
 				CC81EAC217EBA2BC006FD348 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,
 				CC5045191814DC69009F7B9E /* 7zIn.c in Sources */,
@@ -2099,8 +2171,10 @@
 				CCFA71BD179D2FE400768D24 /* VController.cc in Sources */,
 				CC6A2D9E17C515E800EFC10E /* GBACheat.m in Sources */,
 				CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */,
+				CCC9B8A31815AC7E005C90EE /* kaiser70sinc.cpp in Sources */,
 				CC5044ED1814DC69009F7B9E /* bios.cpp in Sources */,
 				CC5045281814DCF9009F7B9E /* zip.c in Sources */,
+				CCC9B8A41815AC7E005C90EE /* makesinckernel.cpp in Sources */,
 				CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */,
 				CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */,
 			);
@@ -2986,6 +3060,7 @@
 					"-DGAMBATTE_NO_OSD",
 					"-DSysDDec=float",
 					"-DGBA_EMU_BUILD",
+					"-DGBC_EMU_BUILD",
 				);
 				OTHER_LDFLAGS = (
 					"-Objc",
@@ -3082,6 +3157,7 @@
 					"-DGAMBATTE_NO_OSD",
 					"-DSysDDec=float",
 					"-DGBA_EMU_BUILD",
+					"-DGBC_EMU_BUILD",
 				);
 				OTHER_LDFLAGS = (
 					"-Objc",
@@ -3294,6 +3370,7 @@
 					"-DGAMBATTE_NO_OSD",
 					"-DSysDDec=float",
 					"-DGBA_EMU_BUILD",
+					"-DGBC_EMU_BUILD",
 				);
 				OTHER_LDFLAGS = (
 					"-Objc",
@@ -3653,6 +3730,7 @@
 					"-DGAMBATTE_NO_OSD",
 					"-DSysDDec=float",
 					"-DGBA_EMU_BUILD",
+					"-DGBC_EMU_BUILD",
 				);
 				OTHER_LDFLAGS = (
 					"-Objc",

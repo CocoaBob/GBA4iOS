@@ -9,7 +9,7 @@ extern MsgPopup popup;
 extern ViewStack viewStack;
 extern gambatte::GB gbEmu;
 StaticDLList<GbcCheat, EmuCheats::MAX> cheatList;
-bool cheatsModified = 0;
+extern bool cheatsModified;
 
 static bool strIsGGCode(const char *str)
 {
@@ -47,7 +47,7 @@ void applyCheats()
 	}
 }
 
-void writeCheatFile()
+void writeCheatFile_GBC()
 {
 	if(!cheatsModified)
 		return;
@@ -86,7 +86,7 @@ void writeCheatFile()
 	cheatsModified = 0;
 }
 
-void readCheatFile()
+void readCheatFile_GBC()
 {
 	FsSys::cPath filename;
 	sprintf(filename, "%s/%s.gbcht", EmuSystem::savePath(), EmuSystem::gameName);
@@ -128,13 +128,13 @@ void readCheatFile()
 	file->close();
 }
 
-void SystemEditCheatView::renamed(const char *str)
+void SystemEditCheatView::renamed_GBC(const char *str)
 {
 	string_copy(cheat->name, str);
 	cheatsModified = 1;
 }
 
-void SystemEditCheatView::removed()
+void SystemEditCheatView::removed_GBC()
 {
 	cheatList.remove(*cheat);
 	cheatsModified = 1;
@@ -188,12 +188,12 @@ SystemEditCheatView::SystemEditCheatView(): EditCheatView("Edit Code"),
 	}
 {}
 
-void EditCheatListView::loadAddCheatItems(MenuItem *item[], uint &items)
+void EditCheatListView::loadAddCheatItems_GBC(MenuItem *item[], uint &items)
 {
 	addGGGS.init(); item[items++] = &addGGGS;
 }
 
-void EditCheatListView::loadCheatItems(MenuItem *item[], uint &items)
+void EditCheatListView::loadCheatItems_GBC(MenuItem *item[], uint &items)
 {
 	int cheats = std::min(cheatList.size, (int)sizeofArray(cheat));
 	auto it = cheatList.iterator();

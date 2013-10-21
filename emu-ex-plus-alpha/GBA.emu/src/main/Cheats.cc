@@ -8,7 +8,7 @@ extern MsgPopup popup;
 extern ViewStack viewStack;
 bool cheatsModified = false;
 
-void SystemEditCheatView::renamed(const char *str)
+void SystemEditCheatView::renamed_GBA(const char *str)
 {
 	cheatsModified = true;
 	auto &cheat = cheatsList[idx];
@@ -17,7 +17,7 @@ void SystemEditCheatView::renamed(const char *str)
 	name.compile();
 }
 
-void SystemEditCheatView::removed()
+void SystemEditCheatView::removed_GBA()
 {
 	cheatsModified = true;
 	cheatsDelete(gGba.cpu, idx, true);
@@ -51,13 +51,13 @@ SystemEditCheatView::SystemEditCheatView(): EditCheatView(""),
 	}
 {}
 
-void EditCheatListView::loadAddCheatItems(MenuItem *item[], uint &items)
+void EditCheatListView::loadAddCheatItems_GBA(MenuItem *item[], uint &items)
 {
 	addGS12CBCode.init(); item[items++] = &addGS12CBCode;
 	addGS3Code.init(); item[items++] = &addGS3Code;
 }
 
-void EditCheatListView::loadCheatItems(MenuItem *item[], uint &items)
+void EditCheatListView::loadCheatItems_GBA(MenuItem *item[], uint &items)
 {
 	uint cheats = std::min((uint)cheatsNumber, (uint)sizeofArray(cheat));
 	iterateTimes(cheats, c)
@@ -181,7 +181,7 @@ void CheatsView::loadCheatItems(MenuItem *item[], uint &i)
 	}
 }
 
-void writeCheatFile()
+void writeCheatFile_GBA()
 {
 	if(!cheatsModified)
 		return;
@@ -200,7 +200,7 @@ void writeCheatFile()
 	cheatsModified = false;
 }
 
-void readCheatFile()
+void readCheatFile_GBA()
 {
 	FsSys::cPath filename;
 	sprintf(filename, "%s/%s.clt", EmuSystem::savePath(), EmuSystem::gameName);

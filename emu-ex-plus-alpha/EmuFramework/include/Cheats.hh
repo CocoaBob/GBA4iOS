@@ -39,8 +39,10 @@ public:
 	EditCheatView(const char *name);
 	void loadNameItem(const char *name, MenuItem *item[], uint &items);
 	void loadRemoveItem(MenuItem *item[], uint &items);
-	virtual void renamed(const char *str) = 0;
-	virtual void removed() = 0;
+	virtual void renamed_GBA(const char *str) = 0;
+    virtual void renamed_GBC(const char *str) = 0;
+	virtual void removed_GBA() = 0;
+    virtual void removed_GBC() = 0;
 };
 
 class BaseEditCheatListView : public BaseMenuView
@@ -51,8 +53,10 @@ protected:
 public:
 	constexpr BaseEditCheatListView(): BaseMenuView("Edit Cheats") {}
 	void init(bool highlightFirst);
-	virtual void loadAddCheatItems(MenuItem *item[], uint &items) = 0;
-	virtual void loadCheatItems(MenuItem *item[], uint &items) = 0;
+	virtual void loadAddCheatItems_GBA(MenuItem *item[], uint &items) = 0;
+    virtual void loadAddCheatItems_GBC(MenuItem *item[], uint &items) = 0;
+	virtual void loadCheatItems_GBA(MenuItem *item[], uint &items) = 0;
+    virtual void loadCheatItems_GBC(MenuItem *item[], uint &items) = 0;
 };
 
 void refreshCheatViews();

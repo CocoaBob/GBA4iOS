@@ -17,8 +17,10 @@ private:
 #endif
 	MenuItem *item[5] {nullptr};
 
-	void renamed(const char *str) override;
-	void removed() override;
+	void renamed_GBA(const char *str) override;
+    void renamed_GBC(const char *str) override;
+	void removed_GBA() override;
+    void removed_GBC() override;
     
 public:
 	SystemEditCheatView();
@@ -35,9 +37,11 @@ private:
 	TextMenuItem cheat[EmuCheats::MAX];
     TextMenuItem addGGGS;
 
-	void loadAddCheatItems(MenuItem *item[], uint &items) override;
-	void loadCheatItems(MenuItem *item[], uint &items) override;
-	void addNewCheat(int isGSv3);
+	void loadAddCheatItems_GBA(MenuItem *item[], uint &items) override;
+    void loadAddCheatItems_GBC(MenuItem *item[], uint &items) override;
+	void loadCheatItems_GBA(MenuItem *item[], uint &items) override;
+    void loadCheatItems_GBC(MenuItem *item[], uint &items) override;
+    void addNewCheat(int isGSv3);
 
 public:
 	EditCheatListView();

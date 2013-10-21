@@ -4,7 +4,7 @@
 class SystemOptionView : public OptionView
 {
     
-#ifdef GBA_EMU_BUILD
+#ifdef GBA_EMU_BUILD11
     
 	MultiChoiceSelectMenuItem rtc
 	{
@@ -39,7 +39,7 @@ class SystemOptionView : public OptionView
     
 #endif
     
-#ifdef GBC_EMU_BUILD
+#ifdef GBC_EMU_BUILD11
     
 	MultiChoiceSelectMenuItem gbPalette
 	{
@@ -119,7 +119,7 @@ public:
 public:
 	SystemOptionView() { }
 
-#ifdef GBA_EMU_BUILD
+#ifdef GBA_EMU_BUILD11
 	void loadSystemItems_GBA(MenuItem *item[], uint &items)
 	{
 		OptionView::loadSystemItems(item, items);
@@ -128,7 +128,7 @@ public:
     
 #endif
     
-#ifdef GBC_EMU_BUILD
+#ifdef GBC_EMU_BUILD11
     
     void loadAudioItems_GBC(MenuItem *item[], uint &items)
 	{

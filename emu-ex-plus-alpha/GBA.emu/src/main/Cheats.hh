@@ -1,4 +1,4 @@
 #pragma once
 
-void readCheatFile();
-void writeCheatFile();
+void readCheatFile_GBA();
+void writeCheatFile_GBA();
