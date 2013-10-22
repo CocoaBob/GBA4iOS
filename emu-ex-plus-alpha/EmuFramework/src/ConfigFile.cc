@@ -677,8 +677,15 @@ static void writeConfig2(Io *io)
 	}
 
 	optionSavePath.writeToIO(io);
-
-	EmuSystem::writeConfig(io);
+    
+    if (isGBAROM)
+    {
+        EmuSystem::writeConfig_GBA(io);
+    }
+    else
+    {
+        EmuSystem::writeConfig_GBC(io);
+    }
 
 	delete io;
 }

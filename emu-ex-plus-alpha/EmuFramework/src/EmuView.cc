@@ -257,7 +257,7 @@ void EmuView::draw(Gfx::FrameTimeBase frameTime)
 		setColor(1., 1., 1., 1.); // hack to work-around non-working GFX_IMG_MODE_REPLACE
 		#endif
 		Base::displayNeedsUpdate();
-
+        
 		runFrame(frameTime);
 	}
 	else if(EmuSystem::isStarted())
@@ -279,7 +279,15 @@ void EmuView::runFrame(Gfx::FrameTimeBase frameTime)
 	{
 		iterateTimes(4, i)
 		{
-			EmuSystem::runFrame(0, 0, 0);
+            if (isGBAROM)
+            {
+                EmuSystem::runFrame_GBA(0, 0, 0);
+            }
+            else
+            {
+                EmuSystem::runFrame_GBC(0, 0, 0);
+            }
+			
 		}
 	}
 	else
@@ -289,7 +297,15 @@ void EmuView::runFrame(Gfx::FrameTimeBase frameTime)
 		{
 			iterateTimes(framesToSkip, i)
 			{
-				EmuSystem::runFrame(0, 0, renderAudio);
+                if (isGBAROM)
+                {
+                    EmuSystem::runFrame_GBA(0, 0, renderAudio);
+                }
+                else
+                {
+                    EmuSystem::runFrame_GBC(0, 0, renderAudio);
+                }
+				
 			}
 		}
 		else if(framesToSkip == -1)
@@ -299,7 +315,15 @@ void EmuView::runFrame(Gfx::FrameTimeBase frameTime)
 		}
 	}
 
-	EmuSystem::runFrame(1, 1, renderAudio);
+    if (isGBAROM)
+    {
+        EmuSystem::runFrame_GBA(1, 1, renderAudio);
+    }
+    else
+    {
+        EmuSystem::runFrame_GBC(1, 1, renderAudio);
+    }
+	
 }
 
 void EmuView::place()
@@ -455,7 +479,15 @@ void EmuView::inputEvent(const Input::Event &e)
 					bcase guiKeyIdxSaveState:
 					if(e.state == Input::PUSHED)
 					{
-						int ret = EmuSystem::saveState();
+						int ret = 0;
+                        if (isGBAROM)
+                        {
+                            ret = EmuSystem::saveState_GBA();
+                        }
+                        else
+                        {
+                            ret = EmuSystem::saveState_GBC();
+                        }
 						if(ret != STATE_RESULT_OK)
 						{
 							popup.postError(stateResultToStr(ret));
@@ -468,7 +500,15 @@ void EmuView::inputEvent(const Input::Event &e)
 					bcase guiKeyIdxLoadState:
 					if(e.state == Input::PUSHED)
 					{
-						int ret = EmuSystem::loadState();
+						int ret = 0;
+                        if (isGBAROM)
+                        {
+                            ret = EmuSystem::loadState_GBA();
+                        }
+                        else
+                        {
+                            ret = EmuSystem::loadState_GBC();
+                        }
 						if(ret != STATE_RESULT_OK && ret != STATE_RESULT_OTHER_ERROR)
 						{
 							popup.postError(stateResultToStr(ret));

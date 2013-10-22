@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Common_Gui_h
+#define Common_Gui_h
 
 /*  This file is part of EmuFramework.
 
@@ -45,35 +46,22 @@ void startGameFromMenu();
 bool touchControlsApplicable();
 void loadGameCompleteFromFilePicker(uint result, const Input::Event &e);
 extern ViewStack viewStack;
-StackAllocator menuAllocator;
-uint8 modalViewStorage[2][4096] __attribute__((aligned)) { {0} };
-uint modalViewStorageIdx = 0;
-WorkDirStack<1> workDirStack;
+extern StackAllocator menuAllocator;
+extern uint8 modalViewStorage[2][4096] __attribute__((aligned));
+extern uint modalViewStorageIdx;
+extern WorkDirStack<1> workDirStack;
 static bool updateInputDevicesOnResume = 0;
 #ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
 extern SysVController vController;
 #endif
-InputManagerView *imMenu = nullptr;
-EmuNavView viewNav;
+extern InputManagerView *imMenu;
+extern EmuNavView viewNav;
 static bool menuViewIsActive = 1;
-MsgPopup popup;
-EmuView emuView;
+extern MsgPopup popup;
+extern EmuView emuView;
 #ifdef CONFIG_BLUETOOTH
 BluetoothAdapter *bta = nullptr;
 #endif
-
-void EmuNavView::onLeftNavBtn(const Input::Event &e)
-{
-	viewStack.popAndShow();
-};
-
-void EmuNavView::onRightNavBtn(const Input::Event &e)
-{
-	if(EmuSystem::gameIsRunning())
-	{
-		startGameFromMenu();
-	}
-};
 
 namespace Gfx
 {
@@ -87,11 +75,7 @@ void onViewChange(Gfx::GfxViewState * = 0);
 
 //static int soundRateDelta = 0;
 
-void setupStatusBarInMenu()
-{
-	if(!optionHideStatusBar.isConst)
-		Base::setStatusBarHidden(optionHideStatusBar > 1);
-}
+void setupStatusBarInMenu();
 
 static void setupStatusBarInGame()
 {
@@ -103,148 +87,14 @@ static bool trackFPS = 0;
 static TimeSys prevFrameTime;
 static uint frameCount = 0;
 
-void applyOSNavStyle()
-{
-	if(Base::hasHardwareNavButtons())
-		return;
-	uint flags = 0;
-	if(optionLowProfileOSNav) flags|= Base::OS_NAV_STYLE_DIM;
-	if(optionHideOSNav) flags|= Base::OS_NAV_STYLE_HIDDEN;
-	Base::setOSNavigationStyle(flags);
-}
+void applyOSNavStyle();
 
-void startGameFromMenu()
-{
-	applyOSNavStyle();
-	Base::setIdleDisplayPowerSave(0);
-	setupStatusBarInGame();
-	if(!optionFrameSkip.isConst && (uint)optionFrameSkip != EmuSystem::optionFrameSkipAuto)
-		Gfx::setVideoInterval((int)optionFrameSkip + 1);
-	logMsg("running game");
-	menuViewIsActive = 0;
-	viewNav.setRightBtnActive(1);
-	//logMsg("touch control state: %d", touchControlsAreOn);
-	#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
-	vController.resetInput();
-	#endif
-	// TODO: simplify this
-	if(!Gfx::setValidOrientations(optionGameOrientation, 1))
-		Gfx::onViewChange();
-	#ifndef CONFIG_GFX_SOFT_ORIENTATION
-	Gfx::onViewChange();
-	#endif
-	commonInitInput();
-	emuView.ffGuiKeyPush = emuView.ffGuiTouch = 0;
+void startGameFromMenu();
 
-	popup.clear();
-	Input::setKeyRepeat(0);
-	EmuControls::setupVolKeysInGame();
-	/*if(optionFrameSkip == -1)
-	{
-		gfx_updateFrameTime();
-	}*/
-	/*if(optionFrameSkip != 0 && soundRateDelta != 0)
-	{
-		logMsg("reset sound rate delta");
-		soundRateDelta = 0;
-		audio_setPcmRate(audio_pPCM.rate);
-	}*/
-	Base::setRefreshRate(EmuSystem::vidSysIsPAL() ? 50 : 60);
-	EmuSystem::start();
-	Base::displayNeedsUpdate();
-
-	if(trackFPS)
-	{
-		frameCount = 0;
-		prevFrameTime.setTimeNow();
-	}
-}
-
-void restoreMenuFromGame()
-{
-	menuViewIsActive = 1;
-	Base::setIdleDisplayPowerSave(
-	#ifdef CONFIG_BLUETOOTH
-		Bluetooth::devsConnected() ? 0 :
-	#endif
-		(int)optionIdleDisplayPowerSave);
-	//Base::setLowProfileNavigation(0);
-	setupStatusBarInMenu();
-	EmuSystem::pause();
-	if(!optionFrameSkip.isConst)
-		Gfx::setVideoInterval(1);
-	//logMsg("setting valid orientations");
-	if(!Gfx::setValidOrientations(optionMenuOrientation, 1))
-		Gfx::onViewChange();
-	Input::setKeyRepeat(1);
-	Input::setHandleVolumeKeys(0);
-	if(!optionRememberLastMenu)
-		viewStack.popToRoot();
-	Base::setRefreshRate(Base::REFRESH_RATE_DEFAULT);
-	Base::displayNeedsUpdate();
-	viewStack.show();
-}
+void restoreMenuFromGame();
 
 namespace Base
 {
-
-void onExit(bool backgrounded)
-{
-	Audio::closePcm();
-	EmuSystem::pause();
-	if(backgrounded)
-	{
-		if (isGBAROM)
-        {
-            EmuSystem::loadAutoState_GBA();
-        }
-        else
-        {
-            EmuSystem::loadAutoState_GBC();
-        }
-		EmuSystem::saveBackupMem();
-		if(optionNotificationIcon)
-		{
-			auto title = CONFIG_APP_NAME " was suspended";
-			Base::addNotification(title, title, EmuSystem::gameName);
-		}
-	}
-	else
-	{
-		EmuSystem::closeGame();
-	}
-
-	saveConfigFile();
-
-	#ifdef CONFIG_BLUETOOTH
-		if(bta && (!backgrounded || (backgrounded && !optionKeepBluetoothActive)))
-			Bluetooth::closeBT(bta);
-	#endif
-
-	#ifdef CONFIG_BASE_IOS
-	if(backgrounded)
-		FsSys::remove("/private/var/mobile/Library/Caches/" CONFIG_APP_ID "/com.apple.opengl/shaders.maps");
-	#endif
-}
-
-void onFocusChange(uint in)
-{
-	if(optionPauseUnfocused && !menuViewIsActive)
-	{
-		if(in)
-		{
-			#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
-			vController.resetInput();
-			#endif
-			EmuSystem::start();
-		}
-		else
-		{
-			EmuSystem::pause();
-		}
-		Base::displayNeedsUpdate();
-	}
-}
 
 static void handleOpenFileCommand(const char *filename)
 {
@@ -286,62 +136,6 @@ void onInterProcessMessage(const char *filename)
 	handleOpenFileCommand(filename);
 }
 
-void onResume(bool focused)
-{
-	if(updateInputDevicesOnResume)
-	{
-		updateInputDevices();
-		EmuControls::updateAutoOnScreenControlVisible();
-		updateInputDevicesOnResume = 0;
-	}
-
-	if(optionPauseUnfocused)
-		onFocusChange(focused); // let focus handler deal with resuming emulation
-	else
-	{
-		if(!menuViewIsActive) // resume emulation
-		{
-			#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
-			vController.resetInput();
-			#endif
-			EmuSystem::start();
-			Base::displayNeedsUpdate();
-		}
-	}
-}
-
-}
-
-namespace Gfx
-{
-void onDraw(Gfx::FrameTimeBase frameTime)
-{
-	emuView.draw(frameTime);
-	if(likely(EmuSystem::isActive()))
-	{
-		if(trackFPS)
-		{
-			if(frameCount == 119)
-			{
-				TimeSys now;
-				now.setTimeNow();
-				float total = now - prevFrameTime;
-				prevFrameTime = now;
-				logMsg("%f fps", double(120./total));
-				frameCount = 0;
-			}
-			else
-				frameCount++;
-		}
-		return;
-	}
-
-	if(View::modalView)
-		View::modalView->draw(frameTime);
-	else if(menuViewIsActive)
-		viewStack.draw(frameTime);
-	popup.draw();
-}
 }
 
 namespace Input
@@ -439,57 +233,7 @@ static void handleInputEvent(const Input::Event &e)
 	}
 }
 
-void setupFont()
-{
-	float size = optionFontSize / 1000.;
-	logMsg("setting up font size %fmm", (double)size);
-	View::defaultFace->applySettings(FontSettings(Gfx::ySMMSizeToPixel(size)));
-}
-
-namespace Gfx
-{
-void onViewChange(GfxViewState *)
-{
-	logMsg("view change");
-	GuiTable1D::setDefaultXIndent();
-	popup.place();
-	emuView.place();
-	viewStack.place(Gfx::viewportRect());
-	if(View::modalView)
-		View::modalView->placeRect(Gfx::viewportRect());
-	logMsg("done view change");
-}
-}
-
-Gfx::BufferImage *getArrowAsset()
-{
-	static Gfx::BufferImage res;
-	if(!res)
-	{
-		PngFile png;
-		if(png.loadAsset("padButton.png") != OK)
-		{
-			bug_exit("couldn't load padButton.png");
-		}
-		res.init(png);
-	}
-	return &res;
-}
-
-Gfx::BufferImage *getXAsset()
-{
-	static Gfx::BufferImage res;
-	if(!res)
-	{
-		PngFile png;
-		if(png.loadAsset("xButton.png") != OK)
-		{
-			bug_exit("couldn't load xButton.png");
-		}
-		res.init(png);
-	}
-	return &res;
-}
+void setupFont();
 
 static void mainInitCommon()
 {
@@ -579,7 +323,16 @@ static void mainInitWindowCommon(const Gfx::LGradientStopDesc (&navViewGrad)[NAV
 	#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
 	vController.updateMapping(0);
 	#endif
-	EmuSystem::configAudioRate();
+    
+    if (isGBAROM)
+    {
+        EmuSystem::configAudioRate_GBA();
+    }
+    else
+    {
+        EmuSystem::configAudioRate_GBC();
+    }
+	
 	Base::setIdleDisplayPowerSave(optionIdleDisplayPowerSave);
 	applyOSNavStyle();
 	setupStatusBarInMenu();
@@ -646,22 +399,4 @@ static void mainInitWindowCommon(const Gfx::LGradientStopDesc (&navViewGrad)[NAV
 
 	Base::displayNeedsUpdate();
 }
-
-void OptionCategoryView::init(bool highlightFirst)
-{
-	//logMsg("running option category init");
-	uint i = 0;
-	forEachInArray(subConfig, e)
-	{
-		e->init(); item[i++] = e;
-		e->onSelect() =
-		[e_i](TextMenuItem &, const Input::Event &e)
-		{
-			auto &oCategoryMenu = *menuAllocator.allocNew<SystemOptionView>();
-			oCategoryMenu.init(e_i, !e.isPointer());
-			viewStack.pushAndShow(&oCategoryMenu, &menuAllocator);
-		};
-	}
-	assert(i <= sizeofArray(item));
-	BaseMenuView::init(item, i, highlightFirst);
-}
+#endif

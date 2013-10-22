@@ -18,6 +18,7 @@
 #include <FilePicker.hh>
 #include <algorithm>
 
+extern bool isGBAROM;
 extern MsgPopup popup;
 extern EmuNavView viewNav;
 
@@ -1016,7 +1017,17 @@ OptionView::OptionView():
 				{
 					printPathMenuEntryStr(savePathStr);
 					savePath.compile();
-					EmuSystem::savePathChanged();
+                    
+                    if (isGBAROM)
+                    {
+                        EmuSystem::savePathChanged_GBA();
+                    }
+                    else
+                    {
+                        EmuSystem::savePathChanged_GBC();
+                    }
+                    
+					
 				};
 			Base::displayNeedsUpdate();
 		}

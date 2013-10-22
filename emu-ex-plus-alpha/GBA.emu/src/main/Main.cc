@@ -182,7 +182,7 @@ bool EmuSystem::readConfig(Io *io, uint key, uint readSize)
 	return 1;
 }
 
-void EmuSystem::writeConfig(Io *io)
+void EmuSystem::writeConfig_GBA(Io *io)
 {
 	optionRtcEmulation.writeWithKeyIfNotDefault(io);
 }
@@ -224,7 +224,7 @@ void EmuSystem::initOptions()
 	#endif
 }
 
-void EmuSystem::resetGame()
+void EmuSystem::resetGame_GBA()
 {
 	assert(gameIsRunning());
 	CPUReset(gGba);
@@ -245,7 +245,7 @@ void EmuSystem::sprintStateFilename(char *str, size_t size, int slot, const char
 	snprintf(str, size, "%s/%s%c.sgm", statePath, gameName, saveSlotChar(slot));
 }
 
-int EmuSystem::saveState()
+int EmuSystem::saveState_GBA()
 {
 	FsSys::cPath saveStr;
 	sprintStateFilename(saveStr, saveStateSlot);
@@ -257,7 +257,7 @@ int EmuSystem::saveState()
 		return STATE_RESULT_IO_ERROR;
 }
 
-int EmuSystem::loadState(int saveStateSlot)
+int EmuSystem::loadState_GBA(int saveStateSlot)
 {
 	FsSys::cPath saveStr;
 	sprintStateFilename(saveStr, saveStateSlot);
@@ -299,7 +299,7 @@ uint EmuSystem::multiresVideoBaseY() { return 0; }
 bool touchControlsApplicable() { return 1; }
 void EmuSystem::clearInputBuffers() { P1 = 0x03FF; }
 
-void EmuSystem::closeSystem()
+void EmuSystem::closeSystem_GBA()
 {
 	assert(gameIsRunning());
 	logMsg("closing game %s", gameName);
@@ -352,6 +352,7 @@ int EmuSystem::loadGame_GBA(const char *path)
 {
     EmuFilePicker::defaultFsFilter = gbaFsFilter;
     EmuFilePicker::defaultBenchmarkFsFilter = gbaFsFilter;
+    EmuSystem::aspectRatioX = 3, EmuSystem::aspectRatioY = 2;
     
 	closeGame();
 	emuView.initImage(0, 240, 160);
@@ -415,7 +416,7 @@ void systemOnWriteDataToSoundBuffer(const u16 * finalWave, int length)
 }
 #endif
 
-void EmuSystem::runFrame(bool renderGfx, bool processGfx, bool renderAudio)
+void EmuSystem::runFrame_GBA(bool renderGfx, bool processGfx, bool renderAudio)
 {
 	CPULoop(gGba, renderGfx, processGfx, renderAudio);
 }
@@ -430,21 +431,21 @@ void onInputEvent(const Input::Event &e)
 
 }
 
-void EmuSystem::configAudioRate()
+void EmuSystem::configAudioRate_GBA()
 {
 	logMsg("set audio rate %d", (int)optionSoundRate);
 	pcmFormat.rate = optionSoundRate;
 	soundSetSampleRate(gGba, optionSoundRate *.9954);
 }
 
-void EmuSystem::savePathChanged() { }
+void EmuSystem::savePathChanged_GBA() { }
 
 namespace Base
 {
 
-void onAppMessage(int type, int shortArg, int intArg, int intArg2) { }
+void onAppMessage_GBA(int type, int shortArg, int intArg, int intArg2) { }
 
-CallResult onInit(int argc, char** argv)
+CallResult onInit_GBA(int argc, char** argv)
 {
 	mainInitCommon();
 	emuView.initPixmap((uchar*)gGba.lcd.pix, pixFmt, 240, 160);
@@ -452,7 +453,7 @@ CallResult onInit(int argc, char** argv)
 	return OK;
 }
 
-CallResult onWindowInit()
+CallResult onWindowInit_GBA()
 {
 	static const Gfx::LGradientStopDesc navViewGrad[] =
 	{

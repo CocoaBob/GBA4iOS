@@ -28,6 +28,8 @@
 #include <sys/resource.h>
 #endif
 
+extern bool isGBAROM;
+
 namespace Base
 {
 
@@ -93,7 +95,16 @@ static void engineInit()
 		doOrExit(Audio::init());
 	#endif
 
-	doOrExit(onWindowInit());
+    if (isGBAROM)
+    {
+        doOrExit(onWindowInit_GBA());
+    }
+    else
+    {
+        doOrExit(onWindowInit_GBC());
+    }
+    
+	
 }
 
 static uint runEngine(Gfx::FrameTimeBase frameTime)
@@ -156,7 +167,17 @@ static void processAppMsg(int type, int shortArg, int intArg, int intArg2)
 			if(type >= MSG_USER)
 			{
 				logMsg("got app message %d", type);
-				Base::onAppMessage(type, shortArg, intArg, intArg2);
+                
+                if (isGBAROM)
+                {
+                    Base::onAppMessage_GBA(type, shortArg, intArg, intArg2);
+                }
+                else
+                {
+                    Base::onAppMessage_GBC(type, shortArg, intArg, intArg2);
+                }
+                
+				
 			}
 		}
 	}

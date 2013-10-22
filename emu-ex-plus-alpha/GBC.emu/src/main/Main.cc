@@ -14,7 +14,7 @@
 #include <resample/resamplerinfo.h>
 #include <main/Cheats_GBC.hh>
 
-const char *creditsViewStr = "(c) 2011-2013\nRobert Broglia\nwww.explusalpha.com\n\n(c) 2011\nthe Gambatte Team\ngambatte.sourceforge.net";
+extern const char *creditsViewStr;
 gambatte::GB gbEmu;
 static float audioFramesPerUpdateScaler;
 static Resampler *resampler = nullptr;
@@ -91,8 +91,6 @@ extern bool useFullColorSaturation;
 
 static Option<OptionMethodRef<bool, gambatte::useFullColorSaturation>, uint8> optionFullGbcSaturation(CFGKEY_FULL_GBC_SATURATION, 0);
 
-const uint EmuSystem::maxPlayers = 1;
-uint EmuSystem::aspectRatioX = 10, EmuSystem::aspectRatioY = 9;
 #include "CommonGui.hh"
 
 bool EmuSystem::readConfig(Io *io, uint key, uint readSize)
@@ -108,7 +106,7 @@ bool EmuSystem::readConfig(Io *io, uint key, uint readSize)
 	return 1;
 }
 
-void EmuSystem::writeConfig(Io *io)
+void EmuSystem::writeConfig_GBC(Io *io)
 {
 	optionGBPal.writeWithKeyIfNotDefault(io);
 	optionReportAsGba.writeWithKeyIfNotDefault(io);
@@ -136,9 +134,6 @@ static int gbcFsFilter(const char *name, int type)
 {
 	return type == Fs::TYPE_DIR || isGBCExtension(name);
 }
-
-extern FsDirFilterFunc EmuFilePicker::defaultFsFilter;
-extern FsDirFilterFunc EmuFilePicker::defaultBenchmarkFsFilter;
 
 static const int gbResX = 160, gbResY = 144;
 
@@ -219,7 +214,7 @@ void EmuSystem::handleInputAction(uint state, uint emuKey)
 		unsetBits(gbcInput.bits, emuKey);
 }
 
-void EmuSystem::resetGame()
+void EmuSystem::resetGame_GBC()
 {
 	assert(gameIsRunning());
 	gbEmu.reset();
@@ -240,7 +235,7 @@ void EmuSystem::sprintStateFilename(char *str, size_t size, int slot, const char
 	snprintf(str, size, "%s/%s.0%c.gqs", statePath, gameName, saveSlotChar(slot));
 }
 
-int EmuSystem::saveState()
+int EmuSystem::saveState_GBC()
 {
 	FsSys::cPath saveStr;
 	sprintStateFilename(saveStr, saveStateSlot);
@@ -253,7 +248,7 @@ int EmuSystem::saveState()
 		return STATE_RESULT_OK;
 }
 
-int EmuSystem::loadState(int saveStateSlot)
+int EmuSystem::loadState_GBC(int saveStateSlot)
 {
 	FsSys::cPath saveStr;
 	sprintStateFilename(saveStr, saveStateSlot);
@@ -276,7 +271,7 @@ void EmuSystem::saveBackupMem()
 	writeCheatFile_GBC();
 }
 
-void EmuSystem::savePathChanged()
+void EmuSystem::savePathChanged_GBC()
 {
 	gbEmu.setSaveDir(savePath());
 }
@@ -294,22 +289,20 @@ void EmuSystem::saveAutoState_GBC()
 	}
 }
 
-void EmuSystem::closeSystem()
+void EmuSystem::closeSystem_GBC()
 {
 	saveBackupMem();
 	cheatList.removeAll();
 	cheatsModified = 0;
 }
 
-bool EmuSystem::vidSysIsPAL() { return 0; }
-uint EmuSystem::multiresVideoBaseX() { return 0; }
-uint EmuSystem::multiresVideoBaseY() { return 0; }
-bool touchControlsApplicable() { return 1; }
+extern bool touchControlsApplicable();
 
 int EmuSystem::loadGame_GBC(const char *path)
 {
     EmuFilePicker::defaultFsFilter = gbcFsFilter;
     EmuFilePicker::defaultBenchmarkFsFilter = gbcFsFilter;
+    EmuSystem::aspectRatioX = 10, EmuSystem::aspectRatioY = 9;
     
 	emuView.initImage(0, gbResX, gbResY);
 	closeGame();
@@ -333,7 +326,7 @@ void EmuSystem::clearInputBuffers()
 	gbcInput.bits = 0;
 }
 
-void EmuSystem::configAudioRate()
+void EmuSystem::configAudioRate_GBC()
 {
 	pcmFormat.rate = optionSoundRate;
 	#ifdef CONFIG_BASE_IOS
@@ -384,7 +377,7 @@ static void commitVideoFrame()
 	emuView.updateAndDrawContent();
 }
 
-void EmuSystem::runFrame(bool renderGfx, bool processGfx, bool renderAudio)
+void EmuSystem::runFrame_GBC(bool renderGfx, bool processGfx, bool renderAudio)
 {
 	uint8 snd[(35112+2064)*4] ATTRS(aligned(4));
 	unsigned samples;
@@ -426,9 +419,9 @@ void onInputEvent(const Input::Event &e)
 namespace Base
 {
 
-void onAppMessage(int type, int shortArg, int intArg, int intArg2) { }
+void onAppMessage_GBC(int type, int shortArg, int intArg, int intArg2) { }
 
-CallResult onInit(int argc, char** argv)
+CallResult onInit_GBC(int argc, char** argv)
 {
 	mainInitCommon();
 	emuView.initPixmap((uchar*)screenBuff, pixFmt, gbResX, gbResY);
@@ -438,7 +431,7 @@ CallResult onInit(int argc, char** argv)
 	return OK;
 }
 
-CallResult onWindowInit()
+CallResult onWindowInit_GBC()
 {
 	static const Gfx::LGradientStopDesc navViewGrad[] =
 	{

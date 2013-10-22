@@ -105,7 +105,7 @@ bool EmuSystem::loadAutoState_GBA() // Riley Testut
 {
 	if(optionAutoSaveState)
 	{
-		if(loadState(-1))
+		if(loadState_GBA(-1))
 		{
 			logMsg("loaded autosave-state");
 			return 1;
@@ -118,7 +118,7 @@ bool EmuSystem::loadAutoState_GBC() // Riley Testut
 {
 	if(optionAutoSaveState)
 	{
-		if(loadState(-1))
+		if(loadState_GBC(-1))
 		{
 			logMsg("loaded autosave-state");
 			return 1;
@@ -268,7 +268,16 @@ void EmuSystem::closeGame(bool allowAutosaveState)
         }
 			
 		logMsg("closing game %s", gameName);
-		closeSystem();
+        
+        if (isGBAROM)
+        {
+            closeSystem_GBA();
+        }
+        else
+        {
+            closeSystem_GBC();
+        }
+		
 		clearGamePaths();
 		cancelAutoSaveStateTimer();
 		viewNav.setRightBtnActive(0);

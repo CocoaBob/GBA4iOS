@@ -110,6 +110,7 @@
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
+		CC4141A818173185004984C9 /* CommonGui.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC4141A718173185004984C9 /* CommonGui.cc */; };
 		CC43887C180F49470064C74A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC96F00917C2983800C7DD0C /* OpenGLES.framework */; };
 		CC43887D180F494B0064C74A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC43887E180F49500064C74A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
@@ -645,6 +646,7 @@
 		CC33F0E117E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"; sourceTree = "<group>"; };
 		CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m"; sourceTree = "<group>"; };
 		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		CC4141A718173185004984C9 /* CommonGui.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CommonGui.cc; path = "emu-ex-plus-alpha/EmuFramework/src/CommonGui.cc"; sourceTree = SOURCE_ROOT; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
@@ -1603,6 +1605,7 @@
 		CCFA7193179D2FD800768D24 /* EmuFramework */ = {
 			isa = PBXGroup;
 			children = (
+				CC4141A718173185004984C9 /* CommonGui.cc */,
 				CCFA7194179D2FE400768D24 /* CreditsView.cc */,
 				CCFA7195179D2FE400768D24 /* MsgPopup.cc */,
 				CCFA7196179D2FE400768D24 /* FilePicker.cc */,
@@ -2084,6 +2087,7 @@
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
 				CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */,
 				CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */,
+				CC4141A818173185004984C9 /* CommonGui.cc in Sources */,
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
 				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,

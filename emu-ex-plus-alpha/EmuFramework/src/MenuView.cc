@@ -44,7 +44,15 @@ extern BluetoothAdapter *bta;
 
 static void doSaveState()
 {
-	int ret = EmuSystem::saveState();
+    int ret = 0;
+    if (isGBAROM)
+    {
+        ret = EmuSystem::saveState_GBA();
+    }
+    else
+    {
+        ret = EmuSystem::saveState_GBC();
+    }
 	if(ret != STATE_RESULT_OK)
 		popup.postError(stateResultToStr(ret));
 	else
@@ -219,7 +227,15 @@ MenuView::MenuView():
 				ynAlertView.onYes() =
 					[](const Input::Event &e)
 					{
-						EmuSystem::resetGame();
+                        if (isGBAROM)
+                        {
+                            EmuSystem::resetGame_GBA();
+                        }
+                        else
+                        {
+                            EmuSystem::resetGame_GBC();
+                        }
+						
 						startGameFromMenu();
 					};
 				View::addModalView(ynAlertView);
@@ -238,7 +254,15 @@ MenuView::MenuView():
 				ynAlertView.onYes() =
 					[](const Input::Event &e)
 					{
-						int ret = EmuSystem::loadState();
+						int ret = 0;
+                        if (isGBAROM)
+                        {
+                            ret = EmuSystem::loadState_GBA();
+                        }
+                        else
+                        {
+                            ret = EmuSystem::loadState_GBA();
+                        }
 						if(ret != STATE_RESULT_OK)
 						{
 							if(ret != STATE_RESULT_OTHER_ERROR) // check if we're responsible for posting the error

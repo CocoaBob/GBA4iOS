@@ -24,6 +24,8 @@
 #include <gui/FSPicker/FSPicker.hh>
 #include <util/gui/ViewStack.hh>
 
+extern bool isGBAROM;
+
 class EmuSystem
 {
 	public:
@@ -46,8 +48,10 @@ class EmuSystem
 
 	static void cancelAutoSaveStateTimer();
 	static void startAutoSaveStateTimer();
-	static int loadState(int slot = saveStateSlot);
-	static int saveState();
+	static int loadState_GBA(int slot = saveStateSlot);
+    static int loadState_GBC(int slot = saveStateSlot);
+	static int saveState_GBA();
+    static int saveState_GBC();
 	static bool stateExists(int slot);
 	static const char *savePath() { return strlen(savePath_) ? savePath_ : gamePath; }
 	static void sprintStateFilename(char *str, size_t size, int slot,
@@ -63,25 +67,40 @@ class EmuSystem
 	static void saveAutoState_GBA();
     static void saveAutoState_GBC();
 	static void saveBackupMem();
-	static void savePathChanged();
-	static void resetGame();
+	static void savePathChanged_GBA();
+    static void savePathChanged_GBC();
+	static void resetGame_GBA();
+    static void resetGame_GBC();
 	static void initOptions();
-	static void writeConfig(Io *io);
+	static void writeConfig_GBA(Io *io);
+    static void writeConfig_GBC(Io *io);
 	static bool readConfig(Io *io, uint key, uint readSize);
 	static int loadGame_GBA(const char *path);
     static int loadGame_GBC(const char *path);
 	typedef DelegateFunc<void (uint result, const Input::Event &e)> LoadGameCompleteDelegate;
 	static LoadGameCompleteDelegate loadGameCompleteDel;
 	static LoadGameCompleteDelegate &onLoadGameComplete() { return loadGameCompleteDel; }
-	static void runFrame(bool renderGfx, bool processGfx, bool renderAudio) ATTRS(hot);
+	static void runFrame_GBA(bool renderGfx, bool processGfx, bool renderAudio) ATTRS(hot);
+    static void runFrame_GBC(bool renderGfx, bool processGfx, bool renderAudio) ATTRS(hot);
 	static bool vidSysIsPAL();
 	static uint multiresVideoBaseX();
 	static uint multiresVideoBaseY();
-	static void configAudioRate();
+	static void configAudioRate_GBA();
+    static void configAudioRate_GBC();
 	static void configAudioPlayback()
 	{
 		auto prevFormat = pcmFormat;
-		configAudioRate();
+        
+        if (isGBAROM)
+        {
+            configAudioRate_GBA();
+        }
+        else
+        {
+            configAudioRate_GBC();
+        }
+        
+		
 		if(prevFormat != pcmFormat && Audio::isOpen())
 		{
 			logMsg("PCM format has changed, closing existing playback");
@@ -114,8 +133,15 @@ class EmuSystem
 		auto now = TimeSys::timeNow();
 		iterateTimes(180, i)
 		{
-			runFrame(0, 1, 0);
-		}
+            if (isGBAROM)
+            {
+                runFrame_GBA(0, 1, 0);
+            }
+            else
+            {
+                runFrame_GBC(0, 1, 0);
+            }
+        }
 		auto after = TimeSys::timeNow();
 		return after-now;
 	}
@@ -144,7 +170,8 @@ class EmuSystem
 		startAutoSaveStateTimer();
 	}
 
-	static void closeSystem();
+	static void closeSystem_GBA();
+    static void closeSystem_GBC();
 	static void closeGame(bool allowAutosaveState = 1);
 };
 

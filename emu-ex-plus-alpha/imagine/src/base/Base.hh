@@ -257,7 +257,8 @@ static const uint OS_NAV_STYLE_DIM = BIT(0), OS_NAV_STYLE_HIDDEN = BIT(1);
 // App Callbacks
 
 // Called when main receives a worker thread message with type >= MSG_USER
-void onAppMessage(int type, int shortArg, int intArg, int intArg2);
+void onAppMessage_GBA(int type, int shortArg, int intArg, int intArg2);
+    void onAppMessage_GBC(int type, int shortArg, int intArg, int intArg2);
 
 // Called when app window enters/exits focus
 void onFocusChange(uint in);
@@ -277,10 +278,15 @@ void onResume(bool focused);
 void onExit(bool backgrounded);
 
 // Called on app startup, before the graphics context is initialized
-CallResult onInit(int argc, char** argv) ATTRS(cold);
+CallResult onInit_GBA(int argc, char** argv) ATTRS(cold);
+    
+CallResult onInit_GBC(int argc, char** argv) ATTRS(cold);
 
 // Called on app window creation, after the graphics context is initialized
-CallResult onWindowInit() ATTRS(cold);
+CallResult onWindowInit_GBA() ATTRS(cold);
+    
+    // Called on app window creation, after the graphics context is initialized
+    CallResult onWindowInit_GBC() ATTRS(cold);
 
 } // Base
 
