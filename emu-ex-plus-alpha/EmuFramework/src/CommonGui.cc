@@ -23,6 +23,7 @@ uint8 modalViewStorage[2][4096] __attribute__((aligned)) { {0} };
 uint modalViewStorageIdx = 0;
 InputManagerView *imMenu = nullptr;
 WorkDirStack<1> workDirStack;
+ViewStack viewStack(mMenu);
 
 void EmuNavView::onLeftNavBtn(const Input::Event &e)
 {

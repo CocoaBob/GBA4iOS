@@ -254,7 +254,6 @@ static void mainInitCommon()
 
 #include <main/EmuMenuViews.hh>
 static SystemMenuView mMenu;
-ViewStack viewStack(mMenu);
 
 template <size_t NAV_GRAD_SIZE>
 static void mainInitWindowCommon(const Gfx::LGradientStopDesc (&navViewGrad)[NAV_GRAD_SIZE])

@@ -240,7 +240,7 @@ static char saveSlotChar(int slot)
 	}
 }
 
-void EmuSystem::sprintStateFilename(char *str, size_t size, int slot, const char *statePath, const char *gameName)
+void EmuSystem::sprintStateFilename_GBA(char *str, size_t size, int slot, const char *statePath, const char *gameName)
 {
 	snprintf(str, size, "%s/%s%c.sgm", statePath, gameName, saveSlotChar(slot));
 }
@@ -248,7 +248,7 @@ void EmuSystem::sprintStateFilename(char *str, size_t size, int slot, const char
 int EmuSystem::saveState_GBA()
 {
 	FsSys::cPath saveStr;
-	sprintStateFilename(saveStr, saveStateSlot);
+	sprintStateFilename_GBA(saveStr, saveStateSlot);
 	if(Config::envIsIOSJB)
 		fixFilePermissions(saveStr);
 	if(CPUWriteState(gGba, saveStr))
@@ -260,7 +260,7 @@ int EmuSystem::saveState_GBA()
 int EmuSystem::loadState_GBA(int saveStateSlot)
 {
 	FsSys::cPath saveStr;
-	sprintStateFilename(saveStr, saveStateSlot);
+	sprintStateFilename_GBA(saveStr, saveStateSlot);
 	if(CPUReadState(gGba, saveStr))
 		return STATE_RESULT_OK;
 	else
@@ -272,7 +272,7 @@ void EmuSystem::saveAutoState_GBA()
 	if(gameIsRunning() && optionAutoSaveState)
 	{
 		FsSys::cPath saveStr;
-		sprintStateFilename(saveStr, -1);
+		sprintStateFilename_GBA(saveStr, -1);
 		if(Config::envIsIOSJB)
 			fixFilePermissions(saveStr);
 		CPUWriteState(gGba, saveStr);

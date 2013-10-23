@@ -54,14 +54,27 @@ class EmuSystem
     static int saveState_GBC();
 	static bool stateExists(int slot);
 	static const char *savePath() { return strlen(savePath_) ? savePath_ : gamePath; }
-	static void sprintStateFilename(char *str, size_t size, int slot,
+    
+    
+	static void sprintStateFilename_GBA(char *str, size_t size, int slot,
 		const char *statePath = savePath(), const char *gameName = EmuSystem::gameName);
 	template <size_t S>
-	static void sprintStateFilename(char (&str)[S], int slot,
+	static void sprintStateFilename_GBA(char (&str)[S], int slot,
 		const char *statePath = savePath(), const char *gameName = EmuSystem::gameName)
 	{
-		sprintStateFilename(str, S, slot, statePath, gameName);
+		sprintStateFilename_GBA(str, S, slot, statePath, gameName);
 	}
+    
+    static void sprintStateFilename_GBC(char *str, size_t size, int slot,
+                                        const char *statePath = savePath(), const char *gameName = EmuSystem::gameName);
+	template <size_t S>
+	static void sprintStateFilename_GBC(char (&str)[S], int slot,
+                                        const char *statePath = savePath(), const char *gameName = EmuSystem::gameName)
+	{
+		sprintStateFilename_GBC(str, S, slot, statePath, gameName);
+	}
+    
+    
 	static bool loadAutoState_GBA();
     static bool loadAutoState_GBC();
 	static void saveAutoState_GBA();

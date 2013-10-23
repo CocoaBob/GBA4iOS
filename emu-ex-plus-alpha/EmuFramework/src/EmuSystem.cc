@@ -97,7 +97,17 @@ void EmuSystem::stopSound()
 bool EmuSystem::stateExists(int slot)
 {
 	FsSys::cPath saveStr;
-	sprintStateFilename(saveStr, slot);
+    
+    if (isGBAROM)
+    {
+        sprintStateFilename_GBA(saveStr, slot);
+    }
+    else
+    {
+        sprintStateFilename_GBC(saveStr, slot);
+    }
+    
+	
 	return FsSys::fileExists(saveStr);
 }
 

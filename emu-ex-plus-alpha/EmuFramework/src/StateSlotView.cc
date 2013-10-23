@@ -28,7 +28,16 @@ void StateSlotView::init(bool highlightFirst)
 		if(EmuSystem::gameIsRunning())
 		{
 			FsSys::cPath saveStr;
-			EmuSystem::sprintStateFilename(saveStr, slot);
+            
+            if (isGBAROM)
+            {
+                EmuSystem::sprintStateFilename_GBA(saveStr, slot);
+            }
+            else
+            {
+                EmuSystem::sprintStateFilename_GBC(saveStr, slot);
+            }
+			
 			bool fileExists = FsSys::fileExists(saveStr);
 			if(fileExists)
 			{

@@ -67,7 +67,17 @@ bool showAutoStateConfirm(const Input::Event &e)
 		return 0;
 	}
 	FsSys::cPath saveStr;
-	EmuSystem::sprintStateFilename(saveStr, -1);
+    
+    if (isGBAROM)
+    {
+        EmuSystem::sprintStateFilename_GBA(saveStr, -1);
+    }
+    else
+    {
+        EmuSystem::sprintStateFilename_GBC(saveStr, -1);
+    }
+    
+	
 	if(FsSys::fileExists(saveStr))
 	{
 		FsSys::timeStr date = "";

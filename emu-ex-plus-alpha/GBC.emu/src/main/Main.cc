@@ -230,7 +230,7 @@ static char saveSlotChar(int slot)
 	}
 }
 
-void EmuSystem::sprintStateFilename(char *str, size_t size, int slot, const char *statePath, const char *gameName)
+void EmuSystem::sprintStateFilename_GBC(char *str, size_t size, int slot, const char *statePath, const char *gameName)
 {
 	snprintf(str, size, "%s/%s.0%c.gqs", statePath, gameName, saveSlotChar(slot));
 }
@@ -238,7 +238,7 @@ void EmuSystem::sprintStateFilename(char *str, size_t size, int slot, const char
 int EmuSystem::saveState_GBC()
 {
 	FsSys::cPath saveStr;
-	sprintStateFilename(saveStr, saveStateSlot);
+	sprintStateFilename_GBC(saveStr, saveStateSlot);
 	if(Config::envIsIOSJB)
 		fixFilePermissions(saveStr);
 	logMsg("saving state %s", saveStr);
@@ -251,7 +251,7 @@ int EmuSystem::saveState_GBC()
 int EmuSystem::loadState_GBC(int saveStateSlot)
 {
 	FsSys::cPath saveStr;
-	sprintStateFilename(saveStr, saveStateSlot);
+	sprintStateFilename_GBC(saveStr, saveStateSlot);
 	if(FsSys::fileExists(saveStr))
 	{
 		logMsg("loading state %s", saveStr);
@@ -282,7 +282,7 @@ void EmuSystem::saveAutoState_GBC()
 	{
 		logMsg("saving auto-state");
 		FsSys::cPath saveStr;
-		sprintStateFilename(saveStr, -1);
+		sprintStateFilename_GBC(saveStr, -1);
 		if(Config::envIsIOSJB)
 			fixFilePermissions(saveStr);
 		gbEmu.saveState(/*screenBuff*/0, 160, saveStr);
