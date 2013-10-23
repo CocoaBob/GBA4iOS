@@ -29,7 +29,17 @@ void BaseCheatsView::init(bool highlightFirst)
 {
 	uint i = 0;
 	edit.init(); item[i++] = &edit;
-	loadCheatItems(item, i);
+    
+    if (isGBAROM)
+    {
+        loadCheatItems_GBA(item, i);
+    }
+    else
+    {
+        loadCheatItems_GBC(item, i);
+    }
+    
+	
 	assert(i <= sizeofArray(item));
 	BaseMenuView::init(item, i, highlightFirst);
 }

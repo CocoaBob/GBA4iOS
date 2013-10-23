@@ -52,7 +52,16 @@ void processRelPtr(const Input::Event &e)
 	{
 		//logMsg("reversed trackball X direction");
 		relPtr.x = e.x;
-		EmuSystem::handleInputAction(Input::RELEASED, relPtr.xAction);
+        
+        if (isGBAROM)
+        {
+            EmuSystem::handleInputAction_GBA(Input::RELEASED, relPtr.xAction);
+        }
+        else
+        {
+            EmuSystem::handleInputAction_GBC(Input::RELEASED, relPtr.xAction);
+        }
+		
 	}
 	else
 		relPtr.x += e.x;
@@ -60,14 +69,32 @@ void processRelPtr(const Input::Event &e)
 	if(e.x)
 	{
 		relPtr.xAction = EmuSystem::translateInputAction(e.x > 0 ? EmuControls::systemKeyMapStart+1 : EmuControls::systemKeyMapStart+3);
-		EmuSystem::handleInputAction(Input::PUSHED, relPtr.xAction);
+        
+        if (isGBAROM)
+        {
+            EmuSystem::handleInputAction_GBA(Input::PUSHED, relPtr.xAction);
+        }
+        else
+        {
+            EmuSystem::handleInputAction_GBC(Input::PUSHED, relPtr.xAction);
+        }
+		
 	}
 
 	if(relPtr.y != 0 && signOf(relPtr.y) != signOf(e.y))
 	{
 		//logMsg("reversed trackball Y direction");
 		relPtr.y = e.y;
-		EmuSystem::handleInputAction(Input::RELEASED, relPtr.yAction);
+        
+        if (isGBAROM)
+        {
+            EmuSystem::handleInputAction_GBA(Input::RELEASED, relPtr.yAction);
+        }
+        else
+        {
+            EmuSystem::handleInputAction_GBC(Input::RELEASED, relPtr.yAction);
+        }
+		
 	}
 	else
 		relPtr.y += e.y;
@@ -75,7 +102,16 @@ void processRelPtr(const Input::Event &e)
 	if(e.y)
 	{
 		relPtr.yAction = EmuSystem::translateInputAction(e.y > 0 ? EmuControls::systemKeyMapStart+2 : EmuControls::systemKeyMapStart);
-		EmuSystem::handleInputAction(Input::PUSHED, relPtr.yAction);
+        
+        if (isGBAROM)
+        {
+            EmuSystem::handleInputAction_GBA(Input::PUSHED, relPtr.yAction);
+        }
+        else
+        {
+            EmuSystem::handleInputAction_GBC(Input::PUSHED, relPtr.yAction);
+        }
+		
 	}
 
 	//logMsg("trackball event %d,%d, rel ptr %d,%d", e.x, e.y, relPtr.x, relPtr.y);
@@ -101,12 +137,28 @@ void commonUpdateInput()
 			if(turboClock == 0)
 			{
 				//logMsg("turbo push for player %d, action %d", e->player, e->action);
-				EmuSystem::handleInputAction(Input::PUSHED, e->action);
+                if (isGBAROM)
+                {
+                    EmuSystem::handleInputAction_GBA(Input::PUSHED, e->action);
+                }
+                else
+                {
+                    EmuSystem::handleInputAction_GBC(Input::PUSHED, e->action);
+                }
+				
 			}
 			else if(turboClock == turboFrames/2)
 			{
 				//logMsg("turbo release for player %d, action %d", e->player, e->action);
-				EmuSystem::handleInputAction(Input::RELEASED, e->action);
+                if (isGBAROM)
+                {
+                    EmuSystem::handleInputAction_GBA(Input::RELEASED, e->action);
+                }
+                else
+                {
+                    EmuSystem::handleInputAction_GBC(Input::RELEASED, e->action);
+                }
+				
 			}
 		}
 	}

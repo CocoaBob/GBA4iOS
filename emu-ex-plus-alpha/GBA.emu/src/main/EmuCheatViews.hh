@@ -52,7 +52,8 @@ class CheatsView : public BaseCheatsView
 private:
 	BoolMenuItem cheat[EmuCheats::MAX];
 
-	void loadCheatItems(MenuItem *item[], uint &i) override;
+	void loadCheatItems_GBA(MenuItem *item[], uint &i) override;
+    void loadCheatItems_GBC(MenuItem *item[], uint &i) override;
 
 public:
 	CheatsView() {}

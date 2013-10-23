@@ -106,7 +106,7 @@ static uint ptrInputToSysButton(int input)
 	}
 }
 
-void updateVControllerMapping(uint player, SysVController::Map &map)
+void updateVControllerMapping_GBA(uint player, SysVController::Map &map)
 {
 	using namespace GbaKeyStatus;
 	map[SysVController::F_ELEM] = A;
@@ -127,7 +127,7 @@ void updateVControllerMapping(uint player, SysVController::Map &map)
 	map[SysVController::D_ELEM+8] = DOWN | RIGHT;
 }
 
-uint EmuSystem::translateInputAction(uint input, bool &turbo)
+uint EmuSystem::translateInputAction_GBA(uint input, bool &turbo)
 {
 	using namespace GbaKeyStatus;
 	turbo = 0;
@@ -156,7 +156,7 @@ uint EmuSystem::translateInputAction(uint input, bool &turbo)
 	return 0;
 }
 
-void EmuSystem::handleInputAction(uint state, uint emuKey)
+void EmuSystem::handleInputAction_GBA(uint state, uint emuKey)
 {
 	if(state == Input::PUSHED)
 		unsetBits(P1, emuKey);
@@ -172,7 +172,7 @@ enum
 Byte1Option optionRtcEmulation(CFGKEY_RTC_EMULATION, RTC_EMU_AUTO, 0, optionIsValidWithMax<2>);
 bool detectedRtcGame = 0;
 
-bool EmuSystem::readConfig(Io *io, uint key, uint readSize)
+bool EmuSystem::readConfig_GBA(Io *io, uint key, uint readSize)
 {
 	switch(key)
 	{
@@ -279,7 +279,7 @@ void EmuSystem::saveAutoState_GBA()
 	}
 }
 
-void EmuSystem::saveBackupMem()
+void EmuSystem::saveBackupMem_GBA()
 {
 	if(gameIsRunning())
 	{
@@ -297,13 +297,13 @@ bool EmuSystem::vidSysIsPAL() { return 0; }
 uint EmuSystem::multiresVideoBaseX() { return 0; }
 uint EmuSystem::multiresVideoBaseY() { return 0; }
 bool touchControlsApplicable() { return 1; }
-void EmuSystem::clearInputBuffers() { P1 = 0x03FF; }
+void EmuSystem::clearInputBuffers_GBA() { P1 = 0x03FF; }
 
 void EmuSystem::closeSystem_GBA()
 {
 	assert(gameIsRunning());
 	logMsg("closing game %s", gameName);
-	saveBackupMem();
+	saveBackupMem_GBA();
 	CPUCleanUp();
 	detectedRtcGame = 0;
 	cheatsNumber = 0; // reset cheat list
@@ -424,7 +424,7 @@ void EmuSystem::runFrame_GBA(bool renderGfx, bool processGfx, bool renderAudio)
 namespace Input
 {
 
-void onInputEvent(const Input::Event &e)
+void onInputEvent_GBA(const Input::Event &e)
 {
 	handleInputEvent(e);
 }

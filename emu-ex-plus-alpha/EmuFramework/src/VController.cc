@@ -20,7 +20,15 @@
 template<>
 void VController<systemFaceBtns, systemCenterBtns, systemHasTriggerBtns, systemHasRevBtnLayout>::updateMapping(uint player)
 {
-	updateVControllerMapping(player, map);
+    if (isGBAROM)
+    {
+        updateVControllerMapping_GBA(player, map);
+    }
+    else
+    {
+        updateVControllerMapping_GBC(player, map);
+    }
+	
 }
 
 #ifdef CONFIG_VCONTROLLER_KEYBOARD

@@ -143,12 +143,14 @@ namespace Base
             if (isGBAROM)
             {
                 EmuSystem::loadAutoState_GBA();
+                EmuSystem::saveBackupMem_GBA();
             }
             else
             {
                 EmuSystem::loadAutoState_GBC();
+                EmuSystem::saveBackupMem_GBC();
             }
-            EmuSystem::saveBackupMem();
+            
             if(optionNotificationIcon)
             {
                 auto title = CONFIG_APP_NAME " was suspended";

@@ -93,7 +93,7 @@ static Option<OptionMethodRef<bool, gambatte::useFullColorSaturation>, uint8> op
 
 #include "CommonGui.hh"
 
-bool EmuSystem::readConfig(Io *io, uint key, uint readSize)
+bool EmuSystem::readConfig_GBC(Io *io, uint key, uint readSize)
 {
 	switch(key)
 	{
@@ -162,7 +162,7 @@ public:
 	unsigned operator()() { return bits; }
 } gbcInput;
 
-void updateVControllerMapping(uint player, SysVController::Map &map)
+void updateVControllerMapping_GBC(uint player, SysVController::Map &map)
 {
 	using namespace gambatte;
 	map[SysVController::F_ELEM] = InputGetter::A;
@@ -181,7 +181,7 @@ void updateVControllerMapping(uint player, SysVController::Map &map)
 	map[SysVController::D_ELEM+8] = InputGetter::DOWN | InputGetter::RIGHT;
 }
 
-uint EmuSystem::translateInputAction(uint input, bool &turbo)
+uint EmuSystem::translateInputAction_GBC(uint input, bool &turbo)
 {
 	using namespace gambatte;
 	turbo = 0;
@@ -206,7 +206,7 @@ uint EmuSystem::translateInputAction(uint input, bool &turbo)
 	return 0;
 }
 
-void EmuSystem::handleInputAction(uint state, uint emuKey)
+void EmuSystem::handleInputAction_GBC(uint state, uint emuKey)
 {
 	if(state == Input::PUSHED)
 		setBits(gbcInput.bits, emuKey);
@@ -263,7 +263,7 @@ int EmuSystem::loadState_GBC(int saveStateSlot)
 	return STATE_RESULT_NO_FILE;
 }
 
-void EmuSystem::saveBackupMem()
+void EmuSystem::saveBackupMem_GBC()
 {
 	logMsg("saving battery");
 	gbEmu.saveSavedata();
@@ -291,7 +291,7 @@ void EmuSystem::saveAutoState_GBC()
 
 void EmuSystem::closeSystem_GBC()
 {
-	saveBackupMem();
+	saveBackupMem_GBC();
 	cheatList.removeAll();
 	cheatsModified = 0;
 }
@@ -321,7 +321,7 @@ int EmuSystem::loadGame_GBC(const char *path)
 	return 1;
 }
 
-void EmuSystem::clearInputBuffers()
+void EmuSystem::clearInputBuffers_GBC()
 {
 	gbcInput.bits = 0;
 }
@@ -410,7 +410,7 @@ void EmuSystem::runFrame_GBC(bool renderGfx, bool processGfx, bool renderAudio)
 
 namespace Input
 {
-void onInputEvent(const Input::Event &e)
+void onInputEvent_GBC(const Input::Event &e)
 {
 	handleInputEvent(e);
 }

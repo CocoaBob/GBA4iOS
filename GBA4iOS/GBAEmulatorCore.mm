@@ -236,7 +236,17 @@ namespace GameFilePicker {
 				auto pos = pointerPos(startTouchPosition.x * pointScale, startTouchPosition.y * pointScale);
 				p.s.inWin = 1;
 				p.dragState.pointerEvent(Input::Pointer::LBUTTON, PUSHED, pos);
-				Input::onInputEvent(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, PUSHED, pos.x, pos.y, true, nullptr));
+                
+                if (isGBAROM)
+                {
+                    Input::onInputEvent_GBA(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, PUSHED, pos.x, pos.y, true, nullptr));
+                }
+                else
+                {
+                    Input::onInputEvent_GBC(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, PUSHED, pos.x, pos.y, true, nullptr));
+                }
+                
+				
 				break;
 			}
 		}
@@ -257,7 +267,16 @@ namespace GameFilePicker {
 				CGPoint currentTouchPosition = [touch locationInView:self.superview.superview.superview];
 				auto pos = pointerPos(currentTouchPosition.x * pointScale, currentTouchPosition.y * pointScale);
 				p.dragState.pointerEvent(Input::Pointer::LBUTTON, MOVED, pos);
-				Input::onInputEvent(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
+                
+                if (isGBAROM)
+                {
+                    Input::onInputEvent_GBA(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
+                }
+                else
+                {
+                    Input::onInputEvent_GBC(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
+                }
+				
 				break;
 			}
 		}
@@ -280,7 +299,17 @@ namespace GameFilePicker {
 				CGPoint currentTouchPosition = [touch locationInView:self.superview.superview.superview];
 				auto pos = pointerPos(currentTouchPosition.x * pointScale, currentTouchPosition.y * pointScale);
 				p.dragState.pointerEvent(Input::Pointer::LBUTTON, RELEASED, pos);
-				Input::onInputEvent(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
+                
+                if (isGBAROM)
+                {
+                    Input::onInputEvent_GBA(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
+                }
+                else
+                {
+                    Input::onInputEvent_GBC(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
+                }
+                
+				
 				break;
 			}
 		}

@@ -161,7 +161,7 @@ EditCheatListView::EditCheatListView():
 	}
 {}
 
-void CheatsView::loadCheatItems(MenuItem *item[], uint &i)
+void CheatsView::loadCheatItems_GBA(MenuItem *item[], uint &i)
 {
 	uint cheats = std::min((uint)cheatsNumber, (uint)sizeofArray(cheat));
 	iterateTimes(cheats, c)

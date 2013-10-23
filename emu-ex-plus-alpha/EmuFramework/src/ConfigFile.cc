@@ -169,7 +169,18 @@ static bool readConfig2(Io *io)
 		{
 			default:
 			{
-				if(!EmuSystem::readConfig(io, key, size))
+                bool success = false;
+                
+                if (isGBAROM)
+                {
+                    success = EmuSystem::readConfig_GBA(io, key, size);
+                }
+                else
+                {
+                    success = EmuSystem::readConfig_GBC(io, key, size);
+                }
+                
+				if(!success)
 				{
 					logMsg("skipping unknown key %u", (uint)key);
 					if(io->seekRel(size) != OK)

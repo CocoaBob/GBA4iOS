@@ -27,7 +27,8 @@ protected:
 public:
 	BaseCheatsView();
 	void init(bool highlightFirst);
-	virtual void loadCheatItems(MenuItem *item[], uint &items) = 0;
+	virtual void loadCheatItems_GBA(MenuItem *item[], uint &items) = 0;
+    virtual void loadCheatItems_GBC(MenuItem *item[], uint &items) = 0;
 };
 
 class EditCheatView : public BaseMenuView

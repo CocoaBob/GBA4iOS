@@ -727,6 +727,7 @@ const char *eventActionToStr(int action);
 void onInputDevChange(const DeviceChange &change);
 
 // Called to process an event from an input device
-void onInputEvent(const Input::Event &event);
+void onInputEvent_GBA(const Input::Event &event);
+    void onInputEvent_GBC(const Input::Event &event);
 
 }

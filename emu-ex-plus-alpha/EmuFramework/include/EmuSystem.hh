@@ -66,7 +66,8 @@ class EmuSystem
     static bool loadAutoState_GBC();
 	static void saveAutoState_GBA();
     static void saveAutoState_GBC();
-	static void saveBackupMem();
+	static void saveBackupMem_GBA();
+    static void saveBackupMem_GBC();
 	static void savePathChanged_GBA();
     static void savePathChanged_GBC();
 	static void resetGame_GBA();
@@ -74,7 +75,8 @@ class EmuSystem
 	static void initOptions();
 	static void writeConfig_GBA(Io *io);
     static void writeConfig_GBC(Io *io);
-	static bool readConfig(Io *io, uint key, uint readSize);
+	static bool readConfig_GBA(Io *io, uint key, uint readSize);
+    static bool readConfig_GBC(Io *io, uint key, uint readSize);
 	static int loadGame_GBA(const char *path);
     static int loadGame_GBC(const char *path);
 	typedef DelegateFunc<void (uint result, const Input::Event &e)> LoadGameCompleteDelegate;
@@ -107,13 +109,25 @@ class EmuSystem
 			Audio::closePcm();
 		}
 	}
-	static void clearInputBuffers();
-	static void handleInputAction(uint state, uint emuKey);
-	static uint translateInputAction(uint input, bool &turbo);
+	static void clearInputBuffers_GBA();
+    static void clearInputBuffers_GBC();
+	static void handleInputAction_GBA(uint state, uint emuKey);
+    static void handleInputAction_GBC(uint state, uint emuKey);
+	static uint translateInputAction_GBA(uint input, bool &turbo);
+    static uint translateInputAction_GBC(uint input, bool &turbo);
 	static uint translateInputAction(uint input)
 	{
 		bool turbo;
-		return translateInputAction(input, turbo);
+        
+        if (isGBAROM)
+        {
+            return translateInputAction_GBA(input, turbo);
+        }
+        else
+        {
+            return translateInputAction_GBC(input, turbo);
+        }
+		
 	}
 	static void stopSound();
 	static void startSound();
@@ -162,7 +176,17 @@ class EmuSystem
 	static void start()
 	{
 		state = State::ACTIVE;
-		clearInputBuffers();
+        
+        if (isGBAROM)
+        {
+            clearInputBuffers_GBA();
+        }
+        else
+        {
+            clearInputBuffers_GBC();
+        }
+        
+		
 		emuFrameNow = -1;
 		startSound();
 		startTime = {};

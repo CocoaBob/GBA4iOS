@@ -277,7 +277,7 @@ EditCheatListView::EditCheatListView():
 	}
 {}
 
-void CheatsView::loadCheatItems(MenuItem *item[], uint &i)
+void CheatsView::loadCheatItems_GBC(MenuItem *item[], uint &i)
 {
 	int cheats = std::min(cheatList.size, (int)sizeofArray(cheat));
 	auto it = cheatList.iterator();

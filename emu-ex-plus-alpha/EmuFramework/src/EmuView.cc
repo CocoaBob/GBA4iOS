@@ -562,7 +562,17 @@ void EmuView::inputEvent(const Input::Event &e)
 					{
 						//logMsg("action %d, %d", emuKey, state);
 						bool turbo;
-						uint sysAction = EmuSystem::translateInputAction(action, turbo);
+						uint sysAction = 0;
+                        
+                        if (isGBAROM)
+                        {
+                            sysAction = EmuSystem::translateInputAction_GBA(action, turbo);
+                        }
+                        else
+                        {
+                            sysAction = EmuSystem::translateInputAction_GBC(action, turbo);
+                        }
+                        
 						//logMsg("action %d -> %d, pushed %d", action, sysAction, e.state == Input::PUSHED);
 						if(turbo)
 						{
@@ -575,7 +585,15 @@ void EmuView::inputEvent(const Input::Event &e)
 								turboActions.removeEvent(sysAction);
 							}
 						}
-						EmuSystem::handleInputAction(e.state, sysAction);
+                        if (isGBAROM)
+                        {
+                            EmuSystem::handleInputAction_GBA(e.state, sysAction);
+                        }
+                        else
+                        {
+                            EmuSystem::handleInputAction_GBC(e.state, sysAction);
+                        }
+						
 					}
 				}
 			}

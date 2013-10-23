@@ -498,7 +498,16 @@ public:
 					turboActions.removeEvent(keyCode);
 				}
 			}
-			EmuSystem::handleInputAction(action, keyCode);
+            
+            if (isGBAROM)
+            {
+                EmuSystem::handleInputAction_GBA(action, keyCode);
+            }
+            else
+            {
+                EmuSystem::handleInputAction_GBC(action, keyCode);
+            }
+			
 		}
 	}
 
@@ -675,7 +684,8 @@ public:
 
 typedef VController<systemFaceBtns, systemCenterBtns, systemHasTriggerBtns, systemHasRevBtnLayout> SysVController;
 extern SysVController vController;
-void updateVControllerMapping(uint player, SysVController::Map &map);
+void updateVControllerMapping_GBA(uint player, SysVController::Map &map);
+void updateVControllerMapping_GBC(uint player, SysVController::Map &map);
 #ifdef CONFIG_VCONTROLLER_KEYBOARD
 	void updateVControllerKeyboardMapping(uint mode, SysVController::KbMap &map);
 #endif
