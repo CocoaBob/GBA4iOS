@@ -212,6 +212,8 @@ void EditCheatListView::loadCheatItems_GBC(MenuItem *item[], uint &items)
 	}
 }
 
+/* Riley Testut
+
 EditCheatListView::EditCheatListView():
 	addGGGS
 	{
@@ -275,7 +277,7 @@ EditCheatListView::EditCheatListView():
 			View::addModalView(textInputView);
 		}
 	}
-{}
+{}*/
 
 void CheatsView::loadCheatItems_GBC(MenuItem *item[], uint &i)
 {

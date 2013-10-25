@@ -26,11 +26,12 @@ static const char *gamepadName[gamepadKeys] =
 
 static const uint gamepadKeyOffset = gameActionKeys;
 
+/* Riley Testut
 const KeyCategory category[categories]
 {
 	EMU_CONTROLS_IN_GAME_ACTIONS_CATEGORY_INIT,
 	KeyCategory("Set Gamepad Keys", gamepadName, gamepadKeyOffset)
-};
+}; */
 
 #ifdef INPUT_SUPPORTS_KEYBOARD
 
