@@ -508,7 +508,14 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
         Base::grayColorSpace = CGColorSpaceCreateDeviceGray();
         Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
         
-        doOrExit(Base::onInit_GBA(app_argc, app_argv));
+        if (isGBAROM)
+        {
+            doOrExit(Base::onInit_GBA(app_argc, app_argv));
+        }
+        else
+        {
+            doOrExit(Base::onInit_GBC(app_argc, app_argv));
+        }
         
         [self prepareEmulation];
         

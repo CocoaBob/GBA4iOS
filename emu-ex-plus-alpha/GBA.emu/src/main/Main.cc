@@ -217,10 +217,10 @@ int systemGreenShift = 11;
 int systemBlueShift = 3;
 #endif
 
-void initOptions_GBA()
+void EmuSystem::initOptions_GBA()
 {
 	#ifndef CONFIG_BASE_ANDROID
-	optionFrameSkip.initDefault(EmuSystem::optionFrameSkipAuto); // auto-frameskip default due to highly variable CPU usage
+	optionFrameSkip.initDefault(optionFrameSkipAuto); // auto-frameskip default due to highly variable CPU usage
 	#endif
 }
 

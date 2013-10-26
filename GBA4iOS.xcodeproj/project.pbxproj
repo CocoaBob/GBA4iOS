@@ -110,7 +110,6 @@
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
-		CC4141A818173185004984C9 /* CommonGui.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC4141A718173185004984C9 /* CommonGui.cc */; };
 		CC43887C180F49470064C74A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC96F00917C2983800C7DD0C /* OpenGLES.framework */; };
 		CC43887D180F494B0064C74A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC43887E180F49500064C74A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
@@ -483,8 +482,6 @@
 		CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
 		CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
-		CCC0A389181B526600CB7CF0 /* CommonGui.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC4141A718173185004984C9 /* CommonGui.cc */; };
-		CCC0A38A181B526700CB7CF0 /* CommonGui.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC4141A718173185004984C9 /* CommonGui.cc */; };
 		CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
 		CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
 		CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
@@ -648,7 +645,6 @@
 		CC33F0E117E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"; sourceTree = "<group>"; };
 		CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m"; sourceTree = "<group>"; };
 		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
-		CC4141A718173185004984C9 /* CommonGui.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CommonGui.cc; path = "emu-ex-plus-alpha/EmuFramework/src/CommonGui.cc"; sourceTree = SOURCE_ROOT; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
@@ -806,6 +802,7 @@
 		CCBF363117F27DA100704A5B /* GBAMailActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAMailActivity.h; sourceTree = "<group>"; };
 		CCBF363217F27DA100704A5B /* GBAMailActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAMailActivity.m; sourceTree = "<group>"; };
 		CCC0A388181B515000CB7CF0 /* CommonGui.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CommonGui.hh; path = "emu-ex-plus-alpha/EmuFramework/include/CommonGui.hh"; sourceTree = SOURCE_ROOT; };
+		CCC0A38D181B642700CB7CF0 /* CommonGui_GBC.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CommonGui_GBC.hh; path = "emu-ex-plus-alpha/EmuFramework/include/CommonGui_GBC.hh"; sourceTree = SOURCE_ROOT; };
 		CCC0F22E17FA95A700235781 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CCC0F23017FA95B500235781 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		CCC0F23217FA95C600235781 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -1608,8 +1605,8 @@
 		CCFA7193179D2FD800768D24 /* EmuFramework */ = {
 			isa = PBXGroup;
 			children = (
+				CCC0A38D181B642700CB7CF0 /* CommonGui_GBC.hh */,
 				CCC0A388181B515000CB7CF0 /* CommonGui.hh */,
-				CC4141A718173185004984C9 /* CommonGui.cc */,
 				CCFA7194179D2FE400768D24 /* CreditsView.cc */,
 				CCFA7195179D2FE400768D24 /* MsgPopup.cc */,
 				CCFA7196179D2FE400768D24 /* FilePicker.cc */,
@@ -2091,7 +2088,6 @@
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
 				CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */,
 				CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */,
-				CC4141A818173185004984C9 /* CommonGui.cc in Sources */,
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
 				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
@@ -2220,7 +2216,6 @@
 				CC29343C18133AB90016EF82 /* next_m0_time.cpp in Sources */,
 				CC5756DC180C72D700BF3DA5 /* ResourceFont.cc in Sources */,
 				CC5756CE180C72D700BF3DA5 /* View.cc in Sources */,
-				CCC0A38A181B526700CB7CF0 /* CommonGui.cc in Sources */,
 				CC29343E18133AB90016EF82 /* sprite_mapper.cpp in Sources */,
 				CC29345518133AB90016EF82 /* interrupter.cpp in Sources */,
 				CC29344418133AB90016EF82 /* envelope_unit.cpp in Sources */,
@@ -2368,7 +2363,6 @@
 				CC96EFD317C296A100C7DD0C /* VideoImageOverlay.cc in Sources */,
 				CC96EFD417C296A100C7DD0C /* StateSlotView.cc in Sources */,
 				CC96EFD517C296A100C7DD0C /* MenuView.cc in Sources */,
-				CCC0A389181B526600CB7CF0 /* CommonGui.cc in Sources */,
 				CC96EFD617C296A100C7DD0C /* EmuInput.cc in Sources */,
 				CC96EFD717C296A100C7DD0C /* TextEntry.cc in Sources */,
 				CC96EFD817C296A100C7DD0C /* EmuOptions.cc in Sources */,

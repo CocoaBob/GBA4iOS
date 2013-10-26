@@ -91,7 +91,7 @@ extern bool useFullColorSaturation;
 
 static Option<OptionMethodRef<bool, gambatte::useFullColorSaturation>, uint8> optionFullGbcSaturation(CFGKEY_FULL_GBC_SATURATION, 0);
 
-#include "CommonGui.hh"
+#include "CommonGui_GBC.hh"
 
 bool EmuSystem::readConfig_GBC(Io *io, uint key, uint readSize)
 {
@@ -114,7 +114,7 @@ void EmuSystem::writeConfig_GBC(Io *io)
 	optionAudioResampler.writeWithKeyIfNotDefault(io);
 }
 
-void initOptions_GBC()
+void EmuSystem::initOptions_GBC()
 {
 
 }
