@@ -13,7 +13,30 @@
 	You should have received a copy of the GNU General Public License
 	along with EmuFramework.  If not, see <http://www.gnu.org/licenses/> */
 
-#include <CommonGui.hh>
+#include <data-type/image/png/sys.hh>
+#include <gui/View.hh>
+#include <gui/AlertView.hh>
+#include "EmuSystem.hh"
+#include "Recent.hh"
+#include <util/gui/ViewStack.hh>
+#include <VideoImageOverlay.hh>
+#include "EmuOptions.hh"
+#include <EmuInput.hh>
+#include "MsgPopup.hh"
+#include "MultiChoiceView.hh"
+#include "ConfigFile.hh"
+#include "FilePicker.hh"
+#include <InputManagerView.hh>
+#include <EmuView.hh>
+#include <TextEntry.hh>
+#include <MenuView.hh>
+#include <FileUtils.hh>
+#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
+#include <VController.hh>
+#include <TouchConfigView.hh>
+#endif
+#include <meta.h>
+#include <main/EmuMenuViews.hh>
 
 MsgPopup popup;
 StackAllocator menuAllocator;
@@ -23,6 +46,19 @@ uint8 modalViewStorage[2][4096] __attribute__((aligned)) { {0} };
 uint modalViewStorageIdx = 0;
 InputManagerView *imMenu = nullptr;
 WorkDirStack<1> workDirStack;
+
+extern bool isGBAROM;
+bool isMenuDismissKey(const Input::Event &e);
+void startGameFromMenu();
+bool touchControlsApplicable();
+void loadGameCompleteFromFilePicker(uint result, const Input::Event &e);
+bool updateInputDevicesOnResume = 0;
+#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
+extern SysVController vController;
+#endif
+bool menuViewIsActive = 1;
+
+SystemMenuView mMenu;
 ViewStack viewStack(mMenu);
 
 void EmuNavView::onLeftNavBtn(const Input::Event &e)
@@ -38,11 +74,33 @@ void EmuNavView::onRightNavBtn(const Input::Event &e)
 	}
 };
 
+namespace Gfx
+{
+    void onViewChange(Gfx::GfxViewState * = 0);
+}
+
+#if !defined(CONFIG_AUDIO_ALSA) && !defined(CONFIG_AUDIO_SDL) && !defined(CONFIG_AUDIO_PS3)
+// use WIP direct buffer write API
+#define USE_NEW_AUDIO
+#endif
+
+//static int soundRateDelta = 0;
+
 void setupStatusBarInMenu()
 {
 	if(!optionHideStatusBar.isConst)
 		Base::setStatusBarHidden(optionHideStatusBar > 1);
 }
+
+void setupStatusBarInGame()
+{
+	if(!optionHideStatusBar.isConst)
+		Base::setStatusBarHidden(optionHideStatusBar);
+}
+
+static bool trackFPS = 0;
+static TimeSys prevFrameTime;
+static uint frameCount = 0;
 
 void applyOSNavStyle()
 {
@@ -54,8 +112,8 @@ void applyOSNavStyle()
 	Base::setOSNavigationStyle(flags);
 }
 
-
-void startGameFromMenu() {
+void startGameFromMenu()
+{
 	applyOSNavStyle();
 	Base::setIdleDisplayPowerSave(0);
 	setupStatusBarInGame();
@@ -126,15 +184,9 @@ void restoreMenuFromGame()
 	viewStack.show();
 }
 
-void setupFont()
-{
-	float size = optionFontSize / 1000.;
-	logMsg("setting up font size %fmm", (double)size);
-	View::defaultFace->applySettings(FontSettings(Gfx::ySMMSizeToPixel(size)));
-}
-
 namespace Base
 {
+    
     void onExit(bool backgrounded)
     {
         Audio::closePcm();
@@ -176,6 +228,65 @@ namespace Base
 #endif
     }
     
+    void onFocusChange(uint in)
+    {
+        if(optionPauseUnfocused && !menuViewIsActive)
+        {
+            if(in)
+            {
+#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
+                vController.resetInput();
+#endif
+                EmuSystem::start();
+            }
+            else
+            {
+                EmuSystem::pause();
+            }
+            Base::displayNeedsUpdate();
+        }
+    }
+    
+    static void handleOpenFileCommand(const char *filename)
+    {
+        auto type = FsSys::fileType(filename);
+        if(type == Fs::TYPE_DIR)
+        {
+            logMsg("changing to dir %s from external command", filename);
+            restoreMenuFromGame();
+            FsSys::chdir(filename);
+            viewStack.popToRoot();
+            auto &fPicker = *menuAllocator.allocNew<EmuFilePicker>();
+            fPicker.init(Input::keyInputIsPresent());
+            viewStack.useNavView = 0;
+            viewStack.pushAndShow(&fPicker, &menuAllocator);
+            return;
+        }
+        if(type != Fs::TYPE_FILE)
+            return;
+        if(!EmuFilePicker::defaultFsFilter(filename, type))
+            return;
+        FsSys::cPath dirnameTemp, basenameTemp;
+        auto dir = string_dirname(filename, dirnameTemp);
+        auto file = string_basename(filename, basenameTemp);
+        FsSys::chdir(dir);
+        logMsg("opening file %s in dir %s from external command", file, dir);
+        restoreMenuFromGame();
+        GameFilePicker::onSelectFile(file, Input::Event{});
+    }
+    
+    void onDragDrop(const char *filename)
+    {
+        logMsg("got DnD: %s", filename);
+        handleOpenFileCommand(filename);
+    }
+    
+    void onInterProcessMessage(const char *filename)
+    {
+        logMsg("got IPC: %s", filename);
+        handleOpenFileCommand(filename);
+    }
+    
     void onResume(bool focused)
     {
         if(updateInputDevicesOnResume)
@@ -200,24 +311,6 @@ namespace Base
         }
     }
     
-    void onFocusChange(uint in)
-    {
-        if(optionPauseUnfocused && !menuViewIsActive)
-        {
-            if(in)
-            {
-#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
-                vController.resetInput();
-#endif
-                EmuSystem::start();
-            }
-            else
-            {
-                EmuSystem::pause();
-            }
-            Base::displayNeedsUpdate();
-        }
-    }
 }
 
 namespace Gfx
@@ -250,7 +343,112 @@ namespace Gfx
             viewStack.draw(frameTime);
         popup.draw();
     }
+}
+
+namespace Input
+{
     
+    void onInputDevChange(const DeviceChange &change)
+    {
+        logMsg("got input dev change");
+        
+        if(Base::appIsRunning())
+        {
+            updateInputDevices();
+            EmuControls::updateAutoOnScreenControlVisible();
+            
+            if(change.added() || change.removed())
+            {
+                if(change.map == Input::Event::MAP_KEYBOARD || change.map == Input::Event::MAP_ICADE)
+                {
+#ifdef INPUT_HAS_SYSTEM_DEVICE_HOTSWAP
+                    if(optionNotifyInputDeviceChange)
+#endif
+                    {
+                        popup.post("Input devices have changed", 2, 0);
+                        Base::displayNeedsUpdate();
+                    }
+                }
+                else
+                {
+                    popup.printf(2, 0, "%s %d %s", Input::Event::mapName(change.map), change.devId + 1, change.added() ? "connected" : "disconnected");
+                    Base::displayNeedsUpdate();
+                }
+            }
+            
+#ifdef CONFIG_BLUETOOTH
+			if(viewStack.size == 1) // update bluetooth items
+				viewStack.top()->onShow();
+#endif
+        }
+        else
+        {
+            logMsg("delaying input device changes until app resumes");
+            updateInputDevicesOnResume = 1;
+        }
+        
+        if(menuViewIsActive)
+            Base::setIdleDisplayPowerSave(
+#ifdef CONFIG_BLUETOOTH
+                                          Bluetooth::devsConnected() ? 0 :
+#endif
+                                          (int)optionIdleDisplayPowerSave);
+    }
+    
+}
+
+void handleInputEvent(const Input::Event &e)
+{
+	if(e.isPointer())
+	{
+		//logMsg("Pointer %s @ %d,%d", Input::eventActionToStr(e.state), e.x, e.y);
+	}
+	else
+	{
+		//logMsg("%s %s from %s", e.device->keyName(e.button), Input::eventActionToStr(e.state), e.device->name());
+	}
+	if(likely(EmuSystem::isActive()))
+	{
+		emuView.inputEvent(e);
+	}
+	else if(View::modalView)
+		View::modalView->inputEvent(e);
+	else if(menuViewIsActive)
+	{
+		if(e.state == Input::PUSHED && e.isDefaultCancelButton())
+		{
+			if(viewStack.size == 1)
+			{
+				//logMsg("cancel button at view stack root");
+				if(EmuSystem::gameIsRunning())
+				{
+					startGameFromMenu();
+				}
+				else if(e.map == Input::Event::MAP_KEYBOARD && (Config::envIsAndroid || Config::envIsLinux))
+					Base::exit();
+			}
+			else viewStack.popAndShow();
+		}
+		if(e.state == Input::PUSHED && isMenuDismissKey(e))
+		{
+			if(EmuSystem::gameIsRunning())
+			{
+				startGameFromMenu();
+			}
+		}
+		else viewStack.inputEvent(e);
+	}
+}
+
+void setupFont()
+{
+	float size = optionFontSize / 1000.;
+	logMsg("setting up font size %fmm", (double)size);
+	View::defaultFace->applySettings(FontSettings(Gfx::ySMMSizeToPixel(size)));
+}
+
+namespace Gfx
+{
     void onViewChange(GfxViewState *)
     {
         logMsg("view change");
@@ -294,6 +492,29 @@ Gfx::BufferImage *getXAsset()
 	return &res;
 }
 
+void mainInitCommon()
+{
+    if (isGBAROM)
+    {
+        initOptions_GBA();
+    }
+    else
+    {
+        initOptions_GBC();
+    }
+    
+#ifdef CONFIG_BLUETOOTH
+	assert(EmuSystem::maxPlayers <= 5);
+	Bluetooth::maxGamepadsPerType = EmuSystem::maxPlayers;
+#endif
+    
+	loadConfigFile();
+    
+#ifdef USE_BEST_COLOR_MODE_OPTION
+	Base::setWindowPixelBestColorHint(optionBestColorModeHint);
+#endif
+}
+
 void OptionCategoryView::init(bool highlightFirst)
 {
 	//logMsg("running option category init");
@@ -312,3 +533,4 @@ void OptionCategoryView::init(bool highlightFirst)
 	assert(i <= sizeofArray(item));
 	BaseMenuView::init(item, i, highlightFirst);
 }
+

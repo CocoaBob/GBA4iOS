@@ -134,4 +134,5 @@ extern Byte1Option optionBestColorModeHint;
 
 extern PathOption optionSavePath;
 
-void initOptions();
+void initOptions_GBA();
+void initOptions_GBC();

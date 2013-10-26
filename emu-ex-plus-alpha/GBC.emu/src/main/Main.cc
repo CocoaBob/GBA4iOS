@@ -114,7 +114,7 @@ void EmuSystem::writeConfig_GBC(Io *io)
 	optionAudioResampler.writeWithKeyIfNotDefault(io);
 }
 
-void EmuSystem::initOptions()
+void initOptions_GBC()
 {
 
 }
@@ -350,7 +350,7 @@ void EmuSystem::configAudioRate_GBC()
 	}
 }
 
-static void writeAudio(const int16 *srcBuff, unsigned srcFrames)
+void writeAudio(const int16 *srcBuff, unsigned srcFrames)
 {
 	#ifdef USE_NEW_AUDIO
 	Audio::BufferContext *aBuff = Audio::getPlayBuffer(Audio::maxRate/58);

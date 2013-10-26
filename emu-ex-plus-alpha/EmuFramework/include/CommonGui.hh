@@ -1,5 +1,4 @@
-#ifndef Common_Gui_h
-#define Common_Gui_h
+#pragma once
 
 /*  This file is part of EmuFramework.
 
@@ -39,6 +38,7 @@
 #include <TouchConfigView.hh>
 #endif
 #include <meta.h>
+#include <main/EmuMenuViews.hh>
 
 extern bool isGBAROM;
 bool isMenuDismissKey(const Input::Event &e);
@@ -50,15 +50,16 @@ extern StackAllocator menuAllocator;
 extern uint8 modalViewStorage[2][4096] __attribute__((aligned));
 extern uint modalViewStorageIdx;
 extern WorkDirStack<1> workDirStack;
-static bool updateInputDevicesOnResume = 0;
+extern bool updateInputDevicesOnResume;
 #ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
 extern SysVController vController;
 #endif
 extern InputManagerView *imMenu;
 extern EmuNavView viewNav;
-static bool menuViewIsActive = 1;
+extern bool menuViewIsActive;
 extern MsgPopup popup;
 extern EmuView emuView;
+extern SystemMenuView mMenu;
 #ifdef CONFIG_BLUETOOTH
 BluetoothAdapter *bta = nullptr;
 #endif
@@ -77,15 +78,7 @@ void onViewChange(Gfx::GfxViewState * = 0);
 
 void setupStatusBarInMenu();
 
-static void setupStatusBarInGame()
-{
-	if(!optionHideStatusBar.isConst)
-		Base::setStatusBarHidden(optionHideStatusBar);
-}
-
-static bool trackFPS = 0;
-static TimeSys prevFrameTime;
-static uint frameCount = 0;
+void setupStatusBarInGame();
 
 void applyOSNavStyle();
 
@@ -93,167 +86,11 @@ void startGameFromMenu();
 
 void restoreMenuFromGame();
 
-namespace Base
-{
-
-static void handleOpenFileCommand(const char *filename)
-{
-	auto type = FsSys::fileType(filename);
-	if(type == Fs::TYPE_DIR)
-	{
-		logMsg("changing to dir %s from external command", filename);
-		restoreMenuFromGame();
-		FsSys::chdir(filename);
-		viewStack.popToRoot();
-		auto &fPicker = *menuAllocator.allocNew<EmuFilePicker>();
-		fPicker.init(Input::keyInputIsPresent());
-		viewStack.useNavView = 0;
-		viewStack.pushAndShow(&fPicker, &menuAllocator);
-		return;
-	}
-	if(type != Fs::TYPE_FILE)
-		return;
-	if(!EmuFilePicker::defaultFsFilter(filename, type))
-		return;
-	FsSys::cPath dirnameTemp, basenameTemp;
-	auto dir = string_dirname(filename, dirnameTemp);
-	auto file = string_basename(filename, basenameTemp);
-	FsSys::chdir(dir);
-	logMsg("opening file %s in dir %s from external command", file, dir);
-	restoreMenuFromGame();
-	GameFilePicker::onSelectFile(file, Input::Event{});
-}
-
-void onDragDrop(const char *filename)
-{
-	logMsg("got DnD: %s", filename);
-	handleOpenFileCommand(filename);
-}
-
-void onInterProcessMessage(const char *filename)
-{
-	logMsg("got IPC: %s", filename);
-	handleOpenFileCommand(filename);
-}
-
-}
-
-namespace Input
-{
-
-void onInputDevChange(const DeviceChange &change)
-{
-	logMsg("got input dev change");
-
-	if(Base::appIsRunning())
-	{
-		updateInputDevices();
-		EmuControls::updateAutoOnScreenControlVisible();
-
-		if(change.added() || change.removed())
-		{
-			if(change.map == Input::Event::MAP_KEYBOARD || change.map == Input::Event::MAP_ICADE)
-			{
-				#ifdef INPUT_HAS_SYSTEM_DEVICE_HOTSWAP
-				if(optionNotifyInputDeviceChange)
-				#endif
-				{
-					popup.post("Input devices have changed", 2, 0);
-					Base::displayNeedsUpdate();
-				}
-			}
-			else
-			{
-				popup.printf(2, 0, "%s %d %s", Input::Event::mapName(change.map), change.devId + 1, change.added() ? "connected" : "disconnected");
-				Base::displayNeedsUpdate();
-			}
-		}
-
-		#ifdef CONFIG_BLUETOOTH
-			if(viewStack.size == 1) // update bluetooth items
-				viewStack.top()->onShow();
-		#endif
-	}
-	else
-	{
-		logMsg("delaying input device changes until app resumes");
-		updateInputDevicesOnResume = 1;
-	}
-
-	if(menuViewIsActive)
-		Base::setIdleDisplayPowerSave(
-		#ifdef CONFIG_BLUETOOTH
-			Bluetooth::devsConnected() ? 0 :
-		#endif
-			(int)optionIdleDisplayPowerSave);
-}
-
-}
-
-static void handleInputEvent(const Input::Event &e)
-{
-	if(e.isPointer())
-	{
-		//logMsg("Pointer %s @ %d,%d", Input::eventActionToStr(e.state), e.x, e.y);
-	}
-	else
-	{
-		//logMsg("%s %s from %s", e.device->keyName(e.button), Input::eventActionToStr(e.state), e.device->name());
-	}
-	if(likely(EmuSystem::isActive()))
-	{
-		emuView.inputEvent(e);
-	}
-	else if(View::modalView)
-		View::modalView->inputEvent(e);
-	else if(menuViewIsActive)
-	{
-		if(e.state == Input::PUSHED && e.isDefaultCancelButton())
-		{
-			if(viewStack.size == 1)
-			{
-				//logMsg("cancel button at view stack root");
-				if(EmuSystem::gameIsRunning())
-				{
-					startGameFromMenu();
-				}
-				else if(e.map == Input::Event::MAP_KEYBOARD && (Config::envIsAndroid || Config::envIsLinux))
-					Base::exit();
-			}
-			else viewStack.popAndShow();
-		}
-		if(e.state == Input::PUSHED && isMenuDismissKey(e))
-		{
-			if(EmuSystem::gameIsRunning())
-			{
-				startGameFromMenu();
-			}
-		}
-		else viewStack.inputEvent(e);
-	}
-}
+void handleInputEvent(const Input::Event &e);
 
 void setupFont();
 
-static void mainInitCommon()
-{
-	initOptions();
-	EmuSystem::initOptions();
-
-	#ifdef CONFIG_BLUETOOTH
-	assert(EmuSystem::maxPlayers <= 5);
-	Bluetooth::maxGamepadsPerType = EmuSystem::maxPlayers;
-	#endif
-
-	loadConfigFile();
-
-	#ifdef USE_BEST_COLOR_MODE_OPTION
-	Base::setWindowPixelBestColorHint(optionBestColorModeHint);
-	#endif
-}
-
-#include <main/EmuMenuViews.hh>
-static SystemMenuView mMenu;
+void mainInitCommon();
 
 template <size_t NAV_GRAD_SIZE>
 static void mainInitWindowCommon(const Gfx::LGradientStopDesc (&navViewGrad)[NAV_GRAD_SIZE])
@@ -322,16 +159,7 @@ static void mainInitWindowCommon(const Gfx::LGradientStopDesc (&navViewGrad)[NAV
 	#ifdef CONFIG_EMUFRAMEWORK_VCONTROLS
 	vController.updateMapping(0);
 	#endif
-    
-    if (isGBAROM)
-    {
-        EmuSystem::configAudioRate_GBA();
-    }
-    else
-    {
-        EmuSystem::configAudioRate_GBC();
-    }
-	
+	EmuSystem::configAudioRate_GBA();
 	Base::setIdleDisplayPowerSave(optionIdleDisplayPowerSave);
 	applyOSNavStyle();
 	setupStatusBarInMenu();
@@ -398,4 +226,3 @@ static void mainInitWindowCommon(const Gfx::LGradientStopDesc (&navViewGrad)[NAV
 
 	Base::displayNeedsUpdate();
 }
-#endif

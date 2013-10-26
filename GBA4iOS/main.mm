@@ -63,7 +63,7 @@ int main(int argc, char * argv[])
 	Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
     
 #warning REMEMBER TO CHANGE THIS
-    doOrExit(Base::onInit_GBA(argc, argv));
+    doOrExit(Base::onInit_GBC(argc, argv));
     
     @autoreleasepool {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([GBAAppDelegate class]));

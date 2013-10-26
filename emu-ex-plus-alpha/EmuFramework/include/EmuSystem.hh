@@ -85,7 +85,8 @@ class EmuSystem
     static void savePathChanged_GBC();
 	static void resetGame_GBA();
     static void resetGame_GBC();
-	static void initOptions();
+	static void initOptions_GBA();
+    static void initOptions_GBC();
 	static void writeConfig_GBA(Io *io);
     static void writeConfig_GBC(Io *io);
 	static bool readConfig_GBA(Io *io, uint key, uint readSize);
