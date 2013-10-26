@@ -365,7 +365,7 @@ namespace Base
     
     void setWindowPixelBestColorHint(bool best)
     {
-       // assert(!mainContext); // should only call before initial window is created
+       // assert(!mainContext); // should only call before initial window is created Riley Testut
         useMaxColorBits = best;
     }
     
