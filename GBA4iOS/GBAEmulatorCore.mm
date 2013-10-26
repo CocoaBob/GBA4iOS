@@ -487,6 +487,7 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 - (void)startEmulation
 {
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
@@ -508,21 +509,27 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
         Base::grayColorSpace = CGColorSpaceCreateDeviceGray();
         Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
         
-        if (isGBAROM)
-        {
-            doOrExit(Base::onInit_GBA(app_argc, app_argv));
-        }
-        else
-        {
-            doOrExit(Base::onInit_GBC(app_argc, app_argv));
-        }
-        
         [self prepareEmulation];
         
-        Base::engineInit();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-        Base::setAutoOrientation(1);
     });
+    
+    [self endEmulation];
+    
+    if (isGBAROM)
+    {
+        doOrExit(Base::onInit_GBA(app_argc, app_argv));
+    }
+    else
+    {
+        doOrExit(Base::onInit_GBC(app_argc, app_argv));
+    }
+    
+    Audio::closePcm();
+    
+    Base::engineInit();
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    Base::setAutoOrientation(1);
     
     using namespace Base;
     using namespace Input;

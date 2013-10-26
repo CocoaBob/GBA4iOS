@@ -62,46 +62,6 @@
 		CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
-		CC29343718133AB90016EF82 /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
-		CC29343818133AB90016EF82 /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
-		CC29343918133AB90016EF82 /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
-		CC29343A18133AB90016EF82 /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F1180C745200BF3DA5 /* ly_counter.cpp */; };
-		CC29343B18133AB90016EF82 /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F2180C745200BF3DA5 /* lyc_irq.cpp */; };
-		CC29343C18133AB90016EF82 /* next_m0_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F3180C745200BF3DA5 /* next_m0_time.cpp */; };
-		CC29343D18133AB90016EF82 /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F4180C745200BF3DA5 /* ppu.cpp */; };
-		CC29343E18133AB90016EF82 /* sprite_mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F5180C745200BF3DA5 /* sprite_mapper.cpp */; };
-		CC29343F18133AB90016EF82 /* channel1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575700180C745E00BF3DA5 /* channel1.cpp */; };
-		CC29344018133AB90016EF82 /* channel2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575701180C745E00BF3DA5 /* channel2.cpp */; };
-		CC29344118133AB90016EF82 /* channel3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575702180C745E00BF3DA5 /* channel3.cpp */; };
-		CC29344218133AB90016EF82 /* channel4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575703180C745E00BF3DA5 /* channel4.cpp */; };
-		CC29344318133AB90016EF82 /* duty_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575704180C745E00BF3DA5 /* duty_unit.cpp */; };
-		CC29344418133AB90016EF82 /* envelope_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575705180C745E00BF3DA5 /* envelope_unit.cpp */; };
-		CC29344518133AB90016EF82 /* length_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575706180C745E00BF3DA5 /* length_counter.cpp */; };
-		CC29344618133AB90016EF82 /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575715180C746600BF3DA5 /* chainresampler.cpp */; };
-		CC29344718133AB90016EF82 /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575716180C746600BF3DA5 /* i0.cpp */; };
-		CC29344818133AB90016EF82 /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575717180C746600BF3DA5 /* kaiser50sinc.cpp */; };
-		CC29344918133AB90016EF82 /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575718180C746600BF3DA5 /* kaiser70sinc.cpp */; };
-		CC29344A18133AB90016EF82 /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575719180C746600BF3DA5 /* makesinckernel.cpp */; };
-		CC29344B18133AB90016EF82 /* resamplerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */; };
-		CC29344C18133AB90016EF82 /* u48div.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571B180C746600BF3DA5 /* u48div.cpp */; };
-		CC29344D18133AB90016EF82 /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572A180C747800BF3DA5 /* file_zip.cpp */; };
-		CC29344E18133AB90016EF82 /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572D180C748100BF3DA5 /* cartridge.cpp */; };
-		CC29344F18133AB90016EF82 /* memptrs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572E180C748100BF3DA5 /* memptrs.cpp */; };
-		CC29345018133AB90016EF82 /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572F180C748100BF3DA5 /* pakinfo.cpp */; };
-		CC29345118133AB90016EF82 /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575730180C748100BF3DA5 /* rtc.cpp */; };
-		CC29345218133AB90016EF82 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575739180C748B00BF3DA5 /* cpu.cpp */; };
-		CC29345318133AB90016EF82 /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573A180C748B00BF3DA5 /* gambatte.cpp */; };
-		CC29345418133AB90016EF82 /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573B180C748B00BF3DA5 /* initstate.cpp */; };
-		CC29345518133AB90016EF82 /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; };
-		CC29345618133AB90016EF82 /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; };
-		CC29345718133AB90016EF82 /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; };
-		CC29345818133AB90016EF82 /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; };
-		CC29345918133AB90016EF82 /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; };
-		CC29345A18133AB90016EF82 /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; };
-		CC29345B18133AB90016EF82 /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
-		CC29345C18133AB90016EF82 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
-		CC29345D18133AB90016EF82 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575A180C74B000BF3DA5 /* ioapi.c */; };
-		CC29345E18133AB90016EF82 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575B180C74B000BF3DA5 /* unzip.c */; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
@@ -110,10 +70,6 @@
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
-		CC43887C180F49470064C74A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC96F00917C2983800C7DD0C /* OpenGLES.framework */; };
-		CC43887D180F494B0064C74A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
-		CC43887E180F49500064C74A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
-		CC43887F180F49570064C74A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
 		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
@@ -178,76 +134,8 @@
 		CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
 		CC5045221814DC69009F7B9E /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
 		CC5045281814DCF9009F7B9E /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC8325CC180E2F6A00001899 /* zip.c */; };
-		CC57568A180C727C00BF3DA5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
-		CC57568B180C727C00BF3DA5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
-		CC57568C180C727C00BF3DA5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
-		CC5756B5180C72D000BF3DA5 /* CreditsView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7194179D2FE400768D24 /* CreditsView.cc */; };
-		CC5756B6180C72D000BF3DA5 /* MsgPopup.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7195179D2FE400768D24 /* MsgPopup.cc */; };
-		CC5756B7180C72D000BF3DA5 /* FilePicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7196179D2FE400768D24 /* FilePicker.cc */; };
-		CC5756B8180C72D000BF3DA5 /* EmuSystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7197179D2FE400768D24 /* EmuSystem.cc */; };
-		CC5756B9180C72D000BF3DA5 /* Recent.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7198179D2FE400768D24 /* Recent.cc */; };
-		CC5756BA180C72D000BF3DA5 /* Screenshot.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7199179D2FE400768D24 /* Screenshot.cc */; };
-		CC5756BB180C72D000BF3DA5 /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
-		CC5756BC180C72D000BF3DA5 /* VideoImageOverlay.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */; };
-		CC5756BD180C72D000BF3DA5 /* StateSlotView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719C179D2FE400768D24 /* StateSlotView.cc */; };
-		CC5756BE180C72D000BF3DA5 /* MenuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719D179D2FE400768D24 /* MenuView.cc */; };
-		CC5756BF180C72D000BF3DA5 /* EmuInput.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719E179D2FE400768D24 /* EmuInput.cc */; };
-		CC5756C0180C72D000BF3DA5 /* TextEntry.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719F179D2FE400768D24 /* TextEntry.cc */; };
-		CC5756C1180C72D000BF3DA5 /* EmuOptions.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A0179D2FE400768D24 /* EmuOptions.cc */; };
-		CC5756C2180C72D000BF3DA5 /* OptionView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A1179D2FE400768D24 /* OptionView.cc */; };
-		CC5756C3180C72D000BF3DA5 /* EmuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A2179D2FE400768D24 /* EmuView.cc */; };
-		CC5756C4180C72D000BF3DA5 /* ConfigFile.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A3179D2FE400768D24 /* ConfigFile.cc */; };
-		CC5756C5180C72D000BF3DA5 /* InputManagerView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A4179D2FE400768D24 /* InputManagerView.cc */; };
-		CC5756C6180C72D000BF3DA5 /* FileUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A5179D2FE400768D24 /* FileUtils.cc */; };
-		CC5756C7180C72D000BF3DA5 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A6179D2FE400768D24 /* Cheats.cc */; };
-		CC5756C8180C72D000BF3DA5 /* TouchConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */; };
-		CC5756C9180C72D000BF3DA5 /* VController.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A8179D2FE400768D24 /* VController.cc */; };
-		CC5756CA180C72D700BF3DA5 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
-		CC5756CB180C72D700BF3DA5 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
-		CC5756CC180C72D700BF3DA5 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
-		CC5756CD180C72D700BF3DA5 /* opengl.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7158179D2EAA00768D24 /* opengl.cc */; };
-		CC5756CE180C72D700BF3DA5 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7159179D2EAA00768D24 /* View.cc */; };
-		CC5756CF180C72D700BF3DA5 /* ScrollView1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */; };
-		CC5756D0180C72D700BF3DA5 /* GuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */; };
-		CC5756D1180C72D700BF3DA5 /* ScrollableGuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */; };
-		CC5756D2180C72D700BF3DA5 /* FsPosix.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715D179D2EAA00768D24 /* FsPosix.cc */; };
-		CC5756D3180C72D700BF3DA5 /* Io.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715E179D2EAA00768D24 /* Io.cc */; };
-		CC5756D4180C72D700BF3DA5 /* IoFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715F179D2EAA00768D24 /* IoFd.cc */; };
-		CC5756D5180C72D700BF3DA5 /* IoMmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7160179D2EAA00768D24 /* IoMmap.cc */; };
-		CC5756D6180C72D700BF3DA5 /* IoMmapFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */; };
-		CC5756D7180C72D700BF3DA5 /* MenuItem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7169179D2EAA00768D24 /* MenuItem.cc */; };
-		CC5756D8180C72D700BF3DA5 /* NavView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716A179D2EAA00768D24 /* NavView.cc */; };
-		CC5756D9180C72D700BF3DA5 /* FSPicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716B179D2EAA00768D24 /* FSPicker.cc */; };
-		CC5756DA180C72D700BF3DA5 /* AlertView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716C179D2EAA00768D24 /* AlertView.cc */; };
-		CC5756DB180C72D700BF3DA5 /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716D179D2EAA00768D24 /* ResourceFace.cc */; };
-		CC5756DC180C72D700BF3DA5 /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716E179D2EAA00768D24 /* ResourceFont.cc */; };
-		CC5756DD180C72D700BF3DA5 /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716F179D2EAA00768D24 /* Quartz2d.cc */; };
-		CC5756DE180C72D700BF3DA5 /* iphone.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7170179D2EAB00768D24 /* iphone.mm */; };
-		CC5756DF180C72D700BF3DA5 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; };
-		CC5756E0180C72D700BF3DA5 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; };
-		CC5756E1180C72D700BF3DA5 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; };
-		CC5756E2180C72DE00BF3DA5 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD4179D1BC60068A54E /* png.c */; };
-		CC5756E3180C72DE00BF3DA5 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD6179D1BC60068A54E /* pngerror.c */; };
-		CC5756E4180C72DE00BF3DA5 /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD7179D1BC60068A54E /* pngget.c */; };
-		CC5756E5180C72DE00BF3DA5 /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD8179D1BC60068A54E /* pngmem.c */; };
-		CC5756E6180C72DE00BF3DA5 /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD9179D1BC60068A54E /* pngpread.c */; };
-		CC5756E7180C72DE00BF3DA5 /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADA179D1BC60068A54E /* pngread.c */; };
-		CC5756E8180C72DE00BF3DA5 /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADB179D1BC60068A54E /* pngrio.c */; };
-		CC5756E9180C72DE00BF3DA5 /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADC179D1BC60068A54E /* pngrtran.c */; };
-		CC5756EA180C72DE00BF3DA5 /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADD179D1BC60068A54E /* pngrutil.c */; };
-		CC5756EB180C72DE00BF3DA5 /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADE179D1BC60068A54E /* pngset.c */; };
-		CC5756EC180C72DE00BF3DA5 /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADF179D1BC60068A54E /* pngtrans.c */; };
-		CC5756ED180C72DE00BF3DA5 /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE0179D1BC60068A54E /* pngwio.c */; };
-		CC5756EE180C72DE00BF3DA5 /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
-		CC5756EF180C72DE00BF3DA5 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
-		CC5756F0180C72DE00BF3DA5 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
 		CC57576A180C766C00BF3DA5 /* GBCImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC575769180C766C00BF3DA5 /* GBCImages.xcassets */; };
-		CC57576B180C766C00BF3DA5 /* GBCImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC575769180C766C00BF3DA5 /* GBCImages.xcassets */; };
 		CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC58C8D817E649C7008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
-		CC58C8D917E649C7008F472E /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
-		CC58C8DB17E649C7008F472E /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53A179ECDCC00449972 /* overlays128.png */; };
-		CC58C8DC17E649C7008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC58C8EF17E649CA008F472E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC58C8F417E649CA008F472E /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
@@ -258,7 +146,6 @@
 		CC58C8FD17E64A92008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC6420B41807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
 		CC6420B51807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
-		CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC6A2D8C17C503D700EFC10E /* OriginalImages.xcassets */; };
 		CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
 		CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
 		CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
@@ -346,131 +233,6 @@
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
 		CC8D5A7B17AAE3A800E89F43 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
-		CC96EF6617C2959900C7DD0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
-		CC96EF6717C2959900C7DD0C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
-		CC96EF6817C2959900C7DD0C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
-		CC96EF9217C296A100C7DD0C /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C0179D304600768D24 /* Main.cc */; };
-		CC96EF9317C296A100C7DD0C /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C1179D304600768D24 /* EmuControls.cc */; };
-		CC96EF9417C296A100C7DD0C /* VbamApi.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C2179D304600768D24 /* VbamApi.cc */; };
-		CC96EF9517C296A100C7DD0C /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C3179D304600768D24 /* Cheats.cc */; };
-		CC96EF9617C296A100C7DD0C /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C4179D304600768D24 /* bios.cpp */; };
-		CC96EF9717C296A100C7DD0C /* Cheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C5179D304600768D24 /* Cheats.cpp */; };
-		CC96EF9817C296A100C7DD0C /* CheatSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C6179D304600768D24 /* CheatSearch.cpp */; };
-		CC96EF9917C296A100C7DD0C /* EEprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C7179D304600768D24 /* EEprom.cpp */; };
-		CC96EF9A17C296A100C7DD0C /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C8179D304600768D24 /* Flash.cpp */; };
-		CC96EF9B17C296A100C7DD0C /* GBA-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C9179D304600768D24 /* GBA-arm.cpp */; };
-		CC96EF9C17C296A100C7DD0C /* GBA-thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CA179D304600768D24 /* GBA-thumb.cpp */; };
-		CC96EF9D17C296A100C7DD0C /* GBA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CB179D304600768D24 /* GBA.cpp */; };
-		CC96EF9E17C296A100C7DD0C /* gbafilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CC179D304600768D24 /* gbafilter.cpp */; };
-		CC96EF9F17C296A100C7DD0C /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CD179D304600768D24 /* Globals.cpp */; };
-		CC96EFA017C296A100C7DD0C /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CE179D304600768D24 /* Mode0.cpp */; };
-		CC96EFA117C296A100C7DD0C /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CF179D304600768D24 /* Mode1.cpp */; };
-		CC96EFA217C296A100C7DD0C /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D0179D304600768D24 /* Mode2.cpp */; };
-		CC96EFA317C296A100C7DD0C /* Mode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D1179D304600768D24 /* Mode3.cpp */; };
-		CC96EFA417C296A100C7DD0C /* Mode4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D2179D304600768D24 /* Mode4.cpp */; };
-		CC96EFA517C296A100C7DD0C /* Mode5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D3179D304600768D24 /* Mode5.cpp */; };
-		CC96EFA617C296A100C7DD0C /* RTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D4179D304600768D24 /* RTC.cpp */; };
-		CC96EFA717C296A100C7DD0C /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D5179D304600768D24 /* Sound.cpp */; };
-		CC96EFA817C296A100C7DD0C /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D6179D304600768D24 /* Sram.cpp */; };
-		CC96EFA917C296A100C7DD0C /* Patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D7179D304600768D24 /* Patch.cpp */; };
-		CC96EFAA17C296A100C7DD0C /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D8179D304600768D24 /* Util.cpp */; };
-		CC96EFAB17C296A100C7DD0C /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */; };
-		CC96EFAC17C296A100C7DD0C /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */; };
-		CC96EFAD17C296A100C7DD0C /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DB179D304700768D24 /* Gb_Apu.cpp */; };
-		CC96EFAE17C296A100C7DD0C /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */; };
-		CC96EFAF17C296A100C7DD0C /* Multi_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */; };
-		CC96EFB017C296A100C7DD0C /* Binary_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */; };
-		CC96EFB117C296A100C7DD0C /* blargg_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DF179D304700768D24 /* blargg_common.cpp */; };
-		CC96EFB217C296A100C7DD0C /* blargg_errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E0179D304700768D24 /* blargg_errors.cpp */; };
-		CC96EFB317C296A100C7DD0C /* Data_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E1179D304700768D24 /* Data_Reader.cpp */; };
-		CC96EFB417C296A100C7DD0C /* fex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E2179D304700768D24 /* fex.cpp */; };
-		CC96EFB517C296A100C7DD0C /* File_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E3179D304700768D24 /* File_Extractor.cpp */; };
-		CC96EFB617C296A100C7DD0C /* Gzip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */; };
-		CC96EFB717C296A100C7DD0C /* Gzip_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */; };
-		CC96EFB817C296A100C7DD0C /* Rar_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */; };
-		CC96EFB917C296A100C7DD0C /* Zip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */; };
-		CC96EFBA17C296A100C7DD0C /* Zip7_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */; };
-		CC96EFBB17C296A100C7DD0C /* Zlib_Inflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */; };
-		CC96EFBC17C296A100C7DD0C /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EA179D304700768D24 /* memgzio.c */; };
-		CC96EFBD17C296A100C7DD0C /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; };
-		CC96EFBE17C296A100C7DD0C /* 7zBuf.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EC179D304700768D24 /* 7zBuf.c */; };
-		CC96EFBF17C296A100C7DD0C /* 7zCrc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71ED179D304700768D24 /* 7zCrc.c */; };
-		CC96EFC017C296A100C7DD0C /* 7zCrcOpt.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EE179D304700768D24 /* 7zCrcOpt.c */; };
-		CC96EFC117C296A100C7DD0C /* 7zDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EF179D304700768D24 /* 7zDec.c */; };
-		CC96EFC217C296A100C7DD0C /* 7zIn.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F0179D304700768D24 /* 7zIn.c */; };
-		CC96EFC317C296A100C7DD0C /* 7zStream.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F1179D304700768D24 /* 7zStream.c */; };
-		CC96EFC417C296A100C7DD0C /* Bcj2.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F2179D304700768D24 /* Bcj2.c */; };
-		CC96EFC517C296A100C7DD0C /* Bra.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F3179D304700768D24 /* Bra.c */; };
-		CC96EFC617C296A100C7DD0C /* Bra86.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F4179D304700768D24 /* Bra86.c */; };
-		CC96EFC717C296A100C7DD0C /* CpuArch.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F5179D304700768D24 /* CpuArch.c */; };
-		CC96EFC817C296A100C7DD0C /* Lzma2Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F6179D304700768D24 /* Lzma2Dec.c */; };
-		CC96EFC917C296A100C7DD0C /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
-		CC96EFCA17C296A100C7DD0C /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
-		CC96EFCB17C296A100C7DD0C /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
-		CC96EFCC17C296A100C7DD0C /* CreditsView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7194179D2FE400768D24 /* CreditsView.cc */; };
-		CC96EFCD17C296A100C7DD0C /* MsgPopup.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7195179D2FE400768D24 /* MsgPopup.cc */; };
-		CC96EFCE17C296A100C7DD0C /* FilePicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7196179D2FE400768D24 /* FilePicker.cc */; };
-		CC96EFCF17C296A100C7DD0C /* EmuSystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7197179D2FE400768D24 /* EmuSystem.cc */; };
-		CC96EFD017C296A100C7DD0C /* Recent.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7198179D2FE400768D24 /* Recent.cc */; };
-		CC96EFD117C296A100C7DD0C /* Screenshot.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7199179D2FE400768D24 /* Screenshot.cc */; };
-		CC96EFD217C296A100C7DD0C /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
-		CC96EFD317C296A100C7DD0C /* VideoImageOverlay.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */; };
-		CC96EFD417C296A100C7DD0C /* StateSlotView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719C179D2FE400768D24 /* StateSlotView.cc */; };
-		CC96EFD517C296A100C7DD0C /* MenuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719D179D2FE400768D24 /* MenuView.cc */; };
-		CC96EFD617C296A100C7DD0C /* EmuInput.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719E179D2FE400768D24 /* EmuInput.cc */; };
-		CC96EFD717C296A100C7DD0C /* TextEntry.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719F179D2FE400768D24 /* TextEntry.cc */; };
-		CC96EFD817C296A100C7DD0C /* EmuOptions.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A0179D2FE400768D24 /* EmuOptions.cc */; };
-		CC96EFD917C296A100C7DD0C /* OptionView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A1179D2FE400768D24 /* OptionView.cc */; };
-		CC96EFDA17C296A100C7DD0C /* EmuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A2179D2FE400768D24 /* EmuView.cc */; };
-		CC96EFDB17C296A100C7DD0C /* ConfigFile.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A3179D2FE400768D24 /* ConfigFile.cc */; };
-		CC96EFDC17C296A100C7DD0C /* InputManagerView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A4179D2FE400768D24 /* InputManagerView.cc */; };
-		CC96EFDD17C296A100C7DD0C /* FileUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A5179D2FE400768D24 /* FileUtils.cc */; };
-		CC96EFDE17C296A100C7DD0C /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A6179D2FE400768D24 /* Cheats.cc */; };
-		CC96EFDF17C296A100C7DD0C /* TouchConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */; };
-		CC96EFE017C296A100C7DD0C /* VController.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A8179D2FE400768D24 /* VController.cc */; };
-		CC96EFE117C296A100C7DD0C /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
-		CC96EFE217C296A100C7DD0C /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
-		CC96EFE317C296A100C7DD0C /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
-		CC96EFE417C296A100C7DD0C /* opengl.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7158179D2EAA00768D24 /* opengl.cc */; };
-		CC96EFE517C296A100C7DD0C /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7159179D2EAA00768D24 /* View.cc */; };
-		CC96EFE617C296A100C7DD0C /* ScrollView1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */; };
-		CC96EFE717C296A100C7DD0C /* GuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */; };
-		CC96EFE817C296A200C7DD0C /* ScrollableGuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */; };
-		CC96EFE917C296A200C7DD0C /* FsPosix.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715D179D2EAA00768D24 /* FsPosix.cc */; };
-		CC96EFEA17C296A200C7DD0C /* Io.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715E179D2EAA00768D24 /* Io.cc */; };
-		CC96EFEB17C296A200C7DD0C /* IoFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715F179D2EAA00768D24 /* IoFd.cc */; };
-		CC96EFEC17C296A200C7DD0C /* IoMmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7160179D2EAA00768D24 /* IoMmap.cc */; };
-		CC96EFED17C296A200C7DD0C /* IoMmapFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */; };
-		CC96EFEE17C296A200C7DD0C /* MenuItem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7169179D2EAA00768D24 /* MenuItem.cc */; };
-		CC96EFEF17C296A200C7DD0C /* NavView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716A179D2EAA00768D24 /* NavView.cc */; };
-		CC96EFF017C296A200C7DD0C /* FSPicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716B179D2EAA00768D24 /* FSPicker.cc */; };
-		CC96EFF117C296A200C7DD0C /* AlertView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716C179D2EAA00768D24 /* AlertView.cc */; };
-		CC96EFF217C296A200C7DD0C /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716D179D2EAA00768D24 /* ResourceFace.cc */; };
-		CC96EFF317C296A200C7DD0C /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716E179D2EAA00768D24 /* ResourceFont.cc */; };
-		CC96EFF417C296A200C7DD0C /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716F179D2EAA00768D24 /* Quartz2d.cc */; };
-		CC96EFF517C296A200C7DD0C /* iphone.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7170179D2EAB00768D24 /* iphone.mm */; };
-		CC96EFF617C296A200C7DD0C /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; };
-		CC96EFF717C296A200C7DD0C /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; };
-		CC96EFF817C296A200C7DD0C /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; };
-		CC96EFF917C296A200C7DD0C /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD4179D1BC60068A54E /* png.c */; };
-		CC96EFFA17C296A200C7DD0C /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD6179D1BC60068A54E /* pngerror.c */; };
-		CC96EFFB17C296A200C7DD0C /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD7179D1BC60068A54E /* pngget.c */; };
-		CC96EFFC17C296A200C7DD0C /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD8179D1BC60068A54E /* pngmem.c */; };
-		CC96EFFD17C296A200C7DD0C /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD9179D1BC60068A54E /* pngpread.c */; };
-		CC96EFFE17C296A200C7DD0C /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADA179D1BC60068A54E /* pngread.c */; };
-		CC96EFFF17C296A200C7DD0C /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADB179D1BC60068A54E /* pngrio.c */; };
-		CC96F00017C296A200C7DD0C /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADC179D1BC60068A54E /* pngrtran.c */; };
-		CC96F00117C296A200C7DD0C /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADD179D1BC60068A54E /* pngrutil.c */; };
-		CC96F00217C296A200C7DD0C /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADE179D1BC60068A54E /* pngset.c */; };
-		CC96F00317C296A200C7DD0C /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADF179D1BC60068A54E /* pngtrans.c */; };
-		CC96F00417C296A200C7DD0C /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE0179D1BC60068A54E /* pngwio.c */; };
-		CC96F00517C296A200C7DD0C /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
-		CC96F00617C296A200C7DD0C /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
-		CC96F00717C296A200C7DD0C /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
-		CC96F00817C2982C00C7DD0C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
-		CC96F00A17C2983800C7DD0C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC96F00917C2983800C7DD0C /* OpenGLES.framework */; };
-		CC96F00B17C2984200C7DD0C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
-		CC96F00C17C2984F00C7DD0C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
@@ -650,7 +412,6 @@
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
 		CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASaveStateViewController.mm; sourceTree = "<group>"; };
 		CC5044E61814C474009F7B9E /* Default.gbcskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbcskin; path = "Skins/Default GBC/Default.gbcskin"; sourceTree = SOURCE_ROOT; };
-		CC575689180C727C00BF3DA5 /* GBC.emu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBC.emu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC57568F180C727C00BF3DA5 /* GBC.emu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBC.emu-Info.plist"; sourceTree = "<group>"; };
 		CC575695180C727C00BF3DA5 /* GBC.emu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBC.emu-Prefix.pch"; sourceTree = "<group>"; };
 		CC5756F1180C745200BF3DA5 /* ly_counter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ly_counter.cpp; path = "emu-ex-plus-alpha/GBC.emu/src/libgambatte/src/video/ly_counter.cpp"; sourceTree = SOURCE_ROOT; };
@@ -785,7 +546,6 @@
 		CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulationViewController.mm; sourceTree = "<group>"; };
 		CC8D5A7817AAE3A800E89F43 /* GBAControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerView.h; sourceTree = "<group>"; };
 		CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerView.m; sourceTree = "<group>"; };
-		CC96EF6517C2959900C7DD0C /* GBA.emu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBA.emu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC96EF6B17C2959900C7DD0C /* GBA.emu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GBA.emu-Info.plist"; sourceTree = "<group>"; };
 		CC96EF7117C2959900C7DD0C /* GBA.emu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA.emu-Prefix.pch"; sourceTree = "<group>"; };
 		CC96F00917C2983800C7DD0C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -963,34 +723,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CC575686180C727C00BF3DA5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC43887F180F49570064C74A /* libz.dylib in Frameworks */,
-				CC43887E180F49500064C74A /* QuartzCore.framework in Frameworks */,
-				CC43887D180F494B0064C74A /* AudioToolbox.framework in Frameworks */,
-				CC43887C180F49470064C74A /* OpenGLES.framework in Frameworks */,
-				CC57568B180C727C00BF3DA5 /* CoreGraphics.framework in Frameworks */,
-				CC57568C180C727C00BF3DA5 /* UIKit.framework in Frameworks */,
-				CC57568A180C727C00BF3DA5 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC96EF6217C2959800C7DD0C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC96F00C17C2984F00C7DD0C /* QuartzCore.framework in Frameworks */,
-				CC96F00B17C2984200C7DD0C /* AudioToolbox.framework in Frameworks */,
-				CC96F00A17C2983800C7DD0C /* OpenGLES.framework in Frameworks */,
-				CC96F00817C2982C00C7DD0C /* libz.dylib in Frameworks */,
-				CC96EF6717C2959900C7DD0C /* CoreGraphics.framework in Frameworks */,
-				CC96EF6817C2959900C7DD0C /* UIKit.framework in Frameworks */,
-				CC96EF6617C2959900C7DD0C /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1154,8 +886,6 @@
 			children = (
 				CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */,
 				CC275C5017A5075E006243FB /* GBA4iOS copy.app */,
-				CC96EF6517C2959900C7DD0C /* GBA.emu.app */,
-				CC575689180C727C00BF3DA5 /* GBC.emu.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1685,40 +1415,6 @@
 			productReference = CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CC575688180C727C00BF3DA5 /* GBC.emu */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC5756AD180C727E00BF3DA5 /* Build configuration list for PBXNativeTarget "GBC.emu" */;
-			buildPhases = (
-				CC575685180C727C00BF3DA5 /* Sources */,
-				CC575686180C727C00BF3DA5 /* Frameworks */,
-				CC575687180C727C00BF3DA5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = GBC.emu;
-			productName = GBC.emu;
-			productReference = CC575689180C727C00BF3DA5 /* GBC.emu.app */;
-			productType = "com.apple.product-type.application";
-		};
-		CC96EF6417C2959800C7DD0C /* GBA.emu */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CC96EF8917C2959900C7DD0C /* Build configuration list for PBXNativeTarget "GBA.emu" */;
-			buildPhases = (
-				CC96EF6117C2959800C7DD0C /* Sources */,
-				CC96EF6217C2959800C7DD0C /* Frameworks */,
-				CC96EF6317C2959800C7DD0C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = GBA.emu;
-			productName = GBA.emu;
-			productReference = CC96EF6517C2959900C7DD0C /* GBA.emu.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1737,12 +1433,6 @@
 							};
 						};
 					};
-					CC575688180C727C00BF3DA5 = {
-						DevelopmentTeam = 6XVY5G3U44;
-					};
-					CC96EF6417C2959800C7DD0C = {
-						DevelopmentTeam = 6XVY5G3U44;
-					};
 				};
 			};
 			buildConfigurationList = CC2D56F71798F2EC00C616EB /* Build configuration list for PBXProject "GBA4iOS" */;
@@ -1760,8 +1450,6 @@
 			targets = (
 				CC2D56FB1798F2EC00C616EB /* GBA4iOS */,
 				CC275BB317A5075E006243FB /* GBA4iOS-Simulator */,
-				CC96EF6417C2959800C7DD0C /* GBA.emu */,
-				CC575688180C727C00BF3DA5 /* GBC.emu */,
 			);
 		};
 /* End PBXProject section */
@@ -1803,26 +1491,6 @@
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC575687180C727C00BF3DA5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC57576B180C766C00BF3DA5 /* GBCImages.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC96EF6317C2959800C7DD0C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC6A2D8D17C503D700EFC10E /* OriginalImages.xcassets in Resources */,
-				CC58C8DB17E649C7008F472E /* overlays128.png in Resources */,
-				CC58C8D917E649C7008F472E /* padButton.png in Resources */,
-				CC58C8DC17E649C7008F472E /* xButton.png in Resources */,
-				CC58C8D817E649C7008F472E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2181,238 +1849,6 @@
 				CCC9B8A41815AC7E005C90EE /* makesinckernel.cpp in Sources */,
 				CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */,
 				CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC575685180C727C00BF3DA5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC29343918133AB90016EF82 /* Main.cc in Sources */,
-				CC29345A18133AB90016EF82 /* statesaver.cpp in Sources */,
-				CC29344D18133AB90016EF82 /* file_zip.cpp in Sources */,
-				CC5756E5180C72DE00BF3DA5 /* pngmem.c in Sources */,
-				CC29344118133AB90016EF82 /* channel3.cpp in Sources */,
-				CC5756D3180C72D700BF3DA5 /* Io.cc in Sources */,
-				CC29343A18133AB90016EF82 /* ly_counter.cpp in Sources */,
-				CC5756B7180C72D000BF3DA5 /* FilePicker.cc in Sources */,
-				CC29343818133AB90016EF82 /* EmuControls.cc in Sources */,
-				CC5756EE180C72DE00BF3DA5 /* pngwrite.c in Sources */,
-				CC5756B5180C72D000BF3DA5 /* CreditsView.cc in Sources */,
-				CC29344C18133AB90016EF82 /* u48div.cpp in Sources */,
-				CC5756DA180C72D700BF3DA5 /* AlertView.cc in Sources */,
-				CC5756E4180C72DE00BF3DA5 /* pngget.c in Sources */,
-				CC5756DD180C72D700BF3DA5 /* Quartz2d.cc in Sources */,
-				CC29344818133AB90016EF82 /* kaiser50sinc.cpp in Sources */,
-				CC29345918133AB90016EF82 /* sound_GBC.cpp in Sources */,
-				CC5756CC180C72D700BF3DA5 /* Pixmap.cc in Sources */,
-				CC29345618133AB90016EF82 /* interruptrequester.cpp in Sources */,
-				CC5756C5180C72D000BF3DA5 /* InputManagerView.cc in Sources */,
-				CC5756BC180C72D000BF3DA5 /* VideoImageOverlay.cc in Sources */,
-				CC5756DE180C72D700BF3DA5 /* iphone.mm in Sources */,
-				CC5756EB180C72DE00BF3DA5 /* pngset.c in Sources */,
-				CC5756E3180C72DE00BF3DA5 /* pngerror.c in Sources */,
-				CC5756C7180C72D000BF3DA5 /* Cheats.cc in Sources */,
-				CC29343C18133AB90016EF82 /* next_m0_time.cpp in Sources */,
-				CC5756DC180C72D700BF3DA5 /* ResourceFont.cc in Sources */,
-				CC5756CE180C72D700BF3DA5 /* View.cc in Sources */,
-				CC29343E18133AB90016EF82 /* sprite_mapper.cpp in Sources */,
-				CC29345518133AB90016EF82 /* interrupter.cpp in Sources */,
-				CC29344418133AB90016EF82 /* envelope_unit.cpp in Sources */,
-				CC29345118133AB90016EF82 /* rtc.cpp in Sources */,
-				CC5756BE180C72D000BF3DA5 /* MenuView.cc in Sources */,
-				CC29345B18133AB90016EF82 /* tima.cpp in Sources */,
-				CC5756E6180C72DE00BF3DA5 /* pngpread.c in Sources */,
-				CC5756CD180C72D700BF3DA5 /* opengl.cc in Sources */,
-				CC5756E9180C72DE00BF3DA5 /* pngrtran.c in Sources */,
-				CC5756B9180C72D000BF3DA5 /* Recent.cc in Sources */,
-				CC29345718133AB90016EF82 /* loadres.cpp in Sources */,
-				CC5756D2180C72D700BF3DA5 /* FsPosix.cc in Sources */,
-				CC5756D6180C72D700BF3DA5 /* IoMmapFd.cc in Sources */,
-				CC29345418133AB90016EF82 /* initstate.cpp in Sources */,
-				CC5756C2180C72D000BF3DA5 /* OptionView.cc in Sources */,
-				CC5756BB180C72D000BF3DA5 /* ButtonConfigView.cc in Sources */,
-				CC29344918133AB90016EF82 /* kaiser70sinc.cpp in Sources */,
-				CC29344518133AB90016EF82 /* length_counter.cpp in Sources */,
-				CC5756C9180C72D000BF3DA5 /* VController.cc in Sources */,
-				CC5756C6180C72D000BF3DA5 /* FileUtils.cc in Sources */,
-				CC5756B6180C72D000BF3DA5 /* MsgPopup.cc in Sources */,
-				CC5756CA180C72D700BF3DA5 /* logger.cc in Sources */,
-				CC5756D4180C72D700BF3DA5 /* IoFd.cc in Sources */,
-				CC29345C18133AB90016EF82 /* video.cpp in Sources */,
-				CC29344B18133AB90016EF82 /* resamplerinfo.cpp in Sources */,
-				CC5756C8180C72D000BF3DA5 /* TouchConfigView.cc in Sources */,
-				CC5756ED180C72DE00BF3DA5 /* pngwio.c in Sources */,
-				CC29344618133AB90016EF82 /* chainresampler.cpp in Sources */,
-				CC5756C3180C72D000BF3DA5 /* EmuView.cc in Sources */,
-				CC29344318133AB90016EF82 /* duty_unit.cpp in Sources */,
-				CC5756EA180C72DE00BF3DA5 /* pngrutil.c in Sources */,
-				CC29345018133AB90016EF82 /* pakinfo.cpp in Sources */,
-				CC5756E2180C72DE00BF3DA5 /* png.c in Sources */,
-				CC29343718133AB90016EF82 /* Cheats_GBC.cc in Sources */,
-				CC5756F0180C72DE00BF3DA5 /* pngwutil.c in Sources */,
-				CC29343D18133AB90016EF82 /* ppu.cpp in Sources */,
-				CC5756D0180C72D700BF3DA5 /* GuiTable1D.cc in Sources */,
-				CC5756D5180C72D700BF3DA5 /* IoMmap.cc in Sources */,
-				CC29345E18133AB90016EF82 /* unzip.c in Sources */,
-				CC29344018133AB90016EF82 /* channel2.cpp in Sources */,
-				CC29344F18133AB90016EF82 /* memptrs.cpp in Sources */,
-				CC5756BF180C72D000BF3DA5 /* EmuInput.cc in Sources */,
-				CC5756EC180C72DE00BF3DA5 /* pngtrans.c in Sources */,
-				CC29344E18133AB90016EF82 /* cartridge.cpp in Sources */,
-				CC29344218133AB90016EF82 /* channel4.cpp in Sources */,
-				CC5756DB180C72D700BF3DA5 /* ResourceFace.cc in Sources */,
-				CC5756EF180C72DE00BF3DA5 /* pngwtran.c in Sources */,
-				CC5756C4180C72D000BF3DA5 /* ConfigFile.cc in Sources */,
-				CC5756B8180C72D000BF3DA5 /* EmuSystem.cc in Sources */,
-				CC5756D8180C72D700BF3DA5 /* NavView.cc in Sources */,
-				CC29343F18133AB90016EF82 /* channel1.cpp in Sources */,
-				CC29344A18133AB90016EF82 /* makesinckernel.cpp in Sources */,
-				CC29344718133AB90016EF82 /* i0.cpp in Sources */,
-				CC29345318133AB90016EF82 /* gambatte.cpp in Sources */,
-				CC5756CF180C72D700BF3DA5 /* ScrollView1D.cc in Sources */,
-				CC5756C0180C72D000BF3DA5 /* TextEntry.cc in Sources */,
-				CC5756BA180C72D000BF3DA5 /* Screenshot.cc in Sources */,
-				CC5756D9180C72D700BF3DA5 /* FSPicker.cc in Sources */,
-				CC5756D7180C72D700BF3DA5 /* MenuItem.cc in Sources */,
-				CC5756BD180C72D000BF3DA5 /* StateSlotView.cc in Sources */,
-				CC5756E7180C72DE00BF3DA5 /* pngread.c in Sources */,
-				CC29343B18133AB90016EF82 /* lyc_irq.cpp in Sources */,
-				CC29345218133AB90016EF82 /* cpu.cpp in Sources */,
-				CC5756E0180C72D700BF3DA5 /* ResourceFontUIKit.mm in Sources */,
-				CC29345818133AB90016EF82 /* memory_GBC.cpp in Sources */,
-				CC5756DF180C72D700BF3DA5 /* apple.mm in Sources */,
-				CC5756C1180C72D000BF3DA5 /* EmuOptions.cc in Sources */,
-				CC5756E8180C72DE00BF3DA5 /* pngrio.c in Sources */,
-				CC5756D1180C72D700BF3DA5 /* ScrollableGuiTable1D.cc in Sources */,
-				CC29345D18133AB90016EF82 /* ioapi.c in Sources */,
-				CC5756E1180C72D700BF3DA5 /* Quartz2dUIKit.mm in Sources */,
-				CC5756CB180C72D700BF3DA5 /* coreaudio.cc in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CC96EF6117C2959800C7DD0C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CC96EF9217C296A100C7DD0C /* Main.cc in Sources */,
-				CC96EF9317C296A100C7DD0C /* EmuControls.cc in Sources */,
-				CC96EF9417C296A100C7DD0C /* VbamApi.cc in Sources */,
-				CC96EF9517C296A100C7DD0C /* Cheats.cc in Sources */,
-				CC96EF9617C296A100C7DD0C /* bios.cpp in Sources */,
-				CC96EF9717C296A100C7DD0C /* Cheats.cpp in Sources */,
-				CC96EF9817C296A100C7DD0C /* CheatSearch.cpp in Sources */,
-				CC96EF9917C296A100C7DD0C /* EEprom.cpp in Sources */,
-				CC96EF9A17C296A100C7DD0C /* Flash.cpp in Sources */,
-				CC96EF9B17C296A100C7DD0C /* GBA-arm.cpp in Sources */,
-				CC96EF9C17C296A100C7DD0C /* GBA-thumb.cpp in Sources */,
-				CC96EF9D17C296A100C7DD0C /* GBA.cpp in Sources */,
-				CC96EF9E17C296A100C7DD0C /* gbafilter.cpp in Sources */,
-				CC96EF9F17C296A100C7DD0C /* Globals.cpp in Sources */,
-				CC96EFA017C296A100C7DD0C /* Mode0.cpp in Sources */,
-				CC96EFA117C296A100C7DD0C /* Mode1.cpp in Sources */,
-				CC96EFA217C296A100C7DD0C /* Mode2.cpp in Sources */,
-				CC96EFA317C296A100C7DD0C /* Mode3.cpp in Sources */,
-				CC96EFA417C296A100C7DD0C /* Mode4.cpp in Sources */,
-				CC96EFA517C296A100C7DD0C /* Mode5.cpp in Sources */,
-				CC96EFA617C296A100C7DD0C /* RTC.cpp in Sources */,
-				CC96EFA717C296A100C7DD0C /* Sound.cpp in Sources */,
-				CC96EFA817C296A100C7DD0C /* Sram.cpp in Sources */,
-				CC96EFA917C296A100C7DD0C /* Patch.cpp in Sources */,
-				CC96EFAA17C296A100C7DD0C /* Util.cpp in Sources */,
-				CC96EFAB17C296A100C7DD0C /* Blip_Buffer.cpp in Sources */,
-				CC96EFAC17C296A100C7DD0C /* Gb_Apu_State.cpp in Sources */,
-				CC96EFAD17C296A100C7DD0C /* Gb_Apu.cpp in Sources */,
-				CC96EFAE17C296A100C7DD0C /* Gb_Oscs.cpp in Sources */,
-				CC96EFAF17C296A100C7DD0C /* Multi_Buffer.cpp in Sources */,
-				CC96EFB017C296A100C7DD0C /* Binary_Extractor.cpp in Sources */,
-				CC96EFB117C296A100C7DD0C /* blargg_common.cpp in Sources */,
-				CC96EFB217C296A100C7DD0C /* blargg_errors.cpp in Sources */,
-				CC96EFB317C296A100C7DD0C /* Data_Reader.cpp in Sources */,
-				CC96EFB417C296A100C7DD0C /* fex.cpp in Sources */,
-				CC96EFB517C296A100C7DD0C /* File_Extractor.cpp in Sources */,
-				CC96EFB617C296A100C7DD0C /* Gzip_Extractor.cpp in Sources */,
-				CC96EFB717C296A100C7DD0C /* Gzip_Reader.cpp in Sources */,
-				CC96EFB817C296A100C7DD0C /* Rar_Extractor.cpp in Sources */,
-				CC96EFB917C296A100C7DD0C /* Zip_Extractor.cpp in Sources */,
-				CC96EFBA17C296A100C7DD0C /* Zip7_Extractor.cpp in Sources */,
-				CC96EFBB17C296A100C7DD0C /* Zlib_Inflater.cpp in Sources */,
-				CC96EFBC17C296A100C7DD0C /* memgzio.c in Sources */,
-				CC96EFBD17C296A100C7DD0C /* 7zAlloc.c in Sources */,
-				CC96EFBE17C296A100C7DD0C /* 7zBuf.c in Sources */,
-				CC96EFBF17C296A100C7DD0C /* 7zCrc.c in Sources */,
-				CC96EFC017C296A100C7DD0C /* 7zCrcOpt.c in Sources */,
-				CC96EFC117C296A100C7DD0C /* 7zDec.c in Sources */,
-				CC96EFC217C296A100C7DD0C /* 7zIn.c in Sources */,
-				CC96EFC317C296A100C7DD0C /* 7zStream.c in Sources */,
-				CC96EFC417C296A100C7DD0C /* Bcj2.c in Sources */,
-				CC96EFC517C296A100C7DD0C /* Bra.c in Sources */,
-				CC96EFC617C296A100C7DD0C /* Bra86.c in Sources */,
-				CC96EFC717C296A100C7DD0C /* CpuArch.c in Sources */,
-				CC96EFC817C296A100C7DD0C /* Lzma2Dec.c in Sources */,
-				CC96EFC917C296A100C7DD0C /* LzmaDec.c in Sources */,
-				CC96EFCA17C296A100C7DD0C /* Ppmd7.c in Sources */,
-				CC96EFCB17C296A100C7DD0C /* Ppmd7Dec.c in Sources */,
-				CC96EFCC17C296A100C7DD0C /* CreditsView.cc in Sources */,
-				CC96EFCD17C296A100C7DD0C /* MsgPopup.cc in Sources */,
-				CC96EFCE17C296A100C7DD0C /* FilePicker.cc in Sources */,
-				CC96EFCF17C296A100C7DD0C /* EmuSystem.cc in Sources */,
-				CC96EFD017C296A100C7DD0C /* Recent.cc in Sources */,
-				CC96EFD117C296A100C7DD0C /* Screenshot.cc in Sources */,
-				CC96EFD217C296A100C7DD0C /* ButtonConfigView.cc in Sources */,
-				CC96EFD317C296A100C7DD0C /* VideoImageOverlay.cc in Sources */,
-				CC96EFD417C296A100C7DD0C /* StateSlotView.cc in Sources */,
-				CC96EFD517C296A100C7DD0C /* MenuView.cc in Sources */,
-				CC96EFD617C296A100C7DD0C /* EmuInput.cc in Sources */,
-				CC96EFD717C296A100C7DD0C /* TextEntry.cc in Sources */,
-				CC96EFD817C296A100C7DD0C /* EmuOptions.cc in Sources */,
-				CC96EFD917C296A100C7DD0C /* OptionView.cc in Sources */,
-				CC96EFDA17C296A100C7DD0C /* EmuView.cc in Sources */,
-				CC96EFDB17C296A100C7DD0C /* ConfigFile.cc in Sources */,
-				CC96EFDC17C296A100C7DD0C /* InputManagerView.cc in Sources */,
-				CC96EFDD17C296A100C7DD0C /* FileUtils.cc in Sources */,
-				CC96EFDE17C296A100C7DD0C /* Cheats.cc in Sources */,
-				CC96EFDF17C296A100C7DD0C /* TouchConfigView.cc in Sources */,
-				CC96EFE017C296A100C7DD0C /* VController.cc in Sources */,
-				CC96EFE117C296A100C7DD0C /* logger.cc in Sources */,
-				CC96EFE217C296A100C7DD0C /* coreaudio.cc in Sources */,
-				CC96EFE317C296A100C7DD0C /* Pixmap.cc in Sources */,
-				CC96EFE417C296A100C7DD0C /* opengl.cc in Sources */,
-				CC96EFE517C296A100C7DD0C /* View.cc in Sources */,
-				CC96EFE617C296A100C7DD0C /* ScrollView1D.cc in Sources */,
-				CC96EFE717C296A100C7DD0C /* GuiTable1D.cc in Sources */,
-				CC96EFE817C296A200C7DD0C /* ScrollableGuiTable1D.cc in Sources */,
-				CC96EFE917C296A200C7DD0C /* FsPosix.cc in Sources */,
-				CC96EFEA17C296A200C7DD0C /* Io.cc in Sources */,
-				CC96EFEB17C296A200C7DD0C /* IoFd.cc in Sources */,
-				CC96EFEC17C296A200C7DD0C /* IoMmap.cc in Sources */,
-				CC96EFED17C296A200C7DD0C /* IoMmapFd.cc in Sources */,
-				CC96EFEE17C296A200C7DD0C /* MenuItem.cc in Sources */,
-				CC96EFEF17C296A200C7DD0C /* NavView.cc in Sources */,
-				CC96EFF017C296A200C7DD0C /* FSPicker.cc in Sources */,
-				CC96EFF117C296A200C7DD0C /* AlertView.cc in Sources */,
-				CC96EFF217C296A200C7DD0C /* ResourceFace.cc in Sources */,
-				CC96EFF317C296A200C7DD0C /* ResourceFont.cc in Sources */,
-				CC96EFF417C296A200C7DD0C /* Quartz2d.cc in Sources */,
-				CC96EFF517C296A200C7DD0C /* iphone.mm in Sources */,
-				CC96EFF617C296A200C7DD0C /* apple.mm in Sources */,
-				CC96EFF717C296A200C7DD0C /* ResourceFontUIKit.mm in Sources */,
-				CC96EFF817C296A200C7DD0C /* Quartz2dUIKit.mm in Sources */,
-				CC96EFF917C296A200C7DD0C /* png.c in Sources */,
-				CC96EFFA17C296A200C7DD0C /* pngerror.c in Sources */,
-				CC96EFFB17C296A200C7DD0C /* pngget.c in Sources */,
-				CC96EFFC17C296A200C7DD0C /* pngmem.c in Sources */,
-				CC96EFFD17C296A200C7DD0C /* pngpread.c in Sources */,
-				CC96EFFE17C296A200C7DD0C /* pngread.c in Sources */,
-				CC96EFFF17C296A200C7DD0C /* pngrio.c in Sources */,
-				CC96F00017C296A200C7DD0C /* pngrtran.c in Sources */,
-				CC96F00117C296A200C7DD0C /* pngrutil.c in Sources */,
-				CC96F00217C296A200C7DD0C /* pngset.c in Sources */,
-				CC96F00317C296A200C7DD0C /* pngtrans.c in Sources */,
-				CC96F00417C296A200C7DD0C /* pngwio.c in Sources */,
-				CC96F00517C296A200C7DD0C /* pngwrite.c in Sources */,
-				CC96F00617C296A200C7DD0C /* pngwtran.c in Sources */,
-				CC96F00717C296A200C7DD0C /* pngwutil.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3385,153 +2821,6 @@
 			};
 			name = "Ad Hoc";
 		};
-		CC5756AE180C727E00BF3DA5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBC.emu/GBC.emu-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"COCOAPODS=1",
-					"DEBUG=1",
-					"GBC_EMU_BUILD=1",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
-				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		CC5756AF180C727E00BF3DA5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBC.emu/GBC.emu-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
-				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		CC5756B0180C727E00BF3DA5 /* Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBC.emu/GBC.emu-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
-				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Ad Hoc";
-		};
-		CC96EF8A17C2959900C7DD0C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBA.emu/GBA.emu-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"GBA_EMU_BUILD=1",
-				);
-				INFOPLIST_FILE = "GBA.emu/GBA.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		CC96EF8B17C2959900C7DD0C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBA.emu/GBA.emu-Prefix.pch";
-				INFOPLIST_FILE = "GBA.emu/GBA.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		CC96EF8C17C2959900C7DD0C /* Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBA.emu/GBA.emu-Prefix.pch";
-				INFOPLIST_FILE = "GBA.emu/GBA.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Ad Hoc";
-		};
 		CCE405A018108AA400AF4D0D /* MBS */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3844,51 +3133,6 @@
 			};
 			name = MBS;
 		};
-		CCE405A318108AA400AF4D0D /* MBS */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBA.emu/GBA.emu-Prefix.pch";
-				INFOPLIST_FILE = "GBA.emu/GBA.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = MBS;
-		};
-		CCE405A418108AA400AF4D0D /* MBS */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBC.emu/GBC.emu-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
-				INFOPLIST_FILE = "GBC.emu/GBC.emu-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				WRAPPER_EXTENSION = app;
-			};
-			name = MBS;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3921,28 +3165,6 @@
 				CC2D57331798F2ED00C616EB /* Release */,
 				CC347BB117A3CF2200309436 /* Ad Hoc */,
 				CCE405A118108AA400AF4D0D /* MBS */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CC5756AD180C727E00BF3DA5 /* Build configuration list for PBXNativeTarget "GBC.emu" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CC5756AE180C727E00BF3DA5 /* Debug */,
-				CC5756AF180C727E00BF3DA5 /* Release */,
-				CC5756B0180C727E00BF3DA5 /* Ad Hoc */,
-				CCE405A418108AA400AF4D0D /* MBS */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CC96EF8917C2959900C7DD0C /* Build configuration list for PBXNativeTarget "GBA.emu" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CC96EF8A17C2959900C7DD0C /* Debug */,
-				CC96EF8B17C2959900C7DD0C /* Release */,
-				CC96EF8C17C2959900C7DD0C /* Ad Hoc */,
-				CCE405A318108AA400AF4D0D /* MBS */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
