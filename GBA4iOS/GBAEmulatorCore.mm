@@ -24,7 +24,21 @@
 #import <gba/GBA.h>
 #import <main/Main.hh>
 
+#include <fs/sys.hh>
+
+// Emulator Includes
+#include <util/time/sys.hh>
+#include <base/Base.hh>
+#include <base/iphone/private.hh>
+
+#ifdef CONFIG_INPUT
+#include <input/Input.hh>
+#endif
+
 extern bool isGBAROM;
+
+extern int app_argc;
+extern char **app_argv;
 
 namespace GameFilePicker {
     void onSelectFile(const char* name, const Input::Event &e);
@@ -468,10 +482,34 @@ namespace GameFilePicker {
     }
 }
 
+double TimeMach::timebaseNSec = 0, TimeMach::timebaseUSec = 0,
+TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
+
 - (void)startEmulation
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
+        doOrExit(logger_init());
+        TimeMach::setTimebase();
+        
+#ifdef CONFIG_FS
+        FsPosix::changeToAppDir(app_argv[0]);
+#endif
+        
+#ifdef CONFIG_INPUT
+        doOrExit(Input::init());
+#endif
+        
+#ifdef CONFIG_AUDIO
+        Audio::initSession();
+#endif
+        
+        Base::grayColorSpace = CGColorSpaceCreateDeviceGray();
+        Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+        
+        doOrExit(Base::onInit_GBA(app_argc, app_argv));
+        
         [self prepareEmulation];
         
         Base::engineInit();
