@@ -350,7 +350,7 @@ void EmuSystem::configAudioRate_GBC()
 	}
 }
 
-void writeAudio(const int16 *srcBuff, unsigned srcFrames)
+static void writeAudio(const int16 *srcBuff, unsigned srcFrames)
 {
 	#ifdef USE_NEW_AUDIO
 	Audio::BufferContext *aBuff = Audio::getPlayBuffer(Audio::maxRate/58);
