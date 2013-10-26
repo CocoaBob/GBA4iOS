@@ -372,7 +372,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     else
     {
-        if ([self.emulationViewController.rom.name isEqualToString:[filename stringByDeletingPathExtension]])
+        GBAROMType romType = GBAROMTypeGBA;
+        
+        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"])
+        {
+            romType = GBAROMTypeGBC;
+        }
+        
+        if ([self.emulationViewController.rom.name isEqualToString:[filename stringByDeletingPathExtension]] && self.emulationViewController.rom.type == romType)
         {
             UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
             backgroundView.backgroundColor = GBA4iOS_PURPLE_COLOR;
@@ -823,6 +830,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
 {
     NSString *address = @"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
+    
+    if (self.visibleRomType == GBAVisibleROMTypeGBC) // If ALL or GBA is selected, show GBA search results. If GBC, show GBC results
+    {
+        address = @"http://www.google.com/search?q=download+GBC+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
+    }
     
     if (![NSURLSession class]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:address]];
