@@ -212,10 +212,8 @@ static GBAEmulationViewController *_emulationViewController;
         // Use width scale to size to fit
         size = CGSizeMake(resolution.width * widthScale, resolution.height * widthScale);
     }
-    
-    DLog(@"%@", NSStringFromCGSize(size));
-    
-    return size;
+        
+    return CGSizeMake(roundf(size.width), roundf(size.height));
 }
 
 - (NSString *)filepathForSkinIdentifier:(NSString *)identifier
@@ -1047,8 +1045,6 @@ void uncaughtExceptionHandler(NSException *exception)
             self.emulatorScreen.center = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f);
             self.emulatorScreen.frame = screenRect;
             
-            DLog(@"%@", NSStringFromCGRect(screenRect));
-            
 #if !(TARGET_IPHONE_SIMULATOR)
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
             [self.emulatorScreen invalidateIntrinsicContentSize];
@@ -1366,21 +1362,14 @@ void uncaughtExceptionHandler(NSException *exception)
         return;
     }
     
+    _rom = rom;
+    
+    [self refreshLayout]; // Must go before resumeEmulation
+    
     if (_rom) // If there was a previous ROM make sure to unpause it!
     {
         [self resumeEmulation];
     }
-    
-    // Put this after the resume because even if the ROM is the same, we need to resume the game since we paused it
-    // We want to be able to restart the ROM
-    /*if ([_rom isEqual:rom])
-    {
-        return;
-    }*/
-    
-    _rom = rom;
-    
-    [self refreshLayout];
     
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] setRom:self.rom];
