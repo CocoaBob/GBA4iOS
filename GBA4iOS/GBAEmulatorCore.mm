@@ -687,7 +687,14 @@ extern gambatte::GB gbEmu;
 
 - (BOOL)loadCheats
 {
-    cheatsDeleteAll(gGba.cpu, false);
+    if (isGBAROM)
+    {
+        cheatsDeleteAll(gGba.cpu, false);
+    }
+    else
+    {
+        return [self updateGBCCheats];
+    }
     NSArray *cheats = [self cheatsArray];
     @autoreleasepool
     {
@@ -726,6 +733,14 @@ extern gambatte::GB gbEmu;
         case GBACheatCodeTypeActionReplay:
             cheatCodeLength = 16ul;
             break;
+            
+        case GBACheatCodeTypeGameSharkGBC:
+            cheatCodeLength = 8ul;
+            break;
+            
+        case GBACheatCodeTypeGameGenie:
+            cheatCodeLength = 9ul;
+            break;
     }
     
     // Must have at least one code, and it must be a complete code
@@ -733,6 +748,14 @@ extern gambatte::GB gbEmu;
     {
         return NO;
     }
+    
+    if (!isGBAROM)
+    {
+        return [self updateGBCCheats];
+    }
+    
+    NSMutableString *allGamesharkGBCCodes = [NSMutableString string];
+    NSMutableString *allGameGenieCodes = [NSMutableString string];
     
     __block BOOL succeeded = YES;
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger index, BOOL *stop) {
@@ -758,7 +781,8 @@ extern gambatte::GB gbEmu;
                 succeeded = cheatsAddGSACode(gGba.cpu, [code UTF8String], [title UTF8String], true);
                 break;
                 
-                
+            default:
+                break;
         }
         
         if (!succeeded)
@@ -780,6 +804,12 @@ extern gambatte::GB gbEmu;
 
 - (void)enableCheat:(GBACheat *)cheat
 {
+    if (!isGBAROM)
+    {
+        [self updateGBCCheats];
+        return;
+    }
+    
     NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
         cheatsEnable(index + enumertionIndex);
@@ -788,12 +818,24 @@ extern gambatte::GB gbEmu;
 
 - (void)disableCheat:(GBACheat *)cheat
 {
+    if (!isGBAROM)
+    {
+        [self updateGBCCheats];
+        return;
+    }
+    
     NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
     return [self disableCheat:cheat atIndex:index];
 }
 
 - (void)disableCheat:(GBACheat *)cheat atIndex:(NSInteger)index
 {
+    if (!isGBAROM)
+    {
+        [self updateGBCCheats];
+        return;
+    }
+    
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
         cheatsDisable(gGba.cpu, index + enumertionIndex);
     }];
@@ -801,8 +843,57 @@ extern gambatte::GB gbEmu;
 
 - (BOOL)updateCheats
 {
+    if (!isGBAROM)
+    {
+        return [self updateGBCCheats];
+    }
+    
     cheatsDeleteAll(gGba.cpu, true);
     return [self loadCheats];
+}
+
+- (BOOL)updateGBCCheats
+{
+    NSArray *cheats = [self cheatsArray];
+    
+    DLog(@"%@", cheats);
+    
+    NSString *gameSharkCheats = [self GBCCheatsStringFromCheatsArray:cheats forCheatType:GBACheatCodeTypeGameSharkGBC];
+    NSString *gameGenieCheats = [self GBCCheatsStringFromCheatsArray:cheats forCheatType:GBACheatCodeTypeGameGenie];
+    
+    gbEmu.setGameShark([gameSharkCheats UTF8String]);
+    gbEmu.setGameGenie([gameGenieCheats UTF8String]);
+    
+    DLog(@"GS: %@", gameSharkCheats);
+    DLog(@"GG: %@", gameGenieCheats);
+    
+    return YES;
+}
+
+- (NSString *)GBCCheatsStringFromCheatsArray:(NSArray *)cheats forCheatType:(GBACheatCodeType)type
+{
+    NSMutableString *cheatsString = [NSMutableString string];
+    
+    for (GBACheat *cheat in cheats)
+    {
+        if (cheat.type == type && [cheat enabled])
+        {
+            for (NSString *code in cheat.codes)
+            {
+                NSMutableString *modifiedCode = [code mutableCopy];
+                
+                if (type == GBACheatCodeTypeGameGenie)
+                {
+                    [modifiedCode insertString:@"-" atIndex:3];
+                    [modifiedCode insertString:@"-" atIndex:7];
+                }
+                
+                [cheatsString appendFormat:@"%@;", modifiedCode];
+            }
+        }
+    }
+    
+    return cheatsString;
 }
 
 #pragma mark - Main App

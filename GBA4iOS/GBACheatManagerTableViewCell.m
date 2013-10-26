@@ -15,7 +15,6 @@
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        self.detailTextLabel.textColor = GBA4iOS_PURPLE_COLOR;
         self.showsReorderControl = YES;
         self.detailTextLabel.font = [UIFont boldSystemFontOfSize:self.detailTextLabel.font.pointSize];
     }

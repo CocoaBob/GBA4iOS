@@ -10,6 +10,7 @@
 #import "GBACheat.h"
 #import "GBAROM.h"
 #import "UITableViewController+Theming.h"
+#import "GBACheatEditorViewController.h"
 
 @class GBACheatManagerViewController;
 
@@ -17,6 +18,7 @@
 
 @optional
 - (void)cheatManagerViewControllerWillDismiss:(GBACheatManagerViewController *)cheatManagerViewController;
+- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController willDismissCheatEditorViewController:(GBACheatEditorViewController *)cheatEditorViewController;
 
 @end
 

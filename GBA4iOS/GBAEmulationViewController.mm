@@ -635,6 +635,11 @@ void uncaughtExceptionHandler(NSException *exception)
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
+- (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController willDismissCheatEditorViewController:(GBACheatEditorViewController *)cheatEditorViewController
+{
+    [self refreshLayout];
+}
+
 - (void)cheatManagerViewControllerWillDismiss:(GBACheatManagerViewController *)cheatManagerViewController
 {
     [self resumeEmulation];
@@ -890,17 +895,21 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
     {
-        if (![[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
-        {
-            [self.view addConstraint:self.portraitBottomLayoutConstraint];
-        }
+        [UIView animateWithDuration:0.4 animations:^{
+            if (![[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
+            {
+                [self.view addConstraint:self.portraitBottomLayoutConstraint];
+            }
+        }];
     }
     else
     {
-        if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
-        {
-            [self.view removeConstraint:self.portraitBottomLayoutConstraint];
-        }
+        [UIView animateWithDuration:0.4 animations:^{
+            if ([[self.view constraints] containsObject:self.portraitBottomLayoutConstraint])
+            {
+                [self.view removeConstraint:self.portraitBottomLayoutConstraint];
+            }
+        }];
     }
 }
 
@@ -994,15 +1003,17 @@ void uncaughtExceptionHandler(NSException *exception)
         
         if (CGRectIsEmpty(screenRect))
         {
-            if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
-            {
-                [self.screenContainerView addConstraint:self.screenHorizontalCenterLayoutConstraint];
-            }
-            
-            if (![self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
-            {
-                [self.screenContainerView addConstraint:self.screenVerticalCenterLayoutConstraint];
-            }
+            [UIView animateWithDuration:0.4 animations:^{
+                if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
+                {
+                    [self.screenContainerView addConstraint:self.screenHorizontalCenterLayoutConstraint];
+                }
+                
+                if (![self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
+                {
+                    [self.screenContainerView addConstraint:self.screenVerticalCenterLayoutConstraint];
+                }
+            }];
             
             
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -1023,15 +1034,18 @@ void uncaughtExceptionHandler(NSException *exception)
         }
         else
         {
-            if ([self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
-            {
-                [self.screenContainerView removeConstraint:self.screenHorizontalCenterLayoutConstraint];
-            }
+            [UIView animateWithDuration:0.4 animations:^{
+                if ([self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
+                {
+                    [self.screenContainerView removeConstraint:self.screenHorizontalCenterLayoutConstraint];
+                }
+                
+                if ([self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
+                {
+                    [self.screenContainerView removeConstraint:self.screenVerticalCenterLayoutConstraint];
+                }
+            }];
             
-            if ([self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
-            {
-                [self.screenContainerView removeConstraint:self.screenVerticalCenterLayoutConstraint];
-            }
             
             self.emulatorScreen.frame = ({
                 CGRect frame = self.emulatorScreen.frame;
@@ -1078,6 +1092,8 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)refreshLayout
 {
+    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
+    
     [self.view layoutIfNeeded];
     
     if (self.blurringContents)
@@ -1086,8 +1102,6 @@ void uncaughtExceptionHandler(NSException *exception)
         self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation darkenImage:darkenImage];
         self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     }
-    
-    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
     
     if (self.rom != nil)
     {

@@ -13,6 +13,8 @@ typedef NS_ENUM(NSInteger, GBACheatCodeType)
     GBACheatCodeTypeCodeBreaker,
     GBACheatCodeTypeGameSharkV3,
     GBACheatCodeTypeActionReplay,
+    GBACheatCodeTypeGameGenie,
+    GBACheatCodeTypeGameSharkGBC,
 };
 
 @interface GBACheat : NSObject <NSCoding, NSCopying>

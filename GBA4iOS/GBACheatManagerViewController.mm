@@ -7,7 +7,6 @@
 //
 
 #import "GBACheatManagerViewController.h"
-#import "GBACheatEditorViewController.h"
 #import "GBACheatManagerTableViewCell.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -123,6 +122,7 @@
 - (void)tappedAddCheatCode:(UIBarButtonItem *)button
 {
     GBACheatEditorViewController *cheatEditorViewController = [[GBACheatEditorViewController alloc] init];
+    cheatEditorViewController.romType = self.rom.type;
     cheatEditorViewController.delegate = self;
     
     UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatEditorViewController);
@@ -174,8 +174,6 @@
 
 - (void)cheatEditorViewController:(GBACheatEditorViewController *)cheatEditorViewController didSaveCheat:(GBACheat *)cheat
 {
-    NSLog(@"%@", cheat);
-    
     if (![self addCheat:cheat])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Cheat", @"")
@@ -206,9 +204,19 @@
         [self.cheatsArray addObject:cheat];
         
         [self writeCheatsArrayToDisk];
+        
+        if (self.rom.type == GBAROMTypeGBC)
+        {
+            [self updateCheats]; // GBC cheats need to be updated
+        }
     }
     
     [self.tableView reloadData];
+    
+    if ([self.delegate respondsToSelector:@selector(cheatManagerViewController:willDismissCheatEditorViewController:)])
+    {
+        [self.delegate cheatManagerViewController:self willDismissCheatEditorViewController:cheatEditorViewController];
+    }
     
     [self dismissViewControllerAnimated:YES completion:NULL];
     
@@ -217,6 +225,11 @@
 
 - (void)cheatEditorViewControllerDidCancel:(GBACheatEditorViewController *)cheatEditorViewController
 {
+    if ([self.delegate respondsToSelector:@selector(cheatManagerViewController:willDismissCheatEditorViewController:)])
+    {
+        [self.delegate cheatManagerViewController:self willDismissCheatEditorViewController:cheatEditorViewController];
+    }
+    
     [self dismissViewControllerAnimated:YES completion:NULL];
     
     [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle] animated:YES];
@@ -323,6 +336,7 @@
     if ([self.tableView isEditing])
     {
         GBACheatEditorViewController *cheatEditorViewController = [[GBACheatEditorViewController alloc] init];
+        cheatEditorViewController.romType = self.rom.type;
         cheatEditorViewController.cheat = cheat;
         cheatEditorViewController.delegate = self;
         
@@ -341,15 +355,15 @@
         if (cheat.enabled)
         {
             cheat.enabled = NO;
+            [self writeCheatsArrayToDisk];
             [self disableCheat:cheat];
         }
         else
         {
             cheat.enabled = YES;
+            [self writeCheatsArrayToDisk];
             [self enableCheat:cheat];
         }
-        
-        [self writeCheatsArrayToDisk];
         
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }

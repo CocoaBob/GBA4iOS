@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GBACheat.h"
+#import "GBAROM.h"
 
 @class GBACheatEditorViewController;
 
@@ -23,5 +24,6 @@
 
 @property (weak, nonatomic) id<GBACheatEditorViewControllerDelegate> delegate;
 @property (strong, nonatomic) GBACheat *cheat;
+@property (assign, nonatomic) GBAROMType romType;
 
 @end
