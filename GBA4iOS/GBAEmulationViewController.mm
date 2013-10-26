@@ -1259,6 +1259,7 @@ void uncaughtExceptionHandler(NSException *exception)
             break;
     }
     
+    CGFloat controllerAlpha = 1.0f;
     
     if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
     {
@@ -1275,6 +1276,13 @@ void uncaughtExceptionHandler(NSException *exception)
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
             
             controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
+        }
+        
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationPortrait][@"translucent"] boolValue];
+        
+        if (translucent)
+        {
+            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
         }
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
@@ -1297,7 +1305,7 @@ void uncaughtExceptionHandler(NSException *exception)
         [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
                                               edgeExtension + screenContainerSize.height,
                                               controllerSkin.size.width,
-                                              controllerSkin.size.height)];
+                                              controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
     }
     else
     {
@@ -1314,6 +1322,13 @@ void uncaughtExceptionHandler(NSException *exception)
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
             
             controllerSkin = [controller imageForOrientation:GBAControllerOrientationLandscape];
+        }
+        
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationLandscape][@"translucent"] boolValue];
+        
+        if (translucent)
+        {
+            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
         }
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
@@ -1336,7 +1351,7 @@ void uncaughtExceptionHandler(NSException *exception)
         [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
                                               edgeExtension,
                                               controllerSkin.size.width,
-                                              controllerSkin.size.height)];
+                                              controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();

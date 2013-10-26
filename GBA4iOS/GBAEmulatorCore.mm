@@ -35,6 +35,8 @@
 #include <input/Input.hh>
 #endif
 
+#include <gambatte.h>
+
 extern bool isGBAROM;
 
 extern int app_argc;
@@ -534,19 +536,12 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
     using namespace Base;
     using namespace Input;
     
-#ifdef GBA_EMU_BUILD
-    
     optionRtcEmulation = RTC_EMU_ON; // Some hacked games use the RealTimeClock even when the game they're based off of doesn't (ex: Pokemon Liquid Crystal), so we always have it enabled.
-    
-#endif
     
     GameFilePicker::onSelectFile([self.rom.filepath UTF8String], [self touchForTouchState:RELEASED]);
     
-#ifdef GBA_EMU_BUILD
-    
     [self loadCheats];
     
-#endif
 }
 
 - (void)pauseEmulation
@@ -611,25 +606,33 @@ extern SysVController vController;
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
 }
 
-/*- (void)saveStateToFilepath:(NSString *)filepath
-{
-    
-}*/
-
-#ifdef GBA_EMU_BUILD
-
 #pragma mark - Save States
 
 extern GBASys gGba;
+extern gambatte::GB gbEmu;
 
 - (void)saveStateToFilepath:(NSString *)filepath
 {
-    CPUWriteState(gGba, [filepath UTF8String]);
+    if (isGBAROM)
+    {
+        CPUWriteState(gGba, [filepath UTF8String]);
+    }
+    else
+    {
+        gbEmu.saveState(/*screenBuff*/0, 160, [filepath UTF8String]);
+    }
 }
 
 - (void)loadStateFromFilepath:(NSString *)filepath
 {
-    CPUReadState(gGba, [filepath UTF8String]);
+    if (isGBAROM)
+    {
+        CPUReadState(gGba, [filepath UTF8String]);
+    }
+    else
+    {
+        gbEmu.loadState([filepath UTF8String]);
+    }
 }
 
 #pragma mark - Cheats
@@ -801,8 +804,6 @@ extern GBASys gGba;
     cheatsDeleteAll(gGba.cpu, true);
     return [self loadCheats];
 }
-
-#endif
 
 #pragma mark - Main App
 
