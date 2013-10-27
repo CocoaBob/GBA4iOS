@@ -76,6 +76,14 @@
     {
         [self copyROMAtPathToDocumentsDirectory:filepath];
     }
+    
+    // Empty Inbox folder
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[filepath stringByDeletingLastPathComponent] error:nil];
+    for (NSString *filename in contents)
+    {
+        NSString *path = [[filepath stringByDeletingLastPathComponent] stringByAppendingPathComponent:filename];
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+    }
 }
 
 #pragma mark - Copying Files
@@ -93,7 +101,7 @@
         if (error && [error code] == NSFileWriteFileExistsError)
         {
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Exists", @"")
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Already Exists", @"")
                                                             message:NSLocalizedString(@"Please rename the existing file and try again.", @"")
                                                            delegate:nil
                                                   cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
@@ -106,7 +114,41 @@
     else
     {
         NSString *filename = [filepath lastPathComponent];
-        [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:filename] error:nil];
+        
+        NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+        
+        BOOL fileExists = NO;
+        
+        for (NSString *item in contents)
+        {
+            if ([[[item pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[item pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
+                [[[item pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[item pathExtension] lowercaseString] isEqualToString:@"zip"])
+            {
+                NSString *name = [item stringByDeletingPathExtension];
+                NSString *newFilename = [filename stringByDeletingPathExtension];
+                
+                if ([name isEqualToString:newFilename])
+                {
+                    fileExists = YES;
+                    break;
+                }
+            }
+        }
+        
+        if (fileExists)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Already Exists", @"")
+                                                            message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+            [alert show];
+            
+            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+        }
+        else
+        {
+            [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:filename] error:nil];
+        }
     }
 }
 
