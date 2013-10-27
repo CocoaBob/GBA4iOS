@@ -403,7 +403,6 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
 
 - (void)update
 {
-    DLog(@"Update");
     self.imageView.image = [self.controller imageForOrientation:self.orientation];
     [self invalidateIntrinsicContentSize];
 }

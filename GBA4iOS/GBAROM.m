@@ -83,7 +83,9 @@
     
     for (NSString *filename in contents)
     {
-        if (![[[filename pathExtension] lowercaseString] isEqualToString:@"sav"] && ![[[filename pathExtension] lowercaseString] isEqualToString:@"zip"])
+        // Don't check for .zip extension, cause we're in the process of unzipping
+        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
+            [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"] /* || [[[filename pathExtension] lowercaseString] isEqualToString:@"zip"]*/)
         {
             NSString *name = [filename stringByDeletingPathExtension];
             

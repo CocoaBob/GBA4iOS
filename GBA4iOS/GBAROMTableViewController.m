@@ -573,7 +573,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     for (NSString *item in contents)
     {
-        if (![[[item pathExtension] lowercaseString] isEqualToString:@"sav"])
+        if ([[[item pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[item pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
+            [[[item pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[item pathExtension] lowercaseString] isEqualToString:@"zip"])
         {
             NSString *name = [item stringByDeletingPathExtension];
             
@@ -823,6 +824,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
     
     NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
+    NSString *rtcFile = [NSString stringWithFormat:@"%@.rtc", romName];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -833,6 +835,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *cheatsFilename = [NSString stringWithFormat:@"%@.plist", romName];
     
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[cheatsDirectory stringByAppendingPathComponent:cheatsFilename] error:nil];
     
