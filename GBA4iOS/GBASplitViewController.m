@@ -44,6 +44,11 @@
     return YES;
 }
 
+- (BOOL)shouldAutorotate
+{
+    return [self.emulationViewController shouldAutorotate];
+}
+
 #pragma mark - Public
 
 - (void)showROMTableViewControllerWithAnimation:(BOOL)animated

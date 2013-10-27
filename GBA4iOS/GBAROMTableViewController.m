@@ -674,16 +674,20 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     void(^showEmulationViewController)(void) = ^(void)
     {
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        [self highlightCell:cell];
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismissViewControllerAnimated:YES completion:^{
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                [self highlightCell:cell];
+            }];
         }
         else
         {
             [(GBASplitViewController *)self.splitViewController hideROMTableViewControllerWithAnimation:YES];
+            
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            [self highlightCell:cell];
         }
     };
     

@@ -43,6 +43,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (strong, nonatomic) UIImageView *splashScreenImageView;
 @property (assign, nonatomic) BOOL userPausedEmulation;
+@property (assign, nonatomic) BOOL interfaceOrientationLocked;
 
 @property (nonatomic) CFTimeInterval previousTimestamp;
 @property (nonatomic) NSInteger frameCount;
@@ -57,6 +58,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) NSMutableSet *sustainedButtonSet;
 
 @property (assign, nonatomic) BOOL blurringContents;
+@property (strong, nonatomic) UIImageView *sustainButtonBlurredContentsImageView;
 
 @end
 
@@ -190,7 +192,6 @@ static GBAEmulationViewController *_emulationViewController;
             
 #if !(TARGET_IPHONE_SIMULATOR)
             [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
-            DLog(@"%@", self.buttonsToPressForNextCycle);
 #endif
             
             self.buttonsToPressForNextCycle = nil;
@@ -477,14 +478,74 @@ static GBAEmulationViewController *_emulationViewController;
     return ncpu;
 }
 
+#pragma mark - Sustain Button
 
 - (void)enterSustainButtonSelectionMode
 {
     self.selectingSustainedButton = YES;
+    self.interfaceOrientationLocked = YES;
+    
+    if (self.emulatorScreen.eaglView == nil)
+    {
+        return;
+    }
+    
+    self.sustainButtonBlurredContentsImageView = ({
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];
+        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        imageView.alpha = 0.0;
+        
+        UIImage *image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:NO darkenImage:YES];
+        imageView.image = image;
+        
+        [self.view insertSubview:imageView belowSubview:self.controllerView];
+        
+        imageView;
+    });
+    
+    UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.emulatorScreen.bounds) - 20.0f, CGRectGetHeight(self.emulatorScreen.bounds) - 20.0f)];
+    instructionsLabel.minimumScaleFactor = 0.5;
+    instructionsLabel.numberOfLines = 0.0;
+    instructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    instructionsLabel.textAlignment = NSTextAlignmentCenter;
+    instructionsLabel.text = NSLocalizedString(@"Tap the button you want to sustain.\n\nTo cancel or unsustain a previously sustained button, tap anywhere there isn't a button.", @"");
+    instructionsLabel.textColor = [UIColor whiteColor];
+    instructionsLabel.center = self.emulatorScreen.center;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.controllerView.orientation == GBAControllerOrientationLandscape)
+    {
+        CGRect screenRect = [self.controllerView.controller rectForButtonRect:GBAControllerRectScreen orientation:self.controllerView.orientation];
+        
+        if (CGRectIsEmpty(screenRect))
+        {
+            instructionsLabel.center = ({
+                CGPoint center = instructionsLabel.center;
+                center.y -= 60.0f;
+                center;
+            });
+        }
+    }
+    
+    [self.sustainButtonBlurredContentsImageView addSubview:instructionsLabel];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.sustainButtonBlurredContentsImageView setAlpha:1.0f];
+    }];
+    
 }
 
 - (void)exitSustainButtonSelectionMode
 {
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.sustainButtonBlurredContentsImageView setAlpha:0.0f];
+    } completion:^(BOOL finished) {
+        self.interfaceOrientationLocked = NO;
+        [self.sustainButtonBlurredContentsImageView removeFromSuperview];
+        self.sustainButtonBlurredContentsImageView = nil;
+        
+        [UIViewController attemptRotationToDeviceOrientation];
+    }];
+    
     self.selectingSustainedButton = NO;
     
     [self resumeEmulation];
@@ -812,7 +873,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (BOOL)shouldAutorotate
 {
-    return YES;
+    return !self.interfaceOrientationLocked;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -860,7 +921,7 @@ void uncaughtExceptionHandler(NSException *exception)
         
         BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
         
-        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation darkenImage:darkenImage];
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation drawController:YES darkenImage:darkenImage];
     }
     
     [self updateControllerSkinForInterfaceOrientation:toInterfaceOrientation];
@@ -1118,7 +1179,7 @@ void uncaughtExceptionHandler(NSException *exception)
     if (self.blurringContents)
     {
         BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
-        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation darkenImage:darkenImage];
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES darkenImage:darkenImage];
         self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     }
     
@@ -1203,7 +1264,7 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)blurWithInitialAlpha:(CGFloat)alpha darkened:(BOOL)darkened
 {
     self.blurredContentsImageView = ({
-        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation darkenImage:darkened];
+        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES darkenImage:darkened];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
         imageView.clipsToBounds = YES;
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -1252,7 +1313,7 @@ void uncaughtExceptionHandler(NSException *exception)
     self.blurredContentsImageView.alpha = blurAlpha;
 }
 
-- (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation darkenImage:(BOOL)darkenImage
+- (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation drawController:(BOOL)drawController darkenImage:(BOOL)darkenImage
 {
     // Can be modified if wanting to eventually blur separate parts of the view, so it extends outwards into the black (smoother)
     CGFloat edgeExtension = 0;
@@ -1271,7 +1332,6 @@ void uncaughtExceptionHandler(NSException *exception)
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2,
                                                       viewSize.height + edgeExtension * 2),
                                            YES, 0.0);
-    
     
     NSString *defaultSkinIdentifier = nil;
     NSString *skinsKey = nil;
@@ -1338,10 +1398,13 @@ void uncaughtExceptionHandler(NSException *exception)
             }
         }
         
-        [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
-                                              edgeExtension + screenContainerSize.height,
-                                              controllerSkin.size.width,
-                                              controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
+        if (drawController)
+        {
+            [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
+                                                  edgeExtension + screenContainerSize.height,
+                                                  controllerSkin.size.width,
+                                                  controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
+        }
     }
     else
     {
@@ -1387,10 +1450,13 @@ void uncaughtExceptionHandler(NSException *exception)
             }
         }
         
-        [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
-                                              edgeExtension,
-                                              controllerSkin.size.width,
-                                              controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
+        if (drawController)
+        {
+            [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
+                                                  edgeExtension,
+                                                  controllerSkin.size.width,
+                                                  controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
+        }
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
