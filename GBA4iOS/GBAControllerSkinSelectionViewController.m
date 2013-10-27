@@ -45,7 +45,7 @@
     }
     else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        self.tableView.rowHeight = 240;
+        self.tableView.rowHeight = 230;
     }
     else
     {

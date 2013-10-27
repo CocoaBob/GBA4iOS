@@ -109,9 +109,7 @@
     
     NSString *infoDictionaryPath = [destinationPath stringByAppendingPathComponent:@"Info.plist"];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:infoDictionaryPath];
-    
-    DLog(@"%@", dictionary);
-    
+        
     dictionary[@"type"] = @(skinType);
     [dictionary writeToFile:infoDictionaryPath atomically:YES];
     

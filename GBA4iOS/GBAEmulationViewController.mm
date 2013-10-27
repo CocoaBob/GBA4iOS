@@ -228,7 +228,7 @@ static GBAEmulationViewController *_emulationViewController;
         // Use width scale to size to fit
         size = CGSizeMake(resolution.width * widthScale, resolution.height * widthScale);
     }
-        
+    
     return CGSizeMake(roundf(size.width), roundf(size.height));
 }
 
@@ -1095,7 +1095,6 @@ void uncaughtExceptionHandler(NSException *exception)
                 }
             }];
             
-            
 #if !(TARGET_IPHONE_SIMULATOR)
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size] screen:[UIScreen mainScreen]];
             [self.emulatorScreen invalidateIntrinsicContentSize];
@@ -1174,6 +1173,7 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
     
+    [self.view updateConstraintsIfNeeded];
     [self.view layoutIfNeeded];
     
     if (self.blurringContents)
