@@ -355,6 +355,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)webViewControllerWillDismiss:(RSTWebViewController *)webViewController
 {
+    
     [self dismissedModalViewController];
 }
 

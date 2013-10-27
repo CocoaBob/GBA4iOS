@@ -31,11 +31,13 @@ static GBAEmulationViewController *_emulationViewController;
 @interface GBAEmulationViewController () <GBAControllerViewDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
+    NSInteger _sustainButtonFrameCount;
 }
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
+@property (strong, nonatomic) CADisplayLink *displayLink;
 @property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
 @property (strong, nonatomic) UIWindow *airplayWindow;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
@@ -99,6 +101,11 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
     
     self.view.clipsToBounds = NO;
+    
+    // This isn't for FPS, remember? Keep it here stupid, it's for sustain button
+    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
+	[self.displayLink setFrameInterval:1];
+	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
     // Because we need to present the ROM Table View Controller stealthily
     self.splashScreenImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -175,11 +182,19 @@ static GBAEmulationViewController *_emulationViewController;
 {
     if (self.buttonsToPressForNextCycle)
     {
-#if !(TARGET_IPHONE_SIMULATOR)
-        [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
-#endif
+        _sustainButtonFrameCount++;
         
-        self.buttonsToPressForNextCycle = nil;
+        if (_sustainButtonFrameCount > 1)
+        {
+            _sustainButtonFrameCount = 0;
+            
+#if !(TARGET_IPHONE_SIMULATOR)
+            [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
+            DLog(@"%@", self.buttonsToPressForNextCycle);
+#endif
+            
+            self.buttonsToPressForNextCycle = nil;
+        }
     }
 }
 
@@ -310,6 +325,8 @@ static GBAEmulationViewController *_emulationViewController;
         [buttonsWithoutSustainButtons minusSet:self.sustainedButtonSet];
         
         self.buttonsToPressForNextCycle = buttons;
+        
+        _sustainButtonFrameCount = 0;
     }
     else
     {
@@ -332,6 +349,8 @@ static GBAEmulationViewController *_emulationViewController;
         [set minusSet:self.sustainedButtonSet];
         buttons = set;
     }
+    
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
 #endif
@@ -1407,6 +1426,7 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] releaseButtons:self.sustainedButtonSet];
     [[GBAEmulatorCore sharedCore] setRom:self.rom];
 #endif
     
