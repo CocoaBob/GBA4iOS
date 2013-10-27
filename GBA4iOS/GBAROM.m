@@ -38,7 +38,7 @@
     return rom;
 }
 
-+ (BOOL)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)preferredName
++ (BOOL)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)preferredName error:(NSError **)error
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -68,6 +68,7 @@
     
     if (romFilename == nil)
     {
+        *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileReadNoSuchFileError userInfo:nil];
         return NO; // zip file invalid
     }
     
@@ -76,10 +77,37 @@
         preferredName = romFilename;
     }
     
+    contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+    
+    BOOL fileExists = NO;
+    
+    for (NSString *filename in contents)
+    {
+        if (![[[filename pathExtension] lowercaseString] isEqualToString:@"sav"])
+        {
+            NSString *name = [filename stringByDeletingPathExtension];
+            
+            if ([name isEqualToString:preferredName])
+            {
+                fileExists = YES;
+                break;
+            }
+        }
+    }
+    
     NSString *originalFilename = [romFilename stringByAppendingPathExtension:extension];
     NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
     
-    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:originalFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
+    if (fileExists)
+    {
+        *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteFileExistsError userInfo:nil];
+        return NO;
+    }
+    else
+    {
+        [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:originalFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
+    }
+    
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
     
     return YES;

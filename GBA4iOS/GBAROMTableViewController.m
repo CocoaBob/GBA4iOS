@@ -440,10 +440,33 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             
             NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
             
-            if ([GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension]])
+            NSError *error = nil;
+            if (![GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension] error:&error])
             {
-                [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+                if ([error code] == NSFileWriteFileExistsError)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Already Exists", @"")
+                                                                        message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
+                                                                       delegate:nil
+                                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                        [alert show];
+                    });
+                }
+                else if ([error code] == NSFileReadNoSuchFileError)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unsupported File", @"")
+                                                                        message:NSLocalizedString(@"Make sure the zip file contains either a GBA or GBC ROM and try again,", @"")
+                                                                       delegate:nil
+                                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                        [alert show];
+                    });
+                    
+                }
             }
+            
+            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
             
             [self setIgnoreDirectoryContentChanges:NO];
             
@@ -538,8 +561,35 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
 {
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    return [textField.text length] > 0;
+    NSString *filename = [[alertView textFieldAtIndex:0] text];
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.currentDirectory error:nil];
+    BOOL fileExists = NO;
+    
+    for (NSString *item in contents)
+    {
+        if (![[[item pathExtension] lowercaseString] isEqualToString:@"sav"])
+        {
+            NSString *name = [item stringByDeletingPathExtension];
+            
+            if ([name isEqualToString:filename])
+            {
+                fileExists = YES;
+                break;
+            }
+        }
+    }
+    
+    if (fileExists)
+    {
+        alertView.title = NSLocalizedString(@"File Already Exists", @"");
+    }
+    else
+    {
+        alertView.title = NSLocalizedString(@"ROM Name", @"");
+    }
+    
+    return filename.length > 0 && !fileExists;
 }
 
 #pragma mark - Private

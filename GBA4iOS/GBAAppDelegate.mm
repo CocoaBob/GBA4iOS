@@ -84,10 +84,23 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-        
+    
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"zip"])
     {
-        [GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:nil];
+        NSError *error = nil;
+        [GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:nil error:&error];
+        
+        if (error && [error code] == NSFileWriteFileExistsError)
+        {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Exists", @"")
+                                                            message:NSLocalizedString(@"Please rename the existing file and try again.", @"")
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+            [alert show];
+            
+        }
+        
         [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
     }
     else
