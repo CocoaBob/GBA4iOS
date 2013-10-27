@@ -154,7 +154,7 @@ void SystemEditCheatView::init_gbc(bool highlightFirst, GbcCheat &cheat)
 	BaseMenuView::init(item, i, highlightFirst);
 }
 
-SystemEditCheatView::SystemEditCheatView(): EditCheatView("Edit Code"),
+/* SystemEditCheatView::SystemEditCheatView(): EditCheatView("Edit Code"),
 	ggCode
 	{
 		"Code",
@@ -186,7 +186,7 @@ SystemEditCheatView::SystemEditCheatView(): EditCheatView("Edit Code"),
 			View::addModalView(textInputView);
 		}
 	}
-{}
+{} Riley Testut */
 
 void EditCheatListView::loadAddCheatItems_GBC(MenuItem *item[], uint &items)
 {
