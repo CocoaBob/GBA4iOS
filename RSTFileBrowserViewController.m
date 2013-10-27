@@ -116,9 +116,11 @@
     [fileManager removeItemAtPath:filepath error:NULL];
     
     // Delete the row from the data source
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    [self setIgnoreDirectoryContentChanges:NO];
+    [UIView animateWithDuration:0.4 animations:^{
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } completion:^(BOOL finished) {
+         [self setIgnoreDirectoryContentChanges:NO];
+     }];
 }
 
 #pragma mark - Refreshing Data

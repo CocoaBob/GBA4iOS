@@ -76,7 +76,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
- 
+    
     self.clearsSelectionOnViewWillAppear = YES;
     
     GBAVisibleROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"visibleROMType"];
@@ -110,12 +110,17 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle] animated:YES];
     
-    // Sometimes it loses it's color when the view appears
+    // Sometimes it loses its color when the view appears
     self.downloadProgressView.progressTintColor = GBA4iOS_PURPLE_COLOR;
     
     if ([self.appearanceDelegate respondsToSelector:@selector(romTableViewControllerWillAppear:)])
     {
         [self.appearanceDelegate romTableViewControllerWillAppear:self];
+    }
+    
+    if (self.emulationViewController.rom && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) // Show selected ROM
+    {
+        [self.tableView reloadData];
     }
 }
 
@@ -309,8 +314,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    DLog(@"%@", downloadTask.response.suggestedFilename);
-    
     NSURL *remoteURL = downloadTask.originalRequest.URL;
     
     [[NSFileManager defaultManager] removeItemAtURL:destinationURL error:nil];
@@ -381,10 +384,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         if ([self.emulationViewController.rom.name isEqualToString:[filename stringByDeletingPathExtension]] && self.emulationViewController.rom.type == romType)
         {
-            UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-            backgroundView.backgroundColor = GBA4iOS_PURPLE_COLOR;
-            backgroundView.alpha = 0.6;
-            cell.backgroundView = backgroundView;
+            [self highlightCell:cell];
         }
         
         cell.userInteractionEnabled = YES;
@@ -430,6 +430,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     [super didRefreshCurrentDirectory];
     
+    if ([self ignoreDirectoryContentChanges])
+    {
+        return;
+    }
+    
     NSArray *contents = [self allFiles];
     
     for (NSString *filename in contents)
@@ -469,7 +474,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
             
             [self setIgnoreDirectoryContentChanges:NO];
-            
         }
     }
 }
@@ -647,6 +651,18 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [self.emulationViewController refreshLayout];
 }
 
+- (void)highlightCell:(UITableViewCell *)cell
+{
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    backgroundView.backgroundColor = GBA4iOS_PURPLE_COLOR;
+    backgroundView.alpha = 0.6;
+    cell.backgroundView = backgroundView;
+}
+
 #pragma mark - UITableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -657,6 +673,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     void(^showEmulationViewController)(void) = ^(void)
     {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [self highlightCell:cell];
+        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
             [self dismissViewControllerAnimated:YES completion:nil];
@@ -711,7 +730,17 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                    destructiveButtonTitle:NSLocalizedString(@"Delete ROM and Saved Data", nil)
                                                         otherButtonTitles:nil];
-        [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *sheet, NSInteger buttonIndex) {
+        
+        UIView *presentationView = self.view;
+        CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            presentationView = self.splitViewController.view;
+            rect = [presentationView convertRect:rect fromView:self.tableView];
+        }
+        
+        [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
             
             if (buttonIndex == 0)
             {

@@ -1302,18 +1302,21 @@ void uncaughtExceptionHandler(NSException *exception)
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
         CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationPortrait];
         
-        if (CGRectIsEmpty(screenRect))
+        if (self.emulatorScreen.eaglView) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
         {
-            CGSize screenSize = [self screenSizeForContainerSize:viewSize];
-            
-            [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
-                                                                    edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
-                                                                    screenSize.width,
-                                                                    screenSize.height) afterScreenUpdates:NO];
-        }
-        else
-        {
-            [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
+            if (CGRectIsEmpty(screenRect))
+            {
+                CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+                
+                [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
+                                                                        edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                                                        screenSize.width,
+                                                                        screenSize.height) afterScreenUpdates:NO];
+            }
+            else
+            {
+                [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
+            }
         }
         
         [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
@@ -1348,18 +1351,21 @@ void uncaughtExceptionHandler(NSException *exception)
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
         CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationLandscape];
         
-        if (CGRectIsEmpty(screenRect))
+        if (self.emulatorScreen.eaglView) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
         {
-            CGSize screenSize = [self screenSizeForContainerSize:viewSize];
-            
-            [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
-                                                                    edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
-                                                                    screenSize.width,
-                                                                    screenSize.height) afterScreenUpdates:NO];
-        }
-        else
-        {
-            [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
+            if (CGRectIsEmpty(screenRect))
+            {
+                CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+                
+                [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
+                                                                        edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                                                        screenSize.width,
+                                                                        screenSize.height) afterScreenUpdates:NO];
+            }
+            else
+            {
+                [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
+            }
         }
         
         [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
@@ -1405,6 +1411,8 @@ void uncaughtExceptionHandler(NSException *exception)
 #endif
     
     [self startEmulation];
+    
+    //[self.controllerView showButtonRects];
     
 }
 

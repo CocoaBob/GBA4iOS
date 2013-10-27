@@ -856,16 +856,11 @@ extern gambatte::GB gbEmu;
 {
     NSArray *cheats = [self cheatsArray];
     
-    DLog(@"%@", cheats);
-    
     NSString *gameSharkCheats = [self GBCCheatsStringFromCheatsArray:cheats forCheatType:GBACheatCodeTypeGameSharkGBC];
     NSString *gameGenieCheats = [self GBCCheatsStringFromCheatsArray:cheats forCheatType:GBACheatCodeTypeGameGenie];
     
     gbEmu.setGameShark([gameSharkCheats UTF8String]);
     gbEmu.setGameGenie([gameGenieCheats UTF8String]);
-    
-    DLog(@"GS: %@", gameSharkCheats);
-    DLog(@"GG: %@", gameGenieCheats);
     
     return YES;
 }

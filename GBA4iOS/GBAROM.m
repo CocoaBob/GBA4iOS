@@ -83,7 +83,7 @@
     
     for (NSString *filename in contents)
     {
-        if (![[[filename pathExtension] lowercaseString] isEqualToString:@"sav"])
+        if (![[[filename pathExtension] lowercaseString] isEqualToString:@"sav"] && ![[[filename pathExtension] lowercaseString] isEqualToString:@"zip"])
         {
             NSString *name = [filename stringByDeletingPathExtension];
             
