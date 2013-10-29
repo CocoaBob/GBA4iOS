@@ -744,7 +744,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (translucent)
     {
-        self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+        self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     }
     else
     {
@@ -1036,7 +1036,7 @@ void uncaughtExceptionHandler(NSException *exception)
         
         if (translucent)
         {
-            self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+            self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
         }
         else
         {
@@ -1066,7 +1066,7 @@ void uncaughtExceptionHandler(NSException *exception)
         
         if (translucent)
         {
-            self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+            self.controllerView.skinOpacity = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
         }
         else
         {
@@ -1375,7 +1375,7 @@ void uncaughtExceptionHandler(NSException *exception)
         
         if (translucent)
         {
-            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
         }
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
@@ -1427,7 +1427,7 @@ void uncaughtExceptionHandler(NSException *exception)
         
         if (translucent)
         {
-            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
         }
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);

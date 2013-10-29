@@ -564,6 +564,10 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 #pragma mark - Dropbox
 
+- (void)sup
+{
+}
+
 #pragma mark - UIAlertView delegate
 
 - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView

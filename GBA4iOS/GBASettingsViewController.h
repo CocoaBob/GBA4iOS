@@ -10,6 +10,7 @@
 #import "GBAROMTableViewController.h"
 
 extern NSString *const GBASettingsDidChangeNotification;
+extern NSString *const GBASettingsDropboxStatusChangedNotification;
 
 static NSString *GBASettingsFrameSkipKey = @"frameSkip";
 static NSString *GBASettingsAutosaveKey = @"autosave";
@@ -18,8 +19,8 @@ static NSString *GBASettingsVibrateKey = @"vibrate";
 static NSString *GBASettingsShowFramerateKey = @"showFramerate";
 static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
 static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
-static NSString *GBASettingsControllerOpacity = @"controllerOpacity";
-static NSString *GBASettingsDropboxSync = @"dropboxSync";
+static NSString *GBASettingsControllerOpacityKey = @"controllerOpacity";
+static NSString *GBASettingsDropboxSyncKey = @"dropboxSync";
 
 @class GBASettingsViewController;
 

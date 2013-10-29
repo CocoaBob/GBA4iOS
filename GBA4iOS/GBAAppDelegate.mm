@@ -106,13 +106,16 @@
     if ([[url scheme] hasPrefix:@"db"])
     {
         DBAccount *account = [[DBAccountManager sharedManager] handleOpenURL:url];
+        BOOL successful = (account != nil);
+        
         if (account)
         {
-            DLog(@"Dropbox account %@ successfully linked!", account.userId);
-            return YES;
+            DLog(@"Dropbox account %@ successfully linked!", account.info.displayName);
         }
         
-        return NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDropboxStatusChangedNotification object:self userInfo:nil];
+        
+        return successful;
     }
     
     return YES;

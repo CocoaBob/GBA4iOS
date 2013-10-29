@@ -20,6 +20,7 @@
 #define CREDITS_SECTION 6
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
+NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
 
 @interface GBASettingsViewController ()
 
@@ -30,6 +31,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 @property (weak, nonatomic) IBOutlet UISwitch *showFramerateSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *dropboxSyncSwitch;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -62,12 +64,32 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     [super viewDidLoad];
     
     [self updateControls];
+    
+    [[DBAccountManager sharedManager] addObserver:self block:^(DBAccount *account) {
+        if (account && [self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 1)
+        {
+            // Just because the user linked the account does not mean we should turn on Dropbox Sync
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else if ((account == nil || ![account isLinked]) && [self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 2)
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
+            
+            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
+            [self.dropboxSyncSwitch setOn:NO animated:YES];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[DBAccountManager sharedManager] removeObserver:self];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -89,9 +111,16 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
                                GBASettingsVibrateKey: @YES,
                                GBASettingsGBASkinsKey: @{@"portrait": @"GBA/com.GBA4iOS.default", @"landscape": @"GBA/com.GBA4iOS.default"},
                                GBASettingsGBCSkinsKey: @{@"portrait": @"GBC/com.GBA4iOS.default", @"landscape": @"GBC/com.GBA4iOS.default"},
-                               GBASettingsControllerOpacity: @0.5};
+                               GBASettingsControllerOpacityKey: @0.5};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    
+    DBAccount *account = [[DBAccountManager sharedManager] linkedAccount];
+    
+    if (account == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
+    }
     
 }
 
@@ -105,7 +134,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
     self.showFramerateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
-    self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacity];
+    self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
+    self.dropboxSyncSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey];
     
     NSString *percentage = [NSString stringWithFormat:@"%.f", self.controllerOpacitySlider.value * 100];
     percentage = [percentage stringByAppendingString:@"%"];
@@ -143,6 +173,15 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         if (![[UIDevice currentDevice].model hasPrefix:@"iPhone"])
         {
             return [super tableView:tableView numberOfRowsInSection:section] - 1;
+        }
+    }
+    else if (section == DROPBOX_SYNC_SECTION)
+    {
+        DBAccount *account = [[DBAccountManager sharedManager] linkedAccount];
+        
+        if (account == nil)
+        {
+            return 1;
         }
     }
     
@@ -257,8 +296,8 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     
     self.controllerOpacityLabel.text = percentage;
     
-    [[NSUserDefaults standardUserDefaults] setFloat:roundedValue forKey:GBASettingsControllerOpacity];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsControllerOpacity, @"value": @(roundedValue)}];
+    [[NSUserDefaults standardUserDefaults] setFloat:roundedValue forKey:GBASettingsControllerOpacityKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsControllerOpacityKey, @"value": @(roundedValue)}];
 }
 
 - (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender
@@ -269,15 +308,37 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (IBAction)toggleDropboxSync:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsDropboxSync];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsDropboxSync, @"value": @(sender.on)}];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsDropboxSyncKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsDropboxSyncKey, @"value": @(sender.on)}];
+    
+    if (sender.on && [[DBAccountManager sharedManager] linkedAccount] == nil)
+    {
+        [self linkDropboxAccount];
+    }
 }
 
 #pragma mark - Dropbox
 
 - (void)linkDropboxAccount
 {
+    if ([[DBAccountManager sharedManager] linkedAccount])
+    {
+        return [[[DBAccountManager sharedManager] linkedAccount] unlink];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedDropboxURLCallback:) name:GBASettingsDropboxStatusChangedNotification object:nil];
     [[DBAccountManager sharedManager] linkFromController:self];
+}
+
+- (void)receivedDropboxURLCallback:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:GBASettingsDropboxStatusChangedNotification object:nil];
+    
+    if ([[DBAccountManager sharedManager] linkedAccount] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
+        [self.dropboxSyncSwitch setOn:NO animated:YES];
+    }
 }
 
 #pragma mark - Selection
@@ -301,7 +362,10 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     }
     else if (indexPath.section == DROPBOX_SYNC_SECTION)
     {
-        [self linkDropboxAccount];
+        if (indexPath.row == 1)
+        {
+            [self linkDropboxAccount];
+        }
     }
     else if (indexPath.section == CREDITS_SECTION)
     {
