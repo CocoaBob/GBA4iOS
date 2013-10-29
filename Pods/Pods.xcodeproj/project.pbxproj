@@ -1,0 +1,1668 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00A56CE6F28344239F4FEB29 /* RSTWebViewControllerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F3CB423C72454F90DAC02A /* RSTWebViewControllerProtocol.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1038EE14F2034AB1869A0944 /* NJKWebViewProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D67D4C4D492442D894242DF /* NJKWebViewProgress.h */; };
+		1952D9F916B94807958948D2 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 443B94B5D52C4A7B9AAF8276 /* zip.c */; };
+		1C334CBBC92E49589D6E26B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BA65B708A34C91ACFAD83B /* Foundation.framework */; };
+		2902D678B71B49E580925088 /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = 909A9C02319C49BFB8269518 /* mztools.h */; };
+		291A50890A694F7691083F8D /* RSTWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E574DA91D4F44C894CCF39D /* RSTWebViewController.h */; };
+		2BBE1CAA75C445DC9D317F45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BA65B708A34C91ACFAD83B /* Foundation.framework */; };
+		2CD8569BF05F496E8AD091CD /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 6186DD6179AA43168CE1450F /* unzip.h */; };
+		2D20B86A2C924EF29C884B22 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 25623A75C6674C31900A9FFB /* Pods-dummy.m */; };
+		2F09D700B9A54E55B7AF1D18 /* RSTFileBrowserTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C2FDB5BABCFB425AA0A73142 /* RSTFileBrowserTableViewCell.h */; };
+		310C5BC88E184407BCB2F238 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 741F295B88EF4B9A92A6149C /* SSZipArchive.m */; };
+		317B8C1A564E4CA69B39298C /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C835FA3F4D124BE3B3D91118 /* RSTFileBrowserTableViewCell.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3671E2DD78AD485AA92FD5EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BA65B708A34C91ACFAD83B /* Foundation.framework */; };
+		36C0F805E6C44F0DAA4C0ED6 /* RSTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FDB43C0E40489A8835AC7A /* RSTWebViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3B9AD3ECF55747ADB7D51BEF /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 456D261D6B5C4BC9BB4ABE52 /* UIActionSheet+RSTAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		3E1BACFE29904FC98D0A1EC6 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = F912CC42E69B42A7A0C888C3 /* ioapi.h */; };
+		3EBB194FA2564F1FB9D54534 /* RSTDirectoryMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = A996ED02D214486B8009EFEC /* RSTDirectoryMonitor.h */; };
+		4046506FF749449CA004E3F3 /* RSTWebViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F889D6F9A95448EB1B92262 /* RSTWebViewControllerProtocol.h */; };
+		45B2AD476B0F480DB91B988F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BA65B708A34C91ACFAD83B /* Foundation.framework */; };
+		4B37D4BC7DD741F2B828EBA9 /* SSZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 19402596B5AA4A6885D57974 /* SSZipArchive.h */; };
+		5737B0E8FD744E2BAB1BCBB3 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C74749C304E461B99D58369 /* zip.h */; };
+		599DE475FF1D46AAB365B86D /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = C5E207E95F974A9C99BEC162 /* crypt.h */; };
+		5A7A39EEE22D431D9B875E24 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAD921733CF456E9DC399E5 /* NJKWebViewProgress.m */; settings = {COMPILER_FLAGS = "-fobjc-arc -DOS_OBJECT_USE_OBJC=0"; }; };
+		5ECCCA49AA0A45DD968BB4C2 /* libPods-RSTAlertView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF7BB6D1F4CB4489BF8CDBD7 /* libPods-RSTAlertView.a */; };
+		620FF45084E64A179668C0EB /* libPods-RSTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D7B42964ECB4E0EA5927554 /* libPods-RSTActionSheet.a */; };
+		64EB82ECC8C64C9F939B18DE /* Pods-NJKWebViewProgress-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6596962AB7D34BC4A530A79A /* Pods-NJKWebViewProgress-dummy.m */; };
+		6B59F36C8647409B8E5CED32 /* Pods-RSTWebViewController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E831A8723D8E467D8BCCE592 /* Pods-RSTWebViewController-dummy.m */; };
+		6E0BFD3DDF70403EB9CFF20D /* libPods-RSTWebViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D9E80E6E77B47B49542EC28 /* libPods-RSTWebViewController.a */; };
+		73DF7D7F5AE14207AFF41CBC /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D840172EBC84174B8C9042C /* RSTDirectoryMonitor.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		74A12E9109CC4146A89309FC /* libPods-SSZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6164667FE98F4AEE9C3EAFCB /* libPods-SSZipArchive.a */; };
+		75B9EC6981CD4D74BC0251D3 /* Pods-RSTFileBrowserViewController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B01EF04C2A5349B29B7FD407 /* Pods-RSTFileBrowserViewController-dummy.m */; };
+		797DED625345430EA49A3F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BA65B708A34C91ACFAD83B /* Foundation.framework */; };
+		7F30517AE241420E96C98C5F /* libPods-NJKWebViewProgress.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC8B5E2A0BD547C091855E05 /* libPods-NJKWebViewProgress.a */; };
+		8FAB53F17F2F4399A60123B0 /* UIAlertView+RSTAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 908EF425497C4AD88EB674CC /* UIAlertView+RSTAdditions.h */; };
+		8FF309D396FF4D96AB48608D /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B2920FC29434F049B3A5AD1 /* mztools.c */; };
+		96FE8583726F4D54A0104863 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F91A8DABCA8C495A96591CE4 /* RSTFileBrowserViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		986ADB00AED149798B2F9AA6 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CA345380D4E4C6B8C471583 /* ioapi.c */; };
+		997BF35D7329498DB9F47EE0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BA65B708A34C91ACFAD83B /* Foundation.framework */; };
+		997D2500001C4887AFAAA4DD /* Pods-RSTActionSheet-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 305D19DF44134E71B3360D05 /* Pods-RSTActionSheet-dummy.m */; };
+		9C2835462CA748F8983F51EB /* RSTSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = AE06418B0A1B4969BA93E3B0 /* RSTSafariActivity.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		9C406237F5A34D168B4B778F /* UIActionSheet+RSTAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EAF3FEA319ED4E6E89D82C1E /* UIActionSheet+RSTAdditions.h */; };
+		AA3842C4800844C8AECE908E /* RSTSafariActivity.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DBC27346E8641548F579437 /* RSTSafariActivity.h */; };
+		BA3497A8AFCC4B4E8C02BC96 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BAFE255D19D145089EDEBAD7 /* unzip.c */; };
+		D23858370AB04B939B50F81D /* NSURLSessionTask+UniqueTaskIdentifier.h in Headers */ = {isa = PBXBuildFile; fileRef = F4892E8D301A4D43BF4510D3 /* NSURLSessionTask+UniqueTaskIdentifier.h */; };
+		E5B1D61A8E7449A8A14CD299 /* Pods-RSTAlertView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E1053CB4A8654C80AB867687 /* Pods-RSTAlertView-dummy.m */; };
+		E70C6644AB304D68BA4FC4FE /* RSTFileBrowserViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B77F1CD2AD734BDCBCAA5A09 /* RSTFileBrowserViewController.h */; };
+		F174494489E84AE488E07AC9 /* Pods-SSZipArchive-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C64C0694758447D1AB079259 /* Pods-SSZipArchive-dummy.m */; };
+		F3244947C4594B93913BE1BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BA65B708A34C91ACFAD83B /* Foundation.framework */; };
+		FC252B8887B04E17BBD43D0F /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5692BBD80544419FABFBE942 /* NSURLSessionTask+UniqueTaskIdentifier.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		FEF87D96ADFD4ECC92FBABA9 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAE3BE396DF4C9B88C2AF07 /* UIAlertView+RSTAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		FF32295A09994D3F872C138E /* libPods-RSTFileBrowserViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6375A786B8F24C0BA2C4326F /* libPods-RSTFileBrowserViewController.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1E1DBD67BC7F4AD491812B48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA261FDE435F4378A179960B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 246E42E9FD1D4929A13764A4;
+			remoteInfo = "Pods-RSTFileBrowserViewController";
+		};
+		42B2D502589342209FE0D6F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA261FDE435F4378A179960B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10FCC00E437F48D49B44B065;
+			remoteInfo = "Pods-NJKWebViewProgress";
+		};
+		52D95B06B40640FD88A268F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA261FDE435F4378A179960B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10FCC00E437F48D49B44B065;
+			remoteInfo = "Pods-NJKWebViewProgress";
+		};
+		5B30C0262FD04B839D0241B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA261FDE435F4378A179960B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ECA95CE279074A22B4F4D610;
+			remoteInfo = "Pods-SSZipArchive";
+		};
+		769C8739E83C4116866056D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA261FDE435F4378A179960B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8ECD0475BA854335B3DDF321;
+			remoteInfo = "Pods-RSTWebViewController";
+		};
+		E3C774337BA549A89B93C4B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA261FDE435F4378A179960B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A631BA5D3050468CAD1BB537;
+			remoteInfo = "Pods-RSTAlertView";
+		};
+		FF2F193FF67E4339882FF204 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA261FDE435F4378A179960B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A66ECC8394814A458219A00C;
+			remoteInfo = "Pods-RSTActionSheet";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		002EEFA0C88A4D408E0DD298 /* Forward Button@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Forward Button@2x.png"; path = "Media.xcassets/Forward Button.imageset/Forward Button@2x.png"; sourceTree = "<group>"; };
+		06F3CB423C72454F90DAC02A /* RSTWebViewControllerProtocol.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RSTWebViewControllerProtocol.m; sourceTree = "<group>"; };
+		0959FEE5049C49D49E89BDAE /* Pods-RSTFileBrowserViewController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RSTFileBrowserViewController-prefix.pch"; sourceTree = "<group>"; };
+		0AAD182B590242AFABF9C03C /* Pods-RSTWebViewController-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RSTWebViewController-prefix.pch"; sourceTree = "<group>"; };
+		0D67D4C4D492442D894242DF /* NJKWebViewProgress.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = NJKWebViewProgress/NJKWebViewProgress.h; sourceTree = "<group>"; };
+		0D840172EBC84174B8C9042C /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RSTDirectoryMonitor.m; sourceTree = "<group>"; };
+		0E574DA91D4F44C894CCF39D /* RSTWebViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RSTWebViewController.h; sourceTree = "<group>"; };
+		16058993EFD04CB1907389A9 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		16466236E04C493E877296C3 /* Pods-NJKWebViewProgress.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-NJKWebViewProgress.xcconfig"; sourceTree = "<group>"; };
+		16609B34B1CE419A89CC6855 /* Pods-RSTAlertView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTAlertView.xcconfig"; sourceTree = "<group>"; };
+		19402596B5AA4A6885D57974 /* SSZipArchive.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = SSZipArchive/SSZipArchive.h; sourceTree = "<group>"; };
+		1E991C59243D417E93436A02 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		25623A75C6674C31900A9FFB /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		2A335A000F0847A7827577A9 /* Pods-SSZipArchive.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SSZipArchive.xcconfig"; sourceTree = "<group>"; };
+		2DBC27346E8641548F579437 /* RSTSafariActivity.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RSTSafariActivity.h; sourceTree = "<group>"; };
+		305D19DF44134E71B3360D05 /* Pods-RSTActionSheet-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RSTActionSheet-dummy.m"; sourceTree = "<group>"; };
+		32FDB43C0E40489A8835AC7A /* RSTWebViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RSTWebViewController.m; sourceTree = "<group>"; };
+		34EE3FAD669443758DF69126 /* Pods-NJKWebViewProgress-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-NJKWebViewProgress-Private.xcconfig"; sourceTree = "<group>"; };
+		36B0B2F57D7641C7A0FC9538 /* Pods-RSTActionSheet-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTActionSheet-Private.xcconfig"; sourceTree = "<group>"; };
+		39F8A3F3F3014DEC97269080 /* Pods-RSTWebViewController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTWebViewController.xcconfig"; sourceTree = "<group>"; };
+		3D7B42964ECB4E0EA5927554 /* libPods-RSTActionSheet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSTActionSheet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DAD921733CF456E9DC399E5 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = NJKWebViewProgress/NJKWebViewProgress.m; sourceTree = "<group>"; };
+		3F889D6F9A95448EB1B92262 /* RSTWebViewControllerProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RSTWebViewControllerProtocol.h; sourceTree = "<group>"; };
+		443B94B5D52C4A7B9AAF8276 /* zip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = zip.c; path = minizip/zip.c; sourceTree = "<group>"; };
+		456D261D6B5C4BC9BB4ABE52 /* UIActionSheet+RSTAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+RSTAdditions.m"; sourceTree = "<group>"; };
+		49D376A2858A45C0B75F9435 /* Pods-RSTAlertView-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTAlertView-Private.xcconfig"; sourceTree = "<group>"; };
+		5692BBD80544419FABFBE942 /* NSURLSessionTask+UniqueTaskIdentifier.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionTask+UniqueTaskIdentifier.m"; sourceTree = "<group>"; };
+		5A43D51C63394F8FAA2300F2 /* Forward Button.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Forward Button.png"; path = "Media.xcassets/Forward Button.imageset/Forward Button.png"; sourceTree = "<group>"; };
+		5CDA274BFA06433294A12FC9 /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
+		6164667FE98F4AEE9C3EAFCB /* libPods-SSZipArchive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SSZipArchive.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6186DD6179AA43168CE1450F /* unzip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = minizip/unzip.h; sourceTree = "<group>"; };
+		6375A786B8F24C0BA2C4326F /* libPods-RSTFileBrowserViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSTFileBrowserViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6596962AB7D34BC4A530A79A /* Pods-NJKWebViewProgress-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-NJKWebViewProgress-dummy.m"; sourceTree = "<group>"; };
+		6B2920FC29434F049B3A5AD1 /* mztools.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = minizip/mztools.c; sourceTree = "<group>"; };
+		6C3DCFB1F0E546B491FCB123 /* Pods-NJKWebViewProgress-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-NJKWebViewProgress-prefix.pch"; sourceTree = "<group>"; };
+		6FFAAD3325204682B1CFC5A4 /* Back Button@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Back Button@2x.png"; path = "Media.xcassets/Back Button.imageset/Back Button@2x.png"; sourceTree = "<group>"; };
+		741F295B88EF4B9A92A6149C /* SSZipArchive.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
+		8367391E287C40B6A9D41EC2 /* Pods-RSTAlertView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RSTAlertView-prefix.pch"; sourceTree = "<group>"; };
+		87B7E9880F0346EDBA9796F2 /* Pods-SSZipArchive-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SSZipArchive-Private.xcconfig"; sourceTree = "<group>"; };
+		8B59E5D0AC544CC7B9D3B263 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		8CA345380D4E4C6B8C471583 /* ioapi.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = minizip/ioapi.c; sourceTree = "<group>"; };
+		8D9E80E6E77B47B49542EC28 /* libPods-RSTWebViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSTWebViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		908EF425497C4AD88EB674CC /* UIAlertView+RSTAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+RSTAdditions.h"; sourceTree = "<group>"; };
+		909A9C02319C49BFB8269518 /* mztools.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mztools.h; path = minizip/mztools.h; sourceTree = "<group>"; };
+		91CA889DB9DE455CA49980B7 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9B5C400EF6FD46A58DBE4643 /* Pods-SSZipArchive-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SSZipArchive-prefix.pch"; sourceTree = "<group>"; };
+		9C74749C304E461B99D58369 /* zip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = zip.h; path = minizip/zip.h; sourceTree = "<group>"; };
+		9E7A22811C844C78A1CA23DE /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		A0C96F268D384DF4A5833D42 /* Pods-RSTFileBrowserViewController.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTFileBrowserViewController.xcconfig"; sourceTree = "<group>"; };
+		A25E02A0EFE74D2CB29CAC26 /* Pods-RSTActionSheet.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTActionSheet.xcconfig"; sourceTree = "<group>"; };
+		A996ED02D214486B8009EFEC /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RSTDirectoryMonitor.h; sourceTree = "<group>"; };
+		ABAE3BE396DF4C9B88C2AF07 /* UIAlertView+RSTAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+RSTAdditions.m"; sourceTree = "<group>"; };
+		AE06418B0A1B4969BA93E3B0 /* RSTSafariActivity.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RSTSafariActivity.m; sourceTree = "<group>"; };
+		B01EF04C2A5349B29B7FD407 /* Pods-RSTFileBrowserViewController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RSTFileBrowserViewController-dummy.m"; sourceTree = "<group>"; };
+		B77F1CD2AD734BDCBCAA5A09 /* RSTFileBrowserViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RSTFileBrowserViewController.h; sourceTree = "<group>"; };
+		BAFE255D19D145089EDEBAD7 /* unzip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = minizip/unzip.c; sourceTree = "<group>"; };
+		BB79CF59051248C9A4A93518 /* Pods-RSTFileBrowserViewController-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTFileBrowserViewController-Private.xcconfig"; sourceTree = "<group>"; };
+		C0FB1C097D804324BFAFCC95 /* Pods-RSTWebViewController-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RSTWebViewController-Private.xcconfig"; sourceTree = "<group>"; };
+		C2FDB5BABCFB425AA0A73142 /* RSTFileBrowserTableViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RSTFileBrowserTableViewCell.h; sourceTree = "<group>"; };
+		C5E207E95F974A9C99BEC162 /* crypt.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = minizip/crypt.h; sourceTree = "<group>"; };
+		C64C0694758447D1AB079259 /* Pods-SSZipArchive-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SSZipArchive-dummy.m"; sourceTree = "<group>"; };
+		C835FA3F4D124BE3B3D91118 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
+		CBA86BBE5025467E82CDF9A7 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.xcconfig; sourceTree = "<group>"; };
+		CBD9F69FB60E4F2681602956 /* Pods-RSTActionSheet-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RSTActionSheet-prefix.pch"; sourceTree = "<group>"; };
+		DC8B5E2A0BD547C091855E05 /* libPods-NJKWebViewProgress.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NJKWebViewProgress.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF7BB6D1F4CB4489BF8CDBD7 /* libPods-RSTAlertView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSTAlertView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1053CB4A8654C80AB867687 /* Pods-RSTAlertView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RSTAlertView-dummy.m"; sourceTree = "<group>"; };
+		E6BA65B708A34C91ACFAD83B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E831A8723D8E467D8BCCE592 /* Pods-RSTWebViewController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RSTWebViewController-dummy.m"; sourceTree = "<group>"; };
+		EAF3FEA319ED4E6E89D82C1E /* UIActionSheet+RSTAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+RSTAdditions.h"; sourceTree = "<group>"; };
+		F4892E8D301A4D43BF4510D3 /* NSURLSessionTask+UniqueTaskIdentifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSURLSessionTask+UniqueTaskIdentifier.h"; sourceTree = "<group>"; };
+		F912CC42E69B42A7A0C888C3 /* ioapi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = minizip/ioapi.h; sourceTree = "<group>"; };
+		F91A8DABCA8C495A96591CE4 /* RSTFileBrowserViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RSTFileBrowserViewController.m; sourceTree = "<group>"; };
+		FBA188FEAA074267AB85CBA1 /* Back Button.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Back Button.png"; path = "Media.xcassets/Back Button.imageset/Back Button.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		48B0D34CA7D3400DAA03B06E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				997BF35D7329498DB9F47EE0 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E24AB78A27440E29C57A2AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45B2AD476B0F480DB91B988F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69EA069E5B9E4B50BCF8AC3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				797DED625345430EA49A3F07 /* Foundation.framework in Frameworks */,
+				7F30517AE241420E96C98C5F /* libPods-NJKWebViewProgress.a in Frameworks */,
+				620FF45084E64A179668C0EB /* libPods-RSTActionSheet.a in Frameworks */,
+				5ECCCA49AA0A45DD968BB4C2 /* libPods-RSTAlertView.a in Frameworks */,
+				FF32295A09994D3F872C138E /* libPods-RSTFileBrowserViewController.a in Frameworks */,
+				6E0BFD3DDF70403EB9CFF20D /* libPods-RSTWebViewController.a in Frameworks */,
+				74A12E9109CC4146A89309FC /* libPods-SSZipArchive.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8E750B270622467B8DFB6CA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C334CBBC92E49589D6E26B7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE4FD03099EB4586B8D31BB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BBE1CAA75C445DC9D317F45 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CF7291994C5F4FC88E320160 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3671E2DD78AD485AA92FD5EA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EEEA46E3D2EE41E7BAE3D97A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3244947C4594B93913BE1BD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		001AA3D5EFAB490480D3575A /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D77E745C12EE4608AF4D7172 /* RSTActionSheet */,
+				2211B5B9623D4785A8E38E20 /* RSTAlertView */,
+				DD3BFCA1C8FB4B2B8497B189 /* RSTFileBrowserViewController */,
+				F4978AE8E601487C8E496F9C /* RSTWebViewController */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		0725D873C0F84003BA7A0EBB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5CDA274BFA06433294A12FC9 /* Pods-environment.h */,
+				25623A75C6674C31900A9FFB /* Pods-dummy.m */,
+				8B59E5D0AC544CC7B9D3B263 /* Pods-acknowledgements.markdown */,
+				9E7A22811C844C78A1CA23DE /* Pods-acknowledgements.plist */,
+				16058993EFD04CB1907389A9 /* Pods-resources.sh */,
+				CBA86BBE5025467E82CDF9A7 /* Pods.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		1DE1D34F8C004FC1882BD08F = {
+			isa = PBXGroup;
+			children = (
+				001AA3D5EFAB490480D3575A /* Development Pods */,
+				655FC7CC813F496BBA482158 /* Frameworks */,
+				A80D0C2E1ECC4AD2835D47D1 /* Pods */,
+				B5617958B59C4AB9912EF554 /* Products */,
+				CF767626F07C4C879C267BA5 /* Targets Support Files */,
+				91CA889DB9DE455CA49980B7 /* Podfile */,
+			);
+			sourceTree = "<group>";
+		};
+		2211B5B9623D4785A8E38E20 /* RSTAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				3BA61F9A1A9943DBBE6CEFC9 /* Products */,
+				EABEEE1DEE48414A967A8E2B /* Source Files */,
+				4B9B9A370B784223A3029CCC /* Support Files */,
+			);
+			name = RSTAlertView;
+			path = ../../../../RSTUtilities/RSTAlertView;
+			sourceTree = "<group>";
+		};
+		2600A871477A4D1FA06A9DD9 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				B01EF04C2A5349B29B7FD407 /* Pods-RSTFileBrowserViewController-dummy.m */,
+				0959FEE5049C49D49E89BDAE /* Pods-RSTFileBrowserViewController-prefix.pch */,
+				A0C96F268D384DF4A5833D42 /* Pods-RSTFileBrowserViewController.xcconfig */,
+				BB79CF59051248C9A4A93518 /* Pods-RSTFileBrowserViewController-Private.xcconfig */,
+			);
+			name = "Support Files";
+			sourceTree = SOURCE_ROOT;
+		};
+		30DE7AFC5C864B5D92179961 /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				34024C2C2CE844E0A43A0234 /* Products */,
+				E5617286EBA04408A60E46A1 /* Source Files */,
+				39A44B791C7B432F908EC147 /* Support Files */,
+			);
+			path = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		34024C2C2CE844E0A43A0234 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6164667FE98F4AEE9C3EAFCB /* libPods-SSZipArchive.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		37D4D1D8F67C4D158360B8C7 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				E831A8723D8E467D8BCCE592 /* Pods-RSTWebViewController-dummy.m */,
+				0AAD182B590242AFABF9C03C /* Pods-RSTWebViewController-prefix.pch */,
+				39F8A3F3F3014DEC97269080 /* Pods-RSTWebViewController.xcconfig */,
+				C0FB1C097D804324BFAFCC95 /* Pods-RSTWebViewController-Private.xcconfig */,
+			);
+			name = "Support Files";
+			sourceTree = SOURCE_ROOT;
+		};
+		39A44B791C7B432F908EC147 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				C64C0694758447D1AB079259 /* Pods-SSZipArchive-dummy.m */,
+				9B5C400EF6FD46A58DBE4643 /* Pods-SSZipArchive-prefix.pch */,
+				2A335A000F0847A7827577A9 /* Pods-SSZipArchive.xcconfig */,
+				87B7E9880F0346EDBA9796F2 /* Pods-SSZipArchive-Private.xcconfig */,
+			);
+			name = "Support Files";
+			sourceTree = SOURCE_ROOT;
+		};
+		3BA61F9A1A9943DBBE6CEFC9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DF7BB6D1F4CB4489BF8CDBD7 /* libPods-RSTAlertView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		49915F75DA2944D69AF51D35 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				A996ED02D214486B8009EFEC /* RSTDirectoryMonitor.h */,
+				C2FDB5BABCFB425AA0A73142 /* RSTFileBrowserTableViewCell.h */,
+				B77F1CD2AD734BDCBCAA5A09 /* RSTFileBrowserViewController.h */,
+				0D840172EBC84174B8C9042C /* RSTDirectoryMonitor.m */,
+				C835FA3F4D124BE3B3D91118 /* RSTFileBrowserTableViewCell.m */,
+				F91A8DABCA8C495A96591CE4 /* RSTFileBrowserViewController.m */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		4B9B9A370B784223A3029CCC /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1053CB4A8654C80AB867687 /* Pods-RSTAlertView-dummy.m */,
+				8367391E287C40B6A9D41EC2 /* Pods-RSTAlertView-prefix.pch */,
+				16609B34B1CE419A89CC6855 /* Pods-RSTAlertView.xcconfig */,
+				49D376A2858A45C0B75F9435 /* Pods-RSTAlertView-Private.xcconfig */,
+			);
+			name = "Support Files";
+			sourceTree = SOURCE_ROOT;
+		};
+		54B90F228E684B889E34748D /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				EAF3FEA319ED4E6E89D82C1E /* UIActionSheet+RSTAdditions.h */,
+				456D261D6B5C4BC9BB4ABE52 /* UIActionSheet+RSTAdditions.m */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		61C795EEFB5E47A2956FDFC0 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				6596962AB7D34BC4A530A79A /* Pods-NJKWebViewProgress-dummy.m */,
+				6C3DCFB1F0E546B491FCB123 /* Pods-NJKWebViewProgress-prefix.pch */,
+				16466236E04C493E877296C3 /* Pods-NJKWebViewProgress.xcconfig */,
+				34EE3FAD669443758DF69126 /* Pods-NJKWebViewProgress-Private.xcconfig */,
+			);
+			name = "Support Files";
+			sourceTree = SOURCE_ROOT;
+		};
+		655FC7CC813F496BBA482158 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E6BA65B708A34C91ACFAD83B /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87FCCD0E48124C3F870428B9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FBA188FEAA074267AB85CBA1 /* Back Button.png */,
+				6FFAAD3325204682B1CFC5A4 /* Back Button@2x.png */,
+				5A43D51C63394F8FAA2300F2 /* Forward Button.png */,
+				002EEFA0C88A4D408E0DD298 /* Forward Button@2x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		A80D0C2E1ECC4AD2835D47D1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FC349323D5BC41E5934133D7 /* NJKWebViewProgress */,
+				30DE7AFC5C864B5D92179961 /* SSZipArchive */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AD2375A9FEC34280A25CC10F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC8B5E2A0BD547C091855E05 /* libPods-NJKWebViewProgress.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5617958B59C4AB9912EF554 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1E991C59243D417E93436A02 /* libPods.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C18E5EC6EB9F4E7698745650 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3D7B42964ECB4E0EA5927554 /* libPods-RSTActionSheet.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CF767626F07C4C879C267BA5 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0725D873C0F84003BA7A0EBB /* Pods */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		D77E745C12EE4608AF4D7172 /* RSTActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				C18E5EC6EB9F4E7698745650 /* Products */,
+				54B90F228E684B889E34748D /* Source Files */,
+				FEF86F368FD04FCEA1FF2841 /* Support Files */,
+			);
+			name = RSTActionSheet;
+			path = ../../../../RSTUtilities/RSTActionSheet;
+			sourceTree = "<group>";
+		};
+		DA8B0914B55644CBB44EAD6F /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				F4892E8D301A4D43BF4510D3 /* NSURLSessionTask+UniqueTaskIdentifier.h */,
+				2DBC27346E8641548F579437 /* RSTSafariActivity.h */,
+				0E574DA91D4F44C894CCF39D /* RSTWebViewController.h */,
+				3F889D6F9A95448EB1B92262 /* RSTWebViewControllerProtocol.h */,
+				5692BBD80544419FABFBE942 /* NSURLSessionTask+UniqueTaskIdentifier.m */,
+				AE06418B0A1B4969BA93E3B0 /* RSTSafariActivity.m */,
+				32FDB43C0E40489A8835AC7A /* RSTWebViewController.m */,
+				06F3CB423C72454F90DAC02A /* RSTWebViewControllerProtocol.m */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		DD3BFCA1C8FB4B2B8497B189 /* RSTFileBrowserViewController */ = {
+			isa = PBXGroup;
+			children = (
+				ECBE7D3428804BDEA356E38E /* Products */,
+				49915F75DA2944D69AF51D35 /* Source Files */,
+				2600A871477A4D1FA06A9DD9 /* Support Files */,
+			);
+			name = RSTFileBrowserViewController;
+			path = ../../../../RSTUtilities/RSTFileBrowserViewController;
+			sourceTree = "<group>";
+		};
+		E163406C9D7E4B86A5AAF57E /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				0D67D4C4D492442D894242DF /* NJKWebViewProgress.h */,
+				3DAD921733CF456E9DC399E5 /* NJKWebViewProgress.m */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E5617286EBA04408A60E46A1 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				8CA345380D4E4C6B8C471583 /* ioapi.c */,
+				6B2920FC29434F049B3A5AD1 /* mztools.c */,
+				BAFE255D19D145089EDEBAD7 /* unzip.c */,
+				443B94B5D52C4A7B9AAF8276 /* zip.c */,
+				19402596B5AA4A6885D57974 /* SSZipArchive.h */,
+				C5E207E95F974A9C99BEC162 /* crypt.h */,
+				F912CC42E69B42A7A0C888C3 /* ioapi.h */,
+				909A9C02319C49BFB8269518 /* mztools.h */,
+				6186DD6179AA43168CE1450F /* unzip.h */,
+				9C74749C304E461B99D58369 /* zip.h */,
+				741F295B88EF4B9A92A6149C /* SSZipArchive.m */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		EABEEE1DEE48414A967A8E2B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				908EF425497C4AD88EB674CC /* UIAlertView+RSTAdditions.h */,
+				ABAE3BE396DF4C9B88C2AF07 /* UIAlertView+RSTAdditions.m */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		ECBE7D3428804BDEA356E38E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6375A786B8F24C0BA2C4326F /* libPods-RSTFileBrowserViewController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE18BFEC468C4B34A73E999B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D9E80E6E77B47B49542EC28 /* libPods-RSTWebViewController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F4978AE8E601487C8E496F9C /* RSTWebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				EE18BFEC468C4B34A73E999B /* Products */,
+				87FCCD0E48124C3F870428B9 /* Resources */,
+				DA8B0914B55644CBB44EAD6F /* Source Files */,
+				37D4D1D8F67C4D158360B8C7 /* Support Files */,
+			);
+			name = RSTWebViewController;
+			path = ../../../../RSTUtilities/RSTWebViewController;
+			sourceTree = "<group>";
+		};
+		FC349323D5BC41E5934133D7 /* NJKWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				AD2375A9FEC34280A25CC10F /* Products */,
+				E163406C9D7E4B86A5AAF57E /* Source Files */,
+				61C795EEFB5E47A2956FDFC0 /* Support Files */,
+			);
+			path = NJKWebViewProgress;
+			sourceTree = "<group>";
+		};
+		FEF86F368FD04FCEA1FF2841 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				305D19DF44134E71B3360D05 /* Pods-RSTActionSheet-dummy.m */,
+				CBD9F69FB60E4F2681602956 /* Pods-RSTActionSheet-prefix.pch */,
+				A25E02A0EFE74D2CB29CAC26 /* Pods-RSTActionSheet.xcconfig */,
+				36B0B2F57D7641C7A0FC9538 /* Pods-RSTActionSheet-Private.xcconfig */,
+			);
+			name = "Support Files";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		10826E79A16741119B806251 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EBB194FA2564F1FB9D54534 /* RSTDirectoryMonitor.h in Headers */,
+				2F09D700B9A54E55B7AF1D18 /* RSTFileBrowserTableViewCell.h in Headers */,
+				E70C6644AB304D68BA4FC4FE /* RSTFileBrowserViewController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		191F695D26514A6EA7591EEF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C406237F5A34D168B4B778F /* UIActionSheet+RSTAdditions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43FC28D92D994CFC851DE3BD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1038EE14F2034AB1869A0944 /* NJKWebViewProgress.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		747121D77EC441E296191071 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B37D4BC7DD741F2B828EBA9 /* SSZipArchive.h in Headers */,
+				599DE475FF1D46AAB365B86D /* crypt.h in Headers */,
+				3E1BACFE29904FC98D0A1EC6 /* ioapi.h in Headers */,
+				2902D678B71B49E580925088 /* mztools.h in Headers */,
+				2CD8569BF05F496E8AD091CD /* unzip.h in Headers */,
+				5737B0E8FD744E2BAB1BCBB3 /* zip.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A4ACACFD82D54E63AB09DB0F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8FAB53F17F2F4399A60123B0 /* UIAlertView+RSTAdditions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6E9C9141D664A63BABD3E8F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D23858370AB04B939B50F81D /* NSURLSessionTask+UniqueTaskIdentifier.h in Headers */,
+				AA3842C4800844C8AECE908E /* RSTSafariActivity.h in Headers */,
+				291A50890A694F7691083F8D /* RSTWebViewController.h in Headers */,
+				4046506FF749449CA004E3F3 /* RSTWebViewControllerProtocol.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		10FCC00E437F48D49B44B065 /* Pods-NJKWebViewProgress */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2F7B4FAB1CBF4684ABD620DD /* Build configuration list for PBXNativeTarget "Pods-NJKWebViewProgress" */;
+			buildPhases = (
+				4BC13134B1F449E9946C7FE5 /* Sources */,
+				AE4FD03099EB4586B8D31BB3 /* Frameworks */,
+				43FC28D92D994CFC851DE3BD /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-NJKWebViewProgress";
+			productName = "Pods-NJKWebViewProgress";
+			productReference = DC8B5E2A0BD547C091855E05 /* libPods-NJKWebViewProgress.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		246E42E9FD1D4929A13764A4 /* Pods-RSTFileBrowserViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E360C488BC1048378D8587C7 /* Build configuration list for PBXNativeTarget "Pods-RSTFileBrowserViewController" */;
+			buildPhases = (
+				ED79596EE222497D8BA8887C /* Sources */,
+				5E24AB78A27440E29C57A2AA /* Frameworks */,
+				10826E79A16741119B806251 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-RSTFileBrowserViewController";
+			productName = "Pods-RSTFileBrowserViewController";
+			productReference = 6375A786B8F24C0BA2C4326F /* libPods-RSTFileBrowserViewController.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		8ECD0475BA854335B3DDF321 /* Pods-RSTWebViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44D9422BED314BF7A0184D4F /* Build configuration list for PBXNativeTarget "Pods-RSTWebViewController" */;
+			buildPhases = (
+				23FA6BDB465E452C8319EBB5 /* Sources */,
+				48B0D34CA7D3400DAA03B06E /* Frameworks */,
+				F6E9C9141D664A63BABD3E8F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				16F2447EDB7048C9B5CCEA87 /* PBXTargetDependency */,
+			);
+			name = "Pods-RSTWebViewController";
+			productName = "Pods-RSTWebViewController";
+			productReference = 8D9E80E6E77B47B49542EC28 /* libPods-RSTWebViewController.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A631BA5D3050468CAD1BB537 /* Pods-RSTAlertView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 672985FD946D41F7B4E07946 /* Build configuration list for PBXNativeTarget "Pods-RSTAlertView" */;
+			buildPhases = (
+				5492C856E222464BA359CE15 /* Sources */,
+				EEEA46E3D2EE41E7BAE3D97A /* Frameworks */,
+				A4ACACFD82D54E63AB09DB0F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-RSTAlertView";
+			productName = "Pods-RSTAlertView";
+			productReference = DF7BB6D1F4CB4489BF8CDBD7 /* libPods-RSTAlertView.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A66ECC8394814A458219A00C /* Pods-RSTActionSheet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E86BE57564FD4FECADB69B84 /* Build configuration list for PBXNativeTarget "Pods-RSTActionSheet" */;
+			buildPhases = (
+				0C66BC2DEFAA4B98A9E87652 /* Sources */,
+				8E750B270622467B8DFB6CA8 /* Frameworks */,
+				191F695D26514A6EA7591EEF /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-RSTActionSheet";
+			productName = "Pods-RSTActionSheet";
+			productReference = 3D7B42964ECB4E0EA5927554 /* libPods-RSTActionSheet.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		ECA95CE279074A22B4F4D610 /* Pods-SSZipArchive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62E72700C6AB44EC8FF51CE6 /* Build configuration list for PBXNativeTarget "Pods-SSZipArchive" */;
+			buildPhases = (
+				4223FC45AC51446CA0222054 /* Sources */,
+				CF7291994C5F4FC88E320160 /* Frameworks */,
+				747121D77EC441E296191071 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-SSZipArchive";
+			productName = "Pods-SSZipArchive";
+			productReference = 6164667FE98F4AEE9C3EAFCB /* libPods-SSZipArchive.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F4B0EBF9FF63419CA5394561 /* Pods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03BB6E859A0E493EA14530CB /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildPhases = (
+				F4DF9546DA1541F88F3C82AA /* Sources */,
+				69EA069E5B9E4B50BCF8AC3C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2F18B826D354D07897D6D3F /* PBXTargetDependency */,
+				5CB862AA2A5D4D8CB3EC32CB /* PBXTargetDependency */,
+				F7938C3AA525431E8DAD96FD /* PBXTargetDependency */,
+				1FD704C189D44B9586213389 /* PBXTargetDependency */,
+				55E6DF3CF67C4B6BA54E9C68 /* PBXTargetDependency */,
+				680323B6B77A4C58B343EEA3 /* PBXTargetDependency */,
+			);
+			name = Pods;
+			productName = Pods;
+			productReference = 1E991C59243D417E93436A02 /* libPods.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EA261FDE435F4378A179960B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+			};
+			buildConfigurationList = 05346A7D61BF401FBCF4E9AD /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1DE1D34F8C004FC1882BD08F;
+			productRefGroup = B5617958B59C4AB9912EF554 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F4B0EBF9FF63419CA5394561 /* Pods */,
+				10FCC00E437F48D49B44B065 /* Pods-NJKWebViewProgress */,
+				A66ECC8394814A458219A00C /* Pods-RSTActionSheet */,
+				A631BA5D3050468CAD1BB537 /* Pods-RSTAlertView */,
+				246E42E9FD1D4929A13764A4 /* Pods-RSTFileBrowserViewController */,
+				8ECD0475BA854335B3DDF321 /* Pods-RSTWebViewController */,
+				ECA95CE279074A22B4F4D610 /* Pods-SSZipArchive */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0C66BC2DEFAA4B98A9E87652 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				997D2500001C4887AFAAA4DD /* Pods-RSTActionSheet-dummy.m in Sources */,
+				3B9AD3ECF55747ADB7D51BEF /* UIActionSheet+RSTAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23FA6BDB465E452C8319EBB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC252B8887B04E17BBD43D0F /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */,
+				6B59F36C8647409B8E5CED32 /* Pods-RSTWebViewController-dummy.m in Sources */,
+				9C2835462CA748F8983F51EB /* RSTSafariActivity.m in Sources */,
+				36C0F805E6C44F0DAA4C0ED6 /* RSTWebViewController.m in Sources */,
+				00A56CE6F28344239F4FEB29 /* RSTWebViewControllerProtocol.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4223FC45AC51446CA0222054 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F174494489E84AE488E07AC9 /* Pods-SSZipArchive-dummy.m in Sources */,
+				310C5BC88E184407BCB2F238 /* SSZipArchive.m in Sources */,
+				986ADB00AED149798B2F9AA6 /* ioapi.c in Sources */,
+				8FF309D396FF4D96AB48608D /* mztools.c in Sources */,
+				BA3497A8AFCC4B4E8C02BC96 /* unzip.c in Sources */,
+				1952D9F916B94807958948D2 /* zip.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC13134B1F449E9946C7FE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A7A39EEE22D431D9B875E24 /* NJKWebViewProgress.m in Sources */,
+				64EB82ECC8C64C9F939B18DE /* Pods-NJKWebViewProgress-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5492C856E222464BA359CE15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5B1D61A8E7449A8A14CD299 /* Pods-RSTAlertView-dummy.m in Sources */,
+				FEF87D96ADFD4ECC92FBABA9 /* UIAlertView+RSTAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED79596EE222497D8BA8887C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75B9EC6981CD4D74BC0251D3 /* Pods-RSTFileBrowserViewController-dummy.m in Sources */,
+				73DF7D7F5AE14207AFF41CBC /* RSTDirectoryMonitor.m in Sources */,
+				317B8C1A564E4CA69B39298C /* RSTFileBrowserTableViewCell.m in Sources */,
+				96FE8583726F4D54A0104863 /* RSTFileBrowserViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4DF9546DA1541F88F3C82AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D20B86A2C924EF29C884B22 /* Pods-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		16F2447EDB7048C9B5CCEA87 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 10FCC00E437F48D49B44B065 /* Pods-NJKWebViewProgress */;
+			targetProxy = 52D95B06B40640FD88A268F3 /* PBXContainerItemProxy */;
+		};
+		1FD704C189D44B9586213389 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 246E42E9FD1D4929A13764A4 /* Pods-RSTFileBrowserViewController */;
+			targetProxy = 1E1DBD67BC7F4AD491812B48 /* PBXContainerItemProxy */;
+		};
+		55E6DF3CF67C4B6BA54E9C68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8ECD0475BA854335B3DDF321 /* Pods-RSTWebViewController */;
+			targetProxy = 769C8739E83C4116866056D9 /* PBXContainerItemProxy */;
+		};
+		5CB862AA2A5D4D8CB3EC32CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A66ECC8394814A458219A00C /* Pods-RSTActionSheet */;
+			targetProxy = FF2F193FF67E4339882FF204 /* PBXContainerItemProxy */;
+		};
+		680323B6B77A4C58B343EEA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ECA95CE279074A22B4F4D610 /* Pods-SSZipArchive */;
+			targetProxy = 5B30C0262FD04B839D0241B1 /* PBXContainerItemProxy */;
+		};
+		F2F18B826D354D07897D6D3F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 10FCC00E437F48D49B44B065 /* Pods-NJKWebViewProgress */;
+			targetProxy = 42B2D502589342209FE0D6F8 /* PBXContainerItemProxy */;
+		};
+		F7938C3AA525431E8DAD96FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A631BA5D3050468CAD1BB537 /* Pods-RSTAlertView */;
+			targetProxy = E3C774337BA549A89B93C4B4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		001459405DBA4225B1F7BDB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36B0B2F57D7641C7A0FC9538 /* Pods-RSTActionSheet-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTActionSheet-prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		1176F597152B432194AFD618 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34EE3FAD669443758DF69126 /* Pods-NJKWebViewProgress-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-NJKWebViewProgress-prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		33653DA606BD458AAC10B03D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		34812CC3FD754F678D809BF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0FB1C097D804324BFAFCC95 /* Pods-RSTWebViewController-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTWebViewController-prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		44E8380877DC47EFB693C078 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB79CF59051248C9A4A93518 /* Pods-RSTFileBrowserViewController-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTFileBrowserViewController-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		50ED098C20114165BA34D949 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CBA86BBE5025467E82CDF9A7 /* Pods.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		563C4BD332334F4E91B41FAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Release;
+		};
+		59240B806FD2484B9092F264 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87B7E9880F0346EDBA9796F2 /* Pods-SSZipArchive-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-SSZipArchive-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		5E04BBC677514849913AB273 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB79CF59051248C9A4A93518 /* Pods-RSTFileBrowserViewController-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTFileBrowserViewController-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		6730F70418E84F2BA5F75336 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CBA86BBE5025467E82CDF9A7 /* Pods.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		7435B2F97A4B491BBAEFB700 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CBA86BBE5025467E82CDF9A7 /* Pods.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		77D7936B2F794B50B4C5A082 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 49D376A2858A45C0B75F9435 /* Pods-RSTAlertView-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTAlertView-prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		81C98F46B94D4EBAAF2761FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34EE3FAD669443758DF69126 /* Pods-NJKWebViewProgress-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-NJKWebViewProgress-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		83073374696C40F8B2093228 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0FB1C097D804324BFAFCC95 /* Pods-RSTWebViewController-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTWebViewController-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		8EA4C9FBB33947D98B7455AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87B7E9880F0346EDBA9796F2 /* Pods-SSZipArchive-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-SSZipArchive-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8ED7B64D600E4FF6B311DAF9 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36B0B2F57D7641C7A0FC9538 /* Pods-RSTActionSheet-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTActionSheet-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		B537CF93070842D78B524547 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB79CF59051248C9A4A93518 /* Pods-RSTFileBrowserViewController-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTFileBrowserViewController-prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BFE07CB03A7C4EE7AD20AFF7 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = "Ad Hoc";
+		};
+		C6FC656DBB4D43D28A98D27F /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34EE3FAD669443758DF69126 /* Pods-NJKWebViewProgress-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-NJKWebViewProgress-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		D0F70DA32FF14BB9A0EC4F5F /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 49D376A2858A45C0B75F9435 /* Pods-RSTAlertView-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTAlertView-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		E146ECE88EA04E4189258D93 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 49D376A2858A45C0B75F9435 /* Pods-RSTAlertView-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTAlertView-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E5D5408B73B841E8A747550C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87B7E9880F0346EDBA9796F2 /* Pods-SSZipArchive-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-SSZipArchive-prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EC992661F82D47358E375C60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36B0B2F57D7641C7A0FC9538 /* Pods-RSTActionSheet-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTActionSheet-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F58C917A791240C9A5440A54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0FB1C097D804324BFAFCC95 /* Pods-RSTWebViewController-Private.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/xcodeproj.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pods-RSTWebViewController-prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		03BB6E859A0E493EA14530CB /* Build configuration list for PBXNativeTarget "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6730F70418E84F2BA5F75336 /* Ad Hoc */,
+				7435B2F97A4B491BBAEFB700 /* Debug */,
+				50ED098C20114165BA34D949 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05346A7D61BF401FBCF4E9AD /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFE07CB03A7C4EE7AD20AFF7 /* Ad Hoc */,
+				33653DA606BD458AAC10B03D /* Debug */,
+				563C4BD332334F4E91B41FAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2F7B4FAB1CBF4684ABD620DD /* Build configuration list for PBXNativeTarget "Pods-NJKWebViewProgress" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6FC656DBB4D43D28A98D27F /* Ad Hoc */,
+				1176F597152B432194AFD618 /* Debug */,
+				81C98F46B94D4EBAAF2761FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		44D9422BED314BF7A0184D4F /* Build configuration list for PBXNativeTarget "Pods-RSTWebViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83073374696C40F8B2093228 /* Ad Hoc */,
+				34812CC3FD754F678D809BF2 /* Debug */,
+				F58C917A791240C9A5440A54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62E72700C6AB44EC8FF51CE6 /* Build configuration list for PBXNativeTarget "Pods-SSZipArchive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				59240B806FD2484B9092F264 /* Ad Hoc */,
+				E5D5408B73B841E8A747550C /* Debug */,
+				8EA4C9FBB33947D98B7455AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		672985FD946D41F7B4E07946 /* Build configuration list for PBXNativeTarget "Pods-RSTAlertView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0F70DA32FF14BB9A0EC4F5F /* Ad Hoc */,
+				77D7936B2F794B50B4C5A082 /* Debug */,
+				E146ECE88EA04E4189258D93 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E360C488BC1048378D8587C7 /* Build configuration list for PBXNativeTarget "Pods-RSTFileBrowserViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E04BBC677514849913AB273 /* Ad Hoc */,
+				B537CF93070842D78B524547 /* Debug */,
+				44E8380877DC47EFB693C078 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E86BE57564FD4FECADB69B84 /* Build configuration list for PBXNativeTarget "Pods-RSTActionSheet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8ED7B64D600E4FF6B311DAF9 /* Ad Hoc */,
+				001459405DBA4225B1F7BDB6 /* Debug */,
+				EC992661F82D47358E375C60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EA261FDE435F4378A179960B /* Project object */;
+}

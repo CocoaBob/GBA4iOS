@@ -1,0 +1,5 @@
+#include "Pods-RSTAlertView.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/RSTAlertView" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/NJKWebViewProgress" "${PODS_ROOT}/Headers/RSTActionSheet" "${PODS_ROOT}/Headers/RSTAlertView" "${PODS_ROOT}/Headers/RSTFileBrowserViewController" "${PODS_ROOT}/Headers/RSTWebViewController" "${PODS_ROOT}/Headers/SSZipArchive" "${PODS_ROOT}/Headers/SSZipArchive/minizip"
+OTHER_LDFLAGS = -ObjC
+PODS_ROOT = ${SRCROOT}
