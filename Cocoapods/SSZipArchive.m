@@ -6,8 +6,8 @@
 //  Copyright (c) Sam Soffes 2010-2013. All rights reserved.
 //
 
-#import "SSZipArchive.h"
-#include "zip.h"
+#import "../Pods/Headers/SSZipArchive/minizip/ssziparchive.h"
+#include "../Pods/Headers/SSZipArchive/minizip/zip.h"
 #import "zlib.h"
 #import "zconf.h"
 
