@@ -99,6 +99,19 @@
 	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>com.GBA4iOS.dropbox</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>db-obzx8requbc5bn5</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>2.0</string>
 	<key>LSRequiresIPhoneOS</key>

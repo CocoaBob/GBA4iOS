@@ -9,6 +9,16 @@
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDetailViewController.h"
 
+#import <Dropbox/Dropbox.h>
+
+#define FRAME_SKIP_SECTION 0
+#define GENERAL_SECTION 1
+#define SAVING_SECTION 2
+#define CONTROLLER_SKINS_SECTION 3
+#define CONTROLLER_OPACITY_SECTION 4
+#define DROPBOX_SYNC_SECTION 5
+#define CREDITS_SECTION 6
+
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 
 @interface GBASettingsViewController ()
@@ -30,6 +40,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 - (IBAction)toggleShowFramerate:(UISwitch *)sender;
 - (IBAction)changeControllerOpacity:(UISlider *)sender;
 - (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender;
+- (IBAction)toggleDropboxSync:(UISwitch *)sender;
 
 @end
 
@@ -112,7 +123,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    if (section == 1)
+    if (section == GENERAL_SECTION)
     {
         // Hide vibration info if not iPhone (no way to detect if hardware supports vibration)
         if (![[UIDevice currentDevice].model hasPrefix:@"iPhone"])
@@ -126,7 +137,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 1)
+    if (section == GENERAL_SECTION)
     {
         // Hide vibration setting if not iPhone (no way to detect if hardware supports vibration)
         if (![[UIDevice currentDevice].model hasPrefix:@"iPhone"])
@@ -143,7 +154,7 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    if (indexPath.section == 6 && indexPath.row == 2)
+    if (indexPath.section == CREDITS_SECTION && indexPath.row == 2)
     {
         if ([[[[[UIDevice currentDevice] name] lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"iphone"] ||
             [[[[UIDevice currentDevice] name] lowercaseString] hasPrefix:@"david m"])
@@ -158,6 +169,21 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == DROPBOX_SYNC_SECTION)
+    {
+        cell.textLabel.frame = ({
+            CGRect frame = cell.textLabel.frame;
+            frame.origin.x = 15.0f;
+            frame.size.width = cell.bounds.size.width - 30.0f;
+            frame;
+        });
+        
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -241,12 +267,24 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
     sender.value = roundedValue;
 }
 
+- (IBAction)toggleDropboxSync:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsDropboxSync];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsDropboxSync, @"value": @(sender.on)}];
+}
+
+#pragma mark - Dropbox
+
+- (void)linkDropboxAccount
+{
+    [[DBAccountManager sharedManager] linkFromController:self];
+}
+
 #pragma mark - Selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Controller Skins
-    if (indexPath.section == 3)
+    if (indexPath.section == CONTROLLER_SKINS_SECTION)
     {
         GBAControllerSkinDetailViewController *controllerSkinDetailViewController = [[GBAControllerSkinDetailViewController alloc] init];
         
@@ -261,7 +299,11 @@ NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotific
         
         [self.navigationController pushViewController:controllerSkinDetailViewController animated:YES];
     }
-    else if (indexPath.section == 6) // Credits
+    else if (indexPath.section == DROPBOX_SYNC_SECTION)
+    {
+        [self linkDropboxAccount];
+    }
+    else if (indexPath.section == CREDITS_SECTION)
     {
         [self openLinkForIndexPath:indexPath];
     }

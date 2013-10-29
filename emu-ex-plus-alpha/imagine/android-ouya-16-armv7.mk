@@ -1,1 +1,4 @@
-make/shortcut/common-builds/android-ouya-16-armv7.mk
+android_minSDK := 16
+-include config.mk
+include $(IMAGINE_PATH)/make/android-ouya-armv7.mk
+include build.mk

@@ -1,6 +1,0 @@
-#pragma once
-
-/*#define ENABLE_BREAKPOINTS
-#define ENABLE_CALLSTACK
-#define ENABLE_ASMSX_DEBUG_COMMANDS
-#define ENABLE_TRAP_CALLBACK*/

@@ -19,6 +19,7 @@ static NSString *GBASettingsShowFramerateKey = @"showFramerate";
 static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
 static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
 static NSString *GBASettingsControllerOpacity = @"controllerOpacity";
+static NSString *GBASettingsDropboxSync = @"dropboxSync";
 
 @class GBASettingsViewController;
 

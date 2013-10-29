@@ -14,6 +14,7 @@
 #import "GBASplitViewController.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
+#import <Dropbox/Dropbox.h>
 
 @implementation GBAAppDelegate
 
@@ -28,7 +29,14 @@
     
     if (url)
     {
-        [self handleFileURL:url];
+        if ([url isFileURL])
+        {
+            [self handleFileURL:url];
+        }
+        else
+        {
+            [self handleURLSchemeURL:url];
+        }
     }
     
     [GBASettingsViewController registerDefaults];
@@ -47,6 +55,9 @@
         self.window.rootViewController = splitViewController;
     }
     
+    DBAccountManager *accountManager = [[DBAccountManager alloc] initWithAppKey:@"obzx8requbc5bn5" secret:@"thdkvkp3hkbmpte"];
+    [DBAccountManager setSharedManager:accountManager];
+    
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -57,6 +68,10 @@
     if ([url isFileURL])
     {
         [self handleFileURL:url];
+    }
+    else
+    {
+        return [self handleURLSchemeURL:url];
     }
     return YES;
 }
@@ -84,6 +99,23 @@
         NSString *path = [[filepath stringByDeletingLastPathComponent] stringByAppendingPathComponent:filename];
         [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
     }
+}
+
+- (BOOL)handleURLSchemeURL:(NSURL *)url
+{
+    if ([[url scheme] hasPrefix:@"db"])
+    {
+        DBAccount *account = [[DBAccountManager sharedManager] handleOpenURL:url];
+        if (account)
+        {
+            DLog(@"Dropbox account %@ successfully linked!", account.userId);
+            return YES;
+        }
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - Copying Files

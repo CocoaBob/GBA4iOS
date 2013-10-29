@@ -16,6 +16,8 @@
 		1AD971F417D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
 		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
 		1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
+		BF0A449C181EEC7400BF77FE /* Dropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0A449B181EEC7400BF77FE /* Dropbox.framework */; };
+		BF0A449D181EEC7400BF77FE /* Dropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0A449B181EEC7400BF77FE /* Dropbox.framework */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
@@ -354,6 +356,7 @@
 		1AD971F117D2C6ED007097BC /* GBAController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAController.m; sourceTree = "<group>"; };
 		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewController.h; sourceTree = "<group>"; };
 		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewController.m; sourceTree = "<group>"; };
+		BF0A449B181EEC7400BF77FE /* Dropbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Dropbox.framework; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
@@ -697,6 +700,7 @@
 				CC275C3917A5075E006243FB /* CoreAudio.framework in Frameworks */,
 				CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */,
 				CC275C3B17A5075E006243FB /* MessageUI.framework in Frameworks */,
+				BF0A449D181EEC7400BF77FE /* Dropbox.framework in Frameworks */,
 				CC09A788181CA121008FAEB8 /* Reveal.framework in Frameworks */,
 				CC275C3C17A5075E006243FB /* QuartzCore.framework in Frameworks */,
 				CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */,
@@ -718,6 +722,7 @@
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
+				BF0A449C181EEC7400BF77FE /* Dropbox.framework in Frameworks */,
 				CC09A787181CA120008FAEB8 /* Reveal.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
@@ -899,6 +904,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF0A449B181EEC7400BF77FE /* Dropbox.framework */,
 				CC832588180E2D9000001899 /* Pods */,
 				CCC0F23217FA95C600235781 /* CoreMedia.framework */,
 				CCC0F23017FA95B500235781 /* AssetsLibrary.framework */,
@@ -1896,6 +1902,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2000,6 +2007,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2100,6 +2108,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2435,6 +2444,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2475,6 +2485,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2631,6 +2642,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2787,6 +2799,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2831,6 +2844,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";

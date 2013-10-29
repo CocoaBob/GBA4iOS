@@ -562,6 +562,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [GBAController extractSkinAtPathToSkinsDirectory:filepath];
 }
 
+#pragma mark - Dropbox
+
 #pragma mark - UIAlertView delegate
 
 - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
