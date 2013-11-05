@@ -41,8 +41,8 @@ bool CPUWriteBatteryFile(GBASys &gba, const char *);
 bool CPUReadState(GBASys &gba, const char *);
 bool CPUWriteState(GBASys &gba, const char *);
 
-
 bool isGBAROM = false;
+extern void updateRemoteFileWithFileAtPath(const char *path);
 
 const char *creditsViewStr = "(c) 2012-2013\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com";
 const uint EmuSystem::maxPlayers = 1;
@@ -290,6 +290,8 @@ void EmuSystem::saveBackupMem_GBA()
 			fixFilePermissions(saveStr);
 		CPUWriteBatteryFile(gGba, saveStr);
 		writeCheatFile_GBA();
+        
+        updateRemoteFileWithFileAtPath(saveStr);
 	}
 }
 

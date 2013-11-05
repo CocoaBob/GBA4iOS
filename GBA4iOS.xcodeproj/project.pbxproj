@@ -22,7 +22,6 @@
 		BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF3E2BAB18206D07004231F6 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA418206D07004231F6 /* SSZipArchive.m */; };
 		BF3E2BAC18206D07004231F6 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA418206D07004231F6 /* SSZipArchive.m */; };
-		BF3E2BAE18206D07004231F6 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA518206D07004231F6 /* unzip.c */; };
 		BF3E2BAF18206D07004231F6 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA618206D07004231F6 /* zip.c */; };
 		BF3E2BB018206D07004231F6 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA618206D07004231F6 /* zip.c */; };
 		BF3E2BB318206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
@@ -83,15 +82,20 @@
 		BF3E2C1D18206F15004231F6 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFD18206F15004231F6 /* UIWebView+AFNetworking.m */; };
 		BF3E2C2018206FF5004231F6 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C1F18206FF5004231F6 /* NJKWebViewProgress.m */; };
 		BF3E2C2118206FF5004231F6 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C1F18206FF5004231F6 /* NJKWebViewProgress.m */; };
+		BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
+		BF3E2C271820774C004231F6 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
+		BF73C2F11822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
+		BFBD93FC1820B97700256038 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA218206D07004231F6 /* ioapi.c */; };
+		BFBD93FD1820B97700256038 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA318206D07004231F6 /* mztools.c */; };
+		BFBD93FE1820B97700256038 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA518206D07004231F6 /* unzip.c */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
 		CC0978731804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
-		CC09A787181CA120008FAEB8 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC09A786181CA120008FAEB8 /* Reveal.framework */; };
-		CC09A788181CA121008FAEB8 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC09A786181CA120008FAEB8 /* Reveal.framework */; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CE179CF1B90068A54E /* CoreAudio.framework */; };
@@ -415,12 +419,15 @@
 		BF3E2BFD18206F15004231F6 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+AFNetworking.m"; path = "Cocoapods/AFNetworking/UIWebView+AFNetworking.m"; sourceTree = SOURCE_ROOT; };
 		BF3E2C1E18206FF5004231F6 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = Cocoapods/NJKWebViewProgress.h; sourceTree = "<group>"; };
 		BF3E2C1F18206FF5004231F6 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = Cocoapods/NJKWebViewProgress.m; sourceTree = "<group>"; };
+		BF3E2C241820774C004231F6 /* GBASyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncManager.h; sourceTree = "<group>"; };
+		BF3E2C251820774C004231F6 /* GBASyncManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncManager.mm; sourceTree = "<group>"; };
+		BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTProgressIndicator.h; sourceTree = "<group>"; };
+		BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTProgressIndicator.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
-		CC09A786181CA120008FAEB8 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reveal.framework; path = "../../../../../../../../Applications/Reveal.app/Contents/SharedSupport/iOS-Libraries/Reveal.framework"; sourceTree = "<group>"; };
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
 		CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorScreen.mm; sourceTree = "<group>"; };
 		CC1577CD179CF1B90068A54E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -688,7 +695,6 @@
 				CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */,
 				CC275C3B17A5075E006243FB /* MessageUI.framework in Frameworks */,
 				BF0A449D181EEC7400BF77FE /* Dropbox.framework in Frameworks */,
-				CC09A788181CA121008FAEB8 /* Reveal.framework in Frameworks */,
 				CC275C3C17A5075E006243FB /* QuartzCore.framework in Frameworks */,
 				CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */,
 				CCC0F23517FA9C0700235781 /* AssetsLibrary.framework in Frameworks */,
@@ -710,7 +716,6 @@
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
 				BF0A449C181EEC7400BF77FE /* Dropbox.framework in Frameworks */,
-				CC09A787181CA120008FAEB8 /* Reveal.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
 				CC1577D6179CF1B90068A54E /* QuartzCore.framework in Frameworks */,
@@ -748,10 +753,20 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */ = {
+			isa = PBXGroup;
+			children = (
+				BF3E2C241820774C004231F6 /* GBASyncManager.h */,
+				BF3E2C251820774C004231F6 /* GBASyncManager.mm */,
+				BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */,
+				BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */,
+			);
+			name = "Dropbox Sync";
+			sourceTree = "<group>";
+		};
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
-				CC09A786181CA120008FAEB8 /* Reveal.framework */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -920,6 +935,7 @@
 				CC2D57111798F2EC00C616EB /* Main.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
+				BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */,
 				CC6D0A98180746D7001D089A /* Custom UIViewController Transitions */,
 				CCBF363017F27CD500704A5B /* Sharing */,
 				BFF66D8A17C95663002FDC14 /* Debug */,
@@ -1490,9 +1506,9 @@
 				BF3E2C1118206F15004231F6 /* AFURLSessionManager.m in Sources */,
 				CC6A2D9F17C515E800EFC10E /* GBACheat.m in Sources */,
 				BF3E2BB818206D5B004231F6 /* UIAlertView+RSTAdditions.m in Sources */,
-				BF3E2BAE18206D07004231F6 /* unzip.c in Sources */,
 				BF3E2C1518206F15004231F6 /* UIAlertView+AFNetworking.m in Sources */,
 				CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */,
+				BF3E2C271820774C004231F6 /* GBASyncManager.mm in Sources */,
 				BF3E2C0B18206F15004231F6 /* AFURLConnectionOperation.m in Sources */,
 				1AD971F417D2C6ED007097BC /* GBAController.m in Sources */,
 				CC8D5A7B17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
@@ -1501,6 +1517,7 @@
 				BF3E2BD818206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */,
 				CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */,
 				CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */,
+				BFBD93FC1820B97700256038 /* ioapi.c in Sources */,
 				BF3E2C0D18206F15004231F6 /* AFURLRequestSerialization.m in Sources */,
 				CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
 				CC6420B51807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
@@ -1514,13 +1531,16 @@
 				BF3E2BB018206D07004231F6 /* zip.c in Sources */,
 				BF3E2C1318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				CC0978731804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */,
+				BF73C2F11822EADD00DD69FD /* RSTProgressIndicator.m in Sources */,
 				BF3E2C0918206F15004231F6 /* AFSecurityPolicy.m in Sources */,
 				BF3E2C1918206F15004231F6 /* UIImageView+AFNetworking.m in Sources */,
+				BFBD93FD1820B97700256038 /* mztools.c in Sources */,
 				BF3E2C1D18206F15004231F6 /* UIWebView+AFNetworking.m in Sources */,
 				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
 				BF3E2C0718206F15004231F6 /* AFNetworkReachabilityManager.m in Sources */,
 				BF3E2C1718206F15004231F6 /* UIButton+AFNetworking.m in Sources */,
 				BF3E2BC018206D72004231F6 /* RSTWebViewController.m in Sources */,
+				BFBD93FE1820B97700256038 /* unzip.c in Sources */,
 				CC76CF0717ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
 				BF3E2C0518206F15004231F6 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				CCE18DED17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
@@ -1630,6 +1650,7 @@
 				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
+				BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */,
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
@@ -1705,6 +1726,7 @@
 				CC50450D1814DC69009F7B9E /* Gzip_Extractor.cpp in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				CC5045001814DC69009F7B9E /* Patch.cpp in Sources */,
+				BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */,
 				CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */,
 				CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */,
 				BF3E2C1C18206F15004231F6 /* UIWebView+AFNetworking.m in Sources */,
@@ -1820,17 +1842,6 @@
 					"COCOAPODS=1",
 					"DEBUG=1",
 				);
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
 				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -1920,17 +1931,6 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
 				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -2020,17 +2020,6 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
 				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -2145,6 +2134,7 @@
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
@@ -2261,6 +2251,7 @@
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
@@ -2457,6 +2448,7 @@
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
@@ -2613,6 +2605,7 @@
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
 					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
 					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
 					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
@@ -2751,17 +2744,6 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
-					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
-				);
 				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (

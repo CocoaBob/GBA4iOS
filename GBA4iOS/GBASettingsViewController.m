@@ -66,7 +66,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [self updateControls];
     
     [[DBAccountManager sharedManager] addObserver:self block:^(DBAccount *account) {
-        if (account && [self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 1)
+        if ([account isLinked] && [self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 1)
         {
             // Just because the user linked the account does not mean we should turn on Dropbox Sync
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
@@ -179,7 +179,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     {
         DBAccount *account = [[DBAccountManager sharedManager] linkedAccount];
         
-        if (account == nil)
+        if (account == nil || ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
         {
             return 1;
         }
@@ -311,9 +311,23 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsDropboxSyncKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsDropboxSyncKey, @"value": @(sender.on)}];
     
-    if (sender.on && [[DBAccountManager sharedManager] linkedAccount] == nil)
+    if (sender.on)
     {
-        [self linkDropboxAccount];
+        if ([[DBAccountManager sharedManager] linkedAccount] == nil)
+        {
+            [self linkDropboxAccount];
+        }
+        else if ([self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 1)
+        {
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+    else
+    {
+        if ([self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 2)
+        {
+            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
 }
 
@@ -332,6 +346,13 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (void)receivedDropboxURLCallback:(NSNotification *)notification
 {
+    [[DBFilesystem sharedFilesystem] addObserver:self block:^{
+        if ([[DBFilesystem sharedFilesystem] completedFirstSync])
+        {
+            DLog(@"Initial Sync Completed");
+        }
+    }];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:GBASettingsDropboxStatusChangedNotification object:nil];
     
     if ([[DBAccountManager sharedManager] linkedAccount] == nil)

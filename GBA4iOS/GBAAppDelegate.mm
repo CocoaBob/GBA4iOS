@@ -12,6 +12,7 @@
 #import "GBAController.h"
 #import "GBAROM.h"
 #import "GBASplitViewController.h"
+#import "GBASyncManager.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <Dropbox/Dropbox.h>
@@ -39,8 +40,6 @@
         }
     }
     
-    [GBASettingsViewController registerDefaults];
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -55,8 +54,10 @@
         self.window.rootViewController = splitViewController;
     }
     
-    DBAccountManager *accountManager = [[DBAccountManager alloc] initWithAppKey:@"obzx8requbc5bn5" secret:@"thdkvkp3hkbmpte"];
-    [DBAccountManager setSharedManager:accountManager];
+    //[[GBASyncManager sharedManager] start];
+    
+    // Must go after GBASyncManager
+    [GBASettingsViewController registerDefaults];
     
     [self.window makeKeyAndVisible];
     

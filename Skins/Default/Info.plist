@@ -210,13 +210,13 @@
 		<key>Assets</key>
 		<dict>
 			<key>iPhone</key>
-			<string>landscape@2x.png</string>
+			<string>landscape.png</string>
 			<key>iPhone Widescreen</key>
 			<string>landscape@R4.png</string>
 			<key>iPad</key>
-			<string></string>
+			<string>landscape~ipad.png</string>
 			<key>iPad Retina</key>
-			<string></string>
+			<string>landscape~ipad@2x.png</string>
 		</dict>
 		<key>Layout</key>
 		<dict>

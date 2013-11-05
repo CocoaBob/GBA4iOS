@@ -168,9 +168,9 @@
 			<key>iPhone Widescreen</key>
 			<string>landscape@R4.png</string>
 			<key>iPad</key>
-			<string></string>
+			<string>landscape~ipad.png</string>
 			<key>iPad Retina</key>
-			<string></string>
+			<string>landscape~ipad@2x.png</string>
 		</dict>
 		<key>Layout</key>
 		<dict>
@@ -438,6 +438,20 @@
 				<key>Screen</key>
 				<dict>
 					<key>X</key>
+					<integer>258</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>508</integer>
+					<key>Height</key>
+					<integer>457</integer>
+				</dict>
+			</dict>
+			<key>iPad Retina</key>
+			<dict>
+				<key>D-Pad</key>
+				<dict>
+					<key>X</key>
 					<integer>0</integer>
 					<key>Y</key>
 					<integer>0</integer>
@@ -445,6 +459,105 @@
 					<integer>0</integer>
 					<key>Height</key>
 					<integer>0</integer>
+				</dict>
+				<key>A</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>B</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>AB</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>Start</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>Select</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>L</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>R</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>Menu</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>0</integer>
+					<key>Height</key>
+					<integer>0</integer>
+				</dict>
+				<key>Screen</key>
+				<dict>
+					<key>X</key>
+					<integer>258</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>508</integer>
+					<key>Height</key>
+					<integer>457</integer>
 				</dict>
 			</dict>
 		</dict>
