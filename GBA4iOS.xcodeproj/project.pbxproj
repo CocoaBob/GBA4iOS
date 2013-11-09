@@ -16,8 +16,6 @@
 		1AD971F417D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
 		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
 		1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
-		BF0A449C181EEC7400BF77FE /* Dropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0A449B181EEC7400BF77FE /* Dropbox.framework */; };
-		BF0A449D181EEC7400BF77FE /* Dropbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0A449B181EEC7400BF77FE /* Dropbox.framework */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF3E2BAB18206D07004231F6 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA418206D07004231F6 /* SSZipArchive.m */; };
@@ -34,12 +32,8 @@
 		BF3E2BC018206D72004231F6 /* RSTWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBE18206D72004231F6 /* RSTWebViewController.m */; };
 		BF3E2BC518206D7D004231F6 /* Back Button.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC118206D7D004231F6 /* Back Button.png */; };
 		BF3E2BC618206D7D004231F6 /* Back Button.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC118206D7D004231F6 /* Back Button.png */; };
-		BF3E2BC718206D7D004231F6 /* Back Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC218206D7D004231F6 /* Back Button@2x.png */; };
-		BF3E2BC818206D7D004231F6 /* Back Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC218206D7D004231F6 /* Back Button@2x.png */; };
 		BF3E2BC918206D7D004231F6 /* Forward Button.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC318206D7D004231F6 /* Forward Button.png */; };
 		BF3E2BCA18206D7D004231F6 /* Forward Button.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC318206D7D004231F6 /* Forward Button.png */; };
-		BF3E2BCB18206D7D004231F6 /* Forward Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC418206D7D004231F6 /* Forward Button@2x.png */; };
-		BF3E2BCC18206D7D004231F6 /* Forward Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF3E2BC418206D7D004231F6 /* Forward Button@2x.png */; };
 		BF3E2BCF18206DB4004231F6 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BCE18206DB4004231F6 /* NSURLSessionTask+UniqueTaskIdentifier.m */; };
 		BF3E2BD018206DB4004231F6 /* NSURLSessionTask+UniqueTaskIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BCE18206DB4004231F6 /* NSURLSessionTask+UniqueTaskIdentifier.m */; };
 		BF3E2BD318206DBF004231F6 /* RSTSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD218206DBF004231F6 /* RSTSafariActivity.m */; };
@@ -85,6 +79,16 @@
 		BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
 		BF3E2C271820774C004231F6 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BF4D917F182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
+		BF4D9180182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
+		BF4D9183182DE12700C3A0C6 /* Back Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9181182DE12700C3A0C6 /* Back Button@2x.png */; };
+		BF4D9184182DE12700C3A0C6 /* Back Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9181182DE12700C3A0C6 /* Back Button@2x.png */; };
+		BF4D9185182DE12700C3A0C6 /* Forward Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9182182DE12700C3A0C6 /* Forward Button@2x.png */; };
+		BF4D9186182DE12700C3A0C6 /* Forward Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9182182DE12700C3A0C6 /* Forward Button@2x.png */; };
+		BF4D918B182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */; };
+		BF4D918C182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */; };
+		BF4D918E182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */; };
+		BF4D918F182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */; };
 		BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BF73C2F11822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BFBD93FC1820B97700256038 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA218206D07004231F6 /* ioapi.c */; };
@@ -356,7 +360,6 @@
 		1AD971F117D2C6ED007097BC /* GBAController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAController.m; sourceTree = "<group>"; };
 		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewController.h; sourceTree = "<group>"; };
 		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewController.m; sourceTree = "<group>"; };
-		BF0A449B181EEC7400BF77FE /* Dropbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Dropbox.framework; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
 		BF3E2BA218206D07004231F6 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = Cocoapods/ioapi.c; sourceTree = "<group>"; };
@@ -373,9 +376,7 @@
 		BF3E2BBD18206D72004231F6 /* RSTWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTWebViewController.h; path = Cocoapods/RSTWebViewController.h; sourceTree = "<group>"; };
 		BF3E2BBE18206D72004231F6 /* RSTWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTWebViewController.m; path = Cocoapods/RSTWebViewController.m; sourceTree = "<group>"; };
 		BF3E2BC118206D7D004231F6 /* Back Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Back Button.png"; path = "Cocoapods/Back Button.png"; sourceTree = "<group>"; };
-		BF3E2BC218206D7D004231F6 /* Back Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Back Button@2x.png"; path = "Cocoapods/Back Button@2x.png"; sourceTree = "<group>"; };
 		BF3E2BC318206D7D004231F6 /* Forward Button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Forward Button.png"; path = "Cocoapods/Forward Button.png"; sourceTree = "<group>"; };
-		BF3E2BC418206D7D004231F6 /* Forward Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Forward Button@2x.png"; path = "Cocoapods/Forward Button@2x.png"; sourceTree = "<group>"; };
 		BF3E2BCD18206DB4004231F6 /* NSURLSessionTask+UniqueTaskIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLSessionTask+UniqueTaskIdentifier.h"; path = "Cocoapods/NSURLSessionTask+UniqueTaskIdentifier.h"; sourceTree = "<group>"; };
 		BF3E2BCE18206DB4004231F6 /* NSURLSessionTask+UniqueTaskIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLSessionTask+UniqueTaskIdentifier.m"; path = "Cocoapods/NSURLSessionTask+UniqueTaskIdentifier.m"; sourceTree = "<group>"; };
 		BF3E2BD118206DBF004231F6 /* RSTSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTSafariActivity.h; path = Cocoapods/RSTSafariActivity.h; sourceTree = "<group>"; };
@@ -421,6 +422,11 @@
 		BF3E2C1F18206FF5004231F6 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = Cocoapods/NJKWebViewProgress.m; sourceTree = "<group>"; };
 		BF3E2C241820774C004231F6 /* GBASyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncManager.h; sourceTree = "<group>"; };
 		BF3E2C251820774C004231F6 /* GBASyncManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncManager.mm; sourceTree = "<group>"; };
+		BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		BF4D9181182DE12700C3A0C6 /* Back Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back Button@2x.png"; sourceTree = "<group>"; };
+		BF4D9182182DE12700C3A0C6 /* Forward Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Forward Button@2x.png"; sourceTree = "<group>"; };
+		BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Refresh Button@2x.png"; sourceTree = "<group>"; };
+		BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Share Button@2x.png"; sourceTree = "<group>"; };
 		BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTProgressIndicator.h; sourceTree = "<group>"; };
 		BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTProgressIndicator.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
@@ -689,12 +695,12 @@
 			files = (
 				CC81E96C17EBA162006FD348 /* SystemConfiguration.framework in Frameworks */,
 				CC275C3717A5075E006243FB /* libz.dylib in Frameworks */,
+				BF4D9180182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */,
 				CCC0F23617FA9C0700235781 /* AVFoundation.framework in Frameworks */,
 				CC275C3817A5075E006243FB /* AudioToolbox.framework in Frameworks */,
 				CC275C3917A5075E006243FB /* CoreAudio.framework in Frameworks */,
 				CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */,
 				CC275C3B17A5075E006243FB /* MessageUI.framework in Frameworks */,
-				BF0A449D181EEC7400BF77FE /* Dropbox.framework in Frameworks */,
 				CC275C3C17A5075E006243FB /* QuartzCore.framework in Frameworks */,
 				CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */,
 				CCC0F23517FA9C0700235781 /* AssetsLibrary.framework in Frameworks */,
@@ -710,12 +716,12 @@
 			files = (
 				CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */,
 				CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */,
+				BF4D917F182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */,
 				CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */,
 				CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */,
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
-				BF0A449C181EEC7400BF77FE /* Dropbox.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
 				CC1577D6179CF1B90068A54E /* QuartzCore.framework in Frameworks */,
@@ -905,7 +911,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BF0A449B181EEC7400BF77FE /* Dropbox.framework */,
+				BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */,
 				CC832588180E2D9000001899 /* Pods */,
 				CCC0F23217FA95C600235781 /* CoreMedia.framework */,
 				CCC0F23017FA95B500235781 /* AssetsLibrary.framework */,
@@ -1182,9 +1188,11 @@
 				BF3E2C1E18206FF5004231F6 /* NJKWebViewProgress.h */,
 				BF3E2C1F18206FF5004231F6 /* NJKWebViewProgress.m */,
 				BF3E2BC118206D7D004231F6 /* Back Button.png */,
-				BF3E2BC218206D7D004231F6 /* Back Button@2x.png */,
 				BF3E2BC318206D7D004231F6 /* Forward Button.png */,
-				BF3E2BC418206D7D004231F6 /* Forward Button@2x.png */,
+				BF4D9181182DE12700C3A0C6 /* Back Button@2x.png */,
+				BF4D9182182DE12700C3A0C6 /* Forward Button@2x.png */,
+				BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */,
+				BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */,
 			);
 			name = RSTWebBrowserViewController;
 			sourceTree = "<group>";
@@ -1468,11 +1476,13 @@
 				CC5044E81814C474009F7B9E /* Default.gbcskin in Resources */,
 				CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */,
 				CC58C8FD17E64A92008F472E /* xButton.png in Resources */,
-				BF3E2BCC18206D7D004231F6 /* Forward Button@2x.png in Resources */,
-				BF3E2BC818206D7D004231F6 /* Back Button@2x.png in Resources */,
+				BF4D9186182DE12700C3A0C6 /* Forward Button@2x.png in Resources */,
+				BF4D918C182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */,
 				CC58C8F517E649CA008F472E /* overlays128.png in Resources */,
 				CC58C8F417E649CA008F472E /* padButton.png in Resources */,
+				BF4D9184182DE12700C3A0C6 /* Back Button@2x.png in Resources */,
 				CC58C8FB17E64A28008F472E /* Main.storyboard in Resources */,
+				BF4D918F182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1481,17 +1491,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC57576A180C766C00BF3DA5 /* GBCImages.xcassets in Resources */,
+				BF4D918B182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */,
 				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
+				BF4D918E182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */,
 				BF3E2BC918206D7D004231F6 /* Forward Button.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
+				BF4D9183182DE12700C3A0C6 /* Back Button@2x.png in Resources */,
+				BF4D9185182DE12700C3A0C6 /* Forward Button@2x.png in Resources */,
 				BF3E2BC518206D7D004231F6 /* Back Button.png in Resources */,
-				BF3E2BCB18206D7D004231F6 /* Forward Button@2x.png in Resources */,
 				CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */,
-				BF3E2BC718206D7D004231F6 /* Back Button@2x.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1835,6 +1847,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -1928,6 +1941,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2017,6 +2031,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2342,6 +2357,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2382,6 +2399,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2539,6 +2558,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2696,6 +2717,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2741,6 +2764,7 @@
 					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";

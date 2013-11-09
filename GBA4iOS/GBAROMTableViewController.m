@@ -20,7 +20,7 @@
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
-#import <Dropbox/Dropbox.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 #define LEGAL_NOTICE_ALERT_TAG 15
 #define NAME_ROM_ALERT_TAG 17
@@ -676,9 +676,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DBAccount *account = [[DBAccountManager sharedManager] linkedAccount];
-    
-    if ([[DBAccountManager sharedManager] linkedAccount] && ![[DBFilesystem sharedFilesystem] completedFirstSync])
+    if ([[DBSession sharedSession] isLinked] && [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncDate"] == nil)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Please wait for the initial sync to be complete, then launch the ROM. This is to ensure no save data is lost.", @"")

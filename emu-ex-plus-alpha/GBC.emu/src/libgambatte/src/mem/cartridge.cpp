@@ -23,7 +23,7 @@
 #include <cstring>
 #include <fstream>
 
-extern void updateRemoteFileWithFileAtPath(const char *path);
+extern void updateSaveFileForCurrentROM(void);
 
 namespace gambatte {
 
@@ -663,7 +663,7 @@ void Cartridge::saveSavedata() {
 	if (hasBattery(memptrs.romdata()[0x147])) {
 		std::ofstream file((sbp + ".sav").c_str(), std::ios::binary | std::ios::out);
 		file.write(reinterpret_cast<const char*>(memptrs.rambankdata()), memptrs.rambankdataend() - memptrs.rambankdata());
-        updateRemoteFileWithFileAtPath((sbp + ".sav").c_str());
+        updateSaveFileForCurrentROM();
 	}
 
 	if (hasRtc(memptrs.romdata()[0x147])) {

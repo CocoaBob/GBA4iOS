@@ -18,6 +18,7 @@
 #import "GBAROMTableViewControllerAnimator.h"
 #import "GBAPresentEmulationViewControllerAnimator.h"
 #import "GBAPresentOverlayViewControllerAnimator.h"
+#import "GBASyncManager.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -25,6 +26,8 @@
 
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 #include <sys/sysctl.h>
+
+void updateSaveFileForCurrentROM(void);
 
 static GBAEmulationViewController *_emulationViewController;
 
@@ -1257,6 +1260,11 @@ void uncaughtExceptionHandler(NSException *exception)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
 #endif
+}
+
+void updateSaveFileForCurrentROM(void)
+{
+    [[GBASyncManager sharedManager] updateRemoteSaveFileForROM:_emulationViewController.rom];
 }
 
 #pragma mark - Blurring

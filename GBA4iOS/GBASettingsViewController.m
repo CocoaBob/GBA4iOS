@@ -9,7 +9,7 @@
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDetailViewController.h"
 
-#import <Dropbox/Dropbox.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 #define FRAME_SKIP_SECTION 0
 #define GENERAL_SECTION 1
@@ -64,21 +64,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [super viewDidLoad];
     
     [self updateControls];
-    
-    [[DBAccountManager sharedManager] addObserver:self block:^(DBAccount *account) {
-        if ([account isLinked] && [self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 1)
-        {
-            // Just because the user linked the account does not mean we should turn on Dropbox Sync
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
-        }
-        else if ((account == nil || ![account isLinked]) && [self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 2)
-        {
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
-            
-            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
-            [self.dropboxSyncSwitch setOn:NO animated:YES];
-        }
-    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,7 +74,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (void)dealloc
 {
-    [[DBAccountManager sharedManager] removeObserver:self];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -114,14 +98,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsControllerOpacityKey: @0.5};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    
-    DBAccount *account = [[DBAccountManager sharedManager] linkedAccount];
-    
-    if (account == nil)
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
-    }
-    
 }
 
 - (void)updateControls
@@ -177,9 +153,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (section == DROPBOX_SYNC_SECTION)
     {
-        DBAccount *account = [[DBAccountManager sharedManager] linkedAccount];
-        
-        if (account == nil || ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
+        if (![[DBSession sharedSession] isLinked] || ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
         {
             return 1;
         }
@@ -313,7 +287,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     
     if (sender.on)
     {
-        if ([[DBAccountManager sharedManager] linkedAccount] == nil)
+        if (![[DBSession sharedSession] isLinked])
         {
             [self linkDropboxAccount];
         }
@@ -335,31 +309,18 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (void)linkDropboxAccount
 {
-    if ([[DBAccountManager sharedManager] linkedAccount])
+    if (![[DBSession sharedSession] isLinked])
     {
-        return [[[DBAccountManager sharedManager] linkedAccount] unlink];
+        return [[DBSession sharedSession] unlinkAll];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedDropboxURLCallback:) name:GBASettingsDropboxStatusChangedNotification object:nil];
-    [[DBAccountManager sharedManager] linkFromController:self];
+    [[DBSession sharedSession] linkFromController:self];
 }
 
 - (void)receivedDropboxURLCallback:(NSNotification *)notification
 {
-    [[DBFilesystem sharedFilesystem] addObserver:self block:^{
-        if ([[DBFilesystem sharedFilesystem] completedFirstSync])
-        {
-            DLog(@"Initial Sync Completed");
-        }
-    }];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:GBASettingsDropboxStatusChangedNotification object:nil];
-    
-    if ([[DBAccountManager sharedManager] linkedAccount] == nil)
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
-        [self.dropboxSyncSwitch setOn:NO animated:YES];
-    }
 }
 
 #pragma mark - Selection

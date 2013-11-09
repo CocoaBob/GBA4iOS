@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GBAROM.h"
 
 @interface GBASyncManager : NSObject
 
-@property (readonly, strong, nonatomic) NSSet *conflictedFiles;
 
 + (instancetype)sharedManager;
 
 - (void)start;
 - (void)synchronize;
-- (void)updateRemoteFileWithFileAtPath:(NSString *)path;
+- (void)updateRemoteSaveFileForROM:(GBAROM *)rom;
 
 @end

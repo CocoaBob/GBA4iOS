@@ -12,7 +12,6 @@
 
 @interface GBAROM ()
 
-@property (readwrite, copy, nonatomic) NSString *name;
 @property (readwrite, copy, nonatomic) NSString *filepath;
 @property (readwrite, assign, nonatomic) GBAROMType type;
 
@@ -24,7 +23,6 @@
 {
     GBAROM *rom = [[GBAROM alloc] init];
     rom.filepath = filepath;
-    rom.name = [[filepath lastPathComponent] stringByDeletingPathExtension];
     
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gbc"])
     {
@@ -131,5 +129,22 @@
 {
     return [self.filepath hash];
 }
+
+#pragma mark - Getters/Setters
+
+- (NSString *)name
+{
+    return [[self.filepath lastPathComponent] stringByDeletingPathExtension];
+}
+
+- (NSString *)saveFileFilepath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    return [documentsDirectory stringByAppendingPathComponent:[self.name stringByAppendingPathExtension:@"sav"]];
+}
+
+
 
 @end

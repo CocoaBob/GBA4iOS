@@ -92,9 +92,9 @@
     
     self.goBackButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Back Button"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
     self.goForwardButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Forward Button"] style:UIBarButtonItemStylePlain target:self action:@selector(goForward:)];
-    self.reloadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload:)];
+    self.reloadButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Refresh Button"] style:UIBarButtonItemStylePlain target:self action:@selector(reload:)];
     self.stopLoadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(stopLoading:)];
-    self.shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareLink:)];
+    self.shareButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Share Button"] style:UIBarButtonItemStylePlain target:self action:@selector(shareLink:)];
     self.flexibleSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     self.refreshButton = self.reloadButton;

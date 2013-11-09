@@ -15,7 +15,7 @@
 #import "GBASyncManager.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
-#import <Dropbox/Dropbox.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 @implementation GBAAppDelegate
 
@@ -54,9 +54,8 @@
         self.window.rootViewController = splitViewController;
     }
     
-    //[[GBASyncManager sharedManager] start];
+    [[GBASyncManager sharedManager] start];
     
-    // Must go after GBASyncManager
     [GBASettingsViewController registerDefaults];
     
     [self.window makeKeyAndVisible];
@@ -106,12 +105,11 @@
 {
     if ([[url scheme] hasPrefix:@"db"])
     {
-        DBAccount *account = [[DBAccountManager sharedManager] handleOpenURL:url];
-        BOOL successful = (account != nil);
+        BOOL successful = NO;
         
-        if (account)
+        if ([[DBSession sharedSession] handleOpenURL:url])
         {
-            DLog(@"Dropbox account %@ successfully linked!", account.info.displayName);
+            successful = [[DBSession sharedSession] isLinked];
         }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDropboxStatusChangedNotification object:self userInfo:nil];
