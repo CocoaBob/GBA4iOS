@@ -27,8 +27,6 @@
 #import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
 #include <sys/sysctl.h>
 
-void updateSaveFileForCurrentROM(void);
-
 static GBAEmulationViewController *_emulationViewController;
 
 @interface GBAEmulationViewController () <GBAControllerViewDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
@@ -131,7 +129,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     [super viewDidAppear:animated];
     
-    if ([self.splashScreenImageView superview])
+    if (self.splashScreenImageView)
     {
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
@@ -765,6 +763,9 @@ void uncaughtExceptionHandler(NSException *exception)
         [self updateAutosaveState];
     }
     
+    [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
+    [[GBASyncManager sharedManager] synchronize];
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController);
@@ -864,6 +865,12 @@ void uncaughtExceptionHandler(NSException *exception)
     if ([self shouldAutosave])
     {
         [self updateAutosaveState];
+    }
+    
+    if (self.rom)
+    {
+        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
+        [[GBASyncManager sharedManager] synchronize];
     }
 }
 
@@ -1260,11 +1267,6 @@ void uncaughtExceptionHandler(NSException *exception)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
 #endif
-}
-
-void updateSaveFileForCurrentROM(void)
-{
-    [[GBASyncManager sharedManager] updateRemoteSaveFileForROM:_emulationViewController.rom];
 }
 
 #pragma mark - Blurring

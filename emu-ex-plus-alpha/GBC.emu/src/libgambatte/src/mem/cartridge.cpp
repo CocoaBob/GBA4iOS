@@ -23,8 +23,6 @@
 #include <cstring>
 #include <fstream>
 
-extern void updateSaveFileForCurrentROM(void);
-
 namespace gambatte {
 
 namespace {
@@ -663,7 +661,6 @@ void Cartridge::saveSavedata() {
 	if (hasBattery(memptrs.romdata()[0x147])) {
 		std::ofstream file((sbp + ".sav").c_str(), std::ios::binary | std::ios::out);
 		file.write(reinterpret_cast<const char*>(memptrs.rambankdata()), memptrs.rambankdataend() - memptrs.rambankdata());
-        updateSaveFileForCurrentROM();
 	}
 
 	if (hasRtc(memptrs.romdata()[0x147])) {

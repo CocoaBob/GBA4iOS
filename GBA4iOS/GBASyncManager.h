@@ -11,11 +11,13 @@
 
 @interface GBASyncManager : NSObject
 
+@property (readonly, strong, nonatomic) NSSet *conflictedROMs;
 
 + (instancetype)sharedManager;
 
 - (void)start;
+- (void)performInitialSync;
 - (void)synchronize;
-- (void)updateRemoteSaveFileForROM:(GBAROM *)rom;
+- (void)prepareToUploadSaveFileForROM:(GBAROM *)rom;
 
 @end

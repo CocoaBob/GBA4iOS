@@ -16,6 +16,10 @@
 		1AD971F417D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
 		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
 		1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
+		BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */; };
+		BF02AFDC182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */; };
+		BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */; };
+		BF02AFE0182F6E200031B8B6 /* GBASyncingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF3E2BAB18206D07004231F6 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA418206D07004231F6 /* SSZipArchive.m */; };
@@ -87,8 +91,8 @@
 		BF4D9186182DE12700C3A0C6 /* Forward Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9182182DE12700C3A0C6 /* Forward Button@2x.png */; };
 		BF4D918B182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */; };
 		BF4D918C182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */; };
-		BF4D918E182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */; };
-		BF4D918F182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */; };
+		BF4D9191182DF61100C3A0C6 /* Share Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9190182DF61100C3A0C6 /* Share Button@2x.png */; };
+		BF4D9192182DF61100C3A0C6 /* Share Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9190182DF61100C3A0C6 /* Share Button@2x.png */; };
 		BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BF73C2F11822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BFBD93FC1820B97700256038 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA218206D07004231F6 /* ioapi.c */; };
@@ -360,6 +364,10 @@
 		1AD971F117D2C6ED007097BC /* GBAController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAController.m; sourceTree = "<group>"; };
 		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewController.h; sourceTree = "<group>"; };
 		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewController.m; sourceTree = "<group>"; };
+		BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncingOverviewViewController.h; sourceTree = "<group>"; };
+		BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncingOverviewViewController.m; sourceTree = "<group>"; };
+		BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncingDetailViewController.h; sourceTree = "<group>"; };
+		BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncingDetailViewController.m; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
 		BF3E2BA218206D07004231F6 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = Cocoapods/ioapi.c; sourceTree = "<group>"; };
@@ -426,7 +434,7 @@
 		BF4D9181182DE12700C3A0C6 /* Back Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back Button@2x.png"; sourceTree = "<group>"; };
 		BF4D9182182DE12700C3A0C6 /* Forward Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Forward Button@2x.png"; sourceTree = "<group>"; };
 		BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Refresh Button@2x.png"; sourceTree = "<group>"; };
-		BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Share Button@2x.png"; sourceTree = "<group>"; };
+		BF4D9190182DF61100C3A0C6 /* Share Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Share Button@2x.png"; sourceTree = "<group>"; };
 		BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTProgressIndicator.h; sourceTree = "<group>"; };
 		BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTProgressIndicator.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
@@ -746,6 +754,17 @@
 				BF104A8217EB7B8F003C86F5 /* Cells */,
 			);
 			name = "Controller Skins";
+			sourceTree = "<group>";
+		};
+		BF02AFD8182F3E3A0031B8B6 /* Syncing */ = {
+			isa = PBXGroup;
+			children = (
+				BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */,
+				BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */,
+				BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */,
+				BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */,
+			);
+			name = Syncing;
 			sourceTree = "<group>";
 		};
 		BF104A8217EB7B8F003C86F5 /* Cells */ = {
@@ -1192,7 +1211,7 @@
 				BF4D9181182DE12700C3A0C6 /* Back Button@2x.png */,
 				BF4D9182182DE12700C3A0C6 /* Forward Button@2x.png */,
 				BF4D918A182DE1FD00C3A0C6 /* Refresh Button@2x.png */,
-				BF4D918D182DE5FE00C3A0C6 /* Share Button@2x.png */,
+				BF4D9190182DF61100C3A0C6 /* Share Button@2x.png */,
 			);
 			name = RSTWebBrowserViewController;
 			sourceTree = "<group>";
@@ -1302,6 +1321,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF02AFD8182F3E3A0031B8B6 /* Syncing */,
 				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
 			);
 			name = Settings;
@@ -1482,7 +1502,7 @@
 				CC58C8F417E649CA008F472E /* padButton.png in Resources */,
 				BF4D9184182DE12700C3A0C6 /* Back Button@2x.png in Resources */,
 				CC58C8FB17E64A28008F472E /* Main.storyboard in Resources */,
-				BF4D918F182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */,
+				BF4D9192182DF61100C3A0C6 /* Share Button@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,7 +1517,7 @@
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
-				BF4D918E182DE5FE00C3A0C6 /* Share Button@2x.png in Resources */,
+				BF4D9191182DF61100C3A0C6 /* Share Button@2x.png in Resources */,
 				BF3E2BC918206D7D004231F6 /* Forward Button.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				BF4D9183182DE12700C3A0C6 /* Back Button@2x.png in Resources */,
@@ -1561,6 +1581,7 @@
 				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				BF3E2C2118206FF5004231F6 /* NJKWebViewProgress.m in Sources */,
 				CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
+				BF02AFE0182F6E200031B8B6 /* GBASyncingDetailViewController.m in Sources */,
 				BF3E2C1B18206F15004231F6 /* UIProgressView+AFNetworking.m in Sources */,
 				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
 				1AD65D7C17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
@@ -1568,6 +1589,7 @@
 				BF3E2BAC18206D07004231F6 /* SSZipArchive.m in Sources */,
 				BF3E2BB418206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */,
 				BF3E2BFF18206F15004231F6 /* AFHTTPRequestOperation.m in Sources */,
+				BF02AFDC182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */,
 				CC6D0A9C18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */,
 				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
@@ -1626,6 +1648,7 @@
 				CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */,
 				BF3E2BAB18206D07004231F6 /* SSZipArchive.m in Sources */,
 				CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */,
+				BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */,
 				CCFA7178179D2EAB00768D24 /* View.cc in Sources */,
 				CC5044EC1814DC69009F7B9E /* Cheats.cc in Sources */,
 				BF3E2C1A18206F15004231F6 /* UIProgressView+AFNetworking.m in Sources */,
@@ -1775,6 +1798,7 @@
 				CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */,
 				CC50450F1814DC69009F7B9E /* Rar_Extractor.cpp in Sources */,
+				BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.m in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
 				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
 				CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */,

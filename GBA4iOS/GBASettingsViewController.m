@@ -8,6 +8,8 @@
 
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDetailViewController.h"
+#import "GBASyncManager.h"
+#import "GBASyncingOverviewViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -22,16 +24,15 @@
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
 
-@interface GBASettingsViewController ()
+@interface GBASettingsViewController () <UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *frameSkipSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISwitch *autosaveSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *mixAudioSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *showFramerateSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
-@property (weak, nonatomic) IBOutlet UISwitch *dropboxSyncSwitch;
+@property (weak, nonatomic) UILabel *dropboxSyncStatusLabel;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -39,10 +40,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 - (IBAction)toggleAutoSave:(UISwitch *)sender;
 - (IBAction)toggleVibrate:(UISwitch *)sender;
 - (IBAction)toggleMixAudio:(UISwitch *)sender;
-- (IBAction)toggleShowFramerate:(UISwitch *)sender;
 - (IBAction)changeControllerOpacity:(UISlider *)sender;
 - (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender;
-- (IBAction)toggleDropboxSync:(UISwitch *)sender;
 
 @end
 
@@ -63,6 +62,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     [super viewDidLoad];
     
+    self.navigationController.delegate = self;
+    
     [self updateControls];
 }
 
@@ -70,6 +71,13 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    // Must call this manually before calling super to ensure the row is always deselected
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
+    [super viewWillAppear:animated];
 }
 
 - (void)dealloc
@@ -109,9 +117,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
     self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
-    self.showFramerateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
-    self.dropboxSyncSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey];
     
     NSString *percentage = [NSString stringWithFormat:@"%.f", self.controllerOpacitySlider.value * 100];
     percentage = [percentage stringByAppendingString:@"%"];
@@ -167,12 +173,34 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    if (indexPath.section == CREDITS_SECTION && indexPath.row == 2)
+    if (indexPath.section == DROPBOX_SYNC_SECTION)
     {
-        if ([[[[[UIDevice currentDevice] name] lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"iphone"] ||
-            [[[[UIDevice currentDevice] name] lowercaseString] hasPrefix:@"david m"])
+        if (indexPath.row == 0)
         {
-            cell.textLabel.text = @"Alyssa Testut";
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
+            {
+                cell.detailTextLabel.text = NSLocalizedString(@"On", @"");
+            }
+            else
+            {
+                cell.detailTextLabel.text = NSLocalizedString(@"Off", @"");
+            }
+            
+            self.dropboxSyncStatusLabel = cell.detailTextLabel;
+            
+            // iOS 7 bug: background turns white when returning to this view from the syncing overview view
+            cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+        }
+    }
+    else if (indexPath.section == CREDITS_SECTION)
+    {
+        if (indexPath.row == 2)
+        {
+            if ([[[[[UIDevice currentDevice] name] lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"iphone"] ||
+                [[[[UIDevice currentDevice] name] lowercaseString] hasPrefix:@"david m"])
+            {
+                cell.textLabel.text = @"Alyssa Testut";
+            }
         }
     }
     
@@ -280,48 +308,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     sender.value = roundedValue;
 }
 
-- (IBAction)toggleDropboxSync:(UISwitch *)sender
-{
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsDropboxSyncKey];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsDropboxSyncKey, @"value": @(sender.on)}];
-    
-    if (sender.on)
-    {
-        if (![[DBSession sharedSession] isLinked])
-        {
-            [self linkDropboxAccount];
-        }
-        else if ([self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 1)
-        {
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
-        }
-    }
-    else
-    {
-        if ([self.tableView numberOfRowsInSection:DROPBOX_SYNC_SECTION] == 2)
-        {
-            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:DROPBOX_SYNC_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
-        }
-    }
-}
-
-#pragma mark - Dropbox
-
-- (void)linkDropboxAccount
-{
-    if (![[DBSession sharedSession] isLinked])
-    {
-        return [[DBSession sharedSession] unlinkAll];
-    }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedDropboxURLCallback:) name:GBASettingsDropboxStatusChangedNotification object:nil];
-    [[DBSession sharedSession] linkFromController:self];
-}
-
-- (void)receivedDropboxURLCallback:(NSNotification *)notification
-{
-    
-}
 
 #pragma mark - Selection
 
@@ -344,10 +330,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == DROPBOX_SYNC_SECTION)
     {
-        if (indexPath.row == 1)
-        {
-            [self linkDropboxAccount];
-        }
+        GBASyncingOverviewViewController *syncingOverviewViewController = [[GBASyncingOverviewViewController alloc] init];
+        [self.navigationController pushViewController:syncingOverviewViewController animated:YES];
     }
     else if (indexPath.section == CREDITS_SECTION)
     {
@@ -413,6 +397,25 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:scheme]];
 }
+
+#pragma mark - UINavigationController Delegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (viewController == self)
+    {
+        // Use a reference to the label because reloading the section or row causes graphical glitches under iOS 7, and also removes the highlighted state when using interactive back gesture
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
+        {
+            self.dropboxSyncStatusLabel.text = NSLocalizedString(@"On", @"");
+        }
+        else
+        {
+            self.dropboxSyncStatusLabel.text = NSLocalizedString(@"Off", @"");
+        }
+    }
+}
+
 
 @end
 
