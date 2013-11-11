@@ -11,6 +11,7 @@
 @interface GBASyncingDetailViewController ()
 
 @property (readwrite, strong, nonatomic) GBAROM *rom;
+@property (strong, nonatomic) NSDictionary *disabledSyncingROMs;
 
 @end
 
@@ -37,6 +38,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Dropbox Settings
+
+- (void)toggleSyncGameData:(UISwitch *)sender
+{
+    self.rom.syncingDisabled = !sender.on;
 }
 
 #pragma mark - Table view data source
@@ -68,6 +76,8 @@
         cell.textLabel.text = NSLocalizedString(@"Sync Save Data", @"");
         
         UISwitch *switchView = [[UISwitch alloc] init];
+        switchView.on = !self.rom.syncingDisabled;
+        [switchView addTarget:self action:@selector(toggleSyncGameData:) forControlEvents:UIControlEventValueChanged];
         cell.accessoryView = switchView;
     }
     
@@ -78,7 +88,7 @@
 {
     if (section == 0)
     {
-        return NSLocalizedString(@"If disabled, save data for this ROM will not be synced to other devices, regardless of whether Dropbox Sync is turned on or not.", @"");
+        return NSLocalizedString(@"If turned off, save data for this ROM will not be synced to other devices, regardless of whether Dropbox Sync is turned on or not.", @"");
     }
     
     return nil;

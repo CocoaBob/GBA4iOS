@@ -10,6 +10,7 @@
 #import "GBASettingsViewController.h"
 #import "GBASyncManager.h"
 #import "GBASyncingDetailViewController.h"
+#import "RSTFileBrowserTableViewCell.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -19,6 +20,8 @@
 
 @property (strong, nonatomic) NSArray *gbaROMs;
 @property (strong, nonatomic) NSArray *gbcROMs;
+@property (strong, nonatomic) NSSet *conflictedROMs;
+@property (strong, nonatomic) NSSet *syncingDisabledROMs;
 
 @end
 
@@ -30,6 +33,12 @@
     if (self)
     {
         self.title = NSLocalizedString(@"Dropbox Sync", @"");
+        
+        _conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
+        _syncingDisabledROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChanged object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChanged object:nil];
     }
     
     return self;
@@ -38,6 +47,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.tableView registerClass:[RSTFileBrowserTableViewCell class] forCellReuseIdentifier:@"DetailCell"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -132,6 +144,8 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
         [[DBSession sharedSession] unlinkAll];
         [self updateDropboxSection];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
         return;
     }
     
@@ -149,7 +163,7 @@
 {
     if ([[DBSession sharedSession] isLinked])
     {
-        [[GBASyncManager sharedManager] synchronize];
+        //[[GBASyncManager sharedManager] synchronize];
     }
     
     if ([[DBSession sharedSession] isLinked] && [self.tableView numberOfSections] == 1)
@@ -165,6 +179,25 @@
     }
 }
 
+#pragma mark - ROM Status
+
+- (void)romConflictedStateDidChange:(NSNotification *)notification
+{
+    self.conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
+    
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    [self.tableView reloadData];
+    [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+}
+
+- (void)romSyncingDisabledStateDidChange:(NSNotification *)notification
+{
+    self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
+    
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    [self.tableView reloadData];
+    [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+}
 
 #pragma mark - Table view data source
 
@@ -177,6 +210,20 @@
     
     // Return the number of sections.
     return 4;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 2)
+    {
+        return NSLocalizedString(@"GBA", @"");
+    }
+    else if (section == 3)
+    {
+        return NSLocalizedString(@"GBC", @"");
+    }
+    
+    return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -214,12 +261,7 @@
         identifier = SwitchCellIdentifier;
     }
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    if (cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     
@@ -251,9 +293,18 @@
             romArray = self.gbcROMs;
         }
         
-        cell.textLabel.text = [(GBAROM *)romArray[indexPath.row] name];
-        cell.detailTextLabel.text = nil;
+        GBAROM *rom = romArray[indexPath.row];
+        cell.textLabel.text = [rom name];
         
+        if ([rom syncingDisabled])
+        {
+            cell.detailTextLabel.text = NSLocalizedString(@"Off", @"");
+        }
+        else
+        {
+            cell.detailTextLabel.text = NSLocalizedString(@"On", @"");
+        }
+                
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
@@ -281,6 +332,28 @@
         GBASyncingDetailViewController *syncingDetailViewController = [[GBASyncingDetailViewController alloc] initWithROM:self.gbcROMs[indexPath.row]];
         [self.navigationController pushViewController:syncingDetailViewController animated:YES];
     }
+}
+
+#pragma mark - Helper Methods
+
+- (NSString *)dropboxSyncDirectoryPath
+{
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dropboxDirectory = [libraryDirectory stringByAppendingPathComponent:@"Dropbox Sync"];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:dropboxDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return dropboxDirectory;
+}
+
+- (NSString *)conflictedROMsPath
+{
+    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"conflictedROMs.plist"];
+}
+
+- (NSString *)syncingDisabledROMsPath
+{
+    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
 }
 
 @end

@@ -439,6 +439,8 @@
 		BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTProgressIndicator.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
+		BFC9B529183017EE0012A1EA /* Renaming_Files */ = {isa = PBXFileReference; lastKnownFileType = text; path = Renaming_Files; sourceTree = "<group>"; };
+		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
@@ -763,6 +765,7 @@
 				BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */,
 				BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */,
 				BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */,
+				BFC9B529183017EE0012A1EA /* Renaming_Files */,
 			);
 			name = Syncing;
 			sourceTree = "<group>";
@@ -1311,6 +1314,7 @@
 			isa = PBXGroup;
 			children = (
 				CCC7298417C7357E0001BC6F /* GBAROM.h */,
+				BFC9B52A18304E880012A1EA /* GBAROM_Private.h */,
 				CCC7298517C7357E0001BC6F /* GBAROM.m */,
 			);
 			name = ROM;

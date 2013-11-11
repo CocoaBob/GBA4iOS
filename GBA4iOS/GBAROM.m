@@ -10,6 +10,9 @@
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 
+NSString *const GBAROMConflictedStateChanged = @"GBAROMConflictedStateChanged";
+NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledStateChanged";
+
 @interface GBAROM ()
 
 @property (readwrite, copy, nonatomic) NSString *filepath;
@@ -23,6 +26,8 @@
 {
     GBAROM *rom = [[GBAROM alloc] init];
     rom.filepath = filepath;
+    
+    // We sometimes create dummy GBAROMs to pass to methods, so DON'T verify that the filepath is valid
     
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gbc"])
     {
@@ -145,6 +150,86 @@
     return [documentsDirectory stringByAppendingPathComponent:[self.name stringByAppendingPathExtension:@"sav"]];
 }
 
+- (void)setSyncingDisabled:(BOOL)syncingDisabled
+{
+    NSMutableSet *syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
+    
+    if (syncingDisabledROMs == nil)
+    {
+        syncingDisabledROMs = [NSMutableSet set];
+    }
+    
+    if (syncingDisabled)
+    {
+        [syncingDisabledROMs addObject:self.name];
+    }
+    else
+    {
+        [syncingDisabledROMs removeObject:self.name];
+    }
+    
+    [[syncingDisabledROMs allObjects] writeToFile:[self syncingDisabledROMsPath] atomically:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMSyncingDisabledStateChanged object:self];
+    
+}
+
+- (BOOL)syncingDisabled
+{
+    NSMutableSet *disabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
+    return [disabledROMs containsObject:self.name];
+}
+
+- (void)setConflicted:(BOOL)conflicted
+{
+    NSMutableSet *conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
+    
+    if (conflictedROMs == nil)
+    {
+        conflictedROMs = [NSMutableSet set];
+    }
+    
+    if (conflicted)
+    {
+        [conflictedROMs addObject:self.name];
+    }
+    else
+    {
+        [conflictedROMs addObject:self.name];
+    }
+    
+    [[conflictedROMs allObjects] writeToFile:[self conflictedROMsPath] atomically:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMConflictedStateChanged object:self];
+}
+
+- (BOOL)conflicted
+{
+    NSMutableSet *conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
+    return [conflictedROMs containsObject:self.name];
+}
+
+#pragma mark - Helper Methods
+
+- (NSString *)dropboxSyncDirectoryPath
+{
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dropboxDirectory = [libraryDirectory stringByAppendingPathComponent:@"Dropbox Sync"];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:dropboxDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return dropboxDirectory;
+}
+
+- (NSString *)conflictedROMsPath
+{
+    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"conflictedROMs.plist"];
+}
+
+- (NSString *)syncingDisabledROMsPath
+{
+    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
+}
 
 
 @end

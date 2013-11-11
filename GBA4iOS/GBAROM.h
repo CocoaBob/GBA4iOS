@@ -21,6 +21,8 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @property (readonly, copy, nonatomic) NSString *saveFileFilepath;
 @property (readonly, strong, nonatomic) NSString *romCode;
 @property (readonly, assign, nonatomic) GBAROMType type;
+@property (readonly, assign, nonatomic) BOOL syncingDisabled;
+@property (readonly, assign, nonatomic) BOOL conflicted;
 
 + (GBAROM *)romWithContentsOfFile:(NSString *)filepath;
 

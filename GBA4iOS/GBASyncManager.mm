@@ -16,18 +16,17 @@
 @interface GBASyncManager () <DBRestClientDelegate>
 {
     BOOL _performingInitialSync;
-    NSMutableSet *_conflictedROMs;
 }
 
 @property (strong, nonatomic) DBRestClient *restClient;
 @property (strong, nonatomic) NSMutableDictionary *pendingUploads;
 @property (strong, nonatomic) NSMutableDictionary *remoteFiles;
-@property (readwrite, strong, nonatomic) NSSet *conflictedROMs;
+@property (strong, nonatomic) NSMutableSet *conflictedROMs;
+@property (strong, nonatomic) NSMutableSet *syncingDisabledROMs;
 
 @end
 
 @implementation GBASyncManager
-@synthesize conflictedROMs = _conflictedROMs;
 
 #pragma mark - Singleton Methods
 
@@ -53,11 +52,20 @@
         }
         
         _remoteFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[self remoteFilesPath]];
+    
+        
+        DLog(@"Remote FIles: %@", _remoteFiles);
         
         if (_remoteFiles == nil)
         {
             _remoteFiles = [NSMutableDictionary dictionary];
         }
+        
+        _conflictedROMs = [[NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]] mutableCopy];
+        _syncingDisabledROMs = [[NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]] mutableCopy];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChanged object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChanged object:nil];
     }
     return self;
 }
@@ -111,20 +119,67 @@
     [self.restClient loadDelta:nil];
 }
 
-- (void)uploadMissingFilesFromRemoteFiles:(NSArray *)remoteFiles
+- (void)uploadMissingFilesFromRemoteFiles:(NSArray *)files
 {
-    for (DBDeltaEntry *entry in remoteFiles)
+    NSMutableDictionary *newRemoteFiles = [NSMutableDictionary dictionary];
+    for (DBDeltaEntry *entry in files)
     {
         if ([entry.lowercasePath hasSuffix:@"sav"] && ![entry.metadata isDeleted] && entry.metadata.path != nil)
         {
-            [self.remoteFiles setObject:entry.metadata forKey:entry.metadata.path];
+            [newRemoteFiles setObject:entry.metadata forKey:entry.metadata.path];
         }
     }
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+    
+    for (NSString *filename in contents)
+    {
+        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"sav"])
+        {
+            NSString *romName = [filename stringByDeletingPathExtension];
+            NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@", romName, filename];
+            
+            DBMetadata *metadata = newRemoteFiles[dropboxPath];
+            
+            if (metadata == nil)
+            {
+                // Doesn't matter what extension is, we just need
+                GBAROM *rom = [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:[romName stringByAppendingPathExtension:@"gba"]]];
+                [self prepareToUploadSaveFileForROM:rom];
+                
+            }
+            else
+            {
+                DBMetadata *cachedMetadata = self.remoteFiles[[documentsDirectory stringByAppendingPathComponent:filename]];
+                
+                if (![metadata.rev isEqualToString:cachedMetadata.rev])
+                {
+                    DLog(@"Cahed Metadata: %@ Rev: %@ New Metadata: %@ Rom: %@", cachedMetadata, cachedMetadata.rev, metadata.rev, romName);
+                    [self.conflictedROMs addObject:romName];
+                    [self.syncingDisabledROMs addObject:romName];
+                }
+                else
+                {
+                    DLog(@"Not Replacing: %@", romName);
+                    // Do nothing, the local file is the same as the one on the server
+                }
+                
+            }
+        }
+    }
+    
+    self.remoteFiles = newRemoteFiles;
     [NSKeyedArchiver archiveRootObject:self.remoteFiles toFile:[self remoteFilesPath]];
     
-    _performingInitialSync = NO;
+    [[self.conflictedROMs allObjects] writeToFile:[self conflictedROMsPath] atomically:YES];
+    [[self.syncingDisabledROMs allObjects] writeToFile:[self syncingDisabledROMsPath] atomically:YES];
     
+    [self updateRemoteFiles];
+    
+    _performingInitialSync = NO;
 }
 
 #pragma mark - Update Remote Files
@@ -152,7 +207,7 @@
 
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath from:(NSString *)srcPath metadata:(DBMetadata *)metadata
 {
-    DLog(@"Uploaded File: %@", srcPath);
+    DLog(@"Uploaded File: %@ Rev: %@", srcPath, metadata.rev);
     
     [self.pendingUploads removeObjectForKey:srcPath];
     [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
@@ -161,11 +216,11 @@
     [NSKeyedArchiver archiveRootObject:self.remoteFiles toFile:[self remoteFilesPath]];
     
     
-    [[[UIAlertView alloc] initWithTitle:@"Uploaded Files" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+  //  [[[UIAlertView alloc] initWithTitle:@"Uploaded Files" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     
     if ([self.pendingUploads count] == 0)
     {
-        [self updateLocalFiles];
+        //[self updateLocalFiles];
     }
 }
 
@@ -173,7 +228,7 @@
 {
     DLog(@"Upload Failed :( %@", error);
     
-    [[[UIAlertView alloc] initWithTitle:@"Upload Failed :(" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+   // [[[UIAlertView alloc] initWithTitle:@"Upload Failed :(" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 #pragma mark - Update Local Files
@@ -189,6 +244,7 @@
 {
     NSDictionary *dictionary = @{@"date": [NSDate date], @"cursor": cursor};
     [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"lastSyncInfo"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (_performingInitialSync)
     {
@@ -199,9 +255,7 @@
     for (DBDeltaEntry *entry in entries)
     {
         if ([entry.lowercasePath hasSuffix:@"sav"] && ![entry.metadata isDeleted] && entry.metadata.path != nil)
-        {
-            DLog(@"%@", entry.metadata.filename);
-            
+        {            
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
             
@@ -215,12 +269,13 @@
 
 - (void)restClient:(DBRestClient*)client loadDeltaFailedWithError:(NSError *)error
 {
+    _performingInitialSync = NO;
     DLog(@"Delta Failed :(");
 }
 
 - (void)restClient:(DBRestClient *)client loadedFile:(NSString *)destPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
 {
-    [[[UIAlertView alloc] initWithTitle:@"Loaded Files" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+   // [[[UIAlertView alloc] initWithTitle:@"Loaded Files" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     
     DLog(@"Loaded File!: %@", destPath);
     
@@ -230,13 +285,18 @@
 
 - (void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error
 {
-    [[[UIAlertView alloc] initWithTitle:@"Failed to Load Files" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+   // [[[UIAlertView alloc] initWithTitle:@"Failed to Load Files" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 #pragma mark - Mark Files For Update
 
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom
 {
+    if ([rom syncingDisabled])
+    {
+        return;
+    }
+    
     NSString *savesDirectory = [NSString stringWithFormat:@"/%@/%@/", rom.name, SAVE_FILE_DIRECTORY_NAME];
     NSString *saveFileFilename = [rom.saveFileFilepath lastPathComponent];
     
@@ -247,6 +307,18 @@
     
     [self.pendingUploads setObject:uploadDictionary forKey:[documentsDirectory stringByAppendingPathComponent:saveFileFilename]];
     [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
+}
+
+#pragma mark - ROM Status
+
+- (void)romConflictedStateDidChange:(NSNotification *)notification
+{
+    self.conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
+}
+
+- (void)romSyncingDisabledStateDidChange:(NSNotification *)notification
+{
+    self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
 }
 
 #pragma mark - Application State
@@ -283,9 +355,14 @@
     return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"remoteFiles.plist"];
 }
 
-- (NSString *)conflictedROMs
+- (NSString *)conflictedROMsPath
 {
     return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"conflictedROMs.plist"];
+}
+
+- (NSString *)syncingDisabledROMsPath
+{
+    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
 }
 
 @end

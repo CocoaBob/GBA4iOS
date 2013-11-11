@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GBAROM.h"
+#import "GBAROM_Private.h"
 
 @interface GBASyncManager : NSObject
-
-@property (readonly, strong, nonatomic) NSSet *conflictedROMs;
 
 + (instancetype)sharedManager;
 
