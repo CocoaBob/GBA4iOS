@@ -19,6 +19,7 @@
 #import "GBAPresentEmulationViewControllerAnimator.h"
 #import "GBAPresentOverlayViewControllerAnimator.h"
 #import "GBASyncManager.h"
+#import "UIScreen+Widescreen.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -112,7 +113,17 @@ static GBAEmulationViewController *_emulationViewController;
     
     // Because we need to present the ROM Table View Controller stealthily
     self.splashScreenImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
+    
+    if ([[UIScreen mainScreen] isWidescreen])
+    {
+        self.splashScreenImageView.image = [UIImage imageNamed:@"Default-568h"];
+    }
+    else
+    {
+        self.splashScreenImageView.image = [UIImage imageNamed:@"LaunchImage"];
+    }
+    
+    self.splashScreenImageView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.splashScreenImageView];
     
     [self updateSettings:nil];
@@ -138,18 +149,26 @@ static GBAEmulationViewController *_emulationViewController;
             navigationController.modalPresentationStyle = UIModalPresentationCustom;
             navigationController.transitioningDelegate = self;
             
-            [self presentViewController:navigationController animated:NO completion:NULL];
+            [self presentViewController:navigationController animated:YES completion:^{
+                [self.splashScreenImageView removeFromSuperview];
+                self.splashScreenImageView = nil;
+            }];
+            
         }
         else
         {
             self.romTableViewController = [(GBASplitViewController *)self.splitViewController romTableViewController];
             [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
+            
+            [UIView animateWithDuration:0.2 animations:^{
+                self.splashScreenImageView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [self.splashScreenImageView removeFromSuperview];
+                self.splashScreenImageView = nil;
+            }];
         }
         
         self.romTableViewController.emulationViewController = self;
-        
-        [self.splashScreenImageView removeFromSuperview];
-        self.splashScreenImageView = nil;
     }
 }
 
@@ -801,7 +820,9 @@ void uncaughtExceptionHandler(NSException *exception)
         }
         else
         {
-            return nil;
+            GBAPresentEmulationViewControllerAnimator *animator = [[GBAPresentEmulationViewControllerAnimator alloc] init];
+            animator.presenting = NO;
+            return animator;
         }
     }
     else if ([viewController isKindOfClass:[GBASaveStateViewController class]] || [viewController isKindOfClass:[GBACheatManagerViewController class]])
@@ -828,6 +849,7 @@ void uncaughtExceptionHandler(NSException *exception)
         if ([(GBAROMTableViewController *)viewController theme] == GBAThemedTableViewControllerThemeOpaque)
         {
             GBAPresentEmulationViewControllerAnimator *animator = [[GBAPresentEmulationViewControllerAnimator alloc] init];
+            animator.presenting = YES;
             return animator;
         }
         else

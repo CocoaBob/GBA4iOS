@@ -53,9 +53,6 @@
         
         _remoteFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[self remoteFilesPath]];
     
-        
-        DLog(@"Remote FIles: %@", _remoteFiles);
-        
         if (_remoteFiles == nil)
         {
             _remoteFiles = [NSMutableDictionary dictionary];
@@ -157,7 +154,7 @@
                 
                 if (![metadata.rev isEqualToString:cachedMetadata.rev])
                 {
-                    DLog(@"Cahed Metadata: %@ Rev: %@ New Metadata: %@ Rom: %@", cachedMetadata, cachedMetadata.rev, metadata.rev, romName);
+                    DLog(@"Cached Metadata: %@ Rev: %@ New Metadata: %@ Rom: %@", cachedMetadata, cachedMetadata.rev, metadata.rev, romName);
                     [self.conflictedROMs addObject:romName];
                     [self.syncingDisabledROMs addObject:romName];
                 }

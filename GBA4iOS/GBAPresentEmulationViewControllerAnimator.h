@@ -10,4 +10,6 @@
 
 @interface GBAPresentEmulationViewControllerAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 
+@property (assign, nonatomic, getter = isPresenting) BOOL presenting;
+
 @end

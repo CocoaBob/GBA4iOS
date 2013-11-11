@@ -264,6 +264,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     
     cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.detailTextLabel.textColor = [UIColor grayColor];
     
     if (indexPath.section == 0)
     {
@@ -295,8 +296,9 @@
         
         GBAROM *rom = romArray[indexPath.row];
         cell.textLabel.text = [rom name];
-        
-        if ([rom syncingDisabled])
+                
+        // Use NSSet directly for better performance
+        if ([self.syncingDisabledROMs containsObject:rom.name])
         {
             cell.detailTextLabel.text = NSLocalizedString(@"Off", @"");
         }
@@ -304,7 +306,14 @@
         {
             cell.detailTextLabel.text = NSLocalizedString(@"On", @"");
         }
-                
+        
+        // Use NSSet directly for better performance
+        if ([self.conflictedROMs containsObject:rom.name])
+        {
+            cell.detailTextLabel.text = NSLocalizedString(@"Conflicted", @"");
+            cell.detailTextLabel.textColor = [UIColor redColor];
+        }
+            
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     

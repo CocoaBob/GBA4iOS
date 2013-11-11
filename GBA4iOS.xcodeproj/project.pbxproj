@@ -100,6 +100,8 @@
 		BFBD93FE1820B97700256038 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA518206D07004231F6 /* unzip.c */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
+		BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
+		BFC9B536183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
@@ -213,9 +215,7 @@
 		CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
 		CC5045221814DC69009F7B9E /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
 		CC57576A180C766C00BF3DA5 /* GBCImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC575769180C766C00BF3DA5 /* GBCImages.xcassets */; };
-		CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC58C8EF17E649CA008F472E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
-		CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CC347BA017A33E0400309436 /* Default-568h@2x.png */; };
 		CC58C8F417E649CA008F472E /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		CC58C8F517E649CA008F472E /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		CC58C8F817E64A20008F472E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
@@ -441,6 +441,7 @@
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC9B529183017EE0012A1EA /* Renaming_Files */ = {isa = PBXFileReference; lastKnownFileType = text; path = Renaming_Files; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
+		BFC9B534183182C60012A1EA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
@@ -491,7 +492,6 @@
 		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
 		CC33F0E117E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"; sourceTree = "<group>"; };
 		CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m"; sourceTree = "<group>"; };
-		CC347BA017A33E0400309436 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
 		CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CC491D4C17BCAA940060A107 /* GBASaveStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateViewController.h; sourceTree = "<group>"; };
@@ -994,9 +994,9 @@
 			isa = PBXGroup;
 			children = (
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
+				BFC9B534183182C60012A1EA /* Default-568h@2x.png */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
 				CC5044E61814C474009F7B9E /* Default.gbcskin */,
-				CC347BA017A33E0400309436 /* Default-568h@2x.png */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
@@ -1497,8 +1497,8 @@
 				BF3E2BCA18206D7D004231F6 /* Forward Button.png in Resources */,
 				BF3E2BC618206D7D004231F6 /* Back Button.png in Resources */,
 				BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */,
+				BFC9B536183182C60012A1EA /* Default-568h@2x.png in Resources */,
 				CC5044E81814C474009F7B9E /* Default.gbcskin in Resources */,
-				CC58C8F317E649CA008F472E /* Default-568h@2x.png in Resources */,
 				CC58C8FD17E64A92008F472E /* xButton.png in Resources */,
 				BF4D9186182DE12700C3A0C6 /* Forward Button@2x.png in Resources */,
 				BF4D918C182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */,
@@ -1516,6 +1516,7 @@
 			files = (
 				CC57576A180C766C00BF3DA5 /* GBCImages.xcassets in Resources */,
 				BF4D918B182DE1FD00C3A0C6 /* Refresh Button@2x.png in Resources */,
+				BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */,
 				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
@@ -1527,7 +1528,6 @@
 				BF4D9183182DE12700C3A0C6 /* Back Button@2x.png in Resources */,
 				BF4D9185182DE12700C3A0C6 /* Forward Button@2x.png in Resources */,
 				BF3E2BC518206D7D004231F6 /* Back Button.png in Resources */,
-				CC58C8C717E649C4008F472E /* Default-568h@2x.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
