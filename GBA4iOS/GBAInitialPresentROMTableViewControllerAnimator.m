@@ -1,25 +1,25 @@
 //
-//  GBAPresentEmulationViewControllerAnimator.m
+//  GBAInitialPresentROMTableViewControllerAnimator.m
 //  GBA4iOS
 //
 //  Created by Riley Testut on 10/10/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBAPresentEmulationViewControllerAnimator.h"
+#import "GBAInitialPresentROMTableViewControllerAnimator.h"
 #import "GBAEmulationViewController.h"
 
-@implementation GBAPresentEmulationViewControllerAnimator
+@implementation GBAInitialPresentROMTableViewControllerAnimator
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
 {
     if (self.presenting)
     {
-        return 0.6;
+        return 0.4;
     }
     else
     {
-        return 0.45;
+        return 0.6;
     }
 }
 
@@ -29,6 +29,25 @@
     UIViewController* fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     if (self.presenting)
+    {
+        [[transitionContext containerView] addSubview:toViewController.view];
+        
+        toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
+        toViewController.view.alpha = 1.0;
+        
+        fromViewController.view.layer.allowsGroupOpacity = YES;
+        
+        [[transitionContext containerView] addSubview:fromViewController.view];
+        
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+            fromViewController.view.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [fromViewController.view removeFromSuperview];
+            fromViewController.view.alpha = 1.0;
+            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        }];
+    }
+    else
     {
         // Below make sure the view is laid out correctly
         UIInterfaceOrientation interfaceOrientation = toViewController.interfaceOrientation;
@@ -57,23 +76,6 @@
             
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
             
-        }];
-    }
-    else
-    {
-        [[transitionContext containerView] addSubview:toViewController.view];
-        
-        toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
-        toViewController.view.alpha = 1.0;
-        
-        fromViewController.view.layer.allowsGroupOpacity = YES;
-        
-        [[transitionContext containerView] addSubview:fromViewController.view];
-        
-        [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-            fromViewController.view.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];
     }
     

@@ -289,7 +289,7 @@
 
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom
 {
-    if ([rom syncingDisabled])
+    if (rom == nil || [rom syncingDisabled])
     {
         return;
     }

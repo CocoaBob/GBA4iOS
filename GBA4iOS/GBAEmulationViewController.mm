@@ -16,7 +16,7 @@
 #import "GBASettingsViewController.h"
 #import "GBASplitViewController.h"
 #import "GBAROMTableViewControllerAnimator.h"
-#import "GBAPresentEmulationViewControllerAnimator.h"
+#import "GBAInitialPresentROMTableViewControllerAnimator.h"
 #import "GBAPresentOverlayViewControllerAnimator.h"
 #import "GBASyncManager.h"
 #import "UIScreen+Widescreen.h"
@@ -820,8 +820,8 @@ void uncaughtExceptionHandler(NSException *exception)
         }
         else
         {
-            GBAPresentEmulationViewControllerAnimator *animator = [[GBAPresentEmulationViewControllerAnimator alloc] init];
-            animator.presenting = NO;
+            GBAInitialPresentROMTableViewControllerAnimator *animator = [[GBAInitialPresentROMTableViewControllerAnimator alloc] init];
+            animator.presenting = YES;
             return animator;
         }
     }
@@ -848,8 +848,8 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         if ([(GBAROMTableViewController *)viewController theme] == GBAThemedTableViewControllerThemeOpaque)
         {
-            GBAPresentEmulationViewControllerAnimator *animator = [[GBAPresentEmulationViewControllerAnimator alloc] init];
-            animator.presenting = YES;
+            GBAInitialPresentROMTableViewControllerAnimator *animator = [[GBAInitialPresentROMTableViewControllerAnimator alloc] init];
+            animator.presenting = NO;
             return animator;
         }
         else

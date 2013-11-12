@@ -1,5 +1,5 @@
 //
-//  GBAPresentEmulationViewControllerAnimator.h
+//  GBAInitialPresentROMTableViewControllerAnimator.h
 //  GBA4iOS
 //
 //  Created by Riley Testut on 10/10/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GBAPresentEmulationViewControllerAnimator : NSObject <UIViewControllerAnimatedTransitioning>
+@interface GBAInitialPresentROMTableViewControllerAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (assign, nonatomic, getter = isPresenting) BOOL presenting;
 

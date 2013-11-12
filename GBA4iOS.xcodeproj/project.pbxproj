@@ -95,6 +95,8 @@
 		BF4D9192182DF61100C3A0C6 /* Share Button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF4D9190182DF61100C3A0C6 /* Share Button@2x.png */; };
 		BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BF73C2F11822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
+		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
+		BF9782F51832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
 		BFBD93FC1820B97700256038 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA218206D07004231F6 /* ioapi.c */; };
 		BFBD93FD1820B97700256038 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA318206D07004231F6 /* mztools.c */; };
 		BFBD93FE1820B97700256038 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BA518206D07004231F6 /* unzip.c */; };
@@ -230,8 +232,6 @@
 		CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
 		CC6A2D9E17C515E800EFC10E /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
 		CC6A2D9F17C515E800EFC10E /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
-		CC6D0A9B18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6D0A9A18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m */; };
-		CC6D0A9C18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6D0A9A18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m */; };
 		CC76CF0217ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */; };
 		CC76CF0317ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */; };
 		CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0517ED3D180072BF74 /* GBASaveStateTableViewCell.m */; };
@@ -437,6 +437,8 @@
 		BF4D9190182DF61100C3A0C6 /* Share Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Share Button@2x.png"; sourceTree = "<group>"; };
 		BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTProgressIndicator.h; sourceTree = "<group>"; };
 		BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTProgressIndicator.m; sourceTree = "<group>"; };
+		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
+		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC9B529183017EE0012A1EA /* Renaming_Files */ = {isa = PBXFileReference; lastKnownFileType = text; path = Renaming_Files; sourceTree = "<group>"; };
@@ -549,8 +551,6 @@
 		CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatEditorViewController.m; sourceTree = "<group>"; };
 		CC6A2D9B17C515E800EFC10E /* GBACheat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheat.h; sourceTree = "<group>"; };
 		CC6A2D9C17C515E800EFC10E /* GBACheat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheat.m; sourceTree = "<group>"; };
-		CC6D0A9918074713001D089A /* GBAPresentEmulationViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPresentEmulationViewControllerAnimator.h; sourceTree = "<group>"; };
-		CC6D0A9A18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPresentEmulationViewControllerAnimator.m; sourceTree = "<group>"; };
 		CC76CF0017ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAAsynchronousRemoteTableViewCell.h; sourceTree = "<group>"; };
 		CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAAsynchronousRemoteTableViewCell.m; sourceTree = "<group>"; };
 		CC76CF0417ED3D180072BF74 /* GBASaveStateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASaveStateTableViewCell.h; sourceTree = "<group>"; };
@@ -1104,8 +1104,8 @@
 			children = (
 				CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */,
 				CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */,
-				CC6D0A9918074713001D089A /* GBAPresentEmulationViewControllerAnimator.h */,
-				CC6D0A9A18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m */,
+				BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */,
+				BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */,
 				CC6420B21807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.h */,
 				CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */,
 			);
@@ -1592,9 +1592,9 @@
 				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				BF3E2BAC18206D07004231F6 /* SSZipArchive.m in Sources */,
 				BF3E2BB418206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */,
+				BF9782F51832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
 				BF3E2BFF18206F15004231F6 /* AFHTTPRequestOperation.m in Sources */,
 				BF02AFDC182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */,
-				CC6D0A9C18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */,
 				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				1AD971E817D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */,
@@ -1658,7 +1658,6 @@
 				BF3E2C1A18206F15004231F6 /* UIProgressView+AFNetworking.m in Sources */,
 				CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */,
 				BF3E2C1818206F15004231F6 /* UIImageView+AFNetworking.m in Sources */,
-				CC6D0A9B18074713001D089A /* GBAPresentEmulationViewControllerAnimator.m in Sources */,
 				CCC9B8951815AC7E005C90EE /* lyc_irq.cpp in Sources */,
 				CC5045161814DC69009F7B9E /* 7zCrc.c in Sources */,
 				CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
@@ -1744,6 +1743,7 @@
 				CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */,
 				CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */,
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
+				BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
 				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
