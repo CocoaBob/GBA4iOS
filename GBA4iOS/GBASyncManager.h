@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <DropboxSDK/DropboxSDK.h>
+
 #import "GBAROM_Private.h"
 
 @interface GBASyncManager : NSObject
@@ -17,5 +19,7 @@
 - (void)performInitialSync;
 - (void)synchronize;
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom;
+
+- (void)fetchRemoteSaveInfoForROM:(GBAROM *)rom completionBlock:(void (^)(NSArray *saves, NSError *error))completionBlock;
 
 @end

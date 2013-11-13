@@ -9,8 +9,6 @@
 #import "GBASyncManager.h"
 #import "GBASettingsViewController.h"
 
-#import <DropboxSDK/DropboxSDK.h>
-
 #define SAVE_FILE_DIRECTORY_NAME @"Saves"
 
 @interface GBASyncManager () <DBRestClientDelegate>
