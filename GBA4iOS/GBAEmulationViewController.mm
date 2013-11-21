@@ -120,10 +120,10 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
-        self.splashScreenImageView.image = [UIImage imageNamed:@"LaunchImage"];
+        self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
     }
     
-    self.splashScreenImageView.backgroundColor = [UIColor clearColor];
+    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.splashScreenImageView];
     
     [self updateSettings:nil];
@@ -1532,7 +1532,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     [self startEmulation];
     
-    //[self.controllerView showButtonRects];
+    [self.controllerView showButtonRects];
     
 }
 

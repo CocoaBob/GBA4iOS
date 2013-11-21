@@ -106,6 +106,8 @@
 		BFC9B536183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
 		BFE579A5183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
+		BFE579AA183DE4E4005699AA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE579A9183DE4E4005699AA /* Default@2x.png */; };
+		BFE579AB183DE4E4005699AA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE579A9183DE4E4005699AA /* Default@2x.png */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
@@ -447,6 +449,7 @@
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
 		BFC9B534183182C60012A1EA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BFE579A3183DDCCE005699AA /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		BFE579A9183DE4E4005699AA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Images.xcassets/LaunchImage.launchimage/Default@2x.png"; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
@@ -1001,6 +1004,7 @@
 			children = (
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 				BFC9B534183182C60012A1EA /* Default-568h@2x.png */,
+				BFE579A9183DE4E4005699AA /* Default@2x.png */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
 				CC5044E61814C474009F7B9E /* Default.gbcskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
@@ -1504,6 +1508,7 @@
 				BF3E2BC618206D7D004231F6 /* Back Button.png in Resources */,
 				BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */,
 				BFC9B536183182C60012A1EA /* Default-568h@2x.png in Resources */,
+				BFE579AB183DE4E4005699AA /* Default@2x.png in Resources */,
 				CC5044E81814C474009F7B9E /* Default.gbcskin in Resources */,
 				CC58C8FD17E64A92008F472E /* xButton.png in Resources */,
 				BF4D9186182DE12700C3A0C6 /* Forward Button@2x.png in Resources */,
@@ -1533,6 +1538,7 @@
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				BF4D9183182DE12700C3A0C6 /* Back Button@2x.png in Resources */,
 				BF4D9185182DE12700C3A0C6 /* Forward Button@2x.png in Resources */,
+				BFE579AA183DE4E4005699AA /* Default@2x.png in Resources */,
 				BF3E2BC518206D7D004231F6 /* Back Button.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 			);
