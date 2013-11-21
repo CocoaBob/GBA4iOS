@@ -142,6 +142,8 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (self.splashScreenImageView)
     {
+        DLog(@"App did launch");
+        
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
             self.romTableViewController = [[GBAROMTableViewController alloc] init];
@@ -1363,7 +1365,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2,
                                                       viewSize.height + edgeExtension * 2),
-                                           YES, 0.0);
+                                           YES, 1.0);
     
     NSString *defaultSkinIdentifier = nil;
     NSString *skinsKey = nil;

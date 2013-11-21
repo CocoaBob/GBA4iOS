@@ -39,6 +39,8 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChanged object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChanged object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
     
     return self;
@@ -58,12 +60,6 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
     [super viewWillAppear:animated];
     
-    if (![[DBSession sharedSession] isLinked])
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
-        self.dropboxSyncSwitch.on = NO;
-    }
-    
     [self updateFiles];
 }
 
@@ -71,6 +67,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)willEnterForeground:(NSNotification *)notification
+{
 }
 
 #pragma mark - UI
@@ -123,10 +123,17 @@
         {
             [self linkDropboxAccount];
         }
-        else if ([self.tableView numberOfSections] == 1)
+        else
         {
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
+            [[GBASyncManager sharedManager] synchronize];
+            
+            if ([self.tableView numberOfSections] == 1)
+            {
+                [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
+            }
         }
+        
+        
     }
     else
     {
@@ -142,6 +149,7 @@
     if ([[DBSession sharedSession] isLinked])
     {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"hasPerformedInitialSync"];
         [[DBSession sharedSession] unlinkAll];
         [self updateDropboxSection];
         
@@ -156,6 +164,18 @@
 - (void)receivedDropboxURLCallback:(NSNotification *)notification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:GBASettingsDropboxStatusChangedNotification object:nil];
+    
+    if (![[DBSession sharedSession] isLinked])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
+        [self.dropboxSyncSwitch setOn:NO animated:YES];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:GBASettingsDropboxSyncKey];
+        [self.dropboxSyncSwitch setOn:YES animated:YES];
+    }
+    
     [self updateDropboxSection];
 }
 
@@ -163,7 +183,8 @@
 {
     if ([[DBSession sharedSession] isLinked])
     {
-        //[[GBASyncManager sharedManager] synchronize];
+        DLog(@"Performing Initial Sync...");
+        [[GBASyncManager sharedManager] synchronize];
     }
     
     if ([[DBSession sharedSession] isLinked] && [self.tableView numberOfSections] == 1)
@@ -266,6 +287,8 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.detailTextLabel.textColor = [UIColor grayColor];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    
     if (indexPath.section == 0)
     {
         cell.textLabel.text = NSLocalizedString(@"Dropbox Sync", @"");
@@ -275,6 +298,8 @@
         switchView.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey];
         cell.accessoryView = switchView;
         self.dropboxSyncSwitch = switchView;
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else if (indexPath.section == 1)
     {

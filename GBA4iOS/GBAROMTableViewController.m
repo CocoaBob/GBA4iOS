@@ -135,6 +135,16 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        DLog(@"ROM list appeared");
+    });
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -563,12 +573,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [GBAController extractSkinAtPathToSkinsDirectory:filepath];
 }
 
-#pragma mark - Dropbox
-
-- (void)sup
-{
-}
-
 #pragma mark - UIAlertView delegate
 
 - (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
@@ -676,7 +680,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[DBSession sharedSession] isLinked] && [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncInfo"] == nil)
+    if ([[DBSession sharedSession] isLinked] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasPerformedInitialSync"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Please wait for the initial sync to be complete, then launch the ROM. This is to ensure no save data is lost.", @"")

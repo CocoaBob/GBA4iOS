@@ -11,6 +11,8 @@
 
 #import "GBAROM_Private.h"
 
+extern NSString *const GBAFileDeviceName;
+
 @interface GBASyncManager : NSObject
 
 + (instancetype)sharedManager;
@@ -19,7 +21,5 @@
 - (void)performInitialSync;
 - (void)synchronize;
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom;
-
-- (void)fetchRemoteSaveInfoForROM:(GBAROM *)rom completionBlock:(void (^)(NSArray *saves, NSError *error))completionBlock;
 
 @end

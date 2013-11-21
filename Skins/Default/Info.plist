@@ -113,7 +113,7 @@
 					<key>X</key>
 					<integer>22</integer>
 					<key>Y</key>
-					<integer>114</integer>
+					<integer>145</integer>
 					<key>Width</key>
 					<integer>160</integer>
 					<key>Height</key>
@@ -124,7 +124,7 @@
 					<key>X</key>
 					<integer>675</integer>
 					<key>Y</key>
-					<integer>129</integer>
+					<integer>159</integer>
 					<key>Width</key>
 					<integer>75</integer>
 					<key>Height</key>
@@ -135,7 +135,7 @@
 					<key>X</key>
 					<integer>558</integer>
 					<key>Y</key>
-					<integer>178</integer>
+					<integer>209</integer>
 					<key>Width</key>
 					<integer>75</integer>
 					<key>Height</key>
@@ -146,7 +146,7 @@
 					<key>X</key>
 					<integer>405</integer>
 					<key>Y</key>
-					<integer>279</integer>
+					<integer>360</integer>
 					<key>Width</key>
 					<integer>60</integer>
 					<key>Height</key>
@@ -157,7 +157,7 @@
 					<key>X</key>
 					<integer>305</integer>
 					<key>Y</key>
-					<integer>279</integer>
+					<integer>360</integer>
 					<key>Width</key>
 					<integer>60</integer>
 					<key>Height</key>
@@ -188,9 +188,9 @@
 				<key>Menu</key>
 				<dict>
 					<key>X</key>
-					<integer>352</integer>
+					<integer>353</integer>
 					<key>Y</key>
-					<integer>74</integer>
+					<integer>83</integer>
 					<key>Width</key>
 					<integer>60</integer>
 					<key>Height</key>
@@ -422,6 +422,108 @@
 					<integer>80</integer>
 					<key>Height</key>
 					<integer>40</integer>
+				</dict>
+			</dict>
+			<key>iPad</key>
+			<dict>
+				<key>D-Pad</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>498</integer>
+					<key>Width</key>
+					<integer>260</integer>
+					<key>Height</key>
+					<integer>270</integer>
+				</dict>
+				<key>A</key>
+				<dict>
+					<key>X</key>
+					<integer>874</integer>
+					<key>Y</key>
+					<integer>523</integer>
+					<key>Width</key>
+					<integer>150</integer>
+					<key>Height</key>
+					<integer>115</integer>
+				</dict>
+				<key>B</key>
+				<dict>
+					<key>X</key>
+					<integer>767</integer>
+					<key>Y</key>
+					<integer>625</integer>
+					<key>Width</key>
+					<integer>130</integer>
+					<key>Height</key>
+					<integer>143</integer>
+				</dict>
+				<key>AB</key>
+				<dict>
+					<key>X</key>
+					<integer>894</integer>
+					<key>Y</key>
+					<integer>633</integer>
+					<key>Width</key>
+					<integer>130</integer>
+					<key>Height</key>
+					<integer>135</integer>
+				</dict>
+				<key>Start</key>
+				<dict>
+					<key>X</key>
+					<integer>528</integer>
+					<key>Y</key>
+					<integer>668</integer>
+					<key>Width</key>
+					<integer>100</integer>
+					<key>Height</key>
+					<integer>80</integer>
+				</dict>
+				<key>Select</key>
+				<dict>
+					<key>X</key>
+					<integer>396</integer>
+					<key>Y</key>
+					<integer>668</integer>
+					<key>Width</key>
+					<integer>100</integer>
+					<key>Height</key>
+					<integer>80</integer>
+				</dict>
+				<key>L</key>
+				<dict>
+					<key>X</key>
+					<integer>0</integer>
+					<key>Y</key>
+					<integer>337</integer>
+					<key>Width</key>
+					<integer>195</integer>
+					<key>Height</key>
+					<integer>95</integer>
+				</dict>
+				<key>R</key>
+				<dict>
+					<key>X</key>
+					<integer>829</integer>
+					<key>Y</key>
+					<integer>337</integer>
+					<key>Width</key>
+					<integer>195</integer>
+					<key>Height</key>
+					<integer>95</integer>
+				</dict>
+				<key>Menu</key>
+				<dict>
+					<key>X</key>
+					<integer>452</integer>
+					<key>Y</key>
+					<integer>0</integer>
+					<key>Width</key>
+					<integer>120</integer>
+					<key>Height</key>
+					<integer>75</integer>
 				</dict>
 			</dict>
 		</dict>

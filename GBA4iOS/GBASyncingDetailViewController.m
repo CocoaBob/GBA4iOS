@@ -7,6 +7,9 @@
 //
 
 #import "GBASyncingDetailViewController.h"
+#import "UIAlertView+RSTAdditions.h"
+#import "GBASyncManager.h"
+
 #import <DropboxSDK/DropboxSDK.h>
 
 @interface GBASyncingDetailViewController () <DBRestClientDelegate>
@@ -18,9 +21,11 @@
 
 @property (strong, nonatomic) DBRestClient *restClient;
 @property (strong, nonatomic) NSMutableArray *remoteSaves;
+@property (strong, nonatomic) NSMutableDictionary *pendingDownloads;
+@property (strong, nonatomic) NSMutableDictionary *uploadHistories;
 
-@property (assign, nonatomic) BOOL loadingMetadata;
-@property (assign, nonatomic) BOOL errorLoadingMetadata;
+@property (assign, nonatomic) BOOL loadingFiles;
+@property (assign, nonatomic) BOOL errorLoadingFiles;
 
 @end
 
@@ -48,6 +53,11 @@
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -58,7 +68,37 @@
 
 - (void)toggleSyncGameData:(UISwitch *)sender
 {
-    self.rom.syncingDisabled = !sender.on;
+    // Can always turn off, and can turn on if not conflicted
+    if (!sender.on || ![self.rom conflicted])
+    {
+        self.rom.syncingDisabled = !sender.on;
+        return;
+    }
+    
+    if (self.selectedSaveIndexPath)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure?", @"") message:NSLocalizedString(@"Once syncing is enabled, the save file for this game on all your other devices will be overwritten with the one you selected. Please make sure you have selected the correct save file, then tap Enable.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Enable", @""), nil];
+        
+        [alert show];
+        
+        double delayInSeconds = 0.2;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [sender setOn:NO animated:YES];
+        });
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Save Selected", @"")
+                                                        message:NSLocalizedString(@"The save data for this game is not in sync with Dropbox. Please select the save file you want to sync to your other devices, then try again.\n\nNOTE: This will overwrite the save file for this game on your other devices.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+        [alert show];
+        
+        double delayInSeconds = 0.2;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [sender setOn:NO animated:YES];
+        });
+    }
 }
 
 #pragma mark - Remote Status
@@ -71,32 +111,45 @@
         self.restClient.delegate = self;
     }
     
+    self.errorLoadingFiles = NO;
+    
     // Recreate it every time
     self.remoteSaves = [NSMutableArray array];
+    self.pendingDownloads = [NSMutableDictionary dictionary];
+    self.uploadHistories = [NSMutableDictionary dictionary];
     
     NSString *remotePath = [NSString stringWithFormat:@"/%@/Saves/", self.rom.name];
     
-    self.loadingMetadata = YES;
+    self.loadingFiles = YES;
     [self.restClient loadMetadata:remotePath];
 }
 
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata
 {
-    self.errorLoadingMetadata = NO;
-    self.loadingMetadata = NO;
     for (DBMetadata *fileMetadata in metadata.contents)
     {
-        NSDictionary *saveInfo = @{@"metadata": fileMetadata, @"device": @"Riley's iPad Mini"};
-        [self.remoteSaves addObject:saveInfo];
+        [self.remoteSaves addObject:fileMetadata];
+    }
+    
+    self.errorLoadingFiles = NO;
+    self.loadingFiles = NO;
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self uploadHistoryDirectoryPath] error:nil];
+    for (NSString *filename in contents)
+    {
+        NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:filename]];
+        [self.uploadHistories setObject:dictionary forKey:[filename stringByDeletingPathExtension]];
     }
     
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    
+    DLog(@"Remote Saves: %@", self.remoteSaves);
 }
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error
 {
-    self.errorLoadingMetadata = YES;
-    self.loadingMetadata = NO;
+    self.errorLoadingFiles = YES;
+    self.loadingFiles = NO;
     
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -131,7 +184,7 @@
     }
     else if (section == 3)
     {
-        if (self.loadingMetadata || self.errorLoadingMetadata)
+        if (self.loadingFiles || self.errorLoadingFiles)
         {
             return 1;
         }
@@ -165,6 +218,16 @@
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
         cell.detailTextLabel.minimumScaleFactor = 0.5;
         cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
+        
+        if (indexPath.section == 0)
+        {
+            UISwitch *switchView = [[UISwitch alloc] init];
+            switchView.on = !self.rom.syncingDisabled;
+            [switchView addTarget:self action:@selector(toggleSyncGameData:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = switchView;
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
     }
     
     cell.textLabel.text = nil;
@@ -173,11 +236,6 @@
     if (indexPath.section == 0)
     {
         cell.textLabel.text = NSLocalizedString(@"Sync Save Data", @"");
-        
-        UISwitch *switchView = [[UISwitch alloc] init];
-        switchView.on = !self.rom.syncingDisabled;
-        [switchView addTarget:self action:@selector(toggleSyncGameData:) forControlEvents:UIControlEventValueChanged];
-        cell.accessoryView = switchView;
     }
     else
     {
@@ -194,18 +252,18 @@
         }
         else if (indexPath.section == 3)
         {
-            if (self.loadingMetadata)
+            if (self.loadingFiles)
             {
                 cell.textLabel.text = NSLocalizedString(@"Loading...", @"");
             }
-            else if (self.errorLoadingMetadata)
+            else if (self.errorLoadingFiles)
             {
                 cell.textLabel.text = NSLocalizedString(@"Error Loading Save Info", @"");
             }
             else
             {
-                DBMetadata *metadata = self.remoteSaves[indexPath.row][@"metadata"];
-                NSString *device = self.remoteSaves[indexPath.row][@"device"];
+                DBMetadata *metadata = self.remoteSaves[indexPath.row];
+                NSString *device = [self deviceNameForMetadata:metadata];
                 
                 cell.textLabel.text = device;
                 cell.detailTextLabel.text = [self.dateFormatter stringFromDate:metadata.lastModifiedDate];
@@ -247,14 +305,85 @@
 {
     if (section == 0)
     {
-        return NSLocalizedString(@"If turned off, save data for this game will not be synced to other devices, regardless of whether Dropbox Sync is turned on or not.", @"");
+        return NSLocalizedString(@"If turned off, the save data for this game will not be synced to other devices, regardless of whether Dropbox Sync is turned on or not.", @"");
     }
     else if (section == 1)
     {
-        return NSLocalizedString(@"The save data for this game is out of sync with Dropbox. To prevent data loss, GBA4iOS has disabled syncing for this game. To re-enable syncing, please select the save you want to use, then toggle the above switch on. Be careful, the save you select will overwrite the save for this game on your other devices as well.", @"");
+        return NSLocalizedString(@"The save data for this game is out of sync with Dropbox. To prevent data loss, GBA4iOS has disabled syncing for this game. To re-enable syncing, please select the save file you want to use, then toggle the above switch on. Be careful, the save file you select will overwrite the save file for this game on your other devices as well.", @"");
     }
     
     return nil;
+}
+
+#pragma mark - Table View Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0)
+    {
+        return;
+    }
+    
+    if (indexPath.section == 3 && self.errorLoadingFiles)
+    {
+        [self fetchRemoteSaveInfo];
+        return;
+    }
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:self.selectedSaveIndexPath];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    if ([indexPath isEqual:self.selectedSaveIndexPath])
+    {
+        self.selectedSaveIndexPath = nil;
+    }
+    else
+    {
+        self.selectedSaveIndexPath = indexPath;
+        
+        cell = [tableView cellForRowAtIndexPath:self.selectedSaveIndexPath];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    [cell setSelected:NO animated:YES];
+}
+
+#pragma mark - Helper Methods
+
+- (NSString *)dropboxSyncDirectoryPath
+{
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dropboxDirectory = [libraryDirectory stringByAppendingPathComponent:@"Dropbox Sync"];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:dropboxDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return dropboxDirectory;
+}
+
+- (NSString *)uploadHistoryDirectoryPath
+{
+    NSString *directory = [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"Upload History"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
+    return directory;
+}
+
+- (NSString *)deviceNameForMetadata:(DBMetadata *)metadata
+{
+    __block NSString *deviceName = nil;
+    
+    NSDictionary *uploadHistories = [self.uploadHistories copy];
+    [uploadHistories enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *dictionary, BOOL *stop) {
+        NSDictionary *romDictionary = dictionary[self.rom.name];
+        
+        NSString *remoteFilename = romDictionary[metadata.rev];
+        
+        if ([remoteFilename isEqualToString:metadata.path])
+        {
+            deviceName = key;
+            *stop = YES;
+        }
+    }];
+    
+    return deviceName;
 }
 
 #pragma mark - Getters/Setters
