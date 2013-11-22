@@ -9,84 +9,127 @@
 /* Begin PBXBuildFile section */
 		1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
-		1AD65D7C17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
 		1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
-		1AD971E817D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		1AD971F317D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
-		1AD971F417D2C6ED007097BC /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
 		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
-		1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
 		BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */; };
-		BF02AFDC182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */; };
 		BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */; };
-		BF02AFE0182F6E200031B8B6 /* GBASyncingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
-		BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
+		BF2F34E1183FF6F9002ACE90 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
+		BF2F34E2183FF6F9002ACE90 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
+		BF2F34E9183FF6F9002ACE90 /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
+		BF2F34F4183FF6F9002ACE90 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE418206F15004231F6 /* AFNetworkActivityIndicatorManager.m */; };
+		BF2F34F5183FF6F9002ACE90 /* GBAAsynchronousRemoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */; };
+		BF2F34F6183FF6F9002ACE90 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF518206F15004231F6 /* UIAlertView+AFNetworking.m */; };
+		BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
+		BF2F34FD183FF6F9002ACE90 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; };
+		BF2F3500183FF6F9002ACE90 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
+		BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */; };
+		BF2F3507183FF6F9002ACE90 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFB18206F15004231F6 /* UIProgressView+AFNetworking.m */; };
+		BF2F3509183FF6F9002ACE90 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF918206F15004231F6 /* UIImageView+AFNetworking.m */; };
+		BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
+		BF2F350E183FF6F9002ACE90 /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
+		BF2F3513183FF6F9002ACE90 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF118206F15004231F6 /* AFURLSessionManager.m */; };
+		BF2F351B183FF6F9002ACE90 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
+		BF2F3526183FF6F9002ACE90 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
+		BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
+		BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
+		BF2F352D183FF6F9002ACE90 /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
+		BF2F352E183FF6F9002ACE90 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
+		BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
+		BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
+		BF2F353B183FF6F9002ACE90 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
+		BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
+		BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
+		BF2F3541183FF6F9002ACE90 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m */; };
+		BF2F3544183FF6F9002ACE90 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEB18206F15004231F6 /* AFURLConnectionOperation.m */; };
+		BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
+		BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
+		BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
+		BF2F354C183FF6F9002ACE90 /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
+		BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
+		BF2F3554183FF6F9002ACE90 /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
+		BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
+		BF2F3556183FF6F9002ACE90 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BED18206F15004231F6 /* AFURLRequestSerialization.m */; };
+		BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0517ED3D180072BF74 /* GBASaveStateTableViewCell.m */; };
+		BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
+		BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
+		BF2F356B183FF6F9002ACE90 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF718206F15004231F6 /* UIButton+AFNetworking.m */; };
+		BF2F356C183FF6F9002ACE90 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE018206F15004231F6 /* AFHTTPRequestOperationManager.m */; };
+		BF2F3572183FF6F9002ACE90 /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
+		BF2F3575183FF6F9002ACE90 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFD18206F15004231F6 /* UIWebView+AFNetworking.m */; };
+		BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
+		BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
+		BF2F3580183FF6F9002ACE90 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE718206F15004231F6 /* AFNetworkReachabilityManager.m */; };
+		BF2F3582183FF6F9002ACE90 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDE18206F15004231F6 /* AFHTTPRequestOperation.m */; };
+		BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
+		BF2F3585183FF6F9002ACE90 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE218206F15004231F6 /* AFHTTPSessionManager.m */; };
+		BF2F3590183FF6F9002ACE90 /* GBAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAController.m */; };
+		BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
+		BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
+		BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */; };
+		BF2F359D183FF6F9002ACE90 /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
+		BF2F359F183FF6F9002ACE90 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
+		BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
+		BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
+		BF2F35B0183FF6F9002ACE90 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE918206F15004231F6 /* AFSecurityPolicy.m */; };
+		BF2F35B5183FF6F9002ACE90 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
+		BF2F35B6183FF6F9002ACE90 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
+		BF2F35B7183FF6F9002ACE90 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
+		BF2F35B8183FF6F9002ACE90 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
+		BF2F35B9183FF6F9002ACE90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
+		BF2F35BA183FF6F9002ACE90 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
+		BF2F35BB183FF6F9002ACE90 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
+		BF2F35BC183FF6F9002ACE90 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CE179CF1B90068A54E /* CoreAudio.framework */; };
+		BF2F35BD183FF6F9002ACE90 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CF179CF1B90068A54E /* CoreFoundation.framework */; };
+		BF2F35BE183FF6F9002ACE90 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D0179CF1B90068A54E /* MessageUI.framework */; };
+		BF2F35BF183FF6F9002ACE90 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
+		BF2F35C0183FF6F9002ACE90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
+		BF2F35C1183FF6F9002ACE90 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
+		BF2F35C2183FF6F9002ACE90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
+		BF2F35C3183FF6F9002ACE90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
+		BF2F35C4183FF6F9002ACE90 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AFB44A5AB34C2982DE856F /* libPods.a */; };
+		BF2F35C6183FF6F9002ACE90 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
+		BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
+		BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
+		BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
+		BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
+		BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
+		BF2F35CD183FF6F9002ACE90 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE579A9183DE4E4005699AA /* Default@2x.png */; };
+		BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
 		BF3E2BB318206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
-		BF3E2BB418206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
 		BF3E2BB718206D5B004231F6 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
-		BF3E2BB818206D5B004231F6 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
 		BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
-		BF3E2BBC18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
 		BF3E2BD718206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
-		BF3E2BD818206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
 		BF3E2BDB18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
-		BF3E2BDC18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
 		BF3E2BFE18206F15004231F6 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDE18206F15004231F6 /* AFHTTPRequestOperation.m */; };
-		BF3E2BFF18206F15004231F6 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDE18206F15004231F6 /* AFHTTPRequestOperation.m */; };
 		BF3E2C0018206F15004231F6 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE018206F15004231F6 /* AFHTTPRequestOperationManager.m */; };
-		BF3E2C0118206F15004231F6 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE018206F15004231F6 /* AFHTTPRequestOperationManager.m */; };
 		BF3E2C0218206F15004231F6 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE218206F15004231F6 /* AFHTTPSessionManager.m */; };
-		BF3E2C0318206F15004231F6 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE218206F15004231F6 /* AFHTTPSessionManager.m */; };
 		BF3E2C0418206F15004231F6 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE418206F15004231F6 /* AFNetworkActivityIndicatorManager.m */; };
-		BF3E2C0518206F15004231F6 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE418206F15004231F6 /* AFNetworkActivityIndicatorManager.m */; };
 		BF3E2C0618206F15004231F6 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE718206F15004231F6 /* AFNetworkReachabilityManager.m */; };
-		BF3E2C0718206F15004231F6 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE718206F15004231F6 /* AFNetworkReachabilityManager.m */; };
 		BF3E2C0818206F15004231F6 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE918206F15004231F6 /* AFSecurityPolicy.m */; };
-		BF3E2C0918206F15004231F6 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE918206F15004231F6 /* AFSecurityPolicy.m */; };
 		BF3E2C0A18206F15004231F6 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEB18206F15004231F6 /* AFURLConnectionOperation.m */; };
-		BF3E2C0B18206F15004231F6 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEB18206F15004231F6 /* AFURLConnectionOperation.m */; };
 		BF3E2C0C18206F15004231F6 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BED18206F15004231F6 /* AFURLRequestSerialization.m */; };
-		BF3E2C0D18206F15004231F6 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BED18206F15004231F6 /* AFURLRequestSerialization.m */; };
 		BF3E2C0E18206F15004231F6 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; };
-		BF3E2C0F18206F15004231F6 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; };
 		BF3E2C1018206F15004231F6 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF118206F15004231F6 /* AFURLSessionManager.m */; };
-		BF3E2C1118206F15004231F6 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF118206F15004231F6 /* AFURLSessionManager.m */; };
 		BF3E2C1218206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m */; };
-		BF3E2C1318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m */; };
 		BF3E2C1418206F15004231F6 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF518206F15004231F6 /* UIAlertView+AFNetworking.m */; };
-		BF3E2C1518206F15004231F6 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF518206F15004231F6 /* UIAlertView+AFNetworking.m */; };
 		BF3E2C1618206F15004231F6 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF718206F15004231F6 /* UIButton+AFNetworking.m */; };
-		BF3E2C1718206F15004231F6 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF718206F15004231F6 /* UIButton+AFNetworking.m */; };
 		BF3E2C1818206F15004231F6 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF918206F15004231F6 /* UIImageView+AFNetworking.m */; };
-		BF3E2C1918206F15004231F6 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF918206F15004231F6 /* UIImageView+AFNetworking.m */; };
 		BF3E2C1A18206F15004231F6 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFB18206F15004231F6 /* UIProgressView+AFNetworking.m */; };
-		BF3E2C1B18206F15004231F6 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFB18206F15004231F6 /* UIProgressView+AFNetworking.m */; };
 		BF3E2C1C18206F15004231F6 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFD18206F15004231F6 /* UIWebView+AFNetworking.m */; };
-		BF3E2C1D18206F15004231F6 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFD18206F15004231F6 /* UIWebView+AFNetworking.m */; };
 		BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
-		BF3E2C271820774C004231F6 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
-		BF46504F183ECB9C00D4AD56 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575A180C74B000BF3DA5 /* ioapi.c */; };
-		BF465050183ECB9C00D4AD56 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CC57575B180C74B000BF3DA5 /* unzip.c */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF4D917F182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
-		BF4D9180182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
 		BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
-		BF73C2F11822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
-		BF9782F51832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
-		BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
-		BFC9B536183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
-		BFE579A5183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
 		BFE579AA183DE4E4005699AA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE579A9183DE4E4005699AA /* Default@2x.png */; };
-		BFE579AB183DE4E4005699AA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE579A9183DE4E4005699AA /* Default@2x.png */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
-		BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
-		CC0978731804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
 		CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CE179CF1B90068A54E /* CoreAudio.framework */; };
@@ -109,21 +152,6 @@
 		CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
 		CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
 		CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
-		CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
-		CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
-		CC275BF417A5075E006243FB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
-		CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
-		CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
-		CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
-		CC275C3717A5075E006243FB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
-		CC275C3817A5075E006243FB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
-		CC275C3917A5075E006243FB /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CE179CF1B90068A54E /* CoreAudio.framework */; };
-		CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CF179CF1B90068A54E /* CoreFoundation.framework */; };
-		CC275C3B17A5075E006243FB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D0179CF1B90068A54E /* MessageUI.framework */; };
-		CC275C3C17A5075E006243FB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
-		CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
-		CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
-		CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
@@ -131,12 +159,9 @@
 		CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
 		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
 		CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
-		CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
-		CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
-		CC5044E81814C474009F7B9E /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
 		CC5044E91814DC69009F7B9E /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C0179D304600768D24 /* Main.cc */; };
 		CC5044EA1814DC69009F7B9E /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C1179D304600768D24 /* EmuControls.cc */; };
 		CC5044EB1814DC69009F7B9E /* VbamApi.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C2179D304600768D24 /* VbamApi.cc */; };
@@ -195,54 +220,31 @@
 		CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
 		CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
 		CC5045221814DC69009F7B9E /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
-		CC58C8EF17E649CA008F472E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
-		CC58C8F417E649CA008F472E /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
-		CC58C8F517E649CA008F472E /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		CC58C8F817E64A20008F472E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
-		CC58C8FB17E64A28008F472E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
 		CC58C8FC17E64A91008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
-		CC58C8FD17E64A92008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC6420B41807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
-		CC6420B51807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
 		CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
-		CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
 		CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
-		CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
 		CC6A2D9E17C515E800EFC10E /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
-		CC6A2D9F17C515E800EFC10E /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
 		CC76CF0217ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */; };
-		CC76CF0317ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */; };
 		CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0517ED3D180072BF74 /* GBASaveStateTableViewCell.m */; };
-		CC76CF0717ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0517ED3D180072BF74 /* GBASaveStateTableViewCell.m */; };
 		CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
-		CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
-		CC81E96C17EBA162006FD348 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
-		CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
 		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
-		CC8D5A7B17AAE3A800E89F43 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
-		CC9EA6CE17FE7FC4005BD5E6 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
 		CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
-		CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
 		CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
-		CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
 		CCBEBEF117E62C0000731F76 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
-		CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
 		CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
 		CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
 		CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
-		CCC0F23417FA9C0700235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
-		CCC0F23517FA9C0700235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
-		CCC0F23617FA9C0700235781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
-		CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
 		CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
 		CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
 		CCC9B8931815AC7E005C90EE /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
@@ -282,9 +284,7 @@
 		CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
 		CCC9B8B61815AC7E005C90EE /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
 		CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
-		CCE18DED17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
-		CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
 		CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
 		CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
@@ -348,6 +348,8 @@
 		BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncingDetailViewController.m; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
+		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GBA4iOS copy-Info.plist"; path = "/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		BF3E2BB118206D54004231F6 /* UIActionSheet+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIActionSheet+RSTAdditions.h"; path = "Cocoapods/UIActionSheet+RSTAdditions.h"; sourceTree = "<group>"; };
 		BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIActionSheet+RSTAdditions.m"; path = "Cocoapods/UIActionSheet+RSTAdditions.m"; sourceTree = "<group>"; };
 		BF3E2BB518206D5B004231F6 /* UIAlertView+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertView+RSTAdditions.h"; path = "Cocoapods/UIAlertView+RSTAdditions.h"; sourceTree = "<group>"; };
@@ -437,7 +439,6 @@
 		CC15E540179F027300449972 /* GBAEmulatorCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorCore.h; sourceTree = "<group>"; };
 		CC15E541179F027300449972 /* GBAEmulatorCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorCore.mm; sourceTree = "<group>"; };
 		CC15E546179F6C4D00449972 /* EmuOptions.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EmuOptions.hh; path = "emu-ex-plus-alpha/EmuFramework/include/EmuOptions.hh"; sourceTree = SOURCE_ROOT; };
-		CC275C5017A5075E006243FB /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBA4iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC2D56FF1798F2EC00C616EB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CC2D57011798F2EC00C616EB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -655,25 +656,26 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CC275C3617A5075E006243FB /* Frameworks */ = {
+		BF2F35B4183FF6F9002ACE90 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC81E96C17EBA162006FD348 /* SystemConfiguration.framework in Frameworks */,
-				CC275C3717A5075E006243FB /* libz.dylib in Frameworks */,
-				BF4D9180182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */,
-				CCC0F23617FA9C0700235781 /* AVFoundation.framework in Frameworks */,
-				CC275C3817A5075E006243FB /* AudioToolbox.framework in Frameworks */,
-				CC275C3917A5075E006243FB /* CoreAudio.framework in Frameworks */,
-				CC275C3A17A5075E006243FB /* CoreFoundation.framework in Frameworks */,
-				CC275C3B17A5075E006243FB /* MessageUI.framework in Frameworks */,
-				CC275C3C17A5075E006243FB /* QuartzCore.framework in Frameworks */,
-				CC275C3D17A5075E006243FB /* CoreGraphics.framework in Frameworks */,
-				CCC0F23517FA9C0700235781 /* AssetsLibrary.framework in Frameworks */,
-				CCC0F23417FA9C0700235781 /* CoreMedia.framework in Frameworks */,
-				BFE579A5183DDCCE005699AA /* Reveal.framework in Frameworks */,
-				CC275C3E17A5075E006243FB /* UIKit.framework in Frameworks */,
-				CC275C3F17A5075E006243FB /* Foundation.framework in Frameworks */,
+				BF2F35B5183FF6F9002ACE90 /* CoreMedia.framework in Frameworks */,
+				BF2F35B6183FF6F9002ACE90 /* AssetsLibrary.framework in Frameworks */,
+				BF2F35B7183FF6F9002ACE90 /* DropboxSDK.framework in Frameworks */,
+				BF2F35B8183FF6F9002ACE90 /* AVFoundation.framework in Frameworks */,
+				BF2F35B9183FF6F9002ACE90 /* SystemConfiguration.framework in Frameworks */,
+				BF2F35BA183FF6F9002ACE90 /* libz.dylib in Frameworks */,
+				BF2F35BB183FF6F9002ACE90 /* AudioToolbox.framework in Frameworks */,
+				BF2F35BC183FF6F9002ACE90 /* CoreAudio.framework in Frameworks */,
+				BF2F35BD183FF6F9002ACE90 /* CoreFoundation.framework in Frameworks */,
+				BF2F35BE183FF6F9002ACE90 /* MessageUI.framework in Frameworks */,
+				BF2F35BF183FF6F9002ACE90 /* QuartzCore.framework in Frameworks */,
+				BF2F35C0183FF6F9002ACE90 /* CoreGraphics.framework in Frameworks */,
+				BF2F35C1183FF6F9002ACE90 /* Reveal.framework in Frameworks */,
+				BF2F35C2183FF6F9002ACE90 /* UIKit.framework in Frameworks */,
+				BF2F35C3183FF6F9002ACE90 /* Foundation.framework in Frameworks */,
+				BF2F35C4183FF6F9002ACE90 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -878,6 +880,7 @@
 				CC2D56FE1798F2EC00C616EB /* Frameworks */,
 				CC2D56FD1798F2EC00C616EB /* Products */,
 				DA6B96E372DE45448953256E /* Pods.xcconfig */,
+				BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -885,7 +888,7 @@
 			isa = PBXGroup;
 			children = (
 				CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */,
-				CC275C5017A5075E006243FB /* GBA4iOS copy.app */,
+				BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1313,13 +1316,15 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CC275BB317A5075E006243FB /* GBA4iOS-Simulator */ = {
+		BF2F34DB183FF6F9002ACE90 /* GBA4iOS-Simulator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CC275C4C17A5075E006243FB /* Build configuration list for PBXNativeTarget "GBA4iOS-Simulator" */;
+			buildConfigurationList = BF2F35D0183FF6F9002ACE90 /* Build configuration list for PBXNativeTarget "GBA4iOS-Simulator" */;
 			buildPhases = (
-				CC275BB517A5075E006243FB /* Sources */,
-				CC275C3617A5075E006243FB /* Frameworks */,
-				CC275C4117A5075E006243FB /* Resources */,
+				BF2F34DC183FF6F9002ACE90 /* Check Pods Manifest.lock */,
+				BF2F34DD183FF6F9002ACE90 /* Sources */,
+				BF2F35B4183FF6F9002ACE90 /* Frameworks */,
+				BF2F35C5183FF6F9002ACE90 /* Resources */,
+				BF2F35CF183FF6F9002ACE90 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1327,7 +1332,7 @@
 			);
 			name = "GBA4iOS-Simulator";
 			productName = GBA4iOS;
-			productReference = CC275C5017A5075E006243FB /* GBA4iOS copy.app */;
+			productReference = BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */;
 			productType = "com.apple.product-type.application";
 		};
 		CC2D56FB1798F2EC00C616EB /* GBA4iOS */ = {
@@ -1383,25 +1388,25 @@
 			projectRoot = "";
 			targets = (
 				CC2D56FB1798F2EC00C616EB /* GBA4iOS */,
-				CC275BB317A5075E006243FB /* GBA4iOS-Simulator */,
+				BF2F34DB183FF6F9002ACE90 /* GBA4iOS-Simulator */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CC275C4117A5075E006243FB /* Resources */ = {
+		BF2F35C5183FF6F9002ACE90 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC58C8EF17E649CA008F472E /* Images.xcassets in Resources */,
-				BFFA355317ECD2A70038D34F /* Default.gbaskin in Resources */,
-				BFC9B536183182C60012A1EA /* Default-568h@2x.png in Resources */,
-				BFE579AB183DE4E4005699AA /* Default@2x.png in Resources */,
-				CC5044E81814C474009F7B9E /* Default.gbcskin in Resources */,
-				CC58C8FD17E64A92008F472E /* xButton.png in Resources */,
-				CC58C8F517E649CA008F472E /* overlays128.png in Resources */,
-				CC58C8F417E649CA008F472E /* padButton.png in Resources */,
-				CC58C8FB17E64A28008F472E /* Main.storyboard in Resources */,
+				BF2F35C6183FF6F9002ACE90 /* Default-568h@2x.png in Resources */,
+				BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */,
+				BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */,
+				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
+				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
+				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
+				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
+				BF2F35CD183FF6F9002ACE90 /* Default@2x.png in Resources */,
+				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,6 +1444,36 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		BF2F34DC183FF6F9002ACE90 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BF2F35CF183FF6F9002ACE90 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D6789B793A0D43B9AEC5FF1A /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1457,69 +1492,68 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CC275BB517A5075E006243FB /* Sources */ = {
+		BF2F34DD183FF6F9002ACE90 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF3E2C1118206F15004231F6 /* AFURLSessionManager.m in Sources */,
-				CC6A2D9F17C515E800EFC10E /* GBACheat.m in Sources */,
-				BF3E2BB818206D5B004231F6 /* UIAlertView+RSTAdditions.m in Sources */,
-				BF3E2C1518206F15004231F6 /* UIAlertView+AFNetworking.m in Sources */,
-				CC275BC617A5075E006243FB /* GBAEmulatorScreen.mm in Sources */,
-				BF3E2C271820774C004231F6 /* GBASyncManager.mm in Sources */,
-				BF3E2C0B18206F15004231F6 /* AFURLConnectionOperation.m in Sources */,
-				1AD971F417D2C6ED007097BC /* GBAController.m in Sources */,
-				CC8D5A7B17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
-				BF104A8617EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
-				BF3E2BD818206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */,
-				CCBD34F217F7492F00592602 /* UIDevice-Hardware.m in Sources */,
-				CCC7298817C7357E0001BC6F /* GBAROM.m in Sources */,
-				BF3E2C0D18206F15004231F6 /* AFURLRequestSerialization.m in Sources */,
-				CC33F0E417E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
-				CC6420B51807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
-				BF3E2C0318206F15004231F6 /* AFHTTPSessionManager.m in Sources */,
-				BF465050183ECB9C00D4AD56 /* unzip.c in Sources */,
-				BF3E2BDC18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */,
-				CC6A2D9217C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
-				BF3E2C0F18206F15004231F6 /* AFURLResponseSerialization.m in Sources */,
-				CC9EA6CE17FE7FC4005BD5E6 /* UITableViewController+Theming.m in Sources */,
-				1AF2115717D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
-				BF3E2C0118206F15004231F6 /* AFHTTPRequestOperationManager.m in Sources */,
-				BF3E2C1318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
-				CC0978731804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */,
-				BF73C2F11822EADD00DD69FD /* RSTProgressIndicator.m in Sources */,
-				BF3E2C0918206F15004231F6 /* AFSecurityPolicy.m in Sources */,
-				BF3E2C1918206F15004231F6 /* UIImageView+AFNetworking.m in Sources */,
-				BF3E2C1D18206F15004231F6 /* UIWebView+AFNetworking.m in Sources */,
-				CC275BE817A5075E006243FB /* UIScreen+Widescreen.m in Sources */,
-				BF3E2C0718206F15004231F6 /* AFNetworkReachabilityManager.m in Sources */,
-				BF3E2C1718206F15004231F6 /* UIButton+AFNetworking.m in Sources */,
-				CC76CF0717ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
-				BF3E2C0518206F15004231F6 /* AFNetworkActivityIndicatorManager.m in Sources */,
-				CCE18DED17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
-				CC275BF417A5075E006243FB /* main.mm in Sources */,
-				BF3E2BBC18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */,
-				CC491D4F17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
-				CCE3CDFE17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
-				BF02AFE0182F6E200031B8B6 /* GBASyncingDetailViewController.m in Sources */,
-				BF46504F183ECB9C00D4AD56 /* ioapi.c in Sources */,
-				BF3E2C1B18206F15004231F6 /* UIProgressView+AFNetworking.m in Sources */,
-				CC275C1D17A5075E006243FB /* GBAAppDelegate.mm in Sources */,
-				1AD65D7C17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
-				CC7F4CA217B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
-				BF3E2BB418206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */,
-				BF9782F51832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
-				BF3E2BFF18206F15004231F6 /* AFHTTPRequestOperation.m in Sources */,
-				BF02AFDC182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */,
-				CCBF363417F27DA100704A5B /* GBAMailActivity.m in Sources */,
-				CC6A2D9917C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
-				1AD971E817D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */,
-				CC823BC517B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */,
-				CC275C2B17A5075E006243FB /* GBAEmulationViewController.mm in Sources */,
-				BFC43F7217CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
-				CCA1056C17F6A5F80018D364 /* GBASplitViewController.m in Sources */,
-				CC76CF0317ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
-				CC275C2D17A5075E006243FB /* GBAROMTableViewController.m in Sources */,
+				BF2F34E1183FF6F9002ACE90 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
+				BF2F34E2183FF6F9002ACE90 /* RSTFileBrowserTableViewCell.m in Sources */,
+				BF2F34E9183FF6F9002ACE90 /* GBACheatManagerTableViewCell.m in Sources */,
+				BF2F34F4183FF6F9002ACE90 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				BF2F34F5183FF6F9002ACE90 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
+				BF2F34F6183FF6F9002ACE90 /* UIAlertView+AFNetworking.m in Sources */,
+				BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */,
+				BF2F34FD183FF6F9002ACE90 /* AFURLResponseSerialization.m in Sources */,
+				BF2F3500183FF6F9002ACE90 /* GBAEmulatorScreen.mm in Sources */,
+				BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.m in Sources */,
+				BF2F3507183FF6F9002ACE90 /* UIProgressView+AFNetworking.m in Sources */,
+				BF2F3509183FF6F9002ACE90 /* UIImageView+AFNetworking.m in Sources */,
+				BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */,
+				BF2F350E183FF6F9002ACE90 /* UITouch+ControllerButtons.m in Sources */,
+				BF2F3513183FF6F9002ACE90 /* AFURLSessionManager.m in Sources */,
+				BF2F351B183FF6F9002ACE90 /* RSTFileBrowserViewController.m in Sources */,
+				BF2F3526183FF6F9002ACE90 /* GBASyncManager.mm in Sources */,
+				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
+				BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */,
+				BF2F352D183FF6F9002ACE90 /* UIScreen+Widescreen.m in Sources */,
+				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.m in Sources */,
+				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
+				BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */,
+				BF2F353B183FF6F9002ACE90 /* main.mm in Sources */,
+				BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */,
+				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
+				BF2F3541183FF6F9002ACE90 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				BF2F3544183FF6F9002ACE90 /* AFURLConnectionOperation.m in Sources */,
+				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
+				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
+				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
+				BF2F354C183FF6F9002ACE90 /* GBAROM.m in Sources */,
+				BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */,
+				BF2F3554183FF6F9002ACE90 /* GBACheatEditorViewController.m in Sources */,
+				BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */,
+				BF2F3556183FF6F9002ACE90 /* AFURLRequestSerialization.m in Sources */,
+				BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */,
+				BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
+				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */,
+				BF2F356B183FF6F9002ACE90 /* UIButton+AFNetworking.m in Sources */,
+				BF2F356C183FF6F9002ACE90 /* AFHTTPRequestOperationManager.m in Sources */,
+				BF2F3572183FF6F9002ACE90 /* RSTProgressIndicator.m in Sources */,
+				BF2F3575183FF6F9002ACE90 /* UIWebView+AFNetworking.m in Sources */,
+				BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */,
+				BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */,
+				BF2F3580183FF6F9002ACE90 /* AFNetworkReachabilityManager.m in Sources */,
+				BF2F3582183FF6F9002ACE90 /* AFHTTPRequestOperation.m in Sources */,
+				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */,
+				BF2F3585183FF6F9002ACE90 /* AFHTTPSessionManager.m in Sources */,
+				BF2F3590183FF6F9002ACE90 /* GBAController.m in Sources */,
+				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
+				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
+				BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.m in Sources */,
+				BF2F359D183FF6F9002ACE90 /* GBAEmulationViewController.mm in Sources */,
+				BF2F359F183FF6F9002ACE90 /* UIDevice-Hardware.m in Sources */,
+				BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.m in Sources */,
+				BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */,
+				BF2F35B0183FF6F9002ACE90 /* AFSecurityPolicy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1766,279 +1800,189 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		CC275C4D17A5075E006243FB /* Debug */ = {
+		BF2F35D1183FF6F9002ACE90 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
-					"$(SRCROOT)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"COCOAPODS=1",
-					"DEBUG=1",
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"$(inherited)",
 				);
-				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_CFLAGS = (
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-Isrc",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen",
-					"-Isrc",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/src",
-					"-DHAVE_ZLIB_H",
-					"-DFINAL_VERSION",
-					"-DC_CORE",
-					"-DNO_PNG",
-					"-DNO_LINK",
-					"-DNO_DEBUGGER",
-					"-DBLIP_BUFFER_FAST=1",
-					"-DSysDecimal=float",
-					"-Isrc/vbam",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-I../EmuFramework/include",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
-				);
+				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		CC275C4E17A5075E006243FB /* Release */ = {
+		BF2F35D2183FF6F9002ACE90 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
-					"$(SRCROOT)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_CFLAGS = (
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-Isrc",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen",
-					"-Isrc",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/src",
-					"-DHAVE_ZLIB_H",
-					"-DFINAL_VERSION",
-					"-DC_CORE",
-					"-DNO_PNG",
-					"-DNO_LINK",
-					"-DNO_DEBUGGER",
-					"-DBLIP_BUFFER_FAST=1",
-					"-DSysDecimal=float",
-					"-Isrc/vbam",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-I../EmuFramework/include",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"$(inherited)",
 				);
+				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
-		CC275C4F17A5075E006243FB /* Ad Hoc */ = {
+		BF2F35D3183FF6F9002ACE90 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
-					"$(SRCROOT)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_CFLAGS = (
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-Isrc",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen",
-					"-Isrc",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/src",
-					"-DHAVE_ZLIB_H",
-					"-DFINAL_VERSION",
-					"-DC_CORE",
-					"-DNO_PNG",
-					"-DNO_LINK",
-					"-DNO_DEBUGGER",
-					"-DBLIP_BUFFER_FAST=1",
-					"-DSysDecimal=float",
-					"-Isrc/vbam",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-I../EmuFramework/include",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"$(inherited)",
 				);
+				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
+					"$(inherited)",
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";
+		};
+		BF2F35D4183FF6F9002ACE90 /* MBS */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Vladimir Ignatev (9MBK7F2A62)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
+				OTHER_LDFLAGS = (
+					"-Objc",
+					"-all_load",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "GBA4iOS copy";
+				WRAPPER_EXTENSION = app;
+			};
+			name = MBS;
 		};
 		CC2D572F1798F2ED00C616EB /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2699,106 +2643,16 @@
 			};
 			name = MBS;
 		};
-		CCE405A218108AA400AF4D0D /* MBS */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
-					"$(SRCROOT)",
-					/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/GBA4iOS,
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
-				INFOPLIST_FILE = "./GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_CFLAGS = (
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-Isrc",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen",
-					"-Isrc",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/src",
-					"-DHAVE_ZLIB_H",
-					"-DFINAL_VERSION",
-					"-DC_CORE",
-					"-DNO_PNG",
-					"-DNO_LINK",
-					"-DNO_DEBUGGER",
-					"-DBLIP_BUFFER_FAST=1",
-					"-DSysDecimal=float",
-					"-Isrc/vbam",
-					"-I/Users/riley.testut/Dropbox/Developer/Open_Source/Emulators/GBA4iOS/emu-ex-plus-alpha/imagine/build/ios-armv7/gen",
-					"-I../EmuFramework/include",
-					"-I/usr/lib/c++/v1",
-					"-Woverloaded-virtual",
-					"-fno-rtti",
-					"-fno-exceptions",
-					"-fno-threadsafe-statics",
-					"-pipe",
-					"-fvisibility=hidden",
-					"-O2",
-					"-ffast-math",
-					"-fmerge-all-constants",
-					"-g",
-					"-Wall",
-					"-Wextra",
-					"-Wno-comment",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused",
-					"-Wno-unused-parameter",
-					"-Wno-attributes",
-				);
-				OTHER_LDFLAGS = (
-					"-Objc",
-					"-all_load",
-				);
-				PRODUCT_NAME = "GBA4iOS copy";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = MBS;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CC275C4C17A5075E006243FB /* Build configuration list for PBXNativeTarget "GBA4iOS-Simulator" */ = {
+		BF2F35D0183FF6F9002ACE90 /* Build configuration list for PBXNativeTarget "GBA4iOS-Simulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC275C4D17A5075E006243FB /* Debug */,
-				CC275C4E17A5075E006243FB /* Release */,
-				CC275C4F17A5075E006243FB /* Ad Hoc */,
-				CCE405A218108AA400AF4D0D /* MBS */,
+				BF2F35D1183FF6F9002ACE90 /* Debug */,
+				BF2F35D2183FF6F9002ACE90 /* Release */,
+				BF2F35D3183FF6F9002ACE90 /* Ad Hoc */,
+				BF2F35D4183FF6F9002ACE90 /* MBS */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

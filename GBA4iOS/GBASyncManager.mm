@@ -21,10 +21,11 @@ NSString * const GBASyncingFileRev = @"rev";
 
 typedef NS_ENUM(NSInteger, GBADropboxFileType)
 {
-    GBADropboxFileTypeSave,
-    GBADropboxFileTypeSaveState,
-    GBADropboxFileTypeCheat,
-    GBADropboxFileTypeUploadHistory
+    GBADropboxFileTypeUnknown             = 0,
+    GBADropboxFileTypeSave                = 1,
+    GBADropboxFileTypeSaveState           = 2,
+    GBADropboxFileTypeCheat               = 3,
+    GBADropboxFileTypeUploadHistory       = 4,
 };
 
 NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
@@ -372,13 +373,13 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
             NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
             
             NSString *localPath = [documentsDirectory stringByAppendingPathComponent:entry.metadata.filename];
-            [self prepareToDownloadFileWithMetadata:entry.metadata toPath:localPath conflictROMIfNeeded:YES];
+            [self prepareToDownloadFileWithMetadata:entry.metadata toPath:localPath fileType:GBADropboxFileTypeSave conflictROMIfNeeded:YES];
             
         }
         else if ([[entry.lowercasePath stringByDeletingLastPathComponent] hasSuffix:@"upload history"] && [[entry.lowercasePath pathExtension] isEqualToString:@"plist"])
         {
             NSString *localPath = [[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:entry.metadata.filename];
-            [self prepareToDownloadFileWithMetadata:entry.metadata toPath:localPath conflictROMIfNeeded:NO];
+            [self prepareToDownloadFileWithMetadata:entry.metadata toPath:localPath fileType:GBADropboxFileTypeUploadHistory conflictROMIfNeeded:NO];
         }
         
     }
@@ -392,7 +393,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     DLog(@"Delta Failed :(");
 }
 
-- (void)prepareToDownloadFileWithMetadata:(DBMetadata *)metadata toPath:(NSString *)localPath conflictROMIfNeeded:(BOOL)conflictROMIfNeeded
+- (void)prepareToDownloadFileWithMetadata:(DBMetadata *)metadata toPath:(NSString *)localPath fileType:(GBADropboxFileType)fileType conflictROMIfNeeded:(BOOL)conflictROMIfNeeded
 {
     // If not recently uploaded and not disabled
     if (![self.pendingUploads[localPath][GBASyncingUploaded] boolValue] && ![self.syncingDisabledROMs containsObject:[metadata.filename stringByDeletingPathExtension]])
@@ -406,7 +407,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
             // Bug in iOS 7, don't try to compare against cachedMetadata.lastModifiedDate, IT'LL FAIL.
             if ([[attributes fileModificationDate] laterDate:cachedMetadata.lastModifiedDate] != [attributes fileModificationDate] || attributes == nil)
             {
-                [self.pendingDownloads setObject:@{GBASyncingFileRev: metadata.rev, GBASyncingLocalPath: localPath, GBASyncingDropboxPath: metadata.path} forKey:metadata.path];
+                [self.pendingDownloads setObject:@{GBASyncingFileRev: metadata.rev, GBASyncingLocalPath: localPath, GBASyncingDropboxPath: metadata.path, GBASyncingFileType: @(fileType)} forKey:metadata.path];
                 [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
             }
             else
@@ -502,8 +503,6 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         return;
     }
     
-    DLog(@"Preparing to upload %@...", rom.name);
-    
     NSString *savesDirectory = [NSString stringWithFormat:@"/%@/%@/", rom.name, SAVE_FILE_DIRECTORY_NAME];
     NSString *saveFileFilename = [rom.saveFileFilepath lastPathComponent];
     
@@ -570,7 +569,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(pathExtension.lowercaseString == gba) OR (pathExtension.lowercaseString == gbc) OR (pathExtension.lowercaseString == gb)"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(pathExtension.lowercaseString == 'gba') OR (pathExtension.lowercaseString == 'gbc') OR (pathExtension.lowercaseString == 'gb')"];
     NSMutableArray *contents = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil] mutableCopy];
     [contents filterUsingPredicate:predicate];
     
