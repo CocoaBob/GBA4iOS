@@ -100,9 +100,6 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
         }
     }
     
-    NSString *originalFilename = [romFilename stringByAppendingPathExtension:extension];
-    NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
-    
     if (fileExists)
     {
         *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteFileExistsError userInfo:nil];
@@ -110,6 +107,9 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
     }
     else
     {
+        NSString *originalFilename = [romFilename stringByAppendingPathExtension:extension];
+        NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
+        
         [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:originalFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
     }
     

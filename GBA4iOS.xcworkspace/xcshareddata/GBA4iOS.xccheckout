@@ -5,50 +5,38 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>0B47F918-36B8-4C53-82AB-16D59041889F</string>
+	<string>DDA167A9-6E54-49EF-871D-FF1E8421485B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>GBA4iOS</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>3F4DB21F-C838-4E6B-9723-7CE19F80AFD5</key>
-		<string>ssh://github.com/rileytestut/RSTWebViewController.git</string>
-		<key>5D1DCE4D-BE04-4236-B031-2ED4E737E0F4</key>
-		<string>https://bitbucket.org/rileytestut/rstactionsheet.git</string>
-		<key>72BD9297-A3A5-4472-B377-FDA25A24FD02</key>
-		<string>https://bitbucket.org/rileytestut/rstfilebrowserviewcontroller.git</string>
-		<key>86A14B9C-CD66-4CB7-AE22-ADA803D99DC7</key>
-		<string>https://bitbucket.org/rileytestut/rstalertview.git</string>
-		<key>D54CC8BE-DBAA-455C-B54F-8CBA7BFE116D</key>
+		<key>B146B4EB-61C6-4003-BA09-936661133297</key>
 		<string>ssh://github.com/rileytestut/GBA4iOS-2.0.git</string>
+		<key>D7572B51-AD61-4F33-97E8-BFAE3547E7A7</key>
+		<string>ssh://github.com/rileytestut/RSTWebViewController.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>GBA4iOS.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>3F4DB21F-C838-4E6B-9723-7CE19F80AFD5</key>
-		<string>../../../../RSTUtilities/RSTWebViewController</string>
-		<key>5D1DCE4D-BE04-4236-B031-2ED4E737E0F4</key>
-		<string>../../../../RSTUtilities/RSTActionSheet</string>
-		<key>72BD9297-A3A5-4472-B377-FDA25A24FD02</key>
-		<string>../../../../RSTUtilities/RSTFileBrowserViewController</string>
-		<key>86A14B9C-CD66-4CB7-AE22-ADA803D99DC7</key>
-		<string>../../../../RSTUtilities/RSTAlertView</string>
-		<key>D54CC8BE-DBAA-455C-B54F-8CBA7BFE116D</key>
+		<key>B146B4EB-61C6-4003-BA09-936661133297</key>
 		<string>..</string>
+		<key>D7572B51-AD61-4F33-97E8-BFAE3547E7A7</key>
+		<string>../../../../RSTUtilities/RSTWebViewController</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/rileytestut/GBA4iOS-2.0.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>D54CC8BE-DBAA-455C-B54F-8CBA7BFE116D</string>
+	<string>B146B4EB-61C6-4003-BA09-936661133297</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D54CC8BE-DBAA-455C-B54F-8CBA7BFE116D</string>
+			<string>B146B4EB-61C6-4003-BA09-936661133297</string>
 			<key>IDESourceControlWCCName</key>
 			<string>GBA4iOS-2</string>
 		</dict>
@@ -56,31 +44,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>5D1DCE4D-BE04-4236-B031-2ED4E737E0F4</string>
-			<key>IDESourceControlWCCName</key>
-			<string>RSTActionSheet</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>86A14B9C-CD66-4CB7-AE22-ADA803D99DC7</string>
-			<key>IDESourceControlWCCName</key>
-			<string>RSTAlertView</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>72BD9297-A3A5-4472-B377-FDA25A24FD02</string>
-			<key>IDESourceControlWCCName</key>
-			<string>RSTFileBrowserViewController</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>3F4DB21F-C838-4E6B-9723-7CE19F80AFD5</string>
+			<string>D7572B51-AD61-4F33-97E8-BFAE3547E7A7</string>
 			<key>IDESourceControlWCCName</key>
 			<string>RSTWebViewController</string>
 		</dict>

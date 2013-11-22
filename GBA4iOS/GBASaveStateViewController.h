@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <RSTFileBrowserViewController.h>
+#import "RSTFileBrowserViewController.h"
 
 #import "UITableViewController+Theming.h"
 

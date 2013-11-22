@@ -13,8 +13,8 @@
 #import "GBAEmulatorCore.h"
 #endif
 
-#import <UIAlertView+RSTAdditions.h>
-#import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
+#import "UIAlertView+RSTAdditions.h"
+#import "UIActionSheet+RSTAdditions.h"
 
 #define INFO_PLIST_PATH [self.saveStateDirectory stringByAppendingPathComponent:@"info.plist"]
 

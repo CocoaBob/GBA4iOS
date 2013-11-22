@@ -16,8 +16,8 @@
 #import "UITableViewController+Theming.h"
 
 #import <RSTWebViewController.h>
-#import <UIAlertView+RSTAdditions.h>
-#import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
+#import "UIAlertView+RSTAdditions.h"
+#import "UIActionSheet+RSTAdditions.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <DropboxSDK/DropboxSDK.h>
@@ -37,11 +37,13 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 @property (assign, nonatomic) GBAVisibleROMType visibleRomType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
-@property (strong, nonatomic) NSMutableDictionary *currentDownloads;
 @property (strong, nonatomic) NSMutableSet *currentUnzippingOperations;
 @property (weak, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
+
+@property (strong, nonatomic) NSProgress *downloadProgress;
+@property (strong, nonatomic) NSMutableDictionary *downloadProgressDictionary;
 
 @property (copy, nonatomic) RSTWebViewControllerStartDownloadBlock startDownloadBlock;
 @property (weak, nonatomic) NSURLSessionDownloadTask *tempDownloadTask;
@@ -69,6 +71,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         self.showFolders = NO;
         self.showSectionTitles = NO;
         self.showUnavailableFiles = YES;
+        
+        _downloadProgress = [NSProgress progressWithTotalUnitCount:0];
+        [_downloadProgress addObserver:self
+                    forKeyPath:@"fractionCompleted"
+                       options:NSKeyValueObservingOptionNew
+                       context:NULL];
+        
+        _downloadProgressDictionary = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -206,11 +216,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)webViewController:(RSTWebViewController *)webViewController willStartDownloadWithTask:(NSURLSessionDownloadTask *)downloadTask startDownloadBlock:(RSTWebViewControllerStartDownloadBlock)startDownloadBlock
 {
-    if (self.currentDownloads == nil)
-    {
-        self.currentDownloads = [[NSMutableDictionary alloc] init];
-    }
-    
     self.tempDownloadTask = downloadTask;
     self.startDownloadBlock = startDownloadBlock;
     
@@ -237,7 +242,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                     if (namingButtonIndex == 1)
                     {
                         NSString *filename = [[namingAlertView textFieldAtIndex:0] text];
-                        [self startDownloadWithFilename:filename];
+                        [self startDownloadWithFilename:filename downloadTask:downloadTask];
                     }
                     else
                     {
@@ -255,7 +260,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     });
 }
 
-- (void)startDownloadWithFilename:(NSString *)filename
+- (void)startDownloadWithFilename:(NSString *)filename downloadTask:(NSURLSessionDownloadTask *)downloadTask
 {
     if ([filename length] == 0)
     {
@@ -271,11 +276,19 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     filename = [filename stringByAppendingPathExtension:fileExtension];
     
+    rst_dispatch_sync_on_main_thread(^{
+        [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount + 1];
+        [self.downloadProgress becomeCurrentWithPendingUnitCount:1];
+        
+        NSProgress *progress = [NSProgress progressWithTotalUnitCount:1];
+        [progress setUserInfoObject:filename forKey:@"filename"];
+        
+        self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier] = progress;
+        [self.downloadProgress resignCurrent];
+    });
+    
     // Write temp file so it shows up in the file browser, but we'll then gray it out.
     [filename writeToFile:[self.currentDirectory stringByAppendingPathComponent:filename] atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    
-    NSMutableDictionary *currentDownload = [@{@"filename" : filename, @"progress" : @0} mutableCopy];
-    [self.currentDownloads setObject:currentDownload forKey:self.tempDownloadTask.uniqueTaskIdentifier];
     
     self.startDownloadBlock(YES);
     
@@ -297,19 +310,20 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)webViewController:(RSTWebViewController *)webViewController downloadTask:(NSURLSessionDownloadTask *)downloadTask totalBytesDownloaded:(int64_t)totalBytesDownloaded totalBytesExpected:(int64_t)totalBytesExpected
 {
-    NSMutableDictionary *currentDownload = self.currentDownloads[downloadTask.uniqueTaskIdentifier];
-    currentDownload[@"progress"] = @((totalBytesDownloaded * 1.0f) / (totalBytesExpected * 1.0f));
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.downloadProgressView setProgress:[self currentDownloadProgress] animated:YES];
-    });
+    NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
+    progress.totalUnitCount = totalBytesExpected;
+    progress.completedUnitCount = totalBytesDownloaded;
 }
 
 - (void)webViewController:(RSTWebViewController *)webViewController downloadTask:(NSURLSessionDownloadTask *)downloadTask didDownloadFileToURL:(NSURL *)fileURL
 {
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
+    progress.completedUnitCount = progress.totalUnitCount;
     
-    NSString *filename = [self.currentDownloads objectForKey:downloadTask.uniqueTaskIdentifier][@"filename"];
+    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
+    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
+    
+    NSString *filename = progress.userInfo[@"filename"];
     NSString *destinationPath = [self.currentDirectory stringByAppendingPathComponent:filename];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
     
@@ -317,51 +331,55 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [self setIgnoreDirectoryContentChanges:YES];
     
-    [fileManager removeItemAtURL:destinationURL error:&error];
+    [[NSFileManager defaultManager] removeItemAtURL:destinationURL error:&error];
+    [[NSFileManager defaultManager] moveItemAtURL:fileURL toURL:destinationURL error:nil];
     
     if (error)
     {
         ELog(error);
         return;
     }
-    
-    NSURL *remoteURL = downloadTask.originalRequest.URL;
-    
-    [[NSFileManager defaultManager] removeItemAtURL:destinationURL error:nil];
-    [[NSFileManager defaultManager] moveItemAtURL:fileURL toURL:destinationURL error:nil];
-        
-    if (error)
-    {
-        ELog(error);
-    }
+
+    [self setIgnoreDirectoryContentChanges:NO];
 }
 
-- (void)webViewController:(RSTWebViewController *)webViewController downloadTask:(NSURLSessionDownloadTask *)downloadTask didCompleteDownloadWithError:(NSError *)error
+- (void)webViewController:(RSTWebViewController *)webViewController downloadTask:(NSURLSessionDownloadTask *)downloadTask didFailDownloadWithError:(NSError *)error
 {
-    if (error)
+    NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
+    progress.completedUnitCount = progress.totalUnitCount;
+    
+    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
+    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
+    
+    NSString *filename = progress.userInfo[@"filename"];
+    
+    ELog(error);
+    
+    NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
+    [[NSFileManager defaultManager] removeItemAtPath:filepath error:NULL];
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self.downloadProgress)
     {
-        ELog(error);
-        
-        NSDictionary *dictionary = self.currentDownloads[downloadTask.uniqueTaskIdentifier];
-        
-        NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:dictionary[@"filename"]];
-        
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        [fileManager removeItemAtPath:filepath error:NULL];
-        
-        [self.currentDownloads removeObjectForKey:downloadTask.uniqueTaskIdentifier];
-    }
-        
-    if ([self.currentDownloads count] == 0 || [self currentDownloadProgress] >= 1.0)
-    {
-        [self.currentDownloads removeAllObjects];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self hideDownloadProgressView];
+            
+            DLog(@"Progress: %f", self.downloadProgress.fractionCompleted);
+            
+            [self.downloadProgressView setProgress:self.downloadProgress.fractionCompleted animated:YES];
+            
+            if (self.downloadProgress.fractionCompleted == 1)
+            {
+                [self hideDownloadProgressView];
+            }
         });
+        
+        return;
     }
     
-    [self setIgnoreDirectoryContentChanges:NO];
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 - (void)webViewControllerWillDismiss:(RSTWebViewController *)webViewController
@@ -451,8 +469,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     for (NSString *filename in contents)
     {
-        if ([[filename lowercaseString] hasSuffix:@"zip"] && ![self isDownloadingFile:filename] && ![self.unavailableFiles containsObject:filename])
+        
+        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"zip"] && ![self isDownloadingFile:filename] && ![self.unavailableFiles containsObject:filename])
         {
+            DLog(@"Unzipping.. %@", filename);
+            
             [self setIgnoreDirectoryContentChanges:YES];
             
             NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
@@ -615,9 +636,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     __block BOOL downloadingFile = NO;
     
-    NSArray *allValues = [[self.currentDownloads allValues] copy];
-    [allValues enumerateObjectsUsingBlock:^(NSDictionary *dictionary, NSUInteger index, BOOL *stop) {
-        NSString *downloadingFilename = dictionary[@"filename"];
+    NSDictionary *dictionary = [self.downloadProgressDictionary copy];
+    
+    DLog(@"Dictionary: %@", dictionary);
+    
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSProgress *progress, BOOL *stop) {
+        NSString *downloadingFilename = progress.userInfo[@"filename"];
+        
+        DLog(@"Filename: %@ OTHER: %@", downloadingFilename, filename);
         
         if ([downloadingFilename isEqualToString:filename])
         {
@@ -627,21 +653,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }];
     
     return downloadingFile;
-}
-
-- (CGFloat)currentDownloadProgress
-{
-    CGFloat currentProgress = 0.0;
-    CGFloat totalProgress = 0.0;
-    
-    NSArray *allValues = [[self.currentDownloads allValues] copy]; // So it's not changed while enumerating. Bitten by that quite a few times in the past. Not fun. Trust me.
-    
-    for (NSDictionary *dictionary in allValues) {
-        currentProgress += [dictionary[@"progress"] floatValue];
-        totalProgress += 1.0f;
-    }
-    
-    return currentProgress/totalProgress;
 }
 
 - (void)showDownloadProgressView
@@ -943,12 +954,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     if (self.visibleRomType == GBAVisibleROMTypeGBC) // If ALL or GBA is selected, show GBA search results. If GBC, show GBC results
     {
         address = @"http://www.google.com/search?q=download+GBC+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
-    }
-    
-    if (![NSURLSession class]) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:address]];
-        
-        return;
     }
     
     RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:address];

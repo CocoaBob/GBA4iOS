@@ -13,6 +13,20 @@
 
 #define SAVE_FILE_DIRECTORY_NAME @"Saves"
 
+NSString * const GBASyncingLocalPath = @"localPath";
+NSString * const GBASyncingDropboxPath = @"dropboxPath";
+NSString * const GBASyncingUploaded = @"uploaded";
+NSString * const GBASyncingFileType = @"fileType";
+NSString * const GBASyncingFileRev = @"rev";
+
+typedef NS_ENUM(NSInteger, GBADropboxFileType)
+{
+    GBADropboxFileTypeSave,
+    GBADropboxFileTypeSaveState,
+    GBADropboxFileTypeCheat,
+    GBADropboxFileTypeUploadHistory
+};
+
 NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 @interface GBASyncManager () <DBRestClientDelegate>
@@ -233,19 +247,18 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         [pendingUploads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *uploadDictionary, BOOL *stop) {
             
-            if (![uploadDictionary[@"uploaded"] boolValue])
+            if (![uploadDictionary[GBASyncingUploaded] boolValue])
             {
-                NSString *localPath = uploadDictionary[@"localPath"];
-                NSString *romName = [[localPath lastPathComponent] stringByDeletingPathExtension];
-                NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@", romName, [romName stringByAppendingPathExtension:@"sav"]];
+                NSString *localPath = uploadDictionary[GBASyncingLocalPath];
+                NSString *dropboxPath = uploadDictionary[GBASyncingDropboxPath];
                 
                 DBMetadata *metadata = self.remoteFiles[dropboxPath];
                 
-                DLog(@"Replacing %@ Rev %@", uploadDictionary[@"remoteFilename"], metadata.rev);
+                DLog(@"Replacing %@ Rev %@", [dropboxPath lastPathComponent], metadata.rev);
                 
-                [self.restClient uploadFile:uploadDictionary[@"remoteFilename"] toPath:uploadDictionary[@"remoteDirectory"] withParentRev:metadata.rev fromPath:uploadDictionary[@"localPath"]];
+                [self.restClient uploadFile:[dropboxPath lastPathComponent] toPath:[dropboxPath stringByDeletingLastPathComponent] withParentRev:metadata.rev fromPath:localPath];
                 
-                [self.currentUploads addObject:uploadDictionary[@"localPath"]];
+                [self.currentUploads addObject:localPath];
             }
         }];
     }
@@ -273,7 +286,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     NSString *originalPath = [documentsDirectory stringByAppendingPathComponent:[srcPath lastPathComponent]];
     
     NSMutableDictionary *dictionary = [self.pendingUploads[originalPath] mutableCopy];
-    dictionary[@"uploaded"] = @YES;
+    dictionary[GBASyncingUploaded] = @YES;
     self.pendingUploads[originalPath] = dictionary;
     [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
     
@@ -381,7 +394,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (void)prepareToDownloadFileWithMetadata:(DBMetadata *)metadata toPath:(NSString *)localPath conflictROMIfNeeded:(BOOL)conflictROMIfNeeded
 {
-    if (![self.pendingUploads[localPath][@"uploaded"] boolValue] && ![self.syncingDisabledROMs containsObject:[metadata.filename stringByDeletingPathExtension]])
+    // If not recently uploaded and not disabled
+    if (![self.pendingUploads[localPath][GBASyncingUploaded] boolValue] && ![self.syncingDisabledROMs containsObject:[metadata.filename stringByDeletingPathExtension]])
     {
         if (![metadata isDeleted] && metadata.path != nil && metadata.filename != nil)
         {
@@ -392,7 +406,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
             // Bug in iOS 7, don't try to compare against cachedMetadata.lastModifiedDate, IT'LL FAIL.
             if ([[attributes fileModificationDate] laterDate:cachedMetadata.lastModifiedDate] != [attributes fileModificationDate] || attributes == nil)
             {
-                [self.pendingDownloads setObject:@{@"rev": metadata.rev, @"localPath": localPath, @"dropboxPath": metadata.path} forKey:metadata.path];
+                [self.pendingDownloads setObject:@{GBASyncingFileRev: metadata.rev, GBASyncingLocalPath: localPath, GBASyncingDropboxPath: metadata.path} forKey:metadata.path];
                 [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
             }
             else
@@ -420,15 +434,27 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     NSDictionary *pendingDownloads = [self.pendingDownloads copy];
     
-    if ([pendingDownloads count] > 0)
+    NSMutableDictionary *filteredDownloads = [pendingDownloads mutableCopy];
+    
+    [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadDictionary, BOOL *stop) {
+        NSString *localPath = downloadDictionary[GBASyncingLocalPath];
+        GBADropboxFileType fileType = (GBADropboxFileType)[downloadDictionary[GBASyncingFileType] integerValue];
+        
+        // Only download saves for ROMs on device
+        if (fileType == GBADropboxFileTypeSave && ![self romExistsWithName:[[localPath lastPathComponent] stringByDeletingPathExtension]])
+        {
+            [filteredDownloads removeObjectForKey:key];
+        }
+    }];
+    
+    if ([filteredDownloads count] > 0)
     {
-        [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadDictionary, BOOL *stop) {
+        [filteredDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadDictionary, BOOL *stop) {
             
-            NSString *localPath = downloadDictionary[@"localPath"];
-            NSString *dropboxPath = downloadDictionary[@"dropboxPath"];
+            NSString *localPath = downloadDictionary[GBASyncingLocalPath];
+            NSString *dropboxPath = downloadDictionary[GBASyncingDropboxPath];
             
             [self.restClient loadFile:dropboxPath intoPath:localPath];
-            
             [self.currentDownloads addObject:dropboxPath];
         }];
     }
@@ -438,9 +464,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     }
 }
 
-- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)destPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
+- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)downloadedPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
 {
-    DLog(@"Loaded File!: %@", destPath);
+    DLog(@"Loaded File!: %@", downloadedPath);
     
     [self.remoteFiles setObject:metadata forKey:metadata.path];
     [NSKeyedArchiver archiveRootObject:self.remoteFiles toFile:[self remoteFilesPath]];
@@ -486,12 +512,12 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     NSString *localPath = [documentsDirectory stringByAppendingPathComponent:saveFileFilename];
     
-    [self prepareToUploadFileAtPath:localPath toDropboxPath:[savesDirectory stringByAppendingPathComponent:saveFileFilename]];
+    [self prepareToUploadFileAtPath:localPath toDropboxPath:[savesDirectory stringByAppendingPathComponent:saveFileFilename] fileType:GBADropboxFileTypeSave];
 }
 
-- (void)prepareToUploadFileAtPath:(NSString *)filepath toDropboxPath:(NSString *)dropboxPath
+- (void)prepareToUploadFileAtPath:(NSString *)filepath toDropboxPath:(NSString *)dropboxPath fileType:(GBADropboxFileType)fileType
 {
-    NSDictionary *uploadDictionary = @{@"localPath": filepath, @"remoteDirectory": [dropboxPath stringByDeletingLastPathComponent], @"remoteFilename": [dropboxPath lastPathComponent], @"uploaded": @NO};
+    NSDictionary *uploadDictionary = @{GBASyncingLocalPath: filepath, GBASyncingDropboxPath: dropboxPath, GBASyncingFileType: @(fileType), GBASyncingUploaded: @NO};
     
     [self.pendingUploads setObject:uploadDictionary forKey:filepath];
     [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
@@ -530,7 +556,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     __block BOOL pendingUploadsRemaining = NO;
     
     [pendingUploads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *uploadDictionary, BOOL *stop) {
-        if (![uploadDictionary[@"uploaded"] boolValue])
+        if (![uploadDictionary[GBASyncingUploaded] boolValue])
         {
             pendingUploadsRemaining = YES;
         }
@@ -538,6 +564,28 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     return pendingUploadsRemaining;
 }
+
+- (BOOL)romExistsWithName:(NSString *)name
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(pathExtension.lowercaseString == gba) OR (pathExtension.lowercaseString == gbc) OR (pathExtension.lowercaseString == gb)"];
+    NSMutableArray *contents = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil] mutableCopy];
+    [contents filterUsingPredicate:predicate];
+    
+    for (NSString *filename in contents)
+    {
+        if ([[filename stringByDeletingPathExtension] isEqualToString:name])
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+#pragma mark - Filepathss
 
 - (NSString *)dropboxSyncDirectoryPath
 {

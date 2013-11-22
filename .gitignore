@@ -17,7 +17,7 @@ DerivedData
 *.hmap
 
 #CocoaPods
-#Pods
+Pods
 
 #Emulator
 GBAEmulator

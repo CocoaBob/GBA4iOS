@@ -8,7 +8,7 @@
 
 #import "GBAController.h"
 #import "UIScreen+Widescreen.h"
-#import <SSZipArchive/minizip/SSZipArchive.h>
+#import <SSZipArchive.h>
 
 @interface GBAController ()
 

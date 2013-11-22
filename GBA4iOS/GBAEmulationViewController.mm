@@ -25,7 +25,7 @@
 #import "GBAEmulatorCore.h"
 #endif
 
-#import <RSTActionSheet/UIActionSheet+RSTAdditions.h>
+#import "UIActionSheet+RSTAdditions.h"
 #include <sys/sysctl.h>
 
 static GBAEmulationViewController *_emulationViewController;
@@ -1532,7 +1532,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     [self startEmulation];
     
-    [self.controllerView showButtonRects];
+   // [self.controllerView showButtonRects];
     
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import "GBAMailActivity.h"
-#import <RSTAlertView/UIAlertView+RSTAdditions.h>
+#import "UIAlertView+RSTAdditions.h"
 @import MessageUI;
 
 @interface GBAMailActivity () <MFMailComposeViewControllerDelegate, UINavigationControllerDelegate>

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import <RSTFileBrowserViewController/RSTFileBrowserViewController.h>
+#import "RSTFileBrowserViewController.h"
 
 #import "GBAEmulationViewController.h"
 #import "UITableViewController+Theming.h"

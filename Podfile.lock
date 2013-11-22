@@ -1,0 +1,20 @@
+PODS:
+  - NJKWebViewProgress (0.1.8)
+  - RSTWebViewController (0.1):
+    - NJKWebViewProgress
+  - SSZipArchive (0.3.1)
+
+DEPENDENCIES:
+  - RSTWebViewController (from `/Users/Riley/Dropbox/Developer/RSTUtilities/RSTWebViewController`)
+  - SSZipArchive
+
+EXTERNAL SOURCES:
+  RSTWebViewController:
+    :path: /Users/Riley/Dropbox/Developer/RSTUtilities/RSTWebViewController
+
+SPEC CHECKSUMS:
+  NJKWebViewProgress: e009e9ec4837fcad3959e2672d5282f78148f6b9
+  RSTWebViewController: fe5f8cb1b730d1be82b5226ef38469721d7059e1
+  SSZipArchive: 47d0589a15452311749a4eeecb97e12800d127de
+
+COCOAPODS: 0.25.0
