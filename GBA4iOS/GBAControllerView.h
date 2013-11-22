@@ -8,20 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "GBAController.h"
+#import "GBAControllerInput.h"
 
-@class GBAControllerView;
+@interface GBAControllerView : UIView <GBAControllerInput>
 
-@protocol GBAControllerViewDelegate <NSObject>
-
-- (void)controllerView:(GBAControllerView *)controller didPressButtons:(NSSet *)buttons;
-- (void)controllerView:(GBAControllerView *)controller didReleaseButtons:(NSSet *)buttons;
-- (void)controllerViewDidPressMenuButton:(GBAControllerView *)controller;
-
-@end
-
-@interface GBAControllerView : UIView
-
-@property (weak, nonatomic) id<GBAControllerViewDelegate> delegate;
+@property (weak, nonatomic) id<GBAControllerInputDelegate> delegate;
 @property (strong, nonatomic) GBAController *controller;
 @property (assign, nonatomic) GBAControllerOrientation orientation;
 @property (assign, nonatomic) CGFloat skinOpacity;

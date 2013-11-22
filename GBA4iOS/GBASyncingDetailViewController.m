@@ -303,11 +303,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    if (section == 0)
+    /*if (section == 0)
     {
         return NSLocalizedString(@"If turned off, the save data for this game will not be synced to other devices, regardless of whether Dropbox Sync is turned on or not.", @"");
-    }
-    else if (section == 1)
+    }*/
+    
+    if (section == 1)
     {
         return NSLocalizedString(@"The save data for this game is out of sync with Dropbox. To prevent data loss, GBA4iOS has disabled syncing for this game. To re-enable syncing, please select the save file you want to use, then toggle the above switch on. Be careful, the save file you select will overwrite the save file for this game on your other devices as well.", @"");
     }

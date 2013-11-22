@@ -99,7 +99,7 @@ static unsigned long oldtouches[15];
 {
     if (touches.count == 3)
     {
-        [self.delegate controllerViewDidPressMenuButton:self];
+        [self.delegate controllerInputDidPressMenuButton:self];
     }
     [self pressButtonsForTouches:touches];
 }
@@ -153,7 +153,7 @@ static unsigned long oldtouches[15];
         }
     }
     
-    [self.delegate controllerView:self didPressButtons:set];
+    [self.delegate controllerInput:self didPressButtons:set];
 }
 
 - (void)updateButtonsForTouches:(NSSet *)touches
@@ -184,7 +184,7 @@ static unsigned long oldtouches[15];
         // Don't pass on menu button
         [set removeObject:@(GBAControllerButtonMenu)];
         
-        [self.delegate controllerView:self didPressButtons:set];
+        [self.delegate controllerInput:self didPressButtons:set];
     }
     
     [set removeAllObjects];
@@ -209,7 +209,7 @@ static unsigned long oldtouches[15];
     {
         // Don't pass on menu button
         [set removeObject:@(GBAControllerButtonMenu)];
-        [self.delegate controllerView:self didReleaseButtons:set];
+        [self.delegate controllerInput:self didReleaseButtons:set];
     }
     
 }
@@ -227,13 +227,13 @@ static unsigned long oldtouches[15];
     
     if ([set containsObject:@(GBAControllerButtonMenu)])
     {
-        [self.delegate controllerViewDidPressMenuButton:self];
+        [self.delegate controllerInputDidPressMenuButton:self];
         [set removeObject:@(GBAControllerButtonMenu)];
     }
 
     if (set.count > 0)
     {
-        [self.delegate controllerView:self didReleaseButtons:set];
+        [self.delegate controllerInput:self didReleaseButtons:set];
     }
 }
 

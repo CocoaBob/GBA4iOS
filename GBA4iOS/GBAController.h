@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GBAControllerInput.h"
 
 typedef NS_ENUM(NSInteger, GBAControllerRect)
 {
