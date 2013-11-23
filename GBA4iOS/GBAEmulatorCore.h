@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "EAGLView.h"
-#import "GBAController.h"
+#import "GBAControllerSkin.h"
 #import "GBACheat.h"
 #import "GBAROM.h"
 

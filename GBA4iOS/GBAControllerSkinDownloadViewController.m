@@ -9,7 +9,7 @@
 #import "GBAControllerSkinDownloadViewController.h"
 #import "UIScreen+Widescreen.h"
 #import "GBAAsynchronousLocalImageTableViewCell.h"
-#import "GBAController.h"
+#import "GBAControllerSkin.h"
 
 #define CONTROLLER_SKIN_DOWNLOAD_PLIST_URL [NSURL URLWithString:@"http://rileytestut.com/gba4ios/skins/root.plist"]
 
@@ -243,7 +243,7 @@
 
 - (NSString *)imageAddressForDictionary:(NSDictionary *)dictionary
 {
-    NSString *key = [GBAController keyForCurrentDeviceWithDictionary:dictionary];
+    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:dictionary];
     return dictionary[key];
 }
 

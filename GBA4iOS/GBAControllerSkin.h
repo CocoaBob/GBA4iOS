@@ -1,5 +1,5 @@
 //
-//  GBAController.h
+//  GBAControllerSkin.h
 //  GBA4iOS
 //
 //  Created by Riley Testut on 8/31/13.
@@ -11,16 +11,16 @@
 
 typedef NS_ENUM(NSInteger, GBAControllerRect)
 {
-    GBAControllerRectDPad,
-    GBAControllerRectA,
-    GBAControllerRectB,
-    GBAControllerRectAB,
-    GBAControllerRectL,
-    GBAControllerRectR,
-    GBAControllerRectStart,
-    GBAControllerRectSelect,
-    GBAControllerRectMenu,
-    GBAControllerRectScreen
+    GBAControllerSkinRectDPad,
+    GBAControllerSkinRectA,
+    GBAControllerSkinRectB,
+    GBAControllerSkinRectAB,
+    GBAControllerSkinRectL,
+    GBAControllerSkinRectR,
+    GBAControllerSkinRectStart,
+    GBAControllerSkinRectSelect,
+    GBAControllerSkinRectMenu,
+    GBAControllerSkinRectScreen
 };
 
 typedef NS_ENUM(NSInteger, GBAControllerSkinType)
@@ -31,23 +31,8 @@ typedef NS_ENUM(NSInteger, GBAControllerSkinType)
 
 typedef NS_ENUM(NSInteger, GBAControllerOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
 {
-    GBAControllerOrientationPortrait   =    1 << 0,
-    GBAControllerOrientationLandscape  =    1 << 1,
-};
-
-typedef NS_ENUM(NSInteger, GBAControllerButton)
-{
-    GBAControllerButtonUp          =  33,
-    GBAControllerButtonDown        =  39,
-    GBAControllerButtonLeft        =  35,
-    GBAControllerButtonRight       =  37,
-    GBAControllerButtonA           =  8,
-    GBAControllerButtonB           =  9,
-    GBAControllerButtonL           =  10,
-    GBAControllerButtonR           =  11,
-    GBAControllerButtonStart       =  1,
-    GBAControllerButtonSelect      =  0,
-    GBAControllerButtonMenu        =  50,
+    GBAControllerSkinOrientationPortrait   =    1 << 0,
+    GBAControllerSkinOrientationLandscape  =    1 << 1,
 };
 
 static NSString *GBAScreenTypeiPhone = @"iPhone";
@@ -57,14 +42,15 @@ static NSString *GBAScreenTypeiPadRetina = @"iPad Retina";
 
 static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 
-@interface GBAController : NSObject
+@interface GBAControllerSkin : NSObject
 
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *name;
 @property (readonly, assign, nonatomic) GBAControllerSkinType type;
 
-+ (GBAController *)controllerWithContentsOfFile:(NSString *)filepath;
-+ (GBAController *)defaultControllerForSkinType:(GBAControllerSkinType)skinType;
++ (GBAControllerSkin *)controllerSkinWithContentsOfFile:(NSString *)filepath;
++ (GBAControllerSkin *)defaultControllerSkinForSkinType:(GBAControllerSkinType)skinType;
++ (GBAControllerSkin *)invisibleSkin; // Used when external controller is connected
 
 + (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath;
 

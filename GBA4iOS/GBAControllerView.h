@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GBAController.h"
+#import "GBAControllerSkin.h"
 #import "GBAControllerInput.h"
 
 @interface GBAControllerView : UIView <GBAControllerInput>
 
 @property (weak, nonatomic) id<GBAControllerInputDelegate> delegate;
-@property (strong, nonatomic) GBAController *controller;
+@property (strong, nonatomic) GBAControllerSkin *controllerSkin;
 @property (assign, nonatomic) GBAControllerOrientation orientation;
 @property (assign, nonatomic) CGFloat skinOpacity;
 

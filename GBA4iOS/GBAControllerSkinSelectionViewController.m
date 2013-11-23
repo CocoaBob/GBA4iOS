@@ -11,6 +11,7 @@
 #import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDownloadViewController.h"
+#import "GBAControllerSkin.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 
@@ -127,7 +128,7 @@
         if ([[[file pathExtension] lowercaseString] isEqualToString:@"gbaskin"] || [[[file pathExtension] lowercaseString] isEqualToString:@"gbcskin"])
         {
             NSString *filepath = [documentsDirectory stringByAppendingPathComponent:file];
-            [GBAController extractSkinAtPathToSkinsDirectory:filepath];
+            [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
             [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
             importedSkin = YES;
         }
@@ -172,11 +173,11 @@
 {
     NSString *key = nil;
     switch (orientation) {
-        case GBAControllerOrientationPortrait:
+        case GBAControllerSkinOrientationPortrait:
             key = @"portrait";
             break;
             
-        case GBAControllerOrientationLandscape:
+        case GBAControllerSkinOrientationLandscape:
             key = @"landscape";
             break;
     }
@@ -193,7 +194,7 @@
     {
         @autoreleasepool
         {
-            GBAController *controller = [GBAController controllerWithContentsOfFile:[directory stringByAppendingPathComponent:identifier]];
+            GBAControllerSkin *controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[directory stringByAppendingPathComponent:identifier]];
             
             if (controller.supportedOrientations & self.controllerOrientation)
             {
@@ -253,7 +254,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    GBAController *controller = self.filteredArray[section];
+    GBAControllerSkin *controller = self.filteredArray[section];
     
     NSString *name = controller.name;
     
@@ -280,7 +281,7 @@
     static NSString *CellIdentifier = @"Cell";
     GBAAsynchronousLocalImageTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    GBAController *controller = self.filteredArray[indexPath.section];
+    GBAControllerSkin *controller = self.filteredArray[indexPath.section];
 
     NSString *prefix = nil;
     
@@ -317,7 +318,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GBAController *controller = self.filteredArray[indexPath.section];
+    GBAControllerSkin *controller = self.filteredArray[indexPath.section];
     
     NSString *identifier = nil;
     
@@ -372,7 +373,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        GBAController *controller = self.filteredArray[indexPath.section];
+        GBAControllerSkin *controller = self.filteredArray[indexPath.section];
         
         [[NSFileManager defaultManager] removeItemAtPath:controller.filepath error:nil];
         self.filteredArray = nil;

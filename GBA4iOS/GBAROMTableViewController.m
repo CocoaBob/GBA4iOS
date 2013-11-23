@@ -14,6 +14,7 @@
 #import "GBAMailActivity.h"
 #import "GBASplitViewController.h"
 #import "UITableViewController+Theming.h"
+#import "GBAControllerSkin.h"
 
 #import <RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
@@ -582,7 +583,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [[NSFileManager defaultManager] removeItemAtPath:[[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"] error:nil];
         
-    [GBAController extractSkinAtPathToSkinsDirectory:filepath];
+    [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
 
 - (void)importDefaultGBCSkin
@@ -591,7 +592,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [[NSFileManager defaultManager] removeItemAtPath:[[self GBCSkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"] error:nil];
     
-    [GBAController extractSkinAtPathToSkinsDirectory:filepath];
+    [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
 
 #pragma mark - UIAlertView delegate

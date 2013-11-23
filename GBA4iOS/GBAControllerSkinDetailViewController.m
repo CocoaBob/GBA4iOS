@@ -170,19 +170,19 @@
     {
         cell.cacheKey = @"Portrait";
         
-        GBAController *portraitController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:portraitSkin]];
+        GBAControllerSkin *portraitController = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:portraitSkin]];
                 
-        UIImage *image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
+        UIImage *image = [portraitController imageForOrientation:GBAControllerSkinOrientationPortrait];
         
         if (image == nil)
         {
-            portraitController = [GBAController defaultControllerForSkinType:self.controllerSkinType];
+            portraitController = [GBAControllerSkin defaultControllerSkinForSkinType:self.controllerSkinType];
             
             NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
             skins[@"portrait"] = defaultSkinIdentifier;
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
             
-            image = [portraitController imageForOrientation:GBAControllerOrientationPortrait];
+            image = [portraitController imageForOrientation:GBAControllerSkinOrientationPortrait];
         }
         
         cell.image = image;
@@ -191,18 +191,18 @@
     {
         cell.cacheKey = @"Landscape";
         
-        GBAController *landscapeController = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:landscapeSkin]];
-        UIImage *image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
+        GBAControllerSkin *landscapeController = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:landscapeSkin]];
+        UIImage *image = [landscapeController imageForOrientation:GBAControllerSkinOrientationLandscape];
         
         if (image == nil)
         {
-            landscapeController = [GBAController defaultControllerForSkinType:self.controllerSkinType];
+            landscapeController = [GBAControllerSkin defaultControllerSkinForSkinType:self.controllerSkinType];
             
             NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
             skins[@"landscape"] = defaultSkinIdentifier;
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
             
-            image = [landscapeController imageForOrientation:GBAControllerOrientationLandscape];
+            image = [landscapeController imageForOrientation:GBAControllerSkinOrientationLandscape];
         }
         
         cell.image = image;
@@ -220,11 +220,11 @@
     
     if (indexPath.section == 0)
     {
-        controllerSkinSelectionViewController.controllerOrientation = GBAControllerOrientationPortrait;
+        controllerSkinSelectionViewController.controllerOrientation = GBAControllerSkinOrientationPortrait;
     }
     else
     {
-        controllerSkinSelectionViewController.controllerOrientation = GBAControllerOrientationLandscape;
+        controllerSkinSelectionViewController.controllerOrientation = GBAControllerSkinOrientationLandscape;
     }
     
     [self.navigationController pushViewController:controllerSkinSelectionViewController animated:YES];

@@ -8,7 +8,7 @@
 
 #import "GBAEmulationViewController.h"
 #import "GBAEmulatorScreen.h"
-#import "GBAController.h"
+#import "GBAControllerSkin.h"
 #import "GBAControllerView.h"
 #import "UIImage+ImageEffects.h"
 #import "GBASaveStateViewController.h"
@@ -20,6 +20,9 @@
 #import "GBAPresentOverlayViewControllerAnimator.h"
 #import "GBASyncManager.h"
 #import "UIScreen+Widescreen.h"
+#import "GBAExternalController.h"
+
+#import <GameController/GameController.h>
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -30,7 +33,7 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerViewDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     NSInteger _sustainButtonFrameCount;
@@ -38,6 +41,8 @@ static GBAEmulationViewController *_emulationViewController;
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
+@property (strong, nonatomic) GBAExternalController *externalController;
+@property (strong, nonatomic) UIActionSheet *pausedActionSheet;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
 @property (strong, nonatomic) CADisplayLink *displayLink;
 @property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
@@ -101,8 +106,12 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDidConnect:) name:GCControllerDidConnectNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDidDisconnect:) name:GCControllerDidDisconnectNotification object:nil];
     
     self.view.clipsToBounds = NO;
     
@@ -316,9 +325,46 @@ static GBAEmulationViewController *_emulationViewController;
     [self updateEmulatorScreenFrame];
 }
 
-#pragma mark - Controls
+#pragma mark - Controller
 
-- (void)controllerView:(GBAControllerView *)controller didPressButtons:(NSSet *)buttons
+- (void)controllerDidConnect:(NSNotification *)notification
+{
+    if (self.externalController)
+    {
+        return;
+    }
+    
+    self.externalController = [GBAExternalController externalControllerWithController:notification.object];
+    self.externalController.delegate = self;
+    
+    if (self.selectingSustainedButton)
+    {
+        return;
+    }
+    
+    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
+    [self updateEmulatorScreenFrame];
+}
+
+- (void)controllerDidDisconnect:(NSNotification *)notification
+{
+    if (self.externalController.controller != notification.object)
+    {
+        return;
+    }
+    
+    self.externalController = nil;
+    
+    if (self.selectingSustainedButton)
+    {
+        return;
+    }
+    
+    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
+    [self updateEmulatorScreenFrame];
+}
+
+- (void)controllerInput:(id)controllerInput didPressButtons:(NSSet *)buttons
 {
     if (self.selectingSustainedButton)
     {
@@ -364,7 +410,7 @@ static GBAEmulationViewController *_emulationViewController;
     }
 }
 
-- (void)controllerView:(GBAControllerView *)controller didReleaseButtons:(NSSet *)buttons
+- (void)controllerInput:(id)controllerInput didReleaseButtons:(NSSet *)buttons
 {
     if (self.sustainedButtonSet)
     {
@@ -381,59 +427,80 @@ static GBAEmulationViewController *_emulationViewController;
 
 #pragma mark - Pause Menu
 
-- (void)controllerViewDidPressMenuButton:(GBAControllerView *)controller
+- (void)controllerInputDidPressMenuButton:(id)controllerInput
 {
+    if (self.presentedViewController)
+    {
+        return;
+    }
+    
+    if (self.pausedActionSheet)
+    {
+        [self.pausedActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+        [self resumeEmulation];
+        self.pausedActionSheet = nil;
+        
+        return;
+    }
+    
+    if (self.selectingSustainedButton)
+    {
+        // Tad hacky, but keeps code in one place.
+        [self controllerInput:self.controllerView didPressButtons:nil];
+        
+        return;
+    }
+    
     _romPauseTime = CFAbsoluteTimeGetCurrent();
 
     self.userPausedEmulation = YES;
     [self pauseEmulation];
     
-    UIActionSheet *actionSheet = nil;
-    
     // iOS 7 has trouble adding buttons to UIActionSheet after it's created, so we just create a different action sheet depending on hardware
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                  delegate:nil
-                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                    destructiveButtonTitle:NSLocalizedString(@"Show ROM List", @"")
-                                         otherButtonTitles:
-                       NSLocalizedString(@"Fast Forward", @""),
-                       NSLocalizedString(@"Save State", @""),
-                       NSLocalizedString(@"Load State", @""),
-                       NSLocalizedString(@"Cheat Codes", @""),
-                       NSLocalizedString(@"Sustain Button", @""), nil];
+        self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:NSLocalizedString(@"Show ROM List", @"")
+                                                    otherButtonTitles:
+                                  NSLocalizedString(@"Fast Forward", @""),
+                                  NSLocalizedString(@"Save State", @""),
+                                  NSLocalizedString(@"Load State", @""),
+                                  NSLocalizedString(@"Cheat Codes", @""),
+                                  NSLocalizedString(@"Sustain Button", @""), nil];
     }
     else
     {
         if ([self numberOfCPUCoresForCurrentDevice] == 1)
         {
-            actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                      delegate:nil
-                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                        destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
-                                             otherButtonTitles:
-                           NSLocalizedString(@"Save State", @""),
-                           NSLocalizedString(@"Load State", @""),
-                           NSLocalizedString(@"Cheat Codes", @""),
-                           NSLocalizedString(@"Sustain Button", @""), nil];
+            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                 delegate:nil
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                   destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                                        otherButtonTitles:
+                                      NSLocalizedString(@"Save State", @""),
+                                      NSLocalizedString(@"Load State", @""),
+                                      NSLocalizedString(@"Cheat Codes", @""),
+                                      NSLocalizedString(@"Sustain Button", @""), nil];
         }
         else
         {
-            actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                      delegate:nil
-                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                        destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
-                                             otherButtonTitles:
-                           NSLocalizedString(@"Fast Forward", @""),
-                           NSLocalizedString(@"Save State", @""),
-                           NSLocalizedString(@"Load State", @""),
-                           NSLocalizedString(@"Cheat Codes", @""),
-                           NSLocalizedString(@"Sustain Button", @""), nil];
+            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                 delegate:nil
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                   destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
+                                                        otherButtonTitles:
+                                      NSLocalizedString(@"Fast Forward", @""),
+                                      NSLocalizedString(@"Save State", @""),
+                                      NSLocalizedString(@"Load State", @""),
+                                      NSLocalizedString(@"Cheat Codes", @""),
+                                      NSLocalizedString(@"Sustain Button", @""), nil];
         }
     }
     
     void (^selectionHandler)(UIActionSheet *actionSheet, NSInteger buttonIndex) = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+        
         if (buttonIndex == 0)
         {
             [self returnToROMTableViewController];
@@ -469,15 +536,17 @@ static GBAEmulationViewController *_emulationViewController;
                 [self resumeEmulation];
             }
         }
+        
+        self.pausedActionSheet = nil;
     };
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        [actionSheet showInView:self.view selectionHandler:selectionHandler];
+        [self.pausedActionSheet showInView:self.view selectionHandler:selectionHandler];
     }
     else
     {
-        CGRect rect = [self.controllerView.controller rectForButtonRect:GBAControllerRectMenu orientation:self.controllerView.orientation];
+        CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation];
         
         CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
         
@@ -485,7 +554,7 @@ static GBAEmulationViewController *_emulationViewController;
         convertedRect.origin.x = 0;
         convertedRect.size.width = self.controllerView.bounds.size.width;
         
-        [actionSheet showFromRect:convertedRect inView:self.view animated:YES selectionHandler:selectionHandler];
+        [self.pausedActionSheet showFromRect:convertedRect inView:self.view animated:YES selectionHandler:selectionHandler];
     }
 }
 
@@ -530,19 +599,28 @@ static GBAEmulationViewController *_emulationViewController;
     instructionsLabel.numberOfLines = 0.0;
     instructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
     instructionsLabel.textAlignment = NSTextAlignmentCenter;
-    instructionsLabel.text = NSLocalizedString(@"Tap the button you want to sustain.\n\nTo cancel or unsustain a previously sustained button, tap anywhere there isn't a button.", @"");
+    
+    if (self.externalController)
+    {
+        instructionsLabel.text = NSLocalizedString(@"Press the button you want to sustain.\n\nTo cancel or unsustain a previously sustained button, either tap the screen or press the Menu button.", @"");
+    }
+    else
+    {
+        instructionsLabel.text = NSLocalizedString(@"Tap the button you want to sustain.\n\nTo cancel or unsustain a previously sustained button, tap anywhere there isn't a button.", @"");
+    }
+    
     instructionsLabel.textColor = [UIColor whiteColor];
     instructionsLabel.center = self.emulatorScreen.center;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.controllerView.orientation == GBAControllerOrientationLandscape)
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.controllerView.orientation == GBAControllerSkinOrientationLandscape)
     {
-        CGRect screenRect = [self.controllerView.controller rectForButtonRect:GBAControllerRectScreen orientation:self.controllerView.orientation];
+        CGRect screenRect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectScreen orientation:self.controllerView.orientation];
         
-        if (CGRectIsEmpty(screenRect))
+        if (CGRectIsEmpty(screenRect) && self.externalController == nil) // With external controller, we want it to be centered
         {
             instructionsLabel.center = ({
                 CGPoint center = instructionsLabel.center;
-                center.y -= 60.0f;
+                center.y -= 45.0f;
                 center;
             });
         }
@@ -569,6 +647,9 @@ static GBAEmulationViewController *_emulationViewController;
     }];
     
     self.selectingSustainedButton = NO;
+    
+    [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
+    [self updateEmulatorScreenFrame]; // In case user connected/disconnected external controller
     
     [self resumeEmulation];
 }
@@ -762,7 +843,7 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     self.framerateLabel.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
     
-    BOOL translucent = [[self.controllerView.controller dictionaryForOrientation:self.controllerView.orientation][@"translucent"] boolValue];
+    BOOL translucent = [[self.controllerView.controllerSkin dictionaryForOrientation:self.controllerView.orientation][@"translucent"] boolValue];
     
     if (translucent)
     {
@@ -955,7 +1036,14 @@ void uncaughtExceptionHandler(NSException *exception)
         
         BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
         
-        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation drawController:YES darkenImage:darkenImage];
+        BOOL drawController = YES;
+        
+        if (self.externalController)
+        {
+            drawController = NO;
+        }
+        
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation drawController:drawController darkenImage:darkenImage];
     }
     
     [self updateControllerSkinForInterfaceOrientation:toInterfaceOrientation];
@@ -1029,6 +1117,24 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)updateControllerSkinForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    if (self.externalController)
+    {
+        GBAControllerSkin *invisibleSkin = [GBAControllerSkin invisibleSkin];
+        
+        self.controllerView.controllerSkin = invisibleSkin;
+        
+        if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+        {
+            self.controllerView.orientation = GBAControllerSkinOrientationPortrait;
+        }
+        else
+        {
+            self.controllerView.orientation = GBAControllerSkinOrientationLandscape;
+        }
+        
+        return;
+    }
+    
     NSString *defaultSkinIdentifier = nil;
     NSString *skinsKey = nil;
     GBAControllerSkinType skinType = GBAControllerSkinTypeGBA;
@@ -1051,22 +1157,22 @@ void uncaughtExceptionHandler(NSException *exception)
     if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
     {
         NSString *identifier = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"portrait"];
-        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:identifier]];
-        UIImage *image = [controller imageForOrientation:GBAControllerOrientationPortrait];
+        GBAControllerSkin *controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:identifier]];
+        UIImage *image = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
         
         if (image == nil)
         {
-            controller = [GBAController defaultControllerForSkinType:skinType];
+            controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
             
             NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
             skins[@"portrait"] = defaultSkinIdentifier;
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
         }
         
-        self.controllerView.controller = controller;
-        self.controllerView.orientation = GBAControllerOrientationPortrait;
+        self.controllerView.controllerSkin = controller;
+        self.controllerView.orientation = GBAControllerSkinOrientationPortrait;
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationPortrait][@"translucent"] boolValue];
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationPortrait][@"translucent"] boolValue];
         
         if (translucent)
         {
@@ -1081,22 +1187,22 @@ void uncaughtExceptionHandler(NSException *exception)
     else
     {
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"landscape"];
-        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:name]];
-        UIImage *image = [controller imageForOrientation:GBAControllerOrientationLandscape];
+        GBAControllerSkin *controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
+        UIImage *image = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
         
         if (image == nil)
         {
-            controller = [GBAController defaultControllerForSkinType:skinType];
+            controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
             
             NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
             skins[@"landscape"] = defaultSkinIdentifier;
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
         }
         
-        self.controllerView.controller = controller;
-        self.controllerView.orientation = GBAControllerOrientationLandscape;
+        self.controllerView.controllerSkin = controller;
+        self.controllerView.orientation = GBAControllerSkinOrientationLandscape;
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationLandscape][@"translucent"] boolValue];
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationLandscape][@"translucent"] boolValue];
         
         if (translucent)
         {
@@ -1113,9 +1219,9 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     if (self.airplayWindow == nil)
     {
-        CGRect screenRect = [self.controllerView.controller screenRectForOrientation:self.controllerView.orientation];
+        CGRect screenRect = [self.controllerView.controllerSkin screenRectForOrientation:self.controllerView.orientation];
         
-        if (CGRectIsEmpty(screenRect))
+        if (CGRectIsEmpty(screenRect) || self.externalController)
         {
             [UIView animateWithDuration:0.4 animations:^{
                 if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
@@ -1213,7 +1319,15 @@ void uncaughtExceptionHandler(NSException *exception)
     if (self.blurringContents)
     {
         BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
-        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES darkenImage:darkenImage];
+        
+        BOOL drawController = YES;
+        
+        if (self.externalController)
+        {
+            drawController = NO;
+        }
+        
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:drawController darkenImage:darkenImage];
         self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     }
     
@@ -1298,7 +1412,14 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)blurWithInitialAlpha:(CGFloat)alpha darkened:(BOOL)darkened
 {
     self.blurredContentsImageView = ({
-        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES darkenImage:darkened];
+        BOOL drawController = YES;
+        
+        if (self.externalController)
+        {
+            drawController = NO;
+        }
+        
+        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:drawController darkenImage:darkened];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
         imageView.clipsToBounds = YES;
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -1391,21 +1512,21 @@ void uncaughtExceptionHandler(NSException *exception)
     if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
     {
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"portrait"];
-        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:name]];
-        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
+        GBAControllerSkin *controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
+        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
         
         if (controller == nil)
         {
-            controller = [GBAController defaultControllerForSkinType:skinType];
+            controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
             
             NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
             skins[@"portrait"] = defaultSkinIdentifier;
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
             
-            controllerSkin = [controller imageForOrientation:GBAControllerOrientationPortrait];
+            controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
         }
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationPortrait][@"translucent"] boolValue];
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationPortrait][@"translucent"] boolValue];
         
         if (translucent)
         {
@@ -1413,11 +1534,11 @@ void uncaughtExceptionHandler(NSException *exception)
         }
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
-        CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationPortrait];
+        CGRect screenRect = [controller screenRectForOrientation:GBAControllerSkinOrientationPortrait];
         
         if (self.emulatorScreen.eaglView) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
         {
-            if (CGRectIsEmpty(screenRect))
+            if (CGRectIsEmpty(screenRect) || self.externalController)
             {
                 CGSize screenSize = [self screenSizeForContainerSize:viewSize];
                 
@@ -1443,21 +1564,21 @@ void uncaughtExceptionHandler(NSException *exception)
     else
     {
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"landscape"];
-        GBAController *controller = [GBAController controllerWithContentsOfFile:[self filepathForSkinIdentifier:name]];
-        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerOrientationLandscape];
+        GBAControllerSkin *controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
+        UIImage *controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
         
         if (controllerSkin == nil)
         {
-            controller = [GBAController defaultControllerForSkinType:skinType];
+            controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
             
             NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
             skins[@"landscape"] = defaultSkinIdentifier;
             [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
             
-            controllerSkin = [controller imageForOrientation:GBAControllerOrientationLandscape];
+            controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
         }
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerOrientationLandscape][@"translucent"] boolValue];
+        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationLandscape][@"translucent"] boolValue];
         
         if (translucent)
         {
@@ -1465,11 +1586,11 @@ void uncaughtExceptionHandler(NSException *exception)
         }
         
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
-        CGRect screenRect = [controller screenRectForOrientation:GBAControllerOrientationLandscape];
+        CGRect screenRect = [controller screenRectForOrientation:GBAControllerSkinOrientationLandscape];
         
         if (self.emulatorScreen.eaglView) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
         {
-            if (CGRectIsEmpty(screenRect))
+            if (CGRectIsEmpty(screenRect) || self.externalController)
             {
                 CGSize screenSize = [self screenSizeForContainerSize:viewSize];
                 

@@ -9,7 +9,7 @@
 #import "GBAAppDelegate.h"
 #import "GBAEmulationViewController.h"
 #import "GBASettingsViewController.h"
-#import "GBAController.h"
+#import "GBAControllerSkin.h"
 #import "GBAROM.h"
 #import "GBASplitViewController.h"
 #import "GBASyncManager.h"
@@ -188,7 +188,7 @@
 
 - (void)copySkinAtPathToDocumentsDirectory:(NSString *)filepath
 {
-    [GBAController extractSkinAtPathToSkinsDirectory:filepath];
+    [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;

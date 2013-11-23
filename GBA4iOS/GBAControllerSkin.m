@@ -1,22 +1,22 @@
 //
-//  GBAController.m
+//  GBAControllerSkin.m
 //  GBA4iOS
 //
 //  Created by Riley Testut on 8/31/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBAController.h"
+#import "GBAControllerSkin.h"
 #import "UIScreen+Widescreen.h"
 #import <SSZipArchive.h>
 
-@interface GBAController ()
+@interface GBAControllerSkin ()
 
 @property (copy, nonatomic) NSDictionary *infoDictionary;
 
 @end
 
-@implementation GBAController
+@implementation GBAControllerSkin
 
 - (instancetype)initWithContentsOfFile:(NSString *)filepath
 {
@@ -35,13 +35,13 @@
     return self;
 }
 
-+ (GBAController *)controllerWithContentsOfFile:(NSString *)filepath
++ (GBAControllerSkin *)controllerSkinWithContentsOfFile:(NSString *)filepath
 {
-    GBAController *controller = [[GBAController alloc] initWithContentsOfFile:filepath];
-    return controller;
+    GBAControllerSkin *controllerSkin = [[GBAControllerSkin alloc] initWithContentsOfFile:filepath];
+    return controllerSkin;
 }
 
-+ (GBAController *)defaultControllerForSkinType:(GBAControllerSkinType)skinType
++ (GBAControllerSkin *)defaultControllerSkinForSkinType:(GBAControllerSkinType)skinType
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -60,8 +60,15 @@
             break;
     }
             
-    GBAController *controller = [[GBAController alloc] initWithContentsOfFile:filepath];
-    return controller;
+    GBAControllerSkin *controllerSkin = [[GBAControllerSkin alloc] initWithContentsOfFile:filepath];
+    return controllerSkin;
+}
+
++ (GBAControllerSkin *)invisibleSkin
+{
+    // Don't use designated initializer, as that will return nil
+    GBAControllerSkin *controllerSkin = [[GBAControllerSkin alloc] init];
+    return controllerSkin;
 }
 
 + (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath
@@ -78,7 +85,7 @@
     
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tempDirectory error:nil];
     
-    GBAController *controller = [GBAController controllerWithContentsOfFile:tempDirectory];
+    GBAControllerSkin *controllerSkin = [GBAControllerSkin controllerSkinWithContentsOfFile:tempDirectory];
     
     NSString *skinsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Skins"];
     NSString *skinTypeDirectory = nil;
@@ -101,7 +108,7 @@
         ELog(error);
     }
     
-    NSString *destinationPath = [skinTypeDirectory stringByAppendingPathComponent:controller.identifier];
+    NSString *destinationPath = [skinTypeDirectory stringByAppendingPathComponent:controllerSkin.identifier];
         
     [[NSFileManager defaultManager] moveItemAtPath:tempDirectory toPath:destinationPath error:nil];
     
@@ -109,7 +116,7 @@
     
     NSString *infoDictionaryPath = [destinationPath stringByAppendingPathComponent:@"Info.plist"];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:infoDictionaryPath];
-        
+    
     dictionary[@"type"] = @(skinType);
     [dictionary writeToFile:infoDictionaryPath atomically:YES];
     
@@ -136,7 +143,7 @@
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *assets = dictionary[@"Assets"];
     
-    NSString *key = [GBAController keyForCurrentDeviceWithDictionary:assets];
+    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:assets];
     NSString *relativePath = assets[key];
     
     NSString *filepath = [self.filepath stringByAppendingPathComponent:relativePath];
@@ -158,7 +165,7 @@
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *layout = dictionary[@"Layout"];
     
-    NSString *key = [GBAController keyForCurrentDeviceWithDictionary:layout];
+    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:layout];
     NSDictionary *rect = layout[key];
     
     key = [self keyForButtonRect:button];
@@ -171,43 +178,43 @@
 {
     NSString *key = nil;
     switch (button) {
-        case GBAControllerRectDPad:
+        case GBAControllerSkinRectDPad:
             key = @"D-Pad";
             break;
             
-        case GBAControllerRectA:
+        case GBAControllerSkinRectA:
             key = @"A";
             break;
             
-        case GBAControllerRectB:
+        case GBAControllerSkinRectB:
             key = @"B";
             break;
             
-        case GBAControllerRectAB:
+        case GBAControllerSkinRectAB:
             key = @"AB";
             break;
             
-        case GBAControllerRectStart:
+        case GBAControllerSkinRectStart:
             key = @"Start";
             break;
             
-        case GBAControllerRectSelect:
+        case GBAControllerSkinRectSelect:
             key = @"Select";
             break;
             
-        case GBAControllerRectL:
+        case GBAControllerSkinRectL:
             key = @"L";
             break;
             
-        case GBAControllerRectR:
+        case GBAControllerSkinRectR:
             key = @"R";
             break;
             
-        case GBAControllerRectMenu:
+        case GBAControllerSkinRectMenu:
             key = @"Menu";
             break;
             
-        case GBAControllerRectScreen:
+        case GBAControllerSkinRectScreen:
             key = @"Screen";
             break;
     }
@@ -270,11 +277,11 @@
     NSDictionary *dictionary = nil;
     
     switch (orientation) {
-        case GBAControllerOrientationPortrait:
+        case GBAControllerSkinOrientationPortrait:
             dictionary = self.infoDictionary[@"Portrait"];
             break;
             
-        case GBAControllerOrientationLandscape:
+        case GBAControllerSkinOrientationLandscape:
             dictionary = self.infoDictionary[@"Landscape"];
             break;
     }
@@ -284,21 +291,21 @@
 
 - (CGRect)screenRectForOrientation:(GBAControllerOrientation)orientation
 {
-    return [self rectForButtonRect:GBAControllerRectScreen orientation:orientation];
+    return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation];
 }
 
 - (GBAControllerOrientation)supportedOrientations
 {
     GBAControllerOrientation supportedOrientations = 0;
     
-    if ([self dictionaryForOrientation:GBAControllerOrientationPortrait])
+    if ([self dictionaryForOrientation:GBAControllerSkinOrientationPortrait])
     {
-        supportedOrientations |= GBAControllerOrientationPortrait;
+        supportedOrientations |= GBAControllerSkinOrientationPortrait;
     }
     
-    if ([self dictionaryForOrientation:GBAControllerOrientationLandscape])
+    if ([self dictionaryForOrientation:GBAControllerSkinOrientationLandscape])
     {
-        supportedOrientations |= GBAControllerOrientationLandscape;
+        supportedOrientations |= GBAControllerSkinOrientationLandscape;
     }
         
     return supportedOrientations;

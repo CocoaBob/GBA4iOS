@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GBAController.h"
+#import "GBAControllerSkin.h"
 
 @interface GBAControllerSkinDetailViewController : UITableViewController
 

@@ -8,6 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, GBAControllerButton)
+{
+    GBAControllerButtonUp          =  33,
+    GBAControllerButtonDown        =  39,
+    GBAControllerButtonLeft        =  35,
+    GBAControllerButtonRight       =  37,
+    GBAControllerButtonA           =  8,
+    GBAControllerButtonB           =  9,
+    GBAControllerButtonL           =  10,
+    GBAControllerButtonR           =  11,
+    GBAControllerButtonStart       =  1,
+    GBAControllerButtonSelect      =  0,
+    GBAControllerButtonMenu        =  50,
+};
+
 @protocol GBAControllerInputDelegate <NSObject>
 
 - (void)controllerInput:(id)controllerInput didPressButtons:(NSSet *)buttons;
