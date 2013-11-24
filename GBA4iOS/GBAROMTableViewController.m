@@ -639,8 +639,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     NSDictionary *dictionary = [self.downloadProgressDictionary copy];
     
-    DLog(@"Dictionary: %@", dictionary);
-    
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSProgress *progress, BOOL *stop) {
         NSString *downloadingFilename = progress.userInfo[@"filename"];
         
