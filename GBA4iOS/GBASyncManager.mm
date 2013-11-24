@@ -22,6 +22,20 @@ NSString * const GBASyncingDropboxPath = @"dropboxPath";
 NSString * const GBASyncingFileType = @"fileType";
 NSString * const GBASyncingFileRev = @"rev";
 
+UIBackgroundTaskIdentifier rst_begin_background_task(void) {
+    __block UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
+        backgroundTask = UIBackgroundTaskInvalid;
+    }];
+    
+    return backgroundTask;
+};
+
+void rst_end_background_task(UIBackgroundTaskIdentifier backgroundTask) {
+    [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
+    backgroundTask = UIBackgroundTaskInvalid;
+}
+
 typedef NS_ENUM(NSInteger, GBADropboxFileType)
 {
     GBADropboxFileTypeUnknown             = 0,
@@ -41,6 +55,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 @property (readwrite, assign, nonatomic, getter = isSyncing) BOOL syncing;
 
 @property (strong, nonatomic) DBRestClient *restClient;
+@property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
 @property (strong, nonatomic) NSMutableDictionary *dropboxFiles; // Uses remote filepath as keys
 @property (strong, nonatomic) NSSet *conflictedROMs;
@@ -79,7 +94,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
             _pendingUploads = [NSMutableDictionary dictionary];
         }
         
-        _pendingDownloads = [NSMutableDictionary dictionaryWithContentsOfFile:[self pendingUploadsPath]];
+        _pendingDownloads = [NSMutableDictionary dictionaryWithContentsOfFile:[self pendingDownloadsPath]];
         
         if (_pendingDownloads == nil)
         {
@@ -137,10 +152,12 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (void)synchronize
 {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked])
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked] || [self isSyncing])
     {
         return;
     }
+    
+    self.backgroundTaskIdentifier = rst_begin_background_task();
     
     self.syncing = YES;
     
@@ -195,6 +212,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     _performingInitialSync = NO;
     DLog(@"Delta Failed :(");
+    
+    [self finishSyncing];
 }
 
 - (void)finishSyncing
@@ -202,6 +221,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     DLog(@"Finished Syncing!");
     self.syncing = NO;
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasPerformedInitialSync"];
+    
+    rst_end_background_task(self.backgroundTaskIdentifier);
 }
 
 #pragma mark - Initial Sync
