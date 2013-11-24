@@ -5,6 +5,7 @@ Conflicted ROMs
 Renaming to a name on another device\
 
 ## Sanitize ROM and Device names when uploading to dropbox ##
+## Only save ROM saves if necessary!!!! Can run into conflicts too easily. Detect when files actually change ##
 
 DELETING ROMs
 

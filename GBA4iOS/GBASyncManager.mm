@@ -146,7 +146,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         self.restClient = [[DBRestClient alloc] initWithSession:session];
         self.restClient.delegate = self;
-        //[self synchronize];
+        [self synchronize];
     }
 }
 
@@ -166,6 +166,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         return [self performInitialSync];
     }
     
+    DLog(@"Syncing with dropbox...");
     NSDictionary *lastSyncInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncInfo"];
     [self.restClient loadDelta:lastSyncInfo[@"cursor"]];
 }
@@ -176,12 +177,27 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"lastSyncInfo"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
+    DLog(@"Received Delta Entries");
+    
     for (DBDeltaEntry *entry in entries)
     {
+        if ([entry.metadata isDeleted] || entry.metadata.path == nil || entry.metadata.filename == nil)
+        {
+            continue;
+        }
+        
         if ([[entry.lowercasePath pathExtension] isEqualToString:@"sav"])
         {
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+            
+            NSString *romName = [self romNameFromDropboxPath:entry.metadata.path];
+            
+            if (![[entry.metadata.filename stringByDeletingPathExtension] isEqualToString:romName])
+            {
+                DLog(@"Aborting attempt to download conflicted/invalid file %@", entry.metadata.filename);
+                continue;
+            }
             
             NSString *localPath = [documentsDirectory stringByAppendingPathComponent:entry.metadata.filename];
             [self prepareToDownloadFileWithMetadata:entry.metadata toPath:localPath fileType:GBADropboxFileTypeSave conflictROMIfNeeded:YES];
@@ -189,13 +205,12 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         }
         else if ([[entry.lowercasePath stringByDeletingLastPathComponent] hasSuffix:@"upload history"] && [[entry.lowercasePath pathExtension] isEqualToString:@"plist"])
         {
+            DLog(@"WTF");
             NSString *localPath = [[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:entry.metadata.filename];
             [self prepareToDownloadFileWithMetadata:entry.metadata toPath:localPath fileType:GBADropboxFileTypeUploadHistory conflictROMIfNeeded:NO];
         }
         
     }
-    
-    DLog(@"Pending Downloads: %@", self.pendingDownloads);
     
     if (_performingInitialSync)
     {
@@ -343,10 +358,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
             NSString *dropboxPath = uploadDictionary[GBASyncingDropboxPath];
             GBADropboxFileType fileType = (GBADropboxFileType)[uploadDictionary[GBASyncingFileType] integerValue];
             
-            NSArray *components = [dropboxPath pathComponents];
-            if (components.count > 1 && fileType != GBADropboxFileTypeUploadHistory)
+            if (fileType != GBADropboxFileTypeUploadHistory)
             {
-                NSString *romName = components[1];
+                NSString *romName = [self romNameFromDropboxPath:dropboxPath];
                 
                 if ([self.syncingDisabledROMs containsObject:romName])
                 {
@@ -391,10 +405,20 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     NSString *saveFileFilepath = [NSString stringWithFormat:@"/%@/%@/%@", rom.name, SAVE_FILE_DIRECTORY_NAME, [rom.saveFileFilepath lastPathComponent]];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil];
+    DBMetadata *cachedMetadata = [self.dropboxFiles objectForKey:saveFileFilepath];
     
-    [self prepareToUploadFileAtPath:rom.saveFileFilepath toDropboxPath:saveFileFilepath fileType:GBADropboxFileTypeSave];
+    DLog(@"Remote Date: %@ Local Date: %@ Later date: %@", cachedMetadata.lastModifiedDate, [attributes fileModificationDate], [cachedMetadata.lastModifiedDate laterDate:[attributes fileModificationDate]]);
+    
+    // If the local version is newer than remote, upload it
+    if ([cachedMetadata.lastModifiedDate laterDate:[attributes fileModificationDate]] != cachedMetadata.lastModifiedDate)
+    {
+        [self prepareToUploadFileAtPath:rom.saveFileFilepath toDropboxPath:saveFileFilepath fileType:GBADropboxFileTypeSave];
+    }
+    else
+    {
+        DLog(@"No change for file %@", [rom.saveFileFilepath lastPathComponent]);
+    }
 }
 
 - (void)prepareToUploadFileAtPath:(NSString *)filepath toDropboxPath:(NSString *)dropboxPath fileType:(GBADropboxFileType)fileType
@@ -446,6 +470,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         NSString *romName = [[srcPath lastPathComponent] stringByDeletingPathExtension];
         GBAROM *dummyROM = [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:[romName stringByAppendingPathExtension:@"gba"]]];
         [dummyROM setConflicted:YES];
+        [dummyROM setSyncingDisabled:YES];
     }
     
     if ([self.currentUploads count] == 0)
@@ -504,10 +529,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
             NSString *dropboxPath = downloadDictionary[GBASyncingDropboxPath];
             GBADropboxFileType fileType = (GBADropboxFileType)[downloadDictionary[GBASyncingFileType] integerValue];
             
-            NSArray *components = [dropboxPath pathComponents];
-            if (components.count > 1 && fileType != GBADropboxFileTypeUploadHistory)
+            if (fileType != GBADropboxFileTypeUploadHistory)
             {
-                NSString *romName = components[1];
+                NSString *romName = [self romNameFromDropboxPath:dropboxPath];
                 
                 if ([self.syncingDisabledROMs containsObject:romName] || (![self romExistsWithName:romName] && fileType == GBADropboxFileTypeSave))
                 {
@@ -555,9 +579,14 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         return;
     }
     
+    DLog(@"Should be downloading");
+    
     // If local file hasn't been modified since last caching of remote file metadata
     // Bug in iOS 7, don't try to compare against cachedMetadata.lastModifiedDate, IT'LL FAIL.
-    if ([[attributes fileModificationDate] laterDate:cachedMetadata.lastModifiedDate] != [attributes fileModificationDate] || attributes == nil)
+    
+#warning better date checking
+    ///if (([[attributes fileModificationDate] isEqualToDate:cachedMetadata.lastModifiedDate] && [[attributes fileModificationDate] laterDate:cachedMetadata.lastModifiedDate] != [attributes fileModificationDate]) || attributes == nil)
+    if (attributes == nil || attributes)
     {
         DLog(@"Attributes: %@ Cached date: %@", attributes, cachedMetadata.lastModifiedDate);
         
@@ -641,10 +670,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         NSString *dropboxPath = dictionary[GBASyncingDropboxPath];
         GBADropboxFileType fileType = (GBADropboxFileType)[dictionary[GBASyncingFileType] integerValue];
         
-        NSArray *components = [dropboxPath pathComponents];
-        if (components.count > 1 && fileType != GBADropboxFileTypeUploadHistory)
+        if (fileType != GBADropboxFileTypeUploadHistory)
         {
-            NSString *romName = components[1];
+            NSString *romName = [self romNameFromDropboxPath:dropboxPath];
             
             if ([romName isEqualToString:rom.name])
             {
@@ -689,6 +717,17 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     }
     
     return NO;
+}
+
+- (NSString *)romNameFromDropboxPath:(NSString *)dropboxPath
+{
+    NSArray *components = [dropboxPath pathComponents];
+    if (components.count > 1)
+    {
+        return components[1];
+    }
+    
+    return nil;
 }
 
 #pragma mark - Filepathss

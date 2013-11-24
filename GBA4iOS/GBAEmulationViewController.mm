@@ -992,13 +992,16 @@ void uncaughtExceptionHandler(NSException *exception)
     if (self.rom)
     {
         [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
-        [[GBASyncManager sharedManager] synchronize];
     }
+    
+    [[GBASyncManager sharedManager] synchronize];
 }
 
 - (void)willEnterForeground:(NSNotification *)notification
 {
     // Check didBecomeActive:
+    
+    [[GBASyncManager sharedManager] synchronize];
 }
 
 #pragma mark - Layout
