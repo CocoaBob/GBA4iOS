@@ -9,12 +9,13 @@
 #import "GBAROMTableViewController.h"
 #import "GBAEmulationViewController.h"
 #import "GBASettingsViewController.h"
-#import "GBAROM.h"
+#import "GBAROM_Private.h"
 #import "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"
 #import "GBAMailActivity.h"
 #import "GBASplitViewController.h"
 #import "UITableViewController+Theming.h"
 #import "GBAControllerSkin.h"
+#import "GBASyncManager.h"
 
 #import <RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
@@ -690,20 +691,71 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self startROMAtIndexPath:indexPath];
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to delete this ROM and all of its saved data? This cannot be undone.", nil)
+                                                                 delegate:nil
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                   destructiveButtonTitle:NSLocalizedString(@"Delete ROM and Saved Data", nil)
+                                                        otherButtonTitles:nil];
+        
+        UIView *presentationView = self.view;
+        CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            presentationView = self.splitViewController.view;
+            rect = [presentationView convertRect:rect fromView:self.tableView];
+        }
+        
+        [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+            
+            if (buttonIndex == 0)
+            {
+                [self deleteROMAtIndexPath:indexPath];
+            }
+        }];
+    }
+}
+
+#pragma mark - Starting ROM
+
+- (void)startROMAtIndexPath:(NSIndexPath *)indexPath
+{
     if ([[DBSession sharedSession] isLinked] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasPerformedInitialSync"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
-                                                        message:NSLocalizedString(@"Please wait for the initial sync to be complete, then launch the ROM. This is to ensure no save data is lost.", @"")
+                                                        message:NSLocalizedString(@"Please wait for the initial sync to be complete, then launch the game. This is to ensure no save data is lost.", @"")
                                                        delegate:nil cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
         [alert show];
         
-        [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
         return;
     }
     
     NSString *filepath = [self filepathForIndexPath:indexPath];
-    
     GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
+    
+    if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:rom])
+    {
+        DLog(@"%@", rom.name);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
+                                                        message:NSLocalizedString(@"Data for this game is currently being synced. To prevent data loss, please wait until the sync is complete, then launch the game.", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
+                                              otherButtonTitles:nil];
+        [alert show];
+        
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        return;
+    }
     
     void(^showEmulationViewController)(void) = ^(void)
     {
@@ -746,7 +798,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                 
                 showEmulationViewController();
             }
-                
+            
         }];
     }
     else
@@ -755,36 +807,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         showEmulationViewController();
         
-    }
-}
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to delete this ROM and all of its saved data? This cannot be undone.", nil)
-                                                                 delegate:nil
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:NSLocalizedString(@"Delete ROM and Saved Data", nil)
-                                                        otherButtonTitles:nil];
-        
-        UIView *presentationView = self.view;
-        CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            presentationView = self.splitViewController.view;
-            rect = [presentationView convertRect:rect fromView:self.tableView];
-        }
-        
-        [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-            
-            if (buttonIndex == 0)
-            {
-                [self deleteROMAtIndexPath:indexPath];
-            }
-        }];
     }
 }
 

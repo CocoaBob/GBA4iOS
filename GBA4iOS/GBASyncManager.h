@@ -15,11 +15,15 @@ extern NSString *const GBAFileDeviceName;
 
 @interface GBASyncManager : NSObject
 
+@property (readonly, assign, nonatomic, getter = isSyncing) BOOL syncing;
+
 + (instancetype)sharedManager;
 
 - (void)start;
 - (void)performInitialSync;
 - (void)synchronize;
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom;
+
+- (BOOL)isDownloadingDataForROM:(GBAROM *)rom;
 
 @end
