@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
 
 @interface GBAExternalController ()
 
-@property (strong, nonatomic) NSMutableDictionary *previousButtonValues; // Don't use controller snapshots cause we only want to update individual buttons each time
+@property (strong, nonatomic) NSMutableDictionary *previousButtonStates; // Don't use controller snapshots cause we only want to update individual buttons each time
 
 @end
 
@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
     {
         _controller = controller;
         
-        _previousButtonValues = [NSMutableDictionary dictionary];
+        _previousButtonStates = [NSMutableDictionary dictionary];
         
         [self configureController];
     }
@@ -67,32 +67,32 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
     // Standard Buttons
     gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputA wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputA wasPressed:pressed];
     };
     
     gamepad.buttonB.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputB wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputB wasPressed:pressed];
     };
     
     gamepad.buttonX.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputX wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputX wasPressed:pressed];
     };
     
     gamepad.buttonY.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputY wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputY wasPressed:pressed];
     };
     
     gamepad.leftShoulder.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputLeftShoulder wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputLeftShoulder wasPressed:pressed];
     };
     
     gamepad.rightShoulder.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputRightShoulder wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputRightShoulder wasPressed:pressed];
     };
     
     // D-Pad
@@ -113,34 +113,34 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
     
     extendedGamepad.leftTrigger.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputLeftTrigger wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputLeftTrigger wasPressed:pressed];
     };
     
     extendedGamepad.rightTrigger.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
     {
-        [self controllerButtonInput:GBAExternalControllerButtonInputRightTrigger wasPressedWithValue:value];
+        [self controllerButtonInput:GBAExternalControllerButtonInputRightTrigger wasPressed:pressed];
     };
 }
 
 #pragma mark - Controls
 
-- (void)controllerButtonInput:(GBAExternalControllerButtonInput)buttonInput wasPressedWithValue:(float)value
+- (void)controllerButtonInput:(GBAExternalControllerButtonInput)buttonInput wasPressed:(BOOL)pressed
 {
-    float previousValue = [self.previousButtonValues[@(buttonInput)] floatValue];
+    BOOL previouslyPressed = [self.previousButtonStates[@(buttonInput)] boolValue];
     
     GBAControllerButton controllerButton = [self controllerButtonForControllerButtonInput:buttonInput];
     NSSet *set = [NSSet setWithObject:@(controllerButton)];
     
-    if (value > 0 && previousValue == 0)
+    if (pressed && !previouslyPressed)
     {
         [self.delegate controllerInput:self didPressButtons:set];
     }
-    else if (value == 0 && previousValue > 0)
+    else if (!pressed && previouslyPressed)
     {
         [self.delegate controllerInput:self didReleaseButtons:set];
     }
     
-    self.previousButtonValues[@(buttonInput)] = @(value);
+    self.previousButtonStates[@(buttonInput)] = @(pressed);
 }
 
 - (void)controllerDPadDidChange:(GCControllerDirectionPad *)dPad
@@ -149,55 +149,55 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
     NSMutableSet *releasedButtons = [NSMutableSet set];
     
     // Up
-    float previousUpValue = [self.previousButtonValues[@(GBAExternalControllerButtonInputUp)] floatValue];
-    if (dPad.up.value > 0 && previousUpValue == 0)
+    BOOL previouslyPressedUp = [self.previousButtonStates[@(GBAExternalControllerButtonInputUp)] boolValue];
+    if ([dPad.up isPressed] && !previouslyPressedUp)
     {
         [pressedButtons addObject:@(GBAControllerButtonUp)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputUp)] = @(dPad.up.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputUp)] = @(dPad.up.pressed);
     }
-    else if (dPad.up.value == 0 && previousUpValue > 0)
+    else if (![dPad.up isPressed] && previouslyPressedUp)
     {
         [releasedButtons addObject:@(GBAControllerButtonUp)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputUp)] = @(dPad.up.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputUp)] = @(dPad.up.pressed);
     }
     
     // Down
-    float previousDownValue = [self.previousButtonValues[@(GBAExternalControllerButtonInputDown)] floatValue];
-    if (dPad.down.value > 0 && previousDownValue == 0)
+    BOOL previouslyPressedDown = [self.previousButtonStates[@(GBAExternalControllerButtonInputDown)] boolValue];
+    if ([dPad.down isPressed] && !previouslyPressedDown)
     {
         [pressedButtons addObject:@(GBAControllerButtonDown)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputDown)] = @(dPad.down.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputDown)] = @(dPad.down.pressed);
     }
-    else if (dPad.down.value == 0 && previousDownValue > 0)
+    else if (![dPad.down isPressed] && previouslyPressedDown)
     {
         [releasedButtons addObject:@(GBAControllerButtonDown)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputDown)] = @(dPad.down.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputDown)] = @(dPad.down.pressed);
     }
     
     // Left
-    float previousLeftValue = [self.previousButtonValues[@(GBAExternalControllerButtonInputLeft)] floatValue];
-    if (dPad.left.value > 0 && previousLeftValue == 0)
+    BOOL previouslyPressedLeft = [self.previousButtonStates[@(GBAExternalControllerButtonInputLeft)] boolValue];
+    if ([dPad.left isPressed] && !previouslyPressedLeft)
     {
         [pressedButtons addObject:@(GBAControllerButtonLeft)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputLeft)] = @(dPad.left.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputLeft)] = @(dPad.left.pressed);
     }
-    else if (dPad.left.value == 0 && previousLeftValue > 0)
+    else if (![dPad.left isPressed] && previouslyPressedLeft)
     {
         [releasedButtons addObject:@(GBAControllerButtonLeft)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputLeft)] = @(dPad.left.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputLeft)] = @(dPad.left.pressed);
     }
     
     // Right
-    float previousRightValue = [self.previousButtonValues[@(GBAExternalControllerButtonInputRight)] floatValue];
-    if (dPad.right.value > 0 && previousRightValue == 0)
+    BOOL previouslyPressedRight = [self.previousButtonStates[@(GBAExternalControllerButtonInputRight)] boolValue];
+    if ([dPad.right isPressed] && !previouslyPressedRight)
     {
         [pressedButtons addObject:@(GBAControllerButtonRight)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputRight)] = @(dPad.right.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputRight)] = @(dPad.right.pressed);
     }
-    else if (dPad.right.value == 0 && previousRightValue > 0)
+    else if (![dPad.right isPressed] && previouslyPressedRight)
     {
         [releasedButtons addObject:@(GBAControllerButtonRight)];
-        self.previousButtonValues[@(GBAExternalControllerButtonInputRight)] = @(dPad.right.value);
+        self.previousButtonStates[@(GBAExternalControllerButtonInputRight)] = @(dPad.right.pressed);
     }
     
     if ([pressedButtons count] > 0)

@@ -3,6 +3,8 @@
 #include "Flash.h"
 #include "Sram.h"
 
+#include <stdio.h>
+
 u8 sramRead(u32 address)
 {
   return flashSaveMemory[address & 0xFFFF];
@@ -16,6 +18,8 @@ void sramDelayedWrite(u32 address, u8 byte)
 
 void sramWrite(u32 address, u8 byte)
 {
+    
+    printf("FUCK YES");
   flashSaveMemory[address & 0xFFFF] = byte;
   systemSaveUpdateCounter = SYSTEM_SAVE_UPDATED;
 }

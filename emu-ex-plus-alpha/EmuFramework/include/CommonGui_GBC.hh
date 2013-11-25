@@ -194,7 +194,7 @@ void onExit(bool backgrounded)
 	EmuSystem::pause();
 	if(backgrounded)
 	{
-		if (isGBAROM)
+		/* if (isGBAROM)
         {
             EmuSystem::loadAutoState_GBA();
             EmuSystem::saveBackupMem_GBA();
@@ -203,7 +203,7 @@ void onExit(bool backgrounded)
         {
             EmuSystem::loadAutoState_GBC();
             EmuSystem::saveBackupMem_GBC();
-        }
+        } Riley Testut */
 		
 		if(optionNotificationIcon)
 		{

@@ -157,6 +157,8 @@ void flashDelayedWrite(u32 address, u8 byte)
   flashWrite(address, byte);
 }
 
+extern void updateSaveFileForCurrentROM();
+
 void flashWrite(u32 address, u8 byte)
 {
   //  log("Writing %02x at %08x\n", byte, address);
@@ -174,6 +176,7 @@ void flashWrite(u32 address, u8 byte)
       flashState = FLASH_READ_ARRAY;
     break;
   case FLASH_CMD_2:
+          
     if(address == 0x5555) {
       if(byte == 0x90) {
         flashState = FLASH_AUTOSELECT;
@@ -197,6 +200,7 @@ void flashWrite(u32 address, u8 byte)
     }
     break;
   case FLASH_CMD_3:
+          
     if(address == 0x5555 && byte == 0xAA) {
       flashState = FLASH_CMD_4;
     } else {
@@ -215,6 +219,9 @@ void flashWrite(u32 address, u8 byte)
   case FLASH_CMD_5:
     if(byte == 0x30) {
       // SECTOR ERASE
+        
+        updateSaveFileForCurrentROM();
+        
       memset(&flashSaveMemory[(flashBank << 16) + (address & 0xF000)],
              0,
              0x1000);

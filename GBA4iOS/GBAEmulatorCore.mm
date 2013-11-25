@@ -46,6 +46,8 @@ namespace GameFilePicker {
     void onSelectFile(const char* name, const Input::Event &e);
 }
 
+#pragma mark - EAGLView
+
 // A class extension to declare private methods
 @interface EAGLView ()
 
@@ -365,6 +367,13 @@ namespace GameFilePicker {
 
 @end
 
+#pragma mark - Emulator Core
+
+
+NSString *const GBAROMDidSaveDataNotification = @"GBAROMDidSaveDataNotification";
+
+void writeSaveFileForCurrentROMToDisk();
+
 @interface GBAEmulatorCore ()
 
 @property (readwrite, strong, nonatomic) EAGLView *eaglView;
@@ -604,6 +613,28 @@ extern SysVController vController;
     using namespace Input;
     
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
+}
+
+void updateSaveFileForCurrentROM()
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:[GBAEmulatorCore sharedCore] selector:@selector(writeSaveFileForCurrentROMToDisk) object:nil];
+    [[GBAEmulatorCore sharedCore] performSelector:@selector(writeSaveFileForCurrentROMToDisk) withObject:nil afterDelay:1.0];
+}
+
+- (void)writeSaveFileForCurrentROMToDisk
+{
+    if (isGBAROM)
+    {
+        EmuSystem::saveBackupMem_GBA();
+    }
+    else
+    {
+        EmuSystem::saveBackupMem_GBC();
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMDidSaveDataNotification object:self.rom];
+    
+    NSLog(@"Saved File!");
 }
 
 #pragma mark - Save States

@@ -21,6 +21,8 @@
 
 #endif
 
+extern NSString *const GBAROMDidSaveDataNotification;
+
 @interface GBAEmulatorCore : NSObject
 
 @property (readonly, strong, nonatomic) EAGLView *eaglView;

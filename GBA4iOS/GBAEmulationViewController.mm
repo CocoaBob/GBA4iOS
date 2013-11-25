@@ -107,6 +107,10 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
     
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romDidSaveData:) name:GBAROMDidSaveDataNotification object:nil];
+#endif
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
     
@@ -882,7 +886,6 @@ void uncaughtExceptionHandler(NSException *exception)
         [self updateAutosaveState];
     }
     
-    [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
     [[GBASyncManager sharedManager] synchronize];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
@@ -987,11 +990,6 @@ void uncaughtExceptionHandler(NSException *exception)
     if ([self shouldAutosave])
     {
         [self updateAutosaveState];
-    }
-    
-    if (self.rom)
-    {
-        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
     }
     
     [[GBASyncManager sharedManager] synchronize];
@@ -1385,6 +1383,18 @@ void uncaughtExceptionHandler(NSException *exception)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
 #endif
+}
+
+- (void)romDidSaveData:(NSNotification *)notification
+{
+    GBAROM *rom = [notification object];
+    
+    if (rom == nil)
+    {
+        return;
+    }
+    
+    [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
 }
 
 #pragma mark - Blurring
