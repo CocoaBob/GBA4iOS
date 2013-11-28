@@ -15,5 +15,6 @@ extern NSString *const GBAROMSyncingDisabledStateChanged;
 
 @property (readwrite, assign, nonatomic) BOOL syncingDisabled;
 @property (readwrite, assign, nonatomic) BOOL conflicted;
+@property (readwrite, assign, nonatomic) BOOL newlyConflicted;
 
 @end

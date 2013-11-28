@@ -106,7 +106,7 @@
 
 - (void)romTableViewControllerWillAppear:(GBAROMTableViewController *)romTableViewController
 {
-    [self.emulationViewController blurWithInitialAlpha:0.0 darkened:YES];
+    [self.emulationViewController blurWithInitialAlpha:0.0];
     [UIView animateWithDuration:0.2 animations:^{
         [self.emulationViewController setBlurAlpha:1.0];
     }];

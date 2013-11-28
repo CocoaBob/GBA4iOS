@@ -13,6 +13,8 @@
 
 extern NSString *const GBAFileDeviceName;
 
+extern NSString *const GBAHasUpdatedSaveForCurrentGameFromDropboxNotification;
+
 @interface GBASyncManager : NSObject
 
 @property (readonly, assign, nonatomic, getter = isSyncing) BOOL syncing;
@@ -21,9 +23,10 @@ extern NSString *const GBAFileDeviceName;
 
 - (void)start;
 - (void)performInitialSync;
-- (void)synchronize;
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom;
 
 - (BOOL)isDownloadingDataForROM:(GBAROM *)rom;
+
+- (void)synchronize;
 
 @end

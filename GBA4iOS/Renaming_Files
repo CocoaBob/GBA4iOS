@@ -6,6 +6,8 @@ Renaming to a name on another device\
 
 ## Sanitize ROM and Device names when uploading to dropbox ##
 
+## Upload file when metadata isn't loaded ##
+
 DELETING ROMs
 
 remove from non-syncing list

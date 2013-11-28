@@ -18,8 +18,6 @@ void sramDelayedWrite(u32 address, u8 byte)
 
 void sramWrite(u32 address, u8 byte)
 {
-    
-    printf("FUCK YES");
-  flashSaveMemory[address & 0xFFFF] = byte;
+    flashSaveMemory[address & 0xFFFF] = byte;
   systemSaveUpdateCounter = SYSTEM_SAVE_UPDATED;
 }

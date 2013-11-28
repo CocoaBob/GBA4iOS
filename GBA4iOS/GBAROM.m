@@ -189,13 +189,22 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
         conflictedROMs = [NSMutableSet set];
     }
     
+    BOOL previouslyConflicted = [conflictedROMs containsObject:self.name];
+    
+    if (previouslyConflicted == conflicted)
+    {
+        return;
+    }
+    
     if (conflicted)
     {
         [conflictedROMs addObject:self.name];
+        [self setNewlyConflicted:YES];
     }
     else
     {
-        [conflictedROMs addObject:self.name];
+        [conflictedROMs removeObject:self.name];
+        [self setNewlyConflicted:NO];
     }
     
     [[conflictedROMs allObjects] writeToFile:[self conflictedROMsPath] atomically:YES];
@@ -207,6 +216,34 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
 {
     NSMutableSet *conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
     return [conflictedROMs containsObject:self.name];
+}
+
+- (BOOL)newlyConflicted
+{
+    NSSet *newlyConflictedROMs = [NSSet setWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"newlyConflictedROMs"]];
+    
+    return [newlyConflictedROMs containsObject:self.name];
+}
+
+- (void)setNewlyConflicted:(BOOL)newlyConflicted
+{
+    NSMutableSet *newlyConflictedROMs = [NSMutableSet setWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"newlyConflictedROMs"]];
+    
+    if (newlyConflictedROMs == nil)
+    {
+        newlyConflictedROMs = [NSMutableSet set];
+    }
+    
+    if (newlyConflicted)
+    {
+        [newlyConflictedROMs addObject:self.name];
+    }
+    else
+    {
+        [newlyConflictedROMs removeObject:self.name];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[newlyConflictedROMs allObjects] forKey:@"newlyConflictedROMs"];
 }
 
 #pragma mark - Helper Methods

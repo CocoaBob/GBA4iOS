@@ -29,21 +29,19 @@
     
     if ([self isPresenting])
     {
-        
-        [[UIApplication sharedApplication] setStatusBarStyle:[toViewController preferredStatusBarStyle] animated:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:[toViewController prefersStatusBarHidden] withAnimation:UIStatusBarAnimationFade];
-        
-        toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
-        
         [[transitionContext containerView] addSubview:toViewController.view];
         
         // Set the initial frame to where it'll end up, then we simply transform it. Must go after adding to container view for correct status bar behavior
-        toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
+        CGRect frame = [transitionContext initialFrameForViewController:fromViewController];
+        //frame.origin.y += [UIApplication sharedApplication].statusBarFrame.size.height;
+        //frame.size.height -= [UIApplication sharedApplication].statusBarFrame.size.height;
+        
+        toViewController.view.frame = frame;
         
         toViewController.view.alpha = 0;
         toViewController.view.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(2.0, 2.0));
         
-        [(GBAEmulationViewController *)fromViewController blurWithInitialAlpha:0.0f darkened:YES];
+        [(GBAEmulationViewController *)fromViewController blurWithInitialAlpha:0.0f];
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
             [(GBAEmulationViewController *)fromViewController setBlurAlpha:1.0f];

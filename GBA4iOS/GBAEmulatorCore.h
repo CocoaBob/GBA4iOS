@@ -38,6 +38,9 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)resumeEmulation;
 - (void)endEmulation;
 
+// Saves
+- (void)writeSaveFileForCurrentROMToDisk;
+
 // Save States
 - (void)saveStateToFilepath:(NSString *)filepath;
 - (void)loadStateFromFilepath:(NSString *)filepath;

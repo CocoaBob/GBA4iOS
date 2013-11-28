@@ -302,7 +302,7 @@ void EmuSystem::closeSystem_GBA()
 {
 	assert(gameIsRunning());
 	logMsg("closing game %s", gameName);
-	saveBackupMem_GBA();
+	// saveBackupMem_GBA(); Riley Testut. We save manually
 	CPUCleanUp();
 	detectedRtcGame = 0;
 	cheatsNumber = 0; // reset cheat list

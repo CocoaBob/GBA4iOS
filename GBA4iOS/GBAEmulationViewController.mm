@@ -21,6 +21,7 @@
 #import "GBASyncManager.h"
 #import "UIScreen+Widescreen.h"
 #import "GBAExternalController.h"
+#import "GBASyncingDetailViewController.h"
 
 #import <GameController/GameController.h>
 
@@ -29,11 +30,12 @@
 #endif
 
 #import "UIActionSheet+RSTAdditions.h"
+#import "UIAlertView+RSTAdditions.h"
 #include <sys/sysctl.h>
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     NSInteger _sustainButtonFrameCount;
@@ -51,6 +53,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) UIImageView *splashScreenImageView;
 @property (assign, nonatomic) BOOL userPausedEmulation;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
+@property (assign, nonatomic) BOOL preventSavingROMSaveData;
 
 @property (nonatomic) CFTimeInterval previousTimestamp;
 @property (nonatomic) NSInteger frameCount;
@@ -110,6 +113,8 @@ static GBAEmulationViewController *_emulationViewController;
 #if !(TARGET_IPHONE_SIMULATOR)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romDidSaveData:) name:GBAROMDidSaveDataNotification object:nil];
 #endif
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hasUpdatedSaveForCurrentGameFromDropbox:) name:GBAHasUpdatedSaveForCurrentGameFromDropboxNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUpdateSaveForCurrentGameFromDropbox:) name:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
@@ -588,7 +593,7 @@ static GBAEmulationViewController *_emulationViewController;
         imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         imageView.alpha = 0.0;
         
-        UIImage *image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:NO darkenImage:YES];
+        UIImage *image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:NO];
         imageView.image = image;
         
         [self.view insertSubview:imageView belowSubview:self.controllerView];
@@ -686,8 +691,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController);
     
-    BOOL darkened = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
-    [self blurWithInitialAlpha:0.0 darkened:darkened];
+    [self blurWithInitialAlpha:0.0];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
@@ -817,8 +821,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatManagerViewController);
     
-    BOOL darkened = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
-    [self blurWithInitialAlpha:0.0 darkened:darkened];
+    [self blurWithInitialAlpha:0.0];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
@@ -885,6 +888,8 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         [self updateAutosaveState];
     }
+    
+    // Saves when pausing the game
     
     [[GBASyncManager sharedManager] synchronize];
     
@@ -992,12 +997,28 @@ void uncaughtExceptionHandler(NSException *exception)
         [self updateAutosaveState];
     }
     
+    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
+    {
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
+#endif
+        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
+    }
+    
     [[GBASyncManager sharedManager] synchronize];
 }
 
 - (void)willEnterForeground:(NSNotification *)notification
 {
     // Check didBecomeActive:
+    
+    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
+    {
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
+#endif
+        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
+    }
     
     [[GBASyncManager sharedManager] synchronize];
 }
@@ -1051,10 +1072,7 @@ void uncaughtExceptionHandler(NSException *exception)
         blurredSnapshot.alpha = 1.0;
         
         [self.view addSubview:blurredSnapshot];
-        
-        BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
-        
-        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation drawController:YES darkenImage:darkenImage];
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:toInterfaceOrientation drawController:YES];
     }
     
     [self updateControllerSkinForInterfaceOrientation:toInterfaceOrientation];
@@ -1228,6 +1246,11 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)updateEmulatorScreenFrame
 {
+    if (self.rom == nil)
+    {
+        return;
+    }
+    
     if (self.airplayWindow == nil)
     {
         CGRect screenRect = [self.controllerView.controllerSkin screenRectForOrientation:self.controllerView.orientation];
@@ -1329,9 +1352,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (self.blurringContents)
     {
-        BOOL darkenImage = (!self.presentedViewController || [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone);
-        
-        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES darkenImage:darkenImage];
+        self.blurredContentsImageView.image = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES];
         self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     }
     
@@ -1365,6 +1386,14 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)pauseEmulation
 {
+    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
+    {
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
+#endif
+        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
+    }
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pauseEmulation];
 #endif
@@ -1385,6 +1414,8 @@ void uncaughtExceptionHandler(NSException *exception)
 #endif
 }
 
+#pragma mark - Syncing
+
 - (void)romDidSaveData:(NSNotification *)notification
 {
     GBAROM *rom = [notification object];
@@ -1397,12 +1428,132 @@ void uncaughtExceptionHandler(NSException *exception)
     [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
 }
 
+- (void)hasUpdatedSaveForCurrentGameFromDropbox:(NSNotification *)notification
+{
+    self.preventSavingROMSaveData = YES;
+    
+    self.userPausedEmulation = YES;
+    [self pauseEmulation];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            if (self.blurringContents)
+            {
+                [self refreshLayout];
+            }
+            else
+            {
+                [self blurWithInitialAlpha:0.0];
+                
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self setBlurAlpha:1.0];
+                }];
+            }
+        }
+        
+        GBASyncingDetailViewController *syncingDetailViewController = [[GBASyncingDetailViewController alloc] initWithROM:self.rom];
+        syncingDetailViewController.delegate = self;
+        syncingDetailViewController.showDoneButton = YES;
+        
+        UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(syncingDetailViewController);
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        }
+        else
+        {
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        }
+        
+        UIViewController *presentingViewController = self;
+        
+        while (presentingViewController.presentedViewController)
+        {
+            presentingViewController = presentingViewController.presentedViewController;
+        }
+        
+        [presentingViewController presentViewController:navigationController animated:YES completion:nil];
+        
+        [self.rom setNewlyConflicted:NO];
+    });
+}
+
+- (void)didUpdateSaveForCurrentGameFromDropbox:(NSNotification *)notification
+{
+    if ([self shouldAutosave])
+    {
+        [self updateAutosaveState];
+    }
+    
+    // Restart game
+    [self setRom:self.rom];
+    
+    self.userPausedEmulation = YES;
+    
+    // Let the ROM run a little bit before we freeze it
+    double delayInSeconds = 0.3;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self pauseEmulation];
+        
+        [self refreshLayout];
+    });
+}
+
+- (void)syncingDetailViewControllerWillDismiss:(GBASyncingDetailViewController *)syncingDetailViewController
+{
+    UIViewController *presentedViewController = self.presentedViewController;
+    if ([presentedViewController isKindOfClass:[UINavigationController class]])
+    {
+        presentedViewController = [[(UINavigationController *)presentedViewController viewControllers] firstObject];
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        // Only hide status bar if the syncingDetailViewController was the modal view controller. If it isn't, the status bar should stay
+        if (presentedViewController == syncingDetailViewController)
+        {
+            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+        }
+        
+        // Used primarily to update the blurring, but can't help to update everything
+        [self refreshLayout];
+    }
+    
+    self.preventSavingROMSaveData = NO;
+    
+    if (presentedViewController == syncingDetailViewController)
+    {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            if (![(GBASplitViewController *)self.splitViewController romTableViewControllerIsVisible])
+            {
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self setBlurAlpha:0.0];
+                } completion:^(BOOL finished) {
+                    [self removeBlur];
+                }];
+                
+                [self resumeEmulation];
+            }
+        }
+        else
+        {
+            [self resumeEmulation];
+        }
+    }
+}
+
 #pragma mark - Blurring
 
-- (void)blurWithInitialAlpha:(CGFloat)alpha darkened:(BOOL)darkened
+- (void)blurWithInitialAlpha:(CGFloat)alpha
 {
     self.blurredContentsImageView = ({
-        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES darkenImage:darkened];
+        UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
         imageView.clipsToBounds = YES;
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -1451,7 +1602,7 @@ void uncaughtExceptionHandler(NSException *exception)
     self.blurredContentsImageView.alpha = blurAlpha;
 }
 
-- (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation drawController:(BOOL)drawController darkenImage:(BOOL)darkenImage
+- (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation drawController:(BOOL)drawController
 {
     // Can be modified if wanting to eventually blur separate parts of the view, so it extends outwards into the black (smoother)
     CGFloat edgeExtension = 0;
@@ -1624,13 +1775,7 @@ void uncaughtExceptionHandler(NSException *exception)
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    UIColor *tintColor = nil;
-    
-    if (darkenImage)
-    {
-        tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
-    }
-    
+    UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
     return [image applyBlurWithRadius:10 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
 }
 
@@ -1653,10 +1798,14 @@ void uncaughtExceptionHandler(NSException *exception)
         [self resumeEmulation];
     }
     
+    NSSet *sustainedButtons = [self.sustainedButtonSet copy];
+    self.sustainedButtonSet = nil;
+    
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] releaseButtons:self.sustainedButtonSet];
+    [[GBAEmulatorCore sharedCore] releaseButtons:sustainedButtons];
     [[GBAEmulatorCore sharedCore] setRom:self.rom];
 #endif
+
     
     [self startEmulation];
     

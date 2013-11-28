@@ -16,11 +16,13 @@
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <DropboxSDK/DropboxSDK.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation GBAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.tintColor = GBA4iOS_PURPLE_COLOR;
     
@@ -57,6 +59,8 @@
     [[GBASyncManager sharedManager] start];
     
     [GBASettingsViewController registerDefaults];
+    
+    [Crashlytics startWithAPIKey:@"40b809418ecb525b71aecd5d32fa2612063baaad"];
     
     [self.window makeKeyAndVisible];
     

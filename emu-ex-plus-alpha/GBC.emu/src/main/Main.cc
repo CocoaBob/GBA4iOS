@@ -291,7 +291,7 @@ void EmuSystem::saveAutoState_GBC()
 
 void EmuSystem::closeSystem_GBC()
 {
-	saveBackupMem_GBC();
+	// saveBackupMem_GBC(); Riley Testut
 	cheatList.removeAll();
 	cheatsModified = 0;
 }

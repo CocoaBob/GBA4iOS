@@ -16,6 +16,7 @@
 #import "UITableViewController+Theming.h"
 #import "GBAControllerSkin.h"
 #import "GBASyncManager.h"
+#import "GBASyncingDetailViewController.h"
 
 #import <RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
@@ -35,7 +36,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     GBAVisibleROMTypeGBC,
 };
 
-@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, RSTWebViewControllerDelegate, GBASettingsViewControllerDelegate>
+@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, RSTWebViewControllerDelegate, GBASettingsViewControllerDelegate, GBASyncingDetailViewControllerDelegate>
 
 @property (assign, nonatomic) GBAVisibleROMType visibleRomType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
@@ -691,7 +692,10 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self startROMAtIndexPath:indexPath];
+    NSString *filepath = [self filepathForIndexPath:indexPath];
+    GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
+    
+    [self startROM:rom];
 }
 
 // Override to support editing the table view.
@@ -726,7 +730,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 #pragma mark - Starting ROM
 
-- (void)startROMAtIndexPath:(NSIndexPath *)indexPath
+- (void)startROM:(GBAROM *)rom
 {
     if ([[DBSession sharedSession] isLinked] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasPerformedInitialSync"])
     {
@@ -739,13 +743,10 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    NSString *filepath = [self filepathForIndexPath:indexPath];
-    GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
+    
     
     if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:rom])
     {
-        DLog(@"%@", rom.name);
-        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Data for this game is currently being synced. To prevent data loss, please wait until the sync is complete, then launch the game.", @"")
                                                        delegate:nil
@@ -757,9 +758,53 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
+    if ([rom newlyConflicted])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Data is Conflicted", @"")
+                                                        message:NSLocalizedString(@"Data for this game is not in sync with Dropbox, so syncing has been disabled. Please either tap View Details below to resolve the conflict manually, or ignore this message and start the game anyway. If you choose to not resolve the conflict now, you can resolve it later in the Dropbox settings.", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                              otherButtonTitles:NSLocalizedString(@"View Details", @""), NSLocalizedString(@"Start Anyway", @""), nil];
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 0)
+            {
+                [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+            }
+            else if (buttonIndex == 1)
+            {
+                GBASyncingDetailViewController *syncingDetailViewController = [[GBASyncingDetailViewController alloc] initWithROM:rom];
+                syncingDetailViewController.delegate = self;
+                syncingDetailViewController.showDoneButton = YES;
+                
+                UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(syncingDetailViewController);
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+                {
+                    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+                }
+                else
+                {
+                    [[UIApplication sharedApplication] setStatusBarStyle:[syncingDetailViewController preferredStatusBarStyle] animated:YES];
+                }
+                
+                [self presentViewController:navigationController animated:YES completion:nil];
+                
+                [rom setNewlyConflicted:NO];
+            }
+            else if (buttonIndex == 2)
+            {
+                [rom setNewlyConflicted:NO];
+                
+                [self startROM:rom];
+            }
+        }];
+        
+        return;
+    }
+    
     void(^showEmulationViewController)(void) = ^(void)
     {
-        
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
             [self dismissViewControllerAnimated:YES completion:^{
@@ -778,8 +823,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([self.emulationViewController.rom isEqual:rom])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM already in use", @"")
-                                                        message:NSLocalizedString(@"Would you like to resume where you left off, or restart the ROM?", @"")
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game already in use", @"")
+                                                        message:NSLocalizedString(@"Would you like to resume where you left off, or restart the game?", @"")
                                                        delegate:nil
                                               cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                               otherButtonTitles:NSLocalizedString(@"Resume", @""), NSLocalizedString(@"Restart", @""), nil];
@@ -806,7 +851,18 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         self.emulationViewController.rom = rom;
         
         showEmulationViewController();
-        
+    }
+}
+
+- (void)syncingDetailViewControllerDidDismiss:(GBASyncingDetailViewController *)syncingDetailViewController
+{
+    if (![syncingDetailViewController.rom syncingDisabled])
+    {
+        [self startROM:syncingDetailViewController.rom];
+    }
+    else
+    {
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     }
 }
 

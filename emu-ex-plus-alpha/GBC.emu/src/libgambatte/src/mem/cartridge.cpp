@@ -410,7 +410,7 @@ public:
 		case 2:
 			rambank = data & 0xF;
 			setRambank();
-			break;
+                break;
 		case 3:
 			break;
 		}

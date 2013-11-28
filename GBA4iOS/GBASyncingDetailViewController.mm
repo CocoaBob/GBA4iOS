@@ -8,9 +8,12 @@
 
 #import "GBASyncingDetailViewController.h"
 #import "UIAlertView+RSTAdditions.h"
-#import "GBASyncManager.h"
+#import "GBASyncManager_Private.h"
+#import "GBAEmulatorCore.h"
 
 #import <DropboxSDK/DropboxSDK.h>
+
+NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADidUpdateSaveForCurrentGameFromDropboxNotification";
 
 @interface GBASyncingDetailViewController () <DBRestClientDelegate>
 
@@ -18,6 +21,7 @@
 @property (strong, nonatomic) NSDictionary *disabledSyncingROMs;
 @property (strong, nonatomic) NSIndexPath *selectedSaveIndexPath;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (strong, nonatomic) UISwitch *syncingEnabledSwitch;
 
 @property (strong, nonatomic) DBRestClient *restClient;
 @property (strong, nonatomic) NSMutableArray *remoteSaves;
@@ -46,6 +50,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (self.showDoneButton)
+    {
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissSyncingDetailViewController:)];
+        self.navigationItem.rightBarButtonItem = doneButton;
+    }
+    
+    self.syncingEnabledSwitch = ({
+        UISwitch *switchView = [[UISwitch alloc] init];
+        switchView.on = !self.rom.syncingDisabled;
+        [switchView addTarget:self action:@selector(toggleSyncGameData:) forControlEvents:UIControlEventValueChanged];
+        switchView;
+    });
+    
     
     if ([self.rom conflicted])
     {
@@ -79,13 +97,47 @@
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure?", @"") message:NSLocalizedString(@"Once syncing is enabled, the save file for this game on all your other devices will be overwritten with the one you selected. Please make sure you have selected the correct save file, then tap Enable.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Enable", @""), nil];
         
-        [alert show];
-        
-        double delayInSeconds = 0.2;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [sender setOn:NO animated:YES];
-        });
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 0)
+            {
+                [sender setOn:NO animated:YES];
+            }
+            else if (buttonIndex == 1)
+            {
+                DBMetadata *metadata = [self dropboxMetadataForROM:self.rom];
+                
+                [self.rom setConflicted:NO];
+                [self.rom setSyncingDisabled:NO];
+                
+                if (self.selectedSaveIndexPath.section == 2) // Selected Local Save
+                {
+                    [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:metadata fileType:GBADropboxFileTypeSave completionBlock:nil];
+                }
+                else if (self.selectedSaveIndexPath.section == 3)
+                {
+                    [[GBASyncManager sharedManager] downloadFileWithMetadata:metadata toPath:self.rom.saveFileFilepath fileType:GBADropboxFileTypeSave completionBlock:^(NSString *localPath, NSString *dropboxPath, NSError *error) {
+                        if (error)
+                        {
+                            [self.rom setConflicted:YES];
+                            [self.rom setSyncingDisabled:YES];
+                            
+                            [sender setOn:NO animated:YES];
+                        }
+                        else
+                        {
+                            DLog(@"Successfully downloaded save for ROM: %@", self.rom.name);
+                            
+#if !(TARGET_IPHONE_SIMULATOR)
+                            if ([[[GBAEmulatorCore sharedCore] rom] isEqual:self.rom])
+                            {
+                                [[NSNotificationCenter defaultCenter] postNotificationName:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
+                            }
+#endif
+                        }
+                    }];
+                }
+            }
+        }];
     }
     else
     {
@@ -110,6 +162,8 @@
         self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
         self.restClient.delegate = self;
     }
+    
+    self.syncingEnabledSwitch.enabled = NO;
     
     self.errorLoadingFiles = NO;
     
@@ -141,6 +195,8 @@
         [self.uploadHistories setObject:dictionary forKey:[filename stringByDeletingPathExtension]];
     }
     
+    self.syncingEnabledSwitch.enabled = YES;
+    
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
     
     DLog(@"Remote Saves: %@", self.remoteSaves);
@@ -150,6 +206,8 @@
 {
     self.errorLoadingFiles = YES;
     self.loadingFiles = NO;
+    
+    self.syncingEnabledSwitch.enabled = NO;
     
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
 }
@@ -221,11 +279,7 @@
         
         if (indexPath.section == 0)
         {
-            UISwitch *switchView = [[UISwitch alloc] init];
-            switchView.on = !self.rom.syncingDisabled;
-            [switchView addTarget:self action:@selector(toggleSyncGameData:) forControlEvents:UIControlEventValueChanged];
-            cell.accessoryView = switchView;
-            
+            cell.accessoryView = self.syncingEnabledSwitch;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     }
@@ -310,7 +364,7 @@
     
     if (section == 1)
     {
-        return NSLocalizedString(@"The save data for this game is out of sync with Dropbox. To re-enable syncing, please select the save file you want to use, then toggle the above switch on.", @"");
+        return NSLocalizedString(@"The save data for this game is not in sync with Dropbox. If you want to re-enable syncing, please select the save file you want to use, then toggle the above switch on.", @"");
     }
     
     return nil;
@@ -385,6 +439,62 @@
     }];
     
     return deviceName;
+}
+
+- (DBMetadata *)dropboxMetadataForROM:(GBAROM *)rom
+{
+    NSArray *remoteSaves = [self.remoteSaves copy];
+    
+    for (DBMetadata *metadata in remoteSaves)
+    {
+        if ([metadata.filename isEqualToString:[rom.saveFileFilepath lastPathComponent]])
+        {
+            return metadata;
+        }
+    }
+    
+    return nil;
+}
+
+#pragma mark - Dismissal
+
+- (void)dismissSyncingDetailViewController:(UIBarButtonItem *)button
+{
+    if ([self.rom syncingDisabled])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to keep syncing disabled?", @"") message:NSLocalizedString(@"If syncing remains disabled, data for this game will not be updated on your other devices.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Keep Disabled", @""), nil];
+        
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1)
+            {
+                if ([self.delegate respondsToSelector:@selector(syncingDetailViewControllerWillDismiss:)])
+                {
+                    [self.delegate syncingDetailViewControllerWillDismiss:self];
+                }
+                
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    if ([self.delegate respondsToSelector:@selector(syncingDetailViewControllerDidDismiss:)])
+                    {
+                        [self.delegate syncingDetailViewControllerDidDismiss:self];
+                    }
+                }];
+            }
+        }];
+    }
+    else
+    {
+        if ([self.delegate respondsToSelector:@selector(syncingDetailViewControllerWillDismiss:)])
+        {
+            [self.delegate syncingDetailViewControllerWillDismiss:self];
+        }
+        
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            if ([self.delegate respondsToSelector:@selector(syncingDetailViewControllerDidDismiss:)])
+            {
+                [self.delegate syncingDetailViewControllerDidDismiss:self];
+            }
+        }];
+    }
 }
 
 #pragma mark - Getters/Setters
