@@ -213,12 +213,6 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 
 - (void)fetchRemoteSaveInfo
 {
-    if (self.restClient == nil)
-    {
-        self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-        self.restClient.delegate = self;
-    }
-    
     self.syncingEnabledSwitch.enabled = NO;
     
     self.errorLoadingFiles = NO;
@@ -544,6 +538,18 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     }
     else
     {
+        if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:self.rom] && ![self.rom syncingDisabled])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
+                                                            message:NSLocalizedString(@"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then tap Done", @"")
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+            return;
+        }
+        
         if ([self.delegate respondsToSelector:@selector(syncingDetailViewControllerWillDismiss:)])
         {
             [self.delegate syncingDetailViewControllerWillDismiss:self];
@@ -564,7 +570,7 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 {
     if (_restClient == nil)
     {
-        _restClient == [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        _restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
         _restClient.delegate = self;
     }
     

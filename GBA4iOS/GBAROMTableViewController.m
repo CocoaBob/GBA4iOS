@@ -746,7 +746,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:rom] && ![rom syncingDisabled])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
-                                                        message:NSLocalizedString(@"Data for this game is currently being synced. To prevent data loss, please wait until the sync is complete, then launch the game.", @"")
+                                                        message:NSLocalizedString(@"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then launch the game.", @"")
                                                        delegate:nil
                                               cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
                                               otherButtonTitles:nil];

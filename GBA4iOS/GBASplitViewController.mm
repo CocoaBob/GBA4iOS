@@ -7,6 +7,7 @@
 //
 
 #import "GBASplitViewController.h"
+#import "GBASyncManager.h"
 
 @interface GBASplitViewController () <UISplitViewControllerDelegate, GBAROMTableViewControllerAppearanceDelegate>
 
@@ -122,6 +123,7 @@
         [self.emulationViewController removeBlur];
     }];
     
+    [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
     [self.emulationViewController resumeEmulation];
     
     self.romTableViewControllerIsVisible = NO;

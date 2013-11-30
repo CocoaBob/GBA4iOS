@@ -10,6 +10,7 @@
 #import "GBASettingsViewController.h"
 #import "UIAlertView+RSTAdditions.h"
 #import "RSTToastView.h"
+#import "GBASyncingOverviewViewController.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -84,6 +85,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     if (self = [super init])
     {
+        
+        // Remember to empty these all when user logs out of dropbox!!
+        
         _pendingUploads = [NSMutableDictionary dictionaryWithContentsOfFile:[self pendingUploadsPath]];
         
         if (_pendingUploads == nil)
@@ -119,6 +123,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChangedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropboxLoggedOut:) name:GBADropboxLoggedOutNotification object:nil];
     }
     return self;
 }
@@ -155,13 +160,13 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         self.restClient = [[DBRestClient alloc] initWithSession:session];
         self.restClient.delegate = self;
-        //[self synchronize];
+        [self synchronize];
     }
 }
 
 - (void)synchronize
 {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked] || [self isSyncing])
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked])
     {
         return;
     }
@@ -215,11 +220,6 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     DLog(@"Delta Failed :(");
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
-        [alert show];
-    });
-    
     // Don't want to save that we did the initial sync if the delta failed, so we
     _performingInitialSync = NO;
     
@@ -231,15 +231,17 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     DLog(@"Finished Syncing!");
     self.syncingTaskCount--;
     
-    if (self.syncingTaskCount < 0)
+    if (self.syncingTaskCount <= 0)
     {
+        if (self.shouldShowSyncingStatus)
+        {
+            [RSTToastView showWithMessage:@"Sync Complete!" duration:1.0];
+        }
+        
         self.syncingTaskCount = 0;
     }
     
-    if (self.shouldShowSyncingStatus)
-    {
-        [RSTToastView showWithMessage:@"Sync Complete!" duration:1.0];
-    }
+    
     
     if (_performingInitialSync)
     {
@@ -327,6 +329,11 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     DBMetadata *dropboxMetadata = newDropboxFiles[dropboxPath];
     DBMetadata *cachedMetadata = self.dropboxFiles[dropboxPath];
+    
+    if ([dropboxMetadata.rev isEqualToString:cachedMetadata.rev] && dropboxMetadata != nil)
+    {
+        return;
+    }
     
     // If the cached rev doesn't match the server rev, it's conflicted
     if (![dropboxMetadata.rev isEqualToString:cachedMetadata.rev] && dropboxMetadata != nil)
@@ -472,6 +479,10 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath from:(NSString *)srcPath metadata:(DBMetadata *)metadata
 {
     DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", srcPath, destPath, metadata.rev);
+    
+    // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
+    NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
+    [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:srcPath error:nil];
     
     [self.dropboxFiles setObject:metadata forKey:metadata.path];
     [NSKeyedArchiver archiveRootObject:self.dropboxFiles toFile:[self dropboxFilesPath]];
@@ -667,6 +678,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         NSDate *currentDate = [attributes fileModificationDate];
         NSDate *previousDate = cachedMetadata.lastModifiedDate;
         
+        DLog(@"Previous Date: %@ Current Date: %@", previousDate, currentDate);
+        
         // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
         // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
         if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:dummyROM.name] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
@@ -740,6 +753,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     DLog(@"Loaded File: %@", downloadedPath);
     
+    // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
     NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
     [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:downloadedPath error:nil];
     
@@ -755,12 +769,20 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 - (void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error
 {
     NSString *dropboxPath = [error userInfo][@"path"];
-    DLog(@"Failed to load file: %@ Error: %@", [dropboxPath lastPathComponent], [error userInfo]);
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
-        [alert show];
-    });
+    if ([error code] == 404) // 404: File has been deleted (according to dropbox)
+    {
+        DLog(@"File doesn't exist for download...ignoring %@", [dropboxPath lastPathComponent]);
+        
+        [self.pendingDownloads removeObjectForKey:dropboxPath];
+        [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
+        
+        [self handleCompletedDownloadForFileAtDropboxPath:dropboxPath withError:nil];
+        
+        return;
+    }
+    
+    DLog(@"Failed to load file: %@ Error: %@", [dropboxPath lastPathComponent], [error userInfo]);
     
     [self handleCompletedDownloadForFileAtDropboxPath:dropboxPath withError:error];
     
@@ -795,7 +817,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     }
 }
 
-#pragma mark - ROM Status
+#pragma mark - Notifications
 
 - (void)romConflictedStateDidChange:(NSNotification *)notification
 {
@@ -805,6 +827,18 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 - (void)romSyncingDisabledStateDidChange:(NSNotification *)notification
 {
     self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
+}
+
+- (void)dropboxLoggedOut:(NSNotification *)notification
+{
+    self.dropboxFiles = [NSMutableDictionary dictionary];
+    self.conflictedROMs = [NSSet set];
+    self.syncingDisabledROMs = [NSSet set];
+    self.deviceUploadHistory = [NSMutableDictionary dictionary];
+    self.pendingUploads = [NSMutableDictionary dictionary];
+    self.pendingDownloads = [NSMutableDictionary dictionary];
+    self.currentUploads = [NSMutableDictionary dictionary];
+    self.currentDownloads = [NSMutableDictionary dictionary];
 }
 
 #pragma mark - Public

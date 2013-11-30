@@ -35,7 +35,7 @@
 		BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
 		BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
 		BF2F352D183FF6F9002ACE90 /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
-		BF2F352E183FF6F9002ACE90 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
+		BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.mm */; };
 		BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		BF2F353B183FF6F9002ACE90 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
@@ -244,7 +244,7 @@
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
 		CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
-		CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */; };
+		CCA1056B17F6A5F80018D364 /* GBASplitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.mm */; };
 		CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
 		CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
 		CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
@@ -540,7 +540,7 @@
 		CC9EA6C917FE7CE1005BD5E6 /* UITableViewController+Theming.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+Theming.h"; sourceTree = "<group>"; };
 		CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+Theming.m"; sourceTree = "<group>"; };
 		CCA1056917F6A5F80018D364 /* GBASplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASplitViewController.h; sourceTree = "<group>"; };
-		CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASplitViewController.m; sourceTree = "<group>"; };
+		CCA1056A17F6A5F80018D364 /* GBASplitViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASplitViewController.mm; sourceTree = "<group>"; };
 		CCB0CF3E179E6E5900766FA5 /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAGLView_Private.h; sourceTree = "<group>"; };
 		CCBD34EF17F7492F00592602 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
@@ -1231,7 +1231,7 @@
 			isa = PBXGroup;
 			children = (
 				CCA1056917F6A5F80018D364 /* GBASplitViewController.h */,
-				CCA1056A17F6A5F80018D364 /* GBASplitViewController.m */,
+				CCA1056A17F6A5F80018D364 /* GBASplitViewController.mm */,
 			);
 			name = GBASplitViewController;
 			sourceTree = "<group>";
@@ -1565,7 +1565,7 @@
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
 				BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */,
 				BF2F352D183FF6F9002ACE90 /* UIScreen+Widescreen.m in Sources */,
-				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.m in Sources */,
+				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */,
 				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */,
 				BF2F353B183FF6F9002ACE90 /* main.mm in Sources */,
@@ -1692,7 +1692,7 @@
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CC5045041814DC69009F7B9E /* Gb_Apu.cpp in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
-				CCA1056B17F6A5F80018D364 /* GBASplitViewController.m in Sources */,
+				CCA1056B17F6A5F80018D364 /* GBASplitViewController.mm in Sources */,
 				CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,
 				CC50451B1814DC69009F7B9E /* Bcj2.c in Sources */,

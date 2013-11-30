@@ -11,10 +11,19 @@
 #import "GBASyncManager.h"
 #import "GBASyncingDetailViewController.h"
 #import "RSTFileBrowserTableViewCell.h"
+#import "UIActionSheet+RSTAdditions.h"
+#import "UIAlertView+RSTAdditions.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface GBASyncingOverviewViewController () 
+NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotification";
+
+@interface GBASyncingOverviewViewController () <DBRestClientDelegate>
+{
+    BOOL _errorLoadingAccountInfo;
+}
+
+@property (strong, nonatomic) DBRestClient *restClient;
 
 @property (weak, nonatomic) UISwitch *dropboxSyncSwitch;
 
@@ -52,6 +61,11 @@
     
     [self.tableView registerClass:[RSTFileBrowserTableViewCell class] forCellReuseIdentifier:@"DetailCell"];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
+    
+    if ([[DBSession sharedSession] isLinked] && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
+    {
+        [self.restClient loadAccountInfo];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -131,6 +145,8 @@
             {
                 [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
             }
+            
+            [self.restClient loadAccountInfo];
         }
         
         
@@ -146,20 +162,52 @@
 
 - (void)linkDropboxAccount
 {
-    if ([[DBSession sharedSession] isLinked])
-    {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"initialSync"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newlyConflictedROMs"];
-        [[DBSession sharedSession] unlinkAll];
-        [self updateDropboxSection];
-        
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        return;
-    }
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedDropboxURLCallback:) name:GBASettingsDropboxStatusChangedNotification object:nil];
     [[DBSession sharedSession] linkFromController:self];
+}
+
+- (void)unlinkDropboxAccount
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Log out of Dropbox", @"")
+                                                    otherButtonTitles:nil];
+    
+    [actionSheet showFromRect:[self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] inView:self.view animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+        if (buttonIndex == 0)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to log out of Dropbox?", @"")
+                                                            message:NSLocalizedString(@"Logging out then logging back in to the same Dropbox account will mark your games as conflicted, causing you to manually resolve the conflicts yourself.", @"")
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                  otherButtonTitles:NSLocalizedString(@"Log Out", @""), nil];
+            
+            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1)
+                {
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"initialSync"];
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newlyConflictedROMs"];
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"dropboxDisplayName"];
+                    
+                    [[NSFileManager defaultManager] removeItemAtPath:[self dropboxSyncDirectoryPath] error:nil];
+                    
+                    self.conflictedROMs = [NSSet set];
+                    self.syncingDisabledROMs = [NSSet set];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:GBADropboxLoggedOutNotification object:nil];
+                    
+                    [[DBSession sharedSession] unlinkAll];
+                    [self updateDropboxSection];
+                    
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+            }];
+        }
+        
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        
+    }];
 }
 
 - (void)receivedDropboxURLCallback:(NSNotification *)notification
@@ -175,6 +223,8 @@
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:GBASettingsDropboxSyncKey];
         [self.dropboxSyncSwitch setOn:YES animated:YES];
+        
+        [self.restClient loadAccountInfo];
     }
     
     [self updateDropboxSection];
@@ -198,6 +248,38 @@
         
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
         [self.dropboxSyncSwitch setOn:NO animated:YES];
+    }
+}
+
+#pragma mark - DBRestClient Delegate
+
+- (void)restClient:(DBRestClient *)client loadedAccountInfo:(DBAccountInfo *)info
+{
+    NSString *currentName = [[NSUserDefaults standardUserDefaults] stringForKey:@"dropboxDisplayName"];
+    
+    DLog(@"%@ %@", currentName, info.displayName);
+    
+    if ([currentName isEqualToString:info.displayName])
+    {
+        return;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:info.displayName forKey:@"dropboxDisplayName"];
+    
+    if ([self.tableView numberOfSections] > 1)
+    {
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)restClient:(DBRestClient *)client loadAccountInfoFailedWithError:(NSError *)error
+{
+    _errorLoadingAccountInfo = YES;
+    DLog(@"Error loading account info: %@", [error userInfo]);
+    
+    if ([self.tableView numberOfSections] > 1)
+    {
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
 
@@ -238,10 +320,20 @@
 {
     if (section == 2)
     {
+        if ([self.gbaROMs count] == 0)
+        {
+            return nil;
+        }
+        
         return NSLocalizedString(@"GBA", @"");
     }
     else if (section == 3)
     {
+        if ([self.gbcROMs count] == 0)
+        {
+            return nil;
+        }
+        
         return NSLocalizedString(@"GBC", @"");
     }
     
@@ -305,7 +397,24 @@
     else if (indexPath.section == 1)
     {
         cell.textLabel.text = NSLocalizedString(@"Account", @"");
-        cell.detailTextLabel.text = NSLocalizedString(@"Riley Testut", @"");
+        
+        NSString *displayName = [[NSUserDefaults standardUserDefaults] objectForKey:@"dropboxDisplayName"];
+        
+        if (displayName)
+        {
+            cell.detailTextLabel.text = displayName;
+        }
+        else
+        {
+            if (_errorLoadingAccountInfo)
+            {
+                cell.detailTextLabel.text = NSLocalizedString(@"Error loading account info", @"");
+            }
+            else
+            {
+                cell.detailTextLabel.text = NSLocalizedString(@"Loading account info…", @"");
+            }
+        }
     }
     else
     {
@@ -354,7 +463,15 @@
     {
         if (indexPath.row == 0)
         {
-            [self linkDropboxAccount];
+            if ([[DBSession sharedSession] isLinked])
+            {
+                [self unlinkDropboxAccount];
+            }
+            else
+            {
+                [self linkDropboxAccount];
+            }
+            
         }
     }
     else if (indexPath.section == 2)
@@ -389,6 +506,19 @@
 - (NSString *)syncingDisabledROMsPath
 {
     return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
+}
+
+#pragma mark - Getters/Setters
+
+- (DBRestClient *)restClient
+{
+    if (_restClient == nil)
+    {
+        _restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        _restClient.delegate = self;
+    }
+    
+    return _restClient;
 }
 
 @end

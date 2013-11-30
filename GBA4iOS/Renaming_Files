@@ -6,7 +6,7 @@ Renaming to a name on another device\
 
 ## Sanitize ROM and Device names when uploading to dropbox ##
 
-## Upload file when metadata isn't loaded ##
+## Block users entering ROM when it's a) downloading new data or b) NO ROM LOADED
 
 DELETING ROMs
 

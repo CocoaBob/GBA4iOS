@@ -501,7 +501,7 @@ static RSTToastView *_globalToastView;
         }
     }
     
-    return (CGRect){origin, size};
+    return CGRectIntegral((CGRect){origin, size});
 }
 
 + (CGRect)rst_finalFrameForToastView:(RSTToastView *)toastView
@@ -550,7 +550,7 @@ static RSTToastView *_globalToastView;
         }
     }
     
-    return (CGRect){origin, size};
+    return CGRectIntegral((CGRect){origin, size});
 }
 
 

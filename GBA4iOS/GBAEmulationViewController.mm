@@ -136,7 +136,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         self.splashScreenImageView.image = [UIImage imageNamed:@"Default-568h"];
     }
-    else
+    else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {
         self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
     }
@@ -1527,7 +1527,7 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     
     self.preventSavingROMSaveData = NO;
-    
+
     if (presentedViewController == syncingDetailViewController)
     {
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -1554,6 +1554,8 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)blurWithInitialAlpha:(CGFloat)alpha
 {
+    [self.blurredContentsImageView removeFromSuperview];
+    
     self.blurredContentsImageView = ({
         UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
