@@ -856,7 +856,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)syncingDetailViewControllerDidDismiss:(GBASyncingDetailViewController *)syncingDetailViewController
 {
-    if (![syncingDetailViewController.rom syncingDisabled])
+    if (![syncingDetailViewController.rom syncingDisabled] && !([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:syncingDetailViewController.rom]))
     {
         [self startROM:syncingDetailViewController.rom];
     }

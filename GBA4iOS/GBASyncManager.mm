@@ -50,10 +50,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     BOOL _performingInitialSync;
 }
 
-@property (readwrite, assign, nonatomic, getter = isSyncing) BOOL syncing;
-
 @property (strong, nonatomic) DBRestClient *restClient;
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (assign, nonatomic) NSInteger syncingTaskCount;
 
 @property (strong, nonatomic) NSMutableDictionary *dropboxFiles; // Uses remote filepath as keys
 @property (strong, nonatomic) NSSet *conflictedROMs;
@@ -143,7 +142,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         if (self.shouldShowSyncingStatus)
         {
-            [RSTToastView showWithActivityMessage:@"Booting up RAM"];
+            //[RSTToastView showWithActivityMessage:@"Booting up RAM"];
         }
     });
     
@@ -156,7 +155,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         self.restClient = [[DBRestClient alloc] initWithSession:session];
         self.restClient.delegate = self;
-       // [self synchronize];
+        //[self synchronize];
     }
 }
 
@@ -167,6 +166,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         return;
     }
     
+    self.syncingTaskCount++;
+    
     if (self.shouldShowSyncingStatus)
     {
         [RSTToastView showWithActivityMessage:@"Syncing..."];
@@ -175,8 +176,6 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     self.backgroundTaskIdentifier = rst_begin_background_task();
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
-    self.syncing = YES;
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"initialSync"])
     {
@@ -230,11 +229,16 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 - (void)finishSyncing
 {
     DLog(@"Finished Syncing!");
-    self.syncing = NO;
+    self.syncingTaskCount--;
+    
+    if (self.syncingTaskCount < 0)
+    {
+        self.syncingTaskCount = 0;
+    }
     
     if (self.shouldShowSyncingStatus)
     {
-        [RSTToastView showWithMessage:@"Sync Complete!" duration:2.0];
+        [RSTToastView showWithMessage:@"Sync Complete!" duration:1.0];
     }
     
     if (_performingInitialSync)
@@ -409,6 +413,11 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (void)prepareToUploadFileAtPath:(NSString *)filepath toDropboxPath:(NSString *)dropboxPath fileType:(GBADropboxFileType)fileType
 {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filepath])
+    {
+        return;
+    }
+    
     NSDictionary *uploadDictionary = @{GBASyncingLocalPathKey: filepath, GBASyncingDropboxPathKey: dropboxPath, GBASyncingFileTypeKey: @(fileType)};
     
     [self.pendingUploads setObject:uploadDictionary forKey:filepath];
@@ -419,9 +428,15 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     UIBackgroundTaskIdentifier backgroundTaskIdentifier = rst_begin_background_task();
     
+    self.syncingTaskCount++;
+    
     self.dropboxFiles[metadata.path] = metadata;
     
     [self prepareToUploadFileAtPath:path toDropboxPath:metadata.path fileType:fileType];
+    
+    // Won't be downloading, and we don't want to return YES for isDownloadingFile, so remove it from pendingDownloads
+    [self.pendingDownloads removeObjectForKey:metadata.path];
+    [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
     
     if (metadata.rev)
     {
@@ -432,8 +447,6 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         DLog(@"Uploading %@...", [metadata.path lastPathComponent]);
     }
     
-    DLog(@"Background Task Identifier: %lu", (unsigned long)backgroundTaskIdentifier);
-    
     NSMutableDictionary *dictionary = [@{GBASyncingLocalPathKey: path, GBASyncingDropboxPathKey: metadata.path, GBASyncingBackgroundTaskIdentifierKey: @(backgroundTaskIdentifier)} mutableCopy];
     
     if (completionBlock)
@@ -442,6 +455,15 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     }
     
     [self.currentUploads setObject:dictionary forKey:path];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.shouldShowSyncingStatus)
+        {
+            [RSTToastView showWithActivityMessage:@"Uploading..."];
+        }
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    });
     
     [self.restClient uploadFile:metadata.filename toPath:[metadata.path stringByDeletingLastPathComponent] withParentRev:metadata.rev fromPath:path];
 }
@@ -493,7 +515,19 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
 {
-     NSString *sourcePath = [error userInfo][@"sourcePath"];
+    NSString *sourcePath = [error userInfo][@"sourcePath"];
+    
+    if ([error code] == DBErrorFileNotFound) // Not really an error, so we ignore it
+    {
+        DLog(@"File doesn't exist for upload...ignoring %@", [sourcePath lastPathComponent]);
+        
+        [self.pendingUploads removeObjectForKey:sourcePath];
+        [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
+        
+        [self handleCompletedUploadForFileAtPath:sourcePath withError:nil];
+        
+        return;
+    }
     
     DLog(@"Failed to upload file: %@ Error: %@", [sourcePath lastPathComponent], [error userInfo]);
     
@@ -525,9 +559,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     if (uploadDictionary[GBASyncingBackgroundTaskIdentifierKey])
     {
         UIBackgroundTaskIdentifier identifier = [uploadDictionary[GBASyncingBackgroundTaskIdentifierKey] unsignedIntegerValue];
-        
-        DLog(@"Final Background Task Identifier: %lu", (unsigned long)identifier);
-        
+                
         rst_end_background_task(identifier);
         // Sure, it ends the background task before we update the device history, but it shouldn't be that much of a problem.
     }
@@ -676,7 +708,13 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     UIBackgroundTaskIdentifier backgroundTaskIdentifier = rst_begin_background_task();
     
+    self.syncingTaskCount++;
+    
     [self prepareToDownloadFileWithMetadata:metadata toPath:path fileType:fileType];
+    
+    // Won't be uploading, so remove it from pendingUploads
+    [self.pendingUploads removeObjectForKey:path];
+    [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
     
     NSMutableDictionary *dictionary = [@{GBASyncingDropboxPathKey: metadata.path, GBASyncingLocalPathKey: path, GBASyncingBackgroundTaskIdentifierKey: @(backgroundTaskIdentifier)} mutableCopy];
     
@@ -684,6 +722,15 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         dictionary[GBASyncingCompletionBlockKey] = [completionBlock copy];
     }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.shouldShowSyncingStatus)
+        {
+            [RSTToastView showWithActivityMessage:@"Downloading..."];
+        }
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    });
     
     [self.currentDownloads setObject:dictionary forKey:metadata.path];
     [self.restClient loadFile:metadata.path intoPath:path];
@@ -935,6 +982,11 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         [RSTToastView show];
     }
     
+}
+
+- (BOOL)isSyncing
+{
+    return (self.syncingTaskCount > 0);
 }
 
 @end
