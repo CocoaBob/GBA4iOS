@@ -9,7 +9,10 @@
 #import "GBASyncingDetailViewController.h"
 #import "UIAlertView+RSTAdditions.h"
 #import "GBASyncManager_Private.h"
+
+#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
+#endif
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -64,6 +67,8 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
         switchView;
     });
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatedDeviceUploadHistory:) name:GBAUpdatedDeviceUploadHistoryNotification object:nil];
     
     if ([self.rom conflicted])
     {
@@ -86,11 +91,24 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 
 - (void)toggleSyncGameData:(UISwitch *)sender
 {
-    // Can always turn off, and can turn on if not conflicted
-    if (!sender.on || ![self.rom conflicted])
+    // If ROM isn't conflicted, this is easy.
+    if (![self.rom conflicted])
     {
         self.rom.syncingDisabled = !sender.on;
+        
+        if ([sender isOn])
+        {
+            [[GBASyncManager sharedManager] synchronize];
+        }
+        
         return;
+    }
+    
+    // If it is conflicted, we get to handle it yay
+    
+    if (![sender isOn])
+    {
+        self.rom.syncingDisabled = NO;
     }
     
     if (self.selectedSaveIndexPath)
@@ -155,6 +173,44 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 
 #pragma mark - Remote Status
 
+- (void)romConflictedStateDidChange:(NSNotification *)notification
+{
+    if (![self.rom isEqual:notification.object])
+    {
+        return;
+    }
+    
+    if ([self.rom conflicted] && [self.tableView numberOfSections] == 1)
+    {
+        [self fetchRemoteSaveInfo];
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else if (![self.rom conflicted] && [self.tableView numberOfSections] > 1)
+    {
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
+    [self.syncingEnabledSwitch setOn:!self.rom.conflicted animated:YES];
+}
+
+- (void)updatedDeviceUploadHistory:(NSString *)notification
+{
+    [self reloadUploadHistories];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (void)reloadUploadHistories
+{
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self uploadHistoryDirectoryPath] error:nil];
+    for (NSString *filename in contents)
+    {
+        NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:filename]];
+        [self.uploadHistories setObject:dictionary forKey:[filename stringByDeletingPathExtension]];
+    }
+}
+
+#pragma mark - Fetch Metadata
+
 - (void)fetchRemoteSaveInfo
 {
     if (self.restClient == nil)
@@ -188,12 +244,7 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     self.errorLoadingFiles = NO;
     self.loadingFiles = NO;
     
-    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self uploadHistoryDirectoryPath] error:nil];
-    for (NSString *filename in contents)
-    {
-        NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:filename]];
-        [self.uploadHistories setObject:dictionary forKey:[filename stringByDeletingPathExtension]];
-    }
+    [self reloadUploadHistories];
     
     self.syncingEnabledSwitch.enabled = YES;
     
@@ -318,9 +369,18 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
             {
                 DBMetadata *metadata = self.remoteSaves[indexPath.row];
                 NSString *device = [self deviceNameForMetadata:metadata];
+                NSString *dateString = [self.dateFormatter stringFromDate:metadata.lastModifiedDate];
                 
-                cell.textLabel.text = device;
-                cell.detailTextLabel.text = [self.dateFormatter stringFromDate:metadata.lastModifiedDate];
+                if (device)
+                {
+                    cell.textLabel.text = device;
+                    cell.detailTextLabel.text = dateString;
+                }
+                else
+                {
+                    cell.textLabel.text = dateString;
+                }
+                
             }
         }
         
@@ -399,7 +459,8 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
         cell = [tableView cellForRowAtIndexPath:self.selectedSaveIndexPath];
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
-    [cell setSelected:NO animated:YES];
+    
+    [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
 }
 
 #pragma mark - Helper Methods

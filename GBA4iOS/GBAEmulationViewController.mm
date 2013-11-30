@@ -510,6 +510,7 @@ static GBAEmulationViewController *_emulationViewController;
         
         if (buttonIndex == 0)
         {
+            [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
             [self returnToROMTableViewController];
         }
         else {
@@ -539,7 +540,8 @@ static GBAEmulationViewController *_emulationViewController;
             {
                 [self enterSustainButtonSelectionMode];
             }
-            else {
+            else
+            {
                 [self resumeEmulation];
             }
         }

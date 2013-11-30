@@ -37,8 +37,8 @@
         _conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
         _syncingDisabledROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChanged object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChanged object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChangedNotification object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
@@ -149,7 +149,8 @@
     if ([[DBSession sharedSession] isLinked])
     {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"hasPerformedInitialSync"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"initialSync"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newlyConflictedROMs"];
         [[DBSession sharedSession] unlinkAll];
         [self updateDropboxSection];
         

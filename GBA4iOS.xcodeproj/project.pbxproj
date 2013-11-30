@@ -127,6 +127,8 @@
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
+		BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
+		BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
 		BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
@@ -408,6 +410,8 @@
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
+		BFA60DDF184847C40039D77E /* RSTToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTToastView.h; sourceTree = "<group>"; };
+		BFA60DE0184847C40039D77E /* RSTToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTToastView.m; sourceTree = "<group>"; };
 		BFAFF47C1840084500E3240A /* GBAControllerInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerInput.h; sourceTree = "<group>"; };
 		BFAFF47D18400D7300E3240A /* GBAExternalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAExternalController.h; sourceTree = "<group>"; };
 		BFAFF47E18400D7300E3240A /* GBAExternalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalController.m; sourceTree = "<group>"; };
@@ -768,6 +772,15 @@
 			name = "Dropbox Sync";
 			sourceTree = "<group>";
 		};
+		BFA60DE3184847CA0039D77E /* RSTToastView */ = {
+			isa = PBXGroup;
+			children = (
+				BFA60DDF184847C40039D77E /* RSTToastView.h */,
+				BFA60DE0184847C40039D77E /* RSTToastView.m */,
+			);
+			name = RSTToastView;
+			sourceTree = "<group>";
+		};
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
@@ -914,7 +927,7 @@
 				BF650F1418470DFC008113E4 /* Crashlytics.framework */,
 				BF8789F618404AC200C81AB2 /* GameController.framework */,
 				BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */,
-				CC832588180E2D9000001899 /* Pods */,
+				CC832588180E2D9000001899 /* Potential Future Pods */,
 				CCC0F23217FA95C600235781 /* CoreMedia.framework */,
 				CCC0F23017FA95B500235781 /* AssetsLibrary.framework */,
 				CCC0F22E17FA95A700235781 /* AVFoundation.framework */,
@@ -1161,14 +1174,15 @@
 			name = "Categories / Protocols";
 			sourceTree = "<group>";
 		};
-		CC832588180E2D9000001899 /* Pods */ = {
+		CC832588180E2D9000001899 /* Potential Future Pods */ = {
 			isa = PBXGroup;
 			children = (
 				CC8325BC180E2E0900001899 /* RSTActionSheet */,
 				CC8325BB180E2E0000001899 /* RSTAlertView */,
 				CC8325BA180E2DF800001899 /* RSTFileBrowserViewController */,
+				BFA60DE3184847CA0039D77E /* RSTToastView */,
 			);
-			name = Pods;
+			name = "Potential Future Pods";
 			sourceTree = "<group>";
 		};
 		CC8325BA180E2DF800001899 /* RSTFileBrowserViewController */ = {
@@ -1578,6 +1592,7 @@
 				BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */,
 				BF2F3580183FF6F9002ACE90 /* AFNetworkReachabilityManager.m in Sources */,
 				BF2F3582183FF6F9002ACE90 /* AFHTTPRequestOperation.m in Sources */,
+				BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */,
 				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				BF2F3585183FF6F9002ACE90 /* AFHTTPSessionManager.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
@@ -1764,6 +1779,7 @@
 				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CCC9B8931815AC7E005C90EE /* Main.cc in Sources */,
 				BF3E2C0218206F15004231F6 /* AFHTTPSessionManager.m in Sources */,
+				BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
 				BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */,
 				CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */,

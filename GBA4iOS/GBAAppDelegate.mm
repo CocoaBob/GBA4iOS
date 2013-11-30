@@ -16,7 +16,10 @@
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <DropboxSDK/DropboxSDK.h>
+
+#if !(TARGET_IPHONE_SIMULATOR)
 #import <Crashlytics/Crashlytics.h>
+#endif
 
 @implementation GBAAppDelegate
 
@@ -60,7 +63,9 @@
     
     [GBASettingsViewController registerDefaults];
     
+#if !(TARGET_IPHONE_SIMULATOR)
     [Crashlytics startWithAPIKey:@"40b809418ecb525b71aecd5d32fa2612063baaad"];
+#endif
     
     [self.window makeKeyAndVisible];
     

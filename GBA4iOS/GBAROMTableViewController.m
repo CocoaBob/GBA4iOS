@@ -732,7 +732,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)startROM:(GBAROM *)rom
 {
-    if ([[DBSession sharedSession] isLinked] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"hasPerformedInitialSync"])
+    if ([[DBSession sharedSession] isLinked] && ![[GBASyncManager sharedManager] performedInitialSync])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Please wait for the initial sync to be complete, then launch the game. This is to ensure no save data is lost.", @"")
@@ -743,9 +743,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    
-    
-    if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:rom])
+    if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:rom] && ![rom syncingDisabled])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Data for this game is currently being synced. To prevent data loss, please wait until the sync is complete, then launch the game.", @"")
@@ -804,6 +802,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     void(^showEmulationViewController)(void) = ^(void)
     {
+        [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
+        
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {

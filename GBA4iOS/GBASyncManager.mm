@@ -9,6 +9,7 @@
 #import "GBASyncManager_Private.h"
 #import "GBASettingsViewController.h"
 #import "UIAlertView+RSTAdditions.h"
+#import "RSTToastView.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -26,6 +27,7 @@ NSString * const GBASyncingBackgroundTaskIdentifierKey = @"backgroundTaskIdentif
 NSString * const GBASyncingCompletionBlockKey = @"completionBlock";
 
 NSString * const GBAHasUpdatedSaveForCurrentGameFromDropboxNotification = @"GBAHasUpdatedSaveForCurrentGameFromDropboxNotification";
+NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceUploadHistoryNotification";
 
 UIBackgroundTaskIdentifier rst_begin_background_task(void) {
     __block UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
@@ -116,8 +118,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         _currentUploads = [NSMutableDictionary dictionary];
         _currentDownloads = [NSMutableDictionary dictionary];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChanged object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChanged object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChangedNotification object:nil];
     }
     return self;
 }
@@ -133,6 +135,18 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     DBSession *session = [[DBSession alloc] initWithAppKey:@"obzx8requbc5bn5" appSecret:@"thdkvkp3hkbmpte" root:kDBRootAppFolder];
     [DBSession setSharedSession:session];
+    
+    self.shouldShowSyncingStatus = YES;
+    
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if (self.shouldShowSyncingStatus)
+        {
+            [RSTToastView showWithActivityMessage:@"Booting up RAM"];
+        }
+    });
+    
     
     if (![[DBSession sharedSession] isLinked])
     {
@@ -153,13 +167,18 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         return;
     }
     
+    if (self.shouldShowSyncingStatus)
+    {
+        [RSTToastView showWithActivityMessage:@"Syncing..."];
+    }
+    
     self.backgroundTaskIdentifier = rst_begin_background_task();
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     self.syncing = YES;
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasPerformedInitialSync"])
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"initialSync"])
     {
         return [self performInitialSync];
     }
@@ -195,13 +214,15 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (void)restClient:(DBRestClient*)client loadDeltaFailedWithError:(NSError *)error
 {
-    _performingInitialSync = NO;
     DLog(@"Delta Failed :(");
     
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
         [alert show];
     });
+    
+    // Don't want to save that we did the initial sync if the delta failed, so we
+    _performingInitialSync = NO;
     
     [self finishSyncing];
 }
@@ -210,7 +231,20 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     DLog(@"Finished Syncing!");
     self.syncing = NO;
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasPerformedInitialSync"];
+    
+    if (self.shouldShowSyncingStatus)
+    {
+        [RSTToastView showWithMessage:@"Sync Complete!" duration:2.0];
+    }
+    
+    if (_performingInitialSync)
+    {
+        // Even if it failed, we still consider the sync completed (so the user can play games anyway)
+        [[NSUserDefaults standardUserDefaults] setObject:@{@"date": [NSDate date], @"completed": @YES} forKey:@"initialSync"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        _performingInitialSync = NO;
+    }
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
@@ -249,6 +283,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     for (NSString *filename in contents)
     {
+        NSString *filepath = [documentsDirectory stringByAppendingPathComponent:filename];
+        
         if (![[[filename pathExtension] lowercaseString] isEqualToString:@"sav"])
         {
             continue;
@@ -257,15 +293,23 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         NSString *romName = [filename stringByDeletingPathExtension];
         NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@", romName, filename];
         
-        [self prepareToInitiallyUploadFileAtPathIfNeeded:[documentsDirectory stringByAppendingPathComponent:filename] toDropboxPath:dropboxPath withNewDropboxFiles:newDropboxFiles];
+        // Already uploaded, don't need to upload again
+        if (self.pendingUploads[filepath])
+        {
+            continue;
+        }
+        
+        [self prepareToInitiallyUploadFileAtPathIfNeeded:filepath toDropboxPath:dropboxPath withNewDropboxFiles:newDropboxFiles];
     }
     
     self.dropboxFiles = [newDropboxFiles mutableCopy];
     [NSKeyedArchiver archiveRootObject:self.dropboxFiles toFile:[self dropboxFilesPath]];
     
-    [self updateRemoteFiles];
+    // So we don't have to perform this initial sync step again
+    [[NSUserDefaults standardUserDefaults] setObject:@{@"date": [NSDate date], @"completed": @NO} forKey:@"initialSync"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
-    _performingInitialSync = NO;
+    [self updateRemoteFiles];
 }
 
 - (void)prepareToInitiallyUploadFileAtPathIfNeeded:(NSString *)localPath toDropboxPath:(NSString *)dropboxPath withNewDropboxFiles:(NSDictionary *)newDropboxFiles
@@ -591,8 +635,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         NSDate *currentDate = [attributes fileModificationDate];
         NSDate *previousDate = cachedMetadata.lastModifiedDate;
         
-        // If current date is later than previous date, and ROM + save file exists, file is conflicted
-        if (![[previousDate laterDate:currentDate] isEqualToDate:previousDate] && [self romExistsWithName:dummyROM.name] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
+        // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
+        // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
+        if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:dummyROM.name] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
         {
             DLog(@"Conflict downloading file: %@ Rev: %@ Cached Metadata: %@ New Metadata: %@", metadata.filename, metadata.rev, cachedMetadata.rev, metadata);
             
@@ -676,6 +721,11 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (void)handleCompletedDownloadForFileAtDropboxPath:(NSString *)dropboxPath withError:(NSError *)error
 {
+    if ([[self romNameFromDropboxPath:dropboxPath] isEqualToString:@"Upload History"])
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBAUpdatedDeviceUploadHistoryNotification object:dropboxPath];
+    }
+    
     NSDictionary *downloadDictionary = self.currentDownloads[dropboxPath];
     GBASyncingCompletionBlock completionBlock = downloadDictionary[GBASyncingCompletionBlockKey];
     
@@ -857,6 +907,34 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     NSString *deviceName = [[UIDevice currentDevice] name];
     return [[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:[deviceName stringByAppendingPathExtension:@"plist"]];
+}
+
+#pragma mark - Getters/Setters
+
+- (BOOL)performedInitialSync
+{
+    NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"initialSync"];
+    return [dictionary[@"completed"] boolValue];
+}
+
+- (void)setShouldShowSyncingStatus:(BOOL)shouldShowSyncingStatus
+{
+    if (_shouldShowSyncingStatus == shouldShowSyncingStatus)
+    {
+        return;
+    }
+    
+    _shouldShowSyncingStatus = shouldShowSyncingStatus;
+    
+    if (!shouldShowSyncingStatus)
+    {
+        [RSTToastView hide];
+    }
+    else if ([self isSyncing])
+    {
+        [RSTToastView show];
+    }
+    
 }
 
 @end

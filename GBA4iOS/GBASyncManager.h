@@ -14,10 +14,13 @@
 extern NSString *const GBAFileDeviceName;
 
 extern NSString *const GBAHasUpdatedSaveForCurrentGameFromDropboxNotification;
+extern NSString *const GBAUpdatedDeviceUploadHistoryNotification;
 
 @interface GBASyncManager : NSObject
 
 @property (readonly, assign, nonatomic, getter = isSyncing) BOOL syncing;
+@property (readonly, assign, nonatomic) BOOL performedInitialSync;
+@property (assign, nonatomic) BOOL shouldShowSyncingStatus;
 
 + (instancetype)sharedManager;
 

@@ -10,8 +10,8 @@
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 
-NSString *const GBAROMConflictedStateChanged = @"GBAROMConflictedStateChanged";
-NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledStateChanged";
+NSString *const GBAROMConflictedStateChangedNotification = @"GBAROMConflictedStateChangedNotification";
+NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingDisabledStateChangedNotification";
 
 @interface GBAROM ()
 
@@ -127,7 +127,7 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
     
     GBAROM *otherROM = (GBAROM *)object;
     
-    return [self.filepath isEqualToString:otherROM.filepath];
+    return [self.name isEqualToString:otherROM.name]; // Use names, not filepaths, to compare
 }
 
 - (NSUInteger)hash
@@ -170,7 +170,7 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
     
     [[syncingDisabledROMs allObjects] writeToFile:[self syncingDisabledROMsPath] atomically:YES];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMSyncingDisabledStateChanged object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMSyncingDisabledStateChangedNotification object:self];
     
 }
 
@@ -209,7 +209,7 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
     
     [[conflictedROMs allObjects] writeToFile:[self conflictedROMsPath] atomically:YES];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMConflictedStateChanged object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMConflictedStateChangedNotification object:self];
 }
 
 - (BOOL)conflicted
@@ -220,6 +220,13 @@ NSString *const GBAROMSyncingDisabledStateChanged = @"GBAROMSyncingDisabledState
 
 - (BOOL)newlyConflicted
 {
+    if (![self conflicted])
+    {
+        [self setNewlyConflicted:NO];
+        
+        return NO;
+    }
+    
     NSSet *newlyConflictedROMs = [NSSet setWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:@"newlyConflictedROMs"]];
     
     return [newlyConflictedROMs containsObject:self.name];
