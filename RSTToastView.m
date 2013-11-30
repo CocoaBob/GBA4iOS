@@ -257,8 +257,6 @@ static RSTToastView *_globalToastView;
     
     CGFloat buffer = 10.0f;
     
-    self.activityIndicatorView.center = CGPointMake(CGRectGetMaxX(self.bounds) - buffer - CGRectGetMidX(self.activityIndicatorView.bounds), CGRectGetMidY(self.bounds));
-    
     CGFloat width = CGRectGetWidth(self.messageLabel.bounds) + buffer * 2.0f;
     CGFloat height = CGRectGetHeight(self.messageLabel.bounds) + buffer;
     
@@ -269,6 +267,8 @@ static RSTToastView *_globalToastView;
     }
     
     self.bounds = CGRectMake(0, 0, width, height);
+    
+    self.activityIndicatorView.center = CGPointMake(CGRectGetMaxX(self.bounds) - buffer - CGRectGetMidX(self.activityIndicatorView.bounds), CGRectGetMidY(self.bounds));
     
     self.messageLabel.frame = CGRectIntegral(CGRectMake(buffer, (height - CGRectGetHeight(self.messageLabel.bounds))/2.0f, CGRectGetWidth(self.messageLabel.bounds), CGRectGetHeight(self.messageLabel.bounds)));
     

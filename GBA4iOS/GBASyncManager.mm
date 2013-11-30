@@ -54,6 +54,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 @property (strong, nonatomic) DBRestClient *restClient;
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (assign, nonatomic) NSInteger syncingTaskCount;
+@property (assign, nonatomic) BOOL syncingAllFiles;
 
 @property (strong, nonatomic) NSMutableDictionary *dropboxFiles; // Uses remote filepath as keys
 @property (strong, nonatomic) NSSet *conflictedROMs;
@@ -166,12 +167,13 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (void)synchronize
 {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked])
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked] || self.syncingAllFiles || _performingInitialSync)
     {
         return;
     }
     
     self.syncingTaskCount++;
+    self.syncingAllFiles = YES;
     
     if (self.shouldShowSyncingStatus)
     {
@@ -220,13 +222,12 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 {
     DLog(@"Delta Failed :(");
     
-    // Don't want to save that we did the initial sync if the delta failed, so we
+    // Don't want to save that we did the initial sync of the delta failed, so we set _performingInitialSync to NO
     _performingInitialSync = NO;
-    
-    [self finishSyncing];
+    [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Failed to sync with Dropbox", @"") duration:2];
 }
 
-- (void)finishSyncing
+- (void)finishSyncingWithCompletionMessage:(NSString *)message duration:(NSTimeInterval)duration
 {
     DLog(@"Finished Syncing!");
     self.syncingTaskCount--;
@@ -235,13 +236,14 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         if (self.shouldShowSyncingStatus)
         {
-            [RSTToastView showWithMessage:@"Sync Complete!" duration:1.0];
+            [RSTToastView showWithMessage:message duration:duration];
         }
+        
+        // Sure, by waiting until all tasks are complete to set this to NO may delay it a bit, but it doesn't add too much more complexity to the code
+        self.syncingAllFiles = NO;
         
         self.syncingTaskCount = 0;
     }
-    
-    
     
     if (_performingInitialSync)
     {
@@ -395,6 +397,10 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         if ([self.currentUploads count] == 0)
         {
             [self updateLocalFiles]; // No need to update upload history, since there were no files to upload
+        }
+        else
+        {
+            [RSTToastView updateWithActivityMessage:NSLocalizedString(@"Uploading Files…", @"")];
         }
     }
     else
@@ -631,12 +637,16 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         
         if ([self.currentDownloads count] == 0)
         {
-            [self finishSyncing];
+            [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Sync Complete!", @"") duration:1];
+        }
+        else
+        {
+            [RSTToastView updateWithActivityMessage:NSLocalizedString(@"Downloading Files…", @"")];
         }
     }
     else
     {
-        [self finishSyncing];
+        [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Sync Complete!", @"") duration:1];
     }
 }
 
@@ -813,7 +823,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     if ([self.currentDownloads count] == 0)
     {
-        [self finishSyncing];
+        [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Sync Complete!", @"") duration:1];
     }
 }
 

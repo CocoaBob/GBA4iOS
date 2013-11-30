@@ -12,7 +12,6 @@
 #import "GBAControllerSkin.h"
 #import "GBAROM.h"
 #import "GBASplitViewController.h"
-#import "GBASyncManager.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <DropboxSDK/DropboxSDK.h>
@@ -58,8 +57,6 @@
         GBASplitViewController *splitViewController = [[GBASplitViewController alloc] init];
         self.window.rootViewController = splitViewController;
     }
-    
-    [[GBASyncManager sharedManager] start];
     
     [GBASettingsViewController registerDefaults];
     

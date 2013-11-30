@@ -91,6 +91,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [[GBASyncManager sharedManager] start];
+    
     self.clearsSelectionOnViewWillAppear = YES;
     
     GBAVisibleROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"visibleROMType"];
@@ -799,7 +801,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         return;
     }
-    
+        
     void(^showEmulationViewController)(void) = ^(void)
     {
         [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
