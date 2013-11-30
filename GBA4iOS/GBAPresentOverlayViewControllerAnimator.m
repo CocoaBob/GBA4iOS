@@ -71,6 +71,8 @@
         
         fromViewController.view.frame = CGRectMake(0, 0, CGRectGetWidth(fromViewController.view.frame), CGRectGetHeight(fromViewController.view.frame));
         
+        [(GBAEmulationViewController *)toViewController refreshLayout];
+        
         [(GBAEmulationViewController *)toViewController blurredContentsImageView].frame = CGRectMake(0, 0, CGRectGetWidth(fromViewController.view.bounds), CGRectGetHeight(fromViewController.view.bounds));
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
