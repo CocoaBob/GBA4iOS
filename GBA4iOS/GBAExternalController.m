@@ -219,11 +219,11 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
     
     switch (buttonInput) {
         case GBAExternalControllerButtonInputA:
-            controllerButton = GBAControllerButtonB;
+            controllerButton = GBAControllerButtonA;
             break;
             
         case GBAExternalControllerButtonInputB:
-            controllerButton = GBAControllerButtonA;
+            controllerButton = GBAControllerButtonB;
             break;
             
         case GBAExternalControllerButtonInputX:
