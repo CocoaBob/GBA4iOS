@@ -129,6 +129,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 - (IBAction)toggleDropboxSync:(UISwitch *)sender
 {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsDropboxSyncKey];
+    [[NSUserDefaults standardUserDefaults] synchronize]; // This is important we save, so they don't think their data is syncing when it's not
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsDropboxSyncKey, @"value": @(sender.on)}];
     
     if (sender.on)

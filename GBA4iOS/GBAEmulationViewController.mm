@@ -130,7 +130,8 @@ static GBAEmulationViewController *_emulationViewController;
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
     // Because we need to present the ROM Table View Controller stealthily
-    self.splashScreenImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.splashScreenImageView = [[UIImageView alloc] init];
+    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
@@ -142,14 +143,27 @@ static GBAEmulationViewController *_emulationViewController;
         {
             self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
         }
+        
+        [self.splashScreenImageView sizeToFit];
+        
+        [self.view addSubview:self.splashScreenImageView];
     }
     else
     {
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Portrait"];
+        }
+        else
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Landscape"];
+        }
         
+        [self.splashScreenImageView sizeToFit];
+        
+        [self.splitViewController.view addSubview:self.splashScreenImageView];
     }
     
-    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:self.splashScreenImageView];
     
     [self updateSettings:nil];
 }
@@ -187,7 +201,38 @@ static GBAEmulationViewController *_emulationViewController;
             self.romTableViewController = [(GBASplitViewController *)self.splitViewController romTableViewController];
             [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
             
-            [UIView animateWithDuration:0.2 animations:^{
+            CGAffineTransform transform = CGAffineTransformIdentity;
+            
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            {
+                if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(0.0f));
+                }
+                else
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(180.0f));
+                }
+            }
+            else
+            {
+                if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(270.0f));
+                }
+                else
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(90.0f));
+                }
+            }
+            
+            self.splashScreenImageView.transform = transform;
+            self.splashScreenImageView.frame = [[UIScreen mainScreen] bounds];
+            
+            UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+            [window addSubview:self.splashScreenImageView];
+            
+            [UIView animateWithDuration:0.5 animations:^{
                 self.splashScreenImageView.alpha = 0.0;
             } completion:^(BOOL finished) {
                 [self.splashScreenImageView removeFromSuperview];
