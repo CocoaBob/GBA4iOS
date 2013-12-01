@@ -1506,6 +1506,20 @@ int CPULoadRom(GBASys &gba, const char *szFile)
   return romSize;
 }
 
+void CPUGetROMCode(const char *szFile)
+{
+    u8 *whereToLoad = gGba.mem.rom;
+    
+    if(!utilLoad(szFile,
+                 utilIsGBAImage,
+                 whereToLoad,
+                 romSize)) {
+		return;
+    }
+    
+    printf("game id: %c%c%c%c\n", whereToLoad[0xac], whereToLoad[0xad], whereToLoad[0xae], whereToLoad[0xaf]);
+}
+
 void doMirroring (GBASys &gba, bool b)
 {
   u32 mirroredRomSize = (((romSize)>>20) & 0x3F)<<20;

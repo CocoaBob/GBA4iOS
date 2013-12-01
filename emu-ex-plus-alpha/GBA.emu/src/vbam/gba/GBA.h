@@ -1043,6 +1043,8 @@ extern void cpuProfil(profile_segment *seg);
 extern void cpuEnableProfiling(int hz);
 #endif
 
+extern void CPUGetROMCode(const char *szFile);
+
 #if 0
 extern struct EmulatedSystem GBASystem;
 #endif

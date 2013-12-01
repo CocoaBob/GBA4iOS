@@ -30,6 +30,7 @@
 #include <util/time/sys.hh>
 #include <base/Base.hh>
 #include <base/iphone/private.hh>
+#include "Util.h"
 
 #ifdef CONFIG_INPUT
 #include <input/Input.hh>
@@ -637,10 +638,24 @@ void updateSaveFileForCurrentROM()
     NSLog(@"Saved File!");
 }
 
-#pragma mark - Save States
+#pragma mark - ROM Code
 
 extern GBASys gGba;
 extern gambatte::GB gbEmu;
+
+- (NSString *)codeForROM:(GBAROM *)rom
+{
+    //GBASys gba;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    CPUGetROMCode([[documentsDirectory stringByAppendingPathComponent:@"Pokemon Emerald.gba"] UTF8String]);
+    
+    return @"Penis";
+}
+
+#pragma mark - Save States
 
 - (void)saveStateToFilepath:(NSString *)filepath
 {

@@ -931,7 +931,7 @@ void setGameSpecificSettings(GBASys &gba)
 	};
 
 	resetGameSettings();
-	logMsg("game id: %c%c%c%c", gba.mem.rom[0xac], gba.mem.rom[0xad], gba.mem.rom[0xae], gba.mem.rom[0xaf]);
+	printf("game id: %c%c%c%c\n", gba.mem.rom[0xac], gba.mem.rom[0xad], gba.mem.rom[0xae], gba.mem.rom[0xaf]);
 	forEachInArray(setting, e)
 	{
 		if(mem_equal(e->gameID, &gba.mem.rom[0xac], 4))

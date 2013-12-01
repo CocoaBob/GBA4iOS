@@ -55,4 +55,6 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;
 
+- (NSString *)codeForROM:(GBAROM *)rom;
+
 @end

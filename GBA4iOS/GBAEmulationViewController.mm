@@ -132,13 +132,20 @@ static GBAEmulationViewController *_emulationViewController;
     // Because we need to present the ROM Table View Controller stealthily
     self.splashScreenImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    if ([[UIScreen mainScreen] isWidescreen])
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        self.splashScreenImageView.image = [UIImage imageNamed:@"Default-568h"];
+        if ([[UIScreen mainScreen] isWidescreen])
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-568h"];
+        }
+        else
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
+        }
     }
-    else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    else
     {
-        self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
+        
     }
     
     self.splashScreenImageView.backgroundColor = [UIColor blackColor];
@@ -541,7 +548,7 @@ static GBAEmulationViewController *_emulationViewController;
                 [self enterSustainButtonSelectionMode];
             }
             else
-            {
+            {                
                 [self resumeEmulation];
             }
         }

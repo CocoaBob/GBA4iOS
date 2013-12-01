@@ -96,7 +96,6 @@
 		BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
 		BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
-		BF2F35CD183FF6F9002ACE90 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE579A9183DE4E4005699AA /* Default@2x.png */; };
 		BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
 		BF3E2BB318206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
 		BF3E2BB718206D5B004231F6 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
@@ -122,6 +121,16 @@
 		BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2C251820774C004231F6 /* GBASyncManager.mm */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF4D917F182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
+		BF563ABD184B12F900722678 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563ABB184B12F900722678 /* Default-Landscape@2x~ipad.png */; };
+		BF563ABE184B12F900722678 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563ABB184B12F900722678 /* Default-Landscape@2x~ipad.png */; };
+		BF563ABF184B12F900722678 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563ABC184B12F900722678 /* Default-Landscape~ipad.png */; };
+		BF563AC0184B12F900722678 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563ABC184B12F900722678 /* Default-Landscape~ipad.png */; };
+		BF563AC2184B130100722678 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC1184B130100722678 /* Default@2x.png */; };
+		BF563AC3184B130100722678 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC1184B130100722678 /* Default@2x.png */; };
+		BF563AC5184B130F00722678 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC4184B130F00722678 /* Default-Portrait@2x~ipad.png */; };
+		BF563AC6184B130F00722678 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC4184B130F00722678 /* Default-Portrait@2x~ipad.png */; };
+		BF563AC8184B132300722678 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC7184B132300722678 /* Default-Portrait~ipad.png */; };
+		BF563AC9184B132300722678 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC7184B132300722678 /* Default-Portrait~ipad.png */; };
 		BF650F1518470DFC008113E4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF650F1418470DFC008113E4 /* Crashlytics.framework */; };
 		BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
@@ -134,7 +143,6 @@
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
-		BFE579AA183DE4E4005699AA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFE579A9183DE4E4005699AA /* Default@2x.png */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
@@ -403,6 +411,11 @@
 		BF3E2C241820774C004231F6 /* GBASyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncManager.h; sourceTree = "<group>"; };
 		BF3E2C251820774C004231F6 /* GBASyncManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncManager.mm; sourceTree = "<group>"; };
 		BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		BF563ABB184B12F900722678 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		BF563ABC184B12F900722678 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		BF563AC1184B130100722678 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		BF563AC4184B130F00722678 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		BF563AC7184B132300722678 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		BF650F1418470DFC008113E4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		BF6FF3511845696200A8568C /* GBASyncManager_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBASyncManager_Private.h; sourceTree = "<group>"; };
 		BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTProgressIndicator.h; sourceTree = "<group>"; };
@@ -421,7 +434,6 @@
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
 		BFC9B534183182C60012A1EA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BFE579A3183DDCCE005699AA /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
-		BFE579A9183DE4E4005699AA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Images.xcassets/LaunchImage.launchimage/Default@2x.png"; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
@@ -760,6 +772,19 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		BF563AB4184B11C000722678 /* Launch Images */ = {
+			isa = PBXGroup;
+			children = (
+				BF563AC1184B130100722678 /* Default@2x.png */,
+				BFC9B534183182C60012A1EA /* Default-568h@2x.png */,
+				BF563ABB184B12F900722678 /* Default-Landscape@2x~ipad.png */,
+				BF563ABC184B12F900722678 /* Default-Landscape~ipad.png */,
+				BF563AC4184B130F00722678 /* Default-Portrait@2x~ipad.png */,
+				BF563AC7184B132300722678 /* Default-Portrait~ipad.png */,
+			);
+			name = "Launch Images";
+			sourceTree = "<group>";
+		};
 		BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */ = {
 			isa = PBXGroup;
 			children = (
@@ -988,8 +1013,7 @@
 			isa = PBXGroup;
 			children = (
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
-				BFC9B534183182C60012A1EA /* Default-568h@2x.png */,
-				BFE579A9183DE4E4005699AA /* Default@2x.png */,
+				BF563AB4184B11C000722678 /* Launch Images */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
 				CC5044E61814C474009F7B9E /* Default.gbcskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
@@ -1433,14 +1457,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF563AC9184B132300722678 /* Default-Portrait~ipad.png in Resources */,
 				BF2F35C6183FF6F9002ACE90 /* Default-568h@2x.png in Resources */,
 				BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */,
 				BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */,
+				BF563AC6184B130F00722678 /* Default-Portrait@2x~ipad.png in Resources */,
 				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
+				BF563AC0184B12F900722678 /* Default-Landscape~ipad.png in Resources */,
+				BF563AC3184B130100722678 /* Default@2x.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
+				BF563ABE184B12F900722678 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
 				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
-				BF2F35CD183FF6F9002ACE90 /* Default@2x.png in Resources */,
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1449,14 +1477,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF563AC8184B132300722678 /* Default-Portrait~ipad.png in Resources */,
 				BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */,
 				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
+				BF563AC5184B130F00722678 /* Default-Portrait@2x~ipad.png in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
+				BF563ABF184B12F900722678 /* Default-Landscape~ipad.png in Resources */,
+				BF563AC2184B130100722678 /* Default@2x.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
+				BF563ABD184B12F900722678 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
-				BFE579AA183DE4E4005699AA /* Default@2x.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1857,7 +1889,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1903,7 +1934,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1949,7 +1979,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1995,7 +2024,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Vladimir Ignatev (9MBK7F2A62)";
@@ -2282,7 +2310,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2330,7 +2357,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2495,7 +2521,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2660,7 +2685,6 @@
 			baseConfigurationReference = DA6B96E372DE45448953256E /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
