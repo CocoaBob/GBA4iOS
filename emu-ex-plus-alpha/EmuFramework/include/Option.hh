@@ -180,7 +180,7 @@ struct PathOption : public OptionBase
 
 	bool writeToIO(Io *io)
 	{
-		uint len = strlen(val);
+		uint len = (unsigned int) strlen(val);
 		if(len > strSize-1)
 		{
 			logErr("option string too long to write");
@@ -214,7 +214,7 @@ struct PathOption : public OptionBase
 
 	uint ioSize()
 	{
-		return sizeof(KEY) + strlen(val);
+		return (unsigned int) (sizeof(KEY) +  strlen(val));
 	}
 };
 
@@ -378,7 +378,7 @@ struct OptionRecentGames : public OptionBase
 		io->writeVar(key);
 		forEachInDLList(&recentGameList, e)
 		{
-			uint len = strlen(e.path);
+			uint len = (unsigned int)  strlen(e.path);
 			io->writeVar((uint16)len);
 			io->fwrite(e.path, len, 1);
 		}

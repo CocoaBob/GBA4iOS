@@ -258,11 +258,11 @@ namespace GameFilePicker {
                 
                 if (isGBAROM)
                 {
-                    Input::onInputEvent_GBA(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, PUSHED, pos.x, pos.y, true, nullptr));
+                    Input::onInputEvent_GBA(Input::Event((unsigned int)i, Event::MAP_POINTER, Input::Pointer::LBUTTON, PUSHED, pos.x, pos.y, true, nullptr));
                 }
                 else
                 {
-                    Input::onInputEvent_GBC(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, PUSHED, pos.x, pos.y, true, nullptr));
+                    Input::onInputEvent_GBC(Input::Event((unsigned int)i, Event::MAP_POINTER, Input::Pointer::LBUTTON, PUSHED, pos.x, pos.y, true, nullptr));
                 }
                 
 				
@@ -289,11 +289,11 @@ namespace GameFilePicker {
                 
                 if (isGBAROM)
                 {
-                    Input::onInputEvent_GBA(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
+                    Input::onInputEvent_GBA(Input::Event((unsigned int)i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
                 }
                 else
                 {
-                    Input::onInputEvent_GBC(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
+                    Input::onInputEvent_GBC(Input::Event((unsigned int)i, Event::MAP_POINTER, Input::Pointer::LBUTTON, MOVED, pos.x, pos.y, true, nullptr));
                 }
 				
 				break;
@@ -321,11 +321,11 @@ namespace GameFilePicker {
                 
                 if (isGBAROM)
                 {
-                    Input::onInputEvent_GBA(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
+                    Input::onInputEvent_GBA(Input::Event((unsigned int)i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
                 }
                 else
                 {
-                    Input::onInputEvent_GBC(Input::Event(i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
+                    Input::onInputEvent_GBC(Input::Event((unsigned int)i, Event::MAP_POINTER, Input::Pointer::LBUTTON, RELEASED, pos.x, pos.y, true, nullptr));
                 }
                 
 				
@@ -858,7 +858,7 @@ extern gambatte::GB gbEmu;
     
     NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:[self cheatsArray]];
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
-        cheatsEnable(index + enumertionIndex);
+        cheatsEnable((unsigned int)(index + enumertionIndex));
     }];
 }
 
@@ -883,7 +883,7 @@ extern gambatte::GB gbEmu;
     }
     
     [cheat.codes enumerateObjectsUsingBlock:^(NSString *code, NSUInteger enumertionIndex, BOOL *stop) {
-        cheatsDisable(gGba.cpu, index + enumertionIndex);
+        cheatsDisable(gGba.cpu, (unsigned int)(index + enumertionIndex));
     }];
 }
 

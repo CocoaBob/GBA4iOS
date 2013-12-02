@@ -51,17 +51,17 @@ public:
 
 	uint divByUSecs(long int usecs)
 	{
-		return t / (uint64_t)(usecs / timebaseUSec);
+		return (unsigned int)t / (uint64_t)(usecs / timebaseUSec);
 	}
 
 	uint divByNSecs(long int nsecs)
 	{
-		return t / (uint64_t)(nsecs / timebaseNSec);
+		return (unsigned int)t / (uint64_t)(nsecs / timebaseNSec);
 	}
 
 	uint modByUSecs(long int usecs)
 	{
-		return t % (uint64_t)(usecs / timebaseUSec);
+		return (unsigned int)t % (uint64_t)(usecs / timebaseUSec);
 	}
 
 	TimeMach & operator -=(TimeMach const& rhs)

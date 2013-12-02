@@ -126,7 +126,7 @@ namespace Base
         assert(callbackArg);
         [mainApp performSelector:@selector(timerCallback:) withObject:(id)callbackArg afterDelay:(float)ms/1000.];
         
-#warning Check memory usage
+//#warning Check memory usage Riley Testut
         
         return (CallbackRef*)CFBridgingRetain(callbackArg);
     }
@@ -271,7 +271,11 @@ namespace Base
         onExit(0);
         ::exit(returnVal);
     }
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-noreturn"
     void abort() { }
+#pragma clang diagnostic pop
     
     void displayNeedsUpdate()
     {

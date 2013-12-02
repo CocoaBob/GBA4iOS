@@ -61,7 +61,7 @@ static const void* mem_locate(const void *voidData, const void *endAddr, const v
 #ifdef __cplusplus
 static const void* mem_locate(const void *data, size_t size, const char *seqStr)
 {
-	return mem_locate(data, (uchar*)data + size, seqStr, strlen(seqStr));
+	return mem_locate(data, (uchar*)data + size, seqStr, (unsigned int) strlen(seqStr));
 }
 
 static const void* mem_locate(const void *data, size_t size, const void *voidSeq, uint seqLen)

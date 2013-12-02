@@ -56,7 +56,6 @@
 		BF2F3565183FF6F9002ACE90 /* RSTHelperFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.mm */; };
 		BF2F356B183FF6F9002ACE90 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF718206F15004231F6 /* UIButton+AFNetworking.m */; };
 		BF2F356C183FF6F9002ACE90 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE018206F15004231F6 /* AFHTTPRequestOperationManager.m */; };
-		BF2F3572183FF6F9002ACE90 /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BF2F3575183FF6F9002ACE90 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFD18206F15004231F6 /* UIWebView+AFNetworking.m */; };
 		BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
@@ -110,7 +109,7 @@
 		BF3E2C0818206F15004231F6 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE918206F15004231F6 /* AFSecurityPolicy.m */; };
 		BF3E2C0A18206F15004231F6 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEB18206F15004231F6 /* AFURLConnectionOperation.m */; };
 		BF3E2C0C18206F15004231F6 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BED18206F15004231F6 /* AFURLRequestSerialization.m */; };
-		BF3E2C0E18206F15004231F6 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; };
+		BF3E2C0E18206F15004231F6 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		BF3E2C1018206F15004231F6 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF118206F15004231F6 /* AFURLSessionManager.m */; };
 		BF3E2C1218206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m */; };
 		BF3E2C1418206F15004231F6 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF518206F15004231F6 /* UIAlertView+AFNetworking.m */; };
@@ -132,7 +131,6 @@
 		BF563AC8184B132300722678 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC7184B132300722678 /* Default-Portrait~ipad.png */; };
 		BF563AC9184B132300722678 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BF563AC7184B132300722678 /* Default-Portrait~ipad.png */; };
 		BF650F1518470DFC008113E4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF650F1418470DFC008113E4 /* Crashlytics.framework */; };
-		BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
@@ -153,21 +151,21 @@
 		CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D0179CF1B90068A54E /* MessageUI.framework */; };
 		CC1577D6179CF1B90068A54E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
 		CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
-		CC157AE4179D1BC60068A54E /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD4179D1BC60068A54E /* png.c */; };
-		CC157AE5179D1BC60068A54E /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD6179D1BC60068A54E /* pngerror.c */; };
-		CC157AE6179D1BC60068A54E /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD7179D1BC60068A54E /* pngget.c */; };
-		CC157AE7179D1BC60068A54E /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD8179D1BC60068A54E /* pngmem.c */; };
-		CC157AE8179D1BC60068A54E /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD9179D1BC60068A54E /* pngpread.c */; };
-		CC157AE9179D1BC60068A54E /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADA179D1BC60068A54E /* pngread.c */; };
-		CC157AEA179D1BC60068A54E /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADB179D1BC60068A54E /* pngrio.c */; };
-		CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADC179D1BC60068A54E /* pngrtran.c */; };
-		CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADD179D1BC60068A54E /* pngrutil.c */; };
-		CC157AED179D1BC60068A54E /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADE179D1BC60068A54E /* pngset.c */; };
-		CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADF179D1BC60068A54E /* pngtrans.c */; };
-		CC157AEF179D1BC60068A54E /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE0179D1BC60068A54E /* pngwio.c */; };
-		CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; };
-		CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; };
-		CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; };
+		CC157AE4179D1BC60068A54E /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD4179D1BC60068A54E /* png.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AE5179D1BC60068A54E /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD6179D1BC60068A54E /* pngerror.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AE6179D1BC60068A54E /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD7179D1BC60068A54E /* pngget.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AE7179D1BC60068A54E /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD8179D1BC60068A54E /* pngmem.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AE8179D1BC60068A54E /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AD9179D1BC60068A54E /* pngpread.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AE9179D1BC60068A54E /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADA179D1BC60068A54E /* pngread.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AEA179D1BC60068A54E /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADB179D1BC60068A54E /* pngrio.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADC179D1BC60068A54E /* pngrtran.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADD179D1BC60068A54E /* pngrutil.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AED179D1BC60068A54E /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADE179D1BC60068A54E /* pngset.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157ADF179D1BC60068A54E /* pngtrans.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AEF179D1BC60068A54E /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE0179D1BC60068A54E /* pngwio.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE1179D1BC60068A54E /* pngwrite.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE2179D1BC60068A54E /* pngwtran.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = CC157AE3179D1BC60068A54E /* pngwutil.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
@@ -178,64 +176,64 @@
 		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
 		CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
-		CC5044E91814DC69009F7B9E /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C0179D304600768D24 /* Main.cc */; };
-		CC5044EA1814DC69009F7B9E /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C1179D304600768D24 /* EmuControls.cc */; };
-		CC5044EB1814DC69009F7B9E /* VbamApi.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C2179D304600768D24 /* VbamApi.cc */; };
-		CC5044EC1814DC69009F7B9E /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C3179D304600768D24 /* Cheats.cc */; };
-		CC5044ED1814DC69009F7B9E /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C4179D304600768D24 /* bios.cpp */; };
-		CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C5179D304600768D24 /* Cheats.cpp */; };
-		CC5044EF1814DC69009F7B9E /* CheatSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C6179D304600768D24 /* CheatSearch.cpp */; };
-		CC5044F01814DC69009F7B9E /* EEprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C7179D304600768D24 /* EEprom.cpp */; };
-		CC5044F11814DC69009F7B9E /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C8179D304600768D24 /* Flash.cpp */; };
-		CC5044F21814DC69009F7B9E /* GBA-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C9179D304600768D24 /* GBA-arm.cpp */; };
-		CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CA179D304600768D24 /* GBA-thumb.cpp */; };
-		CC5044F41814DC69009F7B9E /* GBA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CB179D304600768D24 /* GBA.cpp */; };
-		CC5044F51814DC69009F7B9E /* gbafilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CC179D304600768D24 /* gbafilter.cpp */; };
-		CC5044F61814DC69009F7B9E /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CD179D304600768D24 /* Globals.cpp */; };
-		CC5044F71814DC69009F7B9E /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CE179D304600768D24 /* Mode0.cpp */; };
-		CC5044F81814DC69009F7B9E /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CF179D304600768D24 /* Mode1.cpp */; };
-		CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D0179D304600768D24 /* Mode2.cpp */; };
-		CC5044FA1814DC69009F7B9E /* Mode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D1179D304600768D24 /* Mode3.cpp */; };
-		CC5044FB1814DC69009F7B9E /* Mode4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D2179D304600768D24 /* Mode4.cpp */; };
-		CC5044FC1814DC69009F7B9E /* Mode5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D3179D304600768D24 /* Mode5.cpp */; };
-		CC5044FD1814DC69009F7B9E /* RTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D4179D304600768D24 /* RTC.cpp */; };
-		CC5044FE1814DC69009F7B9E /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D5179D304600768D24 /* Sound.cpp */; };
-		CC5044FF1814DC69009F7B9E /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D6179D304600768D24 /* Sram.cpp */; };
-		CC5045001814DC69009F7B9E /* Patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D7179D304600768D24 /* Patch.cpp */; };
-		CC5045011814DC69009F7B9E /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D8179D304600768D24 /* Util.cpp */; };
-		CC5045021814DC69009F7B9E /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */; };
-		CC5045031814DC69009F7B9E /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */; };
-		CC5045041814DC69009F7B9E /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DB179D304700768D24 /* Gb_Apu.cpp */; };
-		CC5045051814DC69009F7B9E /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */; };
-		CC5045061814DC69009F7B9E /* Multi_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */; };
-		CC5045071814DC69009F7B9E /* Binary_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */; };
-		CC5045081814DC69009F7B9E /* blargg_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DF179D304700768D24 /* blargg_common.cpp */; };
-		CC5045091814DC69009F7B9E /* blargg_errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E0179D304700768D24 /* blargg_errors.cpp */; };
-		CC50450A1814DC69009F7B9E /* Data_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E1179D304700768D24 /* Data_Reader.cpp */; };
-		CC50450B1814DC69009F7B9E /* fex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E2179D304700768D24 /* fex.cpp */; };
-		CC50450C1814DC69009F7B9E /* File_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E3179D304700768D24 /* File_Extractor.cpp */; };
-		CC50450D1814DC69009F7B9E /* Gzip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */; };
-		CC50450E1814DC69009F7B9E /* Gzip_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */; };
-		CC50450F1814DC69009F7B9E /* Rar_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */; };
-		CC5045101814DC69009F7B9E /* Zip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */; };
-		CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */; };
-		CC5045121814DC69009F7B9E /* Zlib_Inflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */; };
-		CC5045131814DC69009F7B9E /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EA179D304700768D24 /* memgzio.c */; };
-		CC5045141814DC69009F7B9E /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; };
-		CC5045151814DC69009F7B9E /* 7zBuf.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EC179D304700768D24 /* 7zBuf.c */; };
-		CC5045161814DC69009F7B9E /* 7zCrc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71ED179D304700768D24 /* 7zCrc.c */; };
-		CC5045171814DC69009F7B9E /* 7zCrcOpt.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EE179D304700768D24 /* 7zCrcOpt.c */; };
-		CC5045181814DC69009F7B9E /* 7zDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EF179D304700768D24 /* 7zDec.c */; };
-		CC5045191814DC69009F7B9E /* 7zIn.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F0179D304700768D24 /* 7zIn.c */; };
-		CC50451A1814DC69009F7B9E /* 7zStream.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F1179D304700768D24 /* 7zStream.c */; };
-		CC50451B1814DC69009F7B9E /* Bcj2.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F2179D304700768D24 /* Bcj2.c */; };
-		CC50451C1814DC69009F7B9E /* Bra.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F3179D304700768D24 /* Bra.c */; };
-		CC50451D1814DC69009F7B9E /* Bra86.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F4179D304700768D24 /* Bra86.c */; };
-		CC50451E1814DC69009F7B9E /* CpuArch.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F5179D304700768D24 /* CpuArch.c */; };
-		CC50451F1814DC69009F7B9E /* Lzma2Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F6179D304700768D24 /* Lzma2Dec.c */; };
-		CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; };
-		CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; };
-		CC5045221814DC69009F7B9E /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; };
+		CC5044E91814DC69009F7B9E /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C0179D304600768D24 /* Main.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044EA1814DC69009F7B9E /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C1179D304600768D24 /* EmuControls.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044EB1814DC69009F7B9E /* VbamApi.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C2179D304600768D24 /* VbamApi.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044EC1814DC69009F7B9E /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C3179D304600768D24 /* Cheats.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044ED1814DC69009F7B9E /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C4179D304600768D24 /* bios.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C5179D304600768D24 /* Cheats.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044EF1814DC69009F7B9E /* CheatSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C6179D304600768D24 /* CheatSearch.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F01814DC69009F7B9E /* EEprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C7179D304600768D24 /* EEprom.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F11814DC69009F7B9E /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C8179D304600768D24 /* Flash.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F21814DC69009F7B9E /* GBA-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71C9179D304600768D24 /* GBA-arm.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CA179D304600768D24 /* GBA-thumb.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F41814DC69009F7B9E /* GBA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CB179D304600768D24 /* GBA.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F51814DC69009F7B9E /* gbafilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CC179D304600768D24 /* gbafilter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F61814DC69009F7B9E /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CD179D304600768D24 /* Globals.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F71814DC69009F7B9E /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CE179D304600768D24 /* Mode0.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F81814DC69009F7B9E /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71CF179D304600768D24 /* Mode1.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D0179D304600768D24 /* Mode2.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044FA1814DC69009F7B9E /* Mode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D1179D304600768D24 /* Mode3.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044FB1814DC69009F7B9E /* Mode4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D2179D304600768D24 /* Mode4.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044FC1814DC69009F7B9E /* Mode5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D3179D304600768D24 /* Mode5.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044FD1814DC69009F7B9E /* RTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D4179D304600768D24 /* RTC.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044FE1814DC69009F7B9E /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D5179D304600768D24 /* Sound.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5044FF1814DC69009F7B9E /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D6179D304600768D24 /* Sram.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045001814DC69009F7B9E /* Patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D7179D304600768D24 /* Patch.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045011814DC69009F7B9E /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D8179D304600768D24 /* Util.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045021814DC69009F7B9E /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71D9179D304600768D24 /* Blip_Buffer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045031814DC69009F7B9E /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DA179D304600768D24 /* Gb_Apu_State.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045041814DC69009F7B9E /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DB179D304700768D24 /* Gb_Apu.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045051814DC69009F7B9E /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DC179D304700768D24 /* Gb_Oscs.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045061814DC69009F7B9E /* Multi_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DD179D304700768D24 /* Multi_Buffer.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045071814DC69009F7B9E /* Binary_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DE179D304700768D24 /* Binary_Extractor.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045081814DC69009F7B9E /* blargg_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71DF179D304700768D24 /* blargg_common.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045091814DC69009F7B9E /* blargg_errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E0179D304700768D24 /* blargg_errors.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50450A1814DC69009F7B9E /* Data_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E1179D304700768D24 /* Data_Reader.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50450B1814DC69009F7B9E /* fex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E2179D304700768D24 /* fex.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50450C1814DC69009F7B9E /* File_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E3179D304700768D24 /* File_Extractor.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50450D1814DC69009F7B9E /* Gzip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E4179D304700768D24 /* Gzip_Extractor.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50450E1814DC69009F7B9E /* Gzip_Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E5179D304700768D24 /* Gzip_Reader.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50450F1814DC69009F7B9E /* Rar_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E6179D304700768D24 /* Rar_Extractor.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045101814DC69009F7B9E /* Zip_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E7179D304700768D24 /* Zip_Extractor.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E8179D304700768D24 /* Zip7_Extractor.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045121814DC69009F7B9E /* Zlib_Inflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71E9179D304700768D24 /* Zlib_Inflater.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045131814DC69009F7B9E /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EA179D304700768D24 /* memgzio.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045141814DC69009F7B9E /* 7zAlloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EB179D304700768D24 /* 7zAlloc.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045151814DC69009F7B9E /* 7zBuf.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EC179D304700768D24 /* 7zBuf.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045161814DC69009F7B9E /* 7zCrc.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71ED179D304700768D24 /* 7zCrc.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045171814DC69009F7B9E /* 7zCrcOpt.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EE179D304700768D24 /* 7zCrcOpt.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045181814DC69009F7B9E /* 7zDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71EF179D304700768D24 /* 7zDec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045191814DC69009F7B9E /* 7zIn.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F0179D304700768D24 /* 7zIn.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50451A1814DC69009F7B9E /* 7zStream.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F1179D304700768D24 /* 7zStream.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50451B1814DC69009F7B9E /* Bcj2.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F2179D304700768D24 /* Bcj2.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50451C1814DC69009F7B9E /* Bra.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F3179D304700768D24 /* Bra.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50451D1814DC69009F7B9E /* Bra86.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F4179D304700768D24 /* Bra86.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50451E1814DC69009F7B9E /* CpuArch.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F5179D304700768D24 /* CpuArch.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC50451F1814DC69009F7B9E /* Lzma2Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F6179D304700768D24 /* Lzma2Dec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC5045221814DC69009F7B9E /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CC58C8F817E64A20008F472E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
 		CC58C8FC17E64A91008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC6420B41807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
@@ -245,8 +243,8 @@
 		CC76CF0217ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */; };
 		CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0517ED3D180072BF74 /* GBASaveStateTableViewCell.m */; };
 		CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
-		CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
-		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; };
+		CC823BC417B04A7A000A25E6 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719A179D2FE400768D24 /* ButtonConfigView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
 		CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC15E541179F027300449972 /* GBAEmulatorCore.mm */; };
@@ -260,87 +258,87 @@
 		CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
 		CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
-		CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; };
-		CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; };
-		CCC9B8931815AC7E005C90EE /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; };
-		CCC9B8941815AC7E005C90EE /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F1180C745200BF3DA5 /* ly_counter.cpp */; };
-		CCC9B8951815AC7E005C90EE /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F2180C745200BF3DA5 /* lyc_irq.cpp */; };
-		CCC9B8961815AC7E005C90EE /* next_m0_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F3180C745200BF3DA5 /* next_m0_time.cpp */; };
-		CCC9B8971815AC7E005C90EE /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F4180C745200BF3DA5 /* ppu.cpp */; };
-		CCC9B8981815AC7E005C90EE /* sprite_mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F5180C745200BF3DA5 /* sprite_mapper.cpp */; };
-		CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575700180C745E00BF3DA5 /* channel1.cpp */; };
-		CCC9B89A1815AC7E005C90EE /* channel2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575701180C745E00BF3DA5 /* channel2.cpp */; };
-		CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575702180C745E00BF3DA5 /* channel3.cpp */; };
-		CCC9B89C1815AC7E005C90EE /* channel4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575703180C745E00BF3DA5 /* channel4.cpp */; };
-		CCC9B89D1815AC7E005C90EE /* duty_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575704180C745E00BF3DA5 /* duty_unit.cpp */; };
-		CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575705180C745E00BF3DA5 /* envelope_unit.cpp */; };
-		CCC9B89F1815AC7E005C90EE /* length_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575706180C745E00BF3DA5 /* length_counter.cpp */; };
-		CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575715180C746600BF3DA5 /* chainresampler.cpp */; };
-		CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575716180C746600BF3DA5 /* i0.cpp */; };
-		CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575717180C746600BF3DA5 /* kaiser50sinc.cpp */; };
-		CCC9B8A31815AC7E005C90EE /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575718180C746600BF3DA5 /* kaiser70sinc.cpp */; };
-		CCC9B8A41815AC7E005C90EE /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575719180C746600BF3DA5 /* makesinckernel.cpp */; };
-		CCC9B8A51815AC7E005C90EE /* resamplerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */; };
-		CCC9B8A61815AC7E005C90EE /* u48div.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571B180C746600BF3DA5 /* u48div.cpp */; };
-		CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572A180C747800BF3DA5 /* file_zip.cpp */; };
-		CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572D180C748100BF3DA5 /* cartridge.cpp */; };
-		CCC9B8A91815AC7E005C90EE /* memptrs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572E180C748100BF3DA5 /* memptrs.cpp */; };
-		CCC9B8AA1815AC7E005C90EE /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572F180C748100BF3DA5 /* pakinfo.cpp */; };
-		CCC9B8AB1815AC7E005C90EE /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575730180C748100BF3DA5 /* rtc.cpp */; };
-		CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575739180C748B00BF3DA5 /* cpu.cpp */; };
-		CCC9B8AD1815AC7E005C90EE /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573A180C748B00BF3DA5 /* gambatte.cpp */; };
-		CCC9B8AE1815AC7E005C90EE /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573B180C748B00BF3DA5 /* initstate.cpp */; };
-		CCC9B8AF1815AC7E005C90EE /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; };
-		CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; };
-		CCC9B8B11815AC7E005C90EE /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; };
-		CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; };
-		CCC9B8B31815AC7E005C90EE /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; };
-		CCC9B8B41815AC7E005C90EE /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; };
-		CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; };
-		CCC9B8B61815AC7E005C90EE /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; };
+		CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8931815AC7E005C90EE /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8941815AC7E005C90EE /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F1180C745200BF3DA5 /* ly_counter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8951815AC7E005C90EE /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F2180C745200BF3DA5 /* lyc_irq.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8961815AC7E005C90EE /* next_m0_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F3180C745200BF3DA5 /* next_m0_time.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8971815AC7E005C90EE /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F4180C745200BF3DA5 /* ppu.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8981815AC7E005C90EE /* sprite_mapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC5756F5180C745200BF3DA5 /* sprite_mapper.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575700180C745E00BF3DA5 /* channel1.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B89A1815AC7E005C90EE /* channel2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575701180C745E00BF3DA5 /* channel2.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575702180C745E00BF3DA5 /* channel3.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B89C1815AC7E005C90EE /* channel4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575703180C745E00BF3DA5 /* channel4.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B89D1815AC7E005C90EE /* duty_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575704180C745E00BF3DA5 /* duty_unit.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575705180C745E00BF3DA5 /* envelope_unit.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B89F1815AC7E005C90EE /* length_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575706180C745E00BF3DA5 /* length_counter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575715180C746600BF3DA5 /* chainresampler.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575716180C746600BF3DA5 /* i0.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575717180C746600BF3DA5 /* kaiser50sinc.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A31815AC7E005C90EE /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575718180C746600BF3DA5 /* kaiser70sinc.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A41815AC7E005C90EE /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575719180C746600BF3DA5 /* makesinckernel.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A51815AC7E005C90EE /* resamplerinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A61815AC7E005C90EE /* u48div.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57571B180C746600BF3DA5 /* u48div.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572A180C747800BF3DA5 /* file_zip.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572D180C748100BF3DA5 /* cartridge.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8A91815AC7E005C90EE /* memptrs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572E180C748100BF3DA5 /* memptrs.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8AA1815AC7E005C90EE /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57572F180C748100BF3DA5 /* pakinfo.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8AB1815AC7E005C90EE /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575730180C748100BF3DA5 /* rtc.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575739180C748B00BF3DA5 /* cpu.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8AD1815AC7E005C90EE /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573A180C748B00BF3DA5 /* gambatte.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8AE1815AC7E005C90EE /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573B180C748B00BF3DA5 /* initstate.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8AF1815AC7E005C90EE /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573C180C748B00BF3DA5 /* interrupter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573D180C748B00BF3DA5 /* interruptrequester.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8B11815AC7E005C90EE /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573E180C748B00BF3DA5 /* loadres.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC57573F180C748B00BF3DA5 /* memory_GBC.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8B31815AC7E005C90EE /* sound_GBC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575740180C748B00BF3DA5 /* sound_GBC.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8B41815AC7E005C90EE /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575741180C748B00BF3DA5 /* statesaver.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575742180C748B00BF3DA5 /* tima.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCC9B8B61815AC7E005C90EE /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC575743180C748B00BF3DA5 /* video.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
-		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; };
-		CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; };
-		CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; };
-		CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7158179D2EAA00768D24 /* opengl.cc */; };
-		CCFA7178179D2EAB00768D24 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7159179D2EAA00768D24 /* View.cc */; };
-		CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */; };
-		CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */; };
-		CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */; };
-		CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715D179D2EAA00768D24 /* FsPosix.cc */; };
-		CCFA717D179D2EAB00768D24 /* Io.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715E179D2EAA00768D24 /* Io.cc */; };
-		CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715F179D2EAA00768D24 /* IoFd.cc */; };
-		CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7160179D2EAA00768D24 /* IoMmap.cc */; };
-		CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */; };
-		CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7169179D2EAA00768D24 /* MenuItem.cc */; };
-		CCFA7189179D2EAB00768D24 /* NavView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716A179D2EAA00768D24 /* NavView.cc */; };
-		CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716B179D2EAA00768D24 /* FSPicker.cc */; };
-		CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716C179D2EAA00768D24 /* AlertView.cc */; };
-		CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716D179D2EAA00768D24 /* ResourceFace.cc */; };
-		CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716E179D2EAA00768D24 /* ResourceFont.cc */; };
-		CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716F179D2EAA00768D24 /* Quartz2d.cc */; };
-		CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7194179D2FE400768D24 /* CreditsView.cc */; };
-		CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7195179D2FE400768D24 /* MsgPopup.cc */; };
-		CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7196179D2FE400768D24 /* FilePicker.cc */; };
-		CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7197179D2FE400768D24 /* EmuSystem.cc */; };
-		CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7198179D2FE400768D24 /* Recent.cc */; };
-		CCFA71AE179D2FE400768D24 /* Screenshot.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7199179D2FE400768D24 /* Screenshot.cc */; };
-		CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */; };
-		CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719C179D2FE400768D24 /* StateSlotView.cc */; };
-		CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719D179D2FE400768D24 /* MenuView.cc */; };
-		CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719E179D2FE400768D24 /* EmuInput.cc */; };
-		CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719F179D2FE400768D24 /* TextEntry.cc */; };
-		CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A0179D2FE400768D24 /* EmuOptions.cc */; };
-		CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A1179D2FE400768D24 /* OptionView.cc */; };
-		CCFA71B7179D2FE400768D24 /* EmuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A2179D2FE400768D24 /* EmuView.cc */; };
-		CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A3179D2FE400768D24 /* ConfigFile.cc */; };
-		CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A4179D2FE400768D24 /* InputManagerView.cc */; };
-		CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A5179D2FE400768D24 /* FileUtils.cc */; };
-		CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A6179D2FE400768D24 /* Cheats.cc */; };
-		CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */; };
-		CCFA71BD179D2FE400768D24 /* VController.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A8179D2FE400768D24 /* VController.cc */; };
-		CCFA7237179D340400768D24 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; };
+		CCFA7174179D2EAB00768D24 /* logger.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7155179D2EAA00768D24 /* logger.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7175179D2EAB00768D24 /* coreaudio.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7156179D2EAA00768D24 /* coreaudio.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7157179D2EAA00768D24 /* Pixmap.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7158179D2EAA00768D24 /* opengl.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7178179D2EAB00768D24 /* View.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7159179D2EAA00768D24 /* View.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715A179D2EAA00768D24 /* ScrollView1D.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA717A179D2EAB00768D24 /* GuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715B179D2EAA00768D24 /* GuiTable1D.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715C179D2EAA00768D24 /* ScrollableGuiTable1D.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA717C179D2EAB00768D24 /* FsPosix.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715D179D2EAA00768D24 /* FsPosix.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA717D179D2EAB00768D24 /* Io.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715E179D2EAA00768D24 /* Io.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA715F179D2EAA00768D24 /* IoFd.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7160179D2EAA00768D24 /* IoMmap.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7161179D2EAA00768D24 /* IoMmapFd.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7169179D2EAA00768D24 /* MenuItem.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7189179D2EAB00768D24 /* NavView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716A179D2EAA00768D24 /* NavView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716B179D2EAA00768D24 /* FSPicker.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716C179D2EAA00768D24 /* AlertView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716D179D2EAA00768D24 /* ResourceFace.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716E179D2EAA00768D24 /* ResourceFont.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA716F179D2EAA00768D24 /* Quartz2d.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7194179D2FE400768D24 /* CreditsView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7195179D2FE400768D24 /* MsgPopup.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71AB179D2FE400768D24 /* FilePicker.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7196179D2FE400768D24 /* FilePicker.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7197179D2FE400768D24 /* EmuSystem.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7198179D2FE400768D24 /* Recent.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71AE179D2FE400768D24 /* Screenshot.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7199179D2FE400768D24 /* Screenshot.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719B179D2FE400768D24 /* VideoImageOverlay.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B1179D2FE400768D24 /* StateSlotView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719C179D2FE400768D24 /* StateSlotView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719D179D2FE400768D24 /* MenuView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719E179D2FE400768D24 /* EmuInput.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA719F179D2FE400768D24 /* TextEntry.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A0179D2FE400768D24 /* EmuOptions.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B6179D2FE400768D24 /* OptionView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A1179D2FE400768D24 /* OptionView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B7179D2FE400768D24 /* EmuView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A2179D2FE400768D24 /* EmuView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A3179D2FE400768D24 /* ConfigFile.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A4179D2FE400768D24 /* InputManagerView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A5179D2FE400768D24 /* FileUtils.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71BB179D2FE400768D24 /* Cheats.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A6179D2FE400768D24 /* Cheats.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71BC179D2FE400768D24 /* TouchConfigView.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A7179D2FE400768D24 /* TouchConfigView.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA71BD179D2FE400768D24 /* VController.cc in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71A8179D2FE400768D24 /* VController.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CCFA7237179D340400768D24 /* apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7171179D2EAB00768D24 /* apple.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7172179D2EAB00768D24 /* ResourceFontUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F3B51E48877147019EA94D46 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AFB44A5AB34C2982DE856F /* libPods.a */; };
@@ -418,8 +416,6 @@
 		BF563AC7184B132300722678 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		BF650F1418470DFC008113E4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		BF6FF3511845696200A8568C /* GBASyncManager_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBASyncManager_Private.h; sourceTree = "<group>"; };
-		BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTProgressIndicator.h; sourceTree = "<group>"; };
-		BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTProgressIndicator.m; sourceTree = "<group>"; };
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
@@ -754,8 +750,6 @@
 			children = (
 				BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */,
 				BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */,
-				BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */,
-				BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */,
 				BFC9B529183017EE0012A1EA /* Renaming_Files */,
 			);
 			name = Syncing;
@@ -791,8 +785,8 @@
 				BF3E2C241820774C004231F6 /* GBASyncManager.h */,
 				BF3E2C251820774C004231F6 /* GBASyncManager.mm */,
 				BF6FF3511845696200A8568C /* GBASyncManager_Private.h */,
-				BF73C2EE1822EADD00DD69FD /* RSTProgressIndicator.h */,
-				BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */,
+				BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */,
+				BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */,
 			);
 			name = "Dropbox Sync";
 			sourceTree = "<group>";
@@ -1618,7 +1612,6 @@
 				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.mm in Sources */,
 				BF2F356B183FF6F9002ACE90 /* UIButton+AFNetworking.m in Sources */,
 				BF2F356C183FF6F9002ACE90 /* AFHTTPRequestOperationManager.m in Sources */,
-				BF2F3572183FF6F9002ACE90 /* RSTProgressIndicator.m in Sources */,
 				BF2F3575183FF6F9002ACE90 /* UIWebView+AFNetworking.m in Sources */,
 				BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */,
 				BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */,
@@ -1703,8 +1696,9 @@
 				CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */,
 				CCC9B8A61815AC7E005C90EE /* u48div.cpp in Sources */,
 				CCFA7237179D340400768D24 /* apple.mm in Sources */,
-				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
 				BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */,
+				BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */,
+				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
 				CC50451E1814DC69009F7B9E /* CpuArch.c in Sources */,
 				CC5044EF1814DC69009F7B9E /* CheatSearch.cpp in Sources */,
 				CC5044FB1814DC69009F7B9E /* Mode4.cpp in Sources */,
@@ -1715,7 +1709,6 @@
 				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
-				BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */,
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
 				BFFD47721841DC1F004BA938 /* RSTHelperFile.mm in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
@@ -1791,7 +1784,6 @@
 				CC50450D1814DC69009F7B9E /* Gzip_Extractor.cpp in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				CC5045001814DC69009F7B9E /* Patch.cpp in Sources */,
-				BF73C2F01822EADD00DD69FD /* RSTProgressIndicator.m in Sources */,
 				CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */,
 				CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */,
 				BF3E2C1C18206F15004231F6 /* UIWebView+AFNetworking.m in Sources */,

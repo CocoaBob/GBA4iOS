@@ -114,5 +114,5 @@ static const bool BASE_CAN_BACKGROUND_APP = 0;
 	#define CONFIG_ARCH_STR "arm"
 	#endif
 #else
-#warning Compiling on unknown architecture
+// #warning Compiling on unknown architecture Riley Testut
 #endif
