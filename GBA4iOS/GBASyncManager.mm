@@ -30,20 +30,6 @@ NSString * const GBASyncingCompletionBlockKey = @"completionBlock";
 NSString * const GBAHasUpdatedSaveForCurrentGameFromDropboxNotification = @"GBAHasUpdatedSaveForCurrentGameFromDropboxNotification";
 NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceUploadHistoryNotification";
 
-UIBackgroundTaskIdentifier rst_begin_background_task(void) {
-    __block UIBackgroundTaskIdentifier backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
-        backgroundTask = UIBackgroundTaskInvalid;
-    }];
-    
-    return backgroundTask;
-};
-
-void rst_end_background_task(UIBackgroundTaskIdentifier backgroundTask) {
-    [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
-    backgroundTask = UIBackgroundTaskInvalid;
-}
-
 NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 @interface GBASyncManager () <DBRestClientDelegate>
@@ -327,7 +313,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     NSString *romName = [self romNameFromDropboxPath:dropboxPath];
     
-    GBAROM *dummyROM = [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:[romName stringByAppendingPathExtension:@"gba"]]];
+    GBAROM *rom = [GBAROM romWithName:romName];
     
     DBMetadata *dropboxMetadata = newDropboxFiles[dropboxPath];
     DBMetadata *cachedMetadata = self.dropboxFiles[dropboxPath];
@@ -342,12 +328,12 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         DLog(@"Conflicted ROM: %@ Local Rev: %@ Dropbox Rev: %@", romName, cachedMetadata.rev, dropboxMetadata.rev);
         
-        [dummyROM setConflicted:YES];
-        [dummyROM setSyncingDisabled:YES];
+        [rom setConflicted:YES];
+        [rom setSyncingDisabled:YES];
     }
     else
     {
-        [self prepareToUploadSaveFileForROM:dummyROM];
+        [self prepareToUploadSaveFileForROM:rom];
     }
 }
 
@@ -522,9 +508,9 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     {
         DLog(@"Conflicted upload for file: %@ Destination Path: %@ Actual Path: %@", metadata.filename, destPath, metadata.path);
         NSString *romName = [[srcPath lastPathComponent] stringByDeletingPathExtension];
-        GBAROM *dummyROM = [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:[romName stringByAppendingPathExtension:@"gba"]]];
-        [dummyROM setConflicted:YES];
-        [dummyROM setSyncingDisabled:YES];
+        GBAROM *rom = [GBAROM romWithName:romName];
+        [rom setConflicted:YES];
+        [rom setSyncingDisabled:YES];
     }
     
     [self handleCompletedUploadForFileAtPath:srcPath withError:nil];
@@ -682,7 +668,7 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         }
         
         NSString *localPath = [documentsDirectory stringByAppendingPathComponent:metadata.filename];
-        GBAROM *dummyROM = [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:[romName stringByAppendingPathExtension:@"gba"]]];
+        GBAROM *rom = [GBAROM romWithName:romName];
         
         NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error:nil];
         NSDate *currentDate = [attributes fileModificationDate];
@@ -692,12 +678,12 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         
         // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
         // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
-        if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:dummyROM.name] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
+        if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
         {
             DLog(@"Conflict downloading file: %@ Rev: %@ Cached Metadata: %@ New Metadata: %@", metadata.filename, metadata.rev, cachedMetadata.rev, metadata);
             
-            [dummyROM setConflicted:YES];
-            [dummyROM setSyncingDisabled:YES];
+            [rom setConflicted:YES];
+            [rom setSyncingDisabled:YES];
             return;
         }
         
@@ -706,8 +692,8 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         // Post notification if user is currently running ROM to be updated
         if ([[[[GBAEmulatorCore sharedCore] rom] name] isEqualToString:romName])
         {
-            [dummyROM setConflicted:YES];
-            [dummyROM setSyncingDisabled:YES];
+            [rom setConflicted:YES];
+            [rom setSyncingDisabled:YES];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:GBAHasUpdatedSaveForCurrentGameFromDropboxNotification object:[[GBAEmulatorCore sharedCore] rom]];
             

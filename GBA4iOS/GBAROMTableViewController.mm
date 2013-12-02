@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     self.clearsSelectionOnViewWillAppear = YES;
     
-    GBAVisibleROMType romType = [[NSUserDefaults standardUserDefaults] integerForKey:@"visibleROMType"];
+    GBAVisibleROMType romType = (GBAVisibleROMType)[[NSUserDefaults standardUserDefaults] integerForKey:@"visibleROMType"];
     self.romType = romType;
     
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
@@ -1022,7 +1022,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl
 {
-    GBAVisibleROMType romType = segmentedControl.selectedSegmentIndex;
+    GBAVisibleROMType romType = (GBAVisibleROMType)segmentedControl.selectedSegmentIndex;
     self.romType = romType;
 }
 

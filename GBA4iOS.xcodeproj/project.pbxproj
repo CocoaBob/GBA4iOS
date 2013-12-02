@@ -12,7 +12,7 @@
 		1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		1AD971F317D2C6ED007097BC /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
 		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
-		BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */; };
+		BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */; };
 		BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF2F34E1183FF6F9002ACE90 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
@@ -24,7 +24,7 @@
 		BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
 		BF2F34FD183FF6F9002ACE90 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; };
 		BF2F3500183FF6F9002ACE90 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
-		BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */; };
+		BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */; };
 		BF2F3507183FF6F9002ACE90 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFB18206F15004231F6 /* UIProgressView+AFNetworking.m */; };
 		BF2F3509183FF6F9002ACE90 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF918206F15004231F6 /* UIImageView+AFNetworking.m */; };
 		BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
@@ -53,7 +53,7 @@
 		BF2F3556183FF6F9002ACE90 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BED18206F15004231F6 /* AFURLRequestSerialization.m */; };
 		BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0517ED3D180072BF74 /* GBASaveStateTableViewCell.m */; };
 		BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
-		BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
+		BF2F3565183FF6F9002ACE90 /* RSTHelperFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.mm */; };
 		BF2F356B183FF6F9002ACE90 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF718206F15004231F6 /* UIButton+AFNetworking.m */; };
 		BF2F356C183FF6F9002ACE90 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE018206F15004231F6 /* AFHTTPRequestOperationManager.m */; };
 		BF2F3572183FF6F9002ACE90 /* RSTProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF73C2EF1822EADD00DD69FD /* RSTProgressIndicator.m */; };
@@ -66,11 +66,11 @@
 		BF2F3585183FF6F9002ACE90 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE218206F15004231F6 /* AFHTTPSessionManager.m */; };
 		BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
 		BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
-		BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */; };
+		BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
 		BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */; };
 		BF2F359D183FF6F9002ACE90 /* GBAEmulationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */; };
 		BF2F359F183FF6F9002ACE90 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */; };
-		BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
+		BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */; };
 		BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
 		BF2F35B0183FF6F9002ACE90 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BE918206F15004231F6 /* AFSecurityPolicy.m */; };
 		BF2F35B5183FF6F9002ACE90 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
@@ -144,7 +144,7 @@
 		BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
-		BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
+		BFFD47721841DC1F004BA938 /* RSTHelperFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.mm */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
@@ -172,8 +172,8 @@
 		CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
 		CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		CC2D570C1798F2EC00C616EB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
-		CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */; };
-		CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.m */; };
+		CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
+		CC2D57411798F44700C616EB /* GBAROMTableViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */; };
 		CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC491D4D17BCAA940060A107 /* GBASaveStateViewController.mm */; };
@@ -358,7 +358,7 @@
 		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewController.m; sourceTree = "<group>"; };
 		B7AFB44A5AB34C2982DE856F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncingOverviewViewController.h; sourceTree = "<group>"; };
-		BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncingOverviewViewController.m; sourceTree = "<group>"; };
+		BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncingOverviewViewController.mm; sourceTree = "<group>"; };
 		BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncingDetailViewController.h; sourceTree = "<group>"; };
 		BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncingDetailViewController.mm; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
@@ -475,12 +475,12 @@
 		CC2D570B1798F2EC00C616EB /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA4iOS-Prefix.pch"; sourceTree = "<group>"; };
 		CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAAppDelegate.h; sourceTree = "<group>"; };
-		CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBAAppDelegate.m; sourceTree = "<group>"; };
+		CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAAppDelegate.mm; sourceTree = "<group>"; };
 		CC2D57121798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CC2D571A1798F2EC00C616EB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CC2D57211798F2ED00C616EB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
-		CC2D57401798F44700C616EB /* GBAROMTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewController.m; sourceTree = "<group>"; };
+		CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAROMTableViewController.mm; sourceTree = "<group>"; };
 		CC33F0E117E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.h"; sourceTree = "<group>"; };
 		CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m"; sourceTree = "<group>"; };
 		CC41AEA917A22EC90062DDD8 /* padButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padButton.png; sourceTree = "<group>"; };
@@ -558,7 +558,7 @@
 		CCBD34EF17F7492F00592602 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
 		CCBD34F017F7492F00592602 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		CCBEBEEF17E62C0000731F76 /* RSTHelperFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTHelperFile.h; sourceTree = "<group>"; };
-		CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTHelperFile.m; sourceTree = "<group>"; };
+		CCBEBEF017E62C0000731F76 /* RSTHelperFile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RSTHelperFile.mm; sourceTree = "<group>"; };
 		CCBF363117F27DA100704A5B /* GBAMailActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAMailActivity.h; sourceTree = "<group>"; };
 		CCBF363217F27DA100704A5B /* GBAMailActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAMailActivity.m; sourceTree = "<group>"; };
 		CCC0A388181B515000CB7CF0 /* CommonGui.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = CommonGui.hh; path = "emu-ex-plus-alpha/EmuFramework/include/CommonGui.hh"; sourceTree = SOURCE_ROOT; };
@@ -753,7 +753,7 @@
 			isa = PBXGroup;
 			children = (
 				BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */,
-				BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.m */,
+				BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */,
 				BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */,
 				BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */,
 				BFC9B529183017EE0012A1EA /* Renaming_Files */,
@@ -978,10 +978,10 @@
 			isa = PBXGroup;
 			children = (
 				CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */,
-				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.m */,
+				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */,
 				CC2D57111798F2EC00C616EB /* Main.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
-				CC2D57401798F44700C616EB /* GBAROMTableViewController.m */,
+				CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */,
 				BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */,
 				CC6D0A98180746D7001D089A /* Custom UIViewController Transitions */,
 				CCBF363017F27CD500704A5B /* Sharing */,
@@ -1004,7 +1004,7 @@
 				CCF025A5179E4E49002A3BF6 /* config.h */,
 				CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */,
 				CCBEBEEF17E62C0000731F76 /* RSTHelperFile.h */,
-				CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */,
+				CCBEBEF017E62C0000731F76 /* RSTHelperFile.mm */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1585,7 +1585,7 @@
 				BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */,
 				BF2F34FD183FF6F9002ACE90 /* AFURLResponseSerialization.m in Sources */,
 				BF2F3500183FF6F9002ACE90 /* GBAEmulatorScreen.mm in Sources */,
-				BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.m in Sources */,
+				BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.mm in Sources */,
 				BF2F3507183FF6F9002ACE90 /* UIProgressView+AFNetworking.m in Sources */,
 				BF2F3509183FF6F9002ACE90 /* UIImageView+AFNetworking.m in Sources */,
 				BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */,
@@ -1615,7 +1615,7 @@
 				BF2F3556183FF6F9002ACE90 /* AFURLRequestSerialization.m in Sources */,
 				BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */,
 				BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
-				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */,
+				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.mm in Sources */,
 				BF2F356B183FF6F9002ACE90 /* UIButton+AFNetworking.m in Sources */,
 				BF2F356C183FF6F9002ACE90 /* AFHTTPRequestOperationManager.m in Sources */,
 				BF2F3572183FF6F9002ACE90 /* RSTProgressIndicator.m in Sources */,
@@ -1629,11 +1629,11 @@
 				BF2F3585183FF6F9002ACE90 /* AFHTTPSessionManager.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
-				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.m in Sources */,
+				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
 				BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.mm in Sources */,
 				BF2F359D183FF6F9002ACE90 /* GBAEmulationViewController.mm in Sources */,
 				BF2F359F183FF6F9002ACE90 /* UIDevice-Hardware.m in Sources */,
-				BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.m in Sources */,
+				BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.mm in Sources */,
 				BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */,
 				BF2F35B0183FF6F9002ACE90 /* AFSecurityPolicy.m in Sources */,
 			);
@@ -1681,7 +1681,7 @@
 				CC5044EB1814DC69009F7B9E /* VbamApi.cc in Sources */,
 				CC157AF0179D1BC60068A54E /* pngwrite.c in Sources */,
 				CCFA71B4179D2FE400768D24 /* TextEntry.cc in Sources */,
-				BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.m in Sources */,
+				BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.mm in Sources */,
 				CCFA7178179D2EAB00768D24 /* View.cc in Sources */,
 				CC5044EC1814DC69009F7B9E /* Cheats.cc in Sources */,
 				BF3E2C1A18206F15004231F6 /* UIProgressView+AFNetworking.m in Sources */,
@@ -1717,7 +1717,7 @@
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				BF3E2C261820774C004231F6 /* GBASyncManager.mm in Sources */,
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
-				BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */,
+				BFFD47721841DC1F004BA938 /* RSTHelperFile.mm in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
@@ -1826,7 +1826,7 @@
 				1AD971F317D2C6ED007097BC /* GBAControllerSkin.m in Sources */,
 				BF3E2BB318206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */,
 				CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */,
-				CC2D57101798F2EC00C616EB /* GBAAppDelegate.m in Sources */,
+				CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */,
 				CC50450F1814DC69009F7B9E /* Rar_Extractor.cpp in Sources */,
 				BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
@@ -1839,7 +1839,7 @@
 				CC8BB0B31799A4D900F9864F /* GBAEmulationViewController.mm in Sources */,
 				CC5045051814DC69009F7B9E /* Gb_Oscs.cpp in Sources */,
 				CCBD34F117F7492F00592602 /* UIDevice-Hardware.m in Sources */,
-				CC2D57411798F44700C616EB /* GBAROMTableViewController.m in Sources */,
+				CC2D57411798F44700C616EB /* GBAROMTableViewController.mm in Sources */,
 				CC5044FA1814DC69009F7B9E /* Mode3.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */,

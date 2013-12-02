@@ -24,10 +24,13 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
 
 + (GBAROM *)romWithContentsOfFile:(NSString *)filepath
 {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filepath])
+    {
+        return nil;
+    }
+    
     GBAROM *rom = [[GBAROM alloc] init];
     rom.filepath = filepath;
-    
-    // We sometimes create dummy GBAROMs to pass to methods, so DON'T verify that the filepath is valid
     
     if ([[[filepath pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gbc"])
     {
@@ -39,6 +42,24 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
     }
     
     return rom;
+}
+
++ (GBAROM *)romWithName:(NSString *)name
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+    
+    for (NSString *filename in contents)
+    {
+        if ([[filename stringByDeletingPathExtension] isEqualToString:name])
+        {
+            return [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:filename]];
+        }
+    }
+    
+    return nil;
 }
 
 + (BOOL)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)preferredName error:(NSError **)error
@@ -134,6 +155,29 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
 {
     return [self.filepath hash];
 }
+
+#pragma mark - Helper Methods
+
+- (NSString *)dropboxSyncDirectoryPath
+{
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *dropboxDirectory = [libraryDirectory stringByAppendingPathComponent:@"Dropbox Sync"];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:dropboxDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return dropboxDirectory;
+}
+
+- (NSString *)conflictedROMsPath
+{
+    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"conflictedROMs.plist"];
+}
+
+- (NSString *)syncingDisabledROMsPath
+{
+    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
+}
+
 
 #pragma mark - Getters/Setters
 
@@ -252,28 +296,5 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
     
     [[NSUserDefaults standardUserDefaults] setObject:[newlyConflictedROMs allObjects] forKey:@"newlyConflictedROMs"];
 }
-
-#pragma mark - Helper Methods
-
-- (NSString *)dropboxSyncDirectoryPath
-{
-    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
-    NSString *dropboxDirectory = [libraryDirectory stringByAppendingPathComponent:@"Dropbox Sync"];
-    
-    [[NSFileManager defaultManager] createDirectoryAtPath:dropboxDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-    
-    return dropboxDirectory;
-}
-
-- (NSString *)conflictedROMsPath
-{
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"conflictedROMs.plist"];
-}
-
-- (NSString *)syncingDisabledROMsPath
-{
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
-}
-
 
 @end
