@@ -359,8 +359,6 @@ int EmuSystem::loadGame_GBA(const char *path)
 	systemSaveUpdateCounter = SYSTEM_SAVE_NOT_UPDATED;
 	soundInit();
     
-    printf("game id 1: %c%c%c%c\n", gGba.mem.rom[0xac], gGba.mem.rom[0xad], gGba.mem.rom[0xae], gGba.mem.rom[0xaf]);
-    
 	int size = CPULoadRom(gGba, fullGamePath);
 	if(size == 0)
 	{
@@ -368,7 +366,6 @@ int EmuSystem::loadGame_GBA(const char *path)
 		return 0;
 	}
     
-    printf("game id 2: %c%c%c%c\n", gGba.mem.rom[0xac], gGba.mem.rom[0xad], gGba.mem.rom[0xae], gGba.mem.rom[0xaf]);
 	setGameSpecificSettings(gGba);
 	if(!applyGamePatches(savePath(), gameName, gGba.mem.rom, size))
 	{

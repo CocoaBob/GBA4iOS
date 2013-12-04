@@ -6,12 +6,13 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBAROM.h"
+#import "GBAROM_Private.h"
+
+#if !(TARGET_IPHONE_SIMULATOR)
+#import "GBAEmulatorCore.h"
+#endif
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
-
-NSString *const GBAROMConflictedStateChangedNotification = @"GBAROMConflictedStateChangedNotification";
-NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingDisabledStateChangedNotification";
 
 @interface GBAROM ()
 
@@ -24,7 +25,7 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
 
 + (GBAROM *)romWithContentsOfFile:(NSString *)filepath
 {
-    if (![[NSFileManager defaultManager] fileExistsAtPath:filepath])
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filepath] || !([[[filepath pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filepath pathExtension] lowercaseString] isEqualToString:@"gba"]))
     {
         return nil;
     }
@@ -53,7 +54,7 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
     
     for (NSString *filename in contents)
     {
-        if ([[filename stringByDeletingPathExtension] isEqualToString:name])
+        if ([[filename stringByDeletingPathExtension] isEqualToString:name] && ([[[filename pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gba"]))
         {
             return [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:filename]];
         }
@@ -178,6 +179,11 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
     return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
 }
 
+- (NSString *)cachedROMsPath
+{
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    return [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
+}
 
 #pragma mark - Getters/Setters
 
@@ -295,6 +301,41 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:[newlyConflictedROMs allObjects] forKey:@"newlyConflictedROMs"];
+}
+
+- (NSString *)embeddedName
+{
+    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+    
+    if (cachedROMs == nil)
+    {
+        cachedROMs = [NSDictionary dictionary];
+    }
+    
+    NSString *embeddedName = cachedROMs[self.name];
+    
+    if (embeddedName)
+    {
+        return embeddedName;
+    }
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    embeddedName = [GBAEmulatorCore embeddedNameForROM:self];
+#else
+    NSString *uuid = [[NSUUID UUID] UUIDString];
+    embeddedName = uuid;
+#endif
+    
+    if (embeddedName == nil)
+    {
+        DLog(@"Something went really really wrong...%@", self.filepath);
+        return nil;
+    }
+    
+    embeddedName = [embeddedName stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+    
+    
+    return embeddedName;
 }
 
 @end

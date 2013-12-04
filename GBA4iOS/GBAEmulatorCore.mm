@@ -30,7 +30,7 @@
 #include <util/time/sys.hh>
 #include <base/Base.hh>
 #include <base/iphone/private.hh>
-#include "Util.h"
+#include <mem/cartridge.h>
 
 #ifdef CONFIG_INPUT
 #include <input/Input.hh>
@@ -634,8 +634,6 @@ void updateSaveFileForCurrentROM()
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMDidSaveDataNotification object:self.rom];
-    
-    NSLog(@"Saved File!");
 }
 
 #pragma mark - ROM Code
@@ -643,16 +641,31 @@ void updateSaveFileForCurrentROM()
 extern GBASys gGba;
 extern gambatte::GB gbEmu;
 
-- (NSString *)codeForROM:(GBAROM *)rom
++ (NSString *)embeddedNameForROM:(GBAROM *)rom
 {
     //GBASys gba;
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *embeddedName = nil;
     
-    CPUGetROMCode([[documentsDirectory stringByAppendingPathComponent:@"Pokemon Emerald.gba"] UTF8String]);
+    if (rom.type == GBAROMTypeGBA)
+    {
+        char *romName = CPULoadROMName([rom.filepath UTF8String]);
+        
+        embeddedName = [NSString stringWithUTF8String:romName];
+        
+        if (embeddedName.length > 12)
+        {
+            embeddedName = [embeddedName substringWithRange:NSMakeRange(0, 12)];
+        }
+    }
+    else
+    {
+        char *romName = gambatte::loadGBCROMName([rom.filepath UTF8String]);
+        
+        embeddedName = [NSString stringWithUTF8String:romName];
+    }
     
-    return @"Penis";
+    return embeddedName;
 }
 
 #pragma mark - Save States

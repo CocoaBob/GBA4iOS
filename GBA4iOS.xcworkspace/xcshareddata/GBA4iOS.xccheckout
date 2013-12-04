@@ -5,12 +5,12 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>A89398DC-E3E6-4706-991F-565AB3B6A6B7</string>
+	<string>9507ABF0-E1BA-4E53-B4B2-9E5BD76AF0EE</string>
 	<key>IDESourceControlProjectName</key>
 	<string>GBA4iOS</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>B146B4EB-61C6-4003-BA09-936661133297</key>
+		<key>B7A16F7C-23A9-44FC-BF9B-E643E8DA94DA</key>
 		<string>ssh://github.com/rileytestut/GBA4iOS-2.0.git</string>
 		<key>D7572B51-AD61-4F33-97E8-BFAE3547E7A7</key>
 		<string>ssh://github.com/rileytestut/RSTWebViewController.git</string>
@@ -19,7 +19,7 @@
 	<string>GBA4iOS.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>B146B4EB-61C6-4003-BA09-936661133297</key>
+		<key>B7A16F7C-23A9-44FC-BF9B-E643E8DA94DA</key>
 		<string>..</string>
 		<key>D7572B51-AD61-4F33-97E8-BFAE3547E7A7</key>
 		<string>../../../../RSTUtilities/RSTWebViewController</string>
@@ -29,14 +29,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>B146B4EB-61C6-4003-BA09-936661133297</string>
+	<string>B7A16F7C-23A9-44FC-BF9B-E643E8DA94DA</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>B146B4EB-61C6-4003-BA09-936661133297</string>
+			<string>B7A16F7C-23A9-44FC-BF9B-E643E8DA94DA</string>
 			<key>IDESourceControlWCCName</key>
 			<string>GBA4iOS-2</string>
 		</dict>

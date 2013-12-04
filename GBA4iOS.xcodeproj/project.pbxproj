@@ -46,7 +46,7 @@
 		BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
 		BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBF363217F27DA100704A5B /* GBAMailActivity.m */; };
 		BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
-		BF2F354C183FF6F9002ACE90 /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
+		BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.mm */; };
 		BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
 		BF2F3554183FF6F9002ACE90 /* GBACheatEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */; };
 		BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
@@ -257,7 +257,7 @@
 		CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
 		CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
-		CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.m */; };
+		CCC7298717C7357E0001BC6F /* GBAROM.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.mm */; };
 		CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCC9B8931815AC7E005C90EE /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -415,6 +415,8 @@
 		BF563AC4184B130F00722678 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		BF563AC7184B132300722678 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		BF650F1418470DFC008113E4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		BF6F2978184D5AB300ECF793 /* cartridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cartridge.h; sourceTree = "<group>"; };
+		BF6F2979184D76AE00ECF793 /* GBA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBA.h; sourceTree = "<group>"; };
 		BF6FF3511845696200A8568C /* GBASyncManager_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBASyncManager_Private.h; sourceTree = "<group>"; };
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
@@ -565,7 +567,7 @@
 		CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Widescreen.h"; sourceTree = "<group>"; };
 		CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Widescreen.m"; sourceTree = "<group>"; };
 		CCC7298417C7357E0001BC6F /* GBAROM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROM.h; sourceTree = "<group>"; };
-		CCC7298517C7357E0001BC6F /* GBAROM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROM.m; sourceTree = "<group>"; };
+		CCC7298517C7357E0001BC6F /* GBAROM.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAROM.mm; sourceTree = "<group>"; };
 		CCE18DE917D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAAsynchronousLocalImageTableViewCell.h; sourceTree = "<group>"; };
 		CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAAsynchronousLocalImageTableViewCell.m; sourceTree = "<group>"; };
 		CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASettingsViewController.h; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				CCFA71C8179D304600768D24 /* Flash.cpp */,
 				CCFA71C9179D304600768D24 /* GBA-arm.cpp */,
 				CCFA71CA179D304600768D24 /* GBA-thumb.cpp */,
+				BF6F2979184D76AE00ECF793 /* GBA.h */,
 				CCFA71CB179D304600768D24 /* GBA.cpp */,
 				CCFA71CC179D304600768D24 /* gbafilter.cpp */,
 				CCFA71CD179D304600768D24 /* Globals.cpp */,
@@ -1069,6 +1072,7 @@
 				CC57571A180C746600BF3DA5 /* resamplerinfo.cpp */,
 				CC57571B180C746600BF3DA5 /* u48div.cpp */,
 				CC57572A180C747800BF3DA5 /* file_zip.cpp */,
+				BF6F2978184D5AB300ECF793 /* cartridge.h */,
 				CC57572D180C748100BF3DA5 /* cartridge.cpp */,
 				CC57572E180C748100BF3DA5 /* memptrs.cpp */,
 				CC57572F180C748100BF3DA5 /* pakinfo.cpp */,
@@ -1268,7 +1272,7 @@
 			children = (
 				CCC7298417C7357E0001BC6F /* GBAROM.h */,
 				BFC9B52A18304E880012A1EA /* GBAROM_Private.h */,
-				CCC7298517C7357E0001BC6F /* GBAROM.m */,
+				CCC7298517C7357E0001BC6F /* GBAROM.mm */,
 			);
 			name = ROM;
 			sourceTree = "<group>";
@@ -1602,7 +1606,7 @@
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
-				BF2F354C183FF6F9002ACE90 /* GBAROM.m in Sources */,
+				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
 				BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */,
 				BF2F3554183FF6F9002ACE90 /* GBACheatEditorViewController.m in Sources */,
 				BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */,
@@ -1747,7 +1751,7 @@
 				CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */,
 				CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
 				CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */,
-				CCC7298717C7357E0001BC6F /* GBAROM.m in Sources */,
+				CCC7298717C7357E0001BC6F /* GBAROM.mm in Sources */,
 				CC5044EA1814DC69009F7B9E /* EmuControls.cc in Sources */,
 				CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */,
 				CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */,
@@ -1887,7 +1891,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
@@ -1932,7 +1935,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
@@ -1977,7 +1979,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
@@ -2022,7 +2023,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
@@ -2076,10 +2076,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 2;
@@ -2201,10 +2198,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2309,7 +2303,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
@@ -2356,7 +2349,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
@@ -2412,10 +2404,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yvette Testut (6XVY5G3U44)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2520,7 +2509,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);
@@ -2576,10 +2564,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Vladimir Ignatev (9MBK7F2A62)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2684,7 +2669,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/dropbox-ios-sdk-1.3.9",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 				);

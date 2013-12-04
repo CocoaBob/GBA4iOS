@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RSTHelperFile.h"
 
-#ifdef DEBUG
+/*#ifdef DEBUG
 
 uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
@@ -25,7 +25,7 @@ uint64_t rst_benchmark(size_t count, void (^block)(void))
     return 0;
 }
 
-#endif
+#endif*/
 
 
 UIBackgroundTaskIdentifier rst_begin_background_task(void);

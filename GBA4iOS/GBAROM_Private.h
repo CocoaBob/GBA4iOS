@@ -8,8 +8,8 @@
 
 #import "GBAROM.h"
 
-extern NSString *const GBAROMConflictedStateChangedNotification;
-extern NSString *const GBAROMSyncingDisabledStateChangedNotification;
+NSString *const GBAROMConflictedStateChangedNotification = @"GBAROMConflictedStateChangedNotification";
+NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingDisabledStateChangedNotification";
 
 @interface GBAROM ()
 

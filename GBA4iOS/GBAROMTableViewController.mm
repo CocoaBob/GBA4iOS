@@ -37,6 +37,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 };
 
 @interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, RSTWebViewControllerDelegate, GBASettingsViewControllerDelegate, GBASyncingDetailViewControllerDelegate>
+{
+    BOOL _performedInitialRefreshDirectory;
+}
 
 @property (assign, nonatomic) GBAVisibleROMType visibleRomType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
@@ -44,6 +47,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (weak, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
+@property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
 
 @property (strong, nonatomic) NSProgress *downloadProgress;
 @property (strong, nonatomic) NSMutableDictionary *downloadProgressDictionary;
@@ -75,6 +79,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         self.showSectionTitles = NO;
         self.showUnavailableFiles = YES;
         
+        self.directory_contents_changed_queue = dispatch_queue_create("com.rileytestut.GBA4iOS.directory_contents_changed_queue", DISPATCH_QUEUE_SERIAL);
+        
         _downloadProgress = [NSProgress progressWithTotalUnitCount:0];
         [_downloadProgress addObserver:self
                     forKeyPath:@"fractionCompleted"
@@ -90,8 +96,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    [[GBASyncManager sharedManager] start];
     
     self.clearsSelectionOnViewWillAppear = YES;
     
@@ -325,9 +329,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
     progress.completedUnitCount = progress.totalUnitCount;
     
-    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
-    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
-    
     NSString *filename = progress.userInfo[@"filename"];
     NSString *destinationPath = [self.currentDirectory stringByAppendingPathComponent:filename];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
@@ -344,6 +345,10 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         ELog(error);
         return;
     }
+    
+    // Must go after file system changes
+    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
+    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
 
     [self setIgnoreDirectoryContentChanges:NO];
 }
@@ -353,15 +358,16 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
     progress.completedUnitCount = progress.totalUnitCount;
     
-    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
-    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
-    
     NSString *filename = progress.userInfo[@"filename"];
     
     ELog(error);
     
     NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
     [[NSFileManager defaultManager] removeItemAtPath:filepath error:NULL];
+    
+    // Must go after file system changes
+    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
+    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
     
 }
 
@@ -470,53 +476,91 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    NSArray *contents = [self allFiles];
-    
-    for (NSString *filename in contents)
-    {
+    dispatch_async(self.directory_contents_changed_queue, ^{
         
-        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"zip"] && ![self isDownloadingFile:filename] && ![self.unavailableFiles containsObject:filename])
+        NSArray *contents = [self allFiles];
+        
+        NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+        
+        if (cachedROMs == nil)
         {
-            DLog(@"Unzipping.. %@", filename);
-            
-            [self setIgnoreDirectoryContentChanges:YES];
-            
-            NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
-            
-            NSError *error = nil;
-            if (![GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension] error:&error])
+            cachedROMs = [NSMutableDictionary dictionary];
+        }
+        
+        for (NSString *filename in contents)
+        {
+            if ([[[filename pathExtension] lowercaseString] isEqualToString:@"zip"] && ![self isDownloadingFile:filename] && ![self.unavailableFiles containsObject:filename])
             {
-                if ([error code] == NSFileWriteFileExistsError)
+                DLog(@"Unzipping.. %@", filename);
+                
+                [self setIgnoreDirectoryContentChanges:YES];
+                
+                NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
+                
+                NSError *error = nil;
+                if (![GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension] error:&error])
                 {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Already Exists", @"")
-                                                                        message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
-                                                                       delegate:nil
-                                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
-                        [alert show];
-                    });
+                    if ([error code] == NSFileWriteFileExistsError)
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Already Exists", @"")
+                                                                            message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
+                                                                           delegate:nil
+                                                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                            [alert show];
+                        });
+                    }
+                    else if ([error code] == NSFileReadNoSuchFileError)
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unsupported File", @"")
+                                                                            message:NSLocalizedString(@"Make sure the zip file contains either a GBA or GBC ROM and try again,", @"")
+                                                                           delegate:nil
+                                                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                            [alert show];
+                        });
+                        
+                    }
                 }
-                else if ([error code] == NSFileReadNoSuchFileError)
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unsupported File", @"")
-                                                                        message:NSLocalizedString(@"Make sure the zip file contains either a GBA or GBC ROM and try again,", @"")
-                                                                       delegate:nil
-                                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
-                        [alert show];
-                    });
-                    
-                }
+                
+                [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+                
+                [self setIgnoreDirectoryContentChanges:NO];
+                
+                continue;
             }
             
-            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
-            
-            [self setIgnoreDirectoryContentChanges:NO];
+            if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"])
+            {
+                NSString *romName = [filename stringByDeletingPathExtension];
+                
+                if (!cachedROMs[romName])
+                {
+                    GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
+                    
+                    NSString *embeddedName = [rom embeddedName];
+                    
+                    if (embeddedName)
+                    {
+                        cachedROMs[romName] = embeddedName;
+                    }
+                }
+            }
         }
-    }
+        
+        [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            DLog(@"Finished inital refresh");
+            [[GBASyncManager sharedManager] start];
+        });
+        
+    });
+    
 }
 
-#pragma mark - Directories
+#pragma mark - Filepaths
 
 - (NSString *)skinsDirectory
 {
@@ -571,6 +615,12 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *cheatCodeDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
     
     return nil;
+}
+
+- (NSString *)cachedROMsPath
+{
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    return [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
 }
 
 #pragma mark - Controller Skins
@@ -804,6 +854,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
     void(^showEmulationViewController)(void) = ^(void)
     {
+        DLog(@"ROM NAME: %@", rom.embeddedName);
+        
         [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];

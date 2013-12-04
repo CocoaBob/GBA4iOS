@@ -587,9 +587,10 @@ LoadRes Cartridge::loadROM(std::string const &romfile, bool const forceDmg, bool
 
 	rom->rewind();
 	rom->read(reinterpret_cast<char*>(memptrs.romdata()), (filesize / 0x4000) * 0x4000ul);
+    
 	std::memset(memptrs.romdata() + (filesize / 0x4000) * 0x4000ul, 0xFF, (rombanks - filesize / 0x4000) * 0x4000ul);
+    
 	enforce8bit(memptrs.romdata(), rombanks * 0x4000ul);
-	
 	if (rom->fail())
 		return LOADRES_IO_ERROR;
 
@@ -612,6 +613,25 @@ LoadRes Cartridge::loadROM(std::string const &romfile, bool const forceDmg, bool
 
 	return LOADRES_OK;
 }
+    
+    char * loadGBCROMName(std::string const &romfile) {
+        const std::auto_ptr<File> rom(newFileInstance(romfile));
+        
+        unsigned char header[0x150];
+		rom->read(reinterpret_cast<char*>(header), sizeof header);
+        
+        int romNameLength = 15;
+        
+        if (header[0x0143] < 128) // 0-127 ASCII range. (http://nocash.emubase.de/pandocs.htm#thecartridgeheader )
+        {
+            romNameLength = 16;
+        }
+        
+        char *romName = new char[romNameLength];
+        memcpy(romName, &header[0x134], romNameLength);
+        
+       return romName;
+    }
 
 static bool hasBattery(const unsigned char headerByte0x147) {
 	switch (headerByte0x147) {
@@ -630,7 +650,7 @@ static bool hasBattery(const unsigned char headerByte0x147) {
 
 void Cartridge::loadSavedata() {
 	const std::string &sbp = saveBasePath();
-
+    
 	if (hasBattery(memptrs.romdata()[0x147])) {
 		std::ifstream file((sbp + ".sav").c_str(), std::ios::binary | std::ios::in);
 

@@ -169,45 +169,34 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 
 - (void)unlinkDropboxAccount
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:nil
-                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:NSLocalizedString(@"Log out of Dropbox", @"")
-                                                    otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to log out of Dropbox?", @"")
+                                                    message:NSLocalizedString(@"Logging out then logging back in to the same Dropbox account will mark your games as conflicted, causing you to manually resolve the conflicts yourself.", @"")
+                                                   delegate:nil
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                          otherButtonTitles:NSLocalizedString(@"Log Out", @""), nil];
     
-    [actionSheet showFromRect:[self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] inView:self.view animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-        if (buttonIndex == 0)
+    [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 1)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to log out of Dropbox?", @"")
-                                                            message:NSLocalizedString(@"Logging out then logging back in to the same Dropbox account will mark your games as conflicted, causing you to manually resolve the conflicts yourself.", @"")
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                  otherButtonTitles:NSLocalizedString(@"Log Out", @""), nil];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"initialSync"];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newlyConflictedROMs"];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"dropboxDisplayName"];
             
-            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                if (buttonIndex == 1)
-                {
-                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
-                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"initialSync"];
-                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newlyConflictedROMs"];
-                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"dropboxDisplayName"];
-                    
-                    [[NSFileManager defaultManager] removeItemAtPath:[self dropboxSyncDirectoryPath] error:nil];
-                    
-                    self.conflictedROMs = [NSSet set];
-                    self.syncingDisabledROMs = [NSSet set];
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:GBADropboxLoggedOutNotification object:nil];
-                    
-                    [[DBSession sharedSession] unlinkAll];
-                    [self updateDropboxSection];
-                    
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                }
-            }];
+            [[NSFileManager defaultManager] removeItemAtPath:[self dropboxSyncDirectoryPath] error:nil];
+            
+            self.conflictedROMs = [NSSet set];
+            self.syncingDisabledROMs = [NSSet set];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:GBADropboxLoggedOutNotification object:nil];
+            
+            [[DBSession sharedSession] unlinkAll];
+            [self updateDropboxSection];
+            
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
         
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-        
     }];
 }
 
@@ -350,7 +339,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
     }
     else if (section == 1)
     {
-        numberOfRows = 1;
+        numberOfRows = 2;
     }
     else if (section == 2)
     {
@@ -397,25 +386,36 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
     }
     else if (indexPath.section == 1)
     {
-        cell.textLabel.text = NSLocalizedString(@"Account", @"");
-        
-        NSString *displayName = [[NSUserDefaults standardUserDefaults] objectForKey:@"dropboxDisplayName"];
-        
-        if (displayName)
+        if (indexPath.row == 0)
         {
-            cell.detailTextLabel.text = displayName;
-        }
-        else
-        {
-            if (_errorLoadingAccountInfo)
+            cell.textLabel.text = NSLocalizedString(@"Account", @"");
+            
+            NSString *displayName = [[NSUserDefaults standardUserDefaults] objectForKey:@"dropboxDisplayName"];
+            
+            if (displayName)
             {
-                cell.detailTextLabel.text = NSLocalizedString(@"Error loading account info", @"");
+                cell.detailTextLabel.text = displayName;
             }
             else
             {
-                cell.detailTextLabel.text = NSLocalizedString(@"Loading account info…", @"");
+                if (_errorLoadingAccountInfo)
+                {
+                    cell.detailTextLabel.text = NSLocalizedString(@"Error loading account info", @"");
+                }
+                else
+                {
+                    cell.detailTextLabel.text = NSLocalizedString(@"Loading account info…", @"");
+                }
             }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
+        else
+        {
+            cell.textLabel.text = NSLocalizedString(@"Log out of Dropbox", @"");
+            cell.detailTextLabel.text = @"";
+        }
+        
     }
     else
     {
@@ -462,17 +462,9 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 {
     if (indexPath.section == 1)
     {
-        if (indexPath.row == 0)
+        if (indexPath.row == 1)
         {
-            if ([[DBSession sharedSession] isLinked])
-            {
-                [self unlinkDropboxAccount];
-            }
-            else
-            {
-                [self linkDropboxAccount];
-            }
-            
+            [self unlinkDropboxAccount];
         }
     }
     else if (indexPath.section == 2)

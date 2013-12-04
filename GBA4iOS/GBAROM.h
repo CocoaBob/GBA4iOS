@@ -17,10 +17,10 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @interface GBAROM : NSObject
 
 @property (readonly, copy, nonatomic) NSString *name;
-@property (readonly, copy, nonatomic) NSString *code;
+@property (readonly, copy, nonatomic) NSString *embeddedName;
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *saveFileFilepath;
-@property (readonly, strong, nonatomic) NSString *romCode;
+@property (readonly, copy, nonatomic) NSString *romCode;
 @property (readonly, assign, nonatomic) GBAROMType type;
 @property (readonly, assign, nonatomic) BOOL syncingDisabled;
 @property (readonly, assign, nonatomic) BOOL conflicted;
