@@ -31,6 +31,8 @@ extern NSString *const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification
 - (void)finishSync;
 
 - (BOOL)romExistsWithName:(NSString *)name;
-- (NSDictionary *)dropboxFilesFromDeltaEntries:(NSArray *)entries;
+- (NSDictionary *)validDropboxFilesFromDeltaEntries:(NSArray *)entries;
+
+- (void)prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:(BOOL)conflictIfNeeded;
 
 @end

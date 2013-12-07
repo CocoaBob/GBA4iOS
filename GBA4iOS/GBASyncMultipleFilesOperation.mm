@@ -149,9 +149,14 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     [self uploadFiles];
 }
 
+- (void)checkForMissingLocalFiles
+{
+    
+}
+
 - (void)prepareToDownloadFileWithMetadataIfNeeded:(DBMetadata *)metadata
 {
-    NSDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
+    NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
     DBMetadata *cachedMetadata = [dropboxFiles objectForKey:metadata.path];
     
     NSString *localPath = nil;
@@ -211,6 +216,8 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         return;
     }
     
+    DLog(@"%@", syncingDisabledROMs);
+    
     RSTToastView *uploadingProgressToastView = [RSTToastView toastViewWithMessage:nil];
     
     __block NSMutableArray *filteredOperations = [NSMutableArray array];
@@ -235,7 +242,11 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             DLog(@"Syncing turned off for ROM: %@", romName);
             return;
         }
-                
+        else
+        {
+            DLog(@"ROMNAME: %@", romName);
+        }
+            
         uploadOperation.delegate = self;
         uploadOperation.toastView = uploadingProgressToastView;
         [uploadOperation setQueuePriority:NSOperationQueuePriorityNormal];
@@ -256,6 +267,67 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     [self.uploadOperationQueue setSuspended:YES];
     
     [self finishSync];
+}
+
+- (void)prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:(BOOL)conflictIfNeeded
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
+    NSDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+    
+    for (NSString *filename in contents)
+    {
+        NSString *filepath = [documentsDirectory stringByAppendingPathComponent:filename];
+        
+        // Only upload SAV files
+        if (![[[filename pathExtension] lowercaseString] isEqualToString:@"sav"])
+        {
+            continue;
+        }
+        
+        NSString *romName = [filename stringByDeletingPathExtension];
+        GBAROM *rom = [GBAROM romWithName:romName];
+        
+        // ROM doesn't exist, don't upload
+        if (rom == nil)
+        {
+            continue;
+        }
+        
+        NSString *uniqueName = [rom uniqueName];
+        NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@.sav", uniqueName, uniqueName];
+        
+        // Already marked for upload, don't need to upload again
+        if (pendingUploads[filepath])
+        {
+            continue;
+        }
+        
+        DBMetadata *dropboxMetadata = dropboxFiles[dropboxPath];
+        
+        if (dropboxMetadata)
+        {
+            if (conflictIfNeeded)
+            {
+                DLog(@"Conflicted ROM: %@ Dropbox Rev: %@", romName, dropboxMetadata.rev);
+                
+                [rom setConflicted:YES];
+                [rom setSyncingDisabled:YES];
+            }
+            
+            continue;
+        }
+        
+        // Cache it to pendingUploads
+        GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:rom.saveFileFilepath dropboxPath:dropboxPath];
+        [[GBASyncManager sharedManager] cacheUploadOperation:uploadOperation];
+    }
+    
+    [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
 }
 
 #pragma mark - Finish Sync
@@ -294,14 +366,27 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     return NO;
 }
 
-- (NSDictionary *)dropboxFilesFromDeltaEntries:(NSArray *)entries
+- (NSDictionary *)validDropboxFilesFromDeltaEntries:(NSArray *)entries
 {
     NSMutableDictionary *dropboxFiles = [NSMutableDictionary dictionary];
     
     for (DBDeltaEntry *entry in entries)
     {
+        // If deleted, remove it from dropbox files
         if ([entry.metadata isDeleted] || entry.metadata.path == nil || entry.metadata.filename == nil)
         {
+            NSDictionary *cachedDropboxFiles = [[[GBASyncManager sharedManager] dropboxFiles] copy];
+            
+            for (NSString *key in cachedDropboxFiles)
+            {
+                if ([[key lowercaseString] isEqualToString:entry.lowercasePath])
+                {
+                    [[[GBASyncManager sharedManager] dropboxFiles] removeObjectForKey:key];
+                }
+            }
+            
+            [NSKeyedArchiver archiveRootObject:[[GBASyncManager sharedManager] dropboxFiles] toFile:[GBASyncManager dropboxFilesPath]];
+            
             continue;
         }
         

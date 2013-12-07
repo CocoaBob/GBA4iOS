@@ -209,37 +209,41 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 
 - (void)romConflictedStateDidChange:(NSNotification *)notification
 {
-    if (![self.rom isEqual:notification.object])
-    {
-        return;
-    }
-    
-    if ([self.rom conflicted] && [self.tableView numberOfSections] == 1)
-    {
-        [self fetchRemoteSaveInfo];
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else if (![self.rom conflicted] && [self.tableView numberOfSections] > 1)
-    {
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    
-    [self.syncingEnabledSwitch setOn:!self.rom.conflicted animated:YES];
+    rst_dispatch_sync_on_main_thread(^{
+        if (![self.rom isEqual:notification.object])
+        {
+            return;
+        }
+        
+        if ([self.rom conflicted] && [self.tableView numberOfSections] == 1)
+        {
+            [self fetchRemoteSaveInfo];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else if (![self.rom conflicted] && [self.tableView numberOfSections] > 1)
+        {
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        
+        [self.syncingEnabledSwitch setOn:!self.rom.conflicted animated:YES];
+    });
 }
 
 - (void)updatedDeviceUploadHistory:(NSString *)notification
 {
-    [self reloadUploadHistories];
-    
-    // Race condition crash
-    if ([self.tableView numberOfSections] >= 2)
-    {
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else
-    {
-        [self.tableView reloadData];
-    }
+    rst_dispatch_sync_on_main_thread(^{
+        [self reloadUploadHistories];
+        
+        // Race condition crash
+        if ([self.tableView numberOfSections] >= 2)
+        {
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else
+        {
+            [self.tableView reloadData];
+        }
+    });
 }
 
 - (void)reloadUploadHistories
@@ -247,6 +251,11 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self uploadHistoryDirectoryPath] error:nil];
     for (NSString *filename in contents)
     {
+        if (![[filename pathExtension] isEqualToString:@"plist"])
+        {
+            continue;
+        }
+        
         NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:filename]];
         [self.uploadHistories setObject:dictionary forKey:[filename stringByDeletingPathExtension]];
     }
@@ -273,10 +282,11 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     {
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
     }
-    else
+    /* else
     {
         [self.tableView reloadData];
-    }
+    }*/
+    // Don't reload data, leads to rare race condition if ROM becomes conflicted
     
     [self.restClient loadMetadata:remotePath];
 }
@@ -565,7 +575,7 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
         NSDictionary *romDictionary = dictionary[self.rom.uniqueName];
         
         NSString *remoteRev = romDictionary[metadata.path];
-        
+                
         if ([remoteRev isEqualToString:metadata.rev])
         {
             deviceName = key;

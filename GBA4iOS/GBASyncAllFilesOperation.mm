@@ -8,6 +8,7 @@
 
 #import "GBASyncAllFilesOperation.h"
 #import "GBASyncMultipleFilesOperation_Private.h"
+#import "GBASyncManager_Private.h"
 
 @interface GBASyncAllFilesOperation ()
 
@@ -40,13 +41,20 @@
 - (void)restClient:(DBRestClient *)client loadedDeltaEntries:(NSArray *)entries reset:(BOOL)shouldReset cursor:(NSString *)cursor hasMore:(BOOL)hasMore
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Received Delta Entries");
+        DLog(@"Received Delta Entries: %@", entries);
         
-        NSDictionary *dropboxFiles = [self dropboxFilesFromDeltaEntries:entries];
+        NSDictionary *newDropboxFiles = [self validDropboxFilesFromDeltaEntries:entries];
+        NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         
-        [dropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
+        [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
             [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
+            
+            dropboxFiles[key] = metadata;
         }];
+        
+        [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
+        
+        [self prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:NO];
         
         [self downloadFiles];
         

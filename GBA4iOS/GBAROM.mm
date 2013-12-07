@@ -324,7 +324,7 @@
     uniqueName = [GBAEmulatorCore embeddedNameForROM:self];
 #else
     NSString *uuid = [[NSUUID UUID] UUIDString];
-    embeddedName = uuid;
+    uniqueName = uuid;
 #endif
     
     if (uniqueName == nil)

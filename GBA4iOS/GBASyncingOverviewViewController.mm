@@ -277,20 +277,24 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 
 - (void)romConflictedStateDidChange:(NSNotification *)notification
 {
-    self.conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
-    
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    [self.tableView reloadData];
-    [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    rst_dispatch_sync_on_main_thread(^{
+        self.conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
+        
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        [self.tableView reloadData];
+        [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    });
 }
 
 - (void)romSyncingDisabledStateDidChange:(NSNotification *)notification
 {
-    self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
-    
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    [self.tableView reloadData];
-    [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    rst_dispatch_sync_on_main_thread(^{
+        self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
+        
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        [self.tableView reloadData];
+        [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    });
 }
 
 #pragma mark - Table view data source
