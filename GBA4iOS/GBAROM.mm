@@ -7,6 +7,7 @@
 //
 
 #import "GBAROM_Private.h"
+#import "FileSHA1Hash.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -303,7 +304,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:[newlyConflictedROMs allObjects] forKey:@"newlyConflictedROMs"];
 }
 
-- (NSString *)embeddedName
+- (NSString *)uniqueName
 {
     NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
     
@@ -312,30 +313,33 @@
         cachedROMs = [NSDictionary dictionary];
     }
     
-    NSString *embeddedName = cachedROMs[self.name];
+    NSString *uniqueName = cachedROMs[self.name];
     
-    if (embeddedName)
+    if (uniqueName)
     {
-        return embeddedName;
+        return uniqueName;
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    embeddedName = [GBAEmulatorCore embeddedNameForROM:self];
+    uniqueName = [GBAEmulatorCore embeddedNameForROM:self];
 #else
     NSString *uuid = [[NSUUID UUID] UUIDString];
     embeddedName = uuid;
 #endif
     
-    if (embeddedName == nil)
+    if (uniqueName == nil)
     {
         DLog(@"Something went really really wrong...%@", self.filepath);
         return nil;
     }
     
-    embeddedName = [embeddedName stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+    uniqueName = [uniqueName stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
     
+    CFStringRef fileHash = FileSHA1HashCreateWithPath((__bridge CFStringRef)self.filepath, FileHashDefaultChunkSizeForReadingData);
+    uniqueName = [uniqueName stringByAppendingFormat:@"-%@", (__bridge NSString *)fileHash];
+    CFRelease(fileHash);
     
-    return embeddedName;
+    return uniqueName;
 }
 
 @end

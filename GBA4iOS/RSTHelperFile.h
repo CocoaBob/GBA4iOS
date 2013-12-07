@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#if defined(__cplusplus)
+#define RST_EXTERN extern "C"
+#else
+#define RST_EXTERN extern
+#endif
+
 /*** General ***/
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
@@ -41,12 +47,12 @@
 /*** Private Debugging ***/
 
 // Daniel Eggert, http://www.objc.io/issue-2/low-level-concurrency-apis.html
-extern uint64_t rst_benchmark(size_t count, void (^block)(void));
+RST_EXTERN uint64_t rst_benchmark(size_t count, void (^block)(void));
 
 
 
 /*** Concurrency ***/
 
-extern void rst_dispatch_sync_on_main_thread(dispatch_block_t block);
-extern UIBackgroundTaskIdentifier rst_begin_background_task();
-extern void rst_end_background_task(UIBackgroundTaskIdentifier backgroundTask);
+RST_EXTERN void rst_dispatch_sync_on_main_thread(dispatch_block_t block);
+RST_EXTERN UIBackgroundTaskIdentifier rst_begin_background_task();
+RST_EXTERN void rst_end_background_task(UIBackgroundTaskIdentifier backgroundTask);

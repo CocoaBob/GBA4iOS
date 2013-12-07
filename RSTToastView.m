@@ -21,7 +21,9 @@
 
 @end
 
-const CGFloat RSTToastViewCornerRadiusAutomaticDimension = -1816.1816;
+const CGFloat RSTToastViewCornerRadiusAutomaticRoundedDimension = -1816.1816;
+const CGFloat RSTToastViewAutomaticWidth = 0;
+const CGFloat RSTToastViewMaximumWidth = -1816.1816;
 
 NSString *const RSTToastViewWillShowNotification = @"RSTToastViewWillShowNotification";
 NSString *const RSTToastViewDidShowNotification = @"RSTToastViewDidShowNotification";
@@ -52,6 +54,13 @@ static RSTToastView *_globalToastView;
 
 @implementation RSTToastView
 
+#pragma mark - UIAppearance
+
++ (void)load
+{
+    [[RSTToastView appearance] setTintColor:[UIColor blackColor]];
+}
+
 #pragma mark - Life Cycle
 
 - (instancetype)initWithMessage:(NSString *)message
@@ -59,9 +68,16 @@ static RSTToastView *_globalToastView;
     self = [super initWithFrame:CGRectZero];
     if (self)
     {
-        // Private
+        // General
+        
+        self.clipsToBounds = YES;
+        self.layer.allowsGroupOpacity = YES;
+        
+        // Private Properties
         _messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _messageLabel.textColor = [UIColor whiteColor];
+        _messageLabel.minimumScaleFactor = 0.75;
+        _messageLabel.adjustsFontSizeToFitWidth = YES;
         [self addSubview:_messageLabel];
         
         _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -71,27 +87,21 @@ static RSTToastView *_globalToastView;
         _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rst_toastViewWasTapped:)];
         [self addGestureRecognizer:_tapGestureRecognizer];
         
-        // Misc.
-        
-        self.clipsToBounds = YES;
-        
         // Public
         self.showsActivityIndicator = NO;
         
-        _backgroundColor = GBA4iOS_PURPLE_COLOR;
-        _borderColor = [UIColor colorWithWhite:1.0f alpha:1.0f];
-        
-        // Can't set through setter directly (http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/)
+        // Can't set through setter directly (http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/ )
         // self.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
         
         self.messageLabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
         self.messageLabel.text = message;
         
-        _borderWidth = 5.0f;
         _cornerRadius = 10.0f;
         
         _presentationEdge = UIRectEdgeBottom;
         _edgeSpacing = 10.0f;
+        
+        _width = RSTToastViewAutomaticWidth;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rst_willShowToastView:) name:RSTToastViewWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rst_didHideToastView:) name:RSTToastViewDidHideNotification object:self];
@@ -198,6 +208,9 @@ static RSTToastView *_globalToastView;
         return;
     }
     
+    // Applies UIAppearance after added to a view
+    [view addSubview:self];
+    
     if (duration > 0)
     {
         self.hidingTimer = [NSTimer scheduledTimerWithTimeInterval:duration target:self selector:@selector(hide) userInfo:nil repeats:NO];
@@ -222,7 +235,6 @@ static RSTToastView *_globalToastView;
     CGRect finalFrame = [RSTToastView rst_finalFrameForToastView:self];
     
     self.frame = initialFrame;
-    [view addSubview:self];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:RSTToastViewWillShowNotification object:self];
     
@@ -251,30 +263,56 @@ static RSTToastView *_globalToastView;
 
 - (void)rst_refreshLayout
 {
-    self.backgroundColor = _backgroundColor;
-    
     [self.messageLabel sizeToFit];
     
     CGFloat buffer = 10.0f;
     
-    CGFloat width = CGRectGetWidth(self.messageLabel.bounds) + buffer * 2.0f;
+    CGFloat width = 0;
+    
+    if (self.width == RSTToastViewMaximumWidth)
+    {
+        width = [RSTToastView rst_maximumWidthForToastView:self];
+    }
+    else if (self.width == RSTToastViewAutomaticWidth)
+    {
+        width = CGRectGetWidth(self.messageLabel.bounds) + buffer * 2.0f;
+    }
+    else
+    {
+        width = self.width;
+    }
+    
     CGFloat height = CGRectGetHeight(self.messageLabel.bounds) + buffer;
+    
+    CGFloat xOffset = buffer;
     
     if (![self.activityIndicatorView isHidden])
     {
-        width += CGRectGetWidth(self.activityIndicatorView.bounds) + buffer / 2.0f;
+        width += CGRectGetWidth(self.activityIndicatorView.bounds) + buffer * .75;
         height = CGRectGetHeight(self.activityIndicatorView.bounds) + buffer;
+        
+        xOffset = CGRectGetWidth(self.activityIndicatorView.bounds) + buffer * 1.75;
     }
+    
+    CGFloat maximumWidth = [RSTToastView rst_maximumWidthForToastView:self];
+    width = fminf(maximumWidth, width);
+    
+    self.messageLabel.frame = ({
+        CGRect frame = self.messageLabel.frame;
+        frame.size.width = width - (xOffset + buffer);
+        frame;
+    });
+    
     
     self.bounds = CGRectMake(0, 0, width, height);
     
-    self.activityIndicatorView.center = CGPointMake(CGRectGetMaxX(self.bounds) - buffer - CGRectGetMidX(self.activityIndicatorView.bounds), CGRectGetMidY(self.bounds));
+    self.activityIndicatorView.center = CGPointMake(buffer + CGRectGetMidX(self.activityIndicatorView.bounds), CGRectGetMidY(self.bounds));
     
-    self.messageLabel.frame = CGRectIntegral(CGRectMake(buffer, (height - CGRectGetHeight(self.messageLabel.bounds))/2.0f, CGRectGetWidth(self.messageLabel.bounds), CGRectGetHeight(self.messageLabel.bounds)));
+    self.messageLabel.frame = CGRectIntegral(CGRectMake(xOffset, (height - CGRectGetHeight(self.messageLabel.bounds))/2.0f, CGRectGetWidth(self.messageLabel.bounds), CGRectGetHeight(self.messageLabel.bounds)));
     
     CGFloat cornerRadius = self.cornerRadius;
-    
-    if (cornerRadius == RSTToastViewCornerRadiusAutomaticDimension)
+        
+    if (cornerRadius == RSTToastViewCornerRadiusAutomaticRoundedDimension)
     {
         cornerRadius = CGRectGetHeight(self.bounds) / 2.0;
     }
@@ -520,7 +558,6 @@ static RSTToastView *_globalToastView;
         {
             size = CGSizeMake(size.height, size.width);
         }
-        
     }
     
     switch (rectEdge)
@@ -551,6 +588,34 @@ static RSTToastView *_globalToastView;
     }
     
     return CGRectIntegral((CGRect){origin, size});
+}
+
++ (CGFloat)rst_maximumWidthForToastView:(RSTToastView *)toastView
+{
+    UIView *view = toastView.presentationView;
+    CGFloat maximumWidth = 0;
+    
+    UIRectEdge rectEdge = toastView.presentedEdge;
+    
+    if (view == [RSTToastView presentationWindow])
+    {
+        if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation))
+        {
+            maximumWidth = CGRectGetWidth(view.bounds);
+        }
+        else
+        {
+            maximumWidth = CGRectGetHeight(view.bounds);
+        }
+    }
+    else
+    {
+        maximumWidth = CGRectGetWidth(view.bounds);
+    }
+    
+    maximumWidth -= toastView.edgeSpacing * 2.0f;
+    
+    return maximumWidth;
 }
 
 
@@ -682,11 +747,29 @@ static RSTToastView *_globalToastView;
     return [self.activityIndicatorView isAnimating];
 }
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor
+- (void)setAlpha:(CGFloat)alpha
 {
-    _backgroundColor = [backgroundColor copy];
-    
-    [super setBackgroundColor:backgroundColor];
+    [super setAlpha:alpha];
+}
+
+- (CGFloat)alpha
+{
+    return [super alpha];
+}
+
+- (void)setTintColor:(UIColor *)tintColor
+{
+    [super setTintColor:tintColor];
+}
+
+- (UIColor *)tintColor
+{
+    return [super tintColor];
+}
+
+- (void)tintColorDidChange
+{
+    self.backgroundColor = self.tintColor;
 }
 
 + (RSTPresentationWindow *)presentationWindow

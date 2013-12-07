@@ -2,56 +2,33 @@
 //  GBASyncManager.m
 //  GBA4iOS
 //
-//  Created by Riley Testut on 10/29/13.
+//  Created by Riley Testut on 12/5/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
 #import "GBASyncManager_Private.h"
 #import "GBASettingsViewController.h"
-#import "UIAlertView+RSTAdditions.h"
-#import "RSTToastView.h"
+#import "GBAROM_Private.h"
 #import "GBASyncingOverviewViewController.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
-#import "GBAEmulatorCore.h"
-#endif
+#import "GBASyncAllFilesOperation.h"
+#import "GBASyncInitialSyncOperation.h"
+#import "GBASyncUploadOperation.h"
+#import "GBASyncDownloadOperation.h"
+#import "GBASyncOperation.h"
 
-#import <sys/xattr.h>
+#import <DropboxSDK/DropboxSDK.h>
 
-#define SAVE_FILE_DIRECTORY_NAME @"Saves"
+NSString * const GBASyncLocalPathKey = @"localPath";
+NSString * const GBASyncDropboxPathKey = @"dropboxPath";
+NSString * const GBASyncMetadataKey = @"metadata";
 
-NSString * const GBASyncingLocalPathKey = @"localPath";
-NSString * const GBASyncingDropboxPathKey = @"dropboxPath";
-NSString * const GBASyncingFileTypeKey = @"fileType";
-NSString * const GBASyncingFileRevKey = @"rev";
-NSString * const GBASyncingBackgroundTaskIdentifierKey = @"backgroundTaskIdentifier";
-NSString * const GBASyncingCompletionBlockKey = @"completionBlock";
-NSString * const GBASyncingSingleFileKey = @"singleFile";
+@interface GBASyncManager () <GBASyncOperationDelegate>
 
-NSString * const GBAHasUpdatedSaveForCurrentGameFromDropboxNotification = @"GBAHasUpdatedSaveForCurrentGameFromDropboxNotification";
-NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceUploadHistoryNotification";
-
-NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
-
-@interface GBASyncManager () <DBRestClientDelegate>
-{
-    BOOL _performingInitialSync;
-}
-
+@property (strong, nonatomic) NSOperationQueue *multipleFilesOperationQueue;
+@property (strong, nonatomic) NSOperationQueue *singleFileOperationQueue;
 @property (strong, nonatomic) DBRestClient *restClient;
-@property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (assign, nonatomic) NSInteger syncingTaskCount;
-@property (assign, nonatomic) BOOL syncingAllFiles;
-
-@property (strong, nonatomic) NSMutableDictionary *dropboxFiles; // Uses remote filepath as keys
-@property (strong, nonatomic) NSSet *conflictedROMs;
-@property (strong, nonatomic) NSSet *syncingDisabledROMs;
-@property (strong, nonatomic) NSMutableDictionary *deviceUploadHistory;
-
-@property (strong, nonatomic) NSMutableDictionary *pendingUploads; // Uses local filepath as keys
-@property (strong, nonatomic) NSMutableDictionary *pendingDownloads; // Uses remote filepath as keys
-@property (strong, nonatomic) NSMutableDictionary *currentUploads; // Uses local filepaths
-@property (strong, nonatomic) NSMutableDictionary *currentDownloads; // Uses remote filepaths
+@property (weak, nonatomic) RSTToastView *currentToastView;
 
 @end
 
@@ -71,74 +48,79 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
 
 - (id)init
 {
-    if (self = [super init])
-    {
-        
-        // Remember to empty these all when user logs out of dropbox!!
-        
-        _pendingUploads = [NSMutableDictionary dictionaryWithContentsOfFile:[self pendingUploadsPath]];
-        
-        if (_pendingUploads == nil)
-        {
-            _pendingUploads = [NSMutableDictionary dictionary];
-        }
-        
-        _pendingDownloads = [NSMutableDictionary dictionaryWithContentsOfFile:[self pendingDownloadsPath]];
-        
-        if (_pendingDownloads == nil)
-        {
-            _pendingDownloads = [NSMutableDictionary dictionary];
-        }
-        
-        _deviceUploadHistory = [NSMutableDictionary dictionaryWithContentsOfFile:[self currentDeviceUploadHistoryPath]];
-        
-        if (_deviceUploadHistory == nil)
-        {
-            _deviceUploadHistory = [NSMutableDictionary dictionary];
-        }
-        
-        _dropboxFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[self dropboxFilesPath]];
+    self = [super init];
     
-        if (_dropboxFiles == nil)
-        {
-            _dropboxFiles = [NSMutableDictionary dictionary];
-        }
-        
-        _conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
-        _syncingDisabledROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
-        _currentUploads = [NSMutableDictionary dictionary];
-        _currentDownloads = [NSMutableDictionary dictionary];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChangedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropboxLoggedOut:) name:GBADropboxLoggedOutNotification object:nil];
+    if (self == nil)
+    {
+        return nil;
     }
+    
+    _pendingUploads = [NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager pendingUploadsPath]];
+    
+    if (_pendingUploads == nil)
+    {
+        _pendingUploads = [NSMutableDictionary dictionary];
+    }
+    
+    _pendingDownloads = [NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager pendingDownloadsPath]];
+    
+    if (_pendingDownloads == nil)
+    {
+        _pendingDownloads = [NSMutableDictionary dictionary];
+    }
+    
+    _deviceUploadHistory = [NSMutableDictionary dictionaryWithContentsOfFile:[GBASyncManager currentDeviceUploadHistoryPath]];
+    
+    if (_deviceUploadHistory == nil)
+    {
+        _deviceUploadHistory = [NSMutableDictionary dictionary];
+    }
+    
+    _dropboxFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager dropboxFilesPath]];
+    
+    if (_dropboxFiles == nil)
+    {
+        _dropboxFiles = [NSMutableDictionary dictionary];
+    }
+    
+    _conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager conflictedROMsPath]]];
+    _syncingDisabledROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager syncingDisabledROMsPath]]];
+    _currentUploads = [NSMutableDictionary dictionary];
+    _currentDownloads = [NSMutableDictionary dictionary];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropboxLoggedOut:) name:GBADropboxLoggedOutNotification object:nil];
+    
+    _multipleFilesOperationQueue = ({
+        NSOperationQueue *operationQueue = [[NSOperationQueue alloc] init];
+        operationQueue.name = @"com.GBA4iOS.sync_manager_multiple_files_operation_queue";
+        [operationQueue setMaxConcurrentOperationCount:1];
+        [operationQueue setSuspended:NO];
+        operationQueue;
+    });
+    
+    _singleFileOperationQueue = ({
+        NSOperationQueue *operationQueue = [[NSOperationQueue alloc] init];
+        operationQueue.name = @"com.GBA4iOS.sync_manager_single_file_operation_queue";
+        [operationQueue setMaxConcurrentOperationCount:1];
+        [operationQueue setSuspended:NO];
+        operationQueue;
+    });
+    
     return self;
-}
-
-- (void)dealloc
-{
-    // Should never be called, but just here for clarity really.
 }
 
 #pragma mark - Syncing
 
 - (void)start
 {
+    [[RSTToastView appearance] setTintColor:GBA4iOS_PURPLE_COLOR];
+    
     DBSession *session = [[DBSession alloc] initWithAppKey:@"obzx8requbc5bn5" appSecret:@"thdkvkp3hkbmpte" root:kDBRootAppFolder];
     [DBSession setSharedSession:session];
     
     self.shouldShowSyncingStatus = YES;
-    
-    double delayInSeconds = 2.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        if (self.shouldShowSyncingStatus)
-        {
-            //[RSTToastView showWithActivityMessage:@"Booting up RAM"];
-        }
-    });
-    
     
     if (![[DBSession sharedSession] isLinked])
     {
@@ -146,269 +128,206 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     }
     else
     {
-        self.restClient = [[DBRestClient alloc] initWithSession:session];
-        self.restClient.delegate = self;
         //[self synchronize];
     }
 }
 
 - (void)synchronize
 {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked] || self.syncingAllFiles || _performingInitialSync)
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked])
     {
         return;
     }
     
-    self.syncingTaskCount++;
-    self.syncingAllFiles = YES;
-    
-    if (self.shouldShowSyncingStatus)
+    if (!self.performedInitialSync)
     {
-        [RSTToastView showWithActivityMessage:@"Syncing..."];
-    }
-    
-    self.backgroundTaskIdentifier = rst_begin_background_task();
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"initialSync"])
-    {
-        return [self performInitialSync];
-    }
-    
-    DLog(@"Syncing with dropbox...");
-    NSDictionary *lastSyncInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncInfo"];
-    [self.restClient loadDelta:lastSyncInfo[@"cursor"]];
-}
-
-- (void)restClient:(DBRestClient *)client loadedDeltaEntries:(NSArray *)entries reset:(BOOL)shouldReset cursor:(NSString *)cursor hasMore:(BOOL)hasMore
-{
-    
-    NSDictionary *dictionary = @{@"date": [NSDate date], @"cursor": cursor};
-    [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"lastSyncInfo"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    DLog(@"Received Delta Entries");
-    
-    NSDictionary *dropboxFiles = [self dropboxFilesFromDeltaEntries:entries];
-    [dropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
-        [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
-    }];
-    
-    
-    if (_performingInitialSync)
-    {
-        [self uploadFilesMissingFromDropboxFiles:dropboxFiles];
-    }
-    else
-    {
-        [self updateRemoteFiles];
-    }
-    
-}
-
-- (void)restClient:(DBRestClient*)client loadDeltaFailedWithError:(NSError *)error
-{
-    DLog(@"Delta Failed :(");
-    
-    // Don't want to save that we did the initial sync of the delta failed, so we set _performingInitialSync to NO
-    _performingInitialSync = NO;
-    [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Failed to sync with Dropbox", @"") duration:2];
-}
-
-- (void)finishSyncingWithCompletionMessage:(NSString *)message duration:(NSTimeInterval)duration
-{
-    DLog(@"Finished Syncing!");
-    self.syncingTaskCount--;
-    
-    if (self.syncingTaskCount <= 0)
-    {
-        if (self.shouldShowSyncingStatus)
+        BOOL performingInitialSync = NO;
+        
+        for (NSOperation *operation in [self.multipleFilesOperationQueue operations])
         {
-            [RSTToastView showWithMessage:message duration:duration];
+            if ([operation isKindOfClass:[GBASyncInitialSyncOperation class]])
+            {
+                performingInitialSync = YES;
+                break;
+            }
         }
         
-        // Sure, by waiting until all tasks are complete to set this to NO may delay it a bit, but it doesn't add too much more complexity to the code
-        self.syncingAllFiles = NO;
+        if (performingInitialSync)
+        {
+            return;
+        }
         
-        self.syncingTaskCount = 0;
+        [self performInitialSync];
+        
+        return;
     }
     
-    if (_performingInitialSync)
-    {
-        // Even if it failed, we still consider the sync completed (so the user can play games anyway)
-        [[NSUserDefaults standardUserDefaults] setObject:@{@"date": [NSDate date], @"completed": @YES} forKey:@"initialSync"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        _performingInitialSync = NO;
-    }
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
-    if (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)
-    {
-        rst_end_background_task(self.backgroundTaskIdentifier);
-        self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-    }    
+    // Only queue normal syncs after a successful initial sync has been completed
+    [self syncAllFiles];
 }
-
-#pragma mark - Initial Sync
 
 - (void)performInitialSync
 {
-    DLog(@"Actually performing initial sync");
-    
-    if (_performingInitialSync)
-    {
-        return;
-    }
-    
-    self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    self.restClient.delegate = self;
-    
-    _performingInitialSync = YES;
-    
-    [self.restClient loadDelta:nil];
+    GBASyncInitialSyncOperation *initialSyncOperation = [[GBASyncInitialSyncOperation alloc] init];
+    initialSyncOperation.delegate = self;
+    [self.multipleFilesOperationQueue addOperation:initialSyncOperation];
 }
 
-- (void)uploadFilesMissingFromDropboxFiles:(NSDictionary *)newDropboxFiles
+- (void)syncAllFiles
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
-    
-    for (NSString *filename in contents)
-    {
-        NSString *filepath = [documentsDirectory stringByAppendingPathComponent:filename];
-        
-        if (![[[filename pathExtension] lowercaseString] isEqualToString:@"sav"])
-        {
-            continue;
-        }
-        
-        NSString *romName = [filename stringByDeletingPathExtension];
-        
-        GBAROM *rom = [GBAROM romWithName:romName];
-        
-        if (rom == nil)
-        {
-            continue;
-        }
-        
-        NSString *embeddedName = [rom embeddedName];
-        
-        NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@", embeddedName, [embeddedName stringByAppendingPathExtension:@"sav"]];
-        
-        // Already uploaded, don't need to upload again
-        if (self.pendingUploads[filepath])
-        {
-            continue;
-        }
-        
-        [self prepareToInitiallyUploadFileAtPathIfNeeded:filepath toDropboxPath:dropboxPath withNewDropboxFiles:newDropboxFiles];
-    }
-    
-    self.dropboxFiles = [newDropboxFiles mutableCopy];
-    [NSKeyedArchiver archiveRootObject:self.dropboxFiles toFile:[self dropboxFilesPath]];
-    
-    // So we don't have to perform this initial sync step again
-    [[NSUserDefaults standardUserDefaults] setObject:@{@"date": [NSDate date], @"completed": @NO} forKey:@"initialSync"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self updateRemoteFiles];
+    GBASyncAllFilesOperation *allFilesOperation = [[GBASyncAllFilesOperation alloc] init];
+    allFilesOperation.delegate = self;
+    [self.multipleFilesOperationQueue addOperation:allFilesOperation];
 }
 
-- (void)prepareToInitiallyUploadFileAtPathIfNeeded:(NSString *)localPath toDropboxPath:(NSString *)dropboxPath withNewDropboxFiles:(NSDictionary *)newDropboxFiles
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    NSString *romName = [self romNameFromDropboxPath:dropboxPath];
-    
-    GBAROM *rom = [GBAROM romWithName:romName];
-    
-    DBMetadata *dropboxMetadata = newDropboxFiles[dropboxPath];
-    DBMetadata *cachedMetadata = self.dropboxFiles[dropboxPath];
-    
-    if ([dropboxMetadata.rev isEqualToString:cachedMetadata.rev] && dropboxMetadata != nil)
-    {
-        return;
-    }
-    
-    // If the cached rev doesn't match the server rev, it's conflicted
-    if (![dropboxMetadata.rev isEqualToString:cachedMetadata.rev] && dropboxMetadata != nil)
-    {
-        DLog(@"Conflicted ROM: %@ Local Rev: %@ Dropbox Rev: %@", romName, cachedMetadata.rev, dropboxMetadata.rev);
-        
-        [rom setConflicted:YES];
-        [rom setSyncingDisabled:YES];
-    }
-    else
-    {
-        [self prepareToUploadSaveFileForROM:rom];
-    }
-}
+#pragma mark - Single File Operations
 
-#pragma mark - Update Remote Files
-
-- (void)updateRemoteFiles
+- (void)uploadFileAtPath:(NSString *)localPath toDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock
 {
-    NSDictionary *pendingUploads = [self.pendingUploads copy];
+    GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath dropboxPath:dropboxPath];
     
-    if ([pendingUploads count] > 0)
-    {
-        [pendingUploads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *uploadDictionary, BOOL *stop) {
-            
-            NSString *localPath = uploadDictionary[GBASyncingLocalPathKey];
-            NSString *dropboxPath = uploadDictionary[GBASyncingDropboxPathKey];
-            GBADropboxFileType fileType = (GBADropboxFileType)[uploadDictionary[GBASyncingFileTypeKey] integerValue];
-            
-            if (fileType != GBADropboxFileTypeUploadHistory)
-            {
-                NSString *romName = [self romNameFromDropboxPath:dropboxPath];
-                
-                if ([self.syncingDisabledROMs containsObject:romName])
-                {
-                    DLog(@"Syncing turned off for ROM: %@", romName);
-                    return;
-                }
-            }
-            
-            DBMetadata *metadata = self.dropboxFiles[dropboxPath];
-            
-            if (metadata.rev)
-            {
-                DLog(@"Uploading %@... (Replacing Rev %@)", [dropboxPath lastPathComponent], metadata.rev);
-            }
-            else
-            {
-                DLog(@"Uploading %@...", [dropboxPath lastPathComponent]);
-            }
-            
-            // Any logic you change here should be changed in uploadFileAtPath:toDropboxPath:withMetadata:fileType: too
-            [self.currentUploads setObject:@{GBASyncingDropboxPathKey: dropboxPath, GBASyncingLocalPathKey: localPath} forKey:localPath];
-            
-            DLog(@"DBP: %@ Metadata: %@ Local: %@", dropboxPath, metadata, localPath);
-            
-            [self.restClient uploadFile:[dropboxPath lastPathComponent] toPath:[dropboxPath stringByDeletingLastPathComponent] withParentRev:metadata.rev fromPath:localPath];
-            
-        }];
+    __weak GBASyncOperation *weakOperation = uploadOperation;
+    uploadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
+        NSString *message = nil;
         
-        if ([self.currentUploads count] == 0)
+        if (error)
         {
-            [self updateLocalFiles]; // No need to update upload history, since there were no files to upload
+            message = NSLocalizedString(@"Upload Failed", @"");
         }
         else
         {
-            [RSTToastView updateWithActivityMessage:NSLocalizedString(@"Uploading Files…", @"")];
+            message = NSLocalizedString(@"Upload Complete!", @"");
         }
-    }
-    else
-    {
-        [self updateLocalFiles]; // No need to update upload history, since there were no files to upload
-    }
+        
+        [self showFinishedToastViewWithMessage:message forSyncOperation:weakOperation];
+        
+        if (completionBlock)
+        {
+            completionBlock(localPath, metadata, error);
+        }
+    };
+    uploadOperation.updatesDeviceUploadHistoryUponCompletion = YES;
+    [self.singleFileOperationQueue addOperation:uploadOperation];
+    
+    [self cacheUploadOperation:uploadOperation];
+    
+    [self.pendingDownloads removeObjectForKey:dropboxPath];
+    [NSKeyedArchiver archiveRootObject:self.pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
 }
+
+- (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
+{
+    GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath metadata:metadata];
+    
+    __weak GBASyncOperation *weakOperation = uploadOperation;
+    uploadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
+        NSString *message = nil;
+        
+        if (error)
+        {
+            message = NSLocalizedString(@"Upload Failed", @"");
+        }
+        else
+        {
+            message = NSLocalizedString(@"Upload Complete!", @"");
+        }
+        
+        [self showFinishedToastViewWithMessage:message forSyncOperation:weakOperation];
+        
+        if (completionBlock)
+        {
+            completionBlock(localPath, metadata, error);
+        }
+    };
+    uploadOperation.updatesDeviceUploadHistoryUponCompletion = YES;
+    uploadOperation.delegate = self;
+    [self.singleFileOperationQueue addOperation:uploadOperation];
+    
+    [self cacheUploadOperation:uploadOperation];
+    
+    [self.pendingDownloads removeObjectForKey:metadata.path];
+    [NSKeyedArchiver archiveRootObject:self.pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
+}
+
+- (void)downloadFileToPath:(NSString *)localPath fromDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock
+{
+    GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath dropboxPath:dropboxPath];
+    
+    __weak GBASyncOperation *weakOperation = downloadOperation;
+    downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
+        NSString *message = nil;
+        
+        if (error)
+        {
+            message = NSLocalizedString(@"Download Failed", @"");
+        }
+        else
+        {
+            message = NSLocalizedString(@"Download Complete!", @"");
+        }
+        
+        [self showFinishedToastViewWithMessage:message forSyncOperation:weakOperation];
+        
+        if (completionBlock)
+        {
+            completionBlock(localPath, metadata, error);
+        }
+    };
+    downloadOperation.delegate = self;
+    [self.singleFileOperationQueue addOperation:downloadOperation];
+    
+    [self cacheDownloadOperation:downloadOperation];
+    
+    [self.pendingUploads removeObjectForKey:localPath];
+    [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+}
+
+- (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
+{
+    GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath metadata:metadata];
+    
+    __weak GBASyncOperation *weakOperation = downloadOperation;
+    downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
+        NSString *message = nil;
+        
+        if (error)
+        {
+            message = NSLocalizedString(@"Download Failed", @"");
+        }
+        else
+        {
+            message = NSLocalizedString(@"Download Complete!", @"");
+        }
+        
+        [self showFinishedToastViewWithMessage:message forSyncOperation:weakOperation];
+        
+        if (completionBlock)
+        {
+            completionBlock(localPath, metadata, error);
+        }
+    };
+    downloadOperation.delegate = self;
+    [self.singleFileOperationQueue addOperation:downloadOperation];
+    
+    [self cacheDownloadOperation:downloadOperation];
+    
+    [self.pendingUploads removeObjectForKey:localPath];
+    [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+}
+
+- (void)showFinishedToastViewWithMessage:(NSString *)message forSyncOperation:(GBASyncOperation *)syncOperation
+{
+    rst_dispatch_sync_on_main_thread(^{
+        RSTToastView *toastView = [RSTToastView toastViewWithMessage:message];
+        
+        if ([self syncOperation:syncOperation shouldShowToastView:toastView])
+        {
+            [toastView showForDuration:1.0];
+        }
+    });
+}
+
+#pragma mark - Upload Files
 
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom
 {
@@ -417,449 +336,65 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
         return;
     }
     
-    NSString *embeddedName = [rom embeddedName];
-    NSString *saveFileFilepath = [NSString stringWithFormat:@"/%@/%@/%@", embeddedName, SAVE_FILE_DIRECTORY_NAME, [embeddedName stringByAppendingPathExtension:@"sav"]];
+    NSString *uniqueName = [rom uniqueName];
+    NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@", uniqueName, [uniqueName stringByAppendingPathExtension:@"sav"]];
     
-    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil];
-    DBMetadata *cachedMetadata = [self.dropboxFiles objectForKey:saveFileFilepath];
-    
-    [self prepareToUploadFileAtPath:rom.saveFileFilepath toDropboxPath:saveFileFilepath fileType:GBADropboxFileTypeSave singleFile:NO];
+    // Cache it for later
+    GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:rom.saveFileFilepath dropboxPath:dropboxPath];
+    [self cacheUploadOperation:uploadOperation];
 }
 
-- (void)prepareToUploadFileAtPath:(NSString *)filepath toDropboxPath:(NSString *)dropboxPath fileType:(GBADropboxFileType)fileType singleFile:(BOOL)singleFile
+#pragma mark - Cache Operations
+
+- (void)cacheDownloadOperation:(GBASyncDownloadOperation *)downloadOperation
 {
-    if (![[NSFileManager defaultManager] fileExistsAtPath:filepath])
-    {
-        return;
-    }
-    
-    NSDictionary *uploadDictionary = @{GBASyncingLocalPathKey: filepath, GBASyncingDropboxPathKey: dropboxPath, GBASyncingFileTypeKey: @(fileType), GBASyncingSingleFileKey: @(singleFile)};
-    
-    [self.pendingUploads setObject:uploadDictionary forKey:filepath];
-    [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
+    NSMutableDictionary *pendingDownloads = [[GBASyncManager sharedManager] pendingDownloads];
+    pendingDownloads[downloadOperation.dropboxPath] = [downloadOperation dictionaryRepresentation];
+    [NSKeyedArchiver archiveRootObject:pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
 }
 
-- (void)uploadFileAtPath:(NSString *)path withMetadata:(DBMetadata *)metadata fileType:(GBADropboxFileType)fileType completionBlock:(GBASyncingCompletionBlock)completionBlock
+- (void)cacheUploadOperation:(GBASyncUploadOperation *)uploadOperation
 {
-    UIBackgroundTaskIdentifier backgroundTaskIdentifier = rst_begin_background_task();
-    
-    self.syncingTaskCount++;
-    
-    self.dropboxFiles[metadata.path] = metadata;
-    
-    [self prepareToUploadFileAtPath:path toDropboxPath:metadata.path fileType:fileType singleFile:YES];
-    
-    // Won't be downloading, and we don't want to return YES for isDownloadingFile, so remove it from pendingDownloads
-    [self.pendingDownloads removeObjectForKey:metadata.path];
-    [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
-    
-    if (metadata.rev)
-    {
-        DLog(@"Uploading %@... (Replacing Rev %@)", [metadata.path lastPathComponent], metadata.rev);
-    }
-    else
-    {
-        DLog(@"Uploading %@...", [metadata.path lastPathComponent]);
-    }
-    
-    NSMutableDictionary *dictionary = [@{GBASyncingLocalPathKey: path, GBASyncingDropboxPathKey: metadata.path, GBASyncingBackgroundTaskIdentifierKey: @(backgroundTaskIdentifier)} mutableCopy];
-    
-    if (completionBlock)
-    {
-        dictionary[GBASyncingCompletionBlockKey] = [completionBlock copy];
-    }
-    
-    [self.currentUploads setObject:dictionary forKey:path];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.shouldShowSyncingStatus)
-        {
-            [RSTToastView showWithActivityMessage:@"Uploading..."];
-        }
-        
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    });
-    
-    [self.restClient uploadFile:metadata.filename toPath:[metadata.path stringByDeletingLastPathComponent] withParentRev:metadata.rev fromPath:path];
+    NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
+    pendingUploads[uploadOperation.localPath] = [uploadOperation dictionaryRepresentation];
+    [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
 }
 
+#pragma mark - GBASyncOperationDelegate
 
-- (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath from:(NSString *)srcPath metadata:(DBMetadata *)metadata
+- (BOOL)syncOperation:(GBASyncOperation *)syncOperation shouldShowToastView:(RSTToastView *)toastView
 {
-    DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", srcPath, destPath, metadata.rev);
+    GBASyncOperation *currentOperation = [self currentExecutingOperation];
     
-    // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
-    NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
-    [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:srcPath error:nil];
-    
-    [self.dropboxFiles setObject:metadata forKey:metadata.path];
-    [NSKeyedArchiver archiveRootObject:self.dropboxFiles toFile:[self dropboxFilesPath]];
-    
-    if ([srcPath isEqualToString:[self currentDeviceUploadHistoryPath]])
+    if (currentOperation == syncOperation)
     {
-        [self updateLocalFiles];
-        return;
+        self.currentToastView = toastView;
     }
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    [self.pendingUploads removeObjectForKey:srcPath];
-    [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
-    
-    NSString *embeddedName = [self embededdROMNameFromDropboxPath:destPath];
-    NSMutableDictionary *romDictionary = [self.deviceUploadHistory[embeddedName] mutableCopy];
-    
-    if (romDictionary == nil)
+    if (!self.shouldShowSyncingStatus)
     {
-        romDictionary = [NSMutableDictionary dictionary];
+        return NO;
     }
     
-    romDictionary[metadata.path] = metadata.rev;
-    
-    [self.deviceUploadHistory setObject:romDictionary forKey:embeddedName];
-    [self.deviceUploadHistory writeToFile:[self currentDeviceUploadHistoryPath] atomically:YES];
-    
-    if (![destPath.lowercaseString isEqualToString:[metadata.path lowercaseString]])
+    // Only show toast view if it is for the current executing operation
+    if (syncOperation == [self currentExecutingOperation])
     {
-        DLog(@"Conflicted upload for file: %@ Destination Path: %@ Actual Path: %@", metadata.filename, destPath, metadata.path);
-        NSString *romName = [[srcPath lastPathComponent] stringByDeletingPathExtension];
-        GBAROM *rom = [GBAROM romWithName:romName];
-        [rom setConflicted:YES];
-        [rom setSyncingDisabled:YES];
+        return YES;
     }
     
-    [self handleCompletedUploadForFileAtPath:srcPath withError:nil shouldContinue:YES];
-}
-
-- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
-{
-    NSString *sourcePath = [error userInfo][@"sourcePath"];
-    
-    if ([error code] == DBErrorFileNotFound) // Not really an error, so we ignore it
-    {
-        DLog(@"File doesn't exist for upload...ignoring %@", [sourcePath lastPathComponent]);
-        
-        [self.pendingUploads removeObjectForKey:sourcePath];
-        [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
-        
-        [self handleCompletedUploadForFileAtPath:sourcePath withError:nil shouldContinue:YES];
-        
-        return;
-    }
-    
-    DLog(@"Failed to upload file: %@ Error: %@", [sourcePath lastPathComponent], [error userInfo]);
-    
-    NSDictionary *uploadDictionary = self.currentUploads[sourcePath];
-    
-    BOOL shouldContinue = YES;
-    
-    // For sake of code simplicity, if the single file upload fails, we just end the sync so we can display our error message.
-    if ([uploadDictionary[GBASyncingSingleFileKey] boolValue])
-    {
-        shouldContinue = NO;
-        [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Upload Failed", @"") duration:1.0];
-    }
-    
-    if ([sourcePath isEqualToString:[self currentDeviceUploadHistoryPath]])
-    {
-        [self updateLocalFiles];
-        return;
-    }
-    
-    [self handleCompletedUploadForFileAtPath:sourcePath withError:error shouldContinue:shouldContinue];
-}
-
-- (void)handleCompletedUploadForFileAtPath:(NSString *)path withError:(NSError *)error shouldContinue:(BOOL)shouldContinue
-{
-    NSDictionary *uploadDictionary = self.currentUploads[path];
-    
-    GBASyncingCompletionBlock completionBlock = uploadDictionary[GBASyncingCompletionBlockKey];
-    
-    if (completionBlock)
-    {
-        completionBlock(path, uploadDictionary[GBASyncingDropboxPathKey], nil);
-    }
-    
-    if (uploadDictionary[GBASyncingBackgroundTaskIdentifierKey])
-    {
-        UIBackgroundTaskIdentifier identifier = [uploadDictionary[GBASyncingBackgroundTaskIdentifierKey] unsignedIntegerValue];
-                
-        rst_end_background_task(identifier);
-        // Sure, it ends the background task before we update the device history, but it shouldn't be that much of a problem.
-    }
-    
-    [self.currentUploads removeObjectForKey:path];
-    
-    if ([self.currentUploads count] == 0 && shouldContinue)
-    {
-        [self updateDeviceUploadHistory];
-    }
-}
-
-#pragma mark - Update Device Upload History
-
-- (void)updateDeviceUploadHistory
-{
-    NSString *deviceName = [[UIDevice currentDevice] name];
-    
-    // We're the only device to update the file, so we don't care about revisions
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    
-    [self.restClient uploadFile:[deviceName stringByAppendingPathExtension:@"plist"] toPath:@"/Upload History/" fromPath:[self currentDeviceUploadHistoryPath]];
-    
-#pragma clang diagnostic pop
-}
-
-#pragma mark - Update Local Files
-
-- (void)updateLocalFiles
-{
-    NSDictionary *pendingDownloads = [self.pendingDownloads copy];
-    
-    if ([pendingDownloads count] > 0)
-    {
-        [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadDictionary, BOOL *stop) {
-            
-            NSString *localPath = downloadDictionary[GBASyncingLocalPathKey];
-            NSString *dropboxPath = downloadDictionary[GBASyncingDropboxPathKey];
-            GBADropboxFileType fileType = (GBADropboxFileType)[downloadDictionary[GBASyncingFileTypeKey] integerValue];
-            
-            if (fileType != GBADropboxFileTypeUploadHistory)
-            {
-                NSString *romName = [self romNameFromDropboxPath:dropboxPath];
-                
-                if ([self.syncingDisabledROMs containsObject:romName] || (![self romExistsWithName:romName] && fileType == GBADropboxFileTypeSave))
-                {
-                    return;
-                }
-            }
-            
-            // Make sure to update anything you change here in downloadFileWithMetadata:toPath:fileType:completionBlock:
-            
-            [self.currentDownloads setObject:@{GBASyncingDropboxPathKey: dropboxPath, GBASyncingLocalPathKey: localPath} forKey:dropboxPath];
-            [self.restClient loadFile:dropboxPath intoPath:localPath];
-            
-        }];
-        
-        if ([self.currentDownloads count] == 0)
-        {
-            [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Sync Complete!", @"") duration:1];
-        }
-        else
-        {
-            [RSTToastView updateWithActivityMessage:NSLocalizedString(@"Downloading Files…", @"")];
-        }
-    }
-    else
-    {
-        [self finishSyncingWithCompletionMessage:NSLocalizedString(@"Sync Complete!", @"") duration:1];
-    }
-}
-
-- (void)prepareToDownloadFileWithMetadataIfNeeded:(DBMetadata *)metadata
-{
-    DBMetadata *cachedMetadata = [self.dropboxFiles objectForKey:metadata.path];
-    
-    // File is the same, don't need to redownload
-    if ([metadata.rev isEqualToString:cachedMetadata.rev])
-    {
-        return;
-    }
-    
-    // Handle Upload History files differently than other files
-    if ([[[metadata.path lowercaseString] stringByDeletingLastPathComponent] hasSuffix:@"upload history"] && [[[metadata.path pathExtension] lowercaseString] isEqualToString:@"plist"])
-    {
-        NSString *localPath = [[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:metadata.filename];
-        [self prepareToDownloadFileWithMetadata:metadata toPath:localPath fileType:GBADropboxFileTypeUploadHistory singleFile:NO];
-        return;
-    }
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    NSString *romName = [self romNameFromDropboxPath:metadata.path];
-    NSString *embeddedName = [self embededdROMNameFromDropboxPath:metadata.path];
-    
-    if (romName == nil) // ROM doesn't exist on device
-    {
-        DLog(@"ROM doesn't exist on device: %@", embeddedName);
-        return;
-    }
-    
-    if ([[[metadata.path pathExtension] lowercaseString] isEqualToString:@"sav"])
-    {
-        // Conflicted file, don't download
-        if (![[metadata.filename stringByDeletingPathExtension] isEqualToString:embeddedName])
-        {
-            DLog(@"Aborting attempt to download conflicted/invalid file %@", metadata.filename);
-            return;
-        }
-        
-        GBAROM *rom = [GBAROM romWithName:romName];
-        
-        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil];
-        NSDate *currentDate = [attributes fileModificationDate];
-        NSDate *previousDate = cachedMetadata.lastModifiedDate;
-        
-        DLog(@"Previous Date: %@ Current Date: %@", previousDate, currentDate);
-        
-        // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
-        // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
-        if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:rom.filepath isDirectory:nil])
-        {
-            DLog(@"Conflict downloading file: %@ Rev: %@ Cached Metadata: %@ New Metadata: %@", metadata.filename, metadata.rev, cachedMetadata.rev, metadata);
-            
-            [rom setConflicted:YES];
-            [rom setSyncingDisabled:YES];
-            return;
-        }
-        
-#if !(TARGET_IPHONE_SIMULATOR)
-        
-        // Post notification if user is currently running ROM to be updated
-        if ([[[[GBAEmulatorCore sharedCore] rom] name] isEqualToString:romName])
-        {
-            [rom setConflicted:YES];
-            [rom setSyncingDisabled:YES];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:GBAHasUpdatedSaveForCurrentGameFromDropboxNotification object:[[GBAEmulatorCore sharedCore] rom]];
-            
-            return;
-        }
-        
-#endif
-        
-        [self prepareToDownloadFileWithMetadata:metadata toPath:rom.saveFileFilepath fileType:GBADropboxFileTypeSave singleFile:NO];
-    }
-}
-
-- (void)prepareToDownloadFileWithMetadata:(DBMetadata *)metadata toPath:(NSString *)localPath fileType:(GBADropboxFileType)fileType singleFile:(BOOL)singleFile
-{
-    NSDictionary *downloadDictionary = @{GBASyncingFileRevKey: metadata.rev, GBASyncingLocalPathKey: localPath, GBASyncingDropboxPathKey: metadata.path, GBASyncingFileTypeKey: @(fileType), GBASyncingSingleFileKey: @(singleFile)};
-    [self.pendingDownloads setObject:downloadDictionary forKey:metadata.path];
-    [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
-}
-
-- (void)downloadFileWithMetadata:(DBMetadata *)metadata toPath:(NSString *)path fileType:(GBADropboxFileType)fileType completionBlock:(GBASyncingCompletionBlock)completionBlock
-{
-    UIBackgroundTaskIdentifier backgroundTaskIdentifier = rst_begin_background_task();
-    
-    self.syncingTaskCount++;
-    
-    [self prepareToDownloadFileWithMetadata:metadata toPath:path fileType:fileType singleFile:YES];
-    
-    // Won't be uploading, so remove it from pendingUploads
-    [self.pendingUploads removeObjectForKey:path];
-    [self.pendingUploads writeToFile:[self pendingUploadsPath] atomically:YES];
-    
-    NSMutableDictionary *dictionary = [@{GBASyncingDropboxPathKey: metadata.path, GBASyncingLocalPathKey: path, GBASyncingBackgroundTaskIdentifierKey: @(backgroundTaskIdentifier)} mutableCopy];
-    
-    if (completionBlock)
-    {
-        dictionary[GBASyncingCompletionBlockKey] = [completionBlock copy];
-    }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.shouldShowSyncingStatus)
-        {
-            [RSTToastView showWithActivityMessage:@"Downloading..."];
-        }
-        
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    });
-    
-    [self.currentDownloads setObject:dictionary forKey:metadata.path];
-    [self.restClient loadFile:metadata.path intoPath:path];
-}
-
-- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)downloadedPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
-{
-    DLog(@"Loaded File: %@", downloadedPath);
-    
-    // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
-    NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
-    [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:downloadedPath error:nil];
-    
-    [self.dropboxFiles setObject:metadata forKey:metadata.path];
-    [NSKeyedArchiver archiveRootObject:self.dropboxFiles toFile:[self dropboxFilesPath]];
-    
-    [self.pendingDownloads removeObjectForKey:metadata.path];
-    [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
-    
-    [self handleCompletedDownloadForFileAtDropboxPath:metadata.path withError:nil syncCompletionMessage:NSLocalizedString(@"Sync Complete!", @"")];
-}
-
-- (void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error
-{
-    NSString *dropboxPath = [error userInfo][@"path"];
-    
-    NSString *message = NSLocalizedString(@"Sync Complete!", @"");
-    
-    if ([error code] == 404) // 404: File has been deleted (according to dropbox)
-    {
-        DLog(@"File doesn't exist for download...ignoring %@", [dropboxPath lastPathComponent]);
-        
-        [self.pendingDownloads removeObjectForKey:dropboxPath];
-        [self.pendingDownloads writeToFile:[self pendingDownloadsPath] atomically:YES];
-        
-        [self handleCompletedDownloadForFileAtDropboxPath:dropboxPath withError:nil syncCompletionMessage:message];
-        
-        return;
-    }
-    
-    NSDictionary *downloadDictionary = self.currentDownloads[dropboxPath];
-    
-    if ([downloadDictionary[GBASyncingSingleFileKey] boolValue])
-    {
-        message = NSLocalizedString(@"Download Failed", @"");
-    }
-    
-    DLog(@"Failed to load file: %@ Error: %@", [dropboxPath lastPathComponent], [error userInfo]);
-    
-    [self handleCompletedDownloadForFileAtDropboxPath:dropboxPath withError:error syncCompletionMessage:message];
-    
-}
-
-- (void)handleCompletedDownloadForFileAtDropboxPath:(NSString *)dropboxPath withError:(NSError *)error syncCompletionMessage:(NSString *)message
-{
-    if ([[self romNameFromDropboxPath:dropboxPath] isEqualToString:@"Upload History"])
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:GBAUpdatedDeviceUploadHistoryNotification object:dropboxPath];
-    }
-    
-    NSDictionary *downloadDictionary = self.currentDownloads[dropboxPath];
-    GBASyncingCompletionBlock completionBlock = downloadDictionary[GBASyncingCompletionBlockKey];
-    
-    if (completionBlock)
-    {
-        completionBlock(downloadDictionary[GBASyncingLocalPathKey], dropboxPath, error);
-    }
-    
-    if (downloadDictionary[GBASyncingBackgroundTaskIdentifierKey])
-    {
-        UIBackgroundTaskIdentifier identifier = [downloadDictionary[GBASyncingBackgroundTaskIdentifierKey] unsignedIntegerValue];
-        rst_end_background_task(identifier);
-    }
-    
-    [self.currentDownloads removeObjectForKey:dropboxPath];
-    
-    if ([self.currentDownloads count] == 0)
-    {
-        [self finishSyncingWithCompletionMessage:message duration:1];
-    }
+    return NO;
 }
 
 #pragma mark - Notifications
 
 - (void)romConflictedStateDidChange:(NSNotification *)notification
 {
-    self.conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self conflictedROMsPath]]];
+    self.conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager conflictedROMsPath]]];
 }
 
 - (void)romSyncingDisabledStateDidChange:(NSNotification *)notification
 {
-    self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];
+    self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager syncingDisabledROMsPath]]];
 }
 
 - (void)dropboxLoggedOut:(NSNotification *)notification
@@ -874,89 +409,63 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     self.currentDownloads = [NSMutableDictionary dictionary];
 }
 
-#pragma mark - Public
+#pragma mark - Helper Methods
 
-- (BOOL)isDownloadingDataForROM:(GBAROM *)rom
+- (BOOL)hasPendingDownloadForROM:(GBAROM *)rom
 {
-    // Use pendingDownloads, not currentDownloads, in case we check while we're uploading data but before we start actually downloading
-    NSDictionary *pendingDownloads = [self.pendingDownloads copy];
-    
+    NSDictionary *pendingDownloads = [self pendingDownloads];
+        
     __block BOOL isDownloadingData = NO;
     
-    [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *dictionary, BOOL *stop) {
-        NSString *dropboxPath = dictionary[GBASyncingDropboxPathKey];
-        GBADropboxFileType fileType = (GBADropboxFileType)[dictionary[GBASyncingFileTypeKey] integerValue];
+    [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadOperationDictionary, BOOL *stop) {
         
-        if (fileType != GBADropboxFileTypeUploadHistory)
+        NSString *romName = [GBASyncManager romNameFromDropboxPath:downloadOperationDictionary[GBASyncDropboxPathKey]];
+        
+        if ([romName isEqualToString:rom.name])
         {
-            NSString *romName = [self romNameFromDropboxPath:dropboxPath];
-            
-            if ([romName isEqualToString:rom.name])
-            {
-                DLog(@"Rom Name: %@ Current Name: %@", romName, rom.name);
-                isDownloadingData = YES;
-            }
+            isDownloadingData = YES;
         }
+        
     }];
     
     return isDownloadingData;
 }
 
-#pragma mark - Application State
-
-- (void)didEnterBackground:(NSNotification *)notification
-{
-    [self synchronize];
-}
-
-- (void)willEnterForeground:(NSNotification *)notification
-{
-    [self synchronize];
-}
-
-#pragma mark - Helper Methods
-
-- (BOOL)romExistsWithName:(NSString *)name
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(pathExtension.lowercaseString == 'gba') OR (pathExtension.lowercaseString == 'gbc') OR (pathExtension.lowercaseString == 'gb')"];
-    NSMutableArray *contents = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil] mutableCopy];
-    [contents filterUsingPredicate:predicate];
-    
-    for (NSString *filename in contents)
-    {
-        if ([[filename stringByDeletingPathExtension] isEqualToString:name])
-        {
-            return YES;
-        }
-    }
-    
-    return NO;
-}
-
-- (NSString *)embededdROMNameFromDropboxPath:(NSString *)dropboxPath
++ (NSString *)uniqueROMNameFromDropboxPath:(NSString *)dropboxPath
 {
     NSArray *components = [dropboxPath pathComponents];
-    if (components.count > 1)
+    
+    if (components.count <= 1)
     {
-        return components[1];
+        return nil;
     }
     
-    return nil;
+    NSString *uniqueName = components[1];
+    
+    if ([uniqueName isEqualToString:@"Upload History"])
+    {
+        // Don't return, we use this to determine if this is a upload history upload
+        //return nil;
+    }
+    
+    return uniqueName;
 }
 
-- (NSString *)romNameFromDropboxPath:(NSString *)dropboxPath
++ (NSString *)romNameFromDropboxPath:(NSString *)dropboxPath
 {
-    NSString *embeddedROMName = [self embededdROMNameFromDropboxPath:dropboxPath];
+    NSString *uniqueName = [self uniqueROMNameFromDropboxPath:dropboxPath];
     
-    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+    if (uniqueName == nil)
+    {
+        return nil;
+    }
+    
+    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[GBASyncManager cachedROMsPath]];
     
     __block NSString *romName = nil;
     
-    [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *embeddedName, BOOL *stop) {
-        if ([embeddedROMName isEqualToString:embeddedName])
+    [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *cachedUniqueName, BOOL *stop) {
+        if ([uniqueName isEqualToString:cachedUniqueName])
         {
             romName = key;
             *stop = YES;
@@ -965,42 +474,44 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     if (romName == nil)
     {
-        DLog(@"Aww shit: %@", dropboxPath);
+        DLog(@"Cannot find ROM for unique name: %@", uniqueName);
     }
     
     return romName;
 }
 
-- (NSDictionary *)dropboxFilesFromDeltaEntries:(NSArray *)entries
+- (GBASyncOperation *)currentExecutingOperation
 {
-    NSMutableDictionary *dropboxFiles = [NSMutableDictionary dictionary];
+    GBASyncOperation *currentOperation = nil;
     
-    for (DBDeltaEntry *entry in entries)
+    // Prefer single file operations over multiple file ones
+    for (GBASyncOperation *syncOperation in [self.singleFileOperationQueue operations])
     {
-        if ([entry.metadata isDeleted] || entry.metadata.path == nil || entry.metadata.filename == nil)
+        if ([syncOperation isExecuting])
         {
-            continue;
+            currentOperation = syncOperation;
         }
-        
-        if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || [entry.lowercasePath.pathExtension isEqualToString:@"plist"])
-        {
-            [dropboxFiles setObject:entry.metadata forKey:entry.metadata.path];
-        }
-        
     }
     
-    return dropboxFiles;
+    if (currentOperation)
+    {
+        return currentOperation;
+    }
+        
+    for (GBASyncOperation *syncOperation in [self.multipleFilesOperationQueue operations])
+    {
+        if ([syncOperation isExecuting])
+        {
+            currentOperation = syncOperation;
+        }
+    }
+    
+    return currentOperation;
 }
+ 
+#pragma mark - Filepaths
 
-- (NSString *)cachedROMsPath
-{
-    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
-    return [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
-}
-
-#pragma mark - Filepathss
-
-- (NSString *)dropboxSyncDirectoryPath
++ (NSString *)dropboxSyncDirectoryPath
 {
     NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
     NSString *dropboxDirectory = [libraryDirectory stringByAppendingPathComponent:@"Dropbox Sync"];
@@ -1010,55 +521,57 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     return dropboxDirectory;
 }
 
-- (NSString *)pendingUploadsPath
++ (NSString *)dropboxFilesPath
 {
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"pendingUploads.plist"];
+    return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"dropboxFiles.plist"];
 }
 
-- (NSString *)pendingDownloadsPath
++ (NSString *)pendingUploadsPath
 {
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"pendingDownloads.plist"];
+    return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"pendingUploads.plist"];
 }
 
-- (NSString *)dropboxFilesPath
++ (NSString *)pendingDownloadsPath
 {
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"dropboxFiles.plist"];
+    return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"pendingDownloads.plist"];
 }
 
-- (NSString *)localFilesPath
++ (NSString *)cachedROMsPath
 {
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"localFiles.plist"];
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    return [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
 }
 
-- (NSString *)conflictedROMsPath
+
++ (NSString *)conflictedROMsPath
 {
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"conflictedROMs.plist"];
+    return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"conflictedROMs.plist"];
 }
 
-- (NSString *)syncingDisabledROMsPath
++ (NSString *)syncingDisabledROMsPath
 {
-    return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
+    return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
 }
 
-- (NSString *)uploadHistoryDirectoryPath
++ (NSString *)currentDeviceUploadHistoryPath
 {
-    NSString *directory = [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"Upload History"];
+    NSString *directory = [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"Upload History"];
     [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
-    return directory;
-}
-
-- (NSString *)currentDeviceUploadHistoryPath
-{
+    
     NSString *deviceName = [[UIDevice currentDevice] name];
-    return [[self uploadHistoryDirectoryPath] stringByAppendingPathComponent:[deviceName stringByAppendingPathExtension:@"plist"]];
+    return [directory stringByAppendingPathComponent:[deviceName stringByAppendingPathExtension:@"plist"]];
 }
 
 #pragma mark - Getters/Setters
 
+- (BOOL)isSyncing
+{
+    return ([self.multipleFilesOperationQueue operationCount] + [self.singleFileOperationQueue operationCount] > 0);
+}
+
 - (BOOL)performedInitialSync
 {
-    NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"initialSync"];
-    return [dictionary[@"completed"] boolValue];
+    return ([[NSUserDefaults standardUserDefaults] objectForKey:@"initialSync"] != nil);
 }
 
 - (void)setShouldShowSyncingStatus:(BOOL)shouldShowSyncingStatus
@@ -1072,18 +585,13 @@ NSString *const GBAFileDeviceName = @"GBAFileDeviceName";
     
     if (!shouldShowSyncingStatus)
     {
-        [RSTToastView hide];
+        [self.currentToastView hide];
     }
     else if ([self isSyncing])
     {
-        [RSTToastView show];
+        [self.currentToastView show];
     }
     
-}
-
-- (BOOL)isSyncing
-{
-    return (self.syncingTaskCount > 0);
 }
 
 @end

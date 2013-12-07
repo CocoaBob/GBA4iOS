@@ -275,7 +275,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Credits" footerTitle="Tap a name to go to their Twitter profile." id="Yil-Be-Dpf">
+                            <tableViewSection headerTitle="Credits" id="Yil-Be-Dpf">
+                                <string key="footerTitle">Tap a name to go to their Twitter profile. 
+
+For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="uC9-4O-Vzb" detailTextLabel="c59-FU-Kqa" style="IBUITableViewCellStyleValue1" id="XIV-fF-qzJ">
                                         <rect key="frame" x="0.0" y="1018" width="320" height="44"/>

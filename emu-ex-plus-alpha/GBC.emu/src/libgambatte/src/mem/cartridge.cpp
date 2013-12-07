@@ -628,9 +628,52 @@ LoadRes Cartridge::loadROM(std::string const &romfile, bool const forceDmg, bool
         }
         
         char *romName = new char[romNameLength];
-        memcpy(romName, &header[0x134], romNameLength);
         
-       return romName;
+        if (romNameLength == 16)
+        {
+            sprintf(romName, "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c",
+                    header[0x134],
+                    header[0x135],
+                    header[0x136],
+                    header[0x137],
+                    header[0x138],
+                    header[0x139],
+                    header[0x13A],
+                    header[0x13B],
+                    header[0x13C],
+                    header[0x13D],
+                    header[0x13E],
+                    header[0x13F],
+                    header[0x140],
+                    header[0x141],
+                    header[0x142],
+                    header[0x143]);
+        }
+        else
+        {
+            sprintf(romName, "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c",
+                    header[0x134],
+                    header[0x135],
+                    header[0x136],
+                    header[0x137],
+                    header[0x138],
+                    header[0x139],
+                    header[0x13A],
+                    header[0x13B],
+                    header[0x13C],
+                    header[0x13D],
+                    header[0x13E],
+                    header[0x13F],
+                    header[0x140],
+                    header[0x141],
+                    header[0x142]);
+        }
+        
+        // Tends to fail randomly when used in quick succession on older devices (A5 processors confirmed.) Above method has yet to fail
+        // char *romName = new char[romNameLength];
+        // memcpy(romName, &header[0x134], romNameLength);
+        
+        return romName;
     }
 
 static bool hasBattery(const unsigned char headerByte0x147) {

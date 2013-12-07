@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>9507ABF0-E1BA-4E53-B4B2-9E5BD76AF0EE</string>
+	<string>8E215C15-BFD2-439C-B40E-72FF21BC0E2B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>GBA4iOS</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -22,7 +22,7 @@
 		<key>B7A16F7C-23A9-44FC-BF9B-E643E8DA94DA</key>
 		<string>..</string>
 		<key>D7572B51-AD61-4F33-97E8-BFAE3547E7A7</key>
-		<string>../../../../RSTUtilities/RSTWebViewController</string>
+		<string>../../../../rstutilities/rstwebviewcontroller</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/rileytestut/GBA4iOS-2.0.git</string>

@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-extern const CGFloat RSTToastViewCornerRadiusAutomaticDimension;
+extern const CGFloat RSTToastViewCornerRadiusAutomaticRoundedDimension;
+
+extern const CGFloat RSTToastViewAutomaticWidth;
+extern const CGFloat RSTToastViewMaximumWidth;
 
 extern NSString *const RSTToastViewWillShowNotification;
 extern NSString *const RSTToastViewDidShowNotification;
@@ -24,16 +27,18 @@ extern NSString *const RSTToastViewWasTappedNotification;
 @property (nonatomic, readonly, assign, getter = isVisible) BOOL visible;
 
 // Customizability
-@property (nonatomic, copy) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
-@property (nonatomic, copy) UIColor *borderColor UI_APPEARANCE_SELECTOR;
-
+@property (nonatomic, copy) UIColor *tintColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, copy) UIFont *font UI_APPEARANCE_SELECTOR;
 
-@property (nonatomic, assign) CGFloat borderWidth UI_APPEARANCE_SELECTOR;
-@property (nonatomic, assign) CGFloat cornerRadius UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat alpha UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, assign) UIRectEdge presentationEdge UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, assign) CGFloat cornerRadius UI_APPEARANCE_SELECTOR;
 @property (nonatomic, assign) CGFloat edgeSpacing UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, assign) CGFloat width UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) NSInteger numberOfLines;
 
 // Class Methods
 + (void)show;

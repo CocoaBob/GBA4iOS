@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @interface GBAROM : NSObject
 
 @property (readonly, copy, nonatomic) NSString *name;
-@property (readonly, copy, nonatomic) NSString *embeddedName;
+@property (readonly, copy, nonatomic) NSString *uniqueName;
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *saveFileFilepath;
 @property (readonly, copy, nonatomic) NSString *romCode;

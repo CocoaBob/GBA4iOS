@@ -9,21 +9,38 @@
 #import <Foundation/Foundation.h>
 
 #import "GBASyncManager.h"
+#import "GBASyncUploadOperation.h"
+#import "GBASyncDownloadOperation.h"
 
-typedef void (^GBASyncingCompletionBlock)(NSString *localPath, NSString *dropboxPath, NSError *error);
-
-typedef NS_ENUM(NSInteger, GBADropboxFileType)
-{
-    GBADropboxFileTypeUnknown             = 0,
-    GBADropboxFileTypeSave                = 1,
-    GBADropboxFileTypeSaveState           = 2,
-    GBADropboxFileTypeCheat               = 3,
-    GBADropboxFileTypeUploadHistory       = 4,
-};
+extern NSString * const GBASyncLocalPathKey;
+extern NSString * const GBASyncDropboxPathKey;
+extern NSString * const GBASyncMetadataKey;
 
 @interface GBASyncManager ()
 
-- (void)uploadFileAtPath:(NSString *)path withMetadata:(DBMetadata *)metadata fileType:(GBADropboxFileType)fileType completionBlock:(GBASyncingCompletionBlock)completionBlock;
-- (void)downloadFileWithMetadata:(DBMetadata *)metadata toPath:(NSString *)path fileType:(GBADropboxFileType)fileType completionBlock:(GBASyncingCompletionBlock)completionBlock;
+@property (strong, atomic) NSMutableDictionary *dropboxFiles; // Uses remote filepath as keys
+@property (strong, atomic) NSSet *conflictedROMs;
+@property (strong, atomic) NSSet *syncingDisabledROMs;
+@property (strong, atomic) NSMutableDictionary *deviceUploadHistory;
+
+@property (strong, atomic) NSMutableDictionary *pendingUploads; // Uses local filepath as keys
+@property (strong, atomic) NSMutableDictionary *pendingDownloads; // Uses remote filepath as keys
+@property (strong, atomic) NSMutableDictionary *currentUploads; // Uses local filepaths
+@property (strong, atomic) NSMutableDictionary *currentDownloads; // Uses remote filepaths
+
+- (void)cacheUploadOperation:(GBASyncUploadOperation *)uploadOperation;
+- (void)cacheDownloadOperation:(GBASyncDownloadOperation *)downloadOperation;
+
+// Filepaths
++ (NSString *)dropboxSyncDirectoryPath;
++ (NSString *)dropboxFilesPath;
++ (NSString *)pendingUploadsPath;
++ (NSString *)pendingDownloadsPath;
++ (NSString *)conflictedROMsPath;
++ (NSString *)syncingDisabledROMsPath;
++ (NSString *)currentDeviceUploadHistoryPath;
+
++ (NSString *)romNameFromDropboxPath:(NSString *)dropboxPath;
++ (NSString *)uniqueROMNameFromDropboxPath:(NSString *)dropboxPath;
 
 @end

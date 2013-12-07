@@ -538,11 +538,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                 {
                     GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
                     
-                    NSString *embeddedName = [rom embeddedName];
+                    NSString *uniqueName = [rom uniqueName];
                     
-                    if (embeddedName)
+                    if (uniqueName)
                     {
-                        cachedROMs[romName] = embeddedName;
+                        cachedROMs[romName] = uniqueName;
                     }
                 }
             }
@@ -795,7 +795,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:rom] && ![rom syncingDisabled])
+    if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] hasPendingDownloadForROM:rom] && ![rom syncingDisabled])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then launch the game.", @"")
@@ -854,7 +854,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
     void(^showEmulationViewController)(void) = ^(void)
     {
-        DLog(@"ROM NAME: %@", rom.embeddedName);
+        DLog(@"ROM NAME: %@", rom.uniqueName);
         
         [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
         
@@ -910,7 +910,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)syncingDetailViewControllerDidDismiss:(GBASyncingDetailViewController *)syncingDetailViewController
 {
-    if (![syncingDetailViewController.rom syncingDisabled] && !([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:syncingDetailViewController.rom]))
+    if (![syncingDetailViewController.rom syncingDisabled] && !([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] hasPendingDownloadForROM:syncingDetailViewController.rom]))
     {
         [self startROM:syncingDetailViewController.rom];
     }
@@ -987,13 +987,16 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *filepath = [self filepathForIndexPath:indexPath];
     NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
     
+    GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
+    
     NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
     NSString *rtcFile = [NSString stringWithFormat:@"%@.rtc", romName];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    NSString *cheatsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.uniqueName];
     NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
     
     NSString *cheatsFilename = [NSString stringWithFormat:@"%@.plist", romName];
@@ -1001,7 +1004,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] error:nil];
-    [[NSFileManager defaultManager] removeItemAtPath:[cheatsDirectory stringByAppendingPathComponent:cheatsFilename] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:cheatsDirectory error:nil];
     
     [self deleteFileAtIndexPath:indexPath animated:YES];
 }
@@ -1020,7 +1023,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
     NSString *newSaveFile = [NSString stringWithFormat:@"%@.sav", newName];
     
-    NSString *cheatsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
     NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
     
     NSString *cheatsFilename = [NSString stringWithFormat:@"%@.plist", romName];
@@ -1028,7 +1030,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:newRomFilename] error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] error:nil];
-    [[NSFileManager defaultManager] moveItemAtPath:[cheatsDirectory stringByAppendingPathComponent:cheatsFilename] toPath:[cheatsDirectory stringByAppendingPathComponent:newCheatsFilename] error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] toPath:[saveStateDirectory stringByAppendingPathComponent:newName] error:nil];
 }
 

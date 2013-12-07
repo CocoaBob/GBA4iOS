@@ -107,9 +107,11 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     
     // If it is conflicted, we get to handle it yay
     
+    // Always allow turning off syncing
     if (![sender isOn])
     {
         self.rom.syncingDisabled = NO;
+        return;
     }
     
     if (!self.selectedSaveIndexPath)
@@ -128,7 +130,11 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     }
     
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure?", @"") message:NSLocalizedString(@"Once syncing is enabled, the save file for this game on all your other devices will be overwritten with the one you selected. Please make sure you have selected the correct save file, then tap Enable.", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Enable", @""), nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure?", @"")
+                                                    message:NSLocalizedString(@"Once syncing is enabled, the save file for this game on all your other devices will be overwritten with the one you selected. Please make sure you have selected the correct save file, then tap Enable.", @"")
+                                                   delegate:nil
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                          otherButtonTitles:NSLocalizedString(@"Enable", @""), nil];
     
     [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 0)
@@ -137,38 +143,64 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
         }
         else if (buttonIndex == 1)
         {
-            DBMetadata *metadata = [self dropboxMetadataForROM:self.rom];
+            [self syncWithDropbox];
+        }
+    }];
+}
+
+- (void)syncWithDropbox
+{
+    DBMetadata *metadata = [self dropboxMetadataForROM:self.rom];
+    
+    // If metadata is nil, but we've loaded the files and there aren't any, we'll allow the file to be uploaded without it
+    if (/*metadata ||*/ (self.loadingFiles || self.errorLoadingFiles) || (!metadata && self.selectedSaveIndexPath.section == 3) || self.selectedSaveIndexPath.section == 0 || self.selectedSaveIndexPath.section == 1)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error communicating with Dropbox", @"")
+                                                        message:NSLocalizedString(@"Please make sure you are connected to the internet and try again.", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"")
+                                              otherButtonTitles:nil];
+        [alert show];
+        
+        [self.syncingEnabledSwitch setOn:NO animated:YES];
+        return;
+    }
+    
+    [self.rom setConflicted:NO];
+    [self.rom setSyncingDisabled:NO];
+    
+    if (self.selectedSaveIndexPath.section == 2) // Selected Local Save
+    {
+        if (metadata)
+        {
+            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:nil];
+        }
+        else
+        {
+            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath toDropboxPath:[self dropboxPathForROM:self.rom] completionBlock:nil];
+        }
+        return;
+    }
+    
+    // Selected Dropbox Save
+    [[GBASyncManager sharedManager] downloadFileToPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:^(NSString *localPath, DBMetadata *newMetadata, NSError *error) {
+        if (error)
+        {
+            [self.rom setConflicted:YES];
+            [self.rom setSyncingDisabled:YES];
             
-            [self.rom setConflicted:NO];
-            [self.rom setSyncingDisabled:NO];
+            [self.syncingEnabledSwitch setOn:NO animated:YES];
+        }
+        else
+        {
+            DLog(@"Successfully downloaded save for ROM: %@", self.rom.name);
             
-            if (self.selectedSaveIndexPath.section == 2) // Selected Local Save
-            {
-                [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:metadata fileType:GBADropboxFileTypeSave completionBlock:nil];
-            }
-            else if (self.selectedSaveIndexPath.section == 3)
-            {
-                [[GBASyncManager sharedManager] downloadFileWithMetadata:metadata toPath:self.rom.saveFileFilepath fileType:GBADropboxFileTypeSave completionBlock:^(NSString *localPath, NSString *dropboxPath, NSError *error) {
-                    if (error)
-                    {
-                        [self.rom setConflicted:YES];
-                        [self.rom setSyncingDisabled:YES];
-                        
-                        [sender setOn:NO animated:YES];
-                    }
-                    else
-                    {
-                        DLog(@"Successfully downloaded save for ROM: %@", self.rom.name);
-                        
 #if !(TARGET_IPHONE_SIMULATOR)
-                        if ([[[GBAEmulatorCore sharedCore] rom] isEqual:self.rom])
-                        {
-                            [[NSNotificationCenter defaultCenter] postNotificationName:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
-                        }
-#endif
-                    }
-                }];
+            if ([[[GBAEmulatorCore sharedCore] rom] isEqual:self.rom])
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
             }
+#endif
         }
     }];
 }
@@ -198,7 +230,16 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 - (void)updatedDeviceUploadHistory:(NSString *)notification
 {
     [self reloadUploadHistories];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    
+    // Race condition crash
+    if ([self.tableView numberOfSections] >= 2)
+    {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else
+    {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)reloadUploadHistories
@@ -224,9 +265,19 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     self.pendingDownloads = [NSMutableDictionary dictionary];
     self.uploadHistories = [NSMutableDictionary dictionary];
     
-    NSString *remotePath = [NSString stringWithFormat:@"/%@/Saves/", self.rom.embeddedName];
+    NSString *remotePath = [NSString stringWithFormat:@"/%@/Saves/", self.rom.uniqueName];
     
     self.loadingFiles = YES;
+    
+    if ([self.tableView numberOfSections] >= 2)
+    {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else
+    {
+        [self.tableView reloadData];
+    }
+    
     [self.restClient loadMetadata:remotePath];
 }
 
@@ -244,7 +295,14 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     
     self.syncingEnabledSwitch.enabled = YES;
     
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    if ([self.tableView numberOfSections] >= 2)
+    {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else
+    {
+        [self.tableView reloadData];
+    }
     
     DLog(@"Remote Saves: %@", self.remoteSaves);
 }
@@ -256,7 +314,14 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     
     self.syncingEnabledSwitch.enabled = NO;
     
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    if ([self.tableView numberOfSections] >= 2)
+    {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:3] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else
+    {
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - Table view data source
@@ -356,10 +421,12 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
             if (self.loadingFiles)
             {
                 cell.textLabel.text = NSLocalizedString(@"Loading...", @"");
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             else if (self.errorLoadingFiles)
             {
                 cell.textLabel.text = NSLocalizedString(@"Error Loading Save Info", @"");
+                cell.selectionStyle = UITableViewCellSelectionStyleGray;
             }
             else
             {
@@ -376,6 +443,8 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
                 {
                     cell.textLabel.text = dateString;
                 }
+                
+                cell.selectionStyle = UITableViewCellSelectionStyleGray;
                 
             }
         }
@@ -405,7 +474,11 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     }
     else if (section == 3)
     {
-        return NSLocalizedString(@"Dropbox", @"");
+        // can't call [self.tableView numberOfRowsInSection:] as that leads to recursive lock
+        if ([self tableView:self.tableView numberOfRowsInSection:3] > 0)
+        {
+            return NSLocalizedString(@"Dropbox", @"");
+        }
     }
     
     return nil;
@@ -438,6 +511,11 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     if (indexPath.section == 3 && self.errorLoadingFiles)
     {
         [self fetchRemoteSaveInfo];
+        return;
+    }
+    
+    if (indexPath.section == 3 && self.loadingFiles)
+    {
         return;
     }
     
@@ -484,7 +562,7 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     
     NSDictionary *uploadHistories = [self.uploadHistories copy];
     [uploadHistories enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *dictionary, BOOL *stop) {
-        NSDictionary *romDictionary = dictionary[self.rom.embeddedName];
+        NSDictionary *romDictionary = dictionary[self.rom.uniqueName];
         
         NSString *remoteRev = romDictionary[metadata.path];
         
@@ -504,13 +582,19 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     
     for (DBMetadata *metadata in remoteSaves)
     {
-        if ([metadata.filename isEqualToString:[rom.embeddedName stringByAppendingPathExtension:@"sav"]])
+        if ([metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:@"sav"]])
         {
             return metadata;
         }
     }
     
     return nil;
+}
+
+- (NSString *)dropboxPathForROM:(GBAROM *)rom
+{
+    NSString *uniqueName = rom.uniqueName;
+    return [NSString stringWithFormat:@"/%@/Saves/%@.sav", uniqueName, uniqueName];
 }
 
 #pragma mark - Dismissal
@@ -540,7 +624,7 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     }
     else
     {
-        if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] isDownloadingDataForROM:self.rom] && ![self.rom syncingDisabled])
+        if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] hasPendingDownloadForROM:self.rom] && ![self.rom syncingDisabled])
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                             message:NSLocalizedString(@"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then tap Done", @"")

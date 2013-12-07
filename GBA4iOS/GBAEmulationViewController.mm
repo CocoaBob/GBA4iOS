@@ -113,7 +113,7 @@ static GBAEmulationViewController *_emulationViewController;
 #if !(TARGET_IPHONE_SIMULATOR)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romDidSaveData:) name:GBAROMDidSaveDataNotification object:nil];
 #endif
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hasUpdatedSaveForCurrentGameFromDropbox:) name:GBAHasUpdatedSaveForCurrentGameFromDropboxNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hasNewDropboxSaveForCurrentGameFromDropbox:) name:GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUpdateSaveForCurrentGameFromDropbox:) name:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
@@ -246,6 +246,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
@@ -1482,7 +1483,7 @@ void uncaughtExceptionHandler(NSException *exception)
     [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
 }
 
-- (void)hasUpdatedSaveForCurrentGameFromDropbox:(NSNotification *)notification
+- (void)hasNewDropboxSaveForCurrentGameFromDropbox:(NSNotification *)notification
 {
     self.preventSavingROMSaveData = YES;
     
@@ -1847,26 +1848,29 @@ void uncaughtExceptionHandler(NSException *exception)
     
     _rom = rom;
     
-    [self refreshLayout]; // Must go before resumeEmulation
-    
-    if (_rom) // If there was a previous ROM make sure to unpause it!
-    {
-        [self resumeEmulation];
-    }
-    
-    NSSet *sustainedButtons = [self.sustainedButtonSet copy];
-    self.sustainedButtonSet = nil;
-    
+    // Changing ROM should be done on main thread
+    rst_dispatch_sync_on_main_thread(^{
+        
+        [self refreshLayout]; // Must go before resumeEmulation
+        
+        if (_rom) // If there was a previous ROM make sure to unpause it!
+        {
+            [self resumeEmulation];
+        }
+        
+        NSSet *sustainedButtons = [self.sustainedButtonSet copy];
+        self.sustainedButtonSet = nil;
+        
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] releaseButtons:sustainedButtons];
-    [[GBAEmulatorCore sharedCore] setRom:self.rom];
+        [[GBAEmulatorCore sharedCore] releaseButtons:sustainedButtons];
+        [[GBAEmulatorCore sharedCore] setRom:self.rom];
 #endif
-
-    
-    [self startEmulation];
-    
-   // [self.controllerView showButtonRects];
-    
+        
+        
+        [self startEmulation];
+        
+        // [self.controllerView showButtonRects];
+    });
 }
 
 
