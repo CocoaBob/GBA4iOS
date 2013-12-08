@@ -274,9 +274,6 @@
         if ([saveStateTypeString isEqualToString:@"G"])
         {
             dictionary[@"protected"] = @NO;
-            
-            DLog(@"DICTIONARY: %@", dictionary);
-            
             [generalArray addObject:dictionary];
         }
         else if ([saveStateTypeString isEqualToString:@"P"])
@@ -286,20 +283,14 @@
         }
     }
     
-    NSComparisonResult (^comparatorBlock)(id a, id b) = ^(NSDictionary *a, NSDictionary *b) {
-        NSDate *firstDate = a[@"creationDate"];
-        NSDate *secondDate = b[@"creationDate"];
-        
-        return [firstDate compare:secondDate];
-    };
-    
-    [generalArray sortedArrayUsingComparator:comparatorBlock];
-    [protectedArray sortedArrayUsingComparator:comparatorBlock];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES];
+    [generalArray sortUsingDescriptors:@[descriptor]];
+    [protectedArray sortUsingDescriptors:@[descriptor]];
     
     [saveStateArray addObject:autosaveArray];
     [saveStateArray addObject:generalArray];
     [saveStateArray addObject:protectedArray];
-        
+    
     self.saveStateArray = saveStateArray;
 }
 
