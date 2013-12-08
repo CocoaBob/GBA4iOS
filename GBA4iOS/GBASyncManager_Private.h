@@ -19,6 +19,9 @@ extern NSString * const GBASyncDropboxPathKey;
 extern NSString * const GBASyncMetadataKey;
 extern NSString * const GBASyncDestinationPathKey;
 
+@class GBASyncDeleteOperation;
+@class GBASyncRenameOperation;
+
 @interface GBASyncManager ()
 
 @property (strong, atomic) NSMutableDictionary *dropboxFiles; // Uses remote filepath as keys

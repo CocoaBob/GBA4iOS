@@ -16,12 +16,13 @@
 #import "UIAlertView+RSTAdditions.h"
 #import "UIActionSheet+RSTAdditions.h"
 
-#define INFO_PLIST_PATH [self.saveStateDirectory stringByAppendingPathComponent:@"info.plist"]
-
 @interface GBASaveStateViewController ()
 
 @property (copy, nonatomic) NSString *saveStateDirectory;
 @property (strong, nonatomic) NSMutableArray *saveStateArray;
+
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (strong, nonatomic) NSDateFormatter *readableDateFormatter;
 
 @end
 
@@ -35,45 +36,9 @@
     {
         _mode = mode;
         
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-        
         _saveStateDirectory = [directory copy];
-        _saveStateArray = [NSMutableArray arrayWithContentsOfFile:INFO_PLIST_PATH];
         
-        if (_saveStateArray == nil)
-        {
-            _saveStateArray = [[NSMutableArray alloc] init];
-            
-            // Autosave and General
-            [_saveStateArray addObject:[NSArray array]];
-            [_saveStateArray addObject:[NSArray array]];
-            [_saveStateArray addObject:[NSArray array]];
-        }
-        
-        NSString *autosaveFilepath = [_saveStateDirectory stringByAppendingPathComponent:@"autosave.sgm"];
-        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:autosaveFilepath error:nil];
-        
-        if (attributes)
-        {
-            // In case we've added an autosave, we need to add it to the array. Use the file modification date as the date
-            NSDate *date = [attributes fileModificationDate];
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-            [dateFormatter setDateStyle:NSDateFormatterLongStyle];
-            
-            NSString *name = [dateFormatter stringFromDate:date];
-            
-            NSMutableArray *array = [_saveStateArray[0] mutableCopy];
-            array[0] = @{@"filename": @"autosave.sgm", @"name": name, @"protected": @YES};
-            _saveStateArray[0] = array;
-        }
-        else
-        {
-            // Yes, we re-add an empty array even though we potentially just added one. Get over it, or else there'd have to be much more logic to determine when and where to insert the new dictionary to save what like a few milliseconds?
-            _saveStateArray[0] = [NSArray array];
-        }
+        [self updateSaveStateArray];
     }
     return self;
 }
@@ -162,50 +127,43 @@
     }
         
     NSDate *date = [NSDate date];
-    NSString *filename = [NSString stringWithFormat:@"%@.sgm", date];
     
-    NSString *name = nil;
-    BOOL renamed = [currentDictionary[@"renamed"] boolValue];
+    NSMutableDictionary *updatedDictionary = [currentDictionary mutableCopy];
     
-    if (renamed)
+    if (updatedDictionary == nil)
     {
-        name = currentDictionary[@"name"];
-    }
-    else
-    {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
-        name = [dateFormatter stringFromDate:date];
+        updatedDictionary = [@{@"name": @"", @"creationDate": date, @"protected": @NO} mutableCopy];
     }
     
-    NSDictionary *dictionary = @{@"filename": filename, @"name": name, @"protected": @NO, @"renamed": @(renamed)};
+    updatedDictionary[@"date"] = date;
+    
+    NSString *filepath = [self filepathForSaveStateDictionary:updatedDictionary];
+    updatedDictionary[@"filepath"] = filepath;
+    
     if (indexPath.section == -1)
     {
-        [generalArray addObject:dictionary];
+        [generalArray addObject:updatedDictionary];
     }
     else
     {
-        NSDictionary *existingSaveState = generalArray[indexPath.row];
-        [[NSFileManager defaultManager] removeItemAtPath:existingSaveState[@"filepath"] error:nil];
-        [generalArray replaceObjectAtIndex:indexPath.row withObject:dictionary];
+        [[NSFileManager defaultManager] removeItemAtPath:currentDictionary[@"filepath"] error:nil];
+        [generalArray replaceObjectAtIndex:indexPath.row withObject:updatedDictionary];
     }
     
     self.saveStateArray[1] = generalArray;
-    [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
     
     if ([self.delegate respondsToSelector:@selector(saveStateViewController:willSaveStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self willSaveStateWithFilename:filename];
+        [self.delegate saveStateViewController:self willSaveStateWithFilename:[filepath lastPathComponent]];
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] saveStateToFilepath:[self.saveStateDirectory stringByAppendingPathComponent:filename]];
+    [[GBAEmulatorCore sharedCore] saveStateToFilepath:filepath];
 #endif
     
     if ([self.delegate respondsToSelector:@selector(saveStateViewController:didSaveStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self didSaveStateWithFilename:filename];
+        [self.delegate saveStateViewController:self didSaveStateWithFilename:[filepath lastPathComponent]];
     }
     
     if (indexPath.section == -1)
@@ -230,24 +188,121 @@
     NSArray *array = self.saveStateArray[indexPath.section];
     NSDictionary *dictionary = array[indexPath.row];
     
-    NSString *filename = dictionary[@"filename"];
+    NSString *filepath = dictionary[@"filepath"];
     
     if ([self.delegate respondsToSelector:@selector(saveStateViewController:willLoadStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self willLoadStateWithFilename:filename];
+        [self.delegate saveStateViewController:self willLoadStateWithFilename:[filepath lastPathComponent]];
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[GBAEmulatorCore sharedCore] loadStateFromFilepath:[self.saveStateDirectory stringByAppendingPathComponent:filename]];
+    [[GBAEmulatorCore sharedCore] loadStateFromFilepath:filepath];
 #endif
     
     if ([self.delegate respondsToSelector:@selector(saveStateViewController:didLoadStateWithFilename:)])
     {
-        [self.delegate saveStateViewController:self didLoadStateWithFilename:filename];
+        [self.delegate saveStateViewController:self didLoadStateWithFilename:[filepath lastPathComponent]];
     }
     
     [self dismissSaveStateViewController:nil];
 }
+
+- (void)updateSaveStateArray
+{
+    NSMutableArray *saveStateArray = [NSMutableArray array];
+    
+    NSMutableArray *autosaveArray = [NSMutableArray array];
+    NSMutableArray *generalArray = [NSMutableArray array];
+    NSMutableArray *protectedArray = [NSMutableArray array];
+    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_saveStateDirectory error:nil];
+    
+    for (NSString *filename in contents)
+    {
+        NSString *filepath = [_saveStateDirectory stringByAppendingPathComponent:filename];
+        
+        if ([[filename lowercaseString] isEqualToString:@"autosave.sgm"])
+        {
+            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:nil];
+            [autosaveArray addObject:@{@"name": [filename stringByDeletingPathExtension],
+                                       @"filepath": filepath,
+                                       @"date": [attributes fileModificationDate],
+                                       @"creationDate": [attributes fileCreationDate],
+                                       @"protected": @YES,
+                                       @"renamed": @NO}];
+            continue;
+        }
+        
+        // Title may have dashes, so can't use this
+        // NSArray *components = [filename componentsSeparatedByString:@"-"];
+        
+        NSUInteger stringLength = [filename length];
+        
+        if (stringLength < 35)
+        {
+            continue;
+        }
+        
+        // Example filename: 41 chars
+        // name - modified date - creation date - general/protected
+        // hello-yyyyMMddHHmmss-yyyyMMddHHmmss-P.sgm
+        
+        NSString *name = @"";
+        
+        // If filename has exactly 35 characters, it has no name, and the dash between the name and modified date isn't there
+        if (stringLength > 35)
+        {
+            name = [filename stringByReplacingCharactersInRange:NSMakeRange(stringLength - 36, 36) withString:@""];
+        }
+        
+        NSString *dateString = [filename substringWithRange:NSMakeRange(stringLength - 35, 14)];
+        NSDate *modifiedDate = [self.dateFormatter dateFromString:dateString];
+        
+        dateString = [filename substringWithRange:NSMakeRange(stringLength - 20, 14)];
+        NSDate *creationDate = [self.dateFormatter dateFromString:dateString];
+        
+        BOOL renamed = ([name length] > 0);
+        
+        NSString *saveStateTypeString = [[filename substringWithRange:NSMakeRange(stringLength - 5, 1)] uppercaseString];
+        
+        NSMutableDictionary *dictionary = [@{@"name": name,
+                                             @"filepath": filepath,
+                                             @"date": modifiedDate,
+                                             @"creationDate": creationDate,
+                                             @"renamed": @(renamed)} mutableCopy];
+        
+        if ([saveStateTypeString isEqualToString:@"G"])
+        {
+            dictionary[@"protected"] = @NO;
+            
+            DLog(@"DICTIONARY: %@", dictionary);
+            
+            [generalArray addObject:dictionary];
+        }
+        else if ([saveStateTypeString isEqualToString:@"P"])
+        {
+            dictionary[@"protected"] = @YES;
+            [protectedArray addObject:dictionary];
+        }
+    }
+    
+    NSComparisonResult (^comparatorBlock)(id a, id b) = ^(NSDictionary *a, NSDictionary *b) {
+        NSDate *firstDate = a[@"creationDate"];
+        NSDate *secondDate = b[@"creationDate"];
+        
+        return [firstDate compare:secondDate];
+    };
+    
+    [generalArray sortedArrayUsingComparator:comparatorBlock];
+    [protectedArray sortedArrayUsingComparator:comparatorBlock];
+    
+    [saveStateArray addObject:autosaveArray];
+    [saveStateArray addObject:generalArray];
+    [saveStateArray addObject:protectedArray];
+        
+    self.saveStateArray = saveStateArray;
+}
+
 
 #pragma mark - Renaming / Protecting
 
@@ -336,12 +391,18 @@
     NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
     NSMutableDictionary *dictionary = [array[indexPath.row] mutableCopy];
     
+    NSString *originalFilepath = dictionary[@"filepath"];
+    
     dictionary[@"name"] = name;
     dictionary[@"renamed"] = @YES;
+    
+    NSString *filepath = [self filepathForSaveStateDictionary:dictionary];
+    dictionary[@"filepath"] = filepath;
+    
     array[indexPath.row] = dictionary;
     self.saveStateArray[indexPath.section] = array;
     
-    [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
+    [[NSFileManager defaultManager] moveItemAtPath:originalFilepath toPath:filepath error:nil];
     
     [self.tableView reloadData];
 }
@@ -371,7 +432,11 @@
     
     NSMutableArray *destinationArray = [self.saveStateArray[newSection] mutableCopy];
     
+    NSString *originalFilepath = dictionary[@"filepath"];
+    
     dictionary[@"protected"] = @(saveStateProtected);
+    
+    NSString *filepath = [self filepathForSaveStateDictionary:dictionary];
     
     [previousArray removeObjectAtIndex:indexPath.row];
     [destinationArray addObject:dictionary];
@@ -379,7 +444,7 @@
     self.saveStateArray[indexPath.section] = previousArray;
     self.saveStateArray[newSection] = destinationArray;
     
-    [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
+    [[NSFileManager defaultManager] moveItemAtPath:originalFilepath toPath:filepath error:nil];
     
     [self.tableView reloadData];
 }
@@ -462,7 +527,19 @@
     
     NSArray *array = self.saveStateArray[indexPath.section];
     NSDictionary *dictionary = array[indexPath.row];
-    cell.textLabel.text = dictionary[@"name"];
+    
+    NSString *name = nil;
+    
+    if ([dictionary[@"renamed"] boolValue])
+    {
+        name = dictionary[@"name"];
+    }
+    else
+    {
+        name = [self.readableDateFormatter stringFromDate:dictionary[@"date"]];
+    }
+    
+    cell.textLabel.text = name;
     
     [self themeTableViewCell:cell];
     
@@ -522,15 +599,13 @@
                 NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
                 NSDictionary *dictionary = array[indexPath.row];
                 
-                [[NSFileManager defaultManager] removeItemAtPath:[self.saveStateDirectory stringByAppendingPathComponent:dictionary[@"filename"]] error:nil];
+                [[NSFileManager defaultManager] removeItemAtPath:dictionary[@"filepath"] error:nil];
                 [array removeObjectAtIndex:indexPath.row];
                 
                 self.saveStateArray[indexPath.section] = array;
-                [self.saveStateArray writeToFile:INFO_PLIST_PATH atomically:YES];
                 
                 // Delete the row from the data source
                 [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
-                
                 
             }
             
@@ -569,6 +644,39 @@
     }
 }
 
+#pragma mark - Helped Methods
+
+- (NSString *)filepathForSaveStateDictionary:(NSDictionary *)dictionary
+{
+    NSString *name = dictionary[@"name"];
+    NSString *modifiedDateString = [self.dateFormatter stringFromDate:dictionary[@"date"]];
+    NSString *creationDateString = [self.dateFormatter stringFromDate:dictionary[@"creationDate"]];
+    
+    NSString *saveStateTypeString = nil;
+    
+    if ([dictionary[@"protected"] boolValue])
+    {
+        saveStateTypeString = @"P";
+    }
+    else
+    {
+        saveStateTypeString = @"G";
+    }
+    
+    if (name == nil)
+    {
+        name = @"";
+    }
+    
+    NSString *filename = [NSString stringWithFormat:@"%@-%@-%@.sgm", modifiedDateString, creationDateString, saveStateTypeString];
+    
+    if ([name length] > 0)
+    {
+        filename = [NSString stringWithFormat:@"%@-%@", name, filename];
+    }
+    
+    return [self.saveStateDirectory stringByAppendingPathComponent:filename];
+}
 
 #pragma mark - Getters / Setters
 
@@ -579,6 +687,27 @@
     [self updateTheme];
 }
 
+- (NSDateFormatter *)dateFormatter
+{
+    if (_dateFormatter == nil)
+    {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    }
+    
+    return _dateFormatter;
+}
 
+- (NSDateFormatter *)readableDateFormatter
+{
+    if (_readableDateFormatter == nil)
+    {
+        _readableDateFormatter = [[NSDateFormatter alloc] init];
+        [_readableDateFormatter setTimeStyle:NSDateFormatterShortStyle];
+        [_readableDateFormatter setDateStyle:NSDateFormatterLongStyle];
+    }
+    
+    return _readableDateFormatter;
+}
 
 @end
