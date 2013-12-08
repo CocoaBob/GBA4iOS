@@ -16,6 +16,8 @@ extern NSString *const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification
 extern NSString *const GBAUpdatedDeviceUploadHistoryNotification;
 
 typedef void (^GBASyncCompletionBlock)(NSString *localPath, DBMetadata *metadata, NSError *error);
+typedef void (^GBASyncRenameCompletionBlock)(NSString *originalDropboxPath, DBMetadata *destinationMetadata, NSError *error);
+typedef void (^GBASyncDeleteCompletionBlock)(NSString *dropboxPath, NSError *error);
 
 @interface GBASyncManager : NSObject
 
@@ -35,6 +37,9 @@ typedef void (^GBASyncCompletionBlock)(NSString *localPath, DBMetadata *metadata
 - (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
 - (void)downloadFileToPath:(NSString *)localPath fromDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock;
 - (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
+
+- (void)renameFileAtDropboxPath:(NSString *)dropboxPath toNewFilename:(NSString *)filename completionBlock:(GBASyncRenameCompletionBlock)completionBlock;
+- (void)deleteFileAtDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncDeleteCompletionBlock)completionBlock;
 
 - (BOOL)hasPendingDownloadForROM:(GBAROM *)rom;
 

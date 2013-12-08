@@ -11,10 +11,13 @@
 #import "GBASyncManager.h"
 #import "GBASyncUploadOperation.h"
 #import "GBASyncDownloadOperation.h"
+#import "GBASyncDeleteOperation.h"
+#import "GBASyncRenameOperation.h"
 
 extern NSString * const GBASyncLocalPathKey;
 extern NSString * const GBASyncDropboxPathKey;
 extern NSString * const GBASyncMetadataKey;
+extern NSString * const GBASyncDestinationPathKey;
 
 @interface GBASyncManager ()
 
@@ -25,17 +28,21 @@ extern NSString * const GBASyncMetadataKey;
 
 @property (strong, atomic) NSMutableDictionary *pendingUploads; // Uses local filepath as keys
 @property (strong, atomic) NSMutableDictionary *pendingDownloads; // Uses remote filepath as keys
-@property (strong, atomic) NSMutableDictionary *currentUploads; // Uses local filepaths
-@property (strong, atomic) NSMutableDictionary *currentDownloads; // Uses remote filepaths
+@property (strong, atomic) NSMutableDictionary *pendingDeletions; // Uses remote filepath as keys
+@property (strong, atomic) NSMutableDictionary *pendingRenamings; // Uses remote filepath as keys
 
 - (void)cacheUploadOperation:(GBASyncUploadOperation *)uploadOperation;
 - (void)cacheDownloadOperation:(GBASyncDownloadOperation *)downloadOperation;
+- (void)cacheDeleteOperation:(GBASyncDeleteOperation *)deleteOperation;
+- (void)cacheRenameOperation:(GBASyncRenameOperation *)renameOperation;
 
 // Filepaths
 + (NSString *)dropboxSyncDirectoryPath;
 + (NSString *)dropboxFilesPath;
 + (NSString *)pendingUploadsPath;
 + (NSString *)pendingDownloadsPath;
++ (NSString *)pendingDeletionsPath;
++ (NSString *)pendingRenamingsPath;
 + (NSString *)conflictedROMsPath;
 + (NSString *)syncingDisabledROMsPath;
 + (NSString *)currentDeviceUploadHistoryPath;

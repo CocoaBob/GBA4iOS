@@ -75,31 +75,4 @@
     return dictionary;
 }
 
-#pragma mark - NSCoding
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:self.localPath forKey:@"localPath"];
-    [aCoder encodeObject:self.dropboxPath forKey:@"dropboxPath"];
-    [aCoder encodeObject:self.metadata forKey:@"metadata"];
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    NSString *localPath = [aDecoder decodeObjectForKey:@"localPath"];
-    NSString *dropboxPath = [aDecoder decodeObjectForKey:@"dropboxPath"];
-    DBMetadata *metadata = [aDecoder decodeObjectForKey:@"metadata"];
-        
-    if (metadata)
-    {
-        self = [self initWithLocalPath:localPath metadata:metadata];
-    }
-    else
-    {
-        self = [self initWithLocalPath:localPath dropboxPath:dropboxPath];
-    }
-        
-    return self;
-}
-
 @end

@@ -1,3 +1,5 @@
+#After renaming:
+
 Disabled ROMs from syncing
 Syncing ROMs
 Conflicted ROMs
@@ -7,6 +9,5 @@ Prepared-for-upload files
 
 ## Block users entering ROM when it's a) downloading new data or b) NO ROM LOADED
 
-DELETING ROMs
-
+#DELETING ROMs
 remove from non-syncing list

@@ -11,7 +11,7 @@
 
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface GBASyncFileOperation : GBASyncOperation <NSCoding>
+@interface GBASyncFileOperation : GBASyncOperation
 
 @property (readonly, copy, nonatomic) NSString *localPath;
 @property (readonly, copy, nonatomic) NSString *dropboxPath;
