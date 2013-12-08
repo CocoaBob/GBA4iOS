@@ -21,6 +21,12 @@
 		BF16DCF7184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF5184FD3430092A3F5 /* GBASyncDownloadOperation.mm */; };
 		BF1C87FB185193B100C72E1C /* FileSHA1Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */; };
 		BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */; };
+		BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
+		BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
+		BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */; };
+		BF2AC88318543246008928D0 /* DTObjectBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */; };
+		BF2AC88418543246008928D0 /* NSObject+DTRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88118543246008928D0 /* NSObject+DTRuntime.m */; };
+		BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88118543246008928D0 /* NSObject+DTRuntime.m */; };
 		BF2F34E1183FF6F9002ACE90 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
 		BF2F34E2183FF6F9002ACE90 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
 		BF2F34E9183FF6F9002ACE90 /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
@@ -385,6 +391,12 @@
 		BF16DCF5184FD3430092A3F5 /* GBASyncDownloadOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncDownloadOperation.mm; sourceTree = "<group>"; };
 		BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileSHA1Hash.c; sourceTree = "<group>"; };
 		BF1C87FA185193B100C72E1C /* FileSHA1Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSHA1Hash.h; sourceTree = "<group>"; };
+		BF2AC87A185431B5008928D0 /* UIView+DTDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DTDebug.h"; sourceTree = "<group>"; };
+		BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DTDebug.m"; sourceTree = "<group>"; };
+		BF2AC87E18543246008928D0 /* DTObjectBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTObjectBlockExecutor.h; sourceTree = "<group>"; };
+		BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTObjectBlockExecutor.m; sourceTree = "<group>"; };
+		BF2AC88018543246008928D0 /* NSObject+DTRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DTRuntime.h"; sourceTree = "<group>"; };
+		BF2AC88118543246008928D0 /* NSObject+DTRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DTRuntime.m"; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GBA4iOS copy-Info.plist"; path = "/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		BF3E2BB118206D54004231F6 /* UIActionSheet+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIActionSheet+RSTAdditions.h"; path = "Cocoapods/UIActionSheet+RSTAdditions.h"; sourceTree = "<group>"; };
@@ -809,6 +821,19 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		BF2AC8861854324B008928D0 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				BF2AC87E18543246008928D0 /* DTObjectBlockExecutor.h */,
+				BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */,
+				BF2AC88018543246008928D0 /* NSObject+DTRuntime.h */,
+				BF2AC88118543246008928D0 /* NSObject+DTRuntime.m */,
+				BF2AC87A185431B5008928D0 /* UIView+DTDebug.h */,
+				BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */,
+			);
+			name = Debug;
+			sourceTree = "<group>";
+		};
 		BF563AB4184B11C000722678 /* Launch Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -1065,6 +1090,7 @@
 				CC2D57111798F2EC00C616EB /* Main.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */,
+				BF2AC8861854324B008928D0 /* Debug */,
 				BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */,
 				CC6D0A98180746D7001D089A /* Custom UIViewController Transitions */,
 				CCBF363017F27CD500704A5B /* Sharing */,
@@ -1687,6 +1713,7 @@
 				BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */,
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
 				BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */,
+				BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */,
 				BF2F352D183FF6F9002ACE90 /* UIScreen+Widescreen.m in Sources */,
 				BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */,
 				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */,
@@ -1722,6 +1749,7 @@
 				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				BF2F3585183FF6F9002ACE90 /* AFHTTPSessionManager.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
+				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
 				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
 				BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.mm in Sources */,
@@ -1730,6 +1758,7 @@
 				BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.mm in Sources */,
 				BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */,
 				BF2F35B0183FF6F9002ACE90 /* AFSecurityPolicy.m in Sources */,
+				BF2AC88318543246008928D0 /* DTObjectBlockExecutor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1857,6 +1886,7 @@
 				CC5044EA1814DC69009F7B9E /* EmuControls.cc in Sources */,
 				CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */,
 				CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */,
+				BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
@@ -1881,6 +1911,7 @@
 				CC5044F21814DC69009F7B9E /* GBA-arm.cpp in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
 				CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */,
+				BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */,
 				CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */,
 				CC5045121814DC69009F7B9E /* Zlib_Inflater.cpp in Sources */,
 				BF3E2C1618206F15004231F6 /* UIButton+AFNetworking.m in Sources */,
@@ -1913,6 +1944,7 @@
 				BF3E2C0218206F15004231F6 /* AFHTTPSessionManager.m in Sources */,
 				BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
+				BF2AC88418543246008928D0 /* NSObject+DTRuntime.m in Sources */,
 				BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */,
 				CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */,
 				CC5044FC1814DC69009F7B9E /* Mode5.cpp in Sources */,

@@ -91,6 +91,7 @@ NSString * const GBASyncMetadataKey = @"metadata";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dropboxLoggedOut:) name:GBADropboxLoggedOutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatedDeviceUploadHistory:) name:GBAUpdatedDeviceUploadHistoryNotification object:nil];
     
     _multipleFilesOperationQueue = ({
         NSOperationQueue *operationQueue = [[NSOperationQueue alloc] init];
@@ -185,40 +186,18 @@ NSString * const GBASyncMetadataKey = @"metadata";
 - (void)uploadFileAtPath:(NSString *)localPath toDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock
 {
     GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath dropboxPath:dropboxPath];
+    [self configureAndCacheUploadOperation:uploadOperation withCompletionBlock:completionBlock];
     
-    __weak GBASyncOperation *weakOperation = uploadOperation;
-    uploadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
-        NSString *message = nil;
-        
-        if (error)
-        {
-            message = NSLocalizedString(@"Upload Failed", @"");
-        }
-        else
-        {
-            message = NSLocalizedString(@"Upload Complete!", @"");
-        }
-        
-        [self showFinishedToastViewWithMessage:message forSyncOperation:weakOperation];
-        
-        if (completionBlock)
-        {
-            completionBlock(localPath, metadata, error);
-        }
-    };
-    uploadOperation.updatesDeviceUploadHistoryUponCompletion = YES;
-    [self.singleFileOperationQueue addOperation:uploadOperation];
-    
-    [self cacheUploadOperation:uploadOperation];
-    
-    [self.pendingDownloads removeObjectForKey:dropboxPath];
-    [NSKeyedArchiver archiveRootObject:self.pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
 }
 
 - (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
 {
     GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath metadata:metadata];
-    
+    [self configureAndCacheUploadOperation:uploadOperation withCompletionBlock:completionBlock];
+}
+
+- (void)configureAndCacheUploadOperation:(GBASyncUploadOperation *)uploadOperation withCompletionBlock:(GBASyncCompletionBlock)completionBlock
+{
     __weak GBASyncOperation *weakOperation = uploadOperation;
     uploadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
         NSString *message = nil;
@@ -245,47 +224,32 @@ NSString * const GBASyncMetadataKey = @"metadata";
     
     [self cacheUploadOperation:uploadOperation];
     
-    [self.pendingDownloads removeObjectForKey:metadata.path];
+    if (uploadOperation.metadata)
+    {
+        [self.pendingDownloads removeObjectForKey:uploadOperation.metadata.path];
+    }
+    else
+    {
+        [self.pendingDownloads removeObjectForKey:uploadOperation.dropboxPath];
+    }
+    
     [NSKeyedArchiver archiveRootObject:self.pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
 }
 
 - (void)downloadFileToPath:(NSString *)localPath fromDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock
 {
     GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath dropboxPath:dropboxPath];
-    
-    __weak GBASyncOperation *weakOperation = downloadOperation;
-    downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
-        NSString *message = nil;
-        
-        if (error)
-        {
-            message = NSLocalizedString(@"Download Failed", @"");
-        }
-        else
-        {
-            message = NSLocalizedString(@"Download Complete!", @"");
-        }
-        
-        [self showFinishedToastViewWithMessage:message forSyncOperation:weakOperation];
-        
-        if (completionBlock)
-        {
-            completionBlock(localPath, metadata, error);
-        }
-    };
-    downloadOperation.delegate = self;
-    [self.singleFileOperationQueue addOperation:downloadOperation];
-    
-    [self cacheDownloadOperation:downloadOperation];
-    
-    [self.pendingUploads removeObjectForKey:localPath];
-    [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+    [self configureAndCacheDownloadOperation:downloadOperation withCompletionBlock:completionBlock];
 }
 
 - (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
 {
     GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath metadata:metadata];
-    
+    [self configureAndCacheDownloadOperation:downloadOperation withCompletionBlock:completionBlock];
+}
+
+- (void)configureAndCacheDownloadOperation:(GBASyncDownloadOperation *)downloadOperation withCompletionBlock:(GBASyncCompletionBlock)completionBlock
+{
     __weak GBASyncOperation *weakOperation = downloadOperation;
     downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
         NSString *message = nil;
@@ -311,7 +275,7 @@ NSString * const GBASyncMetadataKey = @"metadata";
     
     [self cacheDownloadOperation:downloadOperation];
     
-    [self.pendingUploads removeObjectForKey:localPath];
+    [self.pendingUploads removeObjectForKey:downloadOperation.localPath];
     [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
 }
 
@@ -390,11 +354,36 @@ NSString * const GBASyncMetadataKey = @"metadata";
 - (void)romConflictedStateDidChange:(NSNotification *)notification
 {
     self.conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager conflictedROMsPath]]];
+    
+    if (self.conflictedROMs == nil)
+    {
+        self.conflictedROMs = [NSMutableSet set];
+    }
 }
 
 - (void)romSyncingDisabledStateDidChange:(NSNotification *)notification
 {
     self.syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager syncingDisabledROMsPath]]];
+    
+    if (self.syncingDisabledROMs == nil)
+    {
+        self.syncingDisabledROMs = [NSMutableSet set];
+    }
+}
+
+- (void)updatedDeviceUploadHistory:(NSNotification *)notification
+{
+    NSString *dropboxPath = [notification object];
+    
+    if ([[[dropboxPath lastPathComponent] stringByDeletingPathExtension] isEqualToString:[[UIDevice currentDevice] name]])
+    {
+        self.deviceUploadHistory = [NSMutableDictionary dictionaryWithContentsOfFile:[GBASyncManager currentDeviceUploadHistoryPath]];
+        
+        if (self.deviceUploadHistory == nil)
+        {
+            self.deviceUploadHistory = [NSMutableDictionary dictionary];
+        }
+    }
 }
 
 - (void)dropboxLoggedOut:(NSNotification *)notification

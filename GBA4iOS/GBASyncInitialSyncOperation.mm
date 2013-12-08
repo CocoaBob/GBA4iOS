@@ -35,14 +35,13 @@
         DLog(@"Received Delta Entries");
         
         NSDictionary *newDropboxFiles = [self validDropboxFilesFromDeltaEntries:entries];
-        NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         
         [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
             [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
-            dropboxFiles[key] = metadata;
         }];
         
-        [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
+        [[GBASyncManager sharedManager] setDropboxFiles:[newDropboxFiles mutableCopy]];
+        [NSKeyedArchiver archiveRootObject:newDropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
         
         [self prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:YES];
         
@@ -64,8 +63,10 @@
         DLog(@"Delta Failed :(");
         
         // Create a new toast view so it animates on top of the old one
-        self.toastView = [RSTToastView toastViewWithMessage:nil];
-        [self showToastViewWithMessage:NSLocalizedString(@"Failed to sync with Dropbox", @"") forDuration:2.0 showActivityIndicator:NO];
+        rst_dispatch_sync_on_main_thread(^{
+            self.toastView = [RSTToastView toastViewWithMessage:nil];
+            [self showToastViewWithMessage:NSLocalizedString(@"Failed to sync with Dropbox", @"") forDuration:2.0 showActivityIndicator:NO];
+        });
         
         // Don't call finish sync, as it displays a different message
         [self finish];
@@ -83,8 +84,10 @@
     DLog(@"Finished initial sync!");
     
     // Create a new toast view so it animates on top of the old one
-    self.toastView = [RSTToastView toastViewWithMessage:nil];
-    [self showToastViewWithMessage:NSLocalizedString(@"Sync Complete!", @"") forDuration:1.0 showActivityIndicator:NO];
+    rst_dispatch_sync_on_main_thread(^{
+        self.toastView = [RSTToastView toastViewWithMessage:nil];
+        [self showToastViewWithMessage:NSLocalizedString(@"Sync Complete!", @"") forDuration:1.0 showActivityIndicator:NO];
+    });
     
     [super finishSync];
 }

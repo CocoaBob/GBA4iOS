@@ -44,15 +44,15 @@
         DLog(@"Received Delta Entries: %@", entries);
         
         NSDictionary *newDropboxFiles = [self validDropboxFilesFromDeltaEntries:entries];
-        NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-        
         [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
             [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
-            
-            dropboxFiles[key] = metadata;
         }];
         
-        [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
+        // Keep cached dropbox files and new dropbox files separate for now, since we use both separately to when actually downloading a file to determine whether a file is conflicted or not
+        NSDictionary *cachedDropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
+        [cachedDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
+            [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
+        }];
         
         [self prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:NO];
         
@@ -70,8 +70,11 @@
         DLog(@"Delta Failed :(");
         
         // Create a new toast view so it animates on top of the old one
-        self.toastView = [RSTToastView toastViewWithMessage:nil];
-        [self showToastViewWithMessage:NSLocalizedString(@"Failed to sync with Dropbox", @"") forDuration:2.0 showActivityIndicator:NO];
+        rst_dispatch_sync_on_main_thread(^{
+            self.toastView = [RSTToastView toastViewWithMessage:nil];
+            [self showToastViewWithMessage:NSLocalizedString(@"Failed to sync with Dropbox", @"") forDuration:2.0 showActivityIndicator:NO];
+        });
+        
         
         // Don't call finish sync, as it displays a different message
         [self finish];
@@ -85,8 +88,10 @@
     DLog(@"Finished sync!");
     
     // Create a new toast view so it animates on top of the old one
-    self.toastView = [RSTToastView toastViewWithMessage:nil];
-    [self showToastViewWithMessage:NSLocalizedString(@"Sync Complete!", @"") forDuration:1.0 showActivityIndicator:NO];
+    rst_dispatch_sync_on_main_thread(^{
+        self.toastView = [RSTToastView toastViewWithMessage:nil];
+        [self showToastViewWithMessage:NSLocalizedString(@"Sync Complete!", @"") forDuration:1.0 showActivityIndicator:NO];
+    });
     
     [super finishSync];
 }

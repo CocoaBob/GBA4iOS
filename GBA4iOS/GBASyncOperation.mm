@@ -34,7 +34,9 @@
     
     _ugh_dropbox_requiring_main_thread_dispatch_queue = dispatch_queue_create("com.GBA4iOS.ugh_dropbox_requiring_main_thread_dispatch_queue", DISPATCH_QUEUE_CONCURRENT);
     
-    _toastView = [RSTToastView toastViewWithMessage:nil];
+    rst_dispatch_sync_on_main_thread(^{
+        _toastView = [RSTToastView toastViewWithMessage:nil];
+    });
     
     return self;
 }

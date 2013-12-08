@@ -16,6 +16,8 @@
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <DropboxSDK/DropboxSDK.h>
 
+#import "UIView+DTDebug.h"
+
 #if !(TARGET_IPHONE_SIMULATOR)
 #import <Crashlytics/Crashlytics.h>
 #endif
@@ -24,6 +26,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [UIView toggleViewMainThreadChecking];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.tintColor = GBA4iOS_PURPLE_COLOR;

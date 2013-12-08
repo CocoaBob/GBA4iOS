@@ -59,7 +59,11 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         return;
     }
     
-    RSTToastView *downloadingProgressToastView = [RSTToastView toastViewWithMessage:nil];
+    __block RSTToastView *downloadingProgressToastView = nil;
+    
+    rst_dispatch_sync_on_main_thread(^{
+        downloadingProgressToastView = [RSTToastView toastViewWithMessage:nil];
+    });
         
     [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadOperationDictionary, BOOL *stop) {
         
@@ -149,9 +153,30 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     [self uploadFiles];
 }
 
-- (void)checkForMissingLocalFiles
+- (void)prepareToDownloadFilesMissingFromLocalFiles
 {
+    NSDictionary *dropboxFiles = [[[GBASyncManager sharedManager] dropboxFiles] copy];
     
+    [dropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
+        if ([metadata.path.pathExtension isEqualToString:@"sav"])
+        {
+            NSString *romName = [GBASyncManager romNameFromDropboxPath:metadata.path];
+            GBAROM *rom = [GBAROM romWithName:romName];
+            
+            if (rom == nil)
+            {
+                return;
+            }
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath isDirectory:nil])
+            {
+                return;
+            }
+            
+            GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:rom.saveFileFilepath dropboxPath:metadata.path];
+            [[GBASyncManager sharedManager] cacheDownloadOperation:downloadOperation];
+        }
+    }];
 }
 
 - (void)prepareToDownloadFileWithMetadataIfNeeded:(DBMetadata *)metadata
@@ -161,20 +186,8 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     NSString *localPath = nil;
     
-    // File is the same, don't need to redownload
-    if ([metadata.rev isEqualToString:cachedMetadata.rev])
-    {
-        return;
-    }
-    
     NSString *romName = [GBASyncManager romNameFromDropboxPath:metadata.path];
     NSString *uniqueName = [GBASyncManager uniqueROMNameFromDropboxPath:metadata.path];
-        
-    if (romName == nil && ![uniqueName isEqualToString:@"Upload History"]) // ROM doesn't exist on device
-    {
-        // Logs warning in [self uniqueROMNameFromDropboxPath:]
-        return;
-    }
     
     // ROM SAV files
     if ([[[metadata.path pathExtension] lowercaseString] isEqualToString:@"sav"])
@@ -192,6 +205,18 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     else if ([uniqueName isEqualToString:@"Upload History"] && [[[metadata.path pathExtension] lowercaseString] isEqualToString:@"plist"])
     {
         localPath = [[[GBASyncManager currentDeviceUploadHistoryPath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:metadata.filename];
+    }
+    
+    if (romName == nil && ![uniqueName isEqualToString:@"Upload History"]) // ROM doesn't exist on device
+    {
+        // Logs warning in [self uniqueROMNameFromDropboxPath:]
+        return;
+    }
+    
+    // File is the same, and it exists, so no need to redownload
+    if ([metadata.rev isEqualToString:cachedMetadata.rev] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
+    {
+        return;
     }
     
     // Use dropbox path because we want the latest version possible, and supplying metadata locks it to a certain revision
@@ -218,7 +243,11 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     DLog(@"%@", syncingDisabledROMs);
     
-    RSTToastView *uploadingProgressToastView = [RSTToastView toastViewWithMessage:nil];
+    __block RSTToastView *uploadingProgressToastView = nil;
+    
+    rst_dispatch_sync_on_main_thread(^{
+        uploadingProgressToastView = [RSTToastView toastViewWithMessage:nil];
+    });
     
     __block NSMutableArray *filteredOperations = [NSMutableArray array];
     
