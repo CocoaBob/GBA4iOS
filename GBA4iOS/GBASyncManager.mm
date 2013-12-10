@@ -803,7 +803,12 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 {
     NSArray *pathComponents = [dropboxPath pathComponents];
     
-    if ([pathComponents count] < 4)
+    if ([pathComponents count] < 2)
+    {
+        return nil;
+    }
+    
+    if ([pathComponents count] < 4 && ![pathComponents[1] isEqualToString:@"Upload History"])
     {
         return nil;
     }

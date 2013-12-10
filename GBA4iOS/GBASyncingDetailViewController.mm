@@ -251,6 +251,8 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self uploadHistoryDirectoryPath] error:nil];
     for (NSString *filename in contents)
     {
+        DLog(@"Filename: %@", filename);
+        
         if (![[filename pathExtension] isEqualToString:@"plist"])
         {
             continue;
@@ -313,8 +315,6 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     {
         [self.tableView reloadData];
     }
-    
-    DLog(@"Remote Saves: %@", self.remoteSaves);
 }
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error
@@ -323,6 +323,11 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     self.loadingFiles = NO;
     
     self.syncingEnabledSwitch.enabled = NO;
+    
+    if (_selectedSaveIndexPath.section == 3)
+    {
+        _selectedSaveIndexPath = nil;
+    }
     
     if ([self.tableView numberOfSections] >= 2)
     {

@@ -116,6 +116,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     self.downloadProgressView = progressView;
+
     
     //NSFileManager *fileManager = [NSFileManager defaultManager];
     //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
@@ -997,11 +998,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.uniqueName];
     NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
     
-    NSString *cheatsFilename = [NSString stringWithFormat:@"%@.plist", romName];
-    
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] error:nil];
-    [[NSFileManager defaultManager] removeItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[saveStateDirectory stringByAppendingPathComponent:rom.uniqueName] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:cheatsDirectory error:nil];
     
     [self deleteFileAtIndexPath:indexPath animated:YES];
@@ -1021,14 +1020,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
     NSString *newSaveFile = [NSString stringWithFormat:@"%@.sav", newName];
     
-    NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
-    
-    NSString *cheatsFilename = [NSString stringWithFormat:@"%@.plist", romName];
-    NSString *newCheatsFilename = [NSString stringWithFormat:@"%@.plist", newName];
-    
     [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:newRomFilename] error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] error:nil];
-    [[NSFileManager defaultManager] moveItemAtPath:[saveStateDirectory stringByAppendingPathComponent:romName] toPath:[saveStateDirectory stringByAppendingPathComponent:newName] error:nil];
 }
 
 - (void)shareROMAtIndexPath:(NSIndexPath *)indexPath

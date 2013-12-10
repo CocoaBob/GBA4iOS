@@ -12,6 +12,7 @@
 #import "GBAControllerSkin.h"
 #import "GBAROM.h"
 #import "GBASplitViewController.h"
+#import "UIAlertView+RSTAdditions.h"
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <DropboxSDK/DropboxSDK.h>
@@ -26,6 +27,37 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#warning TEMPORARY BETA MIGRATION
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"updatedToLatestDropboxBeta"])
+    {
+        NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+        NSString *dropboxDirectory = [libraryDirectory stringByAppendingPathComponent:@"Dropbox Sync"];
+        
+        [[NSFileManager defaultManager] createDirectoryAtPath:dropboxDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        [[NSFileManager defaultManager] removeItemAtPath:dropboxDirectory error:nil];
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"initialSync"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newlyConflictedROMs"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"dropboxDisplayName"];
+        
+        [[DBSession sharedSession] unlinkAll];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"updatedToLatestDropboxBeta"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"GBA4iOS Will Close" message:@"GBA4iOS has finished modifying itself to work with the new Dropbox syncing. Now, it will close so when you open it next, it'll work as intended." delegate:nil cancelButtonTitle:@"Close!" otherButtonTitles:nil];
+            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                abort();
+            }];
+        });
+    }
+    
     [UIView toggleViewMainThreadChecking];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

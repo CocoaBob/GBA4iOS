@@ -263,7 +263,12 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     NSArray *pathComponents = [metadata.path pathComponents];
     
-    if ([pathComponents count] < 4)
+    if ([pathComponents count] < 2)
+    {
+        return;
+    }
+    
+    if ([pathComponents count] < 4 && ![pathComponents[1] isEqualToString:@"Upload History"])
     {
         return;
     }

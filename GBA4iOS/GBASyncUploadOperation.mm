@@ -79,22 +79,26 @@
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         [dropboxFiles setObject:metadata forKey:metadata.path];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
-                
-        // Upload History
-        NSMutableDictionary *uploadHistory = [[GBASyncManager sharedManager] deviceUploadHistory];
-        NSString *uniqueName = [GBASyncManager uniqueROMNameFromDropboxPath:dropboxPath];
         
-        NSMutableDictionary *romDictionary = [uploadHistory[uniqueName] mutableCopy];
-        
-        if (romDictionary == nil)
+        // Only update upload histrory for save files - we only ever use it for this, and keeps the file small
+        if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"])
         {
-            romDictionary = [NSMutableDictionary dictionary];
+            // Upload History
+            NSMutableDictionary *uploadHistory = [[GBASyncManager sharedManager] deviceUploadHistory];
+            NSString *uniqueName = [GBASyncManager uniqueROMNameFromDropboxPath:dropboxPath];
+            
+            NSMutableDictionary *romDictionary = [uploadHistory[uniqueName] mutableCopy];
+            
+            if (romDictionary == nil)
+            {
+                romDictionary = [NSMutableDictionary dictionary];
+            }
+            
+            romDictionary[metadata.path] = metadata.rev;
+            uploadHistory[uniqueName] = romDictionary;
+            
+            [uploadHistory writeToFile:[GBASyncManager currentDeviceUploadHistoryPath] atomically:YES];
         }
-        
-        romDictionary[metadata.path] = metadata.rev;
-        uploadHistory[uniqueName] = romDictionary;
-        
-        [uploadHistory writeToFile:[GBASyncManager currentDeviceUploadHistoryPath] atomically:YES];
         
         // Actual location doesn't match intended location
         if (![dropboxPath.lowercaseString isEqualToString:[metadata.path lowercaseString]])
