@@ -64,7 +64,7 @@
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)dropboxPath from:(NSString *)localPath metadata:(DBMetadata *)metadata
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", localPath, dropboxPath, metadata.rev);
+        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], dropboxPath, metadata.rev);
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
         NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};

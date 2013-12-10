@@ -8,6 +8,7 @@
 
 #import "GBASaveStateViewController.h"
 #import "GBASaveStateTableViewCell.h"
+#import "GBASyncManager.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -18,7 +19,7 @@
 
 @interface GBASaveStateViewController ()
 
-@property (copy, nonatomic) NSString *saveStateDirectory;
+@property (readonly, nonatomic) NSString *saveStateDirectory;
 @property (strong, nonatomic) NSMutableArray *saveStateArray;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
@@ -29,14 +30,13 @@
 @implementation GBASaveStateViewController
 @synthesize theme = _theme;
 
-- (id)initWithSaveStateDirectory:(NSString *)directory mode:(GBASaveStateViewControllerMode)mode
+- (id)initWithROM:(GBAROM *)rom mode:(GBASaveStateViewControllerMode)mode
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self)
     {
+        _rom = rom;
         _mode = mode;
-        
-        _saveStateDirectory = [directory copy];
         
         [self updateSaveStateArray];
     }
@@ -132,9 +132,18 @@
     
     if (updatedDictionary == nil)
     {
-        updatedDictionary = [@{@"name": @"", @"creationDate": date, @"protected": @NO} mutableCopy];
+        NSDictionary *mostRecentSaveDictionary = [generalArray lastObject];
+        NSDate *mostRecentSortingDate = mostRecentSaveDictionary[@"sortingDate"];
+        
+        NSDate *sortingDate = [self sanitizedDateFromDate:date previousDate:mostRecentSortingDate];
+        
+        updatedDictionary = [@{@"name": @"", @"sortingDate": sortingDate, @"protected": @NO} mutableCopy];
     }
     
+    NSString *originalFilepath = updatedDictionary[@"filepath"];
+    
+    // Doesn't matter if date is correct or not, doesn't affect sorting
+    // Update for all save states, even if it has been renamed, so every save has a different filename; this leads to no conflicted filenames, so we have no problem parsing the names
     updatedDictionary[@"date"] = date;
     
     NSString *filepath = [self filepathForSaveStateDictionary:updatedDictionary];
@@ -164,6 +173,13 @@
     if ([self.delegate respondsToSelector:@selector(saveStateViewController:didSaveStateWithFilename:)])
     {
         [self.delegate saveStateViewController:self didSaveStateWithFilename:[filepath lastPathComponent]];
+    }
+    
+    [[GBASyncManager sharedManager] prepareToUploadSaveStateAtPath:filepath forROM:self.rom];
+    
+    if (indexPath.section > -1 && ![filepath isEqualToString:originalFilepath])
+    {
+        [[GBASyncManager sharedManager] prepareToDeleteSaveStateAtPath:originalFilepath forROM:self.rom];
     }
     
     if (indexPath.section == -1)
@@ -215,11 +231,17 @@
     NSMutableArray *generalArray = [NSMutableArray array];
     NSMutableArray *protectedArray = [NSMutableArray array];
     
-    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:_saveStateDirectory error:nil];
-    
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.saveStateDirectory error:nil];
+        
     for (NSString *filename in contents)
     {
-        NSString *filepath = [_saveStateDirectory stringByAppendingPathComponent:filename];
+        
+        if (![[filename pathExtension] isEqualToString:@"sgm"])
+        {
+            continue;
+        }
+        
+        NSString *filepath = [self.saveStateDirectory stringByAppendingPathComponent:filename];
         
         if ([[filename lowercaseString] isEqualToString:@"autosave.sgm"])
         {
@@ -227,7 +249,7 @@
             [autosaveArray addObject:@{@"name": [filename stringByDeletingPathExtension],
                                        @"filepath": filepath,
                                        @"date": [attributes fileModificationDate],
-                                       @"creationDate": [attributes fileCreationDate],
+                                       @"sortingDate": [attributes fileCreationDate],
                                        @"protected": @YES,
                                        @"renamed": @NO}];
             continue;
@@ -244,7 +266,7 @@
         }
         
         // Example filename: 41 chars
-        // name - modified date - creation date - general/protected
+        // name - modified date - sorting date (typically, but not always, creation date) - general/protected
         // hello-yyyyMMddHHmmss-yyyyMMddHHmmss-P.sgm
         
         NSString *name = @"";
@@ -259,7 +281,7 @@
         NSDate *modifiedDate = [self.dateFormatter dateFromString:dateString];
         
         dateString = [filename substringWithRange:NSMakeRange(stringLength - 20, 14)];
-        NSDate *creationDate = [self.dateFormatter dateFromString:dateString];
+        NSDate *sortingDate = [self.dateFormatter dateFromString:dateString];
         
         BOOL renamed = ([name length] > 0);
         
@@ -268,7 +290,7 @@
         NSMutableDictionary *dictionary = [@{@"name": name,
                                              @"filepath": filepath,
                                              @"date": modifiedDate,
-                                             @"creationDate": creationDate,
+                                             @"sortingDate": sortingDate,
                                              @"renamed": @(renamed)} mutableCopy];
         
         if ([saveStateTypeString isEqualToString:@"G"])
@@ -283,7 +305,7 @@
         }
     }
     
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"sortingDate" ascending:YES];
     [generalArray sortUsingDescriptors:@[descriptor]];
     [protectedArray sortUsingDescriptors:@[descriptor]];
     
@@ -396,6 +418,8 @@
     [[NSFileManager defaultManager] moveItemAtPath:originalFilepath toPath:filepath error:nil];
     
     [self.tableView reloadData];
+    
+    [[GBASyncManager sharedManager] prepareToRenameSaveStateAtPath:originalFilepath toNewName:[filepath lastPathComponent] forROM:self.rom];
 }
 
 - (void)setSaveStateProtected:(BOOL)saveStateProtected atIndexPath:(NSIndexPath *)indexPath
@@ -421,13 +445,25 @@
         newSection = 1;
     }
     
-    NSMutableArray *destinationArray = [self.saveStateArray[newSection] mutableCopy];
-    
     NSString *originalFilepath = dictionary[@"filepath"];
     
-    dictionary[@"protected"] = @(saveStateProtected);
+    NSMutableArray *destinationArray = [self.saveStateArray[newSection] mutableCopy];
     
+    DLog(@"Destination: %@", destinationArray);
+    
+    // Sorting Date
+    NSDictionary *mostRecentSaveDictionary = [destinationArray lastObject];
+    NSDate *mostRecentSortingDate = mostRecentSaveDictionary[@"sortingDate"];
+    
+    NSDate *sortingDate = [self sanitizedDateFromDate:[NSDate date] previousDate:mostRecentSortingDate];
+    
+    dictionary[@"protected"] = @(saveStateProtected);
+    dictionary[@"sortingDate"] = sortingDate;
+    
+    // Filepath
     NSString *filepath = [self filepathForSaveStateDictionary:dictionary];
+    
+    dictionary[@"filepath"] = filepath;
     
     [previousArray removeObjectAtIndex:indexPath.row];
     [destinationArray addObject:dictionary];
@@ -438,6 +474,8 @@
     [[NSFileManager defaultManager] moveItemAtPath:originalFilepath toPath:filepath error:nil];
     
     [self.tableView reloadData];
+    
+    [[GBASyncManager sharedManager] prepareToRenameSaveStateAtPath:originalFilepath toNewName:[filepath lastPathComponent] forROM:self.rom];
 }
 
 #pragma mark - UIAlertView delegate
@@ -590,6 +628,8 @@
                 NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
                 NSDictionary *dictionary = array[indexPath.row];
                 
+                NSString *filepath = dictionary[@"filepath"];
+                
                 [[NSFileManager defaultManager] removeItemAtPath:dictionary[@"filepath"] error:nil];
                 [array removeObjectAtIndex:indexPath.row];
                 
@@ -597,6 +637,8 @@
                 
                 // Delete the row from the data source
                 [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+                
+                [[GBASyncManager sharedManager] prepareToDeleteSaveStateAtPath:filepath forROM:self.rom];
                 
             }
             
@@ -641,7 +683,7 @@
 {
     NSString *name = dictionary[@"name"];
     NSString *modifiedDateString = [self.dateFormatter stringFromDate:dictionary[@"date"]];
-    NSString *creationDateString = [self.dateFormatter stringFromDate:dictionary[@"creationDate"]];
+    NSString *sortingDateString = [self.dateFormatter stringFromDate:dictionary[@"sortingDate"]];
     
     NSString *saveStateTypeString = nil;
     
@@ -659,7 +701,7 @@
         name = @"";
     }
     
-    NSString *filename = [NSString stringWithFormat:@"%@-%@-%@.sgm", modifiedDateString, creationDateString, saveStateTypeString];
+    NSString *filename = [NSString stringWithFormat:@"%@-%@-%@.sgm", modifiedDateString, sortingDateString, saveStateTypeString];
     
     if ([name length] > 0)
     {
@@ -667,6 +709,38 @@
     }
     
     return [self.saveStateDirectory stringByAppendingPathComponent:filename];
+}
+
+- (NSDate *)sanitizedDateFromDate:(NSDate *)date previousDate:(NSDate *)previousDate
+{
+    if (previousDate == nil)
+    {
+        DLog(@"Previous Date: %@", previousDate);
+        return date;
+    }
+    
+    NSDate *sanitizedDate = date;
+    
+    // If user changes the date back, we need to make sure it is still after the last date.
+    // Sure, if the user puts the clock ahead the sortingDate would be forever in the future, but the user never would know this, and it will still work as intended
+    if ([previousDate compare:date] != NSOrderedAscending)
+    {
+        sanitizedDate = [NSDate dateWithTimeInterval:18 sinceDate:previousDate];
+    }
+    
+    return sanitizedDate;
+}
+
+- (NSString *)saveStateDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:self.rom.uniqueName];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return saveStateDirectory;
 }
 
 #pragma mark - Getters / Setters

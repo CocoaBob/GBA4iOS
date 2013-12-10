@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RSTFileBrowserViewController.h"
+#import "GBAROM.h"
 
 #import "UITableViewController+Theming.h"
 
@@ -33,9 +34,9 @@ typedef NS_ENUM(NSInteger, GBASaveStateViewControllerMode)
 @interface GBASaveStateViewController : UITableViewController <GBAThemedTableViewController>
 
 @property (weak, nonatomic) id <GBASaveStateViewControllerDelegate> delegate;
-@property (readonly, copy, nonatomic) NSString *saveStateDirectory;
 @property (readonly, assign, nonatomic) GBASaveStateViewControllerMode mode;
+@property (readonly, strong, nonatomic) GBAROM *rom;
 
-- (instancetype)initWithSaveStateDirectory:(NSString *)directory mode:(GBASaveStateViewControllerMode)mode;
+- (instancetype)initWithROM:(GBAROM *)rom mode:(GBASaveStateViewControllerMode)mode;
 
 @end

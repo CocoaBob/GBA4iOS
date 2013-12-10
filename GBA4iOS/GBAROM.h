@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @property (readonly, assign, nonatomic) BOOL conflicted;
 
 + (GBAROM *)romWithName:(NSString *)name; // Looks in documents directory
++ (GBAROM *)romWithUniqueName:(NSString *)name;
 + (GBAROM *)romWithContentsOfFile:(NSString *)filepath;
 
 + (BOOL)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)name error:(NSError **)error;

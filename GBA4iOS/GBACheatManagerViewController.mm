@@ -8,6 +8,8 @@
 
 #import "GBACheatManagerViewController.h"
 #import "GBACheatManagerTableViewCell.h"
+#import "GBACheat.h"
+#import "GBASyncManager.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
@@ -28,7 +30,7 @@
     if (self)
     {
         _rom = rom;
-        [self readCheatsArrayFromDisk];
+        [self updateCheatsArray];
     }
     return self;
 }
@@ -74,47 +76,66 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    NSString *cheatsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:self.rom.uniqueName];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:cheatsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     
     return cheatsDirectory;
 }
 
-- (NSString *)cheatsArrayFilepath
+- (void)updateCheatsArray
 {
-    NSString *filename = [NSString stringWithFormat:@"%@.plist", self.rom.name];
-    return [[self cheatsDirectory] stringByAppendingPathComponent:filename];
-}
-
-- (void)readCheatsArrayFromDisk
-{
-    NSMutableArray *array = [NSMutableArray arrayWithContentsOfFile:[self cheatsArrayFilepath]];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self cheatsDirectory] error:nil];
     
-    self.cheatsArray = [NSMutableArray arrayWithCapacity:array.count];
+    NSMutableArray *cheatsArray = [NSMutableArray arrayWithCapacity:[contents count]];
     
-    @autoreleasepool
+    for (NSString *filename in contents)
     {
-        for (NSData *data in array)
+        if (![[[filename pathExtension] lastPathComponent] isEqualToString:@"gbacheat"])
         {
-            GBACheat *cheat = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [self.cheatsArray addObject:cheat];
+            continue;
         }
-    }
-}
-
-- (void)writeCheatsArrayToDisk
-{
-    NSMutableArray *array = [NSMutableArray arrayWithCapacity:self.cheatsArray.count];
-    
-    @autoreleasepool
-    {
-        for (GBACheat *cheat in [self.cheatsArray copy])
+        
+        NSString *filepath = [[self cheatsDirectory] stringByAppendingPathComponent:filename];
+        
+        GBACheat *cheat = [GBACheat cheatWithContentsOfFile:filepath];
+        
+        if ([filename length] != 45) // 36 character UUID String + '.gbacheat' extension
         {
-            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cheat];
-            [array addObject:data];
+            [cheat generateNewUID];
+            
+            NSString *newFilepath = [[self cheatsDirectory] stringByAppendingPathComponent:[cheat.uid stringByAppendingPathExtension:@"gbacheat"]];
+            
+            // Copy it so the filenpath doesn't change
+            GBACheat *oldCheat = [cheat copy];
+            
+            [cheat writeToFile:newFilepath];
+            
+            [[GBASyncManager sharedManager] prepareToUploadCheat:cheat forROM:self.rom];
+            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+            [[GBASyncManager sharedManager] prepareToDeleteCheat:oldCheat forROM:self.rom];
         }
+        
+        [cheatsArray addObject:cheat];
     }
     
-    [array writeToFile:[self cheatsArrayFilepath] atomically:YES];
+    [cheatsArray sortUsingComparator:^(GBACheat *a, GBACheat *b) {
+        
+        NSComparisonResult result = [@(a.index) compare:@(b.index)];
+        
+        if (result != NSOrderedSame)
+        {
+            return result;
+        }
+        
+        NSDictionary *aAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[a filepath] error:nil];
+        NSDictionary *bAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[b filepath] error:nil];
+        
+        return [aAttributes[NSFileModificationDate] compare:bAttributes[NSFileModificationDate]];
+    }];
+    
+    self.cheatsArray = cheatsArray;
 }
 
 #pragma mark - Managing Cheat Codes
@@ -186,30 +207,29 @@
         return;
     }
     
-    BOOL cheatAlreadyExists = [self.cheatsArray containsObject:cheat];
-    
-    if (cheatAlreadyExists)
+    if ([self.cheatsArray containsObject:cheat])
     {
         NSUInteger index = [self.cheatsArray indexOfObject:cheat];
         [self.cheatsArray replaceObjectAtIndex:index withObject:cheat];
-        
-        [self writeCheatsArrayToDisk];
-        
-        [self updateCheats]; // to make sure the cheats are in the right order
     }
     else
     {
-        [[NSFileManager defaultManager] createDirectoryAtPath:[self cheatsDirectory] withIntermediateDirectories:YES attributes:nil error:nil];
-        
+        cheat.index = [self.cheatsArray count];
         [self.cheatsArray addObject:cheat];
-        
-        [self writeCheatsArrayToDisk];
-        
-        if (self.rom.type == GBAROMTypeGBC)
-        {
-            [self updateCheats]; // GBC cheats need to be updated
-        }
     }
+    
+    NSString *filepath = cheat.filepath;
+    
+    if (filepath == nil)
+    {
+        filepath = [[self cheatsDirectory] stringByAppendingPathComponent:[cheat.uid stringByAppendingPathExtension:@"gbacheat"]];
+    }
+    
+    [cheat writeToFile:filepath];
+    
+    [[GBASyncManager sharedManager] prepareToUploadCheat:cheat forROM:self.rom];
+    
+    [self updateCheats]; // GBC cheats need to be updated, and also is needed for both to keep the cheats in order
     
     [self.tableView reloadData];
     
@@ -309,9 +329,12 @@
         GBACheat *cheat = self.cheatsArray[indexPath.row];
         
         [self.cheatsArray removeObjectAtIndex:indexPath.row];
-        [self writeCheatsArrayToDisk];
+        
+        [[NSFileManager defaultManager] removeItemAtPath:cheat.filepath error:nil];
         
         [self updateCheats];
+        
+        [[GBASyncManager sharedManager] prepareToDeleteCheat:cheat forROM:self.rom];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -319,10 +342,24 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    GBACheat *cheat = self.cheatsArray[sourceIndexPath.row];
+    GBACheat *movingCheat = self.cheatsArray[sourceIndexPath.row];
     [self.cheatsArray removeObjectAtIndex:sourceIndexPath.row];
-    [self.cheatsArray insertObject:cheat atIndex:destinationIndexPath.row];
-    [self writeCheatsArrayToDisk];
+    [self.cheatsArray insertObject:movingCheat atIndex:destinationIndexPath.row];
+    
+    NSArray *cheatsArray = [self.cheatsArray copy];
+    
+    [cheatsArray enumerateObjectsUsingBlock:^(GBACheat *cheat, NSUInteger index, BOOL *stop) {
+        if (cheat.index == index)
+        {
+            return;
+        }
+        
+        cheat.index = index;
+        
+        [cheat writeToFile:cheat.filepath];
+        
+        [[GBASyncManager sharedManager] prepareToUploadCheat:cheat forROM:self.rom];
+    }];
     
     [self updateCheats];
 }
@@ -355,15 +392,17 @@
         if (cheat.enabled)
         {
             cheat.enabled = NO;
-            [self writeCheatsArrayToDisk];
             [self disableCheat:cheat];
         }
         else
         {
             cheat.enabled = YES;
-            [self writeCheatsArrayToDisk];
             [self enableCheat:cheat];
         }
+        
+        [cheat writeToFile:cheat.filepath];
+        
+        [[GBASyncManager sharedManager] prepareToUploadCheat:cheat forROM:self.rom];
         
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }

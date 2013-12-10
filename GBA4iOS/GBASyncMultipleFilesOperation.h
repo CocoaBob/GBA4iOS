@@ -10,6 +10,4 @@
 
 @interface GBASyncMultipleFilesOperation : GBASyncOperation
 
-- (void)prepareToDownloadFileWithMetadataIfNeeded:(DBMetadata *)metadata;
-
 @end

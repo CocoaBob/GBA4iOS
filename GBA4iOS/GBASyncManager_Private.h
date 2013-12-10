@@ -12,7 +12,7 @@
 #import "GBASyncUploadOperation.h"
 #import "GBASyncDownloadOperation.h"
 #import "GBASyncDeleteOperation.h"
-#import "GBASyncRenameOperation.h"
+#import "GBASyncMoveOperation.h"
 
 extern NSString * const GBASyncLocalPathKey;
 extern NSString * const GBASyncDropboxPathKey;
@@ -20,7 +20,7 @@ extern NSString * const GBASyncMetadataKey;
 extern NSString * const GBASyncDestinationPathKey;
 
 @class GBASyncDeleteOperation;
-@class GBASyncRenameOperation;
+@class GBASyncMoveOperation;
 
 @interface GBASyncManager ()
 
@@ -32,12 +32,12 @@ extern NSString * const GBASyncDestinationPathKey;
 @property (strong, atomic) NSMutableDictionary *pendingUploads; // Uses local filepath as keys
 @property (strong, atomic) NSMutableDictionary *pendingDownloads; // Uses remote filepath as keys
 @property (strong, atomic) NSMutableDictionary *pendingDeletions; // Uses remote filepath as keys
-@property (strong, atomic) NSMutableDictionary *pendingRenamings; // Uses remote filepath as keys
+@property (strong, atomic) NSMutableDictionary *pendingMoves; // Uses remote filepath as keys
 
 - (void)cacheUploadOperation:(GBASyncUploadOperation *)uploadOperation;
 - (void)cacheDownloadOperation:(GBASyncDownloadOperation *)downloadOperation;
 - (void)cacheDeleteOperation:(GBASyncDeleteOperation *)deleteOperation;
-- (void)cacheRenameOperation:(GBASyncRenameOperation *)renameOperation;
+- (void)cacheMoveOperation:(GBASyncMoveOperation *)moveOperation;
 
 // Filepaths
 + (NSString *)dropboxSyncDirectoryPath;
@@ -45,12 +45,17 @@ extern NSString * const GBASyncDestinationPathKey;
 + (NSString *)pendingUploadsPath;
 + (NSString *)pendingDownloadsPath;
 + (NSString *)pendingDeletionsPath;
-+ (NSString *)pendingRenamingsPath;
++ (NSString *)pendingMovesPath;
 + (NSString *)conflictedROMsPath;
 + (NSString *)syncingDisabledROMsPath;
 + (NSString *)currentDeviceUploadHistoryPath;
++ (NSString *)cheatsDirectoryForROM:(GBAROM *)rom;
++ (NSString *)saveStateDirectoryForROM:(GBAROM *)rom;
++ (NSString *)localPathForDropboxPath:(NSString *)dropboxPath;
 
 + (NSString *)romNameFromDropboxPath:(NSString *)dropboxPath;
 + (NSString *)uniqueROMNameFromDropboxPath:(NSString *)dropboxPath;
+
+- (BOOL)pendingMoveToOrFromDropboxPath:(NSString *)dropboxPath;
 
 @end

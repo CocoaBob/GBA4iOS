@@ -115,6 +115,7 @@ static GBAEmulationViewController *_emulationViewController;
 #endif
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hasNewDropboxSaveForCurrentGameFromDropbox:) name:GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUpdateSaveForCurrentGameFromDropbox:) name:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncManagerFinishedSync:) name:GBASyncManagerFinishedSyncNotification object:[GBASyncManager sharedManager]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
@@ -741,7 +742,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     NSString *filename = self.rom.name;
     
-    GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithSaveStateDirectory:[self saveStateDirectory] mode:mode];
+    GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithROM:self.rom mode:mode];
     saveStateViewController.delegate = self;
     
     UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController);
@@ -859,7 +860,7 @@ void uncaughtExceptionHandler(NSException *exception)
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    NSString *romName = self.rom.name;
+    NSString *romName = self.rom.uniqueName;
     NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Save States/%@", romName]];
     
     [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
@@ -1557,6 +1558,18 @@ void uncaughtExceptionHandler(NSException *exception)
         
         [self refreshLayout];
     });
+}
+
+- (void)syncManagerFinishedSync:(NSNotification *)notification
+{
+    if (self.rom == nil)
+    {
+        return;
+    }
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] updateCheats];
+#endif
 }
 
 - (void)syncingDetailViewControllerWillDismiss:(GBASyncingDetailViewController *)syncingDetailViewController

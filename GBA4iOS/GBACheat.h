@@ -24,7 +24,15 @@ typedef NS_ENUM(NSInteger, GBACheatCodeType)
 @property (readonly, copy, nonatomic) NSString *uid;
 @property (assign, nonatomic) BOOL enabled;
 @property (assign, nonatomic) GBACheatCodeType type;
+@property (assign, nonatomic) NSUInteger index;
+@property (readonly, copy, nonatomic) NSString *filepath; // If created from file
 
 - (instancetype)initWithName:(NSString *)name codes:(NSArray *)codes;
+- (instancetype)initWithContentsOfFile:(NSString *)filepath;
+
++ (GBACheat *)cheatWithContentsOfFile:(NSString *)filepath;
+- (void)writeToFile:(NSString *)filepath;
+
+- (void)generateNewUID;
 
 @end

@@ -37,7 +37,7 @@
         NSDictionary *newDropboxFiles = [self validDropboxFilesFromDeltaEntries:entries];
         
         [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
-            [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
+            [self prepareToDownloadFileWithMetadataIfNeeded:metadata isDeltaChange:YES];
         }];
         
         [[GBASyncManager sharedManager] setDropboxFiles:[newDropboxFiles mutableCopy]];
@@ -49,7 +49,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:@{@"date": [NSDate date], @"completed": @NO} forKey:@"initialSync"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [self downloadFiles];
+        [self moveFiles];
         
         NSDictionary *dictionary = @{@"date": [NSDate date], @"cursor": cursor};
         [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"lastSyncInfo"];
@@ -72,10 +72,6 @@
         [self finish];
     });
 }
-
-#pragma mark - Uploading
-
-
 
 #pragma mark - Finishing
 

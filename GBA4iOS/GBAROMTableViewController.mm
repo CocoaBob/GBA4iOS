@@ -853,9 +853,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
         
     void(^showEmulationViewController)(void) = ^(void)
-    {
-        DLog(@"ROM NAME: %@", rom.uniqueName);
-        
+    {        
         [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];

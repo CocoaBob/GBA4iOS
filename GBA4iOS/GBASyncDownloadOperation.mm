@@ -90,7 +90,7 @@
         {
             DLog(@"File doesn't exist for download...ignoring %@", [dropboxPath lastPathComponent]);
             
-            [pendingDownloads removeObjectForKey:localPath];
+            [pendingDownloads removeObjectForKey:dropboxPath];
             [NSKeyedArchiver archiveRootObject:pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
             
             [self finishedWithMetadata:metadata error:nil];

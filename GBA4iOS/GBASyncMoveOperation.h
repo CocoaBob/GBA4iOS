@@ -9,11 +9,11 @@
 #import "GBASyncOperation.h"
 #import "GBASyncManager_Private.h"
 
-@interface GBASyncRenameOperation : GBASyncOperation
+@interface GBASyncMoveOperation : GBASyncOperation
 
 @property (copy, nonatomic) NSString *dropboxPath;
 @property (copy, nonatomic) NSString *destinationPath;
-@property (copy, nonatomic) GBASyncRenameCompletionBlock syncCompletionBlock;
+@property (copy, nonatomic) GBASyncMoveCompletionBlock syncCompletionBlock;
 @property (assign, nonatomic) BOOL updatesDeviceUploadHistoryUponCompletion;
 
 - (instancetype)initWithDropboxPath:(NSString *)dropboxPath destinationPath:(NSString *)destinationPath;

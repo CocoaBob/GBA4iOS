@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBASyncRenameOperation.h"
+#import "GBASyncMoveOperation.h"
 #import "GBASyncOperation_Private.h"
 #import "GBASyncUploadDeviceUploadHistoryOperation.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
-@implementation GBASyncRenameOperation
+@implementation GBASyncMoveOperation
 
 #pragma mark - Initialization
 
@@ -35,6 +35,7 @@
 
 - (void)beginSyncOperation
 {
+    DLog(@"Moving File: %@", self.dropboxPath);
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.restClient moveFrom:self.dropboxPath toPath:self.destinationPath];
     });
@@ -43,16 +44,16 @@
 - (void)restClient:(DBRestClient*)client movedPath:(NSString *)dropboxPath to:(DBMetadata *)metadata
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Moved File: %@ To Path: %@", dropboxPath, metadata.path);
+        DLog(@"Moved File: %@ To Path: %@", [dropboxPath lastPathComponent], [metadata.path lastPathComponent]);
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
         // NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
         // [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:self error:nil];
         
         // Pending Renamings
-        NSMutableDictionary *pendingRenamings = [[GBASyncManager sharedManager] pendingRenamings];
-        [pendingRenamings removeObjectForKey:dropboxPath];
-        [pendingRenamings writeToFile:[GBASyncManager pendingRenamingsPath] atomically:YES];
+        NSMutableDictionary *pendingMoves = [[GBASyncManager sharedManager] pendingMoves];
+        [pendingMoves removeObjectForKey:dropboxPath];
+        [pendingMoves writeToFile:[GBASyncManager pendingMovesPath] atomically:YES];
         
         // Dropbox Files
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
@@ -89,39 +90,33 @@
     });
 }
 
-- (void)restClient:(DBRestClient*)client movePathFailedWithError:(NSError *)error
-{
-    DLog(@"ERROR: %@", [error userInfo]);
-    
-    dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        
-    });
-}
-
-/*- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
+- (void)restClient:(DBRestClient *)client movePathFailedWithError:(NSError *)error
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        NSString *localPath = [error userInfo][@"sourcePath"];
         
-        NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
+        NSString *originalPath = [error userInfo][@"from_path"];
+        NSString *destinationPath = [error userInfo][@"to_path"];
         
-        if ([error code] == DBErrorFileNotFound) // Not really an error, so we ignore it
+        NSMutableDictionary *pendingMoves = [[GBASyncManager sharedManager] pendingMoves];
+        
+        // 403 file already exists
+        if ([error code] == DBErrorFileNotFound || [error code] == 403 || [error code] == 404)
         {
-            DLog(@"File doesn't exist for upload...ignoring %@", [localPath lastPathComponent]);
+            DLog(@"Either file doesn't exist, or another file exists where we are trying to move this one to. Ignoring %@", originalPath);
             
-            [pendingUploads removeObjectForKey:localPath];
-            [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+            [pendingMoves removeObjectForKey:originalPath];
+            [pendingMoves writeToFile:[GBASyncManager pendingMovesPath] atomically:YES];
             
-            [self finishedWithMetadata:self.metadata error:nil];
+            [self finishWithMetadata:nil error:nil];
             
             return;
         }
         
-        DLog(@"Failed to upload file: %@ Error: %@", [localPath lastPathComponent], [error userInfo]);
+        DLog(@"Failed to move file: %@ to file: %@. error: %@", [originalPath lastPathComponent], [destinationPath lastPathComponent], error);
         
-        [self finishedWithMetadata:self.metadata error:error];
+        [self finishWithMetadata:nil error:error];
     });
-}*/
+}
 
 - (void)finishWithMetadata:(DBMetadata *)metadata error:(NSError *)error
 {
@@ -137,7 +132,7 @@
 #pragma mark - Public
 
 - (NSDictionary *)dictionaryRepresentation
-{
+{    
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     
     if (self.dropboxPath)

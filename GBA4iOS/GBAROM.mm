@@ -64,6 +64,28 @@
     return nil;
 }
 
++ (GBAROM *)romWithUniqueName:(NSString *)uniqueName
+{
+    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]];
+    
+    __block NSString *romName = nil;
+    
+    [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *cachedUniqueName, BOOL *stop) {
+        if ([uniqueName isEqualToString:cachedUniqueName])
+        {
+            romName = key;
+            *stop = YES;
+        }
+    }];
+    
+    if (romName == nil)
+    {
+        return nil;
+    }
+    
+    return [GBAROM romWithName:romName];
+}
+
 + (BOOL)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)preferredName error:(NSError **)error
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -180,7 +202,7 @@
     return [[self dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"syncingDisabledROMs.plist"];
 }
 
-- (NSString *)cachedROMsPath
++ (NSString *)cachedROMsPath
 {
     NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
     return [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
@@ -306,7 +328,7 @@
 
 - (NSString *)uniqueName
 {
-    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]];
     
     if (cachedROMs == nil)
     {

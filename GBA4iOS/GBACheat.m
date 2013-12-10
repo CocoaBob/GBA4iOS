@@ -11,6 +11,7 @@
 @interface GBACheat ()
 
 @property (readwrite, copy, nonatomic) NSString *uid;
+@property (readwrite, copy, nonatomic) NSString *filepath;
 
 @end
 
@@ -35,6 +36,31 @@
     return self;
 }
 
+- (instancetype)initWithContentsOfFile:(NSString *)filepath
+{
+    self = [NSKeyedUnarchiver unarchiveObjectWithFile:filepath];
+    
+    self.filepath = filepath;
+    
+    return self;
+}
+
++ (GBACheat *)cheatWithContentsOfFile:(NSString *)filepath
+{
+    return [[GBACheat alloc] initWithContentsOfFile:filepath];
+}
+
+- (void)writeToFile:(NSString *)filepath
+{
+    self.filepath = filepath;
+    [NSKeyedArchiver archiveRootObject:self toFile:filepath];
+}
+
+- (void)generateNewUID
+{
+    self.uid = [[NSUUID UUID] UUIDString];
+}
+
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
@@ -44,6 +70,7 @@
     [aCoder encodeObject:self.uid forKey:@"uid"];
     [aCoder encodeObject:@(self.enabled) forKey:@"enabled"];
     [aCoder encodeObject:@(self.type) forKey:@"type"];
+    [aCoder encodeObject:@(self.index) forKey:@"index"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -53,11 +80,13 @@
     NSString *uid = [aDecoder decodeObjectForKey:@"uid"];
     NSNumber *enabled = [aDecoder decodeObjectForKey:@"enabled"];
     NSNumber *type = [aDecoder decodeObjectForKey:@"type"];
+    NSNumber *index = [aDecoder decodeObjectForKey:@"index"];
     
     self = [self initWithName:name codes:codes];
     self.uid = uid;
     self.enabled = [enabled boolValue];
     self.type = [type integerValue];
+    self.index = [index unsignedIntegerValue];
     
     return self;
 }
@@ -72,6 +101,8 @@
     cheat.uid = self.uid;
     cheat.enabled = self.enabled;
     cheat.type = self.type;
+    cheat.index = self.index;
+    cheat.filepath = self.filepath;
     
     return cheat;
 }
@@ -91,7 +122,7 @@
         codeType = @"Action Replay";
     }
     
-    return [NSString stringWithFormat:@"Name: %@\nType: %@\nCodes: %@", self.name, codeType, self.codes];
+    return [NSString stringWithFormat:@"Name: %@\nType: %@\nIndex: %lu\nCodes: %@", self.name, codeType, (unsigned long)self.index, self.codes];
 }
 
 - (BOOL)isEqual:(id)object

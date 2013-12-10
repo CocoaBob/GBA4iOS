@@ -696,28 +696,31 @@ extern gambatte::GB gbEmu;
 
 #pragma mark - Cheats
 
-- (NSString *)cheatsFilepath
+- (NSString *)cheatsDirectory
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    NSString *cheatsDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:self.rom.uniqueName];
     
-    NSString *filename = [NSString stringWithFormat:@"%@.plist", self.rom.name];
-    return [cheatsDirectory stringByAppendingPathComponent:filename];
+    [[NSFileManager defaultManager] createDirectoryAtPath:cheatsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return cheatsDirectory;
 }
 
 // Not a property because we need to make sure it's always updated with latest changes
 - (NSArray *)cheatsArray
 {
-    NSMutableArray *array = [NSMutableArray arrayWithContentsOfFile:[self cheatsFilepath]];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self cheatsDirectory] error:nil];
     
-    NSMutableArray *cheats = [NSMutableArray arrayWithCapacity:array.count];
+    NSMutableArray *cheats = [NSMutableArray arrayWithCapacity:contents.count];
     
     @autoreleasepool
     {
-        for (NSData *data in array)
+        for (NSString *filename in contents)
         {
-            GBACheat *cheat = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            NSString *filepath = [[self cheatsDirectory] stringByAppendingPathComponent:filename];
+            GBACheat *cheat = [GBACheat cheatWithContentsOfFile:filepath];
             [cheats addObject:cheat];
         }
     }

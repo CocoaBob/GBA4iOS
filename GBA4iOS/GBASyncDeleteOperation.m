@@ -34,6 +34,7 @@
 
 - (void)beginSyncOperation
 {
+    DLog(@"Deleting File: %@", self.dropboxPath);
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.restClient deletePath:self.dropboxPath];
     });
@@ -42,7 +43,7 @@
 - (void)restClient:(DBRestClient*)client deletedPath:(NSString *)dropboxPath
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Deleted File: %@", dropboxPath);
+        DLog(@"Deleted File: %@", [dropboxPath lastPathComponent]);
         
         // Pending Deletions
         NSMutableDictionary *pendingDeletions = [[GBASyncManager sharedManager] pendingDeletions];
@@ -59,8 +60,7 @@
         NSMutableDictionary *uploadHistory = [[GBASyncManager sharedManager] deviceUploadHistory];
         [uploadHistory removeObjectForKey:dropboxPath];
         [uploadHistory writeToFile:[GBASyncManager currentDeviceUploadHistoryPath] atomically:YES];
-        
-        
+
         if (self.updatesDeviceUploadHistoryUponCompletion)
         {
             GBASyncUploadDeviceUploadHistoryOperation *uploadDeviceUploadHistoryOperation = [[GBASyncUploadDeviceUploadHistoryOperation alloc] init];
@@ -73,37 +73,28 @@
 
 - (void)restClient:(DBRestClient*)client deletePathFailedWithError:(NSError *)error
 {
-    DLog(@"ERROR: %@", [error userInfo]);
-    
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        [self finishSyncWithError:error];
-    });
-}
-
-/*- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
-{
-    dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        NSString *localPath = [error userInfo][@"sourcePath"];
+        NSString *dropboxPath = [error userInfo][@"path"];
         
-        NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
+        NSMutableDictionary *pendingDeletions = [[GBASyncManager sharedManager] pendingDeletions];
         
-        if ([error code] == DBErrorFileNotFound) // Not really an error, so we ignore it
+        if ([error code] == DBErrorFileNotFound || [error code] == 404)
         {
-            DLog(@"File doesn't exist for upload...ignoring %@", [localPath lastPathComponent]);
+            DLog(@"File doesn't exist for deletion, so ignoring %@", [dropboxPath lastPathComponent]);
             
-            [pendingUploads removeObjectForKey:localPath];
-            [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+            [pendingDeletions removeObjectForKey:dropboxPath];
+            [pendingDeletions writeToFile:[GBASyncManager pendingDeletionsPath] atomically:YES];
             
-            [self finishedWithMetadata:self.metadata error:nil];
+            [self finishSyncWithError:nil];
             
             return;
         }
         
-        DLog(@"Failed to upload file: %@ Error: %@", [localPath lastPathComponent], [error userInfo]);
+        DLog(@"Failed to delete file: %@. Error: %@", dropboxPath, error);
         
-        [self finishedWithMetadata:self.metadata error:error];
+        [self finishSyncWithError:error];
     });
-}*/
+}
 
 - (void)finishSyncWithError:(NSError *)error
 {

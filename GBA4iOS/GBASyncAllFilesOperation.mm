@@ -41,22 +41,23 @@
 - (void)restClient:(DBRestClient *)client loadedDeltaEntries:(NSArray *)entries reset:(BOOL)shouldReset cursor:(NSString *)cursor hasMore:(BOOL)hasMore
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Received Delta Entries: %@", entries);
+        DLog(@"Received Delta Entries");
         
         NSDictionary *newDropboxFiles = [self validDropboxFilesFromDeltaEntries:entries];
+                
         [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
-            [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
+            [self prepareToDownloadFileWithMetadataIfNeeded:metadata isDeltaChange:YES];
         }];
         
         // Keep cached dropbox files and new dropbox files separate for now, since we use both separately to when actually downloading a file to determine whether a file is conflicted or not
         NSDictionary *cachedDropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         [cachedDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
-            [self prepareToDownloadFileWithMetadataIfNeeded:metadata];
+            [self prepareToDownloadFileWithMetadataIfNeeded:metadata isDeltaChange:NO];
         }];
         
         [self prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:NO];
         
-        [self downloadFiles];
+        [self moveFiles];
         
         NSDictionary *dictionary = @{@"date": [NSDate date], @"cursor": cursor};
         [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"lastSyncInfo"];

@@ -23,9 +23,15 @@ extern NSString *const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification
 
 @property (strong, nonatomic) NSOperationQueue *uploadOperationQueue;
 @property (strong, nonatomic) NSOperationQueue *downloadOperationQueue;
+@property (strong, nonatomic) NSOperationQueue *movingOperationQueue;
+@property (strong, nonatomic) NSOperationQueue *deletionOperationQueue;
+
+@property (strong, nonatomic) RSTToastView *dropboxStatusToastView;
 
 - (void)uploadFiles;
 - (void)downloadFiles;
+- (void)moveFiles;
+- (void)deleteFiles;
 
 // Overrides
 - (void)finishSync;
@@ -34,5 +40,6 @@ extern NSString *const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification
 - (NSDictionary *)validDropboxFilesFromDeltaEntries:(NSArray *)entries;
 
 - (void)prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:(BOOL)conflictIfNeeded;
+- (void)prepareToDownloadFileWithMetadataIfNeeded:(DBMetadata *)metadata isDeltaChange:(BOOL)deltaChange;
 
 @end

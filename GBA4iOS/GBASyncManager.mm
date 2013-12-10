@@ -24,6 +24,8 @@ NSString * const GBASyncDropboxPathKey = @"dropboxPath";
 NSString * const GBASyncMetadataKey = @"metadata";
 NSString * const GBASyncDestinationPathKey = @"destinationPath";
 
+NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinishedSyncNotification";
+
 @interface GBASyncManager () <GBASyncOperationDelegate>
 
 @property (strong, nonatomic) NSOperationQueue *multipleFilesOperationQueue;
@@ -76,10 +78,10 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
         _pendingDeletions = [NSMutableDictionary dictionary];
     }
     
-    _pendingRenamings = [NSMutableDictionary dictionaryWithContentsOfFile:[GBASyncManager pendingRenamingsPath]];
-    if (_pendingRenamings)
+    _pendingMoves = [NSMutableDictionary dictionaryWithContentsOfFile:[GBASyncManager pendingMovesPath]];
+    if (_pendingMoves == nil)
     {
-        _pendingRenamings = [NSMutableDictionary dictionary];
+        _pendingMoves = [NSMutableDictionary dictionary];
     }
     
     _deviceUploadHistory = [NSMutableDictionary dictionaryWithContentsOfFile:[GBASyncManager currentDeviceUploadHistoryPath]];
@@ -146,7 +148,7 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     }
     else
     {
-        //[self synchronize];
+        [self synchronize];
     }
 }
 
@@ -188,6 +190,9 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
 {
     GBASyncInitialSyncOperation *initialSyncOperation = [[GBASyncInitialSyncOperation alloc] init];
     initialSyncOperation.delegate = self;
+    initialSyncOperation.completionBlock = ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBASyncManagerFinishedSyncNotification object:self];
+    };
     [self.multipleFilesOperationQueue addOperation:initialSyncOperation];
 }
 
@@ -195,6 +200,9 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
 {
     GBASyncAllFilesOperation *allFilesOperation = [[GBASyncAllFilesOperation alloc] init];
     allFilesOperation.delegate = self;
+    allFilesOperation.completionBlock = ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBASyncManagerFinishedSyncNotification object:self];
+    };
     [self.multipleFilesOperationQueue addOperation:allFilesOperation];
 }
 
@@ -321,20 +329,53 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     [self cacheDeleteOperation:deleteOperation];
 }
 
-- (void)renameFileAtDropboxPath:(NSString *)dropboxPath toNewFilename:(NSString *)filename completionBlock:(GBASyncRenameCompletionBlock)completionBlock
+- (void)moveFileAtDropboxPath:(NSString *)dropboxPath toDestinationPath:(NSString *)destinationPath completionBlock:(GBASyncMoveCompletionBlock)completionBlock
 {
-    NSString *destinationPath = [[dropboxPath stringByDeletingPathExtension] stringByAppendingPathComponent:filename];
+    GBASyncMoveOperation *moveOperation = [[GBASyncMoveOperation alloc] initWithDropboxPath:dropboxPath destinationPath:destinationPath];
+    moveOperation.syncCompletionBlock = completionBlock;
+    moveOperation.delegate = self;
     
-    GBASyncRenameOperation *renameOperation = [[GBASyncRenameOperation alloc] initWithDropboxPath:dropboxPath destinationPath:destinationPath];
-    renameOperation.syncCompletionBlock = completionBlock;
-    renameOperation.delegate = self;
+    [self.fileManipulationOperationQueue addOperation:moveOperation];
     
-    [self.fileManipulationOperationQueue addOperation:renameOperation];
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
+    NSString *newLocalPath = [GBASyncManager localPathForDropboxPath:destinationPath];
     
-    [self cacheRenameOperation:renameOperation];
+    if (self.pendingUploads[localPath])
+    {
+        NSMutableDictionary *dictionary = self.pendingUploads[localPath];
+        dictionary[GBASyncLocalPathKey] = newLocalPath;
+        dictionary[GBASyncDropboxPathKey] = destinationPath;
+        
+        [self.pendingUploads removeObjectForKey:localPath];
+        [self.pendingUploads setObject:dictionary forKey:newLocalPath];
+        [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+    }
+    
+    if (self.pendingDownloads[dropboxPath])
+    {
+        NSMutableDictionary *dictionary = self.pendingDownloads[dropboxPath];
+        dictionary[GBASyncLocalPathKey] = newLocalPath;
+        dictionary[GBASyncDropboxPathKey] = destinationPath;
+        
+        [self.pendingDownloads removeObjectForKey:dropboxPath];
+        [self.pendingDownloads setObject:dictionary forKey:destinationPath];
+        [NSKeyedArchiver archiveRootObject:self.pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
+    }
+    
+    if (self.pendingDeletions[dropboxPath])
+    {
+        NSMutableDictionary *dictionary = self.pendingDeletions[dropboxPath];
+        dictionary[GBASyncDropboxPathKey] = destinationPath;
+        
+        [self.pendingDeletions removeObjectForKey:dropboxPath];
+        [self.pendingDeletions setObject:dictionary forKey:destinationPath];
+        [NSKeyedArchiver archiveRootObject:self.pendingDeletions toFile:[GBASyncManager pendingDeletionsPath]];
+    }
+    
+    [self cacheMoveOperation:moveOperation];
 }
 
-#pragma mark - Upload Files
+#pragma mark - Preparing Sync Methods
 
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom
 {
@@ -349,6 +390,113 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     // Cache it for later
     GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:rom.saveFileFilepath dropboxPath:dropboxPath];
     [self cacheUploadOperation:uploadOperation];
+}
+
+- (void)prepareToUploadCheat:(GBACheat *)cheat forROM:(GBAROM *)rom
+{
+    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    {
+        return;
+    }
+    
+    NSString *uniqueName = [rom uniqueName];
+    NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Cheats/%@", uniqueName, [cheat.filepath lastPathComponent]];
+    
+    // Cache it for later
+    GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:cheat.filepath dropboxPath:dropboxPath];
+    [self cacheUploadOperation:uploadOperation];
+}
+
+- (void)prepareToDeleteCheat:(GBACheat *)cheat forROM:(GBAROM *)rom
+{
+    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    {
+        return;
+    }
+    
+    NSString *uniqueName = [rom uniqueName];
+    NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Cheats/%@", uniqueName, [cheat.filepath lastPathComponent]];
+    
+    GBASyncDeleteOperation *deleteOperation = [[GBASyncDeleteOperation alloc] initWithDropboxPath:dropboxPath];
+    [self cacheDeleteOperation:deleteOperation];
+}
+
+- (void)prepareToUploadSaveStateAtPath:(NSString *)filepath forROM:(GBAROM *)rom
+{
+    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    {
+        return;
+    }
+    
+    NSString *uniqueName = [rom uniqueName];
+    NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Save States/%@", uniqueName, [filepath lastPathComponent]];
+    
+    GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:filepath dropboxPath:dropboxPath];
+    [self cacheUploadOperation:uploadOperation];
+}
+
+- (void)prepareToDeleteSaveStateAtPath:(NSString *)filepath forROM:(GBAROM *)rom
+{
+    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    {
+        return;
+    }
+    
+    NSString *uniqueName = [rom uniqueName];
+    NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Save States/%@", uniqueName, [filepath lastPathComponent]];
+    
+    GBASyncDeleteOperation *deleteOperation = [[GBASyncDeleteOperation alloc] initWithDropboxPath:dropboxPath];
+    [self cacheDeleteOperation:deleteOperation];
+}
+
+- (void)prepareToRenameSaveStateAtPath:(NSString *)filepath toNewName:(NSString *)filename forROM:(GBAROM *)rom
+{
+    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    {
+        return;
+    }
+    
+    NSString *uniqueName = [rom uniqueName];
+    NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Save States/%@", uniqueName, [filepath lastPathComponent]];
+    NSString *destinationPath = [NSString stringWithFormat:@"/%@/Save States/%@", uniqueName, filename];
+        
+    GBASyncMoveOperation *moveOperation = [[GBASyncMoveOperation alloc] initWithDropboxPath:dropboxPath destinationPath:destinationPath];
+    [self cacheMoveOperation:moveOperation];
+    
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
+    NSString *newLocalPath = [GBASyncManager localPathForDropboxPath:destinationPath];
+    
+    if (self.pendingUploads[localPath])
+    {
+        NSMutableDictionary *dictionary = self.pendingUploads[localPath];
+        dictionary[GBASyncLocalPathKey] = newLocalPath;
+        dictionary[GBASyncDropboxPathKey] = destinationPath;
+        
+        [self.pendingUploads removeObjectForKey:localPath];
+        [self.pendingUploads setObject:dictionary forKey:newLocalPath];
+        [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+    }
+    
+    if (self.pendingDownloads[dropboxPath])
+    {
+        NSMutableDictionary *dictionary = self.pendingDownloads[dropboxPath];
+        dictionary[GBASyncLocalPathKey] = newLocalPath;
+        dictionary[GBASyncDropboxPathKey] = destinationPath;
+        
+        [self.pendingDownloads removeObjectForKey:dropboxPath];
+        [self.pendingDownloads setObject:dictionary forKey:destinationPath];
+        [NSKeyedArchiver archiveRootObject:self.pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
+    }
+    
+    if (self.pendingDeletions[dropboxPath])
+    {
+        NSMutableDictionary *dictionary = self.pendingDeletions[dropboxPath];
+        dictionary[GBASyncDropboxPathKey] = destinationPath;
+        
+        [self.pendingDeletions removeObjectForKey:dropboxPath];
+        [self.pendingDeletions setObject:dictionary forKey:destinationPath];
+        [NSKeyedArchiver archiveRootObject:self.pendingDeletions toFile:[GBASyncManager pendingDeletionsPath]];
+    }
 }
 
 #pragma mark - Cache Operations
@@ -374,11 +522,11 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     [pendingDeletions writeToFile:[GBASyncManager pendingDeletionsPath] atomically:YES];
 }
 
-- (void)cacheRenameOperation:(GBASyncRenameOperation *)renameOperation
+- (void)cacheMoveOperation:(GBASyncMoveOperation *)moveOperation
 {
-    NSMutableDictionary *pendingRenamings = [[GBASyncManager sharedManager] pendingRenamings];
-    pendingRenamings[renameOperation.dropboxPath] = [renameOperation dictionaryRepresentation];
-    [pendingRenamings writeToFile:[GBASyncManager pendingRenamingsPath] atomically:YES];
+    NSMutableDictionary *pendingMoves = [[GBASyncManager sharedManager] pendingMoves];
+    pendingMoves[moveOperation.dropboxPath] = [moveOperation dictionaryRepresentation];
+    [pendingMoves writeToFile:[GBASyncManager pendingMovesPath] atomically:YES];
 }
 
 #pragma mark - GBASyncOperationDelegate
@@ -452,7 +600,7 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     self.pendingUploads = [NSMutableDictionary dictionary];
     self.pendingDownloads = [NSMutableDictionary dictionary];
     self.pendingDeletions = [NSMutableDictionary dictionary];
-    self.pendingRenamings = [NSMutableDictionary dictionary];
+    self.pendingMoves = [NSMutableDictionary dictionary];
 }
 
 #pragma mark - Helper Methods
@@ -506,24 +654,14 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
         return nil;
     }
     
-    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[GBASyncManager cachedROMsPath]];
+    GBAROM *rom = [GBAROM romWithUniqueName:uniqueName];
     
-    __block NSString *romName = nil;
-    
-    [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *cachedUniqueName, BOOL *stop) {
-        if ([uniqueName isEqualToString:cachedUniqueName])
-        {
-            romName = key;
-            *stop = YES;
-        }
-    }];
-    
-    if (romName == nil)
+    if (rom == nil)
     {
-        DLog(@"Cannot find ROM for unique name: %@", uniqueName);
+        return nil;
     }
     
-    return romName;
+    return rom.name;
 }
 
 - (GBASyncOperation *)currentExecutingOperation
@@ -553,6 +691,25 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     }
     
     return currentOperation;
+}
+
+- (BOOL)pendingMoveToOrFromDropboxPath:(NSString *)dropboxPath
+{
+    NSDictionary *pendingMoves = [[self pendingMoves] copy];
+    BOOL pendingMoveFromPath = (pendingMoves[dropboxPath] != nil);
+    
+    __block BOOL pendingMoveToPath = NO;
+    [pendingMoves enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *pendingMoveDictionary, BOOL *stop) {
+        NSString *destinationDropboxPath = pendingMoveDictionary[GBASyncDestinationPathKey];
+                
+        if ([dropboxPath isEqualToString:destinationDropboxPath])
+        {
+            pendingMoveToPath = YES;
+            *stop = YES;
+        }
+    }];
+    
+    return (pendingMoveFromPath || pendingMoveToPath);
 }
  
 #pragma mark - Filepaths
@@ -587,9 +744,9 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"pendingDeletions.plist"];
 }
 
-+ (NSString *)pendingRenamingsPath
++ (NSString *)pendingMovesPath
 {
-    return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"pendingRenamings.plist"];
+    return [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"pendingMoves.plist"];
 }
 
 + (NSString *)cachedROMsPath
@@ -616,6 +773,67 @@ NSString * const GBASyncDestinationPathKey = @"destinationPath";
     
     NSString *deviceName = [[UIDevice currentDevice] name];
     return [directory stringByAppendingPathComponent:[deviceName stringByAppendingPathExtension:@"plist"]];
+}
+
++ (NSString *)cheatsDirectoryForROM:(GBAROM *)rom
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.uniqueName];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:cheatsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return cheatsDirectory;
+}
+
++ (NSString *)saveStateDirectoryForROM:(GBAROM *)rom
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:rom.uniqueName];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return saveStateDirectory;
+}
+
++ (NSString *)localPathForDropboxPath:(NSString *)dropboxPath
+{
+    NSArray *pathComponents = [dropboxPath pathComponents];
+    
+    if ([pathComponents count] < 4)
+    {
+        return nil;
+    }
+    
+    NSString *directory = pathComponents[2];
+    
+    NSString *romName = [GBASyncManager romNameFromDropboxPath:dropboxPath];
+    
+    GBAROM *rom = [GBAROM romWithName:romName];
+    
+    NSString *localPath = nil;
+    
+    if ([directory isEqualToString:@"Saves"]) // ROM save files
+    {
+        localPath = rom.saveFileFilepath;
+    }
+    else if ([directory isEqualToString:@"Save States"]) // Save States
+    {
+        localPath = [[GBASyncManager saveStateDirectoryForROM:rom] stringByAppendingPathComponent:[dropboxPath lastPathComponent]];
+    }
+    else if ([directory isEqualToString:@"Cheats"]) // Cheats
+    {
+        localPath = [[GBASyncManager cheatsDirectoryForROM:rom] stringByAppendingPathComponent:[dropboxPath lastPathComponent]];
+    }
+    else if ([pathComponents[1] isEqualToString:@"Upload History"]) // Upload History
+    {
+        localPath = [[[GBASyncManager currentDeviceUploadHistoryPath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[dropboxPath lastPathComponent]];
+    }
+    
+    return localPath;
 }
 
 #pragma mark - Getters/Setters

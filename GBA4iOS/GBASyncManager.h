@@ -15,8 +15,10 @@
 extern NSString *const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification;
 extern NSString *const GBAUpdatedDeviceUploadHistoryNotification;
 
+extern NSString *const GBASyncManagerFinishedSyncNotification;
+
 typedef void (^GBASyncCompletionBlock)(NSString *localPath, DBMetadata *metadata, NSError *error);
-typedef void (^GBASyncRenameCompletionBlock)(NSString *originalDropboxPath, DBMetadata *destinationMetadata, NSError *error);
+typedef void (^GBASyncMoveCompletionBlock)(NSString *originalDropboxPath, DBMetadata *destinationMetadata, NSError *error);
 typedef void (^GBASyncDeleteCompletionBlock)(NSString *dropboxPath, NSError *error);
 
 @interface GBASyncManager : NSObject
@@ -31,14 +33,20 @@ typedef void (^GBASyncDeleteCompletionBlock)(NSString *dropboxPath, NSError *err
 - (void)synchronize;
 
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom;
-- (void)prepareToUploadCheatsForROM:(GBAROM *)rom;
+
+- (void)prepareToUploadCheat:(GBACheat *)cheat forROM:(GBAROM *)rom;
+- (void)prepareToDeleteCheat:(GBACheat *)cheat forROM:(GBAROM *)rom;
+
+- (void)prepareToUploadSaveStateAtPath:(NSString *)filepath forROM:(GBAROM *)rom;
+- (void)prepareToDeleteSaveStateAtPath:(NSString *)filepath forROM:(GBAROM *)rom;
+- (void)prepareToRenameSaveStateAtPath:(NSString *)filepath toNewName:(NSString *)filename forROM:(GBAROM *)rom;
 
 - (void)uploadFileAtPath:(NSString *)localPath toDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock;
 - (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
 - (void)downloadFileToPath:(NSString *)localPath fromDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock;
 - (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
 
-- (void)renameFileAtDropboxPath:(NSString *)dropboxPath toNewFilename:(NSString *)filename completionBlock:(GBASyncRenameCompletionBlock)completionBlock;
+- (void)moveFileAtDropboxPath:(NSString *)dropboxPath toDestinationPath:(NSString *)destinationPath completionBlock:(GBASyncMoveCompletionBlock)completionBlock;
 - (void)deleteFileAtDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncDeleteCompletionBlock)completionBlock;
 
 - (BOOL)hasPendingDownloadForROM:(GBAROM *)rom;

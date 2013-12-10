@@ -27,8 +27,8 @@
 		BF2AC88318543246008928D0 /* DTObjectBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */; };
 		BF2AC88418543246008928D0 /* NSObject+DTRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88118543246008928D0 /* NSObject+DTRuntime.m */; };
 		BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88118543246008928D0 /* NSObject+DTRuntime.m */; };
-		BF2AC88E18543BCA008928D0 /* GBASyncRenameOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88D18543BCA008928D0 /* GBASyncRenameOperation.m */; };
-		BF2AC88F18543BCA008928D0 /* GBASyncRenameOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88D18543BCA008928D0 /* GBASyncRenameOperation.m */; };
+		BF2AC88E18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88D18543BCA008928D0 /* GBASyncMoveOperation.m */; };
+		BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC88D18543BCA008928D0 /* GBASyncMoveOperation.m */; };
 		BF2AC89218543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */; };
 		BF2AC89318543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */; };
 		BF2F34E1183FF6F9002ACE90 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CC33F0E217E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m */; };
@@ -38,7 +38,7 @@
 		BF2F34F5183FF6F9002ACE90 /* GBAAsynchronousRemoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */; };
 		BF2F34F6183FF6F9002ACE90 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF518206F15004231F6 /* UIAlertView+AFNetworking.m */; };
 		BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
-		BF2F34FD183FF6F9002ACE90 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; };
+		BF2F34FD183FF6F9002ACE90 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEF18206F15004231F6 /* AFURLResponseSerialization.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		BF2F3500183FF6F9002ACE90 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */; };
 		BF2F3507183FF6F9002ACE90 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BFB18206F15004231F6 /* UIProgressView+AFNetworking.m */; };
@@ -54,7 +54,7 @@
 		BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
 		BF2F353B183FF6F9002ACE90 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570B1798F2EC00C616EB /* main.mm */; };
-		BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; };
+		BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
 		BF2F3541183FF6F9002ACE90 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BF318206F15004231F6 /* UIActivityIndicatorView+AFNetworking.m */; };
 		BF2F3544183FF6F9002ACE90 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BEB18206F15004231F6 /* AFURLConnectionOperation.m */; };
@@ -401,8 +401,8 @@
 		BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTObjectBlockExecutor.m; sourceTree = "<group>"; };
 		BF2AC88018543246008928D0 /* NSObject+DTRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DTRuntime.h"; sourceTree = "<group>"; };
 		BF2AC88118543246008928D0 /* NSObject+DTRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DTRuntime.m"; sourceTree = "<group>"; };
-		BF2AC88C18543BCA008928D0 /* GBASyncRenameOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncRenameOperation.h; sourceTree = "<group>"; };
-		BF2AC88D18543BCA008928D0 /* GBASyncRenameOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncRenameOperation.m; sourceTree = "<group>"; };
+		BF2AC88C18543BCA008928D0 /* GBASyncMoveOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncMoveOperation.h; sourceTree = "<group>"; };
+		BF2AC88D18543BCA008928D0 /* GBASyncMoveOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncMoveOperation.m; sourceTree = "<group>"; };
 		BF2AC89018543BD9008928D0 /* GBASyncDeleteOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncDeleteOperation.h; sourceTree = "<group>"; };
 		BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncDeleteOperation.m; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -845,8 +845,8 @@
 		BF2AC88718543B51008928D0 /* Dropbox File Manipulation Operations */ = {
 			isa = PBXGroup;
 			children = (
-				BF2AC88C18543BCA008928D0 /* GBASyncRenameOperation.h */,
-				BF2AC88D18543BCA008928D0 /* GBASyncRenameOperation.m */,
+				BF2AC88C18543BCA008928D0 /* GBASyncMoveOperation.h */,
+				BF2AC88D18543BCA008928D0 /* GBASyncMoveOperation.m */,
 				BF2AC89018543BD9008928D0 /* GBASyncDeleteOperation.h */,
 				BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */,
 			);
@@ -1746,7 +1746,7 @@
 				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
 				BF2F3541183FF6F9002ACE90 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BF2F3544183FF6F9002ACE90 /* AFURLConnectionOperation.m in Sources */,
-				BF2AC88F18543BCA008928D0 /* GBASyncRenameOperation.m in Sources */,
+				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
@@ -1979,7 +1979,7 @@
 				CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */,
 				CC5045061814DC69009F7B9E /* Multi_Buffer.cpp in Sources */,
 				1AD971F317D2C6ED007097BC /* GBAControllerSkin.m in Sources */,
-				BF2AC88E18543BCA008928D0 /* GBASyncRenameOperation.m in Sources */,
+				BF2AC88E18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
 				BF3E2BB318206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */,
 				CCFA71B5179D2FE400768D24 /* EmuOptions.cc in Sources */,
 				CC2D57101798F2EC00C616EB /* GBAAppDelegate.mm in Sources */,
