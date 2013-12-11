@@ -1,0 +1,334 @@
+{
+  "identifier" : "",
+  "name" : "",
+  "portrait" : {
+    "assets" : {
+      "iPhone" : true,
+      "iPhone Widescreen" : false,
+      "iPad" : true,
+      "iPad Retina" : true
+    },
+    "layouts" : {
+      "iPhone" : {
+        "dpad" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "a" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "b" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "ab" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "l" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "r" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "start" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "select" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "menu" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "screen" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        }
+      },
+      "iPad" : {
+        "dpad" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "a" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "b" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "ab" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "l" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "r" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "start" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "select" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "menu" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "screen" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        }
+      }
+    }
+  },
+  "landscape" : {
+    "assets" : {
+      "iPhone" : true,
+      "iPhone Widescreen" : true,
+      "iPad" : true,
+      "iPad Retina" : true
+    },
+    "layouts" : {
+      "iPhone" : {
+        "dpad" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "a" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "b" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "ab" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "l" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "r" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "start" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "select" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "menu" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "screen" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        }
+      },
+      "iPhone Widescreen" : {
+        "dpad" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "a" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "b" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "ab" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "l" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "r" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "start" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "select" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "menu" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "screen" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        }
+      },
+      "iPad" : {
+        "dpad" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "a" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "b" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "ab" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "l" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "r" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "start" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "select" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "menu" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        },
+        "screen" : {
+          "x" : 0,
+          "y" : 0,
+          "width" : 0,
+          "height" : 0
+        }
+      }
+    }
+  }
+}

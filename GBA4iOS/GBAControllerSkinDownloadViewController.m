@@ -10,6 +10,7 @@
 #import "UIScreen+Widescreen.h"
 #import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBAControllerSkin.h"
+#import <AFNetworking/AFNetworking.h>
 
 #define CONTROLLER_SKIN_DOWNLOAD_PLIST_URL [NSURL URLWithString:@"http://rileytestut.com/gba4ios/skins/root.plist"]
 
@@ -42,9 +43,7 @@
 {
     [super viewDidLoad];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self downloadControllerSkinInfo];
-    });
+    [self downloadControllerSkinInfo];
     
     self.downloadProgressView = ({
         UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
@@ -92,6 +91,11 @@
 }
 
 #pragma mark - Downloading
+    
+    - (void)sup
+    {
+        return;
+    }
 
 - (void)downloadControllerSkinInfo
 {
