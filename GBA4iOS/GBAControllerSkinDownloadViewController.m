@@ -39,6 +39,7 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 @property (strong, nonatomic) UIProgressView *downloadProgressView;
 @property (strong, nonatomic) UIActivityIndicatorView *downloadingControllerSkinInfoActivityIndicatorView;
 @property (strong, nonatomic) NSCache *imageCache;
+@property (strong, nonatomic) NSProgress *downloadProgress;
 
 @end
 
@@ -54,6 +55,8 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
         self.title = NSLocalizedString(@"Download Skins", @"");
         
         _imageCache = [[NSCache alloc] init];
+        _downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];
+        [_downloadProgress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:GBADownloadProgressContext];
     }
     return self;
 }
@@ -165,11 +168,13 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     
     NSURL *URL = [self URLForFileWithName:dictionary[GBASkinFilenameKey] identifier:dictionary[GBASkinIdentifierKey]];
     
-    DLog(@"%@", URL);
-    
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     [self showDownloadProgressView];
+    
+    // Below line causes EXC_BAD_ACCESS in rare circumstances
+    // [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount + 1];
+    //[self.downloadProgress becomeCurrentWithPendingUnitCount:1];
     
     NSProgress *progress = nil;
     
@@ -182,12 +187,24 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
         
     } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
                                               {
+                                                  [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
+                                                  
+                                                  if (error)
+                                                  {
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
+                                                          [alert show];
+                                                      });
+                                                      
+                                                      [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+                                                      
+                                                      return;
+                                                  }
+                                                  
                                                   [GBAControllerSkin extractSkinAtPathToSkinsDirectory:[fileURL path]];
                                                   
                                                   [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
                                               }];
-    
-    DLog(@"%@", progress);
     
     [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:GBADownloadProgressContext];
     
@@ -214,10 +231,13 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     {
         NSProgress *progress = object;
         
+        if (progress.fractionCompleted < self.downloadProgressView.progress)
+        {
+            return;
+        }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            DLog(@"Progress: %f", progress.fractionCompleted);
-            
+                        
             [self.downloadProgressView setProgress:progress.fractionCompleted animated:YES];
             
             if (progress.fractionCompleted == 1)
