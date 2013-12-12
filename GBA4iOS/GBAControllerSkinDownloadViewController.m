@@ -29,6 +29,8 @@ NSString *const GBASkinDesignerURLKey = @"url";
 
 NSString *const Alyssa = @"Alyssa";
 
+static void * GBADownloadProgressContext = &GBADownloadProgressContext;
+
 #define REMOTE_SKIN_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/skins"
 
 @interface GBAControllerSkinDownloadViewController ()
@@ -37,7 +39,6 @@ NSString *const Alyssa = @"Alyssa";
 @property (strong, nonatomic) UIProgressView *downloadProgressView;
 @property (strong, nonatomic) UIActivityIndicatorView *downloadingControllerSkinInfoActivityIndicatorView;
 @property (strong, nonatomic) NSCache *imageCache;
-@property (strong, nonatomic) NSProgress *downloadProgress;
 
 @end
 
@@ -53,14 +54,6 @@ NSString *const Alyssa = @"Alyssa";
         self.title = NSLocalizedString(@"Download Skins", @"");
         
         _imageCache = [[NSCache alloc] init];
-        
-        rst_dispatch_sync_on_main_thread(^{
-            _downloadProgress = [NSProgress progressWithTotalUnitCount:1];
-            [_downloadProgress addObserver:self
-                                forKeyPath:@"fractionCompleted"
-                                   options:NSKeyValueObservingOptionNew
-                                   context:NULL];
-        });
     }
     return self;
 }
@@ -178,25 +171,27 @@ NSString *const Alyssa = @"Alyssa";
     
     [self showDownloadProgressView];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSProgress *progress = nil;
+    NSProgress *progress = nil;
+    
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-            
-            NSString *filepath = [[targetPath path] stringByDeletingPathExtension];
-            filepath = [filepath stringByAppendingPathExtension:@"gbaskin"];
-            
-            return [NSURL fileURLWithPath:filepath];
-            
-        } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
-                                                  {
-                                                      [GBAControllerSkin extractSkinAtPathToSkinsDirectory:[fileURL path]];
-                                                      
-                                                      [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
-                                                  }];
+        NSString *filepath = [[targetPath path] stringByDeletingPathExtension];
+        filepath = [filepath stringByAppendingPathExtension:@"gbaskin"];
         
-        [downloadTask resume];
-    });
+        return [NSURL fileURLWithPath:filepath];
+        
+    } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
+                                              {
+                                                  [GBAControllerSkin extractSkinAtPathToSkinsDirectory:[fileURL path]];
+                                                  
+                                                  [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+                                              }];
+    
+    DLog(@"%@", progress);
+    
+    [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:GBADownloadProgressContext];
+    
+    [downloadTask resume];
 }
 
 - (void)showDownloadProgressView
@@ -215,15 +210,17 @@ NSString *const Alyssa = @"Alyssa";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (object == self.downloadProgress)
+    if (context == GBADownloadProgressContext)
     {
+        NSProgress *progress = object;
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            DLog(@"Progress: %f", self.downloadProgress.fractionCompleted);
+            DLog(@"Progress: %f", progress.fractionCompleted);
             
-            [self.downloadProgressView setProgress:self.downloadProgress.fractionCompleted animated:YES];
+            [self.downloadProgressView setProgress:progress.fractionCompleted animated:YES];
             
-            if (self.downloadProgress.fractionCompleted == 1)
+            if (progress.fractionCompleted == 1)
             {
                 [self hideDownloadProgressView];
             }

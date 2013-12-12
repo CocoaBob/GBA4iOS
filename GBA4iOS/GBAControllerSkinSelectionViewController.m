@@ -357,7 +357,9 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0)
+    GBAControllerSkin *controller = self.filteredArray[indexPath.section];
+    
+    if ([controller.identifier isEqualToString:GBADefaultSkinIdentifier])
     {
         return NO;
     }
@@ -373,6 +375,7 @@
         
         [[NSFileManager defaultManager] removeItemAtPath:controller.filepath error:nil];
         self.filteredArray = nil;
+        
         [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
