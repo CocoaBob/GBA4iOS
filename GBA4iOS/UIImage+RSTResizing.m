@@ -13,7 +13,7 @@
 - (UIImage *)imageByResizingToFitSize:(CGSize)size opaque:(BOOL)opaque
 {
     CGSize resizedSize = [self sizeForImageToFitSize:size];
-    
+        
     UIGraphicsBeginImageContextWithOptions(resizedSize, opaque, [UIScreen mainScreen].scale);
     
     [self drawInRect:CGRectMake(0, 0, resizedSize.width, resizedSize.height)];

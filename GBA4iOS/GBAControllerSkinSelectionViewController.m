@@ -109,6 +109,7 @@
 - (void)downloadSkins:(UIBarButtonItem *)sender
 {
     GBAControllerSkinDownloadViewController *controllerSkinDownloadViewController = [[GBAControllerSkinDownloadViewController alloc] init];
+    controllerSkinDownloadViewController.controllerSkinType = self.controllerSkinType;
     [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(controllerSkinDownloadViewController) animated:YES completion:nil];
 }
 
@@ -119,8 +120,6 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    BOOL importedSkin = NO;
-    
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
         
     for (NSString *file in contents)
@@ -130,15 +129,12 @@
             NSString *filepath = [documentsDirectory stringByAppendingPathComponent:file];
             [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
             [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
-            importedSkin = YES;
         }
     }
     
-    if (importedSkin)
-    {
-        self.filteredArray = nil;
-        [self.tableView reloadData];
-    }
+    // Refresh in case a new skin was downloaded
+    self.filteredArray = nil;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Helper Methods

@@ -16,6 +16,7 @@
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 #import <DropboxSDK/DropboxSDK.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 #import "UIView+DTDebug.h"
 
@@ -92,6 +93,8 @@
         GBASplitViewController *splitViewController = [[GBASplitViewController alloc] init];
         self.window.rootViewController = splitViewController;
     }
+    
+    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
     
     [GBASettingsViewController registerDefaults];
     

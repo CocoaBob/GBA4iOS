@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "GBAControllerSkin.h"
+
 @interface GBAControllerSkinDownloadViewController : UITableViewController
+
+@property (assign, nonatomic) GBAControllerSkinType controllerSkinType;
 
 @end

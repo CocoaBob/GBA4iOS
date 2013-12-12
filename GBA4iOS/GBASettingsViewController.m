@@ -212,21 +212,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == DROPBOX_SYNC_SECTION)
-    {
-        cell.textLabel.frame = ({
-            CGRect frame = cell.textLabel.frame;
-            frame.origin.x = 15.0f;
-            frame.size.width = cell.bounds.size.width - 30.0f;
-            frame;
-        });
-        
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return UITableViewAutomaticDimension;

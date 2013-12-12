@@ -7,6 +7,9 @@
 //
 
 #import "GBAAsynchronousRemoteTableViewCell.h"
+#import "UIImage+RSTResizing.h"
+
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 @interface GBAAsynchronousRemoteTableViewCell ()
 
@@ -63,6 +66,7 @@
 
 - (void)prepareForReuse
 {
+    [self.backgroundImageView cancelImageRequestOperation];
     self.backgroundImageView.image = nil;
     self.backgroundImageView.alpha = 0.0;
     self.imageURL = nil;
@@ -82,8 +86,58 @@
 
 - (void)update
 {
+    [self layoutIfNeeded];
+    
+    if ([self.imageCache objectForKey:self.imageURL])
+    {
+        UIImage *image = [self.imageCache objectForKey:self.imageURL];
+        rst_dispatch_sync_on_main_thread(^{
+            [self displayImage:image];
+        });
+    }
+    
+    [self loadRemoteImage];
+}
+
+- (void)loadRemoteImage
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
+    
+    __weak __typeof__(self) weakSelf = self;
+    [self.backgroundImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [weakSelf prepareAndDisplayImage:image];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        DLog(@"Failure :( %@", error);
+    }];
+}
+
+- (void)prepareAndDisplayImage:(UIImage *)image
+{
+    image = [image imageByResizingToFitSize:self.backgroundImageView.bounds.size opaque:YES];
+    [self.imageCache setObject:image forKey:self.imageURL];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self displayImage:image];
+    });
+}
+
+- (void)displayImage:(UIImage *)image
+{
+    void (^animationBlock)(void) = ^{
+        self.activityIndicatorView.alpha = 0.0;
+        self.backgroundImageView.alpha = 1.0;
+    };
+    
+    self.backgroundImageView.image = image;
+    
+    [UIView animateWithDuration:0.2 animations:animationBlock completion:^(BOOL finished) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.activityIndicatorView stopAnimating];
+        });
+    }];
     
 }
+
 
 #pragma mark - Getters/Setters
 
