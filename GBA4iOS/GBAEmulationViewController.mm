@@ -796,6 +796,10 @@ static GBAEmulationViewController *_emulationViewController;
         
         [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:autosaveFilepath] withItemAtURL:[NSURL fileURLWithPath:backupFilepath] backupItemName:nil options:NSFileManagerItemReplacementUsingNewMetadataOnly resultingItemURL:nil error:nil];
     }
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] updateCheats];
+#endif
 }
 
 - (void)saveStateViewControllerWillDismiss:(GBASaveStateViewController *)saveStateViewController
