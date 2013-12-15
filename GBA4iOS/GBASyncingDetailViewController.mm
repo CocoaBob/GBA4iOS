@@ -16,7 +16,7 @@
 
 #import <DropboxSDK/DropboxSDK.h>
 
-NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADidUpdateSaveForCurrentGameFromDropboxNotification";
+NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCurrentGameNotification";
 
 @interface GBASyncingDetailViewController () <DBRestClientDelegate>
 
@@ -150,10 +150,8 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 
 - (void)syncWithDropbox
 {
-    DBMetadata *metadata = [self dropboxMetadataForROM:self.rom];
-    
     // If metadata is nil, but we've loaded the files and there aren't any, we'll allow the file to be uploaded without it
-    if (/*metadata ||*/ (self.loadingFiles || self.errorLoadingFiles) || (!metadata && self.selectedSaveIndexPath.section == 3) || self.selectedSaveIndexPath.section == 0 || self.selectedSaveIndexPath.section == 1)
+    if (/*metadata ||*/ (self.loadingFiles || self.errorLoadingFiles) || (self.remoteSaves.count == 0 && self.selectedSaveIndexPath.section == 3) || self.selectedSaveIndexPath.section == 0 || self.selectedSaveIndexPath.section == 1)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error communicating with Dropbox", @"")
                                                         message:NSLocalizedString(@"Please make sure you are connected to the internet and try again.", @"")
@@ -169,18 +167,46 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     [self.rom setConflicted:NO];
     [self.rom setSyncingDisabled:NO];
     
+    NSString *saveFileDropboxPath = [self saveFileDropboxPathForROM:self.rom];
+    
     if (self.selectedSaveIndexPath.section == 2) // Selected Local Save
     {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:self.rom.saveFileFilepath isDirectory:nil])
+        {
+            // Create an empty save file, since dropbox sync does not sync deletions of .sav files (which is intentional as a safety precaution)
+            [@"" writeToFile:self.rom.saveFileFilepath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        }
+        
+        DBMetadata *metadata = [self dropboxMetadataForROM:self.rom];
+        
         if (metadata)
         {
+            // Use metadata in case upload fails, and user uploads another save before this has a chance to re-upload.
             [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:nil];
         }
         else
         {
-            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath toDropboxPath:[self dropboxPathForROM:self.rom] completionBlock:nil];
+            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath toDropboxPath:saveFileDropboxPath completionBlock:nil];
         }
+        
+        // Delete all conflicted files from Dropbox, leaving only the uploaded file (with correct dropbox filename)
+        NSArray *remoteSaves = [self.remoteSaves copy];
+        for (DBMetadata *metadata in remoteSaves)
+        {
+            if ([metadata.path isEqualToString:saveFileDropboxPath])
+            {
+                continue;
+            }
+            
+            [[GBASyncManager sharedManager] deleteFileAtDropboxPath:metadata.path completionBlock:nil];
+        }
+        
         return;
     }
+    
+    DBMetadata *metadata = self.remoteSaves[self.selectedSaveIndexPath.row];
+    
+    DLog(@"Metadata: %@", metadata.path);
     
     // Selected Dropbox Save
     [[GBASyncManager sharedManager] downloadFileToPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:^(NSString *localPath, DBMetadata *newMetadata, NSError *error) {
@@ -198,10 +224,32 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
 #if !(TARGET_IPHONE_SIMULATOR)
             if ([[[GBAEmulatorCore sharedCore] rom] isEqual:self.rom])
             {
-                [[NSNotificationCenter defaultCenter] postNotificationName:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:GBAShouldRestartCurrentGameNotification object:nil];
             }
 #endif
         }
+        
+        DBMetadata *preferredMetadata = [self dropboxMetadataForROM:self.rom];
+        
+        // Delete all conflicted files from Dropbox, leaving only the uploaded file (with correct dropbox filename)
+        NSArray *remoteSaves = [self.remoteSaves copy];
+        for (DBMetadata *remoteMetadata in remoteSaves)
+        {
+            if ([remoteMetadata.path isEqualToString:preferredMetadata.path])
+            {
+                continue;
+            }
+            
+            [[GBASyncManager sharedManager] deleteFileAtDropboxPath:remoteMetadata.path completionBlock:nil];
+        }
+        
+        if (![metadata.path isEqualToString:saveFileDropboxPath])
+        {
+            // We upload instead of move it since we can't guarantee the deletions will succeed before attempting to move
+            // Have to upload with metadata, or else it'll remain conflicted
+            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:preferredMetadata completionBlock:nil];
+        }
+        
     }];
 }
 
@@ -429,7 +477,15 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
             
             NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:localSavePath error:nil];
             
-            cell.textLabel.text = [self.dateFormatter stringFromDate:[attributes fileModificationDate]];
+            if (attributes)
+            {
+                cell.textLabel.text = [self.dateFormatter stringFromDate:[attributes fileModificationDate]];
+            }
+            else
+            {
+                cell.textLabel.text = NSLocalizedString(@"No local save file", @"");
+            }
+            
         }
         else if (indexPath.section == 3)
         {
@@ -606,7 +662,7 @@ NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification = @"GBADi
     return nil;
 }
 
-- (NSString *)dropboxPathForROM:(GBAROM *)rom
+- (NSString *)saveFileDropboxPathForROM:(GBAROM *)rom
 {
     NSString *uniqueName = rom.uniqueName;
     return [NSString stringWithFormat:@"/%@/Saves/%@.sav", uniqueName, uniqueName];

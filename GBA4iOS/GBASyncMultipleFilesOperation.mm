@@ -400,6 +400,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         NSString *romName = [GBASyncManager romNameFromDropboxPath:uploadOperation.dropboxPath];
         
         // It's been updated, so ignore our pending deletion (better have to delete a second time than lose data)
+        // Yes, keep this. Other code relies on uploads taking precedence over deletions
         if (pendingDeletions[uploadOperation.dropboxPath])
         {
             [pendingDeletions removeObjectForKey:uploadOperation.dropboxPath];
@@ -740,7 +741,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     return NO;
 }
 
-- (NSDictionary *)validDropboxFilesFromDeltaEntries:(NSArray *)entries
+- (NSDictionary *)validDropboxFilesFromDeltaEntries:(NSArray *)entries deleteDeletedDropboxFiles:(BOOL)deleteDeletedDropboxFiles
 {
     NSMutableDictionary *dropboxFiles = [NSMutableDictionary dictionary];
     
@@ -749,6 +750,12 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         // If deleted, remove it from dropbox files
         if ([entry.metadata isDeleted] || entry.metadata.path == nil || entry.metadata.filename == nil)
         {
+            // Never ever delete .sav files. In case a user's Dropbox account is deleted, even if they lose their save states and cheats they'll still have their .sav file
+            if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || !deleteDeletedDropboxFiles)
+            {
+                continue;
+            }
+            
             NSDictionary *cachedDropboxFiles = [[[GBASyncManager sharedManager] dropboxFiles] copy];
             
             for (NSString *key in cachedDropboxFiles)

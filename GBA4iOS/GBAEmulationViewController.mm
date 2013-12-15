@@ -114,7 +114,7 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romDidSaveData:) name:GBAROMDidSaveDataNotification object:nil];
 #endif
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hasNewDropboxSaveForCurrentGameFromDropbox:) name:GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUpdateSaveForCurrentGameFromDropbox:) name:GBADidUpdateSaveForCurrentGameFromDropboxNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shouldRestartCurrentGame:) name:GBAShouldRestartCurrentGameNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncManagerFinishedSync:) name:GBASyncManagerFinishedSyncNotification object:[GBASyncManager sharedManager]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
@@ -1538,7 +1538,7 @@ void uncaughtExceptionHandler(NSException *exception)
     });
 }
 
-- (void)didUpdateSaveForCurrentGameFromDropbox:(NSNotification *)notification
+- (void)shouldRestartCurrentGame:(NSNotification *)notification
 {
     if ([self shouldAutosave])
     {

@@ -10,7 +10,7 @@
 
 #import "GBAROM_Private.h"
 
-extern NSString * const GBADidUpdateSaveForCurrentGameFromDropboxNotification;
+extern NSString * const GBAShouldRestartCurrentGameNotification;
 
 @class GBASyncingDetailViewController;
 

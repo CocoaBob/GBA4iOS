@@ -235,7 +235,7 @@
     {
         if ([[UIScreen mainScreen] isWidescreen])
         {
-            if ([[dictionary objectForKey:GBAScreenTypeiPhoneWidescreen] length] > 0)
+            if ([dictionary objectForKey:GBAScreenTypeiPhoneWidescreen])
             {
                 key = GBAScreenTypeiPhoneWidescreen;
             }
@@ -254,7 +254,7 @@
     {
         if ([[UIScreen mainScreen] scale] == 2.0)
         {
-            if ([[dictionary objectForKey:GBAScreenTypeiPadRetina] length] > 0)
+            if ([dictionary objectForKey:GBAScreenTypeiPadRetina])
             {
                 key = GBAScreenTypeiPadRetina;
             }

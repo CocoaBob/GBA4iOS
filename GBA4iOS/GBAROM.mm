@@ -172,7 +172,7 @@
     
     GBAROM *otherROM = (GBAROM *)object;
     
-    return [self.name isEqualToString:otherROM.name]; // Use names, not filepaths, to compare
+    return [self.uniqueName isEqualToString:otherROM.uniqueName]; // Use names, not filepaths, to compare
 }
 
 - (NSUInteger)hash
