@@ -476,7 +476,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     {
         return;
     }
-    
+        
     dispatch_async(self.directory_contents_changed_queue, ^{
         
         NSArray *contents = [self allFiles];
@@ -861,7 +861,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
         
     void(^showEmulationViewController)(void) = ^(void)
-    {        
+    {
+        DLog(@"Unique Name: %@", rom.uniqueName);
+        
         [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];

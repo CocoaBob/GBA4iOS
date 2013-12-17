@@ -343,12 +343,13 @@
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
-    uniqueName = [GBAEmulatorCore embeddedNameForROM:self];
+    // First ARC bug I've encountered. On iPhone 5s, if we don't copy this string, AND check whether it is an empty string, it'll be nil for some reason. Was a bitch to figure out.
+    uniqueName = [[GBAEmulatorCore embeddedNameForROM:self] copy];
 #else
     NSString *uuid = [[NSUUID UUID] UUIDString];
     uniqueName = uuid;
 #endif
-    
+        
     if (uniqueName == nil || [uniqueName isEqualToString:@""])
     {
         DLog(@"Something went really really wrong...%@", self.filepath);
