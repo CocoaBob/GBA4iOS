@@ -55,6 +55,8 @@ static GBAEmulationViewController *_emulationViewController;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
 @property (assign, nonatomic) BOOL preventSavingROMSaveData;
 
+@property (readonly, assign, nonatomic, getter = isAirplaying) BOOL airplaying;
+
 @property (nonatomic) CFTimeInterval previousTimestamp;
 @property (nonatomic) NSInteger frameCount;
 @property (weak, nonatomic) IBOutlet UILabel *framerateLabel;
@@ -342,7 +344,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)screenDidConnect:(NSNotification *)notification
 {
-    if (self.airplayWindow)
+    if ([self isAirplaying])
     {
         return;
     }
@@ -353,7 +355,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)screenDidDisconnect:(NSNotification *)notification
 {
-    if (self.airplayWindow == nil)
+    if (![self isAirplaying])
     {
         return;
     }
@@ -370,13 +372,13 @@ static GBAEmulationViewController *_emulationViewController;
         window.screen = screen;
         window.hidden = NO;
         
-        [self updateEmulatorScreenFrame];
-        
         [window addSubview:self.emulatorScreen];
         window;
     });
     
     [self.emulatorScreen invalidateIntrinsicContentSize];
+    
+    [self refreshLayout];
 }
 
 - (void)tearDownAirplayScreen
@@ -385,7 +387,7 @@ static GBAEmulationViewController *_emulationViewController;
     [self.screenContainerView addSubview:self.emulatorScreen];
     self.airplayWindow = nil;
     
-    [self updateEmulatorScreenFrame];
+    [self refreshLayout];
 }
 
 #pragma mark - Controller
@@ -1311,7 +1313,7 @@ void uncaughtExceptionHandler(NSException *exception)
         return;
     }
     
-    if (self.airplayWindow == nil)
+    if (![self isAirplaying])
     {
         CGRect screenRect = [self.controllerView.controllerSkin screenRectForOrientation:self.controllerView.orientation];
         
@@ -1756,7 +1758,7 @@ void uncaughtExceptionHandler(NSException *exception)
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
         CGRect screenRect = [controller screenRectForOrientation:GBAControllerSkinOrientationPortrait];
         
-        if (self.emulatorScreen.eaglView) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
+        if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
         {
             if (CGRectIsEmpty(screenRect) || self.externalController)
             {
@@ -1820,7 +1822,7 @@ void uncaughtExceptionHandler(NSException *exception)
         CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
         CGRect screenRect = [controller screenRectForOrientation:GBAControllerSkinOrientationLandscape];
         
-        if (self.emulatorScreen.eaglView) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
+        if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
         {
             if (CGRectIsEmpty(screenRect) || self.externalController)
             {
@@ -1896,9 +1898,10 @@ void uncaughtExceptionHandler(NSException *exception)
 }
 
 
-
-
-
+- (BOOL)isAirplaying
+{
+    return (self.airplayWindow != nil);
+}
 
 
 

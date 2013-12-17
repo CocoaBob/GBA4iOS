@@ -424,6 +424,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             romType = GBAROMTypeGBC;
         }
         
+        // Use name so we don't have to load a uniqueName from disk for every cell
         if ([self.emulationViewController.rom.name isEqualToString:[filename stringByDeletingPathExtension]] && self.emulationViewController.rom.type == romType)
         {
             [self highlightCell:cell];
@@ -680,7 +681,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     else
     {
-        alertView.title = NSLocalizedString(@"ROM Name", @"");
+        alertView.title = NSLocalizedString(@"Game Name", @"");
     }
     
     return filename.length > 0 && !fileExists;
@@ -970,6 +971,26 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 - (void)showRenameAlertForROMAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *filepath = [self filepathForIndexPath:indexPath];
+    GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
+    
+    if ([self.emulationViewController.rom isEqual:rom])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot Rename Currently Running Game", @"")
+                                                        message:NSLocalizedString(@"To rename this game, please quit it so it is no longer running. All unsaved data will be lost.", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                              otherButtonTitles:NSLocalizedString(@"Quit", @""), nil];
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1)
+            {
+                self.emulationViewController.rom = nil;
+                [self showRenameAlertForROMAtIndexPath:indexPath];
+            }
+        }];
+        
+        return;
+    }
+    
     NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename Game", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
@@ -978,8 +999,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     UITextField *textField = [alert textFieldAtIndex:0];
     textField.text = romName;
     textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
-    
-#warning Present Alert if ROM is running in background
     
     [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1)

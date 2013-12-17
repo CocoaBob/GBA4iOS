@@ -170,7 +170,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     GBASyncCompletionBlock completionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error)
     {
         // Give time for the completion alert to appear
-        double delayInSeconds = 1.0;
+        double delayInSeconds = 0.8;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [[GBASyncManager sharedManager] synchronize];

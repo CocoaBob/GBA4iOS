@@ -477,7 +477,7 @@ void writeSaveFileForCurrentROMToDisk();
     
     optionFrameSkip = frameskip;
     
-    optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsMixAudioKey];
+    optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAllowOtherAudioKey];
 }
 
 - (void)setRom:(GBAROM *)rom
