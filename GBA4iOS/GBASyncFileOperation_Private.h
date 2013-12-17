@@ -16,4 +16,6 @@
 
 - (void)finishedWithMetadata:(DBMetadata *)metadata error:(NSError *)error;
 
+- (NSString *)humanReadableFileDescriptionForDropboxPath:(NSString *)dropboxPath;
+
 @end

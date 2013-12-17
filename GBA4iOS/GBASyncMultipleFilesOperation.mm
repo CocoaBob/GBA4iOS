@@ -144,6 +144,8 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     rst_dispatch_sync_on_main_thread(^{
         downloadingProgressToastView = [RSTToastView toastViewWithMessage:nil];
     });
+    
+    NSMutableArray *operations = [NSMutableArray array];
         
     [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadOperationDictionary, BOOL *stop) {
         
@@ -242,12 +244,13 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         downloadOperation.delegate = self;
         downloadOperation.toastView = downloadingProgressToastView;
         [downloadOperation setQueuePriority:NSOperationQueuePriorityNormal];
-        [self.downloadOperationQueue addOperation:downloadOperation];
+        [operations addObject:downloadOperation];
     }];
     
+    [operations sortUsingComparator:[self sortedDropboxOperationsComparator]];
     
     [self.downloadOperationQueue setSuspended:NO];
-    [self.downloadOperationQueue waitUntilAllOperationsAreFinished];
+    [self.downloadOperationQueue addOperations:operations waitUntilFinished:YES];
     [self.downloadOperationQueue setSuspended:YES];
     
     [self uploadFiles];
@@ -376,7 +379,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         uploadingProgressToastView = [RSTToastView toastViewWithMessage:nil];
     });
     
-    __block NSMutableArray *filteredOperations = [NSMutableArray array];
+    NSMutableArray *operations = [NSMutableArray array];
     
     [pendingUploads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *uploadOperationDictionary, BOOL *stop) {
         
@@ -416,20 +419,18 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         uploadOperation.delegate = self;
         uploadOperation.toastView = uploadingProgressToastView;
         [uploadOperation setQueuePriority:NSOperationQueuePriorityNormal];
-        [self.uploadOperationQueue addOperation:uploadOperation];
-        
-        // Don't add if it's only an upload history operation
-        [filteredOperations addObject:uploadOperation];
+        [operations addObject:uploadOperation];
     }];
     
-    GBASyncUploadOperation *uploadOperation = [filteredOperations lastObject];
-    uploadOperation.updatesDeviceUploadHistoryUponCompletion = YES;
+    [operations sortUsingComparator:[self sortedDropboxOperationsComparator]];
     
-    filteredOperations = nil;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBASyncUploadOperation class]];
+    GBASyncUploadOperation *uploadOperation = [[operations filteredArrayUsingPredicate:predicate] lastObject];
+    uploadOperation.updatesDeviceUploadHistoryUponCompletion = YES;
     
     // If there are no opertions, this will do nothing, but we do it in case there's only device upload history operations which aren't included in operationCount
     [self.uploadOperationQueue setSuspended:NO];
-    [self.uploadOperationQueue waitUntilAllOperationsAreFinished];
+    [self.uploadOperationQueue addOperations:operations waitUntilFinished:YES];
     [self.uploadOperationQueue setSuspended:YES];
     
     [self deleteFiles];
@@ -720,6 +721,63 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
 }
 
 #pragma mark - Helper Methods
+
+- (NSComparator)sortedDropboxOperationsComparator
+{
+    NSComparator comparator = ^(GBASyncFileOperation *a, GBASyncFileOperation *b) {
+        NSString *uniqueNameA = [[a.dropboxPath pathComponents][1] lowercaseString];
+        NSString *uniqueNameB = [[b.dropboxPath pathComponents][1] lowercaseString];
+        
+        // Keep files for same ROM together
+        if (![uniqueNameA isEqualToString:uniqueNameB])
+        {
+            return [uniqueNameA compare:uniqueNameB];
+        }
+        
+        // For safety
+        if (a.dropboxPath.pathComponents.count < 3)
+        {
+            return NSOrderedDescending;
+        }
+        
+        if (b.dropboxPath.pathComponents.count < 3)
+        {
+            return NSOrderedAscending;
+        }
+        
+        // Upload saves, then save states, then cheats.
+        
+        NSString *subdirectoryA = [[a.dropboxPath pathComponents][2] lowercaseString];
+        NSString *subdirectoryB = [[b.dropboxPath pathComponents][2] lowercaseString];
+        
+        BOOL subdirectoryAIsSaves = [subdirectoryA isEqualToString:@"saves"];
+        BOOL subdirectoryBIsSaves = [subdirectoryB isEqualToString:@"saves"];
+        
+        // If either are saves, then we need to find out which one is saves, and make it first. Or, if they're both saves, then return normal comparison
+        if (subdirectoryAIsSaves || subdirectoryBIsSaves)
+        {
+            if (subdirectoryAIsSaves && subdirectoryBIsSaves)
+            {
+                return [subdirectoryA compare:subdirectoryB];
+            }
+            
+            if (subdirectoryAIsSaves)
+            {
+                return NSOrderedAscending;
+            }
+            
+            if (subdirectoryBIsSaves)
+            {
+                return NSOrderedDescending;
+            }
+        }
+        
+        // Cheats is reverse alphabetical order from save states, so just flip order of comparators and return result.
+        return [subdirectoryB compare:subdirectoryA];
+    };
+    
+    return comparator;
+}
 
 - (BOOL)romExistsWithName:(NSString *)name
 {

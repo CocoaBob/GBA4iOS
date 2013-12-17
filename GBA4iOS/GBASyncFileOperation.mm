@@ -75,4 +75,31 @@
     return dictionary;
 }
 
+- (NSString *)humanReadableFileDescriptionForDropboxPath:(NSString *)dropboxPath
+{
+    NSString *romName = [GBASyncManager romNameFromDropboxPath:self.dropboxPath];
+    
+    if (romName == nil || [romName isEqualToString:@"Upload History"])
+    {
+        return NSLocalizedString(@"Files", @"");
+    }
+    
+    NSString *fileDescription = NSLocalizedString(@"files", @"");
+    
+    if ([dropboxPath.pathExtension isEqualToString:@"sav"])
+    {
+        fileDescription = NSLocalizedString(@"save", @"");
+    }
+    else if ([dropboxPath.pathExtension isEqualToString:@"gbacheat"])
+    {
+        fileDescription = NSLocalizedString(@"cheats", @""); // Intentionally plural
+    }
+    else if ([dropboxPath.pathExtension isEqualToString:@"sgm"])
+    {
+        fileDescription = NSLocalizedString(@"save states", @""); // Intentionally plural
+    }
+    
+    return [NSString stringWithFormat:@"%@ %@", romName, fileDescription];
+}
+
 @end

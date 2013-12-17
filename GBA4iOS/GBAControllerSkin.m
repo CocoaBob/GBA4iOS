@@ -235,7 +235,7 @@
     {
         if ([[UIScreen mainScreen] isWidescreen])
         {
-            if ([dictionary objectForKey:GBAScreenTypeiPhoneWidescreen])
+            if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhoneWidescreen])
             {
                 key = GBAScreenTypeiPhoneWidescreen;
             }
@@ -254,7 +254,7 @@
     {
         if ([[UIScreen mainScreen] scale] == 2.0)
         {
-            if ([dictionary objectForKey:GBAScreenTypeiPadRetina])
+            if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPadRetina])
             {
                 key = GBAScreenTypeiPadRetina;
             }
@@ -270,6 +270,24 @@
     }
     
     return key;
+}
+
++ (BOOL)validObjectExistsInDictionary:(NSDictionary *)dictionary forKey:(NSString *)key
+{
+    BOOL exists = YES;
+    
+    id object = [dictionary objectForKey:key];
+    
+    if ([object isKindOfClass:[NSString class]])
+    {
+        exists = [(NSString *)object length] > 0;
+    }
+    else
+    {
+        exists = (object != nil);
+    }
+    
+    return exists;
 }
 
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation

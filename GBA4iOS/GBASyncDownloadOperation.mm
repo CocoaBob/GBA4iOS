@@ -34,7 +34,7 @@
     DLog(@"Downloading file %@...", self.dropboxPath);
     
     NSString *localizedString = NSLocalizedString(@"Downloading", @"");
-    NSString *message = [NSString stringWithFormat:@"%@ %@…", localizedString, [self.localPath lastPathComponent]];
+    NSString *message = [NSString stringWithFormat:@"%@ %@", localizedString, [self humanReadableFileDescriptionForDropboxPath:self.dropboxPath]];
     
     [self showToastViewWithMessage:message forDuration:0 showActivityIndicator:YES];
     

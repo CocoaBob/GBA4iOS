@@ -901,9 +901,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             }
             else if (buttonIndex == 2)
             {
-                self.emulationViewController.rom = nil;
+                self.emulationViewController.rom = rom;
                 
-                //showEmulationViewController();
+                showEmulationViewController();
             }
             
         }];
