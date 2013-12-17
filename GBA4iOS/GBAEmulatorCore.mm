@@ -719,6 +719,11 @@ extern gambatte::GB gbEmu;
     {
         for (NSString *filename in contents)
         {
+            if (![filename.pathExtension isEqualToString:@"gbacheat"])
+            {
+                continue;
+            }
+            
             NSString *filepath = [[self cheatsDirectory] stringByAppendingPathComponent:filename];
             GBACheat *cheat = [GBACheat cheatWithContentsOfFile:filepath];
             [cheats addObject:cheat];
@@ -749,6 +754,8 @@ extern gambatte::GB gbEmu;
 
 - (BOOL)loadCheats
 {
+    NSDictionary *enabledCheatsDictionary = [NSDictionary dictionaryWithContentsOfFile:[[self cheatsDirectory] stringByAppendingPathComponent:@"enabledCheats.plist"]];
+    
     if (isGBAROM)
     {
         cheatsDeleteAll(gGba.cpu, false);
@@ -767,7 +774,7 @@ extern gambatte::GB gbEmu;
                 return NO;
             }
             
-            if (!cheat.enabled)
+            if (![enabledCheatsDictionary[cheat.uid] boolValue])
             {
                 // So we don't read from disk for EVERY disabled cheat, we use a cached version
                 NSInteger index = [self initialCodeIndexOfCheat:cheat inCheatsArray:cheats];
@@ -929,11 +936,13 @@ extern gambatte::GB gbEmu;
 
 - (NSString *)GBCCheatsStringFromCheatsArray:(NSArray *)cheats forCheatType:(GBACheatCodeType)type
 {
+    NSDictionary *enabledCheatsDictionary = [NSDictionary dictionaryWithContentsOfFile:[[self cheatsDirectory] stringByAppendingPathComponent:@"enabledCheats.plist"]];
+    
     NSMutableString *cheatsString = [NSMutableString string];
     
     for (GBACheat *cheat in cheats)
     {
-        if (cheat.type == type && [cheat enabled])
+        if (cheat.type == type && [enabledCheatsDictionary[cheat.uid] boolValue])
         {
             for (NSString *code in cheat.codes)
             {

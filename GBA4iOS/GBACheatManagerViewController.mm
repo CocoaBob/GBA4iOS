@@ -15,9 +15,12 @@
 #import "GBAEmulatorCore.h"
 #endif
 
+#define ENABLED_CHEATS_FILEPATH [[self cheatsDirectory] stringByAppendingPathComponent:@"enabledCheats.plist"]
+
 @interface GBACheatManagerViewController () <GBACheatEditorViewControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *cheatsArray;
+@property (strong, nonatomic) NSMutableDictionary *enabledCheatsDictionary;
 
 @end
 
@@ -31,6 +34,13 @@
     {
         _rom = rom;
         [self updateCheatsArray];
+        
+        _enabledCheatsDictionary = [NSMutableDictionary dictionaryWithContentsOfFile:ENABLED_CHEATS_FILEPATH];
+        
+        if (_enabledCheatsDictionary == nil)
+        {
+            _enabledCheatsDictionary = [NSMutableDictionary dictionary];
+        }
     }
     return self;
 }
@@ -107,7 +117,7 @@
             
             NSString *newFilepath = [[self cheatsDirectory] stringByAppendingPathComponent:[cheat.uid stringByAppendingPathExtension:@"gbacheat"]];
             
-            // Copy it so the filenpath doesn't change
+            // Copy it so the filepath doesn't change
             GBACheat *oldCheat = [cheat copy];
             
             [cheat writeToFile:newFilepath];
@@ -162,8 +172,19 @@
 - (BOOL)addCheat:(GBACheat *)cheat
 {
 #if !(TARGET_IPHONE_SIMULATOR)
-    return [[GBAEmulatorCore sharedCore] addCheat:cheat];
+    BOOL success = [[GBAEmulatorCore sharedCore] addCheat:cheat];
+    
+    if (success)
+    {
+        self.enabledCheatsDictionary[cheat.uid] = @YES;
+        [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
+    }
+    
+    return success;
 #endif
+    
+    self.enabledCheatsDictionary[cheat.uid] = @YES;
+    [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
     return YES;
 }
 
@@ -276,7 +297,7 @@
     
     cell.textLabel.text = cheat.name;
     
-    if (cheat.enabled)
+    if ([[self.enabledCheatsDictionary objectForKey:cheat.uid] boolValue])
     {
         cell.detailTextLabel.text = NSLocalizedString(@"Enabled", @"");
     }
@@ -329,6 +350,7 @@
         GBACheat *cheat = self.cheatsArray[indexPath.row];
         
         [self.cheatsArray removeObjectAtIndex:indexPath.row];
+        [self.enabledCheatsDictionary removeObjectForKey:cheat.uid];
         
         [[NSFileManager defaultManager] removeItemAtPath:cheat.filepath error:nil];
         
@@ -389,20 +411,18 @@
     }
     else
     {
-        if (cheat.enabled)
+        if ([self.enabledCheatsDictionary[cheat.uid] boolValue])
         {
-            cheat.enabled = NO;
+            self.enabledCheatsDictionary[cheat.uid] = @NO;
             [self disableCheat:cheat];
         }
         else
         {
-            cheat.enabled = YES;
+            self.enabledCheatsDictionary[cheat.uid] = @YES;
             [self enableCheat:cheat];
         }
         
-        [cheat writeToFile:cheat.filepath];
-        
-        [[GBASyncManager sharedManager] prepareToUploadCheat:cheat forROM:self.rom];
+        [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
         
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }

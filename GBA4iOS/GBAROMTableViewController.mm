@@ -756,10 +756,17 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to delete this ROM and all of its saved data? This cannot be undone.", nil)
+        NSString *title = NSLocalizedString(@"Are you sure you want to delete this game and all of its saved data?", nil);
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
+        {
+            title = [title stringByAppendingFormat:@" Your data in Dropbox will not be affected."];
+        }
+        
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
                                                                  delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:NSLocalizedString(@"Delete ROM and Saved Data", nil)
+                                                   destructiveButtonTitle:NSLocalizedString(@"Delete Game and Saved Data", nil)
                                                         otherButtonTitles:nil];
         
         UIView *presentationView = self.view;
@@ -892,9 +899,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             }
             else if (buttonIndex == 2)
             {
-                self.emulationViewController.rom = rom;
+                self.emulationViewController.rom = nil;
                 
-                showEmulationViewController();
+                //showEmulationViewController();
             }
             
         }];
@@ -935,7 +942,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                                                              delegate:nil
                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:NSLocalizedString(@"Rename ROM", @""), NSLocalizedString(@"Share ROM", @""), nil];
+                                                    otherButtonTitles:NSLocalizedString(@"Rename Game", @""), NSLocalizedString(@"Share Game", @""), nil];
     UIView *presentationView = self.view;
     CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
     
@@ -963,7 +970,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *filepath = [self filepathForIndexPath:indexPath];
     NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename ROM", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Rename Game", @"") message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Rename", @""), nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     
     UITextField *textField = [alert textFieldAtIndex:0];
@@ -988,6 +995,24 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
     
+    if ([self.emulationViewController.rom isEqual:rom])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Cannot Delete Currently Running Game", @"")
+                                                        message:NSLocalizedString(@"To delete this game, please quit it so it is no longer running.", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                              otherButtonTitles:NSLocalizedString(@"Quit", @""), nil];
+        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1)
+            {
+                self.emulationViewController.rom = nil;
+                [self deleteROMAtIndexPath:indexPath];
+            }
+        }];
+        
+        return;
+    }
+    
     NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
     NSString *rtcFile = [NSString stringWithFormat:@"%@.rtc", romName];
     
@@ -996,12 +1021,20 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
     NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.uniqueName];
-    NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
     
+    NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingString:rom.uniqueName];
+    
+    // Handled by deletedFileAtIndexPath
+    //[[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] error:nil];
-    [[NSFileManager defaultManager] removeItemAtPath:[saveStateDirectory stringByAppendingPathComponent:rom.uniqueName] error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:saveStateDirectory error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:cheatsDirectory error:nil];
+    
+    NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+    [cachedROMs removeObjectForKey:romName];
+    [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
     
     [self deleteFileAtIndexPath:indexPath animated:YES];
 }
@@ -1020,8 +1053,17 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
     NSString *newSaveFile = [NSString stringWithFormat:@"%@.sav", newName];
     
+    NSString *rtcFile = [NSString stringWithFormat:@"%@.rtc", romName];
+    NSString *newRTCFile = [NSString stringWithFormat:@"%@.rtc", newName];
+    
     [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:newRomFilename] error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] toPath:[documentsDirectory stringByAppendingPathComponent:newRTCFile] error:nil];
+    
+    NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+    [cachedROMs setObject:cachedROMs[romName] forKey:[newRomFilename stringByDeletingPathExtension]];
+    [cachedROMs removeObjectForKey:romName];
+    [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
 }
 
 - (void)shareROMAtIndexPath:(NSIndexPath *)indexPath

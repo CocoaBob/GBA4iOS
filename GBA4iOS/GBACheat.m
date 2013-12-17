@@ -29,8 +29,6 @@
         
         NSUUID *uid = [[NSUUID alloc] init];
         _uid = [[uid UUIDString] copy];
-        
-        _enabled = YES;
     }
     
     return self;
@@ -68,7 +66,6 @@
     [aCoder encodeObject:self.name forKey:@"name"];
     [aCoder encodeObject:self.codes forKey:@"codes"];
     [aCoder encodeObject:self.uid forKey:@"uid"];
-    [aCoder encodeObject:@(self.enabled) forKey:@"enabled"];
     [aCoder encodeObject:@(self.type) forKey:@"type"];
     [aCoder encodeObject:@(self.index) forKey:@"index"];
 }
@@ -78,13 +75,11 @@
     NSString *name = [aDecoder decodeObjectForKey:@"name"];
     NSArray *codes = [aDecoder decodeObjectForKey:@"codes"];
     NSString *uid = [aDecoder decodeObjectForKey:@"uid"];
-    NSNumber *enabled = [aDecoder decodeObjectForKey:@"enabled"];
     NSNumber *type = [aDecoder decodeObjectForKey:@"type"];
     NSNumber *index = [aDecoder decodeObjectForKey:@"index"];
     
     self = [self initWithName:name codes:codes];
     self.uid = uid;
-    self.enabled = [enabled boolValue];
     self.type = [type integerValue];
     self.index = [index unsignedIntegerValue];
     
@@ -99,7 +94,6 @@
     cheat.name = self.name;
     cheat.codes = self.codes;
     cheat.uid = self.uid;
-    cheat.enabled = self.enabled;
     cheat.type = self.type;
     cheat.index = self.index;
     cheat.filepath = self.filepath;

@@ -349,7 +349,7 @@
     uniqueName = uuid;
 #endif
     
-    if (uniqueName == nil)
+    if (uniqueName == nil || [uniqueName isEqualToString:@""])
     {
         DLog(@"Something went really really wrong...%@", self.filepath);
         return nil;

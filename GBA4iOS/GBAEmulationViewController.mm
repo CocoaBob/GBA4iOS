@@ -1857,11 +1857,6 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)setRom:(GBAROM *)rom
 {
-    // We want to be able to restart the ROM
-    if (rom == nil)
-    {
-        return;
-    }
     
     _rom = rom;
     
@@ -1883,8 +1878,18 @@ void uncaughtExceptionHandler(NSException *exception)
         [[GBAEmulatorCore sharedCore] setRom:self.rom];
 #endif
         
-        
-        [self startEmulation];
+        if (rom)
+        {
+            [self startEmulation];
+        }
+        else
+        {
+            [self stopEmulation];
+            
+            self.emulatorScreen.eaglView = nil;
+            
+            [self refreshLayout];
+        }
         
         // [self.controllerView showButtonRects];
     });

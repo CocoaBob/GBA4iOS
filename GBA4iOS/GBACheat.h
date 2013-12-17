@@ -22,7 +22,6 @@ typedef NS_ENUM(NSInteger, GBACheatCodeType)
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSArray /* NSString */ *codes; // One cheat can consist of multiple codes.
 @property (readonly, copy, nonatomic) NSString *uid;
-@property (assign, nonatomic) BOOL enabled;
 @property (assign, nonatomic) GBACheatCodeType type;
 @property (assign, nonatomic) NSUInteger index;
 @property (readonly, copy, nonatomic) NSString *filepath; // If created from file

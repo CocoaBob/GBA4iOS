@@ -167,6 +167,17 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     [self.rom setConflicted:NO];
     [self.rom setSyncingDisabled:NO];
     
+    GBASyncCompletionBlock completionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error)
+    {
+        // Give time for the completion alert to appear
+        double delayInSeconds = 1.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [[GBASyncManager sharedManager] synchronize];
+        });
+        
+    };
+    
     NSString *saveFileDropboxPath = [self saveFileDropboxPathForROM:self.rom];
     
     if (self.selectedSaveIndexPath.section == 2) // Selected Local Save
@@ -182,11 +193,11 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
         if (metadata)
         {
             // Use metadata in case upload fails, and user uploads another save before this has a chance to re-upload.
-            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:nil];
+            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:completionBlock];
         }
         else
         {
-            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath toDropboxPath:saveFileDropboxPath completionBlock:nil];
+            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath toDropboxPath:saveFileDropboxPath completionBlock:completionBlock];
         }
         
         // Delete all conflicted files from Dropbox, leaving only the uploaded file (with correct dropbox filename)
@@ -247,7 +258,14 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
         {
             // We upload instead of move it since we can't guarantee the deletions will succeed before attempting to move
             // Have to upload with metadata, or else it'll remain conflicted
-            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:preferredMetadata completionBlock:nil];
+            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:preferredMetadata completionBlock:completionBlock];
+        }
+        else
+        {
+            if (completionBlock)
+            {
+                completionBlock(localPath, newMetadata, error);
+            }
         }
         
     }];
