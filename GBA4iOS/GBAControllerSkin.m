@@ -109,7 +109,8 @@
     }
     
     NSString *destinationPath = [skinTypeDirectory stringByAppendingPathComponent:controllerSkin.identifier];
-        
+    
+    [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:tempDirectory toPath:destinationPath error:nil];
     
 #warning may eventually change filename away from Info.plist

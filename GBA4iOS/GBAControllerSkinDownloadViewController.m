@@ -178,7 +178,7 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     
     NSProgress *progress = nil;
     
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         
         NSString *filepath = [[targetPath path] stringByDeletingPathExtension];
         filepath = [filepath stringByAppendingPathExtension:@"gbaskin"];
@@ -213,6 +213,7 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 
 - (void)showDownloadProgressView
 {
+    
     [UIView animateWithDuration:0.4 animations:^{
         [self.downloadProgressView setAlpha:1.0];
     }];
@@ -222,6 +223,8 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 {
     [UIView animateWithDuration:0.4 animations:^{
         [self.downloadProgressView setAlpha:0.0];
+    } completion:^(BOOL finisehd) {
+         self.downloadProgressView.progress = 0.0;
     }];
 }
 
@@ -236,16 +239,17 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
             return;
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        rst_dispatch_sync_on_main_thread(^{
                         
             [self.downloadProgressView setProgress:progress.fractionCompleted animated:YES];
             
             if (progress.fractionCompleted == 1)
             {
+                [progress removeObserver:self forKeyPath:@"fractionCompleted" context:GBADownloadProgressContext];
                 [self hideDownloadProgressView];
             }
         });
-        
+    
         return;
     }
     

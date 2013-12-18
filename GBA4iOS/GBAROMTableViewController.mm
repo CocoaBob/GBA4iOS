@@ -116,13 +116,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     self.downloadProgressView = progressView;
-
     
-    //NSFileManager *fileManager = [NSFileManager defaultManager];
-    //if (![[fileManager contentsOfDirectoryAtPath:[self GBASkinsDirectory] error:NULL] containsObject:@"Default"])
-    {
-        [self importDefaultSkins];
-    }
+    [self importDefaultSkins];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -637,7 +632,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
     
-    [[NSFileManager defaultManager] removeItemAtPath:[[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"] error:nil];
+    NSString *destinationPath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+    {
+        return;
+    }
+    
+    [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
         
     [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
@@ -646,7 +648,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbcskin"];
     
-    [[NSFileManager defaultManager] removeItemAtPath:[[self GBCSkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"] error:nil];
+    NSString *destinationPath = [[self GBCSkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+    {
+        return;
+    }
+    
+    [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
     
     [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
@@ -804,7 +813,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    if ([[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] hasPendingDownloadForROM:rom] && ![rom syncingDisabled])
+    if ([[DBSession sharedSession] isLinked] && [[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] hasPendingDownloadForROM:rom] && ![rom syncingDisabled])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then launch the game.", @"")

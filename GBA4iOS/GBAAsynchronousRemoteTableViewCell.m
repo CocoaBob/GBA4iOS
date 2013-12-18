@@ -92,7 +92,7 @@
     {
         UIImage *image = [self.imageCache objectForKey:self.imageURL];
         rst_dispatch_sync_on_main_thread(^{
-            [self displayImage:image];
+            [self displayImage:image animated:NO];
         });
     }
     
@@ -117,11 +117,11 @@
     [self.imageCache setObject:image forKey:self.imageURL];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self displayImage:image];
+        [self displayImage:image animated:YES];
     });
 }
 
-- (void)displayImage:(UIImage *)image
+- (void)displayImage:(UIImage *)image animated:(BOOL)animated
 {
     void (^animationBlock)(void) = ^{
         self.activityIndicatorView.alpha = 0.0;
@@ -130,11 +130,21 @@
     
     self.backgroundImageView.image = image;
     
-    [UIView animateWithDuration:0.2 animations:animationBlock completion:^(BOOL finished) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    if (animated)
+    {
+        [UIView animateWithDuration:0.2 animations:animationBlock completion:^(BOOL finished) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.activityIndicatorView stopAnimating];
+            });
+        }];
+    }
+    else
+    {
+        animationBlock();
+        rst_dispatch_sync_on_main_thread(^{
             [self.activityIndicatorView stopAnimating];
         });
-    }];
+    }
     
 }
 

@@ -134,6 +134,7 @@
     
     // Refresh in case a new skin was downloaded
     self.filteredArray = nil;
+    self.imageCache = nil;
     [self.tableView reloadData];
 }
 
