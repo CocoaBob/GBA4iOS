@@ -212,7 +212,6 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 {
     GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath dropboxPath:dropboxPath];
     [self configureAndCacheUploadOperation:uploadOperation withCompletionBlock:completionBlock];
-    
 }
 
 - (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
@@ -330,7 +329,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 }
 
 - (void)moveFileAtDropboxPath:(NSString *)dropboxPath toDestinationPath:(NSString *)destinationPath completionBlock:(GBASyncMoveCompletionBlock)completionBlock
-{
+{    
     GBASyncMoveOperation *moveOperation = [[GBASyncMoveOperation alloc] initWithDropboxPath:dropboxPath destinationPath:destinationPath];
     moveOperation.syncCompletionBlock = completionBlock;
     moveOperation.delegate = self;

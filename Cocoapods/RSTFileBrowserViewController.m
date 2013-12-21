@@ -88,8 +88,15 @@
 
 - (NSString *)filenameForIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *fileName = [[self.fileDictionary objectForKey:[self.sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-    return fileName;
+    NSArray *sections = [self.fileDictionary objectForKey:[self.sections objectAtIndex:indexPath.section]];
+    
+    if (indexPath.row >= (NSInteger)[sections count])
+    {
+        return nil;
+    }
+    
+    NSString *fileName = [sections objectAtIndex:indexPath.row];
+    return [fileName copy];
 }
 
 - (NSString *)displayNameForIndexPath:(NSIndexPath *)indexPath
@@ -240,7 +247,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    NSString *displayName = [self displayNameForIndexPath:indexPath];
+    __strong NSString *displayName = [self displayNameForIndexPath:indexPath];
     cell.textLabel.text = displayName;
     
     if (self.showFileExtensions)

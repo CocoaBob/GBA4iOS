@@ -461,7 +461,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         extension = @"GBC";
     }
     
-    return extension;
+    return [extension copy];
 }
 
 - (void)didRefreshCurrentDirectory
@@ -472,10 +472,13 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     {
         return;
     }
-        
+    
+    if ([[self unavailableFiles] count] > 0)
+    {
+        return;
+    }
+    
     dispatch_async(self.directory_contents_changed_queue, ^{
-        
-        NSArray *contents = [self allFiles];
         
         NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
         
@@ -484,24 +487,25 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             cachedROMs = [NSMutableDictionary dictionary];
         }
         
+        NSArray *contents = [self allFiles];
+        
         for (NSString *filename in contents)
         {
-            if ([[[filename pathExtension] lowercaseString] isEqualToString:@"zip"] && ![self isDownloadingFile:filename] && ![self.unavailableFiles containsObject:filename])
+            NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
+            
+            if (([[[filename pathExtension] lowercaseString] isEqualToString:@"zip"] && ![self isDownloadingFile:filename] && ![self.unavailableFiles containsObject:filename]))
             {
                 DLog(@"Unzipping.. %@", filename);
-                
-                [self setIgnoreDirectoryContentChanges:YES];
-                
-                NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
                 
                 NSError *error = nil;
                 if (![GBAROM unzipROMAtPathToROMDirectory:filepath withPreferredROMTitle:[filename stringByDeletingPathExtension] error:&error])
                 {
                     if ([error code] == NSFileWriteFileExistsError)
                     {
+                        // Same as below when importing ROM file
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"File Already Exists", @"")
-                                                                            message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists", @"")
+                                                                            message:NSLocalizedString(@"Only one copy of a game is supported at a time. To use a new version of this game, please delete the previous version and try again.", @"")
                                                                            delegate:nil
                                                                   cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
                             [alert show];
@@ -509,43 +513,73 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                     }
                     else if ([error code] == NSFileReadNoSuchFileError)
                     {
+                        // Too many false positives
+                        /*
                         dispatch_async(dispatch_get_main_queue(), ^{
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Unsupported File", @"")
-                                                                            message:NSLocalizedString(@"Make sure the zip file contains either a GBA or GBC ROM and try again,", @"")
+                                                                            message:NSLocalizedString(@"Make sure the zip file contains either a GBA or GBC ROM and try again.", @"")
+                                                                           delegate:nil
+                                                                  cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                            [alert show];
+                        });*/
+                        
+                    }
+                    else if ([error code] == NSFileWriteInvalidFileNameError)
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists With This Name", @"")
+                                                                            message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
                                                                            delegate:nil
                                                                   cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
                             [alert show];
                         });
-                        
                     }
+                    
+                    continue;
                 }
                 
                 [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
                 
-                [self setIgnoreDirectoryContentChanges:NO];
-                
                 continue;
             }
             
-            if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"])
+            
+            NSString *romName = [filename stringByDeletingPathExtension];
+            
+            GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
+            NSString *uniqueName = [rom uniqueName];
+            
+            if (cachedROMs[filename])
             {
-                NSString *romName = [filename stringByDeletingPathExtension];
-                
-                if (!cachedROMs[romName])
-                {
-                    GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
-                    
-                    NSString *uniqueName = [rom uniqueName];
-                    
-                    if (uniqueName)
-                    {
-                        cachedROMs[romName] = uniqueName;
-                    }
-                }
+                continue;
             }
+            
+            // The above if statement may succeed, but that doesn't mean this will do. This checks against all stored unique names
+            GBAROM *cachedROM = [GBAROM romWithUniqueName:uniqueName];
+            
+            if (cachedROM)
+            {
+                // Same as above when unzipping ROM file
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists", @"")
+                                                                    message:NSLocalizedString(@"Only one copy of a game is supported at a time. To use a new version of this game, please delete the previous version and try again.", @"")
+                                                                   delegate:nil
+                                                          cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                    [alert show];
+                });
+                
+                [[NSFileManager defaultManager] removeItemAtPath:rom.filepath error:nil];
+            }
+            
+            if (uniqueName)
+            {
+                cachedROMs[filename] = uniqueName;
+            }
+            
+            [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
+            
         }
         
-        [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
         
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
@@ -556,7 +590,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     });
     
 }
-
 #pragma mark - Filepaths
 
 - (NSString *)skinsDirectory
@@ -874,6 +907,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     {
         DLog(@"Unique Name: %@", rom.uniqueName);
         
+        NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+        
+        if (cachedROMs[[rom.filepath lastPathComponent]] == nil)
+        {
+            cachedROMs[[rom.filepath lastPathComponent]] = rom.uniqueName;
+            [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
+        }
+                
         [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -1091,8 +1132,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] toPath:[documentsDirectory stringByAppendingPathComponent:newRTCFile] error:nil];
     
     NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
-    [cachedROMs setObject:cachedROMs[romName] forKey:[newRomFilename stringByDeletingPathExtension]];
-    [cachedROMs removeObjectForKey:romName];
+    [cachedROMs setObject:cachedROMs[[filepath lastPathComponent]] forKey:newRomFilename];
+    [cachedROMs removeObjectForKey:[filepath lastPathComponent]];
     [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
 }
 

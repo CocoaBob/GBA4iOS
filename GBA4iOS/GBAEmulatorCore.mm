@@ -651,6 +651,11 @@ extern gambatte::GB gbEmu;
     {
         char *romName = CPULoadROMName([rom.filepath UTF8String]);
         
+        if (sizeof(romName) == 0)
+        {
+            return nil;
+        }
+        
         embeddedName = [NSString stringWithUTF8String:romName];
         
         if (embeddedName.length > 12)
@@ -661,6 +666,11 @@ extern gambatte::GB gbEmu;
     else
     {
         char *romName = gambatte::loadGBCROMName([rom.filepath UTF8String]);
+        
+        if (sizeof(romName) == 0)
+        {
+            return nil;
+        }
         
         embeddedName = [NSString stringWithUTF8String:romName];
     }

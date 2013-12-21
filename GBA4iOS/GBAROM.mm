@@ -66,24 +66,36 @@
 
 + (GBAROM *)romWithUniqueName:(NSString *)uniqueName
 {
-    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]];
+    NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]];
     
-    __block NSString *romName = nil;
+    __block NSString *romFilename = nil;
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
     [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *cachedUniqueName, BOOL *stop) {
         if ([uniqueName isEqualToString:cachedUniqueName])
         {
-            romName = key;
+            NSString *cachedFilepath = [documentsDirectory stringByAppendingPathComponent:key];
+            
+            if (![[NSFileManager defaultManager] fileExistsAtPath:cachedFilepath])
+            {
+                [cachedROMs removeObjectForKey:key];
+                [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
+                return;
+            }
+            
+            romFilename = key;
             *stop = YES;
         }
     }];
     
-    if (romName == nil)
+    if (romFilename == nil)
     {
         return nil;
     }
     
-    return [GBAROM romWithName:romName];
+    return [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:romFilename]];
 }
 
 + (BOOL)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)preferredName error:(NSError **)error
@@ -117,6 +129,9 @@
     if (romFilename == nil)
     {
         *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileReadNoSuchFileError userInfo:nil];
+        
+        [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
+        
         return NO; // zip file invalid
     }
     
@@ -125,38 +140,39 @@
         preferredName = romFilename;
     }
     
-    contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil];
+    GBAROM *rom = [GBAROM romWithContentsOfFile:[tempDirectory stringByAppendingPathComponent:[romFilename stringByAppendingPathExtension:extension]]];
+    NSString *uniqueName = rom.uniqueName;
     
-    BOOL fileExists = NO;
+    __block NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
     
-    for (NSString *filename in contents)
-    {
-        // Don't check for .zip extension, cause we're in the process of unzipping
-        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gba"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] ||
-            [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"] /* || [[[filename pathExtension] lowercaseString] isEqualToString:@"zip"]*/)
-        {
-            NSString *name = [filename stringByDeletingPathExtension];
-            
-            if ([name isEqualToString:preferredName])
-            {
-                fileExists = YES;
-                break;
-            }
-        }
-    }
+    GBAROM *cachedROM = [GBAROM romWithUniqueName:uniqueName];
     
-    if (fileExists)
+    if (cachedROM)
     {
         *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteFileExistsError userInfo:nil];
+        
+        [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
+        
         return NO;
     }
-    else
+    
+    // Check if another rom happens to have the same name as this ROM
+    
+    BOOL romNameIsTaken = (cachedROMs[[rom.filepath lastPathComponent]] != nil);
+    
+    if (romNameIsTaken)
     {
-        NSString *originalFilename = [romFilename stringByAppendingPathExtension:extension];
-        NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
+        *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteInvalidFileNameError userInfo:nil];
         
-        [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:originalFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
+        
+        return NO;
     }
+    
+    NSString *originalFilename = [romFilename stringByAppendingPathExtension:extension];
+    NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
+    
+    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:originalFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
     
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
     
@@ -328,18 +344,19 @@
 
 - (NSString *)uniqueName
 {
-    NSDictionary *cachedROMs = [NSDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]];
+    NSDictionary *cachedROMs = [[NSDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]] copy];
     
     if (cachedROMs == nil)
     {
         cachedROMs = [NSDictionary dictionary];
     }
     
-    NSString *uniqueName = cachedROMs[self.name];
+    NSString *uniqueName = cachedROMs[[self.filepath lastPathComponent]];
     
     if (uniqueName)
     {
-        return uniqueName;
+        // copy Fixes rare EXC_BAD_ACCESS
+        return [uniqueName copy];
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -349,7 +366,7 @@
     NSString *uuid = [[NSUUID UUID] UUIDString];
     uniqueName = uuid;
 #endif
-        
+    
     if (uniqueName == nil || [uniqueName isEqualToString:@""])
     {
         DLog(@"Something went really really wrong...%@", self.filepath);
