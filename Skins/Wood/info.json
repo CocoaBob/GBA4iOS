@@ -1,0 +1,61 @@
+{
+  "portrait" : {
+    "assets" : {
+      "iPhone" : "portrait.png"
+    },
+    "layouts" : {
+      "iPhone" : {
+        "b" : {
+          "x" : 190,
+          "height" : 48,
+          "y" : 106,
+          "width" : 48
+        },
+        "select" : {
+          "x" : 118,
+          "height" : 40,
+          "y" : 200,
+          "width" : 40
+        },
+        "start" : {
+          "x" : 162,
+          "height" : 40,
+          "y" : 200,
+          "width" : 40
+        },
+        "l" : {
+          "x" : 0,
+          "height" : 37,
+          "y" : 0,
+          "width" : 85
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 40,
+          "y" : 200,
+          "width" : 53
+        },
+        "dpad" : {
+          "x" : 0,
+          "height" : 146,
+          "y" : 45,
+          "width" : 146
+        },
+        "r" : {
+          "x" : 235,
+          "height" : 37,
+          "y" : 0,
+          "width" : 85
+        },
+        "a" : {
+          "x" : 259,
+          "height" : 48,
+          "y" : 75,
+          "width" : 48
+        }
+      }
+    }
+  },
+  "identifier" : "com.paulthorsen.wood",
+  "name" : "Wood"
+}

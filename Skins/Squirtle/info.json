@@ -1,0 +1,61 @@
+{
+  "portrait" : {
+    "assets" : {
+      "iPhone" : "portrait.png"
+    },
+    "layouts" : {
+      "iPhone" : {
+        "b" : {
+          "x" : 185,
+          "height" : 70,
+          "y" : 107,
+          "width" : 70
+        },
+        "select" : {
+          "x" : 110,
+          "height" : 54,
+          "y" : 186,
+          "width" : 47
+        },
+        "start" : {
+          "x" : 161,
+          "height" : 47,
+          "y" : 186,
+          "width" : 47
+        },
+        "l" : {
+          "x" : 13,
+          "height" : 64,
+          "y" : 0,
+          "width" : 64
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 50,
+          "y" : 190,
+          "width" : 50
+        },
+        "dpad" : {
+          "x" : 5,
+          "height" : 137,
+          "y" : 57,
+          "width" : 137
+        },
+        "r" : {
+          "x" : 245,
+          "height" : 64,
+          "y" : 0,
+          "width" : 64
+        },
+        "a" : {
+          "x" : 247,
+          "height" : 70,
+          "y" : 67,
+          "width" : 70
+        }
+      }
+    }
+  },
+  "identifier" : "com.paulthorsen.squirtle",
+  "name" : "Squirtle"
+}

@@ -24,7 +24,15 @@
     if (self)
     {
         _filepath = [filepath copy];
-        _infoDictionary = [[NSDictionary dictionaryWithContentsOfFile:[_filepath stringByAppendingPathComponent:@"Info.plist"]] copy];
+
+        NSData *jsonData = [NSData dataWithContentsOfFile:[_filepath stringByAppendingPathComponent:@"info.json"]];
+        
+        if (jsonData == nil)
+        {
+            return nil;
+        }
+        
+        _infoDictionary = [[NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil] copy];
         
         if (_infoDictionary == nil)
         {
@@ -113,9 +121,7 @@
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:tempDirectory toPath:destinationPath error:nil];
     
-#warning may eventually change filename away from Info.plist
-    
-    NSString *infoDictionaryPath = [destinationPath stringByAppendingPathComponent:@"Info.plist"];
+    NSString *infoDictionaryPath = [destinationPath stringByAppendingPathComponent:@"info.json"];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:infoDictionaryPath];
     
     dictionary[@"type"] = @(skinType);
@@ -135,14 +141,14 @@
 
 - (NSString *)name
 {
-    NSString *filename = self.infoDictionary[@"Name"];
+    NSString *filename = self.infoDictionary[@"name"];
     return filename;
 }
 
 - (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
-    NSDictionary *assets = dictionary[@"Assets"];
+    NSDictionary *assets = dictionary[@"assets"];
     
     NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:assets];
     NSString *relativePath = assets[key];
@@ -164,15 +170,15 @@
 - (CGRect)rectForButtonRect:(GBAControllerRect)button orientation:(GBAControllerOrientation)orientation
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
-    NSDictionary *layout = dictionary[@"Layout"];
+    NSDictionary *layouts = dictionary[@"layouts"];
     
-    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:layout];
-    NSDictionary *rect = layout[key];
+    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:layouts];
+    NSDictionary *rect = layouts[key];
     
     key = [self keyForButtonRect:button];
     NSDictionary *buttonRect = rect[key];
         
-    return CGRectMake([buttonRect[@"X"] floatValue], [buttonRect[@"Y"] floatValue], [buttonRect[@"Width"] floatValue], [buttonRect[@"Height"] floatValue]);
+    return CGRectMake([buttonRect[@"x"] floatValue], [buttonRect[@"y"] floatValue], [buttonRect[@"width"] floatValue], [buttonRect[@"height"] floatValue]);
 }
 
 - (NSString *)keyForButtonRect:(GBAControllerRect)button
@@ -180,43 +186,43 @@
     NSString *key = nil;
     switch (button) {
         case GBAControllerSkinRectDPad:
-            key = @"D-Pad";
+            key = @"dpad";
             break;
             
         case GBAControllerSkinRectA:
-            key = @"A";
+            key = @"a";
             break;
             
         case GBAControllerSkinRectB:
-            key = @"B";
+            key = @"b";
             break;
             
         case GBAControllerSkinRectAB:
-            key = @"AB";
+            key = @"ab";
             break;
             
         case GBAControllerSkinRectStart:
-            key = @"Start";
+            key = @"start";
             break;
             
         case GBAControllerSkinRectSelect:
-            key = @"Select";
+            key = @"select";
             break;
             
         case GBAControllerSkinRectL:
-            key = @"L";
+            key = @"l";
             break;
             
         case GBAControllerSkinRectR:
-            key = @"R";
+            key = @"r";
             break;
             
         case GBAControllerSkinRectMenu:
-            key = @"Menu";
+            key = @"menu";
             break;
             
         case GBAControllerSkinRectScreen:
-            key = @"Screen";
+            key = @"screen";
             break;
     }
     
@@ -297,11 +303,11 @@
     
     switch (orientation) {
         case GBAControllerSkinOrientationPortrait:
-            dictionary = self.infoDictionary[@"Portrait"];
+            dictionary = self.infoDictionary[@"portrait"];
             break;
             
         case GBAControllerSkinOrientationLandscape:
-            dictionary = self.infoDictionary[@"Landscape"];
+            dictionary = self.infoDictionary[@"landscape"];
             break;
     }
     
@@ -332,7 +338,7 @@
 
 - (NSString *)identifier
 {
-    return self.infoDictionary[@"Identifier"];
+    return self.infoDictionary[@"identifier"];
 }
 
 @end

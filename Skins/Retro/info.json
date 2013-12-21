@@ -1,0 +1,61 @@
+{
+  "portrait" : {
+    "assets" : {
+      "iPhone" : "portrait@2x.png"
+    },
+    "layouts" : {
+      "iPhone" : {
+        "b" : {
+          "x" : 190,
+          "height" : 60,
+          "y" : 100,
+          "width" : 60
+        },
+        "select" : {
+          "x" : 118,
+          "height" : 40,
+          "y" : 200,
+          "width" : 40
+        },
+        "start" : {
+          "x" : 162,
+          "height" : 40,
+          "y" : 200,
+          "width" : 40
+        },
+        "l" : {
+          "x" : 0,
+          "height" : 37,
+          "y" : 0,
+          "width" : 85
+        },
+        "menu" : {
+          "x" : 140,
+          "height" : 40,
+          "y" : 0,
+          "width" : 40
+        },
+        "dpad" : {
+          "x" : 15,
+          "height" : 131,
+          "y" : 50,
+          "width" : 131
+        },
+        "r" : {
+          "x" : 235,
+          "height" : 37,
+          "y" : 0,
+          "width" : 85
+        },
+        "a" : {
+          "x" : 245,
+          "height" : 60,
+          "y" : 70,
+          "width" : 60
+        }
+      }
+    }
+  },
+  "identifier" : "com.paulthorsen.retro",
+  "name" : "Retro"
+}

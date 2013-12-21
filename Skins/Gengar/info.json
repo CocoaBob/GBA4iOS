@@ -1,0 +1,61 @@
+{
+  "portrait" : {
+    "assets" : {
+      "iPhone" : "portrait.png"
+    },
+    "layouts" : {
+      "iPhone" : {
+        "b" : {
+          "x" : 185,
+          "height" : 75,
+          "y" : 105,
+          "width" : 75
+        },
+        "select" : {
+          "x" : 111,
+          "height" : 45,
+          "y" : 195,
+          "width" : 45
+        },
+        "start" : {
+          "x" : 161,
+          "height" : 45,
+          "y" : 195,
+          "width" : 45
+        },
+        "l" : {
+          "x" : 0,
+          "height" : 35,
+          "y" : 0,
+          "width" : 100
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 45,
+          "y" : 195,
+          "width" : 45
+        },
+        "dpad" : {
+          "x" : 0,
+          "height" : 155,
+          "y" : 40,
+          "width" : 155
+        },
+        "r" : {
+          "x" : 220,
+          "height" : 35,
+          "y" : 0,
+          "width" : 100
+        },
+        "a" : {
+          "x" : 245,
+          "height" : 75,
+          "y" : 66,
+          "width" : 75
+        }
+      }
+    }
+  },
+  "identifier" : "com.paulthorsen.gengar",
+  "name" : "Gengar"
+}

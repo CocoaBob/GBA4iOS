@@ -1,0 +1,311 @@
+{
+  "portrait" : {
+    "assets" : {
+      "iPhone" : "portrait.png",
+      "iPad" : "portrait~ipad.png",
+      "iPad Retina" : "portrait~ipad@2x.png"
+    },
+    "layouts" : {
+      "iPhone" : {
+        "b" : {
+          "x" : 189,
+          "height" : 60,
+          "y" : 112,
+          "width" : 60
+        },
+        "select" : {
+          "x" : 117,
+          "height" : 45,
+          "y" : 195,
+          "width" : 40
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 45,
+          "y" : 195,
+          "width" : 50
+        },
+        "start" : {
+          "x" : 164,
+          "height" : 45,
+          "y" : 195,
+          "width" : 40
+        },
+        "dpad" : {
+          "x" : -5,
+          "height" : 131,
+          "y" : 51,
+          "width" : 131
+        },
+        "a" : {
+          "x" : 256,
+          "height" : 60,
+          "y" : 86,
+          "width" : 64
+        }
+      },
+      "iPad" : {
+        "b" : {
+          "x" : 561,
+          "height" : 80,
+          "y" : 152,
+          "width" : 80
+        },
+        "select" : {
+          "x" : 320,
+          "height" : 60,
+          "y" : 254,
+          "width" : 60
+        },
+        "menu" : {
+          "x" : 353,
+          "height" : 60,
+          "y" : 90,
+          "width" : 60
+        },
+        "start" : {
+          "x" : 387,
+          "height" : 60,
+          "y" : 254,
+          "width" : 60
+        },
+        "dpad" : {
+          "x" : 22,
+          "height" : 160,
+          "y" : 98,
+          "width" : 160
+        },
+        "a" : {
+          "x" : 662,
+          "height" : 80,
+          "y" : 126,
+          "width" : 80
+        }
+      }
+    }
+  },
+  "identifier" : "com.GBA4iOS.default",
+  "landscape" : {
+    "assets" : {
+      "iPhone" : "landscape.png",
+      "iPad" : "landscape~ipad.png",
+      "iPad Retina" : "landscape~ipad@2x.png",
+      "iPhone Widescreen" : "landscape@R4.png"
+    },
+    "layouts" : {
+      "iPhone" : {
+        "screen" : {
+          "x" : 120,
+          "height" : 216,
+          "y" : 0,
+          "width" : 240
+        },
+        "b" : {
+          "x" : 340,
+          "height" : 65,
+          "y" : 245,
+          "width" : 65
+        },
+        "start" : {
+          "x" : 242,
+          "height" : 45,
+          "y" : 275,
+          "width" : 40
+        },
+        "select" : {
+          "x" : 196,
+          "height" : 45,
+          "y" : 275,
+          "width" : 40
+        },
+        "dpad" : {
+          "x" : 0,
+          "height" : 130,
+          "y" : 190,
+          "width" : 124
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 50,
+          "y" : 0,
+          "width" : 70
+        },
+        "a" : {
+          "x" : 405,
+          "height" : 66,
+          "y" : 201,
+          "width" : 75
+        }
+      },
+      "iPad" : {
+        "screen" : {
+          "x" : 258,
+          "height" : 457,
+          "y" : 0,
+          "width" : 508
+        },
+        "a" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "ab" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "start" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "b" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "l" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "dpad" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "select" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "r" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        }
+      },
+      "iPad Retina" : {
+        "screen" : {
+          "x" : 258,
+          "height" : 457,
+          "y" : 0,
+          "width" : 508
+        },
+        "a" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "ab" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "start" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "b" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "l" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "dpad" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "select" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        },
+        "r" : {
+          "x" : 0,
+          "height" : 0,
+          "y" : 0,
+          "width" : 0
+        }
+      },
+      "iPhone Widescreen" : {
+        "screen" : {
+          "x" : 164,
+          "height" : 216,
+          "y" : 0,
+          "width" : 240
+        },
+        "b" : {
+          "x" : 428,
+          "height" : 65,
+          "y" : 245,
+          "width" : 65
+        },
+        "start" : {
+          "x" : 286,
+          "height" : 45,
+          "y" : 275,
+          "width" : 40
+        },
+        "select" : {
+          "x" : 240,
+          "height" : 45,
+          "y" : 275,
+          "width" : 40
+        },
+        "dpad" : {
+          "x" : 0,
+          "height" : 130,
+          "y" : 190,
+          "width" : 124
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 50,
+          "y" : 0,
+          "width" : 70
+        },
+        "a" : {
+          "x" : 493,
+          "height" : 66,
+          "y" : 201,
+          "width" : 75
+        }
+      }
+    }
+  },
+  "name" : "Default"
+}

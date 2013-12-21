@@ -802,7 +802,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)startROM:(GBAROM *)rom
 {
-    if ([[DBSession sharedSession] isLinked] && ![[GBASyncManager sharedManager] performedInitialSync])
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] && [[DBSession sharedSession] isLinked] && ![[GBASyncManager sharedManager] performedInitialSync])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Please wait for the initial sync to be complete, then launch the game. This is to ensure no save data is lost.", @"")
@@ -813,7 +813,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    if ([[DBSession sharedSession] isLinked] && [[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] hasPendingDownloadForROM:rom] && ![rom syncingDisabled])
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] && [[DBSession sharedSession] isLinked] && [[GBASyncManager sharedManager] isSyncing] && [[GBASyncManager sharedManager] hasPendingDownloadForROM:rom] && ![rom syncingDisabled])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
                                                         message:NSLocalizedString(@"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then launch the game.", @"")

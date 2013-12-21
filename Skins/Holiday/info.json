@@ -1,0 +1,61 @@
+{
+  "portrait" : {
+    "assets" : {
+      "iPhone" : "portrait.png"
+    },
+    "layouts" : {
+      "iPhone" : {
+        "b" : {
+          "x" : 181,
+          "height" : 60,
+          "y" : 112,
+          "width" : 60
+        },
+        "select" : {
+          "x" : 117,
+          "height" : 40,
+          "y" : 200,
+          "width" : 40
+        },
+        "start" : {
+          "x" : 164,
+          "height" : 40,
+          "y" : 200,
+          "width" : 40
+        },
+        "l" : {
+          "x" : 0,
+          "height" : 40,
+          "y" : 0,
+          "width" : 100
+        },
+        "menu" : {
+          "x" : 0,
+          "height" : 40,
+          "y" : 200,
+          "width" : 40
+        },
+        "dpad" : {
+          "x" : 0,
+          "height" : 120,
+          "y" : 63,
+          "width" : 134
+        },
+        "r" : {
+          "x" : 220,
+          "height" : 40,
+          "y" : 0,
+          "width" : 100
+        },
+        "a" : {
+          "x" : 256,
+          "height" : 60,
+          "y" : 80,
+          "width" : 64
+        }
+      }
+    }
+  },
+  "identifier" : "com.paulthorsen.holiday",
+  "name" : "Holiday"
+}

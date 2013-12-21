@@ -621,6 +621,12 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 continue;
             }
             
+            // Don't sync autosaves
+            if ([[filename lowercaseString] isEqualToString:@"autosave.sgm"])
+            {
+                continue;
+            }
+            
             NSString *filepath = [fileURL path];
             filepath = [filepath stringByReplacingOccurrencesOfString:@"/private/var/mobile" withString:@"/var/mobile"];
             
