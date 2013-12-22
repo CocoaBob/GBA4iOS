@@ -24,6 +24,8 @@
 #import <Crashlytics/Crashlytics.h>
 #endif
 
+NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPlayROMNotification";
+
 @implementation GBAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -139,6 +141,29 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDropboxStatusChangedNotification object:self userInfo:nil];
         
         return successful;
+    }
+    
+    if ([[[url scheme] lowercaseString] isEqual:@"gba4ios"])
+    {
+        NSString *name = [[url host] stringByRemovingPercentEncoding];
+        
+        GBAROM *rom = [GBAROM romWithName:name];
+        
+        if (rom)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:GBAUserRequestedToPlayROMNotification object:rom userInfo:nil];
+            return YES;
+        }
+        
+        rom = [GBAROM romWithUniqueName:name];
+        
+        if (rom)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:GBAUserRequestedToPlayROMNotification object:rom userInfo:nil];
+            return YES;
+        }
+        
+        return NO;
     }
     
     return YES;

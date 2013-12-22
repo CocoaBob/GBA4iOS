@@ -17,6 +17,7 @@
 #import "GBAControllerSkin.h"
 #import "GBASyncManager.h"
 #import "GBASyncingDetailViewController.h"
+#import "GBAAppDelegate.h"
 
 #import <RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
@@ -917,17 +918,36 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                 
         [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
         
+        
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
-            [self dismissViewControllerAnimated:YES completion:^{
+            UIViewController *presentedViewController = [self.emulationViewController presentedViewController];
+            
+            if (presentedViewController == self.navigationController)
+            {
+                // Remove blur ourselves if we've presented a view controller, which would be opaque
+                if (self.presentedViewController)
+                {
+                    [self.emulationViewController removeBlur];
+                }
+                
+                [self.emulationViewController dismissViewControllerAnimated:YES completion:^{
+                    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                    [self highlightCell:cell];
+                }];
+            }
+            else
+            {
                 UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 [self highlightCell:cell];
-            }];
+            }
         }
         else
         {
+            
             [(GBASplitViewController *)self.splitViewController hideROMTableViewControllerWithAnimation:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
             
             UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
             [self highlightCell:cell];

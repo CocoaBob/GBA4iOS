@@ -22,6 +22,7 @@
 #import "UIScreen+Widescreen.h"
 #import "GBAExternalController.h"
 #import "GBASyncingDetailViewController.h"
+#import "GBAAppDelegate.h"
 
 #import <GameController/GameController.h>
 
@@ -51,7 +52,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) UIWindow *airplayWindow;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (strong, nonatomic) UIImageView *splashScreenImageView;
-@property (assign, nonatomic) BOOL userPausedEmulation;
+@property (assign, nonatomic) BOOL stayPaused;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
 @property (assign, nonatomic) BOOL preventSavingROMSaveData;
 
@@ -111,6 +112,7 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
     
 #if !(TARGET_IPHONE_SIMULATOR)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romDidSaveData:) name:GBAROMDidSaveDataNotification object:nil];
@@ -245,6 +247,11 @@ static GBAEmulationViewController *_emulationViewController;
         
         self.romTableViewController.emulationViewController = self;
     }
+    else
+    {
+        // Keep this here, used when we programmatically dismiss view controllers presented by custom transition view controllers (ex: add cheat on top of cheats menu)
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -339,6 +346,47 @@ static GBAEmulationViewController *_emulationViewController;
     return filepath;
 }
 
+- (void)userRequestedToPlayROM:(NSNotification *)notification
+{
+    [self.pausedActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+    self.pausedActionSheet = nil;
+    
+    GBAROM *rom = notification.object;
+    
+    if ([self.rom isEqual:rom])
+    {
+        return;
+    }
+    
+    if (self.rom == nil)
+    {
+        [self.romTableViewController startROM:rom];
+        return;
+    }
+    
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Would you like to end %@ and start %@? All unsaved data will be lost.", @""), self.rom.name, rom.name];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Currently Running", @"")
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                          otherButtonTitles:NSLocalizedString(@"Start Game", @""), nil];
+    [alert showWithSelectionHandler:^(UIAlertView *alert, NSInteger buttonIndex) {
+        if (buttonIndex == 1)
+        {
+            [self.romTableViewController startROM:rom];
+        }
+        else
+        {
+            if (self.presentedViewController == nil && !self.selectingSustainedButton)
+            {
+                [self resumeEmulation];
+            }
+        }
+    }];
+    
+    [self pauseEmulation];
+}
 
 #pragma mark - Airplay
 
@@ -516,7 +564,6 @@ static GBAEmulationViewController *_emulationViewController;
     
     _romPauseTime = CFAbsoluteTimeGetCurrent();
 
-    self.userPausedEmulation = YES;
     [self pauseEmulation];
     
     // iOS 7 has trouble adding buttons to UIActionSheet after it's created, so we just create a different action sheet depending on hardware
@@ -1041,12 +1088,12 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)willResignActive:(NSNotification *)notification
 {
-    [self pauseEmulation];
+    [self pauseEmulationAndStayPaused:NO];
 }
 
 - (void)didBecomeActive:(NSNotification *)notification
 {
-    if (!self.userPausedEmulation)
+    if (!self.stayPaused)
     {
         [self resumeEmulation];
     }
@@ -1448,6 +1495,16 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)pauseEmulation
 {
+    [self pauseEmulationAndStayPaused:YES];
+}
+
+- (void)pauseEmulationAndStayPaused:(BOOL)stayPaused
+{
+    if (!self.stayPaused)
+    {
+        self.stayPaused = stayPaused;
+    }
+    
     if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
     {
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -1463,7 +1520,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)resumeEmulation
 {
-    self.userPausedEmulation = NO;
+    self.stayPaused = NO;
     
     if (self.rom == nil)
     {
@@ -1494,7 +1551,6 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     self.preventSavingROMSaveData = YES;
     
-    self.userPausedEmulation = YES;
     [self pauseEmulation];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1554,7 +1610,7 @@ void uncaughtExceptionHandler(NSException *exception)
     // Restart game
     [self setRom:self.rom];
     
-    self.userPausedEmulation = YES;
+    self.stayPaused = YES;
     
     // Let the ROM run a little bit before we freeze it
     double delayInSeconds = 0.3;
@@ -1892,6 +1948,29 @@ void uncaughtExceptionHandler(NSException *exception)
             
             [self refreshLayout];
         }
+        
+        
+        // Now we handle switching ROMs
+        
+        if (self.selectingSustainedButton)
+        {
+            [self exitSustainButtonSelectionMode];
+        }
+        
+        UIViewController *presentedViewController = self.presentedViewController;
+        
+        if (presentedViewController == nil || presentedViewController == self.romTableViewController.navigationController)
+        {
+            return;
+        }
+        
+        // If there are two presented view controllers, the topmost one is not transparent so we can remove the blur
+        if (presentedViewController.presentedViewController)
+        {
+            [self removeBlur];
+        }
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
         
         // [self.controllerView showButtonRects];
     });

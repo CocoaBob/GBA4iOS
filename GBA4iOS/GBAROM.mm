@@ -55,7 +55,12 @@
     
     for (NSString *filename in contents)
     {
-        if ([[filename stringByDeletingPathExtension] isEqualToString:name] && ([[[filename pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gba"]))
+        if (!([[[filename pathExtension] lowercaseString] isEqualToString:@"gb"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gba"]))
+        {
+            continue;
+        }
+        
+        if ([[filename stringByDeletingPathExtension] isEqualToString:name])
         {
             return [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:filename]];
         }

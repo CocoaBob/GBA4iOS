@@ -27,4 +27,6 @@
 @property (weak, nonatomic) id<GBAROMTableViewControllerAppearanceDelegate> appearanceDelegate;
 @property (weak, nonatomic) GBAEmulationViewController *emulationViewController;
 
+- (void)startROM:(GBAROM *)rom;
+
 @end

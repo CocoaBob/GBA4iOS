@@ -20,6 +20,7 @@
 
 - (void)refreshLayout;
 
+- (void)pauseEmulation;
 - (void)resumeEmulation;
 
 @end

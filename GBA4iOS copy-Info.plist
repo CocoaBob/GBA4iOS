@@ -105,10 +105,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 			<key>CFBundleURLName</key>
-			<string>com.GBA4iOS.dropbox</string>
+			<string>com.rileytestut.GBA4iOS.dropbox</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>db-obzx8requbc5bn5</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>com.rileytestut.GBA4iOS</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>gba4ios</string>
 			</array>
 		</dict>
 	</array>
