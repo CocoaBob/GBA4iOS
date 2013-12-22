@@ -349,11 +349,13 @@
 
 - (NSString *)uniqueName
 {
-    NSDictionary *cachedROMs = [[NSDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]] copy];
+    // MUST remain alloc] init] format. Or else bad EXC_BAD_ACCESS crashes on iPad mini
+    NSDictionary *cachedROMs = [[NSDictionary alloc] initWithContentsOfFile:[GBAROM cachedROMsPath]];
     
     if (cachedROMs == nil)
     {
-        cachedROMs = [NSDictionary dictionary];
+        // MUST remain alloc] init] format. Or else bad EXC_BAD_ACCESS crashes on iPad mini
+        cachedROMs = [[NSDictionary alloc] init];
     }
     
     NSString *uniqueName = cachedROMs[[self.filepath lastPathComponent]];

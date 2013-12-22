@@ -254,7 +254,7 @@
 		CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
 		CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
 		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
-		CCC7298717C7357E0001BC6F /* GBAROM.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.mm */; };
+		CCC7298717C7357E0001BC6F /* GBAROM.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCC9B8931815AC7E005C90EE /* Main.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575762180C759900BF3DA5 /* Main.cc */; settings = {COMPILER_FLAGS = "-w"; }; };

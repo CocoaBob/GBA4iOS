@@ -63,8 +63,8 @@ CFStringRef FileSHA1HashCreateWithPath(CFStringRef filePath,
     if (!didSucceed) goto done;
     
     // Initialize the hash object
-    CC_SHA1_CTX hashObject;
-    CC_SHA1_Init(&hashObject);
+    CC_MD5_CTX hashObject;
+    CC_MD5_Init(&hashObject);
     
     // Make sure chunkSizeForReadingData is valid
     if (!chunkSizeForReadingData) {
@@ -83,7 +83,7 @@ CFStringRef FileSHA1HashCreateWithPath(CFStringRef filePath,
             hasMoreData = false;
             continue;
         }
-        CC_SHA1_Update(&hashObject,
+        CC_MD5_Update(&hashObject,
                       (const void *)buffer,
                       (CC_LONG)readBytesCount);
     }
@@ -92,8 +92,8 @@ CFStringRef FileSHA1HashCreateWithPath(CFStringRef filePath,
     didSucceed = !hasMoreData;
     
     // Compute the hash digest
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    CC_SHA1_Final(digest, &hashObject);
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5_Final(digest, &hashObject);
     
     // Abort if the read operation failed
     if (!didSucceed) goto done;

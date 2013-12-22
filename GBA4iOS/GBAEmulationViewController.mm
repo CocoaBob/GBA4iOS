@@ -2000,11 +2000,23 @@ void uncaughtExceptionHandler(NSException *exception)
             return;
         }
         
-        // If there are two presented view controllers, the topmost one is not transparent so we can remove the blur
-        if (presentedViewController.presentedViewController)
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
-            [self removeBlur];
+            [UIView animateWithDuration:0.4 animations:^{
+                [self setBlurAlpha:0.0];
+            } completion:^(BOOL finished) {
+                [self removeBlur];
+            }];
         }
+        else
+        {
+            // If there are two presented view controllers, the topmost one is not transparent so we can remove the blur
+            if (presentedViewController.presentedViewController)
+            {
+                [self removeBlur];
+            }
+        }
+        
         
         [self dismissViewControllerAnimated:YES completion:nil];
         
