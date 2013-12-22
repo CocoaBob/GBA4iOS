@@ -151,7 +151,10 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
         
         if (rom)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:GBAUserRequestedToPlayROMNotification object:rom userInfo:nil];
+            // Next run loop
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:GBAUserRequestedToPlayROMNotification object:rom userInfo:nil];
+            });
             return YES;
         }
         
@@ -159,7 +162,10 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
         
         if (rom)
         {
-            [[NSNotificationCenter defaultCenter] postNotificationName:GBAUserRequestedToPlayROMNotification object:rom userInfo:nil];
+            // Next run loop
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:GBAUserRequestedToPlayROMNotification object:rom userInfo:nil];
+            });
             return YES;
         }
         

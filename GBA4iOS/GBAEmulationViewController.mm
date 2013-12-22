@@ -198,6 +198,13 @@ static GBAEmulationViewController *_emulationViewController;
             [self presentViewController:navigationController animated:YES completion:^{
                 [self.splashScreenImageView removeFromSuperview];
                 self.splashScreenImageView = nil;
+                
+                if (self.rom)
+                {
+                    GBAROM *rom = self.rom;
+                    self.rom = nil;
+                    [self.romTableViewController startROM:rom];
+                }
             }];
             
         }
@@ -242,6 +249,13 @@ static GBAEmulationViewController *_emulationViewController;
             } completion:^(BOOL finished) {
                 [self.splashScreenImageView removeFromSuperview];
                 self.splashScreenImageView = nil;
+                
+                if (self.rom)
+                {
+                    GBAROM *rom = self.rom;
+                    self.rom = nil;
+                    [self.romTableViewController startROM:rom];
+                }
             }];
         }
         

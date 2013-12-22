@@ -945,7 +945,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         }
         else
         {
-            
             [(GBASplitViewController *)self.splitViewController hideROMTableViewControllerWithAnimation:YES];
             [self dismissViewControllerAnimated:YES completion:nil];
             
