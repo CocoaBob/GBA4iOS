@@ -121,8 +121,8 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shouldRestartCurrentGame:) name:GBAShouldRestartCurrentGameNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncManagerFinishedSync:) name:GBASyncManagerFinishedSyncNotification object:[GBASyncManager sharedManager]];
     
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidConnect:) name:UIScreenDidConnectNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenDidDisconnect:) name:UIScreenDidDisconnectNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDidConnect:) name:GCControllerDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDidDisconnect:) name:GCControllerDidDisconnectNotification object:nil];
@@ -427,25 +427,47 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)setUpAirplayScreen:(UIScreen *)screen
 {
-    CGRect screenBounds = screen.bounds;
-    
-    self.airplayWindow = ({
-        UIWindow *window = [[UIWindow alloc] initWithFrame:screenBounds];
-        window.screen = screen;
-        window.hidden = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGRect screenBounds = screen.bounds;
         
-        [window addSubview:self.emulatorScreen];
-        window;
+        self.airplayWindow = ({
+            UIWindow *window = [[UIWindow alloc] initWithFrame:screenBounds];
+            window.screen = screen;
+            window.hidden = NO;
+                        
+            [window addSubview:self.emulatorScreen];
+            
+            window;
+        });
+        
+        NSLayoutConstraint *horizontalCenterConstraint = [NSLayoutConstraint constraintWithItem:self.emulatorScreen
+                                                                                      attribute:NSLayoutAttributeCenterX
+                                                                                      relatedBy:NSLayoutRelationEqual
+                                                                                         toItem:self.airplayWindow
+                                                                                      attribute:NSLayoutAttributeCenterX
+                                                                                     multiplier:1.0f
+                                                                                       constant:0.0f];
+        
+        NSLayoutConstraint *landscapeCenterConstraint = [NSLayoutConstraint constraintWithItem:self.emulatorScreen
+                                                                                     attribute:NSLayoutAttributeCenterY
+                                                                                     relatedBy:NSLayoutRelationEqual
+                                                                                        toItem:self.airplayWindow
+                                                                                     attribute:NSLayoutAttributeCenterY
+                                                                                    multiplier:1.0f
+                                                                                      constant:0.0f];
+        
+        [self.airplayWindow addConstraints:@[horizontalCenterConstraint, landscapeCenterConstraint]];
+        
+        [self.emulatorScreen invalidateIntrinsicContentSize];
+        
+        [self refreshLayout];
     });
-    
-    [self.emulatorScreen invalidateIntrinsicContentSize];
-    
-    [self refreshLayout];
 }
 
 - (void)tearDownAirplayScreen
 {
     self.airplayWindow.hidden = YES;
+    
     [self.screenContainerView addSubview:self.emulatorScreen];
     self.airplayWindow = nil;
     
@@ -1442,13 +1464,6 @@ void uncaughtExceptionHandler(NSException *exception)
             
         }
         
-#if !(TARGET_IPHONE_SIMULATOR)
-        if (self.emulatorScreen.eaglView == nil)
-        {
-            self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
-        }
-#endif
-        
     }
     else
     {
@@ -1457,6 +1472,13 @@ void uncaughtExceptionHandler(NSException *exception)
         [self.emulatorScreen invalidateIntrinsicContentSize];
 #endif
     }
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    if (self.emulatorScreen.eaglView == nil)
+    {
+        self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
+    }
+#endif
 }
 
 - (void)viewDidLayoutSubviews

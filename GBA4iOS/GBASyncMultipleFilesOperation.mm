@@ -719,7 +719,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     [self finish];
 }
 
-#pragma mark GBASyncOperationDelegate
+#pragma mark - GBASyncOperationDelegate
 
 - (BOOL)syncOperation:(GBASyncOperation *)syncOperation shouldShowToastView:(RSTToastView *)toastView
 {

@@ -30,7 +30,6 @@ extern NSString *const GBAROMDidSaveDataNotification;
 
 + (instancetype)sharedCore;
 
-- (void)resetEAGLView;
 - (void)updateEAGLViewForSize:(CGSize)size screen:(UIScreen *)screen;
 
 - (void)startEmulation;

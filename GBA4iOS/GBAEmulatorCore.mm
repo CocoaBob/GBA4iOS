@@ -47,6 +47,12 @@ namespace GameFilePicker {
     void onSelectFile(const char* name, const Input::Event &e);
 }
 
+@interface GBAEmulatorCore ()
+
+@property (strong, nonatomic) UIScreen *screen;
+
+@end
+
 #pragma mark - EAGLView
 
 // A class extension to declare private methods
@@ -76,7 +82,7 @@ namespace GameFilePicker {
 	if(usingiOS4)
 	{
 		logMsg("testing for Retina Display");
-		if([UIScreen mainScreen].scale == 2.0)
+		if([[GBAEmulatorCore sharedCore] screen].scale == 2.0)
 		{
 			logMsg("running on Retina Display");
 			eaglLayer.contentsScale = 2.0;
@@ -419,15 +425,11 @@ void writeSaveFileForCurrentROMToDisk();
     [self updateSettings:nil];
 }
 
-- (void)resetEAGLView
-{
-    Base::glView = nil;
-    self.eaglView = nil;
-}
-
 - (void)updateEAGLViewForSize:(CGSize)size screen:(UIScreen *)screen
 {
     using namespace Base;
+    
+    self.screen = screen;
     
     CGFloat scale = [screen scale];
     
@@ -454,6 +456,14 @@ void writeSaveFileForCurrentROMToDisk();
     {
         glView.frame = CGRectMake(0, 0, size.width, size.height);
         [glView.superview layoutIfNeeded];
+        
+        CGFloat previousScale = self.eaglView.layer.contentsScale;
+        
+        if (previousScale != screen.scale)
+        {
+            self.eaglView.layer.contentsScale = screen.scale;
+            Base::pointScale = screen.scale;
+        }
     }
 }
 
