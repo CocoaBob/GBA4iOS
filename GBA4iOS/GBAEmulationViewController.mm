@@ -1598,6 +1598,8 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     self.preventSavingROMSaveData = YES;
     
+    [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
+    
     [self pauseEmulation];
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -1641,10 +1643,15 @@ void uncaughtExceptionHandler(NSException *exception)
             presentingViewController = presentingViewController.presentedViewController;
         }
         
-        [presentingViewController presentViewController:navigationController animated:YES completion:nil];
+        [presentingViewController presentViewController:navigationController animated:YES completion:NULL];
         
         [self.rom setNewlyConflicted:NO];
     });
+}
+
+- (void)dismissSyncView:(UIBarButtonItem *)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)shouldRestartCurrentGame:(NSNotification *)notification
@@ -1721,6 +1728,21 @@ void uncaughtExceptionHandler(NSException *exception)
         else
         {
             [self resumeEmulation];
+        }
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        if (self.presentedViewController != self.romTableViewController.navigationController)
+        {
+            [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
+        }
+    }
+    else
+    {
+        if (![(GBASplitViewController *)self.splitViewController romTableViewControllerIsVisible])
+        {
+            [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
         }
     }
 }

@@ -148,7 +148,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     }
     else
     {
-        //[self synchronize];
+        [self synchronize];
     }
 }
 
