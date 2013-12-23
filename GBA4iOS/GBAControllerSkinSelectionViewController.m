@@ -193,7 +193,7 @@
         {
             GBAControllerSkin *controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[directory stringByAppendingPathComponent:identifier]];
             
-            if (controller.supportedOrientations & self.controllerOrientation)
+            if ([controller imageForOrientation:self.controllerOrientation])
             {
                 if ([identifier isEqualToString:@"com.GBA4iOS.default"] && prioritizeDefaultSkin)
                 {

@@ -55,6 +55,7 @@ static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 + (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath;
 
 - (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation;
+- (BOOL)imageExistsForOrientation:(GBAControllerOrientation)orientation;
 - (CGRect)rectForButtonRect:(GBAControllerRect)button orientation:(GBAControllerOrientation)orientation;
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation;
 - (NSString *)keyForButtonRect:(GBAControllerRect)button;

@@ -122,10 +122,12 @@
     [[NSFileManager defaultManager] moveItemAtPath:tempDirectory toPath:destinationPath error:nil];
     
     NSString *infoDictionaryPath = [destinationPath stringByAppendingPathComponent:@"info.json"];
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:infoDictionaryPath];
+    NSData *jsonData = [NSData dataWithContentsOfFile:infoDictionaryPath];
+    NSMutableDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
     
     dictionary[@"type"] = @(skinType);
-    [dictionary writeToFile:infoDictionaryPath atomically:YES];
+    jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+    [jsonData writeToFile:infoDictionaryPath atomically:YES];
     
     if ([contents count] == 0)
     {
@@ -165,6 +167,17 @@
     UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfFile:filepath] scale:scale];
     
     return image;
+}
+
+- (BOOL)imageExistsForOrientation:(GBAControllerOrientation)orientation
+{
+    NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
+    NSDictionary *assets = dictionary[@"assets"];
+    
+    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:assets];
+    NSString *relativePath = assets[key];
+    
+    return (relativePath != nil);
 }
 
 - (CGRect)rectForButtonRect:(GBAControllerRect)button orientation:(GBAControllerOrientation)orientation
