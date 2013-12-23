@@ -10,6 +10,7 @@
 #import "GBAControllerSkinDetailViewController.h"
 #import "GBASyncManager.h"
 #import "GBASyncingOverviewViewController.h"
+#import "GBAExternalControllerCustomizationViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -17,9 +18,10 @@
 #define GENERAL_SECTION 1
 #define SAVING_SECTION 2
 #define CONTROLLER_SKINS_SECTION 3
-#define CONTROLLER_OPACITY_SECTION 4
-#define DROPBOX_SYNC_SECTION 5
-#define CREDITS_SECTION 6
+#define EXTERNAL_CONTROLLER_SECTION 4
+#define CONTROLLER_OPACITY_SECTION 5
+#define DROPBOX_SYNC_SECTION 6
+#define CREDITS_SECTION 7
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -312,6 +314,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         }
         
         [self.navigationController pushViewController:controllerSkinDetailViewController animated:YES];
+    }
+    else if (indexPath.section == EXTERNAL_CONTROLLER_SECTION)
+    {
+        GBAExternalControllerCustomizationViewController *externalControllerCustomizationViewController = [[GBAExternalControllerCustomizationViewController alloc] init];
+        [self.navigationController pushViewController:externalControllerCustomizationViewController animated:YES];
     }
     else if (indexPath.section == DROPBOX_SYNC_SECTION)
     {

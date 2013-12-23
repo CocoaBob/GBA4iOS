@@ -22,6 +22,10 @@
 		BF16DCF7184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF5184FD3430092A3F5 /* GBASyncDownloadOperation.mm */; };
 		BF1C87FB185193B100C72E1C /* FileSHA1Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */; };
 		BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */; };
+		BF216BD81868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */; };
+		BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */; };
+		BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
+		BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */; };
@@ -364,6 +368,10 @@
 		BF16DCF5184FD3430092A3F5 /* GBASyncDownloadOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncDownloadOperation.mm; sourceTree = "<group>"; };
 		BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileSHA1Hash.c; sourceTree = "<group>"; };
 		BF1C87FA185193B100C72E1C /* FileSHA1Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSHA1Hash.h; sourceTree = "<group>"; };
+		BF216BD61868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAExternalControllerCustomizationViewController.h; sourceTree = "<group>"; };
+		BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalControllerCustomizationViewController.m; sourceTree = "<group>"; };
+		BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCalloutView.h; sourceTree = "<group>"; };
+		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
 		BF2AC87A185431B5008928D0 /* UIView+DTDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DTDebug.h"; sourceTree = "<group>"; };
 		BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DTDebug.m"; sourceTree = "<group>"; };
 		BF2AC87E18543246008928D0 /* DTObjectBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTObjectBlockExecutor.h; sourceTree = "<group>"; };
@@ -762,6 +770,17 @@
 				CC76CF0117ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BF216BD61868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.h */,
+				BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */,
+				BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */,
+				BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */,
+			);
+			name = "iOS 7 Controllers";
 			sourceTree = "<group>";
 		};
 		BF2AC8861854324B008928D0 /* Debug */ = {
@@ -1310,6 +1329,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */,
 				BF02AFD8182F3E3A0031B8B6 /* Syncing */,
 				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
 			);
@@ -1629,6 +1649,7 @@
 				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */,
 				BF2F353B183FF6F9002ACE90 /* main.mm in Sources */,
+				BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
 				BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */,
 				BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */,
 				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
@@ -1642,6 +1663,7 @@
 				BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */,
 				BF537EFF185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */,
 				BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */,
+				BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */,
 				BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
 				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */,
 				BFFBCCDB18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */,
@@ -1670,6 +1692,7 @@
 				CCC9B8B61815AC7E005C90EE /* video.cpp in Sources */,
 				CC50450C1814DC69009F7B9E /* File_Extractor.cpp in Sources */,
 				CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
+				BF216BD81868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */,
 				BF3E2BD718206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */,
 				CCFA717D179D2EAB00768D24 /* Io.cc in Sources */,
 				CCC9B8AA1815AC7E005C90EE /* pakinfo.cpp in Sources */,
@@ -1830,6 +1853,7 @@
 				CCC9B8931815AC7E005C90EE /* Main.cc in Sources */,
 				BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
+				BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
 				BF2AC88418543246008928D0 /* NSObject+DTRuntime.m in Sources */,
 				BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */,
 				CCFA71B8179D2FE400768D24 /* ConfigFile.cc in Sources */,
