@@ -54,6 +54,4 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;
 
-+ (NSString *)embeddedNameForROM:(GBAROM *)rom;
-
 @end

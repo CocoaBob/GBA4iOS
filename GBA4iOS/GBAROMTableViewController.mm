@@ -89,6 +89,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                        context:NULL];
         
         _downloadProgressDictionary = [NSMutableDictionary dictionary];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
     }
     return self;
 }
@@ -544,18 +546,21 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                 continue;
             }
             
-            
-            NSString *romName = [filename stringByDeletingPathExtension];
-            
-            GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
-            NSString *uniqueName = [rom uniqueName];
-            
             if (cachedROMs[filename])
             {
                 continue;
             }
             
-            // The above if statement may succeed, but that doesn't mean this will do. This checks against all stored unique names
+            // VERY important this remains here, or else the hash won't be the same as the final one
+            if ([self.unavailableFiles containsObject:filename] || [self isDownloadingFile:filename])
+            {
+                continue;
+            }
+            
+            GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
+            NSString *uniqueName = [rom uniqueName];
+            
+            // The above if statement may succeed, but that doesn't mean this will too. This checks against all stored unique names
             GBAROM *cachedROM = [GBAROM romWithUniqueName:uniqueName];
             
             if (cachedROM)
@@ -839,6 +844,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)startROM:(GBAROM *)rom
 {
+    [self startROM:rom showSameROMAlertIfNeeded:YES];
+}
+
+- (void)startROM:(GBAROM *)rom showSameROMAlertIfNeeded:(BOOL)showSameROMAlertIfNeeded
+{
     if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] && [[DBSession sharedSession] isLinked] && ![[GBASyncManager sharedManager] performedInitialSync])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Syncing with Dropbox", @"")
@@ -948,15 +958,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         }
         else
         {
-            [(GBASplitViewController *)self.splitViewController hideROMTableViewControllerWithAnimation:YES];
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
             UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
             [self highlightCell:cell];
         }
+        
+        [self.emulationViewController launchGame];
     };
     
-    if ([self.emulationViewController.rom isEqual:rom])
+    if ([self.emulationViewController.rom isEqual:rom] && showSameROMAlertIfNeeded)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game already in use", @"")
                                                         message:NSLocalizedString(@"Would you like to resume where you left off, or restart the game?", @"")
@@ -983,10 +992,53 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     else
     {
-        self.emulationViewController.rom = rom;
+        if (showSameROMAlertIfNeeded)
+        {
+            self.emulationViewController.rom = rom;
+        }
         
         showEmulationViewController();
     }
+}
+
+- (void)userRequestedToPlayROM:(NSNotification *)notification
+{
+    GBAROM *rom = notification.object;
+    
+    if ([self.emulationViewController.rom isEqual:rom])
+    {
+        [self startROM:rom showSameROMAlertIfNeeded:NO];
+        return;
+    }
+    
+    if (self.emulationViewController.rom == nil)
+    {
+        [self startROM:rom];
+        return;
+    }
+    
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Would you like to end %@ and start %@? All unsaved data will be lost.", @""), self.emulationViewController.rom.name, rom.name];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Currently Running", @"")
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                          otherButtonTitles:NSLocalizedString(@"Start Game", @""), nil];
+    [alert showWithSelectionHandler:^(UIAlertView *alert, NSInteger buttonIndex) {
+        if (buttonIndex == 1)
+        {
+            [self startROM:rom];
+        }
+        else
+        {
+            if (self.presentedViewController == nil)
+            {
+                [self.emulationViewController resumeEmulation];
+            }
+        }
+    }];
+    
+    [self.emulationViewController pauseEmulation];
 }
 
 - (void)syncingDetailViewControllerDidDismiss:(GBASyncingDetailViewController *)syncingDetailViewController

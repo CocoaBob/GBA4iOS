@@ -646,47 +646,9 @@ void updateSaveFileForCurrentROM()
     [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMDidSaveDataNotification object:self.rom];
 }
 
-#pragma mark - ROM Code
 
 extern GBASys gGba;
 extern gambatte::GB gbEmu;
-
-+ (NSString *)embeddedNameForROM:(GBAROM *)rom
-{
-    //GBASys gba;
-    
-    NSString *embeddedName = nil;
-    
-    if (rom.type == GBAROMTypeGBA)
-    {
-        char *romName = CPULoadROMName([rom.filepath UTF8String]);
-        
-        if (sizeof(romName) == 0)
-        {
-            return nil;
-        }
-        
-        embeddedName = [NSString stringWithUTF8String:romName];
-        
-        if (embeddedName.length > 12)
-        {
-            embeddedName = [embeddedName substringWithRange:NSMakeRange(0, 12)];
-        }
-    }
-    else
-    {
-        char *romName = gambatte::loadGBCROMName([rom.filepath UTF8String]);
-        
-        if (sizeof(romName) == 0)
-        {
-            return nil;
-        }
-        
-        embeddedName = [NSString stringWithUTF8String:romName];
-    }
-    
-    return embeddedName;
-}
 
 #pragma mark - Save States
 
@@ -722,7 +684,7 @@ extern gambatte::GB gbEmu;
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
     NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:self.rom.uniqueName];
-    
+        
     [[NSFileManager defaultManager] createDirectoryAtPath:cheatsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     
     return cheatsDirectory;

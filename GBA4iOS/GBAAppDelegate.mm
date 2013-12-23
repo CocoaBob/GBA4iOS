@@ -42,7 +42,7 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"openedFirstMainDropboxBeta"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    
+        
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.tintColor = GBA4iOS_PURPLE_COLOR;
     

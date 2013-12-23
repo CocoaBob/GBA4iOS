@@ -1506,62 +1506,6 @@ int CPULoadRom(GBASys &gba, const char *szFile)
   return romSize;
 }
 
-char *CPULoadROMName(const char *szFile)
-{
-    u8 *romData = new u8[0x2000000];
-    
-    int size;
-    
-    if(!utilLoad(szFile,
-                 utilIsGBAImage,
-                 romData,
-                 size)) {
-		return 0;
-    }
-    
-    char *romName = new char[12];
-    sprintf(romName, "%c%c%c%c%c%c%c%c%c%c%c%c",
-            romData[0xA0],
-            romData[0xA1],
-            romData[0xA2],
-            romData[0xA3],
-            romData[0xA4],
-            romData[0xA5],
-            romData[0xA6],
-            romData[0xA7],
-            romData[0xA8],
-            romData[0xA9],
-            romData[0xAA],
-            romData[0xAB]);
-    
-    // Tends to fail randomly when used in quick succession on older devices (A5 processors confirmed.) Above method has yet to fail
-    // char *romName = new char[12];
-    // memcpy(romName, &romData[0xa0], 12);
-    
-    free(romData);
-            
-    return romName;
-}
-
-char *CPULoadROMCode(const char *szFile)
-{
-    u8 *romData = new u8[0x2000000];
-    
-    int size;
-    
-    if(!utilLoad(szFile,
-                 utilIsGBAImage,
-                 romData,
-                 size)) {
-		return 0;
-    }
-    
-    char *romCode = new char[4];
-    memcpy(romCode, &romData[0x0AC], 4);
-    
-    return romCode;
-}
-
 void doMirroring (GBASys &gba, bool b)
 {
   u32 mirroredRomSize = (((romSize)>>20) & 0x3F)<<20;

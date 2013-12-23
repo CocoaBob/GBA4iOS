@@ -653,7 +653,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             {
                 continue;
             }
-            
+                        
             // Wait until it finishes moving before uploading
             if ([[GBASyncManager sharedManager] pendingMoveToOrFromDropboxPath:dropboxPath])
             {

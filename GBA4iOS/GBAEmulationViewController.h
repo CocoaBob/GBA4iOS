@@ -23,4 +23,6 @@
 - (void)pauseEmulation;
 - (void)resumeEmulation;
 
+- (void)launchGame;
+
 @end

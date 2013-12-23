@@ -365,41 +365,11 @@ static GBAEmulationViewController *_emulationViewController;
     [self.pausedActionSheet dismissWithClickedButtonIndex:0 animated:YES];
     self.pausedActionSheet = nil;
     
-    GBAROM *rom = notification.object;
-    
-    if ([self.rom isEqual:rom])
+    if (self.selectingSustainedButton)
     {
-        return;
+        [self exitSustainButtonSelectionMode];
+        [self pauseEmulation];
     }
-    
-    if (self.rom == nil)
-    {
-        [self.romTableViewController startROM:rom];
-        return;
-    }
-    
-    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Would you like to end %@ and start %@? All unsaved data will be lost.", @""), self.rom.name, rom.name];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Currently Running", @"")
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                          otherButtonTitles:NSLocalizedString(@"Start Game", @""), nil];
-    [alert showWithSelectionHandler:^(UIAlertView *alert, NSInteger buttonIndex) {
-        if (buttonIndex == 1)
-        {
-            [self.romTableViewController startROM:rom];
-        }
-        else
-        {
-            if (self.presentedViewController == nil && !self.selectingSustainedButton)
-            {
-                [self resumeEmulation];
-            }
-        }
-    }];
-    
-    [self pauseEmulation];
 }
 
 #pragma mark - Airplay
@@ -758,12 +728,18 @@ static GBAEmulationViewController *_emulationViewController;
     }
     
     instructionsLabel.textColor = [UIColor whiteColor];
-    instructionsLabel.center = self.emulatorScreen.center;
+    
+    CGRect screenRect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectScreen orientation:self.controllerView.orientation];
+    
+    if (CGRectIsEmpty(screenRect))
+    {
+        screenRect = self.screenContainerView.frame;
+    }
+    
+    instructionsLabel.center = CGPointMake(CGRectGetMidX(screenRect), CGRectGetMidY(screenRect));
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.controllerView.orientation == GBAControllerSkinOrientationLandscape)
     {
-        CGRect screenRect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectScreen orientation:self.controllerView.orientation];
-        
         if (CGRectIsEmpty(screenRect) && self.externalController == nil) // With external controller, we want it to be centered
         {
             instructionsLabel.center = ({
@@ -1509,6 +1485,41 @@ void uncaughtExceptionHandler(NSException *exception)
 
 #pragma mark - Emulation
 
+- (void)launchGame
+{
+    // Now we handle switching ROMs
+    
+    if (self.selectingSustainedButton)
+    {
+        [self exitSustainButtonSelectionMode];
+    }
+    
+    UIViewController *presentedViewController = self.presentedViewController;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            [self setBlurAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [self removeBlur];
+        }];
+        
+        [self.romTableViewController dismissViewControllerAnimated:YES completion:nil];
+        
+        [(GBASplitViewController *)self.splitViewController hideROMTableViewControllerWithAnimation:YES];
+    }
+    else
+    {
+        // If there are two presented view controllers, the topmost one is not transparent so we can remove the blur
+        if (presentedViewController.presentedViewController)
+        {
+            [self removeBlur];
+        }
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)startEmulation
 {
     [self stopEmulation]; // Stop previously running ROM
@@ -1951,7 +1962,6 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)setRom:(GBAROM *)rom
 {
-    
     _rom = rom;
     
     // Changing ROM should be done on main thread
@@ -1984,41 +1994,6 @@ void uncaughtExceptionHandler(NSException *exception)
             
             [self refreshLayout];
         }
-        
-        
-        // Now we handle switching ROMs
-        
-        if (self.selectingSustainedButton)
-        {
-            [self exitSustainButtonSelectionMode];
-        }
-        
-        UIViewController *presentedViewController = self.presentedViewController;
-        
-        if (presentedViewController == nil || presentedViewController == self.romTableViewController.navigationController)
-        {
-            return;
-        }
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            [UIView animateWithDuration:0.4 animations:^{
-                [self setBlurAlpha:0.0];
-            } completion:^(BOOL finished) {
-                [self removeBlur];
-            }];
-        }
-        else
-        {
-            // If there are two presented view controllers, the topmost one is not transparent so we can remove the blur
-            if (presentedViewController.presentedViewController)
-            {
-                [self removeBlur];
-            }
-        }
-        
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
         
         // [self.controllerView showButtonRects];
     });

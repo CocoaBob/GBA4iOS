@@ -92,9 +92,6 @@ public:
 	class PakInfo const pakInfo(bool multicartCompat) const;
 	void setGameGenie(const std::string &codes);
 };
-    
-    char *loadGBCROMName(std::string const &romfile);
-
 }
 
 #endif

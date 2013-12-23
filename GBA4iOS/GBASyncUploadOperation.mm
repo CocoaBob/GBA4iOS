@@ -65,7 +65,7 @@
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)dropboxPath from:(NSString *)localPath metadata:(DBMetadata *)metadata
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], dropboxPath, metadata.rev);
+        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], metadata.path, metadata.rev);
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
         NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
@@ -77,6 +77,7 @@
         [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
         
         // Dropbox Files
+        
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         [dropboxFiles setObject:metadata forKey:metadata.path];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
@@ -146,7 +147,7 @@
             return;
         }
         
-        DLog(@"Failed to upload file: %@ Error: %@", [localPath lastPathComponent], [error userInfo]);
+        DLog(@"Failed to upload file: %@ Error: %@", [localPath lastPathComponent], error);
 
         [self finishedWithMetadata:self.metadata error:error];
     });

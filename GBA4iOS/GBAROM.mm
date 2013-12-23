@@ -347,46 +347,99 @@
     [[NSUserDefaults standardUserDefaults] setObject:[newlyConflictedROMs allObjects] forKey:@"newlyConflictedROMs"];
 }
 
+#pragma mark - Unique Name
+
 - (NSString *)uniqueName
 {
-    // MUST remain alloc] init] format. Or else bad EXC_BAD_ACCESS crashes on iPad mini
     NSDictionary *cachedROMs = [[NSDictionary alloc] initWithContentsOfFile:[GBAROM cachedROMsPath]];
-    
-    if (cachedROMs == nil)
-    {
-        // MUST remain alloc] init] format. Or else bad EXC_BAD_ACCESS crashes on iPad mini
-        cachedROMs = [[NSDictionary alloc] init];
-    }
     
     NSString *uniqueName = cachedROMs[[self.filepath lastPathComponent]];
     
     if (uniqueName)
     {
-        // copy Fixes rare EXC_BAD_ACCESS
-        return [uniqueName copy];
+        return uniqueName;
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
-    // First ARC bug I've encountered. On iPhone 5s, if we don't copy this string, AND check whether it is an empty string, it'll be nil for some reason. Was a bitch to figure out.
-    uniqueName = [[GBAEmulatorCore embeddedNameForROM:self] copy];
-#else
-    NSString *uuid = [[NSUUID UUID] UUIDString];
-    uniqueName = uuid;
-#endif
-    
-    if (uniqueName == nil || [uniqueName isEqualToString:@""])
-    {
-        DLog(@"Something went really really wrong...%@", self.filepath);
-        return nil;
-    }
-    
-    uniqueName = [uniqueName stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+    NSMutableString *embeddedName = [[self embeddedName] mutableCopy];
+    [embeddedName replaceOccurrencesOfString:@"/" withString:@"-" options:0 range:NSMakeRange(0, embeddedName.length)];
     
     CFStringRef fileHash = FileSHA1HashCreateWithPath((__bridge CFStringRef)self.filepath, FileHashDefaultChunkSizeForReadingData);
-    uniqueName = [uniqueName stringByAppendingFormat:@"-%@", (__bridge NSString *)fileHash];
+    
+    uniqueName = [[NSString alloc] initWithFormat:@"%@-%@", embeddedName, (__bridge NSString *)fileHash];
+    
     CFRelease(fileHash);
     
     return uniqueName;
+}
+
+- (NSString *)embeddedName
+{
+    unsigned long long offset = 0;
+    NSUInteger length = 0;
+    
+    switch (self.type) {
+        case GBAROMTypeGBA:
+            offset = 0xA0;
+            length = 12;
+            break;
+            
+        case GBAROMTypeGBC:
+            offset = 0x0134;
+            length = 16;
+            break;
+    }
+    
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:self.filepath];
+    [fileHandle seekToFileOffset:offset];
+    
+    NSData *data = [fileHandle readDataOfLength:length];
+    
+    if (self.type == GBAROMTypeGBC)
+    {
+        unsigned char buffer[1];
+        [data getBytes:buffer range:NSMakeRange(data.length - 1, 1)];
+        
+        // 0-127 ASCII range. (http://nocash.emubase.de/pandocs.htm#thecartridgeheader )
+        if (buffer[0] > 127)
+        {
+            data = [data subdataWithRange:NSMakeRange(0, data.length - 1)];
+        }
+    }
+    
+    if (data == nil)
+    {
+        DLog(@"Error loading data for ROM, retrying: %@", self.name);
+        
+        static int attempts = 1;
+        
+        if (attempts < 3)
+        {
+            attempts++;
+            return [self embeddedName];
+        }
+        
+        return @"";
+    }
+    
+    NSString *embeddedName = [NSString stringWithUTF8String:(const char *)[data bytes]];
+    
+    // Keep this, I promise it's necessary. Sometimes the converted NSString contains too many characters
+    if (embeddedName.length > length)
+    {
+        DLog(@"Embedded name too long: %@", embeddedName);
+        embeddedName = [embeddedName substringToIndex:length];
+    }
+    
+    if (embeddedName == nil)
+    {
+        DLog(@"Error converting embedded name data to string for ROM: %@", self.name);
+        return @"Unknown";
+    }
+    
+    // NULL-terminates the string, which we don't want
+    //return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    return embeddedName;
 }
 
 @end
