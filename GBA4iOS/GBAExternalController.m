@@ -6,24 +6,9 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import "GBAExternalController.h"
+#import "GBAExternalController_Private.h"
 #import "GBAControllerSkin.h"
-
-typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
-{
-    GBAExternalControllerButtonInputA                   =  0,
-    GBAExternalControllerButtonInputB                   =  1,
-    GBAExternalControllerButtonInputX                   =  2,
-    GBAExternalControllerButtonInputY                   =  3,
-    GBAExternalControllerButtonInputUp                  =  4,
-    GBAExternalControllerButtonInputDown                =  5,
-    GBAExternalControllerButtonInputLeft                =  6,
-    GBAExternalControllerButtonInputRight               =  7,
-    GBAExternalControllerButtonInputLeftShoulder        =  8,
-    GBAExternalControllerButtonInputLeftTrigger         =  9,
-    GBAExternalControllerButtonInputRightShoulder       =  10,
-    GBAExternalControllerButtonInputRightTrigger        =  11,
-};
+#import "GBASettingsViewController.h"
 
 @interface GBAExternalController ()
 
@@ -52,6 +37,76 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
 {
     GBAExternalController *externalController = [[GBAExternalController alloc] initWithController:controller];
     return externalController;
+}
+
++ (void)registerControllerDefaults
+{
+    NSDictionary *controllerButtons = @{[GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputA]: @(GBAControllerButtonA),
+                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputB]: @(GBAControllerButtonB),
+                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputX]: @(GBAControllerButtonSelect),
+                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputY]: @(GBAControllerButtonStart),
+                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputLeftTrigger]: @(GBAControllerButtonL),
+                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputRightTrigger]: @(GBAControllerButtonR)};
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{GBASettingsExternalControllerButtonsKey: controllerButtons}];
+}
+
++ (NSString *)stringForButtonInput:(GBAExternalControllerButtonInput)buttonInput
+{
+    NSString *string = @"";
+    
+    switch (buttonInput)
+    {
+        case GBAExternalControllerButtonInputA:
+            string = @"A";
+            break;
+            
+        case GBAExternalControllerButtonInputB:
+            string = @"B";
+            break;
+            
+        case GBAExternalControllerButtonInputX:
+            string = @"X";
+            break;
+            
+        case GBAExternalControllerButtonInputY:
+            string = @"Y";
+            break;
+            
+        case GBAExternalControllerButtonInputUp:
+            string = @"Up";
+            break;
+            
+        case GBAExternalControllerButtonInputDown:
+            string = @"Down";
+            break;
+            
+        case GBAExternalControllerButtonInputLeft:
+            string = @"Left";
+            break;
+            
+        case GBAExternalControllerButtonInputRight:
+            string = @"Right";
+            break;
+            
+        case GBAExternalControllerButtonInputLeftShoulder:
+            string = @"L1";
+            break;
+            
+        case GBAExternalControllerButtonInputLeftTrigger:
+            string = @"L2";
+            break;
+            
+        case GBAExternalControllerButtonInputRightShoulder:
+            string = @"R1";
+            break;
+            
+        case GBAExternalControllerButtonInputRightTrigger:
+            string = @"R2";
+            break;
+    }
+    
+    return string;
 }
 
 - (void)configureController
@@ -128,7 +183,7 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
 {
     BOOL previouslyPressed = [self.previousButtonStates[@(buttonInput)] boolValue];
     
-    GBAControllerButton controllerButton = [self controllerButtonForControllerButtonInput:buttonInput];
+    GBAControllerButton controllerButton = [GBAExternalController controllerButtonForControllerButtonInput:buttonInput];
     NSSet *set = [NSSet setWithObject:@(controllerButton)];
     
     if (pressed && !previouslyPressed)
@@ -213,27 +268,12 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
 
 #pragma mark - Helper Methods
 
-- (GBAControllerButton)controllerButtonForControllerButtonInput:(GBAExternalControllerButtonInput)buttonInput
++ (GBAControllerButton)controllerButtonForControllerButtonInput:(GBAExternalControllerButtonInput)buttonInput
 {
     GBAControllerButton controllerButton = 0;
     
-    switch (buttonInput) {
-        case GBAExternalControllerButtonInputA:
-            controllerButton = GBAControllerButtonA;
-            break;
-            
-        case GBAExternalControllerButtonInputB:
-            controllerButton = GBAControllerButtonB;
-            break;
-            
-        case GBAExternalControllerButtonInputX:
-            controllerButton = GBAControllerButtonSelect;
-            break;
-            
-        case GBAExternalControllerButtonInputY:
-            controllerButton = GBAControllerButtonStart;
-            break;
-            
+    switch (buttonInput)
+    {
         case GBAExternalControllerButtonInputLeft:
             controllerButton = GBAControllerButtonLeft;
             break;
@@ -254,17 +294,16 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
             controllerButton = GBAControllerButtonL;
             break;
             
-        case GBAExternalControllerButtonInputLeftTrigger:
-            controllerButton = GBAControllerButtonL;
-            break;
-            
         case GBAExternalControllerButtonInputRightShoulder:
             controllerButton = GBAControllerButtonR;
             break;
             
-        case GBAExternalControllerButtonInputRightTrigger:
-            controllerButton = GBAControllerButtonR;
+        default: {
+            NSDictionary *buttonDictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:GBASettingsExternalControllerButtonsKey];
+            NSString *buttonString = [GBAExternalController stringForButtonInput:buttonInput];
+            controllerButton = [buttonDictionary[buttonString] integerValue];
             break;
+        }
     }
     
     return controllerButton;

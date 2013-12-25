@@ -16,6 +16,7 @@
 @property (weak, nonatomic) id<GBAControllerInputDelegate> delegate;
 @property (readonly, strong, nonatomic) GCController *controller;
 
++ (void)registerControllerDefaults;
 + (GBAExternalController *)externalControllerWithController:(GCController *)controller;
 
 @end

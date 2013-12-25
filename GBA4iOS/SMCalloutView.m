@@ -70,6 +70,7 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
             titleLabel.$height = TITLE_HEIGHT;
             titleLabel.opaque = NO;
             titleLabel.backgroundColor = [UIColor clearColor];
+            titleLabel.textAlignment = NSTextAlignmentCenter;
             titleLabel.font = [UIFont boldSystemFontOfSize:17];
             titleLabel.textColor = [UIColor whiteColor];
             titleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.5];

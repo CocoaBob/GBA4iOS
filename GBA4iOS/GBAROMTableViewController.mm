@@ -675,9 +675,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
-        
-#warning Change this for next beta
-        //return;
+        return;
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
@@ -693,8 +691,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
-        #warning Change this for next beta
-        //return;
+        return;
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];

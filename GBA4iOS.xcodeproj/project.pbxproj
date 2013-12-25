@@ -372,6 +372,7 @@
 		BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalControllerCustomizationViewController.m; sourceTree = "<group>"; };
 		BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCalloutView.h; sourceTree = "<group>"; };
 		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
+		BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAExternalController_Private.h; sourceTree = "<group>"; };
 		BF2AC87A185431B5008928D0 /* UIView+DTDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DTDebug.h"; sourceTree = "<group>"; };
 		BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DTDebug.m"; sourceTree = "<group>"; };
 		BF2AC87E18543246008928D0 /* DTObjectBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTObjectBlockExecutor.h; sourceTree = "<group>"; };
@@ -1112,6 +1113,7 @@
 			children = (
 				BFAFF47C1840084500E3240A /* GBAControllerInput.h */,
 				BFAFF47D18400D7300E3240A /* GBAExternalController.h */,
+				BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */,
 				BFAFF47E18400D7300E3240A /* GBAExternalController.m */,
 				CC8D5A7817AAE3A800E89F43 /* GBAControllerView.h */,
 				CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */,

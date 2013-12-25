@@ -11,6 +11,7 @@
 #import "GBASyncManager.h"
 #import "GBASyncingOverviewViewController.h"
 #import "GBAExternalControllerCustomizationViewController.h"
+#import "GBAExternalController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -108,6 +109,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsControllerOpacityKey: @0.5};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    
+    [GBAExternalController registerControllerDefaults];
 }
 
 - (void)updateControls
