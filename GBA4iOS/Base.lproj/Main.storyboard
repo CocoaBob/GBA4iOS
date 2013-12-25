@@ -234,7 +234,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Controller Opacity" footerTitle="Determines how transparent the controller is, if supported by the skin." id="SNw-c2-3jm">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1T7-2h-GFx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1T7-2h-GFx">
                                         <rect key="frame" x="0.0" y="854" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1T7-2h-GFx" id="GfQ-4T-6i1">
@@ -589,13 +589,24 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="rvu-th-LgR"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap a button to change what action it performs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUx-2B-J2m">
+                                        <rect key="frame" x="19" y="541" width="282" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="JTZ-3N-NrS" secondAttribute="bottom" id="0j6-DM-MsX"/>
                                     <constraint firstItem="5Qd-8G-Afa" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="3vi-bL-KwU"/>
                                     <constraint firstAttribute="trailing" secondItem="JTZ-3N-NrS" secondAttribute="trailing" id="8Wx-In-Z1n"/>
+                                    <constraint firstItem="TUx-2B-J2m" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" constant="19" id="Aqm-os-sdP"/>
                                     <constraint firstItem="5Qd-8G-Afa" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" id="Bdd-yQ-GmR"/>
                                     <constraint firstAttribute="bottom" secondItem="5Qd-8G-Afa" secondAttribute="bottom" id="Irx-DG-Sui"/>
+                                    <constraint firstAttribute="trailing" secondItem="TUx-2B-J2m" secondAttribute="trailing" constant="19" id="MPo-IW-IUf"/>
+                                    <constraint firstAttribute="bottom" secondItem="TUx-2B-J2m" secondAttribute="bottom" constant="11" id="Uej-G7-CBd"/>
                                     <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="e8k-Gf-w3U"/>
                                     <constraint firstItem="JTZ-3N-NrS" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="txM-my-O7B"/>
                                     <constraint firstItem="5Qd-8G-Afa" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="w7B-YS-tBT"/>
@@ -603,24 +614,34 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                     <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="zyf-p1-GDc"/>
                                 </constraints>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qp6-IQ-ZS0" userLabel="Picker Background Toolbar">
+                                <rect key="frame" x="0.0" y="568" width="320" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items/>
+                            </toolbar>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZnS-YT-uES" userLabel="Button Picker">
                                 <rect key="frame" x="0.0" y="568" width="320" height="162"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="bqr-aX-GSp" id="4qd-iR-v8b"/>
                                     <outlet property="delegate" destination="bqr-aX-GSp" id="HZ4-ed-DSH"/>
                                 </connections>
                             </pickerView>
                         </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="eb4-M0-8s4" secondAttribute="trailing" id="1QE-j7-keg"/>
                             <constraint firstItem="ZnS-YT-uES" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="bottom" id="CcS-0P-2Qa"/>
+                            <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="CqL-Fc-gQb"/>
                             <constraint firstItem="ZnS-YT-uES" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="H4y-QA-Dp0"/>
+                            <constraint firstAttribute="trailing" secondItem="Qp6-IQ-ZS0" secondAttribute="trailing" id="HcA-O2-Npi"/>
                             <constraint firstItem="eb4-M0-8s4" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="ccW-bn-jcx"/>
+                            <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="height" secondItem="ZnS-YT-uES" secondAttribute="height" id="elB-u5-d3y"/>
                             <constraint firstItem="EvL-Fl-y9o" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="bottom" id="he5-Y5-1yN"/>
+                            <constraint firstItem="ZnS-YT-uES" firstAttribute="top" secondItem="Qp6-IQ-ZS0" secondAttribute="top" id="nVF-78-NzI"/>
                             <constraint firstItem="eb4-M0-8s4" firstAttribute="top" secondItem="XLY-Ov-Sxs" secondAttribute="top" id="qig-SM-ijD"/>
                             <constraint firstAttribute="trailing" secondItem="ZnS-YT-uES" secondAttribute="trailing" id="vsv-vK-Ydb"/>
+                            <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="width" secondItem="ZnS-YT-uES" secondAttribute="width" id="x7g-1e-jvE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="External Controller" id="QGa-sU-qVs"/>
@@ -635,6 +656,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                         <outlet property="buttonX" destination="eqK-s0-noJ" id="aGl-8E-JEh"/>
                         <outlet property="buttonY" destination="5tO-zk-o0F" id="bcP-SI-yZU"/>
                         <outlet property="leftHalfView" destination="5Qd-8G-Afa" id="tKR-Cb-0o6"/>
+                        <outlet property="pickerBarBackgroundToolbar" destination="Qp6-IQ-ZS0" id="GK5-NG-Lvw"/>
                         <outlet property="pickerView" destination="ZnS-YT-uES" id="K8a-UF-qVP"/>
                         <outlet property="rightHalfView" destination="JTZ-3N-NrS" id="vAT-Ku-ExH"/>
                         <outlet property="topButtonLayoutViewLayoutConstraint" destination="qig-SM-ijD" id="zVn-Q0-jGe"/>

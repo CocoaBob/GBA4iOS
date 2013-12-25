@@ -143,6 +143,8 @@
 		BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */; };
 		BFFBCCDA18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD918505CB9005187DF /* GBASyncMultipleFilesOperation.mm */; };
 		BFFBCCDB18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD918505CB9005187DF /* GBASyncMultipleFilesOperation.mm */; };
+		BFFC588E186AB7CC00E7AC2F /* GBACalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFC588D186AB7CC00E7AC2F /* GBACalloutView.m */; };
+		BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFC588D186AB7CC00E7AC2F /* GBACalloutView.m */; };
 		BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
@@ -439,6 +441,8 @@
 		BFFBCCD818505CB9005187DF /* GBASyncMultipleFilesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncMultipleFilesOperation.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		BFFBCCD918505CB9005187DF /* GBASyncMultipleFilesOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncMultipleFilesOperation.mm; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		BFFBCCDC18505D25005187DF /* GBASyncMultipleFilesOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncMultipleFilesOperation_Private.h; sourceTree = "<group>"; };
+		BFFC588C186AB7CC00E7AC2F /* GBACalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACalloutView.h; sourceTree = "<group>"; };
+		BFFC588D186AB7CC00E7AC2F /* GBACalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACalloutView.m; sourceTree = "<group>"; };
 		CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
@@ -780,6 +784,8 @@
 				BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */,
 				BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */,
 				BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */,
+				BFFC588C186AB7CC00E7AC2F /* GBACalloutView.h */,
+				BFFC588D186AB7CC00E7AC2F /* GBACalloutView.m */,
 			);
 			name = "iOS 7 Controllers";
 			sourceTree = "<group>";
@@ -1660,6 +1666,7 @@
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
 				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
+				BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
 				BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */,
 				BF2F3554183FF6F9002ACE90 /* GBACheatEditorViewController.m in Sources */,
 				BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */,
@@ -1702,6 +1709,7 @@
 				BF1C87FB185193B100C72E1C /* FileSHA1Hash.c in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
 				CCC9B89A1815AC7E005C90EE /* channel2.cpp in Sources */,
+				BFFC588E186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
 				CC5045081814DC69009F7B9E /* blargg_common.cpp in Sources */,
 				BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */,
 				CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */,
