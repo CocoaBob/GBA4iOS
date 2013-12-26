@@ -648,8 +648,8 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="bottomButtonLayoutViewLayoutConstraint" destination="he5-Y5-1yN" id="9GV-Io-4SZ"/>
-                        <outlet property="buttonA" destination="7Rd-DN-EmS" id="2sf-6o-MAH"/>
-                        <outlet property="buttonB" destination="sG0-8b-7q4" id="qfd-WI-DWn"/>
+                        <outlet property="buttonA" destination="7Rd-DN-EmS" id="ecG-5v-ONK"/>
+                        <outlet property="buttonB" destination="sG0-8b-7q4" id="Wb6-OF-HJZ"/>
                         <outlet property="buttonL2" destination="ID0-ni-W5M" id="gU8-jZ-64c"/>
                         <outlet property="buttonLayoutView" destination="eb4-M0-8s4" id="HHl-6J-F44"/>
                         <outlet property="buttonR2" destination="aNl-im-6Wv" id="zw1-Dn-9Gr"/>

@@ -296,11 +296,11 @@ NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView = 1.0/3.0;
     
     // make sure our frame is not on half-pixels or else we may be blurry!
     self.frame = CGRectIntegral(self.frame);
-
+    
     // layout now so we can immediately start animating to the final position if needed
     [self setNeedsLayout];
     [self layoutIfNeeded];
-    
+        
     // if we're outside the bounds of our constraint rect, we'll give our delegate an opportunity to shift us into position.
     // consider both our size and the size of our target rect (which we'll assume to be the size of the content you want to scroll into view.
     CGRect contentRect = CGRectUnion(self.frame, CGRectInset(rect, -REPOSITION_MARGIN, -REPOSITION_MARGIN));

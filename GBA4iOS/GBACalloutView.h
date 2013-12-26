@@ -23,7 +23,7 @@
 
 extern SMCalloutAnimation SMCalloutAnimationNone;
 
-@interface GBACalloutView : SMCalloutView
+@interface GBACalloutView : SMCalloutView <NSCopying>
 
 @property (nonatomic, weak) id<GBACalloutViewInteractionDelegate> interactionDelegate;
 

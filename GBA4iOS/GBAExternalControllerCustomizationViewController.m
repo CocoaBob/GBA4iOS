@@ -16,6 +16,10 @@
 SMCalloutAnimation SMCalloutAnimationNone = 18;
 
 @interface GBAExternalControllerCustomizationViewController () <UIPickerViewDataSource, UIPickerViewDelegate, GBACalloutViewInteractionDelegate>
+{
+    GBACalloutView *_movedCalloutView;
+    CGRect _movedCalloutViewOriginalRect;
+}
 
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (weak, nonatomic) IBOutlet UIToolbar *pickerBarBackgroundToolbar;
@@ -43,6 +47,8 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 @property (weak, nonatomic) IBOutlet UIView *leftHalfView;
 @property (weak, nonatomic) IBOutlet UIView *rightHalfView;
 
+@property (strong, nonatomic) NSArray *calloutViewArray;
+
 @end
 
 @implementation GBAExternalControllerCustomizationViewController
@@ -67,12 +73,7 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
         _calloutViewButtonL2.interactionDelegate = self;
         _calloutViewButtonR2.interactionDelegate = self;
         
-        _calloutViewButtonA.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputA]];
-        _calloutViewButtonB.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputB]];
-        _calloutViewButtonX.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputX]];
-        _calloutViewButtonY.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputY]];
-        _calloutViewButtonL2.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputLeftTrigger]];
-        _calloutViewButtonR2.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputRightTrigger]];
+        [self updateCalloutViews];
     }
     return self;
 }
@@ -109,17 +110,27 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 - (void)setControllerButton:(GBAControllerButton)controllerButton forExternalControllerButtonInput:(GBAExternalControllerButtonInput)controllerButtonInput
 {
     NSMutableDictionary *buttons = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:GBASettingsExternalControllerButtonsKey] mutableCopy];
-    buttons[[GBAExternalController stringForButtonInput:controllerButtonInput]] = @(controllerButton);
+    buttons[[GBAExternalController keyForButtonInput:controllerButtonInput]] = @(controllerButton);
     [[NSUserDefaults standardUserDefaults] setObject:buttons forKey:GBASettingsExternalControllerButtonsKey];
+}
+
+- (void)switchControllerButtonForInput:(GBAExternalControllerButtonInput)firstInput withControllerButtonForInput:(GBAExternalControllerButtonInput)secondInput
+{
+    UIButton *button = [self buttonForCalloutView:_movedCalloutView];
+    
+    NSDictionary *dictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:GBASettingsExternalControllerButtonsKey];
+    GBAControllerButton firstControllerButton = [dictionary[[GBAExternalController keyForButtonInput:firstInput]] integerValue];
+    GBAControllerButton secondControllerButton = [dictionary[[GBAExternalController keyForButtonInput:secondInput]] integerValue];
+    
+    [self setControllerButton:secondControllerButton forExternalControllerButtonInput:firstInput];
+    [self setControllerButton:firstControllerButton forExternalControllerButtonInput:secondInput];
 }
 
 #pragma mark - Callout Views
 
 - (void)presentCalloutViewsExceptCalloutView:(GBACalloutView *)exceptionCalloutView withAnimation:(SMCalloutAnimation)animation
 {
-    NSArray *calloutViews = @[self.calloutViewButtonA, self.calloutViewButtonB, self.calloutViewButtonX, self.calloutViewButtonY, self.calloutViewButtonL2, self.calloutViewButtonR2];
-    
-    for (GBACalloutView *calloutView in calloutViews)
+    for (GBACalloutView *calloutView in [self calloutViewArray])
     {
         if (calloutView != exceptionCalloutView)
         {
@@ -143,41 +154,65 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     
     if (self.calloutViewButtonA == calloutView)
     {
-        [self.calloutViewButtonA presentCalloutFromRect:self.buttonA.frame inView:self.buttonLayoutView constrainedToView:self.view permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
+        [self.calloutViewButtonA presentCalloutFromRect:self.buttonA.frame inView:self.buttonLayoutView constrainedToView:[self constraintViewForButton:self.buttonA] permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
     }
     else if (self.calloutViewButtonB == calloutView)
     {
-        [self.calloutViewButtonB presentCalloutFromRect:self.buttonB.frame inView:self.buttonLayoutView constrainedToView:self.rightHalfView permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
+        [self.calloutViewButtonB presentCalloutFromRect:self.buttonB.frame inView:self.buttonLayoutView constrainedToView:[self constraintViewForButton:self.buttonB] permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
     }
     else if (self.calloutViewButtonX == calloutView)
     {
-        [self.calloutViewButtonX presentCalloutFromRect:self.buttonX.frame inView:self.buttonLayoutView constrainedToView:self.leftHalfView permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
+        [self.calloutViewButtonX presentCalloutFromRect:self.buttonX.frame inView:self.buttonLayoutView constrainedToView:[self constraintViewForButton:self.buttonX] permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
     }
     else if (self.calloutViewButtonY == calloutView)
     {
-        [self.calloutViewButtonY presentCalloutFromRect:self.buttonY.frame inView:self.buttonLayoutView constrainedToView:self.view permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
+        [self.calloutViewButtonY presentCalloutFromRect:self.buttonY.frame inView:self.buttonLayoutView constrainedToView:[self constraintViewForButton:self.buttonY] permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
     }
     else if (self.calloutViewButtonL2 == calloutView)
     {
-        [self.calloutViewButtonL2 presentCalloutFromRect:self.buttonL2.frame inView:self.buttonLayoutView constrainedToView:self.leftHalfView permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
+        [self.calloutViewButtonL2 presentCalloutFromRect:self.buttonL2.frame inView:self.buttonLayoutView constrainedToView:[self constraintViewForButton:self.buttonL2] permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
     }
     else if (self.calloutViewButtonR2 == calloutView)
     {
-        [self.calloutViewButtonR2 presentCalloutFromRect:self.buttonR2.frame inView:self.buttonLayoutView constrainedToView:self.rightHalfView permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
+        [self.calloutViewButtonR2 presentCalloutFromRect:self.buttonR2.frame inView:self.buttonLayoutView constrainedToView:[self constraintViewForButton:self.buttonR2] permittedArrowDirections:SMCalloutArrowDirectionAny animated:animated];
     }
 }
 
 - (void)dismissAllCalloutViewsExceptCalloutView:(GBACalloutView *)exceptionCalloutView
 {
-    NSArray *calloutViews = @[self.calloutViewButtonA, self.calloutViewButtonB, self.calloutViewButtonX, self.calloutViewButtonY, self.calloutViewButtonL2, self.calloutViewButtonR2];
-    
-    for (GBACalloutView *calloutView in calloutViews)
+    for (GBACalloutView *calloutView in [self calloutViewArray])
     {
         if (calloutView != exceptionCalloutView)
         {
             [calloutView dismissCalloutAnimated:YES];
         }
     }
+}
+
+- (void)updateCalloutViews
+{
+    self.calloutViewButtonA.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputA]];
+    self.calloutViewButtonB.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputB]];
+    self.calloutViewButtonX.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputX]];
+    self.calloutViewButtonY.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputY]];
+    self.calloutViewButtonL2.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputLeftTrigger]];
+    self.calloutViewButtonR2.title = [self nameForControllerButton:[GBAExternalController controllerButtonForControllerButtonInput:GBAExternalControllerButtonInputRightTrigger]];
+    
+    [self presentCalloutViewsExceptCalloutView:nil withAnimation:SMCalloutAnimationNone];
+}
+
+- (void)moveCalloutView:(GBACalloutView *)calloutView toFrameForButton:(UIButton *)button completion:(void (^)(BOOL finished))completionBlock
+{
+    // Little hacky, we make a hidden callout view, "present" it, then use that frame to move the visible one
+    GBACalloutView *tempCalloutView = [calloutView copy];
+    tempCalloutView.hidden = YES;
+    [tempCalloutView presentCalloutFromRect:button.frame inView:self.buttonLayoutView constrainedToView:[self constraintViewForButton:button] permittedArrowDirections:SMCalloutArrowDirectionDown animated:NO];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        calloutView.frame = tempCalloutView.frame;
+    } completion:completionBlock];
+    
+    [tempCalloutView dismissCalloutAnimated:NO];
 }
 
 #pragma mark - GBACalloutView Delegate
@@ -188,11 +223,63 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     [self pressedButton:button];
 }
 
+- (void)calloutViewWillBeginTranslating:(GBACalloutView *)calloutView
+{
+    [self.buttonLayoutView bringSubviewToFront:calloutView];
+}
+
+- (void)calloutView:(GBACalloutView *)calloutView didTranslate:(CGPoint)translation
+{
+    // calloutView.center is offset by approximately +38 points, weird. This fixes that
+    CGPoint correctedCenter = CGPointMake(CGRectGetMidX(calloutView.frame), CGRectGetMidY(calloutView.frame));
+    GBACalloutView *destinationCalloutView = [self calloutViewForPoint:correctedCenter excludeCalloutView:calloutView];
+    
+    // Left the previous _movedCalloutView area, so return _movedCalloutView to original spot
+    if (_movedCalloutView && destinationCalloutView != _movedCalloutView)
+    {
+        UIButton *button = [self buttonForCalloutView:_movedCalloutView];
+        [self moveCalloutView:_movedCalloutView toFrameForButton:button completion:nil];
+        
+        _movedCalloutView = nil;
+        _movedCalloutViewOriginalRect = CGRectZero;
+        
+        return;
+    }
+    
+    if (destinationCalloutView == nil || _movedCalloutView == destinationCalloutView)
+    {
+        return;
+    }
+    
+    _movedCalloutView = destinationCalloutView;
+    _movedCalloutViewOriginalRect = destinationCalloutView.frame;
+    
+    UIButton *button = [self buttonForCalloutView:calloutView];
+    [self moveCalloutView:destinationCalloutView toFrameForButton:button completion:nil];
+}
+
 - (void)calloutViewDidFinishTranslating:(GBACalloutView *)calloutView
 {
-    [UIView animateWithDuration:0.2 animations:^{
-        [self presentCalloutView:calloutView withAnimation:SMCalloutAnimationNone];
+    if (_movedCalloutView == nil)
+    {
+        [UIView animateWithDuration:0.3 animations:^{
+            [self presentCalloutView:calloutView withAnimation:SMCalloutAnimationNone];
+        }];
+        
+        return;
+    }
+    
+    UIButton *movedCalloutViewButton = [self buttonForCalloutView:_movedCalloutView];
+    UIButton *movingCalloutViewButton = [self buttonForCalloutView:calloutView];
+    [self switchControllerButtonForInput:[self externalControllerButtonInputForButton:movedCalloutViewButton] withControllerButtonForInput:[self externalControllerButtonInputForButton:movingCalloutViewButton]];
+    
+    [self moveCalloutView:calloutView toFrameForButton:movedCalloutViewButton completion:^(BOOL finished) {
+        [self updateCalloutViews];
     }];
+   
+    
+    _movedCalloutView = nil;
+    _movedCalloutViewOriginalRect = CGRectZero;
 }
 
 #pragma mark - IBActions
@@ -238,7 +325,7 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     
     NSDictionary *buttons = [[NSUserDefaults standardUserDefaults] dictionaryForKey:GBASettingsExternalControllerButtonsKey];
     GBAExternalControllerButtonInput input = [self externalControllerButtonInputForButton:button];
-    GBAControllerButton controllerButton = [buttons[[GBAExternalController stringForButtonInput:input]] integerValue];
+    GBAControllerButton controllerButton = [buttons[[GBAExternalController keyForButtonInput:input]] integerValue];
     
     // Only animate the picker if it's already visible
     BOOL animated = (self.currentlySelectedButton != nil);
@@ -318,32 +405,27 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 
 #pragma mark - Helper Methods
 
-- (GBACalloutView *)calloutViewForPoint:(CGPoint)point
+- (GBACalloutView *)calloutViewForPoint:(CGPoint)point excludeCalloutView:(GBACalloutView *)excludedCalloutView
 {
-    static NSArray *views = nil;
-    
-    if (views == nil)
+    for (GBACalloutView *calloutView in [self calloutViewArray])
     {
-        views = @[self.buttonA, self.buttonB, self.buttonX, self.buttonY, self.buttonL2, self.buttonR2,
-                           self.calloutViewButtonA, self.calloutViewButtonB, self.calloutViewButtonB, self.calloutViewButtonX, self.calloutViewButtonY, self.calloutViewButtonL2, self.calloutViewButtonR2];
-    }
-    
-    for (UIView *view in views)
-    {
-        CGRect rect = CGRectInset(view.frame, -10, -10);
+        if (calloutView == excludedCalloutView)
+        {
+            continue;
+        }
+        
+        CGRect rect = calloutView.frame;
         
         if (CGRectContainsPoint(rect, point))
         {
-            GBACalloutView *calloutView = (GBACalloutView *)view;
-            
-            if ([view isKindOfClass:[UIButton class]])
-            {
-                calloutView = [self calloutViewForButton:(UIButton *)view];
-            }
-            
             return calloutView;
         }
         
+    }
+    
+    if (CGRectContainsPoint(_movedCalloutViewOriginalRect, point))
+    {
+        return _movedCalloutView;
     }
     
     return nil;
@@ -453,6 +535,21 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     }
     
     return nil;
+}
+
+- (UIView *)constraintViewForButton:(UIButton *)button
+{
+    if (button == self.buttonX || button == self.buttonL2)
+    {
+        return self.leftHalfView;
+    }
+    
+    if (button == self.buttonB || button == self.buttonR2)
+    {
+        return self.rightHalfView;
+    }
+    
+    return self.buttonLayoutView;
 }
 
 - (GBAControllerButton)controllerButtonForRow:(NSInteger)row
@@ -568,6 +665,16 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     }
     
     return GBAExternalControllerButtonInputA;
+}
+
+- (NSArray *)calloutViewArray
+{
+    if (_calloutViewArray == nil)
+    {
+        _calloutViewArray = @[self.calloutViewButtonA, self.calloutViewButtonB, self.calloutViewButtonB, self.calloutViewButtonX, self.calloutViewButtonY, self.calloutViewButtonL2, self.calloutViewButtonR2];
+    }
+    
+    return _calloutViewArray;
 }
 
 @end

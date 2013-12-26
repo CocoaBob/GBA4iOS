@@ -41,17 +41,17 @@
 
 + (void)registerControllerDefaults
 {
-    NSDictionary *controllerButtons = @{[GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputA]: @(GBAControllerButtonA),
-                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputB]: @(GBAControllerButtonB),
-                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputX]: @(GBAControllerButtonSelect),
-                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputY]: @(GBAControllerButtonStart),
-                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputLeftTrigger]: @(GBAControllerButtonL),
-                                        [GBAExternalController stringForButtonInput:GBAExternalControllerButtonInputRightTrigger]: @(GBAControllerButtonR)};
+    NSDictionary *controllerButtons = @{[GBAExternalController keyForButtonInput:GBAExternalControllerButtonInputA]: @(GBAControllerButtonA),
+                                        [GBAExternalController keyForButtonInput:GBAExternalControllerButtonInputB]: @(GBAControllerButtonB),
+                                        [GBAExternalController keyForButtonInput:GBAExternalControllerButtonInputX]: @(GBAControllerButtonSelect),
+                                        [GBAExternalController keyForButtonInput:GBAExternalControllerButtonInputY]: @(GBAControllerButtonStart),
+                                        [GBAExternalController keyForButtonInput:GBAExternalControllerButtonInputLeftTrigger]: @(GBAControllerButtonL),
+                                        [GBAExternalController keyForButtonInput:GBAExternalControllerButtonInputRightTrigger]: @(GBAControllerButtonR)};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{GBASettingsExternalControllerButtonsKey: controllerButtons}];
 }
 
-+ (NSString *)stringForButtonInput:(GBAExternalControllerButtonInput)buttonInput
++ (NSString *)keyForButtonInput:(GBAExternalControllerButtonInput)buttonInput
 {
     NSString *string = @"";
     
@@ -300,7 +300,7 @@
             
         default: {
             NSDictionary *buttonDictionary = [[NSUserDefaults standardUserDefaults] dictionaryForKey:GBASettingsExternalControllerButtonsKey];
-            NSString *buttonString = [GBAExternalController stringForButtonInput:buttonInput];
+            NSString *buttonString = [GBAExternalController keyForButtonInput:buttonInput];
             controllerButton = [buttonDictionary[buttonString] integerValue];
             break;
         }

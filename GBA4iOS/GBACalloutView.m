@@ -80,6 +80,18 @@
 
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    GBACalloutView *calloutView = [GBACalloutView new];
+    calloutView.title = [self.title copy];
+    calloutView.subtitle = [self.subtitle copy];
+    calloutView.delegate = self.delegate;
+    
+    return calloutView;
+}
+
 #pragma mark - Subclassing
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event

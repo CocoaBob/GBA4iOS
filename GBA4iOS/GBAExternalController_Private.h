@@ -27,6 +27,6 @@ typedef NS_ENUM(NSInteger, GBAExternalControllerButtonInput)
 @interface GBAExternalController ()
 
 + (GBAControllerButton)controllerButtonForControllerButtonInput:(GBAExternalControllerButtonInput)buttonInput;
-+ (NSString *)stringForButtonInput:(GBAExternalControllerButtonInput)buttonInput;
++ (NSString *)keyForButtonInput:(GBAExternalControllerButtonInput)buttonInput;
 
 @end
