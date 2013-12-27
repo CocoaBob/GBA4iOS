@@ -517,17 +517,21 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="dismissPicker:" destination="bqr-aX-GSp" eventType="touchUpInside" id="8nf-ky-zov"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
                                         <rect key="frame" x="19" y="150" width="282" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Controller_Buttons" translatesAutoresizingMaskIntoConstraints="NO" id="WlX-xp-Iib">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Controller_Buttons" translatesAutoresizingMaskIntoConstraints="NO" id="WlX-xp-Iib">
                                         <rect key="frame" x="4" y="235" width="312" height="312"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
-                                        <rect key="frame" x="20" y="150" width="126" height="44"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
+                                        <rect key="frame" x="19" y="150" width="126" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="gF9-bh-Zfi"/>
+                                            <constraint firstAttribute="width" constant="126" id="kI7-cH-x49"/>
+                                        </constraints>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -535,9 +539,13 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="YtH-jy-Nm6"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
                                         <rect key="frame" x="174" y="150" width="126" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="KGz-H2-RTR"/>
+                                            <constraint firstAttribute="width" constant="126" id="O7R-RQ-3M4"/>
+                                        </constraints>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -545,9 +553,13 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="8GG-wv-dzY"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rd-DN-EmS" userLabel="A">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rd-DN-EmS" userLabel="A">
                                         <rect key="frame" x="122" y="423" width="76" height="76"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="76" id="aXe-36-YtE"/>
+                                            <constraint firstAttribute="width" constant="76" id="eBF-6T-tQl"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -556,9 +568,13 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="EEz-wp-Wi8"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sG0-8b-7q4" userLabel="B">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sG0-8b-7q4" userLabel="B">
                                         <rect key="frame" x="193" y="353" width="76" height="76"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="76" id="8vD-vl-e8Z"/>
+                                            <constraint firstAttribute="height" constant="76" id="Raa-Yr-IGc"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -567,9 +583,13 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="cfD-KL-viO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqK-s0-noJ" userLabel="X">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqK-s0-noJ" userLabel="X">
                                         <rect key="frame" x="51" y="353" width="76" height="76"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="76" id="7z5-a1-wYN"/>
+                                            <constraint firstAttribute="width" constant="76" id="JmL-b0-cfO"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -578,9 +598,13 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="w2R-nt-2jz"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5tO-zk-o0F" userLabel="Y">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5tO-zk-o0F" userLabel="Y">
                                         <rect key="frame" x="122" y="283" width="76" height="76"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="76" id="7Sm-kK-Ge0"/>
+                                            <constraint firstAttribute="width" constant="76" id="aHY-zB-c4E"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -600,16 +624,32 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="JTZ-3N-NrS" secondAttribute="bottom" id="0j6-DM-MsX"/>
+                                    <constraint firstItem="eqK-s0-noJ" firstAttribute="top" secondItem="WlX-xp-Iib" secondAttribute="top" constant="118" id="3AO-C7-UPK"/>
                                     <constraint firstItem="5Qd-8G-Afa" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="3vi-bL-KwU"/>
                                     <constraint firstAttribute="trailing" secondItem="JTZ-3N-NrS" secondAttribute="trailing" id="8Wx-In-Z1n"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="trailing" secondItem="sG0-8b-7q4" secondAttribute="trailing" constant="47" id="9vf-Db-Nn4"/>
                                     <constraint firstItem="TUx-2B-J2m" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" constant="19" id="Aqm-os-sdP"/>
                                     <constraint firstItem="5Qd-8G-Afa" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" id="Bdd-yQ-GmR"/>
+                                    <constraint firstItem="NYs-a1-C6a" firstAttribute="leading" secondItem="ID0-ni-W5M" secondAttribute="leading" id="CjS-mE-KQA"/>
+                                    <constraint firstItem="5tO-zk-o0F" firstAttribute="top" secondItem="WlX-xp-Iib" secondAttribute="top" constant="48" id="E0S-iw-4P6"/>
                                     <constraint firstAttribute="bottom" secondItem="5Qd-8G-Afa" secondAttribute="bottom" id="Irx-DG-Sui"/>
+                                    <constraint firstItem="aNl-im-6Wv" firstAttribute="trailing" secondItem="NYs-a1-C6a" secondAttribute="trailing" constant="-1" id="Lor-Ny-65p"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="top" secondItem="NYs-a1-C6a" secondAttribute="bottom" constant="41" id="MGd-B9-1Pe"/>
                                     <constraint firstAttribute="trailing" secondItem="TUx-2B-J2m" secondAttribute="trailing" constant="19" id="MPo-IW-IUf"/>
                                     <constraint firstAttribute="bottom" secondItem="TUx-2B-J2m" secondAttribute="bottom" constant="11" id="Uej-G7-CBd"/>
+                                    <constraint firstItem="NYs-a1-C6a" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" constant="150" id="YlV-Vg-wWu"/>
+                                    <constraint firstItem="aNl-im-6Wv" firstAttribute="top" secondItem="NYs-a1-C6a" secondAttribute="top" id="atV-OX-Szn"/>
+                                    <constraint firstAttribute="centerX" secondItem="NYs-a1-C6a" secondAttribute="centerX" id="b5S-Ne-hKU"/>
                                     <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="e8k-Gf-w3U"/>
+                                    <constraint firstItem="eqK-s0-noJ" firstAttribute="leading" secondItem="WlX-xp-Iib" secondAttribute="leading" constant="47" id="i4k-1g-LnC"/>
+                                    <constraint firstItem="5tO-zk-o0F" firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="pUI-Vw-bFk"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="top" secondItem="sG0-8b-7q4" secondAttribute="top" constant="-118" id="phM-aX-ffY"/>
+                                    <constraint firstItem="7Rd-DN-EmS" firstAttribute="bottom" secondItem="WlX-xp-Iib" secondAttribute="bottom" constant="-48" id="qVz-UK-tkw"/>
                                     <constraint firstItem="JTZ-3N-NrS" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="txM-my-O7B"/>
+                                    <constraint firstItem="7Rd-DN-EmS" firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="uN7-nD-VPM"/>
+                                    <constraint firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="vQw-ju-4uZ"/>
                                     <constraint firstItem="5Qd-8G-Afa" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="w7B-YS-tBT"/>
+                                    <constraint firstItem="NYs-a1-C6a" firstAttribute="top" secondItem="ID0-ni-W5M" secondAttribute="top" id="wzC-RL-MmI"/>
                                     <constraint firstItem="5Qd-8G-Afa" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="ztm-D6-ZJg"/>
                                     <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="zyf-p1-GDc"/>
                                 </constraints>
