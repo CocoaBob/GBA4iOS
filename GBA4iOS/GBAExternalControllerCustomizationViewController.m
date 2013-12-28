@@ -43,6 +43,7 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 @property (weak, nonatomic) IBOutlet UIButton *buttonL2;
 @property (weak, nonatomic) IBOutlet UIButton *buttonR2;
 @property (weak, nonatomic) UIButton *currentlySelectedButton;
+@property (weak, nonatomic) GBACalloutView *currenlyMovingCalloutView;
 
 @property (weak, nonatomic) IBOutlet UIView *leftHalfView;
 @property (weak, nonatomic) IBOutlet UIView *rightHalfView;
@@ -83,8 +84,8 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.buttonLayoutView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    //self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    //self.buttonLayoutView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -227,6 +228,18 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 
 #pragma mark - GBACalloutView Delegate
 
+- (BOOL)calloutViewShouldBeginTranslating:(GBACalloutView *)calloutView
+{
+    if (self.currentlySelectedButton || self.currenlyMovingCalloutView)
+    {
+        return NO;
+    }
+    
+    self.currenlyMovingCalloutView = calloutView;
+    
+    return YES;
+}
+
 - (void)calloutViewWasTapped:(GBACalloutView *)calloutView
 {
     UIButton *button = [self buttonForCalloutView:calloutView];
@@ -270,11 +283,12 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 
 - (void)calloutViewDidFinishTranslating:(GBACalloutView *)calloutView
 {
+    self.currenlyMovingCalloutView = nil;
+    
     if (_movedCalloutView == nil)
     {
-        [UIView animateWithDuration:0.3 animations:^{
-            [self presentCalloutView:calloutView withAnimation:SMCalloutAnimationNone];
-        }];
+        UIButton *button = [self buttonForCalloutView:calloutView];
+        [self moveCalloutView:calloutView toFrameForButton:button completion:nil];
         
         return;
     }

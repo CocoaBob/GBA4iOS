@@ -8,6 +8,10 @@
 
 #import "GBACalloutView.h"
 
+@interface GBACalloutView () <UIGestureRecognizerDelegate>
+
+@end
+
 @implementation GBACalloutView
 {
     CGPoint _initialCenterForDraggedCalloutView;
@@ -22,12 +26,23 @@
         [self addGestureRecognizer:tapGestureRecognizer];
         
         UIPanGestureRecognizer *panGestureRecognzier = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDetectPan:)];
+        panGestureRecognzier.delegate = self;
         [self addGestureRecognizer:panGestureRecognzier];
     }
     return self;
 }
 
 #pragma mark - Gesture Recognizers
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if ([self.interactionDelegate respondsToSelector:@selector(calloutViewShouldBeginTranslating:)])
+    {
+        return [self.interactionDelegate calloutViewShouldBeginTranslating:self];
+    }
+    
+    return YES;
+}
 
 - (void)didDetectTap:(UITapGestureRecognizer *)tapGestureRecognizer
 {

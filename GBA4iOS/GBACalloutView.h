@@ -15,6 +15,7 @@
 @optional
 - (void)calloutViewWasTapped:(GBACalloutView *)calloutView;
 
+- (BOOL)calloutViewShouldBeginTranslating:(GBACalloutView *)calloutView;
 - (void)calloutViewWillBeginTranslating:(GBACalloutView *)calloutView;
 - (void)calloutView:(GBACalloutView *)calloutView didTranslate:(CGPoint)translation;
 - (void)calloutViewDidFinishTranslating:(GBACalloutView *)calloutView;

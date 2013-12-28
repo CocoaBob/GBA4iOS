@@ -152,7 +152,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Controllers" id="6xa-Dc-Gfk" userLabel="Table View Section - Controller Skins">
+                            <tableViewSection headerTitle="Controller Skins" id="6xa-Dc-Gfk" userLabel="Table View Section - Controller Skins">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DisclosureCell" textLabel="OHm-pT-NFJ" detailTextLabel="zFN-2i-CkL" style="IBUITableViewCellStyleValue1" id="O9w-bR-s3j">
                                         <rect key="frame" x="0.0" y="654" width="320" height="44"/>
@@ -204,38 +204,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="" id="s3c-lR-3lq" userLabel="Table View Section - External Controller">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="tNu-VX-c2N" detailTextLabel="czk-1N-GQI" style="IBUITableViewCellStyleValue1" id="m63-6B-cbj">
-                                        <rect key="frame" x="0.0" y="762" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m63-6B-cbj" id="MZN-mS-ibJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="External Controller" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tNu-VX-c2N">
-                                                    <rect key="frame" x="15" y="11" width="143" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="czk-1N-GQI">
-                                                    <rect key="frame" x="241" y="11" width="44" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Controller Opacity" footerTitle="Determines how transparent the controller is, if supported by the skin." id="SNw-c2-3jm">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1T7-2h-GFx">
-                                        <rect key="frame" x="0.0" y="854" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="790" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1T7-2h-GFx" id="GfQ-4T-6i1">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -274,10 +246,38 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="External Controller" id="s3c-lR-3lq" userLabel="Table View Section - External Controller">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="tNu-VX-c2N" detailTextLabel="czk-1N-GQI" style="IBUITableViewCellStyleValue1" id="m63-6B-cbj">
+                                        <rect key="frame" x="0.0" y="926" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m63-6B-cbj" id="MZN-mS-ibJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Configure Buttons" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tNu-VX-c2N">
+                                                    <rect key="frame" x="15" y="11" width="140" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="czk-1N-GQI">
+                                                    <rect key="frame" x="241" y="11" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Syncing" id="Y91-iU-ZZA">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="bQm-NJ-XIL" detailTextLabel="xfN-uz-80c" style="IBUITableViewCellStyleValue1" id="qSk-zO-gSr">
-                                        <rect key="frame" x="0.0" y="990" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1018" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qSk-zO-gSr" id="pzv-Oa-VmP">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -308,7 +308,7 @@
 For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="uC9-4O-Vzb" detailTextLabel="c59-FU-Kqa" style="IBUITableViewCellStyleValue1" id="XIV-fF-qzJ">
-                                        <rect key="frame" x="0.0" y="1082" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1110" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XIV-fF-qzJ" id="kN7-gH-xdz">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -332,7 +332,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="yts-uQ-Fyu" detailTextLabel="qY9-bp-cXh" style="IBUITableViewCellStyleValue1" id="gY2-vs-EA6">
-                                        <rect key="frame" x="0.0" y="1126" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1154" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gY2-vs-EA6" id="oKP-Vh-IaR">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -356,7 +356,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="upY-mn-RKX" detailTextLabel="ZSt-Ue-ZUl" style="IBUITableViewCellStyleValue1" id="toN-EG-7ZZ">
-                                        <rect key="frame" x="0.0" y="1170" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1198" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="toN-EG-7ZZ" id="dhY-ye-el0">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -380,7 +380,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="XmL-5Z-36f" detailTextLabel="6nt-U1-98m" style="IBUITableViewCellStyleValue1" id="gM0-9q-VL9">
-                                        <rect key="frame" x="0.0" y="1214" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1242" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gM0-9q-VL9" id="thl-mL-RBx">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -404,7 +404,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="JKF-YX-hl9" detailTextLabel="oQI-aK-3wI" style="IBUITableViewCellStyleValue1" id="CaE-4j-s6R">
-                                        <rect key="frame" x="0.0" y="1258" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1286" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CaE-4j-s6R" id="alq-zA-gT4">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -428,7 +428,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="dc9-F6-nUc" detailTextLabel="kmR-d2-GDL" style="IBUITableViewCellStyleValue1" id="CyV-bM-CXP">
-                                        <rect key="frame" x="0.0" y="1302" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1330" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CyV-bM-CXP" id="vB1-Zu-WeS">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -492,23 +492,23 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                         <viewControllerLayoutGuide type="bottom" id="EvL-Fl-y9o"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XLY-Ov-Sxs">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eb4-M0-8s4" userLabel="Button Layout View">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Qd-8G-Afa" userLabel="Left Half">
-                                        <rect key="frame" x="0.0" y="0.0" width="160" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="480"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </view>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTZ-3N-NrS" userLabel="Right Half">
-                                        <rect key="frame" x="160" y="0.0" width="160" height="568"/>
+                                        <rect key="frame" x="160" y="0.0" width="160" height="480"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyl-z9-Oen" userLabel="Dismiss Picker Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyl-z9-Oen" userLabel="Dismiss Picker Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -517,20 +517,20 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="dismissPicker:" destination="bqr-aX-GSp" eventType="touchUpInside" id="8nf-ky-zov"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
-                                        <rect key="frame" x="19" y="150" width="282" height="44"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
+                                        <rect key="frame" x="35" y="130" width="250" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Controller_Buttons" translatesAutoresizingMaskIntoConstraints="NO" id="WlX-xp-Iib">
-                                        <rect key="frame" x="4" y="235" width="312" height="312"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Controller_Buttons" translatesAutoresizingMaskIntoConstraints="NO" id="WlX-xp-Iib">
+                                        <rect key="frame" x="35" y="200" width="250" height="250"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
-                                        <rect key="frame" x="19" y="150" width="126" height="44"/>
+                                        <rect key="frame" x="35" y="130" width="108" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="gF9-bh-Zfi"/>
-                                            <constraint firstAttribute="width" constant="126" id="kI7-cH-x49"/>
+                                            <constraint firstAttribute="width" constant="108" id="lhx-zs-eGY"/>
+                                            <constraint firstAttribute="height" constant="40" id="qrq-06-p0p"/>
                                         </constraints>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -540,11 +540,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
-                                        <rect key="frame" x="174" y="150" width="126" height="44"/>
+                                        <rect key="frame" x="177" y="130" width="108" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="KGz-H2-RTR"/>
-                                            <constraint firstAttribute="width" constant="126" id="O7R-RQ-3M4"/>
+                                            <constraint firstAttribute="width" constant="108" id="Sbj-Zs-2Cg"/>
+                                            <constraint firstAttribute="height" constant="41" id="cBI-Eo-2gM"/>
                                         </constraints>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -554,11 +554,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rd-DN-EmS" userLabel="A">
-                                        <rect key="frame" x="122" y="423" width="76" height="76"/>
+                                        <rect key="frame" x="127" y="357" width="66" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="76" id="aXe-36-YtE"/>
-                                            <constraint firstAttribute="width" constant="76" id="eBF-6T-tQl"/>
+                                            <constraint firstAttribute="width" constant="66" id="DGj-yJ-Tjx"/>
+                                            <constraint firstAttribute="height" constant="66" id="NGp-W0-hss"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
@@ -569,11 +569,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sG0-8b-7q4" userLabel="B">
-                                        <rect key="frame" x="193" y="353" width="76" height="76"/>
+                                        <rect key="frame" x="192" y="292" width="66" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="76" id="8vD-vl-e8Z"/>
-                                            <constraint firstAttribute="height" constant="76" id="Raa-Yr-IGc"/>
+                                            <constraint firstAttribute="width" constant="66" id="B3W-5X-yHA"/>
+                                            <constraint firstAttribute="height" constant="66" id="vsr-no-ame"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
@@ -584,11 +584,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqK-s0-noJ" userLabel="X">
-                                        <rect key="frame" x="51" y="353" width="76" height="76"/>
+                                        <rect key="frame" x="62" y="292" width="66" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="76" id="7z5-a1-wYN"/>
-                                            <constraint firstAttribute="width" constant="76" id="JmL-b0-cfO"/>
+                                            <constraint firstAttribute="width" constant="66" id="QgD-Rp-q6A"/>
+                                            <constraint firstAttribute="height" constant="66" id="d6H-Wt-eGR"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
@@ -599,11 +599,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5tO-zk-o0F" userLabel="Y">
-                                        <rect key="frame" x="122" y="283" width="76" height="76"/>
+                                        <rect key="frame" x="127" y="227" width="66" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="76" id="7Sm-kK-Ge0"/>
-                                            <constraint firstAttribute="width" constant="76" id="aHY-zB-c4E"/>
+                                            <constraint firstAttribute="width" constant="66" id="JHP-rE-L9A"/>
+                                            <constraint firstAttribute="height" constant="66" id="Y2d-Gv-wEX"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal">
@@ -613,54 +613,56 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="rvu-th-LgR"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap a button to change what action it performs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUx-2B-J2m">
-                                        <rect key="frame" x="19" y="541" width="282" height="16"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Tap a button to change what action it performs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUx-2B-J2m">
+                                        <rect key="frame" x="19" y="458" width="282" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="JTZ-3N-NrS" secondAttribute="bottom" id="0j6-DM-MsX"/>
-                                    <constraint firstItem="eqK-s0-noJ" firstAttribute="top" secondItem="WlX-xp-Iib" secondAttribute="top" constant="118" id="3AO-C7-UPK"/>
-                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="3vi-bL-KwU"/>
-                                    <constraint firstAttribute="trailing" secondItem="JTZ-3N-NrS" secondAttribute="trailing" id="8Wx-In-Z1n"/>
-                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="trailing" secondItem="sG0-8b-7q4" secondAttribute="trailing" constant="47" id="9vf-Db-Nn4"/>
-                                    <constraint firstItem="TUx-2B-J2m" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" constant="19" id="Aqm-os-sdP"/>
-                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" id="Bdd-yQ-GmR"/>
-                                    <constraint firstItem="NYs-a1-C6a" firstAttribute="leading" secondItem="ID0-ni-W5M" secondAttribute="leading" id="CjS-mE-KQA"/>
-                                    <constraint firstItem="5tO-zk-o0F" firstAttribute="top" secondItem="WlX-xp-Iib" secondAttribute="top" constant="48" id="E0S-iw-4P6"/>
-                                    <constraint firstAttribute="bottom" secondItem="5Qd-8G-Afa" secondAttribute="bottom" id="Irx-DG-Sui"/>
-                                    <constraint firstItem="aNl-im-6Wv" firstAttribute="trailing" secondItem="NYs-a1-C6a" secondAttribute="trailing" constant="-1" id="Lor-Ny-65p"/>
-                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="top" secondItem="NYs-a1-C6a" secondAttribute="bottom" constant="41" id="MGd-B9-1Pe"/>
-                                    <constraint firstAttribute="trailing" secondItem="TUx-2B-J2m" secondAttribute="trailing" constant="19" id="MPo-IW-IUf"/>
-                                    <constraint firstAttribute="bottom" secondItem="TUx-2B-J2m" secondAttribute="bottom" constant="11" id="Uej-G7-CBd"/>
-                                    <constraint firstItem="NYs-a1-C6a" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" constant="150" id="YlV-Vg-wWu"/>
-                                    <constraint firstItem="aNl-im-6Wv" firstAttribute="top" secondItem="NYs-a1-C6a" secondAttribute="top" id="atV-OX-Szn"/>
-                                    <constraint firstAttribute="centerX" secondItem="NYs-a1-C6a" secondAttribute="centerX" id="b5S-Ne-hKU"/>
-                                    <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="e8k-Gf-w3U"/>
-                                    <constraint firstItem="eqK-s0-noJ" firstAttribute="leading" secondItem="WlX-xp-Iib" secondAttribute="leading" constant="47" id="i4k-1g-LnC"/>
-                                    <constraint firstItem="5tO-zk-o0F" firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="pUI-Vw-bFk"/>
-                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="top" secondItem="sG0-8b-7q4" secondAttribute="top" constant="-118" id="phM-aX-ffY"/>
-                                    <constraint firstItem="7Rd-DN-EmS" firstAttribute="bottom" secondItem="WlX-xp-Iib" secondAttribute="bottom" constant="-48" id="qVz-UK-tkw"/>
-                                    <constraint firstItem="JTZ-3N-NrS" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="txM-my-O7B"/>
-                                    <constraint firstItem="7Rd-DN-EmS" firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="uN7-nD-VPM"/>
-                                    <constraint firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="vQw-ju-4uZ"/>
-                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="w7B-YS-tBT"/>
-                                    <constraint firstItem="NYs-a1-C6a" firstAttribute="top" secondItem="ID0-ni-W5M" secondAttribute="top" id="wzC-RL-MmI"/>
-                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="ztm-D6-ZJg"/>
-                                    <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="zyf-p1-GDc"/>
+                                    <constraint firstItem="5tO-zk-o0F" firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="0J8-4s-DUg"/>
+                                    <constraint firstAttribute="trailing" secondItem="JTZ-3N-NrS" secondAttribute="trailing" id="0wb-oS-ajL"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="top" relation="greaterThanOrEqual" secondItem="NYs-a1-C6a" secondAttribute="bottom" constant="29" id="1Pn-nC-E3Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="uyl-z9-Oen" secondAttribute="trailing" id="4R3-Rq-Fp1"/>
+                                    <constraint firstAttribute="bottom" secondItem="TUx-2B-J2m" secondAttribute="bottom" priority="300" constant="11" id="4bj-zn-Sb4"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="centerY" secondItem="sG0-8b-7q4" secondAttribute="centerY" id="6E9-QH-aPH"/>
+                                    <constraint firstAttribute="centerX" secondItem="NYs-a1-C6a" secondAttribute="centerX" id="7g4-WT-Zmx"/>
+                                    <constraint firstAttribute="bottom" secondItem="5Qd-8G-Afa" secondAttribute="bottom" id="Adv-CJ-OkK"/>
+                                    <constraint firstItem="aNl-im-6Wv" firstAttribute="top" secondItem="NYs-a1-C6a" secondAttribute="top" id="D1x-Tb-JXw"/>
+                                    <constraint firstAttribute="centerX" secondItem="TUx-2B-J2m" secondAttribute="centerX" id="DQI-ks-jbR"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="leading" secondItem="eqK-s0-noJ" secondAttribute="leading" constant="-27" id="E27-f5-1kd"/>
+                                    <constraint firstItem="7Rd-DN-EmS" firstAttribute="bottom" secondItem="WlX-xp-Iib" secondAttribute="bottom" constant="-27" id="GEo-bk-sJw"/>
+                                    <constraint firstItem="7Rd-DN-EmS" firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="GXV-rh-vGI"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="top" secondItem="NYs-a1-C6a" secondAttribute="bottom" priority="750" constant="60" id="Lcz-kh-V1t"/>
+                                    <constraint firstItem="ID0-ni-W5M" firstAttribute="leading" secondItem="NYs-a1-C6a" secondAttribute="leading" id="MZ7-cB-pJv"/>
+                                    <constraint firstItem="TUx-2B-J2m" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WlX-xp-Iib" secondAttribute="bottom" constant="8" id="Sba-KA-aaz"/>
+                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="VeR-S8-rL5"/>
+                                    <constraint firstItem="ID0-ni-W5M" firstAttribute="top" secondItem="NYs-a1-C6a" secondAttribute="top" id="b2l-gh-lvH"/>
+                                    <constraint firstAttribute="centerX" secondItem="WlX-xp-Iib" secondAttribute="centerX" id="d0I-Fd-z6k"/>
+                                    <constraint firstItem="JTZ-3N-NrS" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="dBy-P2-a7J"/>
+                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="dWH-Mo-gQ7"/>
+                                    <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="fbH-YI-00u"/>
+                                    <constraint firstItem="uyl-z9-Oen" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" id="fzC-OO-yy6"/>
+                                    <constraint firstAttribute="bottom" secondItem="JTZ-3N-NrS" secondAttribute="bottom" id="hVN-2x-Oxg"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="centerY" secondItem="eqK-s0-noJ" secondAttribute="centerY" id="jYV-nh-U7V"/>
+                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" id="qTd-np-gY8"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TUx-2B-J2m" secondAttribute="bottom" constant="6" id="sFd-o1-w8a"/>
+                                    <constraint firstAttribute="bottom" secondItem="uyl-z9-Oen" secondAttribute="bottom" id="sKl-09-D2T"/>
+                                    <constraint firstItem="WlX-xp-Iib" firstAttribute="trailing" secondItem="sG0-8b-7q4" secondAttribute="trailing" constant="27" id="w6f-tv-Ndl"/>
+                                    <constraint firstItem="5tO-zk-o0F" firstAttribute="top" secondItem="WlX-xp-Iib" secondAttribute="top" constant="27" id="yOL-RB-VkR"/>
+                                    <constraint firstItem="uyl-z9-Oen" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="ypK-Dd-VcB"/>
+                                    <constraint firstItem="aNl-im-6Wv" firstAttribute="trailing" secondItem="WlX-xp-Iib" secondAttribute="trailing" id="zED-xL-gta"/>
                                 </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qp6-IQ-ZS0" userLabel="Picker Background Toolbar">
-                                <rect key="frame" x="0.0" y="568" width="320" height="162"/>
+                                <rect key="frame" x="0.0" y="480" width="320" height="162"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items/>
                             </toolbar>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZnS-YT-uES" userLabel="Button Picker">
-                                <rect key="frame" x="0.0" y="568" width="320" height="162"/>
+                                <rect key="frame" x="0.0" y="480" width="320" height="162"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="dataSource" destination="bqr-aX-GSp" id="4qd-iR-v8b"/>
@@ -668,14 +670,16 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 </connections>
                             </pickerView>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="eb4-M0-8s4" secondAttribute="trailing" id="1QE-j7-keg"/>
                             <constraint firstItem="ZnS-YT-uES" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="bottom" id="CcS-0P-2Qa"/>
                             <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="CqL-Fc-gQb"/>
                             <constraint firstItem="ZnS-YT-uES" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="H4y-QA-Dp0"/>
                             <constraint firstAttribute="trailing" secondItem="Qp6-IQ-ZS0" secondAttribute="trailing" id="HcA-O2-Npi"/>
+                            <constraint firstItem="NYs-a1-C6a" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Zus-5t-hz4" secondAttribute="bottom" constant="66" id="RdQ-LM-vjr"/>
                             <constraint firstItem="eb4-M0-8s4" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="ccW-bn-jcx"/>
+                            <constraint firstItem="NYs-a1-C6a" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Zus-5t-hz4" secondAttribute="bottom" priority="800" constant="95" id="dcY-jQ-tNv"/>
                             <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="height" secondItem="ZnS-YT-uES" secondAttribute="height" id="elB-u5-d3y"/>
                             <constraint firstItem="EvL-Fl-y9o" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="bottom" id="he5-Y5-1yN"/>
                             <constraint firstItem="ZnS-YT-uES" firstAttribute="top" secondItem="Qp6-IQ-ZS0" secondAttribute="top" id="nVF-78-NzI"/>
@@ -684,8 +688,9 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                             <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="width" secondItem="ZnS-YT-uES" secondAttribute="width" id="x7g-1e-jvE"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="External Controller" id="QGa-sU-qVs"/>
+                    <navigationItem key="navigationItem" title="Configure Buttons" id="QGa-sU-qVs"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="bottomButtonLayoutViewLayoutConstraint" destination="he5-Y5-1yN" id="9GV-Io-4SZ"/>
                         <outlet property="buttonA" destination="7Rd-DN-EmS" id="ecG-5v-ONK"/>
@@ -705,7 +710,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qye-VA-pwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1483" y="-486"/>
+            <point key="canvasLocation" x="1482" y="-467"/>
         </scene>
         <!--Cheat Editor View Controller - New Cheat Code-->
         <scene sceneID="5h7-ni-Euf">
@@ -941,8 +946,8 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
         </scene>
     </scenes>
     <resources>
-        <image name="Controller_Buttons" width="312" height="312"/>
-        <image name="Controller_Triggers" width="282" height="44"/>
+        <image name="Controller_Buttons" width="250" height="250"/>
+        <image name="Controller_Triggers" width="250" height="41"/>
         <image name="Gear" width="22" height="23"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
