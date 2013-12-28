@@ -340,7 +340,7 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     // Button is below where picker will be
     if (offset > 0)
     {
-        offset += 10;
+        offset += 15;
     }
     else
     {
@@ -356,9 +356,8 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     [self.pickerView selectRow:[self rowForControllerButton:controllerButton] inComponent:0 animated:animated];
     
     self.topButtonLayoutViewLayoutConstraint.constant = -offset;
-    self.bottomButtonLayoutViewLayoutConstraint.constant = -offset;
-    self.topPickerLayoutConstraint.constant = -(pickerHeight + offset);
-    
+    self.bottomButtonLayoutViewLayoutConstraint.constant = offset;
+    self.topPickerLayoutConstraint.constant = -(pickerHeight  - offset);
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self.view layoutIfNeeded];
     } completion:nil];
