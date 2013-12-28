@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5037" systemVersion="13B3116" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8cV-d5-THO">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Settings View Controller - Settings-->
@@ -498,11 +499,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Qd-8G-Afa" userLabel="Left Half">
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Qd-8G-Afa" userLabel="Left Half">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="480"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </view>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JTZ-3N-NrS" userLabel="Right Half">
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTZ-3N-NrS" userLabel="Right Half">
                                         <rect key="frame" x="160" y="0.0" width="160" height="480"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </view>
@@ -612,15 +613,27 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="rvu-th-LgR"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Tap a button to change what action it performs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUx-2B-J2m">
+                                        <rect key="frame" x="19" y="459" width="282" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="4Ah-lC-nqo"/>
+                                    <constraint firstAttribute="bottom" secondItem="5Qd-8G-Afa" secondAttribute="bottom" id="D6x-86-d4f"/>
+                                    <constraint firstAttribute="centerX" secondItem="TUx-2B-J2m" secondAttribute="centerX" id="GSB-lj-ALn"/>
+                                    <constraint firstAttribute="bottom" secondItem="JTZ-3N-NrS" secondAttribute="bottom" id="Hvv-RN-PeK"/>
+                                    <constraint firstAttribute="trailing" secondItem="JTZ-3N-NrS" secondAttribute="trailing" id="KpF-3H-Bs4"/>
+                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="leading" secondItem="eb4-M0-8s4" secondAttribute="leading" id="NeM-G9-bEn"/>
+                                    <constraint firstItem="JTZ-3N-NrS" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="aGI-lJ-bmK"/>
+                                    <constraint firstAttribute="bottom" secondItem="TUx-2B-J2m" secondAttribute="bottom" constant="5" id="csf-fv-FGC"/>
+                                    <constraint firstItem="JTZ-3N-NrS" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="top" id="eGk-C5-ATK"/>
+                                    <constraint firstItem="5Qd-8G-Afa" firstAttribute="width" secondItem="eb4-M0-8s4" secondAttribute="width" multiplier="1/2" id="gpP-fS-Ua3"/>
+                                </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Tap a button to change what action it performs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUx-2B-J2m">
-                                <rect key="frame" x="19" y="459" width="282" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qp6-IQ-ZS0" userLabel="Picker Background Toolbar">
                                 <rect key="frame" x="0.0" y="480" width="320" height="162"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -640,10 +653,8 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                             <constraint firstAttribute="trailing" secondItem="eb4-M0-8s4" secondAttribute="trailing" id="1QE-j7-keg"/>
                             <constraint firstItem="ZnS-YT-uES" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="bottom" id="CcS-0P-2Qa"/>
                             <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="CqL-Fc-gQb"/>
-                            <constraint firstItem="EvL-Fl-y9o" firstAttribute="top" secondItem="TUx-2B-J2m" secondAttribute="bottom" constant="5" id="FML-Do-C2H"/>
                             <constraint firstItem="ZnS-YT-uES" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="H4y-QA-Dp0"/>
                             <constraint firstAttribute="trailing" secondItem="Qp6-IQ-ZS0" secondAttribute="trailing" id="HcA-O2-Npi"/>
-                            <constraint firstAttribute="centerX" secondItem="TUx-2B-J2m" secondAttribute="centerX" id="Z7N-eM-j9H"/>
                             <constraint firstItem="eb4-M0-8s4" firstAttribute="leading" secondItem="XLY-Ov-Sxs" secondAttribute="leading" id="ccW-bn-jcx"/>
                             <constraint firstItem="Qp6-IQ-ZS0" firstAttribute="height" secondItem="ZnS-YT-uES" secondAttribute="height" id="elB-u5-d3y"/>
                             <constraint firstItem="EvL-Fl-y9o" firstAttribute="top" secondItem="eb4-M0-8s4" secondAttribute="bottom" id="he5-Y5-1yN"/>
