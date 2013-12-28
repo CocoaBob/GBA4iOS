@@ -84,8 +84,8 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    //self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    //self.buttonLayoutView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    self.buttonLayoutView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
