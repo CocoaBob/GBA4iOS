@@ -604,12 +604,19 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
     EmuSystem::closeGame(NO);
 }
 
+#pragma mark - Button Pressing
+
 extern SysVController vController;
 
 - (void)pressButtons:(NSSet *)buttons
 {
     for (NSNumber *button in buttons)
     {
+        if ([button isEqualToNumber:@(GBAControllerButtonFastForward)] || [button isEqualToNumber:@(GBAControllerButtonSustainButton)] || [button isEqualToNumber:@(GBAControllerButtonMenu)])
+        {
+            continue;
+        }
+        
         vController.inputAction(Input::PUSHED, [button unsignedIntValue]);
     }
     
@@ -619,6 +626,11 @@ extern SysVController vController;
 {
     for (NSNumber *button in buttons)
     {
+        if ([button isEqualToNumber:@(GBAControllerButtonFastForward)] || [button isEqualToNumber:@(GBAControllerButtonSustainButton)] || [button isEqualToNumber:@(GBAControllerButtonMenu)])
+        {
+            continue;
+        }
+        
         vController.inputAction(Input::RELEASED, [button unsignedIntValue]);
     }
     
@@ -629,6 +641,20 @@ extern SysVController vController;
     using namespace Input;
     
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
+}
+
+#pragma mark - Fast Forwarding
+
+extern EmuView emuView;
+
+- (void)startFastForwarding
+{
+    emuView.ffGuiTouch = true;
+}
+
+- (void)stopFastForwarding
+{
+    emuView.ffGuiTouch = false;
 }
 
 #pragma mark - Saving

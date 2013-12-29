@@ -27,6 +27,8 @@
 		BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF2638C618700E2400CE55F9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2638C518700E2400CE55F9 /* CoreMotion.framework */; };
+		BF2638CA1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */; };
+		BF2638CB1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */; };
 		BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */; };
@@ -377,6 +379,8 @@
 		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
 		BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAExternalController_Private.h; sourceTree = "<group>"; };
 		BF2638C518700E2400CE55F9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		BF2638C81870389800CE55F9 /* GBAConditionalRotatationNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAConditionalRotatationNavigationController.h; sourceTree = "<group>"; };
+		BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAConditionalRotatationNavigationController.m; sourceTree = "<group>"; };
 		BF2AC87A185431B5008928D0 /* UIView+DTDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DTDebug.h"; sourceTree = "<group>"; };
 		BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DTDebug.m"; sourceTree = "<group>"; };
 		BF2AC87E18543246008928D0 /* DTObjectBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTObjectBlockExecutor.h; sourceTree = "<group>"; };
@@ -1341,6 +1345,8 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF2638C81870389800CE55F9 /* GBAConditionalRotatationNavigationController.h */,
+				BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */,
 				BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */,
 				BF02AFD8182F3E3A0031B8B6 /* Syncing */,
 				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
@@ -1688,6 +1694,7 @@
 				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
 				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
+				BF2638CB1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */,
 				BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.mm in Sources */,
 				BF2F359D183FF6F9002ACE90 /* GBAEmulationViewController.mm in Sources */,
 				BF2F359F183FF6F9002ACE90 /* UIDevice-Hardware.m in Sources */,
@@ -1901,6 +1908,7 @@
 				CC5044FA1814DC69009F7B9E /* Mode3.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */,
+				BF2638CA1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */,
 				CC5045031814DC69009F7B9E /* Gb_Apu_State.cpp in Sources */,
 				CC5045131814DC69009F7B9E /* memgzio.c in Sources */,
 				BF537EF9184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */,

@@ -51,7 +51,11 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)disableCheat:(GBACheat *)cheat;
 - (BOOL)updateCheats;
 
+// Sustain Button
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;
+
+- (void)startFastForwarding;
+- (void)stopFastForwarding;
 
 @end

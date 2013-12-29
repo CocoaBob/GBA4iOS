@@ -198,6 +198,11 @@
     self.previousButtonStates[@(buttonInput)] = @(pressed);
 }
 
+- (void)controllerThumbstickDidChange:(GCControllerAxisInput *)thumbstick
+{
+    
+}
+
 - (void)controllerDPadDidChange:(GCControllerDirectionPad *)dPad
 {
     NSMutableSet *pressedButtons = [NSMutableSet set];

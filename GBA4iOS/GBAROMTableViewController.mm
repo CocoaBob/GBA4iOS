@@ -18,6 +18,7 @@
 #import "GBASyncManager.h"
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"
+#import "GBAConditionalRotatationNavigationController.h"
 
 #import <RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
@@ -1269,7 +1270,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [[UIApplication sharedApplication] setStatusBarStyle:[settingsViewController preferredStatusBarStyle] animated:YES];
     
-    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController);
+    GBAConditionalRotatationNavigationController *navigationController = [[GBAConditionalRotatationNavigationController alloc] initWithRootViewController:settingsViewController];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {

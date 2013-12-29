@@ -53,6 +53,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (strong, nonatomic) UIImageView *splashScreenImageView;
 
+@property (assign, nonatomic) BOOL pausedEmulation;
 @property (assign, nonatomic) BOOL stayPaused;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
 
@@ -494,6 +495,11 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)controllerInput:(id)controllerInput didPressButtons:(NSSet *)buttons
 {
+    if (self.presentedViewController || ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && [(GBASplitViewController *)self.splitViewController romTableViewControllerIsVisible]))
+    {
+        return;
+    }
+    
     // Sustain Button
     if ([buttons containsObject:@(GBAControllerButtonSustainButton)])
     {
@@ -511,6 +517,12 @@ static GBAEmulationViewController *_emulationViewController;
         return;
     }
     
+    // Allow sustaining fast forward button
+    if (self.selectingSustainedButton)
+    {
+        [self sustainButtons:buttons];
+    }
+    
     if ([buttons containsObject:@(GBAControllerButtonFastForward)])
     {
         // Stop fast forwarding on when finished pressing button
@@ -519,11 +531,13 @@ static GBAEmulationViewController *_emulationViewController;
         return;
     }
     
+    // If selecting sustain button, nothing else in this method is relevant
     if (self.selectingSustainedButton)
     {
-        [self sustainButtons:buttons];
+        return;
     }
-    else if ([self.sustainedButtonSet intersectsSet:buttons]) // We re-pressed a sustained button, so we need to release it then press it in the next emulation CPU cycle
+    
+    if ([self.sustainedButtonSet intersectsSet:buttons]) // We re-pressed a sustained button, so we need to release it then press it in the next emulation CPU cycle
     {
         if ([buttons count] == 0)
         {
@@ -568,7 +582,11 @@ static GBAEmulationViewController *_emulationViewController;
     
     if ([buttons containsObject:@(GBAControllerButtonFastForward)])
     {
-        [self stopFastForwarding];
+        if (![self.sustainedButtonSet containsObject:@(GBAControllerButtonFastForward)])
+        {
+            [self stopFastForwarding];
+        }
+        
         return;
     }
     
@@ -613,15 +631,37 @@ static GBAEmulationViewController *_emulationViewController;
 
     [self pauseEmulation];
     
-    // iOS 7 has trouble adding buttons to UIActionSheet after it's created, so we just create a different action sheet depending on hardware
+    
+    NSString *returnToMenuButtonTitle = nil;
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        returnToMenuButtonTitle = NSLocalizedString(@"Show ROM List", @"");
+    }
+    else
+    {
+        returnToMenuButtonTitle = NSLocalizedString(@"Return To Menu", @"");
+    }
+    
+    NSString *fastForwardButtonTitle = nil;
+    
+    if (self.fastForwarding)
+    {
+        fastForwardButtonTitle = NSLocalizedString(@"Normal Speed", @"");
+    }
+    else
+    {
+        fastForwardButtonTitle = NSLocalizedString(@"Fast Forward", @"");
+    }
+    
+    // iOS 7 has trouble adding buttons to UIActionSheet after it's created, so we just create a different action sheet depending on hardware
+    if ([self numberOfCPUCoresForCurrentDevice] == 1)
     {
         self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
                                                              delegate:nil
                                                     cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                               destructiveButtonTitle:NSLocalizedString(@"Show ROM List", @"")
+                                               destructiveButtonTitle:returnToMenuButtonTitle
                                                     otherButtonTitles:
-                                  NSLocalizedString(@"Fast Forward", @""),
                                   NSLocalizedString(@"Save State", @""),
                                   NSLocalizedString(@"Load State", @""),
                                   NSLocalizedString(@"Cheat Codes", @""),
@@ -629,31 +669,16 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
-        if ([self numberOfCPUCoresForCurrentDevice] == 1)
-        {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                                 delegate:nil
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
-                                                        otherButtonTitles:
-                                      NSLocalizedString(@"Save State", @""),
-                                      NSLocalizedString(@"Load State", @""),
-                                      NSLocalizedString(@"Cheat Codes", @""),
-                                      NSLocalizedString(@"Sustain Button", @""), nil];
-        }
-        else
-        {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                                 delegate:nil
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:NSLocalizedString(@"Return To Menu", @"")
-                                                        otherButtonTitles:
-                                      NSLocalizedString(@"Fast Forward", @""),
-                                      NSLocalizedString(@"Save State", @""),
-                                      NSLocalizedString(@"Load State", @""),
-                                      NSLocalizedString(@"Cheat Codes", @""),
-                                      NSLocalizedString(@"Sustain Button", @""), nil];
-        }
+        self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:returnToMenuButtonTitle
+                                                    otherButtonTitles:
+                                  fastForwardButtonTitle,
+                                  NSLocalizedString(@"Save State", @""),
+                                  NSLocalizedString(@"Load State", @""),
+                                  NSLocalizedString(@"Cheat Codes", @""),
+                                  NSLocalizedString(@"Sustain Button", @""), nil];
     }
     
     void (^selectionHandler)(UIActionSheet *actionSheet, NSInteger buttonIndex) = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
@@ -672,6 +697,15 @@ static GBAEmulationViewController *_emulationViewController;
             
             if (buttonIndex == 1)
             {
+                if ([self isFastForwarding])
+                {
+                    [self stopFastForwarding];
+                }
+                else
+                {
+                    [self startFastForwarding];
+                }
+                
                 [self resumeEmulation];
             }
             else if (buttonIndex == 2)
@@ -826,6 +860,11 @@ static GBAEmulationViewController *_emulationViewController;
     [[GBAEmulatorCore sharedCore] releaseButtons:self.sustainedButtonSet];
 #endif
     
+    if ([self.sustainedButtonSet containsObject:@(GBAControllerButtonFastForward)])
+    {
+        [self stopFastForwarding];
+    }
+    
     self.sustainedButtonSet = [buttons mutableCopy];
     [self exitSustainButtonSelectionMode];
 }
@@ -842,12 +881,20 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)startFastForwarding
 {
+    self.fastForwarding = YES;
     
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] startFastForwarding];
+#endif
 }
 
 - (void)stopFastForwarding
 {
+    self.fastForwarding = NO;
     
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] stopFastForwarding];
+#endif
 }
 
 #pragma mark - Save States
@@ -1573,6 +1620,8 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     [self stopEmulation]; // Stop previously running ROM
     
+    self.pausedEmulation = NO;
+    
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -1586,6 +1635,8 @@ void uncaughtExceptionHandler(NSException *exception)
     [[GBAEmulatorCore sharedCore] endEmulation];
 #endif
     
+    self.pausedEmulation = NO;
+    
     [self resumeEmulation]; // In case the ROM never unpaused (just keep it here please)
 }
 
@@ -1596,6 +1647,8 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)pauseEmulationAndStayPaused:(BOOL)stayPaused
 {
+    self.pausedEmulation = YES;
+    
     if (!self.stayPaused)
     {
         self.stayPaused = stayPaused;
@@ -1615,6 +1668,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)resumeEmulation
 {
+    self.pausedEmulation = NO;
     self.stayPaused = NO;
     
     if (self.rom == nil)
@@ -2055,6 +2109,8 @@ void uncaughtExceptionHandler(NSException *exception)
         {
             [self resumeEmulation];
         }
+        
+        [self stopFastForwarding];
         
         NSSet *sustainedButtons = [self.sustainedButtonSet copy];
         self.sustainedButtonSet = nil;

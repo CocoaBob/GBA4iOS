@@ -281,11 +281,11 @@ void EmuView::runFrame(Gfx::FrameTimeBase frameTime)
 		{
             if (isGBAROM)
             {
-                EmuSystem::runFrame_GBA(0, 0, 0);
+                EmuSystem::runFrame_GBA(0, 0, renderAudio);
             }
             else
             {
-                EmuSystem::runFrame_GBC(0, 0, 0);
+                EmuSystem::runFrame_GBC(0, 0, renderAudio);
             }
 			
 		}

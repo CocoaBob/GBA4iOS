@@ -88,6 +88,11 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     self.buttonLayoutView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -103,7 +108,7 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 
 - (BOOL)shouldAutorotate
 {
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
