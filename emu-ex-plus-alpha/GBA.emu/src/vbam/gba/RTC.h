@@ -2,6 +2,7 @@
 #define RTC_H
 
 u16 rtcRead(GBASys &gba, u32 address);
+void rtcEnableWarioRumble(bool);
 bool rtcWrite(u32 address, u16 value);
 void rtcEnable(bool);
 bool rtcIsEnabled();

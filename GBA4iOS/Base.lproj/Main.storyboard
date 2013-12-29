@@ -485,7 +485,6 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
         <!--External Controller Customization View Controller - External Controller-->
         <scene sceneID="A57-ZL-RkZ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qye-VA-pwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="externalControllerCustomizationViewController" title="External Controller" id="bqr-aX-GSp" customClass="GBAExternalControllerCustomizationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zus-5t-hz4"/>
@@ -533,7 +532,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="dismissPicker:" destination="bqr-aX-GSp" eventType="touchUpInside" id="8nf-ky-zov"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
                                         <rect key="frame" x="35" y="128" width="250" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -541,7 +540,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         <rect key="frame" x="35" y="205" width="250" height="250"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
                                         <rect key="frame" x="35" y="128" width="108" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
@@ -555,7 +554,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="YtH-jy-Nm6"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
                                         <rect key="frame" x="177" y="128" width="108" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
@@ -727,6 +726,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                         <outlet property="topPickerLayoutConstraint" destination="CcS-0P-2Qa" id="Pzz-oH-pMj"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qye-VA-pwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1482" y="-467"/>
         </scene>

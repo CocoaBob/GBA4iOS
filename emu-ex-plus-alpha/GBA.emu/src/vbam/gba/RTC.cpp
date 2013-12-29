@@ -28,6 +28,7 @@ typedef struct {
 
 static RTCCLOCKDATA rtcClockData;
 static bool rtcEnabled = false;
+static bool rtcWarioRumbleEnabled = false;
 
 void rtcEnable(bool e)
 {
@@ -39,23 +40,43 @@ bool rtcIsEnabled()
   return rtcEnabled;
 }
 
+void rtcEnableWarioRumble(bool e)
+{
+    if (e) rtcEnable(true);
+    rtcWarioRumbleEnabled = e;
+}
+
+extern uint16_t deviceGetAxisValueZ();
+
 u16 rtcRead(GBASys &gba, u32 address)
 {
-  if(rtcEnabled) {
-    switch(address){
-    case 0x80000c8:
-      return rtcClockData.byte2;
-      break;
-    case 0x80000c6:
-      return rtcClockData.byte1;
-      break;
-    case 0x80000c4:
-      return rtcClockData.byte0;
-      break;
+    if(rtcEnabled) {
+        switch(address){
+            case 0x80000c8:
+                return rtcClockData.byte2;
+                break;
+            case 0x80000c6:
+                return rtcClockData.byte1;
+                break;
+            case 0x80000c4: {
+                // WarioWare Twisted Tilt Sensor
+                if (rtcClockData.byte1 == 0x0b)
+                {
+                    //sprintf(DebugStr, "Reading Twisted Sensor bit %d", rtcClockData.reserved[11]);
+                    u16 v = deviceGetAxisValueZ();
+                    return ((v >> rtcClockData.reserved[11]) & 1) << 2;
+                    
+                    
+                } else // Real Time Clock
+                {
+                    return rtcClockData.byte0;
+                }
+            }
+                break;
+        }
     }
-  }
-
-  return READ16LE((&gba.mem.rom[address & 0x1FFFFFE]));
+    
+    return READ16LE((&gba.mem.rom[address & 0x1FFFFFE]));
 }
 
 static u8 toBCD(u8 value)
@@ -64,6 +85,11 @@ static u8 toBCD(u8 value)
   int l = value % 10;
   int h = value / 10;
   return h * 16 + l;
+}
+
+void systemCartridgeRumble(bool rumble)
+{
+    
 }
 
 bool rtcWrite(u32 address, u16 value)
@@ -75,7 +101,30 @@ bool rtcWrite(u32 address, u16 value)
     rtcClockData.byte2 = (u8)value; // enable ?
   } else if(address == 0x80000c6) {
     rtcClockData.byte1 = (u8)value; // read/write
+      if (rtcWarioRumbleEnabled && !(value & 8)) systemCartridgeRumble(false);
   } else if(address == 0x80000c4) {
+      
+      // WarioWare Twisted  rumble
+      if(rtcWarioRumbleEnabled && (rtcClockData.byte1 & 8)) {
+          systemCartridgeRumble(value & 8);
+      }
+      
+      // WarioWare Twisted rotation sensor
+      if (rtcClockData.byte1 == 0xb) {
+          if (value & 2) {
+              // clock goes high in preperation for reading a bit
+              rtcClockData.reserved[11]--;
+          }
+          if (value & 1) {
+              // start ADC conversion
+              rtcClockData.reserved[11] = 15;
+          }
+          
+          rtcClockData.byte0 = value & rtcClockData.byte1;
+          
+      }
+      
+      // Real Time Clock
     if(rtcClockData.byte2 & 1) {
       if(rtcClockData.state == IDLE && rtcClockData.byte0 == 1 && value == 5) {
           rtcClockData.state = COMMAND;

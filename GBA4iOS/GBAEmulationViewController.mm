@@ -52,15 +52,14 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) UIWindow *airplayWindow;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (strong, nonatomic) UIImageView *splashScreenImageView;
+
 @property (assign, nonatomic) BOOL stayPaused;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
+
 @property (assign, nonatomic) BOOL preventSavingROMSaveData;
+@property (copy, nonatomic) NSData *cachedSaveData;
 
 @property (readonly, assign, nonatomic, getter = isAirplaying) BOOL airplaying;
-
-@property (nonatomic) CFTimeInterval previousTimestamp;
-@property (nonatomic) NSInteger frameCount;
-@property (weak, nonatomic) IBOutlet UILabel *framerateLabel;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *portraitBottomLayoutConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *screenVerticalCenterLayoutConstraint;
@@ -70,6 +69,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (assign, nonatomic) BOOL selectingSustainedButton;
 @property (strong, nonatomic) NSMutableSet *sustainedButtonSet;
 
+// Blurring
 @property (assign, nonatomic) BOOL blurringContents;
 @property (strong, nonatomic) UIImageView *sustainButtonBlurredContentsImageView;
 
@@ -985,9 +985,7 @@ void uncaughtExceptionHandler(NSException *exception)
 #pragma mark - Settings
 
 - (void)updateSettings:(NSNotification *)notification
-{
-    self.framerateLabel.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsShowFramerateKey];
-    
+{    
     BOOL translucent = [[self.controllerView.controllerSkin dictionaryForOrientation:self.controllerView.orientation][@"translucent"] boolValue];
     
     if (translucent)
@@ -1118,12 +1116,11 @@ void uncaughtExceptionHandler(NSException *exception)
         [self updateAutosaveState];
     }
     
-    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
+    if (self.rom && !self.preventSavingROMSaveData)
     {
 #if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
 #endif
-        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
     }
     
     [[GBASyncManager sharedManager] synchronize];
@@ -1133,12 +1130,11 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     // Check didBecomeActive:
     
-    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
+    if (self.rom && !self.preventSavingROMSaveData)
     {
 #if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
 #endif
-        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
     }
     
     [[GBASyncManager sharedManager] synchronize];
@@ -1552,12 +1548,11 @@ void uncaughtExceptionHandler(NSException *exception)
         self.stayPaused = stayPaused;
     }
     
-    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
+    if (self.rom && !self.preventSavingROMSaveData)
     {
 #if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
 #endif
-        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:self.rom];
     }
     
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -1580,7 +1575,7 @@ void uncaughtExceptionHandler(NSException *exception)
 #endif
 }
 
-#pragma mark - Syncing
+#pragma mark - Notifications
 
 - (void)romDidSaveData:(NSNotification *)notification
 {
@@ -1591,8 +1586,18 @@ void uncaughtExceptionHandler(NSException *exception)
         return;
     }
     
-    [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
+    NSData *saveData = [[NSData alloc] initWithContentsOfFile:rom.saveFileFilepath];
+    
+    if (![self.cachedSaveData isEqualToData:saveData])
+    {
+        self.cachedSaveData = saveData;
+        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
+        
+        DLog(@"New save data!");
+    }
 }
+
+#pragma mark - Syncing
 
 - (void)hasNewDropboxSaveForCurrentGameFromDropbox:(NSNotification *)notification
 {
@@ -1985,6 +1990,8 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)setRom:(GBAROM *)rom
 {
     _rom = rom;
+    
+    self.cachedSaveData = [[NSData alloc] initWithContentsOfFile:rom.saveFileFilepath];
     
     // Changing ROM should be done on main thread
     rst_dispatch_sync_on_main_thread(^{

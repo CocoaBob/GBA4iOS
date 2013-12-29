@@ -3609,7 +3609,6 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
       timerOverflow = 0;
 
 
-
 #ifdef PROFILING
       profilingTicks -= clockTicks;
       if(profilingTicks <= 0) {

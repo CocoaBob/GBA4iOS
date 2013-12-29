@@ -104,6 +104,8 @@ int eepromRead(u32 /* address */)
   return 1;
 }
 
+extern void updateSaveFileForCurrentROM();
+
 void eepromWrite(u32 /* address */, u8 value, int cpuDmaCount)
 {
   if(cpuDmaCount == 0)
@@ -176,6 +178,9 @@ void eepromWrite(u32 /* address */, u8 value, int cpuDmaCount)
         eepromData[(eepromAddress << 3) + i] = eepromBuffer[i];
       }
       systemSaveUpdateCounter = SYSTEM_SAVE_UPDATED;
+        
+        updateSaveFileForCurrentROM();
+        
     } else if(eepromBits == 0x41) {
       eepromMode = EEPROM_IDLE;
       eepromByte = 0;

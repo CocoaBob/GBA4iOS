@@ -257,9 +257,6 @@ static inline u32 CPUReadMemoryNoRot(ARM7TDMI &cpu, u32 address)
 	return CPUReadMemoryBase<1>(cpu, address);
 }
 
-
-
-
 template <bool rot>
 static inline u32 CPUReadHalfWordBase(ARM7TDMI &cpu, u32 address)
 {
@@ -363,6 +360,18 @@ static inline u32 CPUReadHalfWordBase(ARM7TDMI &cpu, u32 address)
   case 8:
   	/*if(address == 0x80000c4 || address == 0x80000c6 || address == 0x80000c8)
   	  return armRotLoad16(rtcRead(address), address, rot);*/
+          
+          // Use existing case statement and faster test for potential speed improvement
+          // This is possibly the GPIO port that controls the real time clock,
+          // WarioWare Twisted! tilt sensors, rumble, and solar sensors.
+          if(address >= 0x80000c4 && address <= 0x80000c8) {
+              // this function still works if there is no real time clock
+              // and does a normal memory read in that case.
+              return rtcRead(gGba, address & 0xFFFFFFE);
+              break;
+          }
+          
+          
   case 9 ... 12:
     if(address == 0x80000c4 || address == 0x80000c6 || address == 0x80000c8)
     	return armRotLoad16(rtcRead(*cpu.gba, address), address, rot);

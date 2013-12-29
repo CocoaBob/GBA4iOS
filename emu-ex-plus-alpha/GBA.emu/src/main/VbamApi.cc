@@ -68,8 +68,12 @@ static void resetGameSettings()
 	flashSetSize(0x10000);
 }
 
+extern void startDeviceMotionDetection();
+extern void stopDeviceMotionDetection();
+
 void setGameSpecificSettings(GBASys &gba)
 {
+    stopDeviceMotionDetection();
 	resetGameSettings();
 	bool mirroringEnable = 0;
 	static const GameSettings setting[] = {
@@ -970,8 +974,9 @@ void setGameSpecificSettings(GBASys &gba)
 		bcase 'K': // Accelerometers
 			cpuSaveType = 4; // EEPROM + sensor
 		bcase 'R': // WarioWare Twisted style sensors
+            startDeviceMotionDetection();
 		case 'V': // Drill Dozer
-			//rtcEnableWarioRumble(true);
+			rtcEnableWarioRumble(true);
 		bcase 'U': // Boktai solar sensor and clock
 		detectedRtcGame = 1;
 	}

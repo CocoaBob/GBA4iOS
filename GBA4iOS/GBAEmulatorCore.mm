@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
+#import <CoreMotion/CoreMotion.h>
+
 #import "GBAEmulatorCore.h"
 
 #import "MainApp.h"
@@ -387,6 +389,8 @@ void writeSaveFileForCurrentROMToDisk();
 
 @property (copy, nonatomic) NSSet *previousButtons;
 
+@property (strong, nonatomic) CMMotionManager *motionManager;
+
 @end
 
 @implementation GBAEmulatorCore
@@ -403,6 +407,7 @@ void writeSaveFileForCurrentROMToDisk();
 - (id)init {
     if (self = [super init])
     {
+        self.motionManager = [[CMMotionManager alloc] init];
         [self prepareEmulation];
     }
     return self;
@@ -625,6 +630,8 @@ extern SysVController vController;
     
     return Input::Event(0, Event::MAP_POINTER, Input::Pointer::LBUTTON, touchState, 0, 0, true, nullptr);
 }
+
+#pragma mark - Saving
 
 void updateSaveFileForCurrentROM()
 {
@@ -943,6 +950,77 @@ extern gambatte::GB gbEmu;
     
     return cheatsString;
 }
+
+#pragma mark - Motion
+
+void startDeviceMotionDetection()
+{
+    [[GBAEmulatorCore sharedCore].motionManager startDeviceMotionUpdates];
+}
+
+void stopDeviceMotionDetection()
+{
+    [[GBAEmulatorCore sharedCore].motionManager stopDeviceMotionUpdates];
+}
+
+uint16_t deviceGetAxisValueZ()
+{
+    CMDeviceMotion *deviceMotion = [[GBAEmulatorCore sharedCore].motionManager deviceMotion];
+    CGFloat yaw = deviceMotion.attitude.yaw;
+    
+    return (yaw * 20) + 0x6C0;
+}
+
+/*uint16_t deviceGetAxisValueZ()
+{
+    CMDeviceMotion *deviceMotion = [[GBAEmulatorCore sharedCore].motionManager deviceMotion];
+    CMAcceleration acceleration = deviceMotion.gravity;
+    CMAttitude *attitude = deviceMotion.attitude;
+
+	static float OldTiltAngle, OldAvg;
+	static bool WasFlat = false;
+	float DeltaAngle = 0;
+    float TiltAngle = 0;
+    
+	if (YES)
+	{
+		sensorY = 2047+(acceleration.x*50);
+		sensorX = 2047+(acceleration.y*50);
+		TiltAngle = ((-attitude.pitch) + OldTiltAngle)*0.5f;
+		OldTiltAngle = -attitude.pitch;
+	}
+	else
+	{
+		sensorX = 2047-(data.gforce.x*50);
+		sensorY = 2047+(data.gforce.y*50);
+		TiltAngle = ((data.orient.roll) + OldTiltAngle)*0.5f;
+		OldTiltAngle = data.orient.roll;
+	}
+	DeltaAngle = TiltAngle - OldAvg;
+	if (DeltaAngle > 180.0f)
+		DeltaAngle -= 360.0f;
+	else if (DeltaAngle < -180.0f)
+		DeltaAngle += 360.0f;
+	OldAvg = TiltAngle;
+    
+	if(fabsf(TiltAngle) < 3.0f)
+	{
+		WasFlat = true;
+		TiltAngle = 0;
+	}
+	else
+	{
+		if (WasFlat) TiltAngle *= 0.5f;
+		WasFlat = false;
+	}
+    
+	sensorWario = 0x6C0+DeltaAngle*11;
+    
+   // NSLog(@"X: %.2d", sensorWario);
+    
+    return sensorWario;
+}*/
+
 
 #pragma mark - Main App
 

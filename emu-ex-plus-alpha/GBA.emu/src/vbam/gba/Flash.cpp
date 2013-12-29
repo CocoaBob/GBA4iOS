@@ -220,18 +220,22 @@ void flashWrite(u32 address, u8 byte)
     if(byte == 0x30) {
       // SECTOR ERASE
         
-        updateSaveFileForCurrentROM();
-        
       memset(&flashSaveMemory[(flashBank << 16) + (address & 0xF000)],
              0,
              0x1000);
       systemSaveUpdateCounter = SYSTEM_SAVE_UPDATED;
       flashReadState = FLASH_ERASE_COMPLETE;
+        
+        updateSaveFileForCurrentROM();
+        
     } else if(byte == 0x10) {
       // CHIP ERASE
       memset(flashSaveMemory, 0, flashSize);
       systemSaveUpdateCounter = SYSTEM_SAVE_UPDATED;
       flashReadState = FLASH_ERASE_COMPLETE;
+        
+        updateSaveFileForCurrentROM();
+        
     } else {
       flashState = FLASH_READ_ARRAY;
       flashReadState = FLASH_READ_ARRAY;
@@ -253,6 +257,8 @@ void flashWrite(u32 address, u8 byte)
     systemSaveUpdateCounter = SYSTEM_SAVE_UPDATED;
     flashState = FLASH_READ_ARRAY;
     flashReadState = FLASH_READ_ARRAY;
+          
+          updateSaveFileForCurrentROM();
     break;
   case FLASH_SETBANK:
     if(address == 0) {
