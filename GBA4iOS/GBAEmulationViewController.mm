@@ -69,6 +69,9 @@ static GBAEmulationViewController *_emulationViewController;
 @property (assign, nonatomic) BOOL selectingSustainedButton;
 @property (strong, nonatomic) NSMutableSet *sustainedButtonSet;
 
+// Fast Forward
+@property (assign, nonatomic, getter = isFastForwarding) BOOL fastForwarding;
+
 // Blurring
 @property (assign, nonatomic) BOOL blurringContents;
 @property (strong, nonatomic) UIImageView *sustainButtonBlurredContentsImageView;
@@ -491,6 +494,31 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)controllerInput:(id)controllerInput didPressButtons:(NSSet *)buttons
 {
+    // Sustain Button
+    if ([buttons containsObject:@(GBAControllerButtonSustainButton)])
+    {
+        [self pauseEmulation];
+        
+        if (self.selectingSustainedButton)
+        {
+            [self sustainButtons:nil];
+        }
+        else
+        {
+            [self enterSustainButtonSelectionMode];
+        }
+        
+        return;
+    }
+    
+    if ([buttons containsObject:@(GBAControllerButtonFastForward)])
+    {
+        // Stop fast forwarding on when finished pressing button
+        [self startFastForwarding];
+        
+        return;
+    }
+    
     if (self.selectingSustainedButton)
     {
         [self sustainButtons:buttons];
@@ -531,6 +559,19 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)controllerInput:(id)controllerInput didReleaseButtons:(NSSet *)buttons
 {
+    // Sustain Button
+    if ([buttons containsObject:@(GBAControllerButtonSustainButton)])
+    {
+        // Do nothing
+        return;
+    }
+    
+    if ([buttons containsObject:@(GBAControllerButtonFastForward)])
+    {
+        [self stopFastForwarding];
+        return;
+    }
+    
     if (self.sustainedButtonSet)
     {
         NSMutableSet *set = [buttons mutableCopy];
@@ -795,6 +836,18 @@ static GBAEmulationViewController *_emulationViewController;
     {
         [self sustainButtons:nil];
     }
+}
+
+#pragma mark - Fast Forward
+
+- (void)startFastForwarding
+{
+    
+}
+
+- (void)stopFastForwarding
+{
+    
 }
 
 #pragma mark - Save States
@@ -1481,7 +1534,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 #pragma mark - Emulation
 
-- (void)launchGame
+- (void)launchGameWithCompletion:(void (^)(void))completionBlock
 {
     // Now we handle switching ROMs
     
@@ -1513,7 +1566,7 @@ void uncaughtExceptionHandler(NSException *exception)
         }
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:completionBlock];
 }
 
 - (void)startEmulation

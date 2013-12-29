@@ -23,6 +23,6 @@
 - (void)pauseEmulation;
 - (void)resumeEmulation;
 
-- (void)launchGame;
+- (void)launchGameWithCompletion:(void (^)(void))completionBlock;
 
 @end

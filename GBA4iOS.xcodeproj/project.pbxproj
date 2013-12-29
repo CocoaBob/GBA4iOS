@@ -26,6 +26,7 @@
 		BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */; };
 		BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
+		BF2638C618700E2400CE55F9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2638C518700E2400CE55F9 /* CoreMotion.framework */; };
 		BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */; };
@@ -375,6 +376,7 @@
 		BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCalloutView.h; sourceTree = "<group>"; };
 		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
 		BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAExternalController_Private.h; sourceTree = "<group>"; };
+		BF2638C518700E2400CE55F9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		BF2AC87A185431B5008928D0 /* UIView+DTDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DTDebug.h"; sourceTree = "<group>"; };
 		BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DTDebug.m"; sourceTree = "<group>"; };
 		BF2AC87E18543246008928D0 /* DTObjectBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTObjectBlockExecutor.h; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF2638C618700E2400CE55F9 /* CoreMotion.framework in Frameworks */,
 				BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */,
 				CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */,
 				CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */,
@@ -1038,6 +1041,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF2638C518700E2400CE55F9 /* CoreMotion.framework */,
 				BF650F1418470DFC008113E4 /* Crashlytics.framework */,
 				BF8789F618404AC200C81AB2 /* GameController.framework */,
 				BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */,

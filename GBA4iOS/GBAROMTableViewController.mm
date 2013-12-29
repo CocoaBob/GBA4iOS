@@ -941,25 +941,13 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                 {
                     [self.emulationViewController removeBlur];
                 }
-                
-                [self.emulationViewController dismissViewControllerAnimated:YES completion:^{
-                    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                    [self highlightCell:cell];
-                }];
             }
-            else
-            {
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                [self highlightCell:cell];
-            }
-        }
-        else
-        {
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-            [self highlightCell:cell];
         }
         
-        [self.emulationViewController launchGame];
+        [self.emulationViewController launchGameWithCompletion:^{
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            [self highlightCell:cell];
+        }];
     };
     
     if ([self.emulationViewController.rom isEqual:rom] && showSameROMAlertIfNeeded)
