@@ -452,7 +452,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection footerTitle="GBA4iOS 2.0 Beta 6" id="8wU-vz-JV8">
+                            <tableViewSection footerTitle="GBA4iOS 2.0" id="8wU-vz-JV8">
                                 <cells/>
                             </tableViewSection>
                         </sections>
@@ -532,7 +532,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="dismissPicker:" destination="bqr-aX-GSp" eventType="touchUpInside" id="8nf-ky-zov"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
                                         <rect key="frame" x="35" y="128" width="250" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -540,7 +540,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         <rect key="frame" x="35" y="205" width="250" height="250"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
                                         <rect key="frame" x="35" y="128" width="108" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
@@ -554,7 +554,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <action selector="pressedButton:" destination="bqr-aX-GSp" eventType="touchUpInside" id="YtH-jy-Nm6"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
                                         <rect key="frame" x="177" y="128" width="108" height="41"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
