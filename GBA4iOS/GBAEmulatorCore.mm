@@ -408,6 +408,10 @@ void writeSaveFileForCurrentROMToDisk();
     if (self = [super init])
     {
         self.motionManager = [[CMMotionManager alloc] init];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
+        
         [self prepareEmulation];
     }
     return self;
@@ -423,9 +427,6 @@ void writeSaveFileForCurrentROMToDisk();
 	logMsg("iOS version %s", [currSysVer cStringUsingEncoding: NSASCIIStringEncoding]);
 #endif
 	mainApp = self;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
     
     [self updateSettings:nil];
 }
@@ -487,10 +488,12 @@ void writeSaveFileForCurrentROMToDisk();
     
     if (frameskip < 0)
     {
-        frameskip = 32; //optionFrameSkipAuto value
+        frameskip = EmuSystem::optionFrameSkipAuto;
     }
     
-    optionFrameSkip = frameskip;
+    optionFrameSkip.val = frameskip;
+    EmuSystem::startFrameTime = 0;
+    EmuSystem::configAudioPlayback();
     
     optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAllowOtherAudioKey];
 }

@@ -48,7 +48,7 @@
         [(GBAEmulationViewController *)fromViewController setBlurAlpha:1.0]; // Don't need to animate
         [(GBAEmulationViewController *)fromViewController blurredContentsImageView].frame = CGRectMake(0, CGRectGetHeight(fromViewController.view.bounds), CGRectGetWidth(fromViewController.view.bounds), 0);
         
-        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:7 << 16 animations:^{
             [(GBAEmulationViewController *)fromViewController blurredContentsImageView].frame = CGRectMake(0, 0, CGRectGetWidth(fromViewController.view.bounds), CGRectGetHeight(fromViewController.view.bounds));
             toViewController.view.frame = CGRectMake(0, 0, CGRectGetWidth(toViewController.view.frame), CGRectGetHeight(toViewController.view.frame));
         } completion:^(BOOL finished) {
@@ -74,7 +74,7 @@
         [(GBAEmulationViewController *)toViewController refreshLayout];
         [(GBAEmulationViewController *)toViewController blurredContentsImageView].frame = CGRectMake(0, 0, CGRectGetWidth(fromViewController.view.bounds), CGRectGetHeight(fromViewController.view.bounds));
         
-        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:7 << 16 animations:^{
             [(GBAEmulationViewController *)toViewController blurredContentsImageView].frame = CGRectMake(0, CGRectGetHeight(toViewController.view.bounds), CGRectGetWidth(toViewController.view.bounds), 0);
             fromViewController.view.frame = rect;
         } completion:^(BOOL finished) {
