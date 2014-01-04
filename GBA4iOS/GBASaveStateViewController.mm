@@ -280,8 +280,18 @@
         NSString *dateString = [filename substringWithRange:NSMakeRange(stringLength - 35, 14)];
         NSDate *modifiedDate = [self.dateFormatter dateFromString:dateString];
         
+        if (modifiedDate == nil)
+        {
+            modifiedDate = [NSDate date];
+        }
+        
         dateString = [filename substringWithRange:NSMakeRange(stringLength - 20, 14)];
         NSDate *sortingDate = [self.dateFormatter dateFromString:dateString];
+        
+        if (sortingDate == nil)
+        {
+            sortingDate = [NSDate date];
+        }
         
         BOOL renamed = ([name length] > 0);
         

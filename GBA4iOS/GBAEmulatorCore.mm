@@ -478,6 +478,8 @@ void writeSaveFileForCurrentROMToDisk();
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+extern void startGameFromMenu();
+
 - (void)updateSettings:(NSNotification *)notification
 {
     optionAutoSaveState = 0;
@@ -492,8 +494,12 @@ void writeSaveFileForCurrentROMToDisk();
     }
     
     optionFrameSkip.val = frameskip;
-    EmuSystem::startFrameTime = 0;
-    EmuSystem::configAudioPlayback();
+    /*EmuSystem::configAudioPlayback();
+    
+    if (self.rom && notification)
+    {
+        startGameFromMenu();
+    }*/
     
     optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAllowOtherAudioKey];
 }

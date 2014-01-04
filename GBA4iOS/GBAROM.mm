@@ -369,6 +369,12 @@
     
     CFRelease(fileHash);
     
+    if (uniqueName == nil)
+    {
+#warning remove from final distribution
+        [[NSException exceptionWithName:@"ROM Unique Name Nil" reason:@"The unique name cannot be nil" userInfo:@{@"filepath": self.filepath, @"embeddedName": embeddedName}] raise];
+    }
+    
     return uniqueName;
 }
 

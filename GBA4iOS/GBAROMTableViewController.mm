@@ -922,7 +922,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
         
-        if (cachedROMs[[rom.filepath lastPathComponent]] == nil)
+        if (cachedROMs[[rom.filepath lastPathComponent]] == nil && rom.uniqueName)
         {
             cachedROMs[[rom.filepath lastPathComponent]] = rom.uniqueName;
             [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
@@ -1151,11 +1151,18 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
+    NSString *romUniqueName = rom.uniqueName;
+    
+    if (romUniqueName == nil)
+    {
+        romUniqueName = @"";
+    }
+    
     NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
-    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.uniqueName];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:romUniqueName];
     
     NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
-    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingString:rom.uniqueName];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingString:romUniqueName];
     
     // Handled by deletedFileAtIndexPath
     //[[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
