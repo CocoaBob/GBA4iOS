@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>POKEMON EMER-7b058a7aea5bfbb352026727ebd87e17</key>
+	<string>Pokemon Emerald (English)</string>
+	<key>POKEMON EMER-605b89b67018abcea91e693a4dd25be3</key>
+	<string>Pokemon Emerald (USA) (English)</string>
+	<key>POKEMON FIRE-e26ee0d44e809351c8ce2d73c7400cdd</key>
+	<string>Pokemon FireRed (English)</string>
+	<key>POKEMON FIRE-51901a6e40661b3914aa333c802e24e8</key>
+	<string>Pokemon FireRed (English)</string>
+	<key>POKEMON LEAF-9d33a02159e018d09073e700e1fd10fd</key>
+	<string>Pokemon LeafGreen (English)</string>
+	<key>POKEMON LEAF-266951c2886707f3b1287db7ef6de55a</key>
+	<string>Pokemon LeafGreen (Unknown) (English)</string>
+	<key>POKEMON LEAF-612ca9473451fa42b51d1711031ed5f6</key>
+	<string>Pokemon LeafGreen (Unknown) (English)</string>
+	<key>POKEMON RUBY-794f0b5a5489752182ca7400d2f2ca43</key>
+	<string>Pokemon Ruby 1.0 (English)</string>
+	<key>POKEMON RUBY-e0503182a2e699678bcf25a6897a24d6</key>
+	<string>Pokemon Ruby 1.1 (English)</string>
+	<key>POKEMON RUBY-3e1b2065b3837c14ffbd03fe205fdfd7</key>
+	<string>Pokemon Ruby 1.2 (English)</string>
+	<key>POKEMON RUBY-53d1a2027ab49df34a689faa1fb14726</key>
+	<string>Pokemon Ruby (USA) (English)</string>
+	<key>POKEMON SAPP-f34e91399c719812e66e2c828a2e93d7</key>
+	<string>Pokemon Sapphire 1.0 (English)</string>
+	<key>POKEMON SAPP-3a32fd98b065283d09eeba1ce0542888</key>
+	<string>Pokemon Sapphire 1.1 (English)</string>
+	<key>POKEMON SAPP-9bc2b765ca6997175fac51e6cdc29089</key>
+	<string>Pokemon Sapphire 1.2 (English)</string>
+	<key>POKEMON SAPP-f0996943d9e369fef5a0d74d928ca956</key>
+	<string>Pokemon Sapphire (USA) (English)</string>
+</dict>
+</plist>

@@ -136,6 +136,7 @@
         *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileReadNoSuchFileError userInfo:nil];
         
         [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
+        // [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil]; Too many false positives
         
         return NO; // zip file invalid
     }
@@ -157,6 +158,7 @@
         *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteFileExistsError userInfo:nil];
         
         [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
         
         return NO;
     }
@@ -170,6 +172,7 @@
         *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteInvalidFileNameError userInfo:nil];
         
         [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
         
         return NO;
     }
@@ -238,10 +241,8 @@
 
 - (NSString *)saveFileFilepath
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    return [documentsDirectory stringByAppendingPathComponent:[self.name stringByAppendingPathExtension:@"sav"]];
+    NSString *romDirectory = [self.filepath stringByDeletingLastPathComponent];
+    return [romDirectory stringByAppendingPathComponent:[self.name stringByAppendingPathExtension:@"sav"]];
 }
 
 - (void)setSyncingDisabled:(BOOL)syncingDisabled

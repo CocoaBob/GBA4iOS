@@ -18,7 +18,6 @@
 #import "GBASyncManager.h"
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"
-#import "GBAConditionalRotatationNavigationController.h"
 
 #import <RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
@@ -646,9 +645,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (NSString *)cheatCodeFileForROM:(GBAROM *)rom
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSString *cheatCodeDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
     
     return nil;
@@ -676,8 +673,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
-#warning undo for next beta
-        //return;
+        return;
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
@@ -693,7 +689,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
-        //return;
+        return;
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
@@ -1278,7 +1274,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [[UIApplication sharedApplication] setStatusBarStyle:[settingsViewController preferredStatusBarStyle] animated:YES];
     
-    GBAConditionalRotatationNavigationController *navigationController = [[GBAConditionalRotatationNavigationController alloc] initWithRootViewController:settingsViewController];
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(settingsViewController);
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {

@@ -27,8 +27,6 @@
 		BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF2638C618700E2400CE55F9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2638C518700E2400CE55F9 /* CoreMotion.framework */; };
-		BF2638CA1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */; };
-		BF2638CB1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */; };
 		BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */; };
 		BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2AC87F18543246008928D0 /* DTObjectBlockExecutor.m */; };
@@ -103,6 +101,12 @@
 		BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
+		BF359B94187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B93187A205400B4CA53 /* GBAEventDistributionTableViewCell.m */; };
+		BF359B95187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B93187A205400B4CA53 /* GBAEventDistributionTableViewCell.m */; };
+		BF359B98187A64C000B4CA53 /* NSDate+Comparing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */; };
+		BF359B99187A64C000B4CA53 /* NSDate+Comparing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */; };
+		BF359B9B187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */; };
+		BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */; };
 		BF3E2BB318206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
 		BF3E2BB718206D5B004231F6 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
 		BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
@@ -138,6 +142,8 @@
 		BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
 		BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
+		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
+		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
@@ -379,8 +385,6 @@
 		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
 		BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAExternalController_Private.h; sourceTree = "<group>"; };
 		BF2638C518700E2400CE55F9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		BF2638C81870389800CE55F9 /* GBAConditionalRotatationNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAConditionalRotatationNavigationController.h; sourceTree = "<group>"; };
-		BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAConditionalRotatationNavigationController.m; sourceTree = "<group>"; };
 		BF2AC87A185431B5008928D0 /* UIView+DTDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+DTDebug.h"; sourceTree = "<group>"; };
 		BF2AC87B185431BD008928D0 /* UIView+DTDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DTDebug.m"; sourceTree = "<group>"; };
 		BF2AC87E18543246008928D0 /* DTObjectBlockExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTObjectBlockExecutor.h; sourceTree = "<group>"; };
@@ -393,6 +397,11 @@
 		BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncDeleteOperation.m; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GBA4iOS copy-Info.plist"; path = "/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS copy-Info.plist"; sourceTree = "<absolute>"; };
+		BF359B92187A205400B4CA53 /* GBAEventDistributionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionTableViewCell.h; sourceTree = "<group>"; };
+		BF359B93187A205400B4CA53 /* GBAEventDistributionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionTableViewCell.m; sourceTree = "<group>"; };
+		BF359B96187A64C000B4CA53 /* NSDate+Comparing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Comparing.h"; sourceTree = "<group>"; };
+		BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Comparing.m"; sourceTree = "<group>"; };
+		BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = eventDistributionROMs.plist; sourceTree = "<group>"; };
 		BF3E2BB118206D54004231F6 /* UIActionSheet+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIActionSheet+RSTAdditions.h"; path = "Cocoapods/UIActionSheet+RSTAdditions.h"; sourceTree = "<group>"; };
 		BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIActionSheet+RSTAdditions.m"; path = "Cocoapods/UIActionSheet+RSTAdditions.m"; sourceTree = "<group>"; };
 		BF3E2BB518206D5B004231F6 /* UIAlertView+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertView+RSTAdditions.h"; path = "Cocoapods/UIAlertView+RSTAdditions.h"; sourceTree = "<group>"; };
@@ -403,8 +412,6 @@
 		BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTFileBrowserTableViewCell.m; path = Cocoapods/RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
 		BF3E2BD918206DF2004231F6 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTDirectoryMonitor.h; path = Cocoapods/RSTDirectoryMonitor.h; sourceTree = "<group>"; };
 		BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTDirectoryMonitor.m; path = Cocoapods/RSTDirectoryMonitor.m; sourceTree = "<group>"; };
-		BF3E2C241820774C004231F6 /* GBASyncManager2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncManager2.h; sourceTree = "<group>"; };
-		BF3E2C251820774C004231F6 /* GBASyncManager2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncManager2.mm; sourceTree = "<group>"; };
 		BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		BF537EF7184FE1AC00661C42 /* GBASyncFileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation.h; sourceTree = "<group>"; };
 		BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncFileOperation.mm; sourceTree = "<group>"; };
@@ -435,6 +442,8 @@
 		BFAFF47C1840084500E3240A /* GBAControllerInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerInput.h; sourceTree = "<group>"; };
 		BFAFF47D18400D7300E3240A /* GBAExternalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAExternalController.h; sourceTree = "<group>"; };
 		BFAFF47E18400D7300E3240A /* GBAExternalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalController.m; sourceTree = "<group>"; };
+		BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionViewController.h; sourceTree = "<group>"; };
+		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionViewController.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC9B529183017EE0012A1EA /* To_DO */ = {isa = PBXFileReference; lastKnownFileType = text; path = To_DO; sourceTree = "<group>"; };
@@ -837,8 +846,6 @@
 		BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */ = {
 			isa = PBXGroup;
 			children = (
-				BF3E2C241820774C004231F6 /* GBASyncManager2.h */,
-				BF3E2C251820774C004231F6 /* GBASyncManager2.mm */,
 				BF6ED57A1851100A0014B6A8 /* GBASyncManager.h */,
 				BF6FF3511845696200A8568C /* GBASyncManager_Private.h */,
 				BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */,
@@ -869,6 +876,17 @@
 				BFFBCCD31850502D005187DF /* Single File Operations */,
 			);
 			name = Operations;
+			sourceTree = "<group>";
+		};
+		BFBFC1251878D2E500FF0A3A /* Event Distribution */ = {
+			isa = PBXGroup;
+			children = (
+				BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */,
+				BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */,
+				BF359B92187A205400B4CA53 /* GBAEventDistributionTableViewCell.h */,
+				BF359B93187A205400B4CA53 /* GBAEventDistributionTableViewCell.m */,
+			);
+			name = "Event Distribution";
 			sourceTree = "<group>";
 		};
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
@@ -1117,6 +1135,7 @@
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
 				CC15E53C179ECDCC00449972 /* xButton.png */,
+				BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */,
 			);
 			name = Resources;
 			path = GBA4iOS;
@@ -1232,6 +1251,7 @@
 				CC347BAF17A3C95500309436 /* Controller */,
 				CCFE7B3517BD172F00F099F2 /* Save States */,
 				CC6A2D9417C508EA00EFC10E /* Cheats */,
+				BFBFC1251878D2E500FF0A3A /* Event Distribution */,
 			);
 			name = Emulation;
 			sourceTree = "<group>";
@@ -1255,6 +1275,8 @@
 				CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */,
 				BF1C87FA185193B100C72E1C /* FileSHA1Hash.h */,
 				BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */,
+				BF359B96187A64C000B4CA53 /* NSDate+Comparing.h */,
+				BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */,
 			);
 			name = "Categories / Protocols";
 			sourceTree = "<group>";
@@ -1345,8 +1367,6 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
-				BF2638C81870389800CE55F9 /* GBAConditionalRotatationNavigationController.h */,
-				BF2638C91870389800CE55F9 /* GBAConditionalRotatationNavigationController.m */,
 				BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */,
 				BF02AFD8182F3E3A0031B8B6 /* Syncing */,
 				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
@@ -1527,6 +1547,7 @@
 				BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */,
 				BF563AC6184B130F00722678 /* Default-Portrait@2x~ipad.png in Resources */,
 				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
+				BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
 				BF563AC0184B12F900722678 /* Default-Landscape~ipad.png in Resources */,
 				BF563AC3184B130100722678 /* Default@2x.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
@@ -1547,6 +1568,7 @@
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
 				BF563AC5184B130F00722678 /* Default-Portrait@2x~ipad.png in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
+				BF359B9B187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
 				BF563ABF184B12F900722678 /* Default-Landscape~ipad.png in Resources */,
 				BF563AC2184B130100722678 /* Default@2x.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
@@ -1652,6 +1674,7 @@
 				BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */,
 				BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */,
 				BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */,
+				BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */,
 				BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */,
 				BF2F350E183FF6F9002ACE90 /* UITouch+ControllerButtons.m in Sources */,
 				BF16DCF3184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */,
@@ -1694,11 +1717,12 @@
 				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
 				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
-				BF2638CB1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */,
 				BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.mm in Sources */,
 				BF2F359D183FF6F9002ACE90 /* GBAEmulationViewController.mm in Sources */,
 				BF2F359F183FF6F9002ACE90 /* UIDevice-Hardware.m in Sources */,
 				BF2F35A0183FF6F9002ACE90 /* GBAROMTableViewController.mm in Sources */,
+				BF359B95187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */,
+				BF359B99187A64C000B4CA53 /* NSDate+Comparing.m in Sources */,
 				BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */,
 				BF2AC88318543246008928D0 /* DTObjectBlockExecutor.m in Sources */,
 			);
@@ -1734,6 +1758,7 @@
 				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
 				CC50451A1814DC69009F7B9E /* 7zStream.c in Sources */,
 				CC76CF0217ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
+				BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */,
 				BF16DCF6184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */,
 				CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */,
 				CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */,
@@ -1755,6 +1780,7 @@
 				CC5045161814DC69009F7B9E /* 7zCrc.c in Sources */,
 				CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CC5045091814DC69009F7B9E /* blargg_errors.cpp in Sources */,
+				BF359B98187A64C000B4CA53 /* NSDate+Comparing.m in Sources */,
 				CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */,
 				CC157AF1179D1BC60068A54E /* pngwtran.c in Sources */,
@@ -1810,6 +1836,7 @@
 				CC6420B41807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
 				CC5044F11814DC69009F7B9E /* Flash.cpp in Sources */,
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
+				BF359B94187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */,
 				BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */,
 				CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */,
 				CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */,
@@ -1908,7 +1935,6 @@
 				CC5044FA1814DC69009F7B9E /* Mode3.cpp in Sources */,
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */,
-				BF2638CA1870389800CE55F9 /* GBAConditionalRotatationNavigationController.m in Sources */,
 				CC5045031814DC69009F7B9E /* Gb_Apu_State.cpp in Sources */,
 				CC5045131814DC69009F7B9E /* memgzio.c in Sources */,
 				BF537EF9184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */,

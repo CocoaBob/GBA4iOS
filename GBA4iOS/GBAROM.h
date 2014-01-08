@@ -20,10 +20,13 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @property (readonly, copy, nonatomic) NSString *uniqueName;
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *saveFileFilepath;
-@property (readonly, copy, nonatomic) NSString *romCode;
+
 @property (readonly, assign, nonatomic) GBAROMType type;
+
 @property (readonly, assign, nonatomic) BOOL syncingDisabled;
 @property (readonly, assign, nonatomic) BOOL conflicted;
+
+@property (readonly, assign, nonatomic, getter = isEvent) BOOL event;
 
 + (GBAROM *)romWithName:(NSString *)name; // Looks in documents directory
 + (GBAROM *)romWithUniqueName:(NSString *)name;

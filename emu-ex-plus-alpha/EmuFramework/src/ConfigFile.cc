@@ -524,6 +524,8 @@ static OptionBase *cfgFileOption[] =
 
 static void writeConfig2(Io *io)
 {
+    return; // Riley Testut
+    
 	if(!io)
 	{
 		logMsg("not writing config file");

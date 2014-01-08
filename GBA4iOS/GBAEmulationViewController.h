@@ -14,7 +14,6 @@
 @property (strong, nonatomic) GBAROM *rom;
 @property (assign, nonatomic) CGFloat blurAlpha;
 @property (strong, nonatomic) UIImageView *blurredContentsImageView;
-@property (assign, nonatomic, getter = isPlayingEventDistributionROM) BOOL playingEventDistributionROM;
 
 - (void)blurWithInitialAlpha:(CGFloat)alpha;
 - (void)removeBlur;

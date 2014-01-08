@@ -419,14 +419,11 @@ void writeSaveFileForCurrentROMToDisk();
 
 - (void)prepareEmulation
 {
+    Base::mainApp = self;
     
-    //Base::setStatusBarHidden(YES);
-    
-    using namespace Base;
-#ifndef NDEBUG
-	logMsg("iOS version %s", [currSysVer cStringUsingEncoding: NSASCIIStringEncoding]);
-#endif
-	mainApp = self;
+    optionAutoSaveState = 0;
+    optionConfirmAutoLoadState = NO;
+    optionHideStatusBar = YES;
     
     [self updateSettings:nil];
 }
@@ -482,10 +479,6 @@ extern void startGameFromMenu();
 
 - (void)updateSettings:(NSNotification *)notification
 {
-    optionAutoSaveState = 0;
-    optionConfirmAutoLoadState = NO;
-    optionHideStatusBar = YES;
-    
     NSInteger frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
     
     if (frameskip < 0)
@@ -613,6 +606,19 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
     EmuSystem::closeGame(NO);
 }
 
+#pragma mark - Filters
+
+- (void)applyEmulationFilter:(GBAEmulationFilter)emulationFilter
+{
+    optionImgFilter.val = emulationFilter;
+    
+    if(emuView.disp.image())
+    {
+        emuView.vidImg.setFilter(emulationFilter);
+    }
+    
+}
+
 #pragma mark - Button Pressing
 
 extern SysVController vController;
@@ -676,6 +682,9 @@ void updateSaveFileForCurrentROM()
 
 - (void)writeSaveFileForCurrentROMToDisk
 {
+    NSData *beforeData = [NSData dataWithContentsOfFile:self.rom.saveFileFilepath];
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.rom.saveFileFilepath error:nil];
+    
     if (isGBAROM)
     {
         EmuSystem::saveBackupMem_GBA();
@@ -683,6 +692,14 @@ void updateSaveFileForCurrentROM()
     else
     {
         EmuSystem::saveBackupMem_GBC();
+    }
+    
+    NSData *afterData = [NSData dataWithContentsOfFile:self.rom.saveFileFilepath];
+    
+    if ([beforeData isEqualToData:afterData])
+    {
+        // The data didn't really change, so we set the metadata back to what it was before so the sync manager knows it hasn't changed (sync manager compares metadata)
+        [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:self.rom.saveFileFilepath error:nil];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMDidSaveDataNotification object:self.rom];

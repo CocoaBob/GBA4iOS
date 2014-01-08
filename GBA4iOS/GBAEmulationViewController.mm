@@ -23,6 +23,7 @@
 #import "GBAExternalController.h"
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"
+#import "GBAEventDistributionViewController.h"
 
 #import <GameController/GameController.h>
 
@@ -36,7 +37,7 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate, GBAEventDistributionViewControllerDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     NSInteger _sustainButtonFrameCount;
@@ -52,6 +53,8 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) UIWindow *airplayWindow;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (strong, nonatomic) UIImageView *splashScreenImageView;
+@property (strong, nonatomic) GBAEventDistributionViewController *eventDistributionViewController;
+@property (copy, nonatomic) NSDictionary *eventDistributionROMs;
 
 @property (assign, nonatomic) BOOL pausedEmulation;
 @property (assign, nonatomic) BOOL stayPaused;
@@ -173,6 +176,9 @@ static GBAEmulationViewController *_emulationViewController;
         [self.splitViewController.view addSubview:self.splashScreenImageView];
     }
     
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+#endif
     
     [self updateSettings:nil];
 }
@@ -191,6 +197,8 @@ static GBAEmulationViewController *_emulationViewController;
     if (self.splashScreenImageView)
     {
         DLog(@"App did launch");
+        
+        self.eventDistributionROMs = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"eventDistributionROMs" ofType:@"plist"]];
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
@@ -654,24 +662,26 @@ static GBAEmulationViewController *_emulationViewController;
         fastForwardButtonTitle = NSLocalizedString(@"Fast Forward", @"");
     }
     
+    BOOL eventDistributionCapableROM = ([self.eventDistributionROMs objectForKey:self.rom.uniqueName] != nil);
+    
     // iOS 7 has trouble adding buttons to UIActionSheet after it's created, so we just create a different action sheet depending on hardware and situation
-    if ([self isPlayingEventDistributionROM])
+    if ([self.rom isEvent])
     {
         if ([self numberOfCPUCoresForCurrentDevice] == 1)
         {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Exit Event Distribution", @"")
+            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
                                                                  delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:returnToMenuButtonTitle
+                                                   destructiveButtonTitle:NSLocalizedString(@"Exit Event Distribution", @"")
                                                         otherButtonTitles:
                                       NSLocalizedString(@"Sustain Button", @""), nil];
         }
         else
         {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Exit Event Distribution", @"")
+            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
                                                                  delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:returnToMenuButtonTitle
+                                                   destructiveButtonTitle:NSLocalizedString(@"Exit Event Distribution", @"")
                                                         otherButtonTitles:
                                       fastForwardButtonTitle,
                                       NSLocalizedString(@"Sustain Button", @""), nil];
@@ -679,39 +689,80 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
-        if ([self numberOfCPUCoresForCurrentDevice] == 1)
+        if (eventDistributionCapableROM)
         {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                                 delegate:nil
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:returnToMenuButtonTitle
-                                                        otherButtonTitles:
-                                      NSLocalizedString(@"Save State", @""),
-                                      NSLocalizedString(@"Load State", @""),
-                                      NSLocalizedString(@"Cheat Codes", @""),
-                                      NSLocalizedString(@"Sustain Button", @""), nil];
+            if ([self numberOfCPUCoresForCurrentDevice] == 1)
+            {
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                       destructiveButtonTitle:returnToMenuButtonTitle
+                                                            otherButtonTitles:
+                                          NSLocalizedString(@"Save State", @""),
+                                          NSLocalizedString(@"Load State", @""),
+                                          NSLocalizedString(@"Cheat Codes", @""),
+                                          NSLocalizedString(@"Sustain Button", @""),
+                                          NSLocalizedString(@"Event Distribution", @""), nil];
+            }
+            else
+            {
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                       destructiveButtonTitle:returnToMenuButtonTitle
+                                                            otherButtonTitles:
+                                          fastForwardButtonTitle,
+                                          NSLocalizedString(@"Save State", @""),
+                                          NSLocalizedString(@"Load State", @""),
+                                          NSLocalizedString(@"Cheat Codes", @""),
+                                          NSLocalizedString(@"Sustain Button", @""),
+                                          NSLocalizedString(@"Event Distribution", @""), nil];
+            }
         }
         else
         {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
-                                                                 delegate:nil
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:returnToMenuButtonTitle
-                                                        otherButtonTitles:
-                                      fastForwardButtonTitle,
-                                      NSLocalizedString(@"Save State", @""),
-                                      NSLocalizedString(@"Load State", @""),
-                                      NSLocalizedString(@"Cheat Codes", @""),
-                                      NSLocalizedString(@"Sustain Button", @""), nil];
+            if ([self numberOfCPUCoresForCurrentDevice] == 1)
+            {
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                       destructiveButtonTitle:returnToMenuButtonTitle
+                                                            otherButtonTitles:
+                                          NSLocalizedString(@"Save State", @""),
+                                          NSLocalizedString(@"Load State", @""),
+                                          NSLocalizedString(@"Cheat Codes", @""),
+                                          NSLocalizedString(@"Sustain Button", @""), nil];
+            }
+            else
+            {
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                       destructiveButtonTitle:returnToMenuButtonTitle
+                                                            otherButtonTitles:
+                                          fastForwardButtonTitle,
+                                          NSLocalizedString(@"Save State", @""),
+                                          NSLocalizedString(@"Load State", @""),
+                                          NSLocalizedString(@"Cheat Codes", @""),
+                                          NSLocalizedString(@"Sustain Button", @""), nil];
+            }
         }
+        
     }
     
     void (^selectionHandler)(UIActionSheet *actionSheet, NSInteger buttonIndex) = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
         
         if (buttonIndex == 0)
         {
-            [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
-            [self returnToROMTableViewController];
+            if ([self.rom isEvent])
+            {
+                [self finishEventDistribution];
+            }
+            else
+            {
+                [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
+                [self returnToROMTableViewController];
+            }
         }
         else {
             if ([self numberOfCPUCoresForCurrentDevice] == 1)
@@ -720,7 +771,7 @@ static GBAEmulationViewController *_emulationViewController;
                 buttonIndex = buttonIndex + 1;
             }
             
-            if ([self isPlayingEventDistributionROM] && buttonIndex > 1)
+            if ([self.rom isEvent] && buttonIndex > 1)
             {
                 // We hide Save State, Load State, and Cheat Codes
                 buttonIndex = buttonIndex + 3;
@@ -754,6 +805,17 @@ static GBAEmulationViewController *_emulationViewController;
             else if (buttonIndex == 5)
             {
                 [self enterSustainButtonSelectionMode];
+            }
+            else if (buttonIndex == 6)
+            {
+                if (eventDistributionCapableROM && ![self.rom isEvent])
+                {
+                    [self presentEventDistribution];
+                }
+                else
+                {
+                    [self resumeEmulation];
+                }
             }
             else
             {                
@@ -1039,7 +1101,7 @@ void uncaughtExceptionHandler(NSException *exception)
 - (BOOL)shouldAutosave
 {
     // If the user loads a save state in the first 3 seconds, the autosave would probably be useless to them as it would take them back to the title screen of their game
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"autosave"] && (_romPauseTime - _romStartTime >= 3.0f) && ![self isPlayingEventDistributionROM];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"autosave"] && (_romPauseTime - _romStartTime >= 3.0f) && ![self.rom isEvent];
 }
 
 - (void)updateAutosaveState
@@ -1101,6 +1163,54 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)cheatManagerViewControllerWillDismiss:(GBACheatManagerViewController *)cheatManagerViewController
 {
+    [self resumeEmulation];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            [self setBlurAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [self removeBlur];
+        }];
+    }
+}
+
+#pragma mark - Event Distribution
+
+- (void)presentEventDistribution
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    
+    GBAEventDistributionViewController *eventDistributionViewController = [[GBAEventDistributionViewController alloc] initWithROM:self.rom];
+    eventDistributionViewController.delegate = self;
+    eventDistributionViewController.emulationViewController = self;
+    eventDistributionViewController;
+    
+    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(eventDistributionViewController) animated:YES completion:nil];
+}
+
+- (void)finishEventDistribution
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.eventDistributionViewController) animated:YES completion:nil];
+    
+    [self.eventDistributionViewController finishCurrentEvent];
+}
+
+- (void)eventDistributionViewController:(GBAEventDistributionViewController *)eventDistributionViewController willStartEvent:(GBAROM *)eventROM
+{
+    self.eventDistributionViewController = eventDistributionViewController;
+}
+
+- (void)eventDistributionViewController:(GBAEventDistributionViewController *)eventDistributionViewController didFinishEvent:(GBAROM *)eventROM
+{
+    self.eventDistributionViewController = nil;
+}
+
+- (void)eventDistributionViewControllerWillDismiss:(GBAEventDistributionViewController *)eventDistributionViewController
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
     [self resumeEmulation];
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -1353,6 +1463,17 @@ void uncaughtExceptionHandler(NSException *exception)
     //self.blurredControllerImageView.alpha = 1.0;
     
     [self updateEmulatorScreenFrame];
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    GBAEmulationFilter filter = GBAEmulationFilterLinear;
+    
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+    {
+        filter = GBAEmulationFilterNone;
+    }
+    
+    [[GBAEmulatorCore sharedCore] applyEmulationFilter:filter];
+#endif
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1729,7 +1850,11 @@ void uncaughtExceptionHandler(NSException *exception)
     if (![self.cachedSaveData isEqualToData:saveData])
     {
         self.cachedSaveData = saveData;
-        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
+        
+        if (![self.rom isEvent])
+        {
+            [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
+        }
         
         DLog(@"New save data!");
     }

@@ -13,6 +13,12 @@
 #import "GBACheat.h"
 #import "GBAROM.h"
 
+typedef NS_ENUM(NSInteger, GBAEmulationFilter)
+{
+    GBAEmulationFilterNone = 0,
+    GBAEmulationFilterLinear = 1
+};
+
 // Implements both GBAEmulatorCore AND EAGLView
 
 #if TARGET_IPHONE_SIMULATOR
@@ -36,6 +42,8 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)pauseEmulation;
 - (void)resumeEmulation;
 - (void)endEmulation;
+
+- (void)applyEmulationFilter:(GBAEmulationFilter)emulationFilter;
 
 // Saves
 - (void)writeSaveFileForCurrentROMToDisk;

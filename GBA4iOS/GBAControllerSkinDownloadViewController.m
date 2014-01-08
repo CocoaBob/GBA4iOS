@@ -31,7 +31,7 @@ NSString *const Alyssa = @"Alyssa";
 
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 
-#define REMOTE_SKIN_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/skins"
+#define REMOTE_SKIN_ROOT_ADDRESS @"http://gba4iosapp.com/skins/"
 
 @interface GBAControllerSkinDownloadViewController ()
 
@@ -122,7 +122,7 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
-    NSString *address = [NSString stringWithFormat:@"%@/root.json", REMOTE_SKIN_ROOT_ADDRESS];
+    NSString *address = [REMOTE_SKIN_ROOT_ADDRESS stringByAppendingPathComponent:@"root.json"];
     NSURL *URL = [NSURL URLWithString:address];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
@@ -459,7 +459,8 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 
 - (NSURL *)URLForFileWithName:(NSString *)filename identifier:(NSString *)identifier
 {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/%@", REMOTE_SKIN_ROOT_ADDRESS, [self skinTypeString], identifier, filename]];
+    NSString *address = [REMOTE_SKIN_ROOT_ADDRESS stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/%@", [self skinTypeString], identifier, filename]];
+    return [NSURL URLWithString:address];
 }
 
 #pragma mark - Getters/Setters

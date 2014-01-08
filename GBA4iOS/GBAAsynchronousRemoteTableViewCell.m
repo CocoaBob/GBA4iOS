@@ -53,14 +53,16 @@
         imageView;
     });
     
-    self.activityIndicatorView = ({
-        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        activityIndicatorView.center = CGPointMake(self.contentView.bounds.size.width/2.0f, self.contentView.bounds.size.height/2.0f);
-        activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-        activityIndicatorView.hidesWhenStopped = YES;
-        [activityIndicatorView startAnimating];
-        [self.contentView addSubview:activityIndicatorView];
-        activityIndicatorView;
+    rst_dispatch_sync_on_main_thread(^{
+        self.activityIndicatorView = ({
+            UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            activityIndicatorView.center = CGPointMake(self.contentView.bounds.size.width/2.0f, self.contentView.bounds.size.height/2.0f);
+            activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+            activityIndicatorView.hidesWhenStopped = YES;
+            [activityIndicatorView startAnimating];
+            [self.contentView addSubview:activityIndicatorView];
+            activityIndicatorView;
+        });
     });
 }
 
