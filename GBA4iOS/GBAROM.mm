@@ -147,30 +147,9 @@
     }
     
     GBAROM *rom = [GBAROM romWithContentsOfFile:[tempDirectory stringByAppendingPathComponent:[romFilename stringByAppendingPathExtension:extension]]];
-    NSString *uniqueName = rom.uniqueName;
     
-    __block NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
-    
-    GBAROM *cachedROM = [GBAROM romWithUniqueName:uniqueName];
-    
-    if (cachedROM)
+    if (![GBAROM canAddROMToROMDirectory:rom error:error])
     {
-        *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteFileExistsError userInfo:nil];
-        
-        [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
-        
-        return NO;
-    }
-    
-    // Check if another rom happens to have the same name as this ROM
-    
-    BOOL romNameIsTaken = (cachedROMs[[rom.filepath lastPathComponent]] != nil);
-    
-    if (romNameIsTaken)
-    {
-        *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteInvalidFileNameError userInfo:nil];
-        
         [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
         [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
         
@@ -184,6 +163,32 @@
     
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
     
+    return YES;
+}
+
++ (BOOL)canAddROMToROMDirectory:(GBAROM *)rom error:(NSError **)error
+{
+    NSString *uniqueName = rom.uniqueName;
+    
+    __block NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+    
+    GBAROM *cachedROM = [GBAROM romWithUniqueName:uniqueName];
+    
+    if (cachedROM && [[NSFileManager defaultManager] fileExistsAtPath:cachedROM.filepath])
+    {
+        *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteFileExistsError userInfo:nil];
+        return NO;
+    }
+    
+    // Check if another rom happens to have the same name as this ROM
+    GBAROM *sameNameROM = [GBAROM romWithName:rom.name];
+    
+    if (sameNameROM && ![rom.filepath isEqualToString:sameNameROM.filepath])
+    {
+        *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteInvalidFileNameError userInfo:nil];
+        return NO;
+    }
+
     return YES;
 }
 

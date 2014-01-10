@@ -31,17 +31,6 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [UIView toggleViewMainThreadChecking];
-    
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"openedFirstMainDropboxBeta"])
-    {
-        NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *path = [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
-        
-        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"openedFirstMainDropboxBeta"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
         
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.tintColor = GBA4iOS_PURPLE_COLOR;

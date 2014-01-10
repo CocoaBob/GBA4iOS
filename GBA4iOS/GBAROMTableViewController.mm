@@ -31,6 +31,8 @@
 #define DELETE_ROM_ALERT_TAG 2
 #define RENAME_GESTURE_RECOGNIZER_TAG 22
 
+static void * GBADownloadROMProgressContext = &GBADownloadROMProgressContext;
+
 typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     GBAVisibleROMTypeAll,
     GBAVisibleROMTypeGBA,
@@ -45,16 +47,13 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (assign, nonatomic) GBAVisibleROMType visibleRomType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableSet *currentUnzippingOperations;
-@property (weak, nonatomic) UIProgressView *downloadProgressView;
+@property (strong, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
 @property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
 
 @property (strong, nonatomic) NSProgress *downloadProgress;
-@property (strong, nonatomic) NSMutableDictionary *downloadProgressDictionary;
-
-@property (copy, nonatomic) RSTWebViewControllerStartDownloadBlock startDownloadBlock;
-@property (weak, nonatomic) NSURLSessionDownloadTask *tempDownloadTask;
+@property (strong, nonatomic) NSMutableDictionary *currentDownloadsDictionary;
 
 - (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl;
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem;
@@ -82,13 +81,13 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         self.directory_contents_changed_queue = dispatch_queue_create("com.rileytestut.GBA4iOS.directory_contents_changed_queue", DISPATCH_QUEUE_SERIAL);
         
-        _downloadProgress = [NSProgress progressWithTotalUnitCount:0];
+        _downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];
         [_downloadProgress addObserver:self
                     forKeyPath:@"fractionCompleted"
                        options:NSKeyValueObservingOptionNew
-                       context:NULL];
+                       context:GBADownloadROMProgressContext];
         
-        _downloadProgressDictionary = [NSMutableDictionary dictionary];
+        _currentDownloadsDictionary = [NSMutableDictionary dictionary];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
     }
@@ -105,20 +104,21 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     GBAVisibleROMType romType = (GBAVisibleROMType)[[NSUserDefaults standardUserDefaults] integerForKey:@"visibleROMType"];
     self.romType = romType;
     
-    UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-    progressView.frame = CGRectMake(0,
-                                    CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(progressView.bounds),
-                                    CGRectGetWidth(self.navigationController.navigationBar.bounds),
-                                    CGRectGetHeight(progressView.bounds));
-    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    progressView.trackTintColor = [UIColor clearColor];
-    progressView.progress = 0.0;
-    progressView.alpha = 0.0;
-    [self.navigationController.navigationBar addSubview:progressView];
+    self.downloadProgressView = ({
+        UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+        progressView.frame = CGRectMake(0,
+                                        CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(progressView.bounds),
+                                        CGRectGetWidth(self.navigationController.navigationBar.bounds),
+                                        CGRectGetHeight(progressView.bounds));
+        progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        progressView.trackTintColor = [UIColor clearColor];
+        progressView.progress = 0.0;
+        progressView.alpha = 0.0;
+        [self.navigationController.navigationBar addSubview:progressView];
+        progressView;
+    });
     
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
-    
-    self.downloadProgressView = progressView;
     
     [self importDefaultSkins];
 }
@@ -128,6 +128,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle] animated:YES];
+    
+    DLog(@"Frame: %@", NSStringFromCGRect(self.downloadProgressView.frame));
     
     // Sometimes it loses its color when the view appears
     self.downloadProgressView.progressTintColor = GBA4iOS_PURPLE_COLOR;
@@ -210,7 +212,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 #pragma mark - RSTWebViewController delegate
 
-- (BOOL)webViewController:(RSTWebViewController *)webViewController shouldStartDownloadWithRequest:(NSURLRequest *)request
+- (BOOL)webViewController:(RSTWebViewController *)webViewController shouldInterceptDownloadRequest:(NSURLRequest *)request
 {
     NSString *fileExtension = request.URL.pathExtension.lowercaseString;
     
@@ -222,12 +224,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     return NO;
 }
 
-- (void)webViewController:(RSTWebViewController *)webViewController willStartDownloadWithTask:(NSURLSessionDownloadTask *)downloadTask startDownloadBlock:(RSTWebViewControllerStartDownloadBlock)startDownloadBlock
+- (void)webViewController:(RSTWebViewController *)webViewController shouldStartDownloadTask:(NSURLSessionDownloadTask *)downloadTask startDownloadBlock:(RSTWebViewControllerStartDownloadBlock)startDownloadBlock
 {
-    self.tempDownloadTask = downloadTask;
-    self.startDownloadBlock = startDownloadBlock;
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"By tapping Download below, you confirm that you legally own a physical copy of this ROM. GBA4iOS does not promote pirating in any form.", @"")
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"By tapping “Download” below, you confirm that you legally own a physical copy of this ROM. GBA4iOS does not promote pirating in any form.", @"")
                                                     message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
     alert.tag = LEGAL_NOTICE_ALERT_TAG;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -235,7 +234,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             
             if (buttonIndex == 1)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ROM Name", @"")
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Name", @"")
                                                                 message:nil
                                                                delegate:self
                                                       cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
@@ -250,32 +249,32 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                     if (namingButtonIndex == 1)
                     {
                         NSString *filename = [[namingAlertView textFieldAtIndex:0] text];
-                        [self startDownloadWithFilename:filename downloadTask:downloadTask];
+                        [self startDownloadWithFilename:filename downloadTask:downloadTask startDownloadBlock:startDownloadBlock];
                     }
                     else
                     {
-                        [self cancelDownload];
+                        startDownloadBlock(NO, nil);
                     }
                     
                 }];
             }
             else
             {
-                [self cancelDownload];
+                startDownloadBlock(NO, nil);
             }
             
         }];
     });
 }
 
-- (void)startDownloadWithFilename:(NSString *)filename downloadTask:(NSURLSessionDownloadTask *)downloadTask
+- (void)startDownloadWithFilename:(NSString *)filename downloadTask:(NSURLSessionDownloadTask *)downloadTask startDownloadBlock:(RSTWebViewControllerStartDownloadBlock)startDownloadBlock
 {
     if ([filename length] == 0)
     {
         filename = @" ";
     }
     
-    NSString *fileExtension = self.tempDownloadTask.originalRequest.URL.pathExtension;
+    NSString *fileExtension = downloadTask.originalRequest.URL.pathExtension;
     
     if (fileExtension == nil || [fileExtension isEqualToString:@""])
     {
@@ -284,107 +283,78 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     filename = [filename stringByAppendingPathExtension:fileExtension];
     
-    rst_dispatch_sync_on_main_thread(^{
-        [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount + 1];
-        [self.downloadProgress becomeCurrentWithPendingUnitCount:1];
-        
-        NSProgress *progress = [NSProgress progressWithTotalUnitCount:1];
-        [progress setUserInfoObject:filename forKey:@"filename"];
-        
-        self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier] = progress;
-        [self.downloadProgress resignCurrent];
-    });
+    if (self.downloadProgressView.alpha == 0)
+    {
+        rst_dispatch_sync_on_main_thread(^{
+            [self showDownloadProgressView];
+        });
+    }
+    
+    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount + 1];
+    [self.downloadProgress becomeCurrentWithPendingUnitCount:1];
+    
+    NSProgress *progress = [[NSProgress alloc] initWithParent:[NSProgress currentProgress] userInfo:@{@"filename": filename}];
+    
+    [self.downloadProgress resignCurrent];
+    
+    self.currentDownloadsDictionary[downloadTask] = filename;
     
     // Write temp file so it shows up in the file browser, but we'll then gray it out.
     [filename writeToFile:[self.currentDirectory stringByAppendingPathComponent:filename] atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
-    self.startDownloadBlock(YES);
+    startDownloadBlock(YES, progress);
     
-    [self dismissViewControllerAnimated:YES completion:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self showDownloadProgressView];
-        });
-    }];
-    
-    self.tempDownloadTask = nil;
-    self.startDownloadBlock = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)cancelDownload
+- (void)webViewController:(RSTWebViewController *)webViewController didCompleteDownloadTask:(NSURLSessionDownloadTask *)downloadTask destinationURL:(NSURL *)url error:(NSError *)error
 {
-    self.tempDownloadTask = nil;
-    self.startDownloadBlock = nil;
-}
-
-- (void)webViewController:(RSTWebViewController *)webViewController downloadTask:(NSURLSessionDownloadTask *)downloadTask totalBytesDownloaded:(int64_t)totalBytesDownloaded totalBytesExpected:(int64_t)totalBytesExpected
-{
-    NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
-    progress.totalUnitCount = totalBytesExpected;
-    progress.completedUnitCount = totalBytesDownloaded;
-}
-
-- (void)webViewController:(RSTWebViewController *)webViewController downloadTask:(NSURLSessionDownloadTask *)downloadTask didDownloadFileToURL:(NSURL *)fileURL
-{
-    NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
-    progress.completedUnitCount = progress.totalUnitCount;
-    
-    NSString *filename = progress.userInfo[@"filename"];
+    NSString *filename = self.currentDownloadsDictionary[downloadTask];
     NSString *destinationPath = [self.currentDirectory stringByAppendingPathComponent:filename];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
     
-    NSError *error = nil;
-    
     [self setIgnoreDirectoryContentChanges:YES];
     
+    // Delete temporary file
     [[NSFileManager defaultManager] removeItemAtURL:destinationURL error:&error];
-    [[NSFileManager defaultManager] moveItemAtURL:fileURL toURL:destinationURL error:nil];
     
     if (error)
     {
         ELog(error);
-        return;
+    }
+    else
+    {
+        [[NSFileManager defaultManager] moveItemAtURL:url toURL:destinationURL error:nil];
     }
     
-    // Must go after file system changes
-    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
-    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
-
     [self setIgnoreDirectoryContentChanges:NO];
-}
-
-- (void)webViewController:(RSTWebViewController *)webViewController downloadTask:(NSURLSessionDownloadTask *)downloadTask didFailDownloadWithError:(NSError *)error
-{
-    NSProgress *progress = self.downloadProgressDictionary[downloadTask.uniqueTaskIdentifier];
-    progress.completedUnitCount = progress.totalUnitCount;
-    
-    NSString *filename = progress.userInfo[@"filename"];
-    
-    ELog(error);
-    
-    NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
-    [[NSFileManager defaultManager] removeItemAtPath:filepath error:NULL];
     
     // Must go after file system changes
-    [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
-    [self.downloadProgressDictionary removeObjectForKey:downloadTask.uniqueTaskIdentifier];
+    [self.currentDownloadsDictionary removeObjectForKey:downloadTask];
     
+    if ([self.currentDownloadsDictionary count] == 0)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.downloadProgressView setProgress:1.0 animated:YES];
+            [self hideDownloadProgressView];
+        });
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (object == self.downloadProgress)
+    if (context == GBADownloadROMProgressContext)
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            DLog(@"Progress: %f", self.downloadProgress.fractionCompleted);
-            
-            [self.downloadProgressView setProgress:self.downloadProgress.fractionCompleted animated:YES];
-            
-            if (self.downloadProgress.fractionCompleted == 1)
-            {
-                [self hideDownloadProgressView];
-            }
-        });
+        NSProgress *progress = object;
+        
+        if (progress.fractionCompleted > 0)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                DLog(@"Progress: %f", progress.fractionCompleted);
+                
+                [self.downloadProgressView setProgress:progress.fractionCompleted animated:YES];
+            });
+        }
         
         return;
     }
@@ -394,7 +364,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)webViewControllerWillDismiss:(RSTWebViewController *)webViewController
 {
-    
     [self dismissedModalViewController];
 }
 
@@ -408,16 +377,26 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     [self themeTableViewCell:cell];
     
+    NSString *lowercaseFileExtension = [filename.pathExtension lowercaseString];
+    
     if ([self isDownloadingFile:filename] || [self.unavailableFiles containsObject:filename])
     {
         cell.userInteractionEnabled = NO;
+        cell.textLabel.textColor = [UIColor grayColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    }
+    else if ([lowercaseFileExtension isEqualToString:@"zip"])
+    {
+        // Allows user to delete zip files if they're not being downloaded, but we'll still prevent them from opening them
+        cell.userInteractionEnabled = YES;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.textColor = [UIColor grayColor];
     }
     else
     {
         GBAROMType romType = GBAROMTypeGBA;
         
-        if ([[[filename pathExtension] lowercaseString] isEqualToString:@"gbc"] || [[[filename pathExtension] lowercaseString] isEqualToString:@"gb"])
+        if ([lowercaseFileExtension isEqualToString:@"gbc"] || [lowercaseFileExtension isEqualToString:@"gb"])
         {
             romType = GBAROMTypeGBC;
         }
@@ -429,6 +408,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         }
         
         cell.userInteractionEnabled = YES;
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
     
     if (cell.longPressGestureRecognizer == nil)
@@ -513,6 +493,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                                                                   cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
                             [alert show];
                         });
+                        
+                        [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
                     }
                     else if ([error code] == NSFileReadNoSuchFileError)
                     {
@@ -536,6 +518,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                                                                   cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
                             [alert show];
                         });
+                        
+                        [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
                     }
                     
                     continue;
@@ -558,24 +542,40 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             }
             
             GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
-            NSString *uniqueName = [rom uniqueName];
             
-            // The above if statement may succeed, but that doesn't mean this will too. This checks against all stored unique names
-            GBAROM *cachedROM = [GBAROM romWithUniqueName:uniqueName];
-            
-            if (cachedROM)
+            NSError *error = nil;
+            if (![GBAROM canAddROMToROMDirectory:rom error:&error])
             {
-                // Same as above when unzipping ROM file
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists", @"")
-                                                                    message:NSLocalizedString(@"Only one copy of a game is supported at a time. To use a new version of this game, please delete the previous version and try again.", @"")
-                                                                   delegate:nil
-                                                          cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
-                    [alert show];
-                });
+                if ([error code] == NSFileWriteFileExistsError)
+                {
+                    // Same as above when importing ROM file
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists", @"")
+                                                                        message:NSLocalizedString(@"Only one copy of a game is supported at a time. To use a new version of this game, please delete the previous version and try again.", @"")
+                                                                       delegate:nil
+                                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                        [alert show];
+                    });
+                    
+                    [[NSFileManager defaultManager] removeItemAtPath:rom.filepath error:nil];
+                }
+                else if ([error code] == NSFileWriteInvalidFileNameError)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists With This Name", @"")
+                                                                        message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
+                                                                       delegate:nil
+                                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
+                        [alert show];
+                    });
+                    
+                    [[NSFileManager defaultManager] removeItemAtPath:rom.filepath error:nil];
+                }
                 
-                [[NSFileManager defaultManager] removeItemAtPath:rom.filepath error:nil];
+                continue;
             }
+            
+            NSString *uniqueName = rom.uniqueName;
             
             if (uniqueName)
             {
@@ -739,13 +739,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     __block BOOL downloadingFile = NO;
     
-    NSDictionary *dictionary = [self.downloadProgressDictionary copy];
+    NSDictionary *dictionary = [self.currentDownloadsDictionary copy];
     
-    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSProgress *progress, BOOL *stop) {
-        NSString *downloadingFilename = progress.userInfo[@"filename"];
-        
-        DLog(@"Filename: %@ OTHER: %@", downloadingFilename, filename);
-        
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, NSString *downloadingFilename, BOOL *stop) {
         if ([downloadingFilename isEqualToString:filename])
         {
             downloadingFile = YES;
@@ -758,6 +754,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)showDownloadProgressView
 {
+    self.downloadProgress.completedUnitCount = 0;
+    self.downloadProgress.totalUnitCount = 0;
+    
     [UIView animateWithDuration:0.4 animations:^{
         [self.downloadProgressView setAlpha:1.0];
     }];
@@ -767,6 +766,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     [UIView animateWithDuration:0.4 animations:^{
         [self.downloadProgressView setAlpha:0.0];
+    } completion:^(BOOL finished) {
+        self.downloadProgress.completedUnitCount = 0;
+        self.downloadProgress.totalUnitCount = 0;
     }];
 }
 
@@ -793,6 +795,12 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *filepath = [self filepathForIndexPath:indexPath];
+    
+    if ([[filepath.pathExtension lowercaseString] isEqualToString:@"zip"])
+    {
+        return;
+    }
+    
     GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
     
     [self startROM:rom];
@@ -1257,7 +1265,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     
     RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:address];
-    webViewController.showDoneButton = YES;
+    webViewController.showsDoneButton = YES;
     webViewController.downloadDelegate = self;
     webViewController.delegate = self;
     
@@ -1337,6 +1345,12 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     
     [self updateTheme];
+    
+    self.downloadProgressView.frame = CGRectMake(0,
+                                                 CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(self.downloadProgressView.bounds),
+                                                 CGRectGetWidth(self.navigationController.navigationBar.bounds),
+                                                 CGRectGetHeight(self.downloadProgressView.bounds));
+    [self.navigationController.navigationBar addSubview:self.downloadProgressView];
 }
 
 @end
