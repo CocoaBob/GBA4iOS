@@ -80,6 +80,20 @@
 				<string>com.pkware.zip-archive</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>GB ROM</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.rileytestut.gb</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
@@ -256,6 +270,25 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<string>gbcskin</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>GB ROM</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.rileytestut.gb</string>
+			<key>UTTypeSize320IconFile</key>
+			<string>icon-60@2x</string>
+			<key>UTTypeSize64IconFile</key>
+			<string>icon-60@2x</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>GB</string>
 			</dict>
 		</dict>
 	</array>

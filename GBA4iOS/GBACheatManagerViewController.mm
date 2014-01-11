@@ -171,10 +171,12 @@
 
 - (BOOL)addCheat:(GBACheat *)cheat
 {
+    BOOL cheatAlreadyExists = [self.cheatsArray containsObject:cheat];
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     BOOL success = [[GBAEmulatorCore sharedCore] addCheat:cheat];
     
-    if (success)
+    if (success && !cheatAlreadyExists)
     {
         self.enabledCheatsDictionary[cheat.uid] = @YES;
         [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
@@ -183,8 +185,12 @@
     return success;
 #endif
     
-    self.enabledCheatsDictionary[cheat.uid] = @YES;
-    [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
+    if (!cheatAlreadyExists)
+    {
+        self.enabledCheatsDictionary[cheat.uid] = @YES;
+        [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
+    }
+    
     return YES;
 }
 

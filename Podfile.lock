@@ -17,28 +17,24 @@ PODS:
   - AFNetworking/Serialization (2.0.3)
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
-  - NJKWebViewProgress (0.2):
-    - NJKWebViewProgress/Core
-    - NJKWebViewProgress/ProgressView
-  - NJKWebViewProgress/Core (0.2)
-  - NJKWebViewProgress/ProgressView (0.2)
+  - NJKWebViewProgress (0.1.8)
   - RSTWebViewController (0.1):
-    - NJKWebViewProgress
+    - NJKWebViewProgress (~> 0.1.0)
   - SSZipArchive (0.3.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
-  - RSTWebViewController (from `/Users/Riley/Dropbox/Developer/RSTUtilities/RSTWebViewController`)
+  - RSTWebViewController (from `/Users/Riley/Developer/RSTUtilities/RSTWebViewController`)
   - SSZipArchive
 
 EXTERNAL SOURCES:
   RSTWebViewController:
-    :path: /Users/Riley/Dropbox/Developer/RSTUtilities/RSTWebViewController
+    :path: /Users/Riley/Developer/RSTUtilities/RSTWebViewController
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
-  NJKWebViewProgress: fd46c9489d799d97f3b09210886bf83884f6c725
-  RSTWebViewController: fe5f8cb1b730d1be82b5226ef38469721d7059e1
+  NJKWebViewProgress: e009e9ec4837fcad3959e2672d5282f78148f6b9
+  RSTWebViewController: e5a759e465b807e07fb0c878e9639bc8abe1b4e2
   SSZipArchive: 47d0589a15452311749a4eeecb97e12800d127de
 
 COCOAPODS: 0.28.0

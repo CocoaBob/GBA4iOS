@@ -349,9 +349,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         if (progress.fractionCompleted > 0)
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                DLog(@"Progress: %f", progress.fractionCompleted);
-                
+            dispatch_async(dispatch_get_main_queue(), ^{                
                 [self.downloadProgressView setProgress:progress.fractionCompleted animated:YES];
             });
         }
@@ -456,7 +454,19 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    if ([[self unavailableFiles] count] > 0)
+    // Sometimes pesky invisible files remain unavailable after a download, so we filter them out
+    BOOL unavailableFilesContainsVisibleFile = NO;
+    
+    for (NSString *filename in [self unavailableFiles])
+    {
+        if ([filename length] > 0 && ![[filename substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"."])
+        {
+            unavailableFilesContainsVisibleFile = YES;
+            break;
+        }
+    }
+    
+    if ([[self unavailableFiles] count] > 0 && !unavailableFilesContainsVisibleFile)
     {
         return;
     }
@@ -754,6 +764,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)showDownloadProgressView
 {
+    [self.downloadProgressView setProgress:0.0];
+    
     self.downloadProgress.completedUnitCount = 0;
     self.downloadProgress.totalUnitCount = 0;
     
@@ -769,6 +781,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     } completion:^(BOOL finished) {
         self.downloadProgress.completedUnitCount = 0;
         self.downloadProgress.totalUnitCount = 0;
+        [self.downloadProgressView setProgress:0.0];
     }];
 }
 
@@ -1265,6 +1278,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     
     RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:address];
+    webViewController.excludedActivityTypes = @[UIActivityTypeMessage];
     webViewController.showsDoneButton = YES;
     webViewController.downloadDelegate = self;
     webViewController.delegate = self;

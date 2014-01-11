@@ -1,1 +1,1 @@
-../../../../../../../Dropbox/Developer/RSTUtilities/RSTWebViewController/RSTSafariActivity.h
+../../../../../../RSTUtilities/RSTWebViewController/RSTWebViewController/UIActivities/RSTSafariActivity.h

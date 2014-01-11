@@ -84,14 +84,19 @@
         NSDictionary *dropboxFiles = [[GBASyncManager sharedManager] pendingDownloads];
         DBMetadata *metadata = dropboxFiles[self.dropboxPath];
         
-        NSMutableDictionary *pendingDownloads = [[GBASyncManager sharedManager] pendingDownloads];
+        
         
         if ([error code] == 404) // 404: File has been deleted (according to dropbox)
         {
             DLog(@"File doesn't exist for download...ignoring %@", [dropboxPath lastPathComponent]);
             
+            NSMutableDictionary *pendingDownloads = [[GBASyncManager sharedManager] pendingDownloads];
             [pendingDownloads removeObjectForKey:dropboxPath];
             [NSKeyedArchiver archiveRootObject:pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];
+            
+            NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
+            [dropboxFiles removeObjectForKey:dropboxPath];
+            [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
             
             [self finishedWithMetadata:metadata error:nil];
             

@@ -12,7 +12,7 @@
 #import "GBAControllerSkin.h"
 #import "UIAlertView+RSTAdditions.h"
 
-#import <RSTWebViewController/RSTWebViewController.h>
+#import <RSTWebViewController.h>
 #import <AFNetworking/AFNetworking.h>
 
 NSString *const GBASkinsKey = @"skins";

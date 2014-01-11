@@ -1184,9 +1184,21 @@ void uncaughtExceptionHandler(NSException *exception)
     GBAEventDistributionViewController *eventDistributionViewController = [[GBAEventDistributionViewController alloc] initWithROM:self.rom];
     eventDistributionViewController.delegate = self;
     eventDistributionViewController.emulationViewController = self;
-    eventDistributionViewController;
     
-    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(eventDistributionViewController) animated:YES completion:nil];
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(eventDistributionViewController);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [self blurWithInitialAlpha:0.0];
+        
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            [self setBlurAlpha:1.0];
+        }];
+    }
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)finishEventDistribution

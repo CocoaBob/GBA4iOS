@@ -146,7 +146,15 @@
         preferredName = romFilename;
     }
     
-    GBAROM *rom = [GBAROM romWithContentsOfFile:[tempDirectory stringByAppendingPathComponent:[romFilename stringByAppendingPathExtension:extension]]];
+    NSString *romFilepath = [tempDirectory stringByAppendingPathComponent:[preferredName stringByAppendingPathExtension:extension]];
+    
+    if (![preferredName isEqualToString:romFilename])
+    {
+        // Rename ROM file to preferred name
+        [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:[romFilename stringByAppendingPathExtension:extension]] toPath:romFilepath error:nil];
+    }
+    
+    GBAROM *rom = [GBAROM romWithContentsOfFile:romFilepath];
     
     if (![GBAROM canAddROMToROMDirectory:rom error:error])
     {
@@ -156,10 +164,9 @@
         return NO;
     }
     
-    NSString *originalFilename = [romFilename stringByAppendingPathExtension:extension];
-    NSString *destinationFilename = [preferredName stringByAppendingPathExtension:extension];
+    NSString *destinationFilepath = [documentsDirectory stringByAppendingPathComponent:[preferredName stringByAppendingPathExtension:extension]];
     
-    [[NSFileManager defaultManager] moveItemAtPath:[tempDirectory stringByAppendingPathComponent:originalFilename] toPath:[documentsDirectory stringByAppendingPathComponent:destinationFilename] error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:romFilepath toPath:destinationFilepath error:nil];
     
     [[NSFileManager defaultManager] removeItemAtPath:tempDirectory error:nil];
     
