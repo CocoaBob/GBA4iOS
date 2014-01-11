@@ -103,6 +103,19 @@ static RSTToastView *_globalToastView;
         
         _width = RSTToastViewAutomaticWidth;
         
+        // Motion Effects
+        UIInterpolatingMotionEffect *xAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        xAxis.minimumRelativeValue = @(-10);
+        xAxis.maximumRelativeValue = @(10);
+        
+        UIInterpolatingMotionEffect *yAxis = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        yAxis.minimumRelativeValue = @(-10);
+        yAxis.maximumRelativeValue = @(10);
+        
+        UIMotionEffectGroup *group = [[UIMotionEffectGroup alloc] init];
+        group.motionEffects = @[xAxis, yAxis];
+        [self addMotionEffect:group];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rst_willShowToastView:) name:RSTToastViewWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rst_didHideToastView:) name:RSTToastViewDidHideNotification object:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rst_willChangeStatusBarOrientation:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];

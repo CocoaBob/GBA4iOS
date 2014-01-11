@@ -132,6 +132,7 @@
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         NSString *localPath = [error userInfo][@"sourcePath"];
+        NSString *dropboxPath = [error userInfo][@"destinationPath"];
         
         NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
         
@@ -145,6 +146,13 @@
             [self finishedWithMetadata:self.metadata error:nil];
             
             return;
+        }
+        
+        if ([error code] == 400)
+        {
+            NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
+            [dropboxFiles removeObjectForKey:dropboxPath];
+            [NSKeyedArchiver archiveRootObject:dropboxPath toFile:[GBASyncManager dropboxFilesPath]];
         }
         
         DLog(@"Failed to upload file: %@ Error: %@", [localPath lastPathComponent], error);

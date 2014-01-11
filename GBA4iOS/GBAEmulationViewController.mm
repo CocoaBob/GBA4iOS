@@ -1221,6 +1221,8 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)eventDistributionViewControllerWillDismiss:(GBAEventDistributionViewController *)eventDistributionViewController
 {
+    [self refreshLayout];
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     [self resumeEmulation];
@@ -1726,6 +1728,17 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)refreshLayout
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    {
+        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
+    }
+    else
+    {
+        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+    }
+#endif
+    
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
     
     [self.view updateConstraintsIfNeeded];

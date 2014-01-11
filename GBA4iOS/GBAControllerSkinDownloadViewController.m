@@ -51,7 +51,6 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     if (self)
     {
         // Custom initialization
-        _skinsDictionary = [NSDictionary dictionaryWithContentsOfFile:[self cachedControllerSkinInfoPath]];
         self.title = NSLocalizedString(@"Download Skins", @"");
         
         _imageCache = [[NSCache alloc] init];
@@ -96,9 +95,7 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
         [activityIndicatorView startAnimating];
         activityIndicatorView;
     });
-    
-    //self.hidesBottomBarWhenPushed = YES;
-    
+        
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
@@ -454,7 +451,22 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    return [cachesDirectory stringByAppendingPathComponent:@"controllerSkins.plist"];
+    NSString *skinType = nil;
+    
+    switch (self.controllerSkinType)
+    {
+        case GBAControllerSkinTypeGBA:
+            skinType = @"GBA";
+            break;
+            
+        case GBAControllerSkinTypeGBC:
+            skinType = @"GBC";
+            break;
+    }
+    
+    NSString *filename = [NSString stringWithFormat:@"controllerSkins_%@.plist", skinType];
+    
+    return [cachesDirectory stringByAppendingPathComponent:filename];
 }
 
 - (NSURL *)URLForFileWithName:(NSString *)filename identifier:(NSString *)identifier
@@ -464,6 +476,16 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 }
 
 #pragma mark - Getters/Setters
+
+- (NSDictionary *)skinsDictionary
+{
+    if (_skinsDictionary == nil)
+    {
+        _skinsDictionary = [NSDictionary dictionaryWithContentsOfFile:[self cachedControllerSkinInfoPath]];
+    }
+    
+    return _skinsDictionary;
+}
 
 - (NSString *)skinTypeString
 {

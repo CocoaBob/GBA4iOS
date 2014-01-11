@@ -385,6 +385,13 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error
 {
+    if ([error code] == 404)
+    {
+        [self restClient:client loadedMetadata:nil];
+        
+        return;
+    }
+    
     self.errorLoadingFiles = YES;
     self.loadingFiles = NO;
     
