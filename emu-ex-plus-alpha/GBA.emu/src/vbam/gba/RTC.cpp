@@ -46,7 +46,7 @@ void rtcEnableWarioRumble(bool e)
     rtcWarioRumbleEnabled = e;
 }
 
-extern uint16_t deviceGetAxisValueZ();
+extern uint16_t deviceGetGyroRotationRateZ();
 
 u16 rtcRead(GBASys &gba, u32 address)
 {
@@ -63,7 +63,7 @@ u16 rtcRead(GBASys &gba, u32 address)
                 if (rtcClockData.byte1 == 0x0b)
                 {
                     //sprintf(DebugStr, "Reading Twisted Sensor bit %d", rtcClockData.reserved[11]);
-                    u16 v = deviceGetAxisValueZ();
+                    u16 v = deviceGetGyroRotationRateZ();
                     return ((v >> rtcClockData.reserved[11]) & 1) << 2;
                     
                     

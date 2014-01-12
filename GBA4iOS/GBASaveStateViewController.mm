@@ -10,9 +10,7 @@
 #import "GBASaveStateTableViewCell.h"
 #import "GBASyncManager.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
-#endif
 
 #import "UIAlertView+RSTAdditions.h"
 #import "UIActionSheet+RSTAdditions.h"
@@ -166,9 +164,7 @@
         [self.delegate saveStateViewController:self willSaveStateWithFilename:[filepath lastPathComponent]];
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] saveStateToFilepath:filepath];
-#endif
     
     if ([self.delegate respondsToSelector:@selector(saveStateViewController:didSaveStateWithFilename:)])
     {
@@ -211,9 +207,7 @@
         [self.delegate saveStateViewController:self willLoadStateWithFilename:[filepath lastPathComponent]];
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] loadStateFromFilepath:filepath];
-#endif
     
     if ([self.delegate respondsToSelector:@selector(saveStateViewController:didLoadStateWithFilename:)])
     {

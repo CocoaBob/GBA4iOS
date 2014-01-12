@@ -22,11 +22,7 @@
 
 - (CGSize)intrinsicContentSize
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     return self.eaglView.bounds.size;
-#endif
-    
-    return CGSizeMake(320, 240);
 }
 
 - (void)setEaglView:(UIView *)eaglView

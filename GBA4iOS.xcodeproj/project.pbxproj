@@ -101,6 +101,9 @@
 		BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
+		BF356C7A18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
+		BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
+		BF356C8318827E160005E1FC /* GBAEmulatorCore-Simulator.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */; };
 		BF359B94187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B93187A205400B4CA53 /* GBAEventDistributionTableViewCell.m */; };
 		BF359B95187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B93187A205400B4CA53 /* GBAEventDistributionTableViewCell.m */; };
 		BF359B98187A64C000B4CA53 /* NSDate+Comparing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */; };
@@ -397,6 +400,9 @@
 		BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncDeleteOperation.m; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GBA4iOS copy-Info.plist"; path = "/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS copy-Info.plist"; sourceTree = "<absolute>"; };
+		BF356C7818814A180005E1FC /* GBACheatTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatTextView.h; sourceTree = "<group>"; };
+		BF356C7918814A180005E1FC /* GBACheatTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatTextView.m; sourceTree = "<group>"; };
+		BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GBAEmulatorCore-Simulator.mm"; sourceTree = "<group>"; };
 		BF359B92187A205400B4CA53 /* GBAEventDistributionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionTableViewCell.h; sourceTree = "<group>"; };
 		BF359B93187A205400B4CA53 /* GBAEventDistributionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionTableViewCell.m; sourceTree = "<group>"; };
 		BF359B96187A64C000B4CA53 /* NSDate+Comparing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Comparing.h"; sourceTree = "<group>"; };
@@ -1032,6 +1038,7 @@
 				CCFA71BE179D302900768D24 /* RSTExtras.mm */,
 				CC15E540179F027300449972 /* GBAEmulatorCore.h */,
 				CC15E541179F027300449972 /* GBAEmulatorCore.mm */,
+				BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */,
 				CCB0CF3E179E6E5900766FA5 /* Namespace.h */,
 				CCB0CF40179E71BF00766FA5 /* EAGLView_Private.h */,
 				CC1578A6179D051E0068A54E /* Emulator Code */,
@@ -1223,6 +1230,8 @@
 				BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */,
 				CC6A2D9517C50CE700EFC10E /* GBACheatEditorViewController.h */,
 				CC6A2D9617C50CE700EFC10E /* GBACheatEditorViewController.m */,
+				BF356C7818814A180005E1FC /* GBACheatTextView.h */,
+				BF356C7918814A180005E1FC /* GBACheatTextView.m */,
 				CC6A2D9B17C515E800EFC10E /* GBACheat.h */,
 				CC6A2D9C17C515E800EFC10E /* GBACheat.m */,
 			);
@@ -1681,6 +1690,7 @@
 				BF2F351B183FF6F9002ACE90 /* RSTFileBrowserViewController.m in Sources */,
 				BF16DCF7184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */,
 				BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */,
+				BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */,
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
 				BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */,
 				BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */,
@@ -1707,6 +1717,7 @@
 				BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */,
 				BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */,
 				BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
+				BF356C8318827E160005E1FC /* GBAEmulatorCore-Simulator.mm in Sources */,
 				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */,
 				BFFBCCDB18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */,
 				BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */,
@@ -1841,6 +1852,7 @@
 				CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */,
 				CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */,
 				BF3E2BDB18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */,
+				BF356C7A18814A180005E1FC /* GBACheatTextView.m in Sources */,
 				CC5044FD1814DC69009F7B9E /* RTC.cpp in Sources */,
 				CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */,
 				CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
@@ -1992,6 +2004,13 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"COCOAPODS=1",
+					"DEBUG=1",
+					"SIMULATOR=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
@@ -2035,6 +2054,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOAPODS=1",
+					"SIMULATOR=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
@@ -2078,6 +2101,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOAPODS=1",
+					"SIMULATOR=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
@@ -2281,6 +2308,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOAPODS=1",
+					"SIMULATOR=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",
 					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",

@@ -18,22 +18,27 @@ PODS:
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
   - NJKWebViewProgress (0.1.8)
+  - PSPDFTextView (1.1.0)
   - RSTWebViewController (0.1):
     - NJKWebViewProgress (~> 0.1.0)
   - SSZipArchive (0.3.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - PSPDFTextView (from `https://github.com/steipete/PSPDFTextView.git`)
   - RSTWebViewController (from `/Users/Riley/Developer/RSTUtilities/RSTWebViewController`)
   - SSZipArchive
 
 EXTERNAL SOURCES:
+  PSPDFTextView:
+    :git: https://github.com/steipete/PSPDFTextView.git
   RSTWebViewController:
     :path: /Users/Riley/Developer/RSTUtilities/RSTWebViewController
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   NJKWebViewProgress: e009e9ec4837fcad3959e2672d5282f78148f6b9
+  PSPDFTextView: 778b967396e062389f9963b43b860af2e1fe9055
   RSTWebViewController: e5a759e465b807e07fb0c878e9639bc8abe1b4e2
   SSZipArchive: 47d0589a15452311749a4eeecb97e12800d127de
 

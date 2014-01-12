@@ -13,9 +13,7 @@
 #import "GBASyncUploadOperation.h"
 #import "GBASyncUploadDeviceUploadHistoryOperation.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
-#endif
 
 extern NSString *const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification;
 

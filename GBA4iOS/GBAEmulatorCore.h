@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#if !(TARGET_IPHONE_SIMULATOR)
 #import "EAGLView.h"
+#else
+@compatibility_alias EAGLView UIView;
+#endif
+
 #import "GBAControllerSkin.h"
 #import "GBACheat.h"
 #import "GBAROM.h"
@@ -21,17 +26,12 @@ typedef NS_ENUM(NSInteger, GBAEmulationFilter)
 
 // Implements both GBAEmulatorCore AND EAGLView
 
-#if TARGET_IPHONE_SIMULATOR
-
-#error This target cannot be compiled for the simulator. To compile for simulator, use the GBA4iOS-Simulator target.
-
-#endif
-
 extern NSString *const GBAROMDidSaveDataNotification;
 
 @interface GBAEmulatorCore : NSObject
 
 @property (readonly, strong, nonatomic) EAGLView *eaglView;
+
 @property (strong, nonatomic) GBAROM *rom;
 
 + (instancetype)sharedCore;

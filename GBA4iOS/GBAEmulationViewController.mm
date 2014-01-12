@@ -27,9 +27,7 @@
 
 #import <GameController/GameController.h>
 
-#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
-#endif
 
 #import "UIActionSheet+RSTAdditions.h"
 #import "UIAlertView+RSTAdditions.h"
@@ -121,9 +119,8 @@ static GBAEmulationViewController *_emulationViewController;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romDidSaveData:) name:GBAROMDidSaveDataNotification object:nil];
-#endif
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hasNewDropboxSaveForCurrentGameFromDropbox:) name:GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shouldRestartCurrentGame:) name:GBAShouldRestartCurrentGameNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncManagerFinishedSync:) name:GBASyncManagerFinishedSyncNotification object:[GBASyncManager sharedManager]];
@@ -176,9 +173,7 @@ static GBAEmulationViewController *_emulationViewController;
         [self.splitViewController.view addSubview:self.splashScreenImageView];
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
-#endif
     
     [self updateSettings:nil];
 }
@@ -319,9 +314,7 @@ static GBAEmulationViewController *_emulationViewController;
         {
             _sustainButtonFrameCount = 0;
             
-#if !(TARGET_IPHONE_SIMULATOR)
             [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
-#endif
             
             self.buttonsToPressForNextCycle = nil;
         }
@@ -555,9 +548,7 @@ static GBAEmulationViewController *_emulationViewController;
         NSMutableSet *sustainedButtons = [self.sustainedButtonSet mutableCopy];
         [sustainedButtons intersectSet:buttons];
         
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] releaseButtons:sustainedButtons];
-#endif
         
         NSMutableSet *buttonsWithoutSustainButtons = [buttons mutableCopy];
         [buttonsWithoutSustainButtons minusSet:self.sustainedButtonSet];
@@ -573,9 +564,7 @@ static GBAEmulationViewController *_emulationViewController;
             return;
         }
         
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] pressButtons:buttons];
-#endif
     }
 }
 
@@ -606,9 +595,7 @@ static GBAEmulationViewController *_emulationViewController;
     }
     
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
-#endif
 }
 
 #pragma mark - Pause Menu
@@ -897,10 +884,12 @@ static GBAEmulationViewController *_emulationViewController;
     
     instructionsLabel.textColor = [UIColor whiteColor];
     
+    BOOL screenRectEmpty = NO;
     CGRect screenRect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectScreen orientation:self.controllerView.orientation];
     
     if (CGRectIsEmpty(screenRect))
     {
+        screenRectEmpty = YES;
         screenRect = self.screenContainerView.frame;
     }
     
@@ -908,11 +897,11 @@ static GBAEmulationViewController *_emulationViewController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.controllerView.orientation == GBAControllerSkinOrientationLandscape)
     {
-        if (CGRectIsEmpty(screenRect) && self.externalController == nil) // With external controller, we want it to be centered
+        if (screenRectEmpty && self.externalController == nil) // With external controller, we want it to be centered
         {
             instructionsLabel.center = ({
                 CGPoint center = instructionsLabel.center;
-                center.y -= 45.0f;
+                center.y -= 40.0f;
                 center;
             });
         }
@@ -949,9 +938,7 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)sustainButtons:(NSSet *)buttons
 {
     // Release previous sustained buttons
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] releaseButtons:self.sustainedButtonSet];
-#endif
     
     if ([self.sustainedButtonSet containsObject:@(GBAControllerButtonFastForward)])
     {
@@ -976,18 +963,14 @@ static GBAEmulationViewController *_emulationViewController;
 {
     self.fastForwarding = YES;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] startFastForwarding];
-#endif
 }
 
 - (void)stopFastForwarding
 {
     self.fastForwarding = NO;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] stopFastForwarding];
-#endif
 }
 
 #pragma mark - Save States
@@ -1027,10 +1010,7 @@ static GBAEmulationViewController *_emulationViewController;
     if ([filename hasPrefix:@"autosave"] && [self shouldAutosave])
     {
         NSString *backupFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"backup.sgm"];
-        
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] saveStateToFilepath:backupFilepath];
-#endif
     }
     else
     {
@@ -1051,9 +1031,7 @@ static GBAEmulationViewController *_emulationViewController;
         [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:autosaveFilepath] withItemAtURL:[NSURL fileURLWithPath:backupFilepath] backupItemName:nil options:NSFileManagerItemReplacementUsingNewMetadataOnly resultingItemURL:nil error:nil];
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] updateCheats];
-#endif
 }
 
 - (void)saveStateViewControllerWillDismiss:(GBASaveStateViewController *)saveStateViewController
@@ -1108,9 +1086,7 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     NSString *autosaveFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"autosave.sgm"];
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] saveStateToFilepath:autosaveFilepath];
-#endif
 }
 
 - (NSString *)saveStateDirectory
@@ -1373,9 +1349,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (self.rom && !self.preventSavingROMSaveData)
     {
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
-#endif
     }
     
     [[GBASyncManager sharedManager] synchronize];
@@ -1387,9 +1361,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (self.rom && !self.preventSavingROMSaveData)
     {
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
-#endif
     }
     
     [[GBASyncManager sharedManager] synchronize];
@@ -1478,7 +1450,6 @@ void uncaughtExceptionHandler(NSException *exception)
     
     [self updateEmulatorScreenFrame];
     
-#if !(TARGET_IPHONE_SIMULATOR)
     GBAEmulationFilter filter = GBAEmulationFilterLinear;
     
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
@@ -1487,7 +1458,6 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     
     [[GBAEmulatorCore sharedCore] applyEmulationFilter:filter];
-#endif
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1652,21 +1622,9 @@ void uncaughtExceptionHandler(NSException *exception)
                 }
             }];
             
-#if !(TARGET_IPHONE_SIMULATOR)
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size] screen:[UIScreen mainScreen]];
             [self.emulatorScreen invalidateIntrinsicContentSize];
-#else
-            
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-            {
-                self.emulatorScreen.bounds = CGRectMake(0, 0, 320, 240);
-            }
-            else
-            {
-                self.emulatorScreen.bounds = CGRectMake(0, 0, 480, 320);
-            }
-            
-#endif
+
         }
         else
         {
@@ -1695,28 +1653,22 @@ void uncaughtExceptionHandler(NSException *exception)
             self.emulatorScreen.center = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f);
             self.emulatorScreen.frame = screenRect;
             
-#if !(TARGET_IPHONE_SIMULATOR)
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
             [self.emulatorScreen invalidateIntrinsicContentSize];
-#endif
             
         }
         
     }
     else
     {
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.airplayWindow.bounds.size] screen:self.airplayWindow.screen];
         [self.emulatorScreen invalidateIntrinsicContentSize];
-#endif
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     if (self.emulatorScreen.eaglView == nil)
     {
         self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
     }
-#endif
 }
 
 - (void)viewDidLayoutSubviews
@@ -1728,7 +1680,6 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)refreshLayout
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
     {
         [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
@@ -1737,7 +1688,6 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
     }
-#endif
     
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
     
@@ -1801,16 +1751,12 @@ void uncaughtExceptionHandler(NSException *exception)
     
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] startEmulation];
-#endif
 }
 
 - (void)stopEmulation
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] endEmulation];
-#endif
     
     self.pausedEmulation = NO;
     
@@ -1833,14 +1779,10 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (self.rom && !self.preventSavingROMSaveData)
     {
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
-#endif
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] pauseEmulation];
-#endif
 }
 
 - (void)resumeEmulation
@@ -1853,10 +1795,8 @@ void uncaughtExceptionHandler(NSException *exception)
         return;
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
-#endif
 }
 
 #pragma mark - Notifications
@@ -1976,9 +1916,7 @@ void uncaughtExceptionHandler(NSException *exception)
         return;
     }
     
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] updateCheats];
-#endif
 }
 
 - (void)syncingDetailViewControllerWillDismiss:(GBASyncingDetailViewController *)syncingDetailViewController
@@ -2296,10 +2234,8 @@ void uncaughtExceptionHandler(NSException *exception)
         NSSet *sustainedButtons = [self.sustainedButtonSet copy];
         self.sustainedButtonSet = nil;
         
-#if !(TARGET_IPHONE_SIMULATOR)
         [[GBAEmulatorCore sharedCore] releaseButtons:sustainedButtons];
         [[GBAEmulatorCore sharedCore] setRom:self.rom];
-#endif
         
         if (rom)
         {

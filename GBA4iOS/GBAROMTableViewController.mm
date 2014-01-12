@@ -128,9 +128,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle] animated:YES];
-    
-    DLog(@"Frame: %@", NSStringFromCGRect(self.downloadProgressView.frame));
-    
+        
     // Sometimes it loses its color when the view appears
     self.downloadProgressView.progressTintColor = GBA4iOS_PURPLE_COLOR;
     

@@ -698,7 +698,7 @@ void updateSaveFileForCurrentROM()
     
     if ([beforeData isEqualToData:afterData])
     {
-        // The data didn't really change, so we set the metadata back to what it was before so the sync manager knows it hasn't changed (sync manager compares metadata)
+        // The data didn't really change, so we set the metadata back to what it was before so the sync manager knows it hasn't changed (because the sync manager compares metadata to see if it should sync a file)
         [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:self.rom.saveFileFilepath error:nil];
     }
     
@@ -1007,72 +1007,20 @@ extern gambatte::GB gbEmu;
 
 void startDeviceMotionDetection()
 {
-    [[GBAEmulatorCore sharedCore].motionManager startDeviceMotionUpdates];
+    [[GBAEmulatorCore sharedCore].motionManager startGyroUpdates];
 }
 
 void stopDeviceMotionDetection()
 {
-    [[GBAEmulatorCore sharedCore].motionManager stopDeviceMotionUpdates];
+    [[GBAEmulatorCore sharedCore].motionManager stopGyroUpdates];
 }
 
-uint16_t deviceGetAxisValueZ()
+uint16_t deviceGetGyroRotationRateZ()
 {
-    CMDeviceMotion *deviceMotion = [[GBAEmulatorCore sharedCore].motionManager deviceMotion];
-    CGFloat yaw = deviceMotion.attitude.yaw;
+    CMGyroData *gyroData = [[GBAEmulatorCore sharedCore].motionManager gyroData];
     
-    return (yaw * 20) + 0x6C0;
+    return 0x6C0 - (gyroData.rotationRate.z * 25);
 }
-
-/*uint16_t deviceGetAxisValueZ()
-{
-    CMDeviceMotion *deviceMotion = [[GBAEmulatorCore sharedCore].motionManager deviceMotion];
-    CMAcceleration acceleration = deviceMotion.gravity;
-    CMAttitude *attitude = deviceMotion.attitude;
-
-	static float OldTiltAngle, OldAvg;
-	static bool WasFlat = false;
-	float DeltaAngle = 0;
-    float TiltAngle = 0;
-    
-	if (YES)
-	{
-		sensorY = 2047+(acceleration.x*50);
-		sensorX = 2047+(acceleration.y*50);
-		TiltAngle = ((-attitude.pitch) + OldTiltAngle)*0.5f;
-		OldTiltAngle = -attitude.pitch;
-	}
-	else
-	{
-		sensorX = 2047-(data.gforce.x*50);
-		sensorY = 2047+(data.gforce.y*50);
-		TiltAngle = ((data.orient.roll) + OldTiltAngle)*0.5f;
-		OldTiltAngle = data.orient.roll;
-	}
-	DeltaAngle = TiltAngle - OldAvg;
-	if (DeltaAngle > 180.0f)
-		DeltaAngle -= 360.0f;
-	else if (DeltaAngle < -180.0f)
-		DeltaAngle += 360.0f;
-	OldAvg = TiltAngle;
-    
-	if(fabsf(TiltAngle) < 3.0f)
-	{
-		WasFlat = true;
-		TiltAngle = 0;
-	}
-	else
-	{
-		if (WasFlat) TiltAngle *= 0.5f;
-		WasFlat = false;
-	}
-    
-	sensorWario = 0x6C0+DeltaAngle*11;
-    
-   // NSLog(@"X: %.2d", sensorWario);
-    
-    return sensorWario;
-}*/
-
 
 #pragma mark - Main App
 

@@ -9,9 +9,7 @@
 #import "GBAROM_Private.h"
 #import "FileSHA1Hash.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
-#endif
 
 #import <SSZipArchive/minizip/SSZipArchive.h>
 

@@ -5,6 +5,8 @@
 #import <OpenGLES/ES1/glext.h>
 #include <engine-globals.h>
 
+#error sup
+
 /*
 This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.
 The view content is basically an EAGL surface you render your OpenGL scene into.

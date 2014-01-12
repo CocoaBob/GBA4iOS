@@ -11,9 +11,7 @@
 #import "GBACheat.h"
 #import "GBASyncManager.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
-#endif
 
 #define ENABLED_CHEATS_FILEPATH [[self cheatsDirectory] stringByAppendingPathComponent:@"enabledCheats.plist"]
 
@@ -173,7 +171,6 @@
 {
     BOOL cheatAlreadyExists = [self.cheatsArray containsObject:cheat];
     
-#if !(TARGET_IPHONE_SIMULATOR)
     BOOL success = [[GBAEmulatorCore sharedCore] addCheat:cheat];
     
     if (success && !cheatAlreadyExists)
@@ -183,39 +180,21 @@
     }
     
     return success;
-#endif
-    
-    if (!cheatAlreadyExists)
-    {
-        self.enabledCheatsDictionary[cheat.uid] = @YES;
-        [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
-    }
-    
-    return YES;
 }
 
 - (void)enableCheat:(GBACheat *)cheat
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] enableCheat:cheat];
-#endif
 }
 
 - (void)disableCheat:(GBACheat *)cheat
 {
-    
-#if !(TARGET_IPHONE_SIMULATOR)
     [[GBAEmulatorCore sharedCore] disableCheat:cheat];
-#endif
 }
 
 - (BOOL)updateCheats
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     return [[GBAEmulatorCore sharedCore] updateCheats];
-#endif
-    
-    return YES;
 }
 
 #pragma mark - GBANewCheatViewControllerDelegate
@@ -417,18 +396,23 @@
     }
     else
     {
+        
         if ([self.enabledCheatsDictionary[cheat.uid] boolValue])
         {
             self.enabledCheatsDictionary[cheat.uid] = @NO;
+            
+            [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES]; // Write to disk before disabling (needed for GBC cheats)
+            
             [self disableCheat:cheat];
         }
         else
         {
             self.enabledCheatsDictionary[cheat.uid] = @YES;
+            
+            [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES]; // Write to disk before enabling (needed for GBC cheats)
+            
             [self enableCheat:cheat];
         }
-        
-        [self.enabledCheatsDictionary writeToFile:ENABLED_CHEATS_FILEPATH atomically:YES];
         
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }

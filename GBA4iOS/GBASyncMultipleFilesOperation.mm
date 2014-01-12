@@ -217,7 +217,6 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 return;
             }
             
-#if !(TARGET_IPHONE_SIMULATOR)
             
             // Post notification if user is currently running ROM to be updated
             if ([[[[GBAEmulatorCore sharedCore] rom] name] isEqualToString:romName])
@@ -229,7 +228,6 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 
                 return;
             }
-#endif
         }
         else
         {

@@ -7,6 +7,7 @@
 //
 
 #import "GBACheatEditorViewController.h"
+#import "GBACheatTextView.h"
 
 @interface NSString (RemoveWhitespace)
 
@@ -30,12 +31,12 @@
 @end
 
 @interface GBACheatEditorViewController () <UITextViewDelegate, UITextFieldDelegate> {
-    NSRange _selectionRange;
+    BOOL _presenting;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *codeTypeSegmentedControl;
-@property (weak, nonatomic) IBOutlet UITextView *codeTextView;
+@property (strong, nonatomic) IBOutlet GBACheatTextView *codeTextView;
 
 - (IBAction)saveCheat:(UIBarButtonItem *)sender;
 - (IBAction)cancelSavingNewCheat:(UIBarButtonItem *)sender;
@@ -52,7 +53,7 @@
     self = [storyboard instantiateViewControllerWithIdentifier:@"cheatEditorViewController"];
     if (self)
     {
-        
+        _presenting = YES;
     }
     return self;
 }
@@ -67,7 +68,7 @@
         [self.codeTypeSegmentedControl setTitle:NSLocalizedString(@"GameShark", @"") forSegmentAtIndex:0];
         [self.codeTypeSegmentedControl setTitle:NSLocalizedString(@"Game Genie", @"") forSegmentAtIndex:1];
     }
-        
+    
     if (self.cheat)
     {
         self.title = self.cheat.name;
@@ -107,6 +108,8 @@
         [self textViewDidChange:self.codeTextView];
     }
     
+    [self.codeTextView setCheatCodeType:[self currentCheatCodeType]];
+    
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self.nameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 }
@@ -115,7 +118,24 @@
 {
     [super viewWillAppear:animated];
     
-    [self.nameTextField becomeFirstResponder];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    _presenting = NO;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    if (_presenting)
+    {
+        // Sneaky little devil, having to be called in viewDidLayoutSubviews
+        [self.nameTextField becomeFirstResponder];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,9 +159,13 @@
 {
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-    [self textViewDidChange:self.codeTextView];
     
-    [self.codeTextView setSelectedRange:NSMakeRange(self.codeTextView.text.length, 0)];
+    NSRange range = self.codeTextView.selectedRange;
+    [self.codeTextView setCheatCodeType:[self currentCheatCodeType]];
+    
+    // Doesn't jump to correct position always because of the changing of layout, so we set the selection range to the beginning, then set it back.
+    [self.codeTextView setSelectedRange:NSMakeRange(0, 0)];
+    [self.codeTextView setSelectedRange:range];
 }
 
 - (GBACheatCodeType)currentCheatCodeType
@@ -288,74 +312,11 @@
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    NSInteger difference = textView.text.length - [[textView.text stringByRemovingWhitespace] length];
-    
-    NSUInteger codeLength = [self codeLengthForCheatCodeType:[self currentCheatCodeType]];
-    
-    if (text.length > 0)
-    {
-        if ((([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3 || [self currentCheatCodeType] == GBACheatCodeTypeActionReplay || [self currentCheatCodeType] == GBACheatCodeTypeGameSharkGBC) && (range.location - difference + 1) % 8 == 0) ||
-            ([self currentCheatCodeType] == GBACheatCodeTypeCodeBreaker && ((range.location - difference + 1) % codeLength == 0 || (range.location - difference + 1 - 8) % codeLength == 0)) ||
-            ([self currentCheatCodeType] == GBACheatCodeTypeGameGenie && (range.location - difference + 1) % 3 == 0))
-        {
-            _selectionRange = NSMakeRange(range.location + 2, 0);
-        }
-        else
-        {
-            _selectionRange = NSMakeRange(range.location + 1, 0);
-        }
-    }
-    else
-    {
-        _selectionRange = NSMakeRange(range.location, 0);
-    }
-    return YES;
-}
-
 - (void)textViewDidChange:(UITextView *)textView
 {
-    NSString *text = [textView.text stringByRemovingWhitespace];
-    
-    NSMutableString *formattedText = [NSMutableString string];
-    
-    NSUInteger codeLength = [self codeLengthForCheatCodeType:[self currentCheatCodeType]];
-    
-    for (int i = 0; i < (int)text.length; i++)
-    {
-        if (i > 0)
-        {
-            if ((i + 1) % codeLength == 0)
-            {
-                [formattedText appendFormat:@"%c\n", [text characterAtIndex:i]];
-            }
-            else if ((([self currentCheatCodeType] == GBACheatCodeTypeGameSharkV3 || [self currentCheatCodeType] == GBACheatCodeTypeActionReplay) && (i + 1) % 8 == 0) ||
-                     ([self currentCheatCodeType] == GBACheatCodeTypeCodeBreaker && (i + 1 - 8) % codeLength == 0 && i != 3))
-            {
-                [formattedText appendFormat:@"%c ", [text characterAtIndex:i]];
-            }
-            else if ([self currentCheatCodeType] == GBACheatCodeTypeGameGenie && (i + 1) % 3 == 0)
-            {
-                [formattedText appendFormat:@"%c-", [text characterAtIndex:i]];
-            }
-            else
-            {
-                [formattedText appendFormat:@"%c", [text characterAtIndex:i]];
-            }
-        }
-        else
-        {
-            [formattedText appendFormat:@"%c", [text characterAtIndex:i]];
-        }
-    }
-    
-    textView.text = [formattedText uppercaseString];
-    
-    [textView setSelectedRange:_selectionRange];
-    
     self.navigationItem.rightBarButtonItem.enabled = (self.nameTextField.text.length > 0 && self.codeTextView.text.length > 0);
     
+    textView.text = [[textView.text stringByRemovingWhitespace] uppercaseString];
 }
 
 #pragma mark - UITableView Data Source
@@ -385,7 +346,7 @@
                 break;
                 
             case GBACheatCodeTypeGameGenie:
-                footer = NSLocalizedString(@"Code format is XXX-YYY-ZZZ.", @"The X's, Y's, and Z's are just to show placeholder characters. No need to translate them");
+                footer = NSLocalizedString(@"Code format is XXX YYY ZZZ.", @"The X's, Y's, and Z's are just to show placeholder characters. No need to translate them");
                 break;
         }
         

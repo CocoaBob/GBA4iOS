@@ -10,9 +10,7 @@
 #import "UIAlertView+RSTAdditions.h"
 #import "GBASyncManager_Private.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
 #import "GBAEmulatorCore.h"
-#endif
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -232,12 +230,10 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
         {
             DLog(@"Successfully downloaded save for ROM: %@", self.rom.name);
             
-#if !(TARGET_IPHONE_SIMULATOR)
             if ([[[GBAEmulatorCore sharedCore] rom] isEqual:self.rom])
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:GBAShouldRestartCurrentGameNotification object:nil];
             }
-#endif
         }
         
         DBMetadata *preferredMetadata = [self dropboxMetadataForROM:self.rom];
