@@ -32,6 +32,8 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 + (GBAROM *)romWithUniqueName:(NSString *)name;
 + (GBAROM *)romWithContentsOfFile:(NSString *)filepath;
 
+- (void)renameToName:(NSString *)name;
+
 + (BOOL)unzipROMAtPathToROMDirectory:(NSString *)filepath withPreferredROMTitle:(NSString *)name error:(NSError **)error;
 + (BOOL)canAddROMToROMDirectory:(GBAROM *)rom error:(NSError **)error;
 

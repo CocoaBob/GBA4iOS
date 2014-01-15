@@ -96,8 +96,8 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
         _dropboxFiles = [NSMutableDictionary dictionary];
     }
     
-    _conflictedROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager conflictedROMsPath]]];
-    _syncingDisabledROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager syncingDisabledROMsPath]]];
+    _conflictedROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager conflictedROMsPath]]];
+    _syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager syncingDisabledROMsPath]]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romConflictedStateDidChange:) name:GBAROMConflictedStateChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(romSyncingDisabledStateDidChange:) name:GBAROMSyncingDisabledStateChangedNotification object:nil];
@@ -204,6 +204,29 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
         [[NSNotificationCenter defaultCenter] postNotificationName:GBASyncManagerFinishedSyncNotification object:self];
     };
     [self.multipleFilesOperationQueue addOperation:allFilesOperation];
+}
+
+#pragma mark - Public
+
+- (void)deleteSyncingDataForROMWithName:(NSString *)name uniqueName:(NSString *)uniqueName
+{
+    NSDictionary *pendingUploads = [[self pendingUploads] copy];
+    [pendingUploads enumerateKeysAndObjectsUsingBlock:^(NSString *localPath, NSDictionary *uploadDictionary, BOOL *stop)
+    {
+        NSString *dropboxPath = uploadDictionary[GBASyncDropboxPathKey];
+        
+        if ([self dropboxPath:dropboxPath correspondsWithUniqueName:uniqueName])
+        {
+            [[self pendingUploads] removeObjectForKey:localPath];
+        }
+    }];
+    [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
+    
+    // No need to delete this, since it won't download the files if the ROM doesn't exist locally
+    // NSDictionary *pendingDownloads = [[self pendingDownloads] copy];
+    
+    [[self conflictedROMs] removeObject:name];
+    [[self syncingDisabledROMs] removeObject:name];
 }
 
 #pragma mark - Single File Operations
@@ -593,8 +616,8 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 - (void)dropboxLoggedOut:(NSNotification *)notification
 {
     self.dropboxFiles = [NSMutableDictionary dictionary];
-    self.conflictedROMs = [NSSet set];
-    self.syncingDisabledROMs = [NSSet set];
+    self.conflictedROMs = [NSMutableSet set];
+    self.syncingDisabledROMs = [NSMutableSet set];
     self.deviceUploadHistory = [NSMutableDictionary dictionary];
     self.pendingUploads = [NSMutableDictionary dictionary];
     self.pendingDownloads = [NSMutableDictionary dictionary];
@@ -709,6 +732,25 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     }];
     
     return (pendingMoveFromPath || pendingMoveToPath);
+}
+
+- (BOOL)dropboxPath:(NSString *)dropboxPath correspondsWithUniqueName:(NSString *)uniqueName
+{
+    NSArray *pathComponents = [dropboxPath pathComponents];
+    
+    if ([pathComponents count] < 2)
+    {
+        return NO;
+    }
+    
+    if ([pathComponents count] < 4 && ![pathComponents[1] isEqualToString:@"Upload History"])
+    {
+        return NO;
+    }
+    
+    NSString *dropboxPathUniqueName = pathComponents[1];
+    
+    return [dropboxPathUniqueName isEqualToString:uniqueName];
 }
  
 #pragma mark - Filepaths

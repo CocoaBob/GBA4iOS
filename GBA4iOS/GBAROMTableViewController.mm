@@ -1177,8 +1177,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:romUniqueName];
     
     NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
-    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingString:romUniqueName];
-    
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:romUniqueName];
+        
     // Handled by deletedFileAtIndexPath
     //[[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
     [[NSFileManager defaultManager] removeItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] error:nil];
@@ -1189,8 +1189,10 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
     [cachedROMs removeObjectForKey:romName];
     [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
-    
+        
     [self deleteFileAtIndexPath:indexPath animated:YES];
+    
+    [[GBASyncManager sharedManager] deleteSyncingDataForROMWithName:romName uniqueName:romUniqueName];
 }
 
 - (void)renameROMAtIndexPath:(NSIndexPath *)indexPath toName:(NSString *)newName
@@ -1200,6 +1202,10 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     NSString *filepath = [self filepathForIndexPath:indexPath];
     NSString *extension = [filepath pathExtension];
+    
+    // Must go before the actual name change
+    GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
+    [rom renameToName:newName];
     
     NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
     NSString *newRomFilename = [NSString stringWithFormat:@"%@.%@", newName, extension]; // Includes extension

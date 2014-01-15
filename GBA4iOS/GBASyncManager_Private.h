@@ -25,8 +25,8 @@ extern NSString * const GBASyncDestinationPathKey;
 @interface GBASyncManager ()
 
 @property (strong, atomic) NSMutableDictionary *dropboxFiles; // Uses remote filepath as keys
-@property (strong, atomic) NSSet *conflictedROMs;
-@property (strong, atomic) NSSet *syncingDisabledROMs;
+@property (strong, atomic) NSMutableSet *conflictedROMs;
+@property (strong, atomic) NSMutableSet *syncingDisabledROMs;
 @property (strong, atomic) NSMutableDictionary *deviceUploadHistory;
 
 @property (strong, atomic) NSMutableDictionary *pendingUploads; // Uses local filepath as keys
@@ -48,6 +48,7 @@ extern NSString * const GBASyncDestinationPathKey;
 + (NSString *)pendingMovesPath;
 + (NSString *)conflictedROMsPath;
 + (NSString *)syncingDisabledROMsPath;
++ (NSString *)cachedROMsPath;
 + (NSString *)currentDeviceUploadHistoryPath;
 + (NSString *)cheatsDirectoryForROM:(GBAROM *)rom;
 + (NSString *)saveStateDirectoryForROM:(GBAROM *)rom;

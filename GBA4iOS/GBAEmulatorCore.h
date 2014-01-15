@@ -28,11 +28,19 @@ typedef NS_ENUM(NSInteger, GBAEmulationFilter)
 
 extern NSString *const GBAROMDidSaveDataNotification;
 
+@class GBAEmulatorCore;
+
+@protocol GBAEmulatorCoreDelegate <NSObject>
+
+- (BOOL)emulatorCore:(GBAEmulatorCore *)emulatorCore shouldEnableGyroscopeForROM:(GBAROM *)rom;
+
+@end
+
 @interface GBAEmulatorCore : NSObject
 
 @property (readonly, strong, nonatomic) EAGLView *eaglView;
-
 @property (strong, nonatomic) GBAROM *rom;
+@property (weak, nonatomic) id<GBAEmulatorCoreDelegate> delegate;
 
 + (instancetype)sharedCore;
 

@@ -130,6 +130,9 @@
         
         if (size > 0)
         {
+            // Built-in safety due to file ready detection not always being completely accurate
+            [NSThread sleepForTimeInterval:1.0];
+            
             NSLog(@"File is ready for reading!");
             
             [self.unavailableFilesSet removeObject:[filepath lastPathComponent]];

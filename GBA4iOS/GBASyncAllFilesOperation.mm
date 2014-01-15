@@ -22,8 +22,9 @@
 
 - (void)beginSyncOperation
 {
+    [super beginSyncOperation];
+    
     DLog(@"Starting Sync...");
-    [self showToastViewWithMessage:NSLocalizedString(@"Syncing…", @"") forDuration:0 showActivityIndicator:YES];
     [self requestDeltaEntries];
 }
 

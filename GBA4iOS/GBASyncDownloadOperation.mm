@@ -31,7 +31,7 @@
 
 - (void)beginSyncOperation
 {
-    DLog(@"Downloading file %@...", self.dropboxPath);
+    DLog(@"Downloading file %@ to %@...", self.dropboxPath, self.localPath);
     
     NSString *localizedString = NSLocalizedString(@"Downloading", @"");
     NSString *message = [NSString stringWithFormat:@"%@ %@", localizedString, [self humanReadableFileDescriptionForDropboxPath:self.dropboxPath]];

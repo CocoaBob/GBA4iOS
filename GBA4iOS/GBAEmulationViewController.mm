@@ -35,7 +35,7 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate, GBAEventDistributionViewControllerDelegate> {
+@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate, GBAEventDistributionViewControllerDelegate, GBAEmulatorCoreDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     NSInteger _sustainButtonFrameCount;
@@ -57,6 +57,10 @@ static GBAEmulationViewController *_emulationViewController;
 @property (assign, nonatomic) BOOL pausedEmulation;
 @property (assign, nonatomic) BOOL stayPaused;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
+
+@property (assign, nonatomic) BOOL usingGyroscope;
+@property (assign, nonatomic) BOOL shouldResumeEmulationAfterRotatingInterface;
+@property (assign, nonatomic, getter = isShowingGyroscopeAlert) BOOL showingGyroscopeAlert;
 
 @property (assign, nonatomic) BOOL preventSavingROMSaveData;
 @property (copy, nonatomic) NSData *cachedSaveData;
@@ -92,6 +96,8 @@ static GBAEmulationViewController *_emulationViewController;
     {
         _emulationViewController = self;
         InstallUncaughtExceptionHandler();
+        
+        [[GBAEmulatorCore sharedCore] setDelegate:self];
     }
     
     return self;
@@ -173,7 +179,14 @@ static GBAEmulationViewController *_emulationViewController;
         [self.splitViewController.view addSubview:self.splashScreenImageView];
     }
     
-    [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+    }
+    else
+    {
+        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
+    }
     
     [self updateSettings:nil];
 }
@@ -181,8 +194,6 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -278,7 +289,6 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -626,6 +636,11 @@ static GBAEmulationViewController *_emulationViewController;
 
     [self pauseEmulation];
     
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [UIViewController attemptRotationToDeviceOrientation];
+    }
+    
     
     NSString *returnToMenuButtonTitle = nil;
     
@@ -704,6 +719,36 @@ static GBAEmulationViewController *_emulationViewController;
                                           NSLocalizedString(@"Cheat Codes", @""),
                                           NSLocalizedString(@"Sustain Button", @""),
                                           NSLocalizedString(@"Event Distribution", @""), nil];
+            }
+        }
+        else if (self.usingGyroscope && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            if ([self numberOfCPUCoresForCurrentDevice] == 1)
+            {
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                       destructiveButtonTitle:returnToMenuButtonTitle
+                                                            otherButtonTitles:
+                                          NSLocalizedString(@"Save State", @""),
+                                          NSLocalizedString(@"Load State", @""),
+                                          NSLocalizedString(@"Cheat Codes", @""),
+                                          NSLocalizedString(@"Sustain Button", @""),
+                                          NSLocalizedString(@"Rotate To Device Orientation", @""), nil];
+            }
+            else
+            {
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                       destructiveButtonTitle:returnToMenuButtonTitle
+                                                            otherButtonTitles:
+                                          fastForwardButtonTitle,
+                                          NSLocalizedString(@"Save State", @""),
+                                          NSLocalizedString(@"Load State", @""),
+                                          NSLocalizedString(@"Cheat Codes", @""),
+                                          NSLocalizedString(@"Sustain Button", @""),
+                                          NSLocalizedString(@"Rotate To Device Orientation", @""), nil];
             }
         }
         else
@@ -795,9 +840,21 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 6)
             {
-                if (eventDistributionCapableROM && ![self.rom isEvent])
+                if (eventDistributionCapableROM)
                 {
-                    [self presentEventDistribution];
+                    if (![self.rom isEvent])
+                    {
+                        [self presentEventDistribution];
+                    }
+                    else
+                    {
+                        [self resumeEmulation];
+                    }
+                }
+                else if (self.usingGyroscope && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                {
+                    self.shouldResumeEmulationAfterRotatingInterface = YES;
+                    [UIViewController attemptRotationToDeviceOrientation];
                 }
                 else
                 {
@@ -819,6 +876,8 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
+        // Below code used in didRotateFromInterfaceOrientation as well
+        
         CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation];
         
         CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
@@ -1213,6 +1272,59 @@ void uncaughtExceptionHandler(NSException *exception)
     }
 }
 
+#pragma mark - GBAEmulatorCoreDelegate
+
+- (BOOL)emulatorCore:(GBAEmulatorCore *)emulatorCore shouldEnableGyroscopeForROM:(GBAROM *)rom
+{
+    self.usingGyroscope = YES;
+    self.showingGyroscopeAlert = YES;
+    
+    NSString *key = nil;
+    
+    // We differentiate because they are different messages, and if the user backs up and restores from one device to another type, they should see the other message.
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        key = @"presentediPhoneGyroscopeAlert";
+    }
+    else
+    {
+        key = @"presentediPadGyroscopeAlert";
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:key] < 3)
+    {
+        [self pauseEmulation];
+        
+        NSString *message = nil;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            message = NSLocalizedString(@"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate to the device orientation, pause the game, then tap “Rotate To Device Orientation”.", @"");
+        }
+        else
+        {
+            message = NSLocalizedString(@"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate the interface, pause the game, then rotate the device.", @"");
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            self.emulatorScreen.hidden = YES; // Hide it in case a previous ROM is loaded, since it will pause on the last game screen
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Uses Gyroscope", @"")
+                                                            message:message
+                                                           delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                self.showingGyroscopeAlert = NO;
+                [self resumeEmulation];
+                
+                self.emulatorScreen.hidden = NO;
+            }];
+        });
+    }
+    
+    return YES;
+}
+
 #pragma mark - Settings
 
 - (void)updateSettings:(NSNotification *)notification
@@ -1371,7 +1483,16 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (BOOL)shouldAutorotate
 {
-    return !self.interfaceOrientationLocked;
+    BOOL pausedEmulation = self.pausedEmulation;
+    
+    if (self.shouldResumeEmulationAfterRotatingInterface)
+    {
+        self.shouldResumeEmulationAfterRotatingInterface = NO;
+        [self resumeEmulation];
+    }
+    
+    // Rotate if we haven't locked the orientation, and if we're either not using the gyro, or using the gyro and the emulation is paused
+    return !self.interfaceOrientationLocked && (!self.usingGyroscope || (self.usingGyroscope && pausedEmulation));
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -1430,6 +1551,11 @@ void uncaughtExceptionHandler(NSException *exception)
         self.controllerView.alpha = 1.0;
         self.blurredContentsImageView.alpha = 1.0;
     }];
+    
+    if (self.pausedActionSheet && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [self.pausedActionSheet dismissWithClickedButtonIndex:0 animated:NO];
+    }
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -1450,14 +1576,18 @@ void uncaughtExceptionHandler(NSException *exception)
     
     [self updateEmulatorScreenFrame];
     
-    GBAEmulationFilter filter = GBAEmulationFilterLinear;
-    
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        filter = GBAEmulationFilterNone;
+        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+        }
+        else
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
+        }
     }
     
-    [[GBAEmulatorCore sharedCore] applyEmulationFilter:filter];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1472,6 +1602,26 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         self.emulatorScreen.hidden = NO;
         self.controllerView.hidden = NO;
+    }
+    
+    if (self.shouldResumeEmulationAfterRotatingInterface)
+    {
+        [self resumeEmulation];
+    }
+    
+    if (self.pausedActionSheet && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        // Below code used in controllerInputDidPressPauseButton as well
+        
+        CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation];
+        
+        CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
+        
+        // Create a rect that will make the action sheet appear ABOVE the menu button, not to the right
+        convertedRect.origin.x = 0;
+        convertedRect.size.width = self.controllerView.bounds.size.width;
+        
+        [self.pausedActionSheet showFromRect:convertedRect inView:self.view animated:YES];
     }
 }
 
@@ -1680,13 +1830,16 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)refreshLayout
 {
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
-    }
-    else
-    {
-        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
+        }
+        else
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+        }
     }
     
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
@@ -1752,6 +1905,8 @@ void uncaughtExceptionHandler(NSException *exception)
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
     [[GBAEmulatorCore sharedCore] startEmulation];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)stopEmulation
@@ -1761,6 +1916,8 @@ void uncaughtExceptionHandler(NSException *exception)
     self.pausedEmulation = NO;
     
     [self resumeEmulation]; // In case the ROM never unpaused (just keep it here please)
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)pauseEmulation
@@ -1777,16 +1934,26 @@ void uncaughtExceptionHandler(NSException *exception)
         self.stayPaused = stayPaused;
     }
     
-    if (self.rom && !self.preventSavingROMSaveData)
+    // Only save GBC games; saving some GBA games (such as Wario Ware Twisted) can erase the save file if saved here (due to RTC emulation, I'm guessing, even though Pokemon games work fine)
+    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
     {
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
     }
     
     [[GBAEmulatorCore sharedCore] pauseEmulation];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)resumeEmulation
 {
+    if ([self isShowingGyroscopeAlert])
+    {
+        return;
+    }
+    
+    self.shouldResumeEmulationAfterRotatingInterface = NO;
+    
     self.pausedEmulation = NO;
     self.stayPaused = NO;
     
@@ -1797,6 +1964,8 @@ void uncaughtExceptionHandler(NSException *exception)
     
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 #pragma mark - Notifications
@@ -2216,6 +2385,8 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)setRom:(GBAROM *)rom
 {
     _rom = rom;
+    
+    self.usingGyroscope = NO;
     
     self.cachedSaveData = [[NSData alloc] initWithContentsOfFile:rom.saveFileFilepath];
     

@@ -7,8 +7,11 @@
 //
 
 #import <CoreMotion/CoreMotion.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 #import "GBAEmulatorCore.h"
+#import "UIDevice-Hardware.h"
+#import "GBAROM_Private.h"
 
 #import "MainApp.h"
 #import "EAGLView.h"
@@ -1003,11 +1006,14 @@ extern gambatte::GB gbEmu;
     return cheatsString;
 }
 
-#pragma mark - Motion
+#pragma mark - Wario Ware Twisted
 
 void startDeviceMotionDetection()
-{
-    [[GBAEmulatorCore sharedCore].motionManager startGyroUpdates];
+{    
+    if ([[[GBAEmulatorCore sharedCore] delegate] emulatorCore:[GBAEmulatorCore sharedCore] shouldEnableGyroscopeForROM:[[GBAEmulatorCore sharedCore] rom]])
+    {
+        [[GBAEmulatorCore sharedCore].motionManager startGyroUpdates];
+    }
 }
 
 void stopDeviceMotionDetection()
@@ -1017,9 +1023,19 @@ void stopDeviceMotionDetection()
 
 uint16_t deviceGetGyroRotationRateZ()
 {
+    // If gyro isn't enabled, it'll just return nil, which is what we want since the rotationRate will then also be 0.
     CMGyroData *gyroData = [[GBAEmulatorCore sharedCore].motionManager gyroData];
     
     return 0x6C0 - (gyroData.rotationRate.z * 25);
+}
+
+UIKIT_EXTERN void AudioServicesStopSystemSound(int);
+UIKIT_EXTERN void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
+
+
+void rumbleDevice(bool vibrate)
+{
+    // Vibration duration isn't long enough for the vibration to actually be performed. Workaround?
 }
 
 #pragma mark - Main App

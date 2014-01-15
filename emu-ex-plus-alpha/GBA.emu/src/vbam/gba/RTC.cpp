@@ -87,10 +87,7 @@ static u8 toBCD(u8 value)
   return h * 16 + l;
 }
 
-void systemCartridgeRumble(bool rumble)
-{
-    
-}
+extern void rumbleDevice(bool vibrate);
 
 bool rtcWrite(u32 address, u16 value)
 {
@@ -101,12 +98,12 @@ bool rtcWrite(u32 address, u16 value)
     rtcClockData.byte2 = (u8)value; // enable ?
   } else if(address == 0x80000c6) {
     rtcClockData.byte1 = (u8)value; // read/write
-      if (rtcWarioRumbleEnabled && !(value & 8)) systemCartridgeRumble(false);
+      if (rtcWarioRumbleEnabled && !(value & 8)) rumbleDevice(false);
   } else if(address == 0x80000c4) {
       
       // WarioWare Twisted  rumble
       if(rtcWarioRumbleEnabled && (rtcClockData.byte1 & 8)) {
-          systemCartridgeRumble(value & 8);
+          rumbleDevice(value & 8);
       }
       
       // WarioWare Twisted rotation sensor

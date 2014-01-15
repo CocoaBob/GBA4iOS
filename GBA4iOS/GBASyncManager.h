@@ -32,6 +32,8 @@ typedef void (^GBASyncDeleteCompletionBlock)(NSString *dropboxPath, NSError *err
 - (void)start;
 - (void)synchronize;
 
+- (void)deleteSyncingDataForROMWithName:(NSString *)name uniqueName:(NSString *)uniqueName;
+
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom;
 
 - (void)prepareToUploadCheat:(GBACheat *)cheat forROM:(GBAROM *)rom;

@@ -16,7 +16,8 @@
 
 - (void)beginSyncOperation
 {
-    [self showToastViewWithMessage:NSLocalizedString(@"Syncing…", @"") forDuration:0 showActivityIndicator:YES];
+    [super beginSyncOperation];
+    
     [self requestDeltaEntries];
 }
 

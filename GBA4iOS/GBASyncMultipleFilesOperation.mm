@@ -60,6 +60,42 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     return self;
 }
 
+#pragma mark - Syncing
+
+- (void)beginSyncOperation
+{
+    [self showToastViewWithMessage:NSLocalizedString(@"Syncing…", @"") forDuration:0 showActivityIndicator:YES];
+    
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    
+    // Check to see if all cached ROMs exist. If not we remove them and their syncing data.
+    NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[GBASyncManager cachedROMsPath]];
+    [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *filename, NSString *uniqueName, BOOL *stop) {
+        
+        GBAROM *rom = [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:filename]];
+        
+        if (rom)
+        {
+            return;
+        }
+        
+        // Now check to see if the ROM exists, just under a different filename
+        rom = [GBAROM romWithUniqueName:uniqueName];
+        
+        if (rom)
+        {
+            return;
+        }
+        
+        DLog(@"%@", filename);
+        
+        [[GBASyncManager sharedManager] deleteSyncingDataForROMWithName:[filename stringByDeletingPathExtension] uniqueName:uniqueName];
+        
+        // calling GBAROM romWithUniqueName will delete any invalid cachedROMs, and if we saved to disk we'd potentially overwrite other changes the romWithUniqueName method did
+        //[cachedROMs removeObjectForKey:filename];
+    }];
+}
+
 #pragma mark - Renaming Files
 
 - (void)moveFiles
@@ -132,7 +168,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
     
     NSDictionary *pendingDownloads = [[[GBASyncManager sharedManager] pendingDownloads] copy];
-    
+        
     if ([pendingDownloads count] == 0)
     {
         [self uploadFiles];
@@ -149,9 +185,19 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         
     [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadOperationDictionary, BOOL *stop) {
         
-        GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:downloadOperationDictionary[GBASyncLocalPathKey]
-                                                                                        dropboxPath:downloadOperationDictionary[GBASyncDropboxPathKey]
-                                                                                           metadata:downloadOperationDictionary[GBASyncMetadataKey]];
+        NSString *localPath = downloadOperationDictionary[GBASyncLocalPathKey];
+        NSString *dropboxPath = downloadOperationDictionary[GBASyncDropboxPathKey];
+        DBMetadata *metadata = downloadOperationDictionary[GBASyncMetadataKey];
+        
+        // If the download was cached before the ROM existed, it won't have a local file path. This fixes that.
+        if (localPath == nil)
+        {
+            localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
+        }
+        
+        GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath
+                                                                                        dropboxPath:dropboxPath
+                                                                                           metadata:metadata];
         
         if ([[GBASyncManager uniqueROMNameFromDropboxPath:downloadOperation.dropboxPath] isEqualToString:@"Upload History"])
         {
@@ -171,6 +217,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         }
         
         NSString *romName = [GBASyncManager romNameFromDropboxPath:downloadOperation.dropboxPath];
+        
         
         if (romName == nil)
         {
@@ -205,6 +252,8 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:downloadOperation.localPath error:nil];
             NSDate *currentDate = [attributes fileModificationDate];
             NSDate *previousDate = cachedMetadata.lastModifiedDate;
+            
+            DLog(@"Name: %@ Cached: %@ Previous: %@ Current: %@", rom.name, cachedMetadata, previousDate, currentDate);
             
             // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
             // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
@@ -319,11 +368,14 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     NSString *localPath = [GBASyncManager localPathForDropboxPath:metadata.path];
     
+    // Very important below block of code remains commented out, since you'll probably want to implement it again.
+    // We need to make sure we have the download pending, even if the rom doesn't exist on device. Why? So that way we don't accidentally upload a new save when the user *does* download it
+    /*
     if (romName == nil && ![uniqueName isEqualToString:@"Upload History"]) // ROM doesn't exist on device
     {
         // Logs warning in [self uniqueROMNameFromDropboxPath:]
         return;
-    }
+    }*/
     
     // File is the same, and it exists, so no need to redownload
     if ([metadata.rev isEqualToString:cachedMetadata.rev] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])

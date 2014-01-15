@@ -85,6 +85,7 @@
             {
                 [cachedROMs removeObjectForKey:key];
                 [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
+                
                 return;
             }
             
@@ -212,6 +213,55 @@
 - (NSUInteger)hash
 {
     return [self.filepath hash];
+}
+
+#pragma mark - Public
+
+- (void)renameToName:(NSString *)name
+{
+    NSString *currentName = [self.name copy];
+    NSString *currentExtension = [[self.filepath pathExtension] copy];
+    
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    
+    BOOL isConflicted = [self conflicted];
+    BOOL isSyncingDisabled = [self syncingDisabled];
+    BOOL isNewlyConflicted = [self newlyConflicted];
+    
+    // Remove the current name from the cached status
+    if (isConflicted)
+    {
+        [self setConflicted:NO];
+    }
+    
+    if (isSyncingDisabled)
+    {
+        [self setSyncingDisabled:NO];
+    }
+    
+    if (isNewlyConflicted)
+    {
+        [self setNewlyConflicted:NO];
+    }
+    
+    self.filepath = [documentsDirectory stringByAppendingPathComponent:[name stringByAppendingPathExtension:currentExtension]];
+    
+    // Set the syncing status back to what it was before the name change
+    if (isConflicted)
+    {
+        [self setConflicted:YES];
+    }
+    
+    if (isSyncingDisabled)
+    {
+        [self setSyncingDisabled:YES];
+    }
+    
+    if (isNewlyConflicted)
+    {
+        [self setNewlyConflicted:YES];
+    }
+    
 }
 
 #pragma mark - Helper Methods
