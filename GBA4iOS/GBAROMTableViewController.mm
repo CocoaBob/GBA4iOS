@@ -588,11 +588,40 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             if (uniqueName)
             {
                 cachedROMs[filename] = uniqueName;
+                
+                // New ROM, so we sync with Dropbox
+                [[GBASyncManager sharedManager] synchronize];
             }
             
             [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
             
         }
+        
+        // Check to see if all cached ROMs exist. If not we remove them and their syncing data.
+        [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *filename, NSString *uniqueName, BOOL *stop) {
+            
+            GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
+            
+            if (rom)
+            {
+                return;
+            }
+            
+            // Now check to see if the ROM exists, just under a different filename
+            rom = [GBAROM romWithUniqueName:uniqueName];
+            
+            if (rom)
+            {
+                return;
+            }
+            
+            DLog(@"Removing Files for %@...", filename);
+            
+            [[GBASyncManager sharedManager] deleteSyncingDataForROMWithName:[filename stringByDeletingPathExtension] uniqueName:uniqueName];
+            
+            // calling GBAROM romWithUniqueName will delete any invalid cachedROMs, and if we saved to disk we'd potentially overwrite other changes the romWithUniqueName method did
+            //[cachedROMs removeObjectForKey:filename];
+        }];
         
         
         static dispatch_once_t onceToken;
@@ -681,7 +710,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
-        return;
+        //return;
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
@@ -697,7 +726,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
-        return;
+        //return;
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];

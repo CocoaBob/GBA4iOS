@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GBAControllerInput.h"
 
-typedef NS_ENUM(NSInteger, GBAControllerRect)
+typedef NS_ENUM(NSInteger, GBAControllerSkinRect)
 {
     GBAControllerSkinRectDPad,
     GBAControllerSkinRectA,
@@ -56,12 +56,14 @@ static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 
 - (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation;
 - (BOOL)imageExistsForOrientation:(GBAControllerOrientation)orientation;
-- (CGRect)rectForButtonRect:(GBAControllerRect)button orientation:(GBAControllerOrientation)orientation;
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation;
-- (NSString *)keyForButtonRect:(GBAControllerRect)button;
+- (NSString *)keyForButtonRect:(GBAControllerSkinRect)button;
 - (GBAControllerOrientation)supportedOrientations;
 + (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary;
 - (NSString *)identifier;
 - (CGRect)screenRectForOrientation:(GBAControllerOrientation)orientation;
+
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation; // Uses extended edges
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation extended:(BOOL)extended;
 
 @end

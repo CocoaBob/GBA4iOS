@@ -57,6 +57,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (assign, nonatomic) BOOL pausedEmulation;
 @property (assign, nonatomic) BOOL stayPaused;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
+@property (assign, nonatomic, getter = isLaunchingApplication) BOOL launchingApplication;
 
 @property (assign, nonatomic) BOOL usingGyroscope;
 @property (assign, nonatomic) BOOL shouldResumeEmulationAfterRotatingInterface;
@@ -94,6 +95,8 @@ static GBAEmulationViewController *_emulationViewController;
     self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
     if (self)
     {
+        _launchingApplication = YES;
+        
         _emulationViewController = self;
         InstallUncaughtExceptionHandler();
         
@@ -144,42 +147,7 @@ static GBAEmulationViewController *_emulationViewController;
 	[self.displayLink setFrameInterval:1];
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
-    // Because we need to present the ROM Table View Controller stealthily
-    self.splashScreenImageView = [[UIImageView alloc] init];
-    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        if ([[UIScreen mainScreen] isWidescreen])
-        {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-568h"];
-        }
-        else
-        {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
-        }
-        
-        [self.splashScreenImageView sizeToFit];
-        
-        [self.view addSubview:self.splashScreenImageView];
-    }
-    else
-    {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Portrait"];
-        }
-        else
-        {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Landscape"];
-        }
-        
-        [self.splashScreenImageView sizeToFit];
-        
-        [self.splitViewController.view addSubview:self.splashScreenImageView];
-    }
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
     {
         [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
     }
@@ -200,7 +168,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     [super viewDidAppear:animated];
     
-    if (self.splashScreenImageView)
+    if ([self isLaunchingApplication])
     {
         DLog(@"App did launch");
         
@@ -231,38 +199,7 @@ static GBAEmulationViewController *_emulationViewController;
             self.romTableViewController = [(GBASplitViewController *)self.splitViewController romTableViewController];
             [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
             
-            CGAffineTransform transform = CGAffineTransformIdentity;
-            
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-            {
-                if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(0.0f));
-                }
-                else
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(180.0f));
-                }
-            }
-            else
-            {
-                if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(270.0f));
-                }
-                else
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(90.0f));
-                }
-            }
-            
-            self.splashScreenImageView.transform = transform;
-            self.splashScreenImageView.frame = [[UIScreen mainScreen] bounds];
-            
-            UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-            [window addSubview:self.splashScreenImageView];
-            
-            [UIView animateWithDuration:0.5 animations:^{
+            [UIView animateWithDuration:0.7 animations:^{
                 self.splashScreenImageView.alpha = 0.0;
             } completion:^(BOOL finished) {
                 [self.splashScreenImageView removeFromSuperview];
@@ -276,6 +213,8 @@ static GBAEmulationViewController *_emulationViewController;
                 }
             }];
         }
+        
+        [[[[UIApplication sharedApplication] delegate] window] bringSubviewToFront:self.splashScreenImageView];
         
         self.romTableViewController.emulationViewController = self;
     }
@@ -313,6 +252,71 @@ static GBAEmulationViewController *_emulationViewController;
 }
 
 #pragma mark - Private
+
+- (void)showSplashScreen
+{
+    self.splashScreenImageView = [[UIImageView alloc] init];
+    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
+    
+    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        if ([[UIScreen mainScreen] isWidescreen])
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-568h"];
+        }
+        else
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
+        }
+        
+        [self.splashScreenImageView sizeToFit];
+        
+        [window addSubview:self.splashScreenImageView];
+    }
+    else
+    {
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Portrait"];
+        }
+        else
+        {
+            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Landscape"];
+        }
+        
+        CGAffineTransform transform = CGAffineTransformIdentity;
+        
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(0.0f));
+            }
+            else
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(180.0f));
+            }
+        }
+        else
+        {
+            if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(270.0f));
+            }
+            else
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(90.0f));
+            }
+        }
+        
+        self.splashScreenImageView.transform = transform;
+        self.splashScreenImageView.frame = [[UIScreen mainScreen] bounds];
+        
+        [window addSubview:self.splashScreenImageView];
+    }
+}
 
 - (void)handleDisplayLink:(CADisplayLink *)displayLink
 {
@@ -876,15 +880,21 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
-        // Below code used in didRotateFromInterfaceOrientation as well
+        // Below code used in didRotateFromInterfaceOrientation as well, except without the selectionHandler
         
-        CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation];
+        CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation extended:NO];
         
         CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
         
-        // Create a rect that will make the action sheet appear ABOVE the menu button, not to the right
-        convertedRect.origin.x = 0;
-        convertedRect.size.width = self.controllerView.bounds.size.width;
+        CGFloat middleSectionStart = CGRectGetWidth(self.view.bounds) * (1.0/3.0);
+        CGFloat middleSectionEnd = CGRectGetWidth(self.view.bounds) * (2.0/3.0);
+        
+        // Button is in the middle third of the screen, so we make sure it centers the popup instead of putting it off to the side like normal
+        if (CGRectGetMidX(convertedRect) > middleSectionStart && CGRectGetMidX(convertedRect) < middleSectionEnd)
+        {
+            convertedRect.origin.x = 0;
+            convertedRect.size.width = self.controllerView.bounds.size.width;
+        }
         
         [self.pausedActionSheet showFromRect:convertedRect inView:self.view animated:YES selectionHandler:selectionHandler];
     }
@@ -1576,7 +1586,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     [self updateEmulatorScreenFrame];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
     {
         if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
         {
@@ -1611,15 +1621,21 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if (self.pausedActionSheet && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        // Below code used in controllerInputDidPressPauseButton as well
+        // Below code used in controllerInputDidPressPauseButton as well, except with a selectionHandler
         
-        CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation];
+        CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation extended:NO];
         
         CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
         
-        // Create a rect that will make the action sheet appear ABOVE the menu button, not to the right
-        convertedRect.origin.x = 0;
-        convertedRect.size.width = self.controllerView.bounds.size.width;
+        CGFloat middleSectionStart = CGRectGetWidth(self.view.bounds) * (1.0/3.0);
+        CGFloat middleSectionEnd = CGRectGetWidth(self.view.bounds) * (2.0/3.0);
+        
+        // Button is in the middle third of the screen, so we make sure it centers the popup instead of putting it off to the side as it sometimes does
+        if (CGRectGetMidX(convertedRect) > middleSectionStart && CGRectGetMidX(convertedRect) < middleSectionEnd)
+        {
+            convertedRect.origin.x = 0;
+            convertedRect.size.width = self.controllerView.bounds.size.width;
+        }
         
         [self.pausedActionSheet showFromRect:convertedRect inView:self.view animated:YES];
     }
@@ -1830,7 +1846,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)refreshLayout
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
     {
         if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
         {
@@ -2221,7 +2237,7 @@ void uncaughtExceptionHandler(NSException *exception)
     
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2,
                                                       viewSize.height + edgeExtension * 2),
-                                           YES, 1.0);
+                                           YES, 0.5);
     
     NSString *defaultSkinIdentifier = nil;
     NSString *skinsKey = nil;
@@ -2421,7 +2437,7 @@ void uncaughtExceptionHandler(NSException *exception)
             [self refreshLayout];
         }
         
-        // [self.controllerView showButtonRects];
+        //[self.controllerView showButtonRects];
     });
 }
 

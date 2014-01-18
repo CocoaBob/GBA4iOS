@@ -51,11 +51,13 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
         }
     }
     
+    GBAEmulationViewController *emulationViewController = nil;
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        GBAEmulationViewController *emulationViewController = [[GBAEmulationViewController alloc] init];
+        emulationViewController = [[GBAEmulationViewController alloc] init];
         
         self.window.rootViewController = emulationViewController;
     }
@@ -63,6 +65,8 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
     {
         GBASplitViewController *splitViewController = [[GBASplitViewController alloc] init];
         self.window.rootViewController = splitViewController;
+        
+        emulationViewController = splitViewController.emulationViewController;
     }
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -74,6 +78,8 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
 #endif
     
     [self.window makeKeyAndVisible];
+    
+    [emulationViewController showSplashScreen];
     
     return YES;
 }

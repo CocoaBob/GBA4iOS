@@ -433,6 +433,8 @@ void writeSaveFileForCurrentROMToDisk();
 
 - (void)updateEAGLViewForSize:(CGSize)size screen:(UIScreen *)screen
 {
+    size = CGSizeMake(240, 160);
+    
     using namespace Base;
     
     self.screen = screen;

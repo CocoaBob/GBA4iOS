@@ -180,21 +180,45 @@
     return (relativePath != nil);
 }
 
-- (CGRect)rectForButtonRect:(GBAControllerRect)button orientation:(GBAControllerOrientation)orientation
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation
+{
+    return [self rectForButtonRect:button orientation:orientation extended:YES];
+}
+
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation extended:(BOOL)extended
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *layouts = dictionary[@"layouts"];
     
-    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:layouts];
-    NSDictionary *rect = layouts[key];
+    NSString *deviceKey = [GBAControllerSkin keyForCurrentDeviceWithDictionary:layouts];
+    NSDictionary *buttonRects = layouts[deviceKey];
     
-    key = [self keyForButtonRect:button];
-    NSDictionary *buttonRect = rect[key];
+    NSString *buttonKey = [self keyForButtonRect:button];
+    NSDictionary *buttonRect = buttonRects[buttonKey];
+    
+    CGRect rect = CGRectMake([buttonRect[@"x"] floatValue], [buttonRect[@"y"] floatValue], [buttonRect[@"width"] floatValue], [buttonRect[@"height"] floatValue]);
+    
+    // The screen size should be absolute, no extended edges
+    if (buttonRect && extended && button != GBAControllerSkinRectScreen)
+    {
+        NSDictionary *extendedEdges = buttonRects[@"extendedEdges"];
         
-    return CGRectMake([buttonRect[@"x"] floatValue], [buttonRect[@"y"] floatValue], [buttonRect[@"width"] floatValue], [buttonRect[@"height"] floatValue]);
+        // Override master extendedEdges with a specific one for an individual button rect if it exists
+        if (buttonRect[@"extendedEdges"])
+        {
+            extendedEdges = buttonRect[@"extendedEdges"];
+        }
+        
+        rect.origin.x -= [extendedEdges[@"left"] floatValue];
+        rect.origin.y -= [extendedEdges[@"top"] floatValue];
+        rect.size.width += [extendedEdges[@"left"] floatValue] + [extendedEdges[@"right"] floatValue];
+        rect.size.height += [extendedEdges[@"top"] floatValue] +[extendedEdges[@"bottom"] floatValue];
+    }
+        
+    return rect;
 }
 
-- (NSString *)keyForButtonRect:(GBAControllerRect)button
+- (NSString *)keyForButtonRect:(GBAControllerSkinRect)button
 {
     NSString *key = nil;
     switch (button) {
@@ -329,7 +353,7 @@
 
 - (CGRect)screenRectForOrientation:(GBAControllerOrientation)orientation
 {
-    return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation];
+    return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation extended:YES];
 }
 
 - (GBAControllerOrientation)supportedOrientations

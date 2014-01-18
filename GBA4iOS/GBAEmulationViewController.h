@@ -15,6 +15,8 @@
 @property (assign, nonatomic) CGFloat blurAlpha;
 @property (strong, nonatomic) UIImageView *blurredContentsImageView;
 
+- (void)showSplashScreen;
+
 - (void)blurWithInitialAlpha:(CGFloat)alpha;
 - (void)removeBlur;
 

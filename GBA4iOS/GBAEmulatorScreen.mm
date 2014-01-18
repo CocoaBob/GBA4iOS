@@ -21,7 +21,7 @@
 }
 
 - (CGSize)intrinsicContentSize
-{
+{    
     return self.eaglView.bounds.size;
 }
 

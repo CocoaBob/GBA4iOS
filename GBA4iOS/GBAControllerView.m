@@ -261,18 +261,64 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     
     CGPoint point = [touch locationInView:self.imageView]; // In case, for example, a widescreen iPhone is using a skin that doesn't support the 4" screen
     
-    CGRect dPadRect = [self.controllerSkin rectForButtonRect:GBAControllerSkinRectDPad orientation:self.orientation];
-    if (CGRectContainsPoint(dPadRect, point))
+    CGRect extendedDPadRect = [self.controllerSkin rectForButtonRect:GBAControllerSkinRectDPad orientation:self.orientation extended:YES];
+    if (CGRectContainsPoint(extendedDPadRect, point))
     {
-        CGRect topRect            = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
-        CGRect bottomRect         = CGRectMake(dPadRect.origin.x, dPadRect.origin.y + dPadRect.size.height * (2.0f/3.0f), dPadRect.size.width, dPadRect.size.height * (1.0f/3.0f));
-        CGRect leftRect           = CGRectMake(dPadRect.origin.x, dPadRect.origin.y, dPadRect.size.width * (1.0f/3.0f), dPadRect.size.height);
-        CGRect rightRect          = CGRectMake(dPadRect.origin.x + dPadRect.size.width * (2.0f/3.0f), dPadRect.origin.y, dPadRect.size.width * (1.0f/3.0f), dPadRect.size.height);
+        CGRect dPadRect = [self.controllerSkin rectForButtonRect:GBAControllerSkinRectDPad orientation:self.orientation extended:NO];
+        
+        CGFloat extendedTop       = CGRectGetMinY(dPadRect) - CGRectGetMinY(extendedDPadRect);
+        CGFloat extendedBottom    = CGRectGetMaxY(extendedDPadRect) - CGRectGetMaxY(dPadRect);
+        CGFloat extendedLeft      = CGRectGetMinX(dPadRect) - CGRectGetMinX(extendedDPadRect);
+        CGFloat extendedRight     = CGRectGetMaxX(extendedDPadRect) - CGRectGetMaxX(dPadRect);
+                
+        CGRect topRect            = CGRectMake(dPadRect.origin.x - extendedLeft,
+                                               dPadRect.origin.y - extendedTop,
+                                               dPadRect.size.width + extendedLeft + extendedRight,
+                                               dPadRect.size.height * (1.0f/3.0f) + extendedTop);
+        
+        CGRect bottomRect         = CGRectMake(dPadRect.origin.x - extendedLeft,
+                                               dPadRect.origin.y + dPadRect.size.height * (2.0f/3.0f),
+                                               dPadRect.size.width + extendedLeft + extendedRight,
+                                               dPadRect.size.height * (1.0f/3.0f) + extendedBottom);
+        
+        CGRect leftRect           = CGRectMake(dPadRect.origin.x - extendedLeft,
+                                               dPadRect.origin.y - extendedTop,
+                                               dPadRect.size.width * (1.0f/3.0f) + extendedLeft,
+                                               dPadRect.size.height + extendedTop + extendedBottom);
+        
+        CGRect rightRect          = CGRectMake(dPadRect.origin.x + dPadRect.size.width * (2.0f/3.0f),
+                                               dPadRect.origin.y - extendedTop,
+                                               dPadRect.size.width * (1.0f/3.0f) + extendedRight,
+                                               dPadRect.size.height + extendedTop + extendedBottom);
         
         CGRect topLeftRect        = CGRectIntersection(topRect, leftRect);
         CGRect topRightRect       = CGRectIntersection(topRect, rightRect);
         CGRect bottomLeftRect     = CGRectIntersection(bottomRect, leftRect);
         CGRect bottomRightRect    = CGRectIntersection(bottomRect, rightRect);
+        
+        // Below used for visual debugging of dPad layout
+        /*
+        UIView *view1 = [[UIView alloc] initWithFrame:topRect];
+        view1.backgroundColor = [UIColor blueColor];
+        view1.alpha = 0.5;
+        
+        UIView *view2 = [[UIView alloc] initWithFrame:bottomRect];
+        view2.backgroundColor = [UIColor greenColor];
+        view2.alpha = 0.5;
+        
+        UIView *view3 = [[UIView alloc] initWithFrame:leftRect];
+        view3.backgroundColor = [UIColor purpleColor];
+        view3.alpha = 0.5;
+        
+        UIView *view4 = [[UIView alloc] initWithFrame:rightRect];
+        view4.backgroundColor = [UIColor yellowColor];
+        view4.alpha = 0.5;
+        
+        [self addSubview:view1];
+        [self addSubview:view2];
+        [self addSubview:view3];
+        [self addSubview:view4];
+         */
         
         if (CGRectContainsPoint(topLeftRect, point))
         {
@@ -363,7 +409,7 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
                             view;
                         });
     
-    void(^AddOverlayForButton)(GBAControllerRect button) = ^(GBAControllerRect button)
+    void(^AddOverlayForButton)(GBAControllerSkinRect button) = ^(GBAControllerSkinRect button)
     {
         UILabel *overlay = [[UILabel alloc] initWithFrame:[self.controllerSkin rectForButtonRect:button orientation:self.orientation]];
                 

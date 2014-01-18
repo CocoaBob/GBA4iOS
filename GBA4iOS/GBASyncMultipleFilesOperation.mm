@@ -65,35 +65,6 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
 - (void)beginSyncOperation
 {
     [self showToastViewWithMessage:NSLocalizedString(@"Syncing…", @"") forDuration:0 showActivityIndicator:YES];
-    
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    
-    // Check to see if all cached ROMs exist. If not we remove them and their syncing data.
-    NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[GBASyncManager cachedROMsPath]];
-    [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *filename, NSString *uniqueName, BOOL *stop) {
-        
-        GBAROM *rom = [GBAROM romWithContentsOfFile:[documentsDirectory stringByAppendingPathComponent:filename]];
-        
-        if (rom)
-        {
-            return;
-        }
-        
-        // Now check to see if the ROM exists, just under a different filename
-        rom = [GBAROM romWithUniqueName:uniqueName];
-        
-        if (rom)
-        {
-            return;
-        }
-        
-        DLog(@"%@", filename);
-        
-        [[GBASyncManager sharedManager] deleteSyncingDataForROMWithName:[filename stringByDeletingPathExtension] uniqueName:uniqueName];
-        
-        // calling GBAROM romWithUniqueName will delete any invalid cachedROMs, and if we saved to disk we'd potentially overwrite other changes the romWithUniqueName method did
-        //[cachedROMs removeObjectForKey:filename];
-    }];
 }
 
 #pragma mark - Renaming Files
