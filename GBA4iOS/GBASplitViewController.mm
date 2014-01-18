@@ -13,6 +13,7 @@
 
 @property (readwrite, assign, nonatomic) BOOL romTableViewControllerIsVisible;
 @property (assign, nonatomic) UIBarButtonItem *barButtonItem;
+@property (strong, nonatomic) UITextField *detailedViewControllerManualResizerTextField;
 
 @end
 
@@ -25,6 +26,8 @@
     {
         _romTableViewControllerIsVisible = NO;
         
+        _detailedViewControllerManualResizerTextField = [[UITextField alloc] initWithFrame:CGRectMake(500, 0, 50, 50)];
+        
         _romTableViewController = [[GBAROMTableViewController alloc] init];
         _romTableViewController.appearanceDelegate = self;
         UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(_romTableViewController);
@@ -35,6 +38,8 @@
         
         self.delegate = self;
         self.presentsWithGesture = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     
     return self;
@@ -117,7 +122,7 @@
 
 - (void)romTableViewControllerWillDisappear:(GBAROMTableViewController *)romTableViewController
 {
-    [UIView animateWithDuration:0.2 animations:^{
+   [UIView animateWithDuration:0.2 animations:^{
         [self.emulationViewController setBlurAlpha:0.0];
     } completion:^(BOOL finished) {
         [self.emulationViewController removeBlur];
@@ -127,6 +132,14 @@
     [self.emulationViewController resumeEmulation];
     
     self.romTableViewControllerIsVisible = NO;
+     
+}
+
+#pragma mark - UIKeyboard Notifications
+
+- (void)keyboardDidHide:(NSNotification *)notification
+{
+    [UIViewController attemptRotationToDeviceOrientation];
 }
 
 #pragma mark - UISplitViewControllerDelegate

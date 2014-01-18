@@ -85,6 +85,11 @@
     return UIStatusBarStyleLightContent;
 }
 
+- (BOOL)disablesAutomaticKeyboardDismissal
+{
+    return NO;
+}
+
 #pragma mark - Save States
 
 - (void)tappedAddSaveState:(UIBarButtonItem *)barButtonItem
@@ -397,7 +402,6 @@
         if (buttonIndex == 1)
         {
             UITextField *textField = [alertView textFieldAtIndex:0];
-            [textField resignFirstResponder];
             [self renameSaveStateAtIndexPath:indexPath toName:textField.text];
         }
     }];

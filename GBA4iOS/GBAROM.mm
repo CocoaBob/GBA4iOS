@@ -488,6 +488,11 @@
         return @"";
     }
     
+    if (!(const char *)[data bytes])
+    {
+        return @"Unknown";
+    }
+    
     NSString *embeddedName = [NSString stringWithUTF8String:(const char *)[data bytes]];
     
     // Keep this, I promise it's necessary. Sometimes the converted NSString contains too many characters

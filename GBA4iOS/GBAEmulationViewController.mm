@@ -24,6 +24,7 @@
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"
 #import "GBAEventDistributionViewController.h"
+#import "GBAKeyboardDismissalNavigationController.h"
 
 #import <GameController/GameController.h>
 
@@ -1051,7 +1052,7 @@ static GBAEmulationViewController *_emulationViewController;
     GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithROM:self.rom mode:mode];
     saveStateViewController.delegate = self;
     
-    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(saveStateViewController);
+    GBAKeyboardDismissalNavigationController *navigationController = [[GBAKeyboardDismissalNavigationController alloc] initWithRootViewController:saveStateViewController];
     
     [self blurWithInitialAlpha:0.0];
     

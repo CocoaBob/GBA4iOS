@@ -308,6 +308,13 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 - (void)webViewController:(RSTWebViewController *)webViewController didCompleteDownloadTask:(NSURLSessionDownloadTask *)downloadTask destinationURL:(NSURL *)url error:(NSError *)error
 {
     NSString *filename = self.currentDownloadsDictionary[downloadTask];
+    
+    // Must check if nil, or it attempts to delete the documents directory, which for some reason deletes the cheats directory
+    if (filename == nil)
+    {
+        return;
+    }
+    
     NSString *destinationPath = [self.currentDirectory stringByAppendingPathComponent:filename];
     NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
     
@@ -1197,9 +1204,10 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     NSString *romUniqueName = rom.uniqueName;
     
-    if (romUniqueName == nil)
+    if (romUniqueName == nil || [romUniqueName isEqualToString:@""] || [romUniqueName isEqualToString:@"/"])
     {
-        romUniqueName = @"";
+        // Do NOT make this string @"", or else it'll then delete the entire cheats/save states folder
+        romUniqueName = @"Unknown";
     }
     
     NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
@@ -1303,7 +1311,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
 {
-    NSString *address = @"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
+    NSString *address = @"http://rileytestut.com/Pokemon_Pinball.gba";
     
     if (self.visibleRomType == GBAVisibleROMTypeGBC) // If ALL or GBA is selected, show GBA search results. If GBC, show GBC results
     {
@@ -1358,11 +1366,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             break;
             
         case GBAVisibleROMTypeGBA:
-            self.supportedFileExtensions = @[@"gba"];
+            self.supportedFileExtensions = @[@"gba", @"gba"];
             break;
             
         case GBAVisibleROMTypeGBC:
-            self.supportedFileExtensions = @[@"gb", @"gbc"];
+            self.supportedFileExtensions = @[@"gb", @"gbc", @"gbc"];
             break;
     }
     

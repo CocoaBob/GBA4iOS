@@ -525,6 +525,12 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)cacheDownloadOperation:(GBASyncDownloadOperation *)downloadOperation
 {
+    if ([downloadOperation.dropboxPath rangeOfString:@"POKEMON EMER"].location != NSNotFound)
+    {
+        DLog(@"%@", downloadOperation.localPath);
+        DLog(@"%@", downloadOperation);
+    }
+    
     NSMutableDictionary *pendingDownloads = [[GBASyncManager sharedManager] pendingDownloads];
     pendingDownloads[downloadOperation.dropboxPath] = [downloadOperation dictionaryRepresentation];
     [NSKeyedArchiver archiveRootObject:pendingDownloads toFile:[GBASyncManager pendingDownloadsPath]];

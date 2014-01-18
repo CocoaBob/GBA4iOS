@@ -146,6 +146,8 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         return;
     }
     
+    DLog(@"%@", pendingDownloads);
+    
     __block RSTToastView *downloadingProgressToastView = nil;
     
     rst_dispatch_sync_on_main_thread(^{
@@ -347,7 +349,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         // Logs warning in [self uniqueROMNameFromDropboxPath:]
         return;
     }*/
-    
+        
     // File is the same, and it exists, so no need to redownload
     if ([metadata.rev isEqualToString:cachedMetadata.rev] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
     {
