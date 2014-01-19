@@ -87,7 +87,7 @@
 - (void)didDetectDirectoryChanges
 {
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.directory error:nil];
-    
+        
     NSSet *previousContentsSet = [NSSet setWithArray:self.previousContents];
     NSMutableSet *contentsSet = [NSMutableSet setWithArray:contents];
     
@@ -95,13 +95,8 @@
     
     for (NSString *filename in contentsSet)
     {
-        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[self.directory stringByAppendingPathComponent:filename] error:nil];
-        unsigned long long size = [attributes fileSize];
-        
-        if (size == 0) // Being copied over
-        {
-            [self monitorFileAtPath:[self.directory stringByAppendingPathComponent:filename]];
-        }
+        DLog(@"Monitoring new file %@", filename);
+        [self monitorFileAtPath:[self.directory stringByAppendingPathComponent:filename]];
     }
     
     self.previousContents = contents;
@@ -113,42 +108,42 @@
 {
     [self.unavailableFilesSet addObject:[filepath lastPathComponent]];
     
-    int fileDescriptor = open([filepath fileSystemRepresentation], O_EVTONLY);
-    dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fileDescriptor, DISPATCH_VNODE_ATTRIB, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:nil];
+    unsigned long long fileSize = [attributes fileSize];
     
-    if (source == nil)
-    {
-        close(fileDescriptor);
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(compareFileSizeAtPathToPreviousFileSize:) userInfo:@{@"filepath": filepath, @"fileSize": @(fileSize)} repeats:NO];
+        [timer setTolerance:1.0];
+    });
+}
+
+- (void)compareFileSizeAtPathToPreviousFileSize:(NSTimer *)timer
+{
+    NSString *filepath = [timer userInfo][@"filepath"];
+    unsigned long long previousFileSize = [[timer userInfo][@"fileSize"] unsignedLongLongValue];
     
-    dispatch_source_set_event_handler(source, ^{
-        // You may think this line below doesn't do anything, but you'd be wrong. For WHATEVER reason, the lines of code that follow are never called unless the below line of code is called. WTF. Try it out, you'll be amazed.
-        unsigned long data = dispatch_source_get_data(source);
-        
-        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:nil];
-        unsigned long long size = [attributes fileSize];
-        
-        if (size > 0)
-        {
-            // Built-in safety due to file ready detection not always being completely accurate
-            [NSThread sleepForTimeInterval:1.0];
+    dispatch_async(self.directory_monitor_queue, ^{
+        @autoreleasepool {
+            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:nil];
+            unsigned long long fileSize = [attributes fileSize];
+            
+            if (previousFileSize != fileSize)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(compareFileSizeAtPathToPreviousFileSize:) userInfo:@{@"filepath": filepath, @"fileSize": @(fileSize)} repeats:NO];
+                    [timer setTolerance:1.0];
+                });
+                
+                return;
+            }
             
             NSLog(@"File is ready for reading!");
             
             [self.unavailableFilesSet removeObject:[filepath lastPathComponent]];
             
-            dispatch_source_cancel(source);
-            
             [[NSNotificationCenter defaultCenter] postNotificationName:RSTDirectoryMonitorContentsDidChangeNotification object:self];
         }
-        
     });
-    
-    dispatch_source_set_cancel_handler(self.directory_monitor_source, ^{
-        close(fileDescriptor);
-    });
-    
-    dispatch_resume(source);
 }
 
 #pragma mark - Public
@@ -171,6 +166,23 @@
 - (NSArray *)allFiles
 {
     return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.directory error:nil];
+}
+
+#pragma mark - Getters/Setters
+
+- (void)setIgnoreDirectoryContentChanges:(BOOL)ignoreDirectoryContentChanges
+{
+    if (_ignoreDirectoryContentChanges == ignoreDirectoryContentChanges)
+    {
+        return;
+    }
+    
+    _ignoreDirectoryContentChanges = ignoreDirectoryContentChanges;
+    
+    if (!ignoreDirectoryContentChanges)
+    {
+        [self didDetectDirectoryChanges];
+    }
 }
 
 @end

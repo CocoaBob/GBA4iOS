@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @property (readonly, copy, nonatomic) NSString *uniqueName;
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *saveFileFilepath;
+@property (readonly, copy, nonatomic) NSString *rtcFileFilepath;
 
 @property (readonly, assign, nonatomic) GBAROMType type;
 

@@ -36,7 +36,9 @@ static RSTToastView *_globalToastView;
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
-@interface RSTToastView ()
+@interface RSTToastView () {
+    BOOL _currentlyHiding;
+}
 
 @property (nonatomic, readwrite, assign, getter = isVisible) BOOL visible;
 
@@ -349,7 +351,13 @@ static RSTToastView *_globalToastView;
 
 - (void)hide
 {
-    [self.hidingTimer invalidate];
+    _currentlyHiding = YES;
+    
+    if (!self.presentAfterHiding)
+    {
+        [self.hidingTimer invalidate];
+    }
+    
     
     CGRect initialFrame = [RSTToastView rst_initialFrameForToastView:self];
     
@@ -360,6 +368,8 @@ static RSTToastView *_globalToastView;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
         self.visible = NO;
+        
+        _currentlyHiding = NO;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:RSTToastViewDidHideNotification object:self];
     }];
@@ -670,7 +680,12 @@ static RSTToastView *_globalToastView;
     
     UIInterfaceOrientation interfaceOrientation = [[notification userInfo][UIApplicationStatusBarOrientationUserInfoKey] integerValue];
     
-    self.presentAfterHiding = YES;
+    // If the timer is valid, it hasn't yet started to dismiss
+    if (!_currentlyHiding)
+    {
+        self.presentAfterHiding = YES;
+    }
+    
     [self hide];
 }
 

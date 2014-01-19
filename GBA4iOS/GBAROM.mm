@@ -305,6 +305,12 @@
     return [romDirectory stringByAppendingPathComponent:[self.name stringByAppendingPathExtension:@"sav"]];
 }
 
+- (NSString *)rtcFileFilepath
+{
+    NSString *romDirectory = [self.filepath stringByDeletingLastPathComponent];
+    return [romDirectory stringByAppendingPathComponent:[self.name stringByAppendingPathExtension:@"rtc"]];
+}
+
 - (void)setSyncingDisabled:(BOOL)syncingDisabled
 {
     NSMutableSet *syncingDisabledROMs = [NSMutableSet setWithArray:[NSArray arrayWithContentsOfFile:[self syncingDisabledROMsPath]]];

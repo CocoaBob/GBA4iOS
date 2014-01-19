@@ -30,6 +30,7 @@ NSString *const GBASkinDesignerURLKey = @"url";
 NSString *const Alyssa = @"Alyssa";
 
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
+static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
 
 #define REMOTE_SKIN_ROOT_ADDRESS @"http://gba4iosapp.com/skins/"
 
@@ -54,8 +55,11 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
         self.title = NSLocalizedString(@"Download Skins", @"");
         
         _imageCache = [[NSCache alloc] init];
-        _downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];
-        [_downloadProgress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:GBADownloadProgressContext];
+        
+        _downloadProgress = ({
+            NSProgress *progress = [[NSProgress alloc] initWithParent:nil userInfo:0];
+            progress;
+        });
     }
     return self;
 }
@@ -167,11 +171,12 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
-    [self showDownloadProgressView];
-    
-    // Below line causes EXC_BAD_ACCESS in rare circumstances
-    // [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount + 1];
-    //[self.downloadProgress becomeCurrentWithPendingUnitCount:1];
+    if (self.downloadProgressView.alpha == 0)
+    {
+        rst_dispatch_sync_on_main_thread(^{
+            [self showDownloadProgressView];
+        });
+    }
     
     NSProgress *progress = nil;
     
@@ -184,8 +189,6 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
         
     } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
                                               {
-                                                  [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
-                                                  
                                                   if (error)
                                                   {
                                                       dispatch_async(dispatch_get_main_queue(), ^{
@@ -203,13 +206,16 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
                                                   [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
                                               }];
     
-    [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:GBADownloadProgressContext];
+    [progress addObserver:self forKeyPath:@"totalUnitCount" options:NSKeyValueObservingOptionNew context:GBADownloadProgressTotalUnitContext];
+    [progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:GBADownloadProgressContext];
     
     [downloadTask resume];
 }
 
 - (void)showDownloadProgressView
 {
+    self.downloadProgress.totalUnitCount = 0;
+    self.downloadProgress.completedUnitCount = 0;
     
     [UIView animateWithDuration:0.4 animations:^{
         [self.downloadProgressView setAlpha:1.0];
@@ -221,8 +227,10 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     [UIView animateWithDuration:0.4 animations:^{
         [self.downloadProgressView setAlpha:0.0];
     } completion:^(BOOL finisehd) {
-         self.downloadProgressView.progress = 0.0;
+        self.downloadProgressView.progress = 0.0;
     }];
+    
+    self.downloadProgress.totalUnitCount = 0;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -231,22 +239,44 @@ static void * GBADownloadProgressContext = &GBADownloadProgressContext;
     {
         NSProgress *progress = object;
         
-        if (progress.fractionCompleted < self.downloadProgressView.progress)
-        {
-            return;
-        }
-        
         rst_dispatch_sync_on_main_thread(^{
-                        
-            [self.downloadProgressView setProgress:progress.fractionCompleted animated:YES];
+            
+            int64_t previousProgress = [change[NSKeyValueChangeOldKey] integerValue];
+            int64_t currentProgress = [change[NSKeyValueChangeNewKey] integerValue];
+            
+            self.downloadProgress.completedUnitCount = self.downloadProgress.completedUnitCount + (currentProgress - previousProgress);
+            [self.downloadProgressView setProgress:self.downloadProgress.fractionCompleted animated:YES];
+            
+            DLog(@"%f", self.downloadProgress.fractionCompleted);
             
             if (progress.fractionCompleted == 1)
             {
-                [progress removeObserver:self forKeyPath:@"fractionCompleted" context:GBADownloadProgressContext];
+                [progress removeObserver:self forKeyPath:@"completedUnitCount" context:GBADownloadProgressContext];
+            }
+            
+            if (self.downloadProgress.fractionCompleted == 1)
+            {
                 [self hideDownloadProgressView];
             }
         });
-    
+        
+        return;
+    }
+    else if (context == GBADownloadProgressTotalUnitContext)
+    {
+        NSProgress *progress = object;
+        
+        if (self.downloadProgressView.alpha == 0)
+        {
+            rst_dispatch_sync_on_main_thread(^{
+                [self showDownloadProgressView];
+            });
+        }
+        
+        [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount + progress.totalUnitCount];
+        
+        [progress removeObserver:self forKeyPath:@"totalUnitCount" context:GBADownloadProgressTotalUnitContext];
+        
         return;
     }
     

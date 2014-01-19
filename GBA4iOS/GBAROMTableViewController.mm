@@ -52,6 +52,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
 @property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
 
+@property (assign, nonatomic) BOOL dismissModalViewControllerUponKeyboardHide;
+
 @property (strong, nonatomic) NSProgress *downloadProgress;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloadsDictionary;
 
@@ -90,6 +92,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         _currentDownloadsDictionary = [NSMutableDictionary dictionary];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     return self;
 }
@@ -302,7 +305,16 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     startDownloadBlock(YES, progress);
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissedModalViewController];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        self.dismissModalViewControllerUponKeyboardHide = YES;
+    }
 }
 
 - (void)webViewController:(RSTWebViewController *)webViewController didCompleteDownloadTask:(NSURLSessionDownloadTask *)downloadTask destinationURL:(NSURL *)url error:(NSError *)error
@@ -368,6 +380,22 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 - (void)webViewControllerWillDismiss:(RSTWebViewController *)webViewController
 {
     [self dismissedModalViewController];
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification
+{
+    if (self.dismissModalViewControllerUponKeyboardHide)
+    {
+        self.dismissModalViewControllerUponKeyboardHide = NO;
+        
+        // Needs just a tiny delay to ensure that the romTableViewController resizes correctly after dismissal of the keyboard
+        double delayInSeconds = 0.2;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+        
+    }
 }
 
 #pragma mark - UITableViewController data source
@@ -594,6 +622,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             
             if (uniqueName)
             {
+                DLog(@"%@", uniqueName);
+                
                 cachedROMs[filename] = uniqueName;
                 
                 // New ROM, so we sync with Dropbox
@@ -1146,6 +1176,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             if (buttonIndex == 1)
             {
                 self.emulationViewController.rom = nil;
+                [self.tableView reloadData];
                 [self showRenameAlertForROMAtIndexPath:indexPath];
             }
         }];
@@ -1311,7 +1342,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
 {
-    NSString *address = @"http://rileytestut.com/Pokemon_Pinball.gba";
+    NSString *address = @"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
     
     if (self.visibleRomType == GBAVisibleROMTypeGBC) // If ALL or GBA is selected, show GBA search results. If GBC, show GBC results
     {

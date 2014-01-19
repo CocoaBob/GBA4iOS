@@ -48,6 +48,11 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         _rom = rom;
         
         self.title = NSLocalizedString(@"Event Distribution", @"");
+        
+        _downloadProgress = ({
+            NSProgress *progress = [[NSProgress alloc] initWithParent:nil userInfo:0];
+            progress;
+        });
     }
     return self;
 }
@@ -60,10 +65,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     [self.tableView registerClass:[GBAEventDistributionTableViewCell class] forCellReuseIdentifier:@"Cell"];
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"HeaderFooterViewIdentifier"];
     
-    self.downloadProgress = ({
-        NSProgress *progress = [[NSProgress alloc] initWithParent:0 userInfo:0];
-        progress;
-    });
+    
     
     self.downloadProgressView = ({
         UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
@@ -182,8 +184,6 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
-    [self showDownloadProgressView];
-    
     NSProgress *progress = nil;
     
     __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
@@ -193,7 +193,6 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         
     } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
                                                        {
-                                                           [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount - 1];
                                                            
                                                            if (error)
                                                            {
@@ -271,9 +270,18 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     {
         NSProgress *progress = object;
         
+        if (self.downloadProgressView.alpha == 0)
+        {
+            rst_dispatch_sync_on_main_thread(^{
+                [self showDownloadProgressView];
+            });
+        }
+        
         [self.downloadProgress setTotalUnitCount:self.downloadProgress.totalUnitCount + progress.totalUnitCount];
         
         [progress removeObserver:self forKeyPath:@"totalUnitCount" context:GBADownloadProgressTotalUnitContext];
+        
+        
         
         return;
     }

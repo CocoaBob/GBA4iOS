@@ -9,11 +9,13 @@
 #import "GBASplitViewController.h"
 #import "GBASyncManager.h"
 
-@interface GBASplitViewController () <UISplitViewControllerDelegate, GBAROMTableViewControllerAppearanceDelegate>
+@interface GBASplitViewController () <UISplitViewControllerDelegate, GBAROMTableViewControllerAppearanceDelegate, UIPopoverControllerDelegate>
 
 @property (readwrite, assign, nonatomic) BOOL romTableViewControllerIsVisible;
 @property (assign, nonatomic) UIBarButtonItem *barButtonItem;
-@property (strong, nonatomic) UITextField *detailedViewControllerManualResizerTextField;
+
+@property (assign, nonatomic, getter = isLoadingApplication) BOOL loadingApplication;
+@property (assign, nonatomic, getter = isRotatingInterface) BOOL rotatingInterface;
 
 @end
 
@@ -24,10 +26,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        _loadingApplication = YES;
+        
         _romTableViewControllerIsVisible = NO;
-        
-        _detailedViewControllerManualResizerTextField = [[UITextField alloc] initWithFrame:CGRectMake(500, 0, 50, 50)];
-        
+                
         _romTableViewController = [[GBAROMTableViewController alloc] init];
         _romTableViewController.appearanceDelegate = self;
         UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(_romTableViewController);
@@ -38,8 +40,6 @@
         
         self.delegate = self;
         self.presentsWithGesture = NO;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     }
     
     return self;
@@ -53,6 +53,32 @@
 - (BOOL)shouldAutorotate
 {
     return [self.emulationViewController shouldAutorotate];
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    self.rotatingInterface = YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    self.rotatingInterface = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([self isLoadingApplication])
+    {
+        // Get a reference to the popover controller so we can prevent it from dismissing when there isn't a ROM loaded.
+        UIPopoverController *popoverController = [self.romTableViewController.navigationController valueForKey:@"_popoverController"];
+        popoverController.delegate = self;
+        
+        self.loadingApplication = NO;
+    }
 }
 
 #pragma mark - Public
@@ -105,41 +131,49 @@
     [self.barButtonItem.target performSelector:self.barButtonItem.action withObject:self.barButtonItem];
     
 #pragma clang diagnostic pop
-    
 }
 
 #pragma mark - GBAROMTableViewControllerAppearanceDelegate
 
 - (void)romTableViewControllerWillAppear:(GBAROMTableViewController *)romTableViewController
 {
-    [self.emulationViewController blurWithInitialAlpha:0.0];
-    [UIView animateWithDuration:0.2 animations:^{
-        [self.emulationViewController setBlurAlpha:1.0];
-    }];
+    // When rotating to the orientation 180 degress opposite of the current one (ex Landscape Left to Landscape Right), popover is dismissed and shown again. This prevents us from loading the ROM temporarily
+    if (![self isRotatingInterface])
+    {
+        [self.emulationViewController blurWithInitialAlpha:0.0];
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.emulationViewController setBlurAlpha:1.0];
+        }];
+    }
     
     self.romTableViewControllerIsVisible = YES;
 }
 
 - (void)romTableViewControllerWillDisappear:(GBAROMTableViewController *)romTableViewController
 {
-   [UIView animateWithDuration:0.2 animations:^{
-        [self.emulationViewController setBlurAlpha:0.0];
-    } completion:^(BOOL finished) {
-        [self.emulationViewController removeBlur];
-    }];
-    
-    [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
-    [self.emulationViewController resumeEmulation];
+    // When rotating to the orientation 180 degress opposite of the current one (ex Landscape Left to Landscape Right), popover is dismissed and shown again. This prevents us from loading the ROM temporarily
+    if (![self isRotatingInterface])
+    {
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.emulationViewController setBlurAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [self.emulationViewController removeBlur];
+        }];
+        
+        [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
+        [self.emulationViewController resumeEmulation];
+    }
     
     self.romTableViewControllerIsVisible = NO;
      
 }
 
-#pragma mark - UIKeyboard Notifications
+#pragma mark - UIPopoverControllerDelegate
 
-- (void)keyboardDidHide:(NSNotification *)notification
+- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
 {
-    [UIViewController attemptRotationToDeviceOrientation];
+    // Needs to "dismiss" popover when rotating to the orientation 180 degress opposite of the current one (ex Landscape Left to Landscape Right)
+    return (self.emulationViewController.rom != nil || [self isRotatingInterface]);
 }
 
 #pragma mark - UISplitViewControllerDelegate
