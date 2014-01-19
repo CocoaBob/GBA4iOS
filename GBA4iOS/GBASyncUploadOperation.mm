@@ -69,7 +69,21 @@
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
         NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
-        [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:localPath error:nil];
+        
+        if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
+        {
+            GBAROM *rom = [GBAROM romWithName:[[localPath lastPathComponent] stringByDeletingPathExtension]];
+            
+            // Delete temporary .rtcsav file if we made one
+            [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
+                           
+            [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:rom.saveFileFilepath error:nil];
+            [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:rom.rtcFileFilepath error:nil];
+        }
+        else
+        {
+            [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:localPath error:nil];
+        }
         
         // Pending Uploads
         NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
@@ -77,16 +91,12 @@
         [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
         
         // Dropbox Files
-        
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         [dropboxFiles setObject:metadata forKey:metadata.path];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
         
-        // Delete temporary .rtcsav file if we made one
-        if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
-        {
-            [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
-        }
+        
+        
         
         // Only update upload histrory for save files - we only ever use it for this, and keeps the file small
         if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])

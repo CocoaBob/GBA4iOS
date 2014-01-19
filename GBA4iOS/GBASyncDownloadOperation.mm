@@ -11,6 +11,8 @@
 #import "GBASyncFileOperation_Private.h"
 #import "GBASyncManager_Private.h"
 
+#import <SSZipArchive.h>
+
 @implementation GBASyncDownloadOperation
 
 #pragma mark - Initialization
@@ -58,7 +60,50 @@
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
         NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
-        [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:localPath error:nil];
+        
+        if ([localPath.pathExtension.lowercaseString isEqualToString:@"rtcsav"])
+        {
+            NSString *unzipDirectory = [[localPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:[[localPath lastPathComponent] stringByDeletingPathExtension]];
+            [[NSFileManager defaultManager] removeItemAtPath:unzipDirectory error:nil];
+            
+            NSError *error = nil;
+            if (![SSZipArchive unzipFileAtPath:localPath toDestination:unzipDirectory overwrite:YES password:nil error:&error])
+            {
+                return [self restClient:client loadFileFailedWithError:error];
+            }
+            
+            NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:unzipDirectory error:nil];
+            
+            NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+            
+            for (NSString *filename in contents)
+            {
+                NSString *filepath = [unzipDirectory stringByAppendingPathComponent:filename];
+                NSString *destinationPath = [documentsDirectory stringByAppendingPathComponent:filename];
+                
+                if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+                {
+                    if (![[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:destinationPath] withItemAtURL:[NSURL fileURLWithPath:filepath] backupItemName:nil options:0 resultingItemURL:nil error:&error])
+                    {
+                        return [self restClient:client loadFileFailedWithError:error];
+                    }
+                }
+                else
+                {
+                    if (![[NSFileManager defaultManager] moveItemAtPath:filepath toPath:destinationPath error:&error])
+                    {
+                        return [self restClient:client loadFileFailedWithError:error];
+                    }
+                }
+            }
+            
+            [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
+            [[NSFileManager defaultManager] removeItemAtPath:unzipDirectory error:nil];
+        }
+        else
+        {
+            [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:localPath error:nil];
+        }
         
         // Pending Downloads
         NSMutableDictionary *pendingDownloads = [[GBASyncManager sharedManager] pendingDownloads];

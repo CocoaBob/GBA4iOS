@@ -147,9 +147,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         [self uploadFiles];
         return;
     }
-    
-    DLog(@"%@", pendingDownloads);
-    
+        
     __block RSTToastView *downloadingProgressToastView = nil;
     
     rst_dispatch_sync_on_main_thread(^{
@@ -160,15 +158,9 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         
     [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadOperationDictionary, BOOL *stop) {
         
-        NSString *localPath = downloadOperationDictionary[GBASyncLocalPathKey];
         NSString *dropboxPath = downloadOperationDictionary[GBASyncDropboxPathKey];
+        NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
         DBMetadata *metadata = downloadOperationDictionary[GBASyncMetadataKey];
-        
-        // If the download was cached before the ROM existed, it won't have a local file path. This fixes that.
-        if (localPath == nil)
-        {
-            localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
-        }
         
         GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath
                                                                                         dropboxPath:dropboxPath
@@ -342,6 +334,13 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     NSString *localPath = [GBASyncManager localPathForDropboxPath:metadata.path];
     
+    NSString *existingFileLocalPath = localPath;
+    
+    if ([localPath.pathExtension isEqualToString:@"rtcsav"])
+    {
+        existingFileLocalPath = rom.saveFileFilepath;
+    }
+    
     // Very important below block of code remains commented out, since you'll probably want to implement it again.
     // We need to make sure we have the download pending, even if the rom doesn't exist on device. Why? So that way we don't accidentally upload a new save when the user *does* download it
     /*
@@ -352,7 +351,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     }*/
         
     // File is the same, and it exists, so no need to redownload
-    if ([metadata.rev isEqualToString:cachedMetadata.rev] && [[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
+    if ([metadata.rev isEqualToString:cachedMetadata.rev] && [[NSFileManager defaultManager] fileExistsAtPath:existingFileLocalPath isDirectory:nil])
     {
         return;
     }
@@ -407,9 +406,13 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     [pendingUploads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *uploadOperationDictionary, BOOL *stop) {
         
-        GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:uploadOperationDictionary[GBASyncLocalPathKey]
-                                                                                        dropboxPath:uploadOperationDictionary[GBASyncDropboxPathKey]
-                                                                                           metadata:uploadOperationDictionary[GBASyncMetadataKey]];
+        NSString *dropboxPath = uploadOperationDictionary[GBASyncDropboxPathKey];
+        NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath uploading:YES];
+        DBMetadata *metadata = uploadOperationDictionary[GBASyncMetadataKey];
+        
+        GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath
+                                                                                        dropboxPath:dropboxPath
+                                                                                           metadata:metadata];
         
         if ([[GBASyncManager uniqueROMNameFromDropboxPath:uploadOperation.dropboxPath] isEqualToString:@"Upload History"])
         {
@@ -450,14 +453,10 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 return;
             }
             
-            DLog(@"Local Path: %@", uploadOperation.localPath);
-            
             // Make sure no previous files remain there
             [[NSFileManager defaultManager] removeItemAtPath:uploadOperation.localPath error:nil];
             
             [SSZipArchive createZipFileAtPath:uploadOperation.localPath withFilesAtPaths:@[rom.saveFileFilepath, rom.rtcFileFilepath]];
-            
-            DLog(@"Created zip file");
         }
             
         uploadOperation.delegate = self;

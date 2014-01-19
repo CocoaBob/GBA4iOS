@@ -849,6 +849,11 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 + (NSString *)localPathForDropboxPath:(NSString *)dropboxPath
 {
+    return [GBASyncManager localPathForDropboxPath:dropboxPath uploading:NO];
+}
+
++ (NSString *)localPathForDropboxPath:(NSString *)dropboxPath uploading:(BOOL)uploading
+{
     NSArray *pathComponents = [dropboxPath pathComponents];
     
     if ([pathComponents count] < 2)
@@ -871,7 +876,21 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     
     if ([directory isEqualToString:@"Saves"]) // ROM save files
     {
-        localPath = rom.saveFileFilepath;
+        if ([dropboxPath.pathExtension.lowercaseString isEqualToString:@"rtcsav"])
+        {
+            if (uploading)
+            {
+                localPath = [GBASyncManager zippedLocalPathForUploadingSaveFileForROM:rom];
+            }
+            else
+            {
+                localPath = [GBASyncManager zippedLocalPathForDownloadingSaveFileForROM:rom];
+            }
+        }
+        else
+        {
+            localPath = rom.saveFileFilepath;
+        }
     }
     else if ([directory isEqualToString:@"Save States"]) // Save States
     {
