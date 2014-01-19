@@ -1322,10 +1322,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *romFilepath = [self filepathForIndexPath:indexPath];
     
     NSString *romName = [[romFilepath lastPathComponent] stringByDeletingPathExtension];
-    NSString *saveFilepath = [documentsDirectory stringByAppendingPathComponent:[romName stringByAppendingString:@".sav"]];
     
     NSURL *romFileURL = [NSURL fileURLWithPath:romFilepath];
-    NSURL *saveFileURL = [NSURL fileURLWithPath:saveFilepath];
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[romFileURL] applicationActivities:@[[[GBAMailActivity alloc] init]]];
     activityViewController.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail]; // Can't install from Messages app, and we use our own Mail activity that supports custom file types

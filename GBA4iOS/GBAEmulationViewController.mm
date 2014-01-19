@@ -177,6 +177,9 @@ static GBAEmulationViewController *_emulationViewController;
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
+            // Add to our view so we can animate it
+            [self.view addSubview:self.splashScreenImageView];
+            
             self.romTableViewController = [[GBAROMTableViewController alloc] init];
             UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController);
             navigationController.modalPresentationStyle = UIModalPresentationCustom;
@@ -193,7 +196,6 @@ static GBAEmulationViewController *_emulationViewController;
                     [self.romTableViewController startROM:rom];
                 }
             }];
-            
         }
         else
         {
@@ -2415,6 +2417,15 @@ void uncaughtExceptionHandler(NSException *exception)
         if (_rom) // If there was a previous ROM make sure to unpause it!
         {
             [self resumeEmulation];
+        }
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+        }
+        else
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
         }
         
         [self stopFastForwarding];

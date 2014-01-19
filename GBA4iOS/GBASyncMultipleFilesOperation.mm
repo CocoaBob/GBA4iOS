@@ -9,6 +9,8 @@
 #import "GBASyncMultipleFilesOperation_Private.h"
 #import "GBASyncManager_Private.h"
 
+#import <SSZipArchive.h>
+
 NSString * const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification = @"GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification";
 NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceUploadHistoryNotification";
 
@@ -216,13 +218,12 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         }
         
         // ROM Save files. Because there's only one save file ever allowed at one time, we have to be extra careful. Otherwise, we don't care if we overwrite local with whatever the new server is.
-        if ([[[downloadOperation.dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"])
+        if ([[[downloadOperation.dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[downloadOperation.dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
         {
-            
             DBMetadata *cachedMetadata = [dropboxFiles objectForKey:downloadOperation.dropboxPath];
             GBAROM *rom = [GBAROM romWithName:romName];
             
-            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:downloadOperation.localPath error:nil];
+            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil];
             NSDate *currentDate = [attributes fileModificationDate];
             NSDate *previousDate = cachedMetadata.lastModifiedDate;
             
@@ -230,7 +231,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             
             // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
             // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
-            if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:downloadOperation.localPath isDirectory:nil])
+            if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath isDirectory:nil])
             {
                 DLog(@"Conflict downloading file: %@ Cached Metadata: %@", [downloadOperation.dropboxPath lastPathComponent], cachedMetadata.rev);
                 
@@ -302,8 +303,8 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     if ([directory isEqualToString:@"Saves"]) // ROM save files
     {
-        // Only .sav files
-        if (![[[metadata.path pathExtension] lowercaseString] isEqualToString:@"sav"])
+        // Only .sav/.rtcsav files
+        if (!([[[metadata.path pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[metadata.path pathExtension] lowercaseString] isEqualToString:@"rtcsav"]))
         {
             return;
         }
@@ -438,6 +439,26 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             //DLog(@"Syncing turned off for ROM: %@", romName);
             return;
         }
+        
+        if ([uploadOperation.localPath.pathExtension isEqualToString:@"rtcsav"])
+        {
+            GBAROM *rom = [GBAROM romWithName:romName];
+            
+            if (!([[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath] && [[NSFileManager defaultManager] fileExistsAtPath:rom.rtcFileFilepath]))
+            {
+                // Both files should exist for us to continue
+                return;
+            }
+            
+            DLog(@"Local Path: %@", uploadOperation.localPath);
+            
+            // Make sure no previous files remain there
+            [[NSFileManager defaultManager] removeItemAtPath:uploadOperation.localPath error:nil];
+            
+            [SSZipArchive createZipFileAtPath:uploadOperation.localPath withFilesAtPaths:@[rom.saveFileFilepath, rom.rtcFileFilepath]];
+            
+            DLog(@"Created zip file");
+        }
             
         uploadOperation.delegate = self;
         uploadOperation.toastView = uploadingProgressToastView;
@@ -497,6 +518,11 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         NSString *uniqueName = [rom uniqueName];
         NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@.sav", uniqueName, uniqueName];
         
+        if ([[NSFileManager defaultManager] fileExistsAtPath:rom.rtcFileFilepath])
+        {
+            dropboxPath = [GBASyncManager zippedDropboxPathForSaveFileDropboxPath:dropboxPath];
+        }
+        
         // Already marked for upload, don't need to upload again
         if (pendingUploads[filepath])
         {
@@ -518,9 +544,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             continue;
         }
         
-        // Cache it to pendingUploads
-        GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:rom.saveFileFilepath dropboxPath:dropboxPath];
-        [[GBASyncManager sharedManager] cacheUploadOperation:uploadOperation];
+        [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
     }
 }
 
@@ -596,9 +620,9 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 continue;
             }
             
-            // Cache it to pendingUploads
-            GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:filepath dropboxPath:dropboxPath];
-            [[GBASyncManager sharedManager] cacheUploadOperation:uploadOperation];
+            GBACheat *cheat = [GBACheat cheatWithContentsOfFile:filepath];
+            
+            [[GBASyncManager sharedManager] prepareToUploadCheat:cheat forROM:rom];
         }
         
     }
@@ -683,9 +707,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 continue;
             }
             
-            // Cache it to pendingUploads
-            GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:filepath dropboxPath:dropboxPath];
-            [[GBASyncManager sharedManager] cacheUploadOperation:uploadOperation];
+            [[GBASyncManager sharedManager] prepareToUploadSaveStateAtPath:filepath forROM:rom];
         }
         
     }
@@ -838,7 +860,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         if ([entry.metadata isDeleted] || entry.metadata.path == nil || entry.metadata.filename == nil)
         {
             // Never ever delete .sav files. In case a user's Dropbox account is deleted, even if they lose their save states and cheats they'll still have their .sav file
-            if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || !deleteDeletedDropboxFiles)
+            if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || [entry.lowercasePath.pathExtension isEqualToString:@"rtcsav"] || !deleteDeletedDropboxFiles)
             {
                 continue;
             }
@@ -860,7 +882,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             continue;
         }
         
-        if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || [entry.lowercasePath.pathExtension isEqualToString:@"plist"] || [entry.lowercasePath.pathExtension isEqualToString:@"gbacheat"] || [entry.lowercasePath.pathExtension isEqualToString:@"sgm"])
+        if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || [entry.lowercasePath.pathExtension isEqualToString:@"rtcsav"] || [entry.lowercasePath.pathExtension isEqualToString:@"plist"] || [entry.lowercasePath.pathExtension isEqualToString:@"gbacheat"] || [entry.lowercasePath.pathExtension isEqualToString:@"sgm"])
         {
             [dropboxFiles setObject:entry.metadata forKey:entry.metadata.path];
         }

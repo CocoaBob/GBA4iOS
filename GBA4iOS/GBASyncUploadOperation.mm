@@ -82,8 +82,14 @@
         [dropboxFiles setObject:metadata forKey:metadata.path];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
         
+        // Delete temporary .rtcsav file if we made one
+        if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
+        {
+            [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
+        }
+        
         // Only update upload histrory for save files - we only ever use it for this, and keeps the file small
-        if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"])
+        if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
         {
             // Upload History
             NSMutableDictionary *uploadHistory = [[GBASyncManager sharedManager] deviceUploadHistory];

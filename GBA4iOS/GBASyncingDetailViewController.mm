@@ -674,7 +674,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     
     for (DBMetadata *metadata in remoteSaves)
     {
-        if ([metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:@"sav"]])
+        if ([metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:@"sav"]] || [metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:@"rtcsav"]])
         {
             return metadata;
         }

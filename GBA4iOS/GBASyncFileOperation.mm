@@ -86,7 +86,7 @@
     
     NSString *fileDescription = NSLocalizedString(@"files", @"");
     
-    if ([dropboxPath.pathExtension isEqualToString:@"sav"])
+    if ([dropboxPath.pathExtension isEqualToString:@"sav"] || [dropboxPath.pathExtension isEqualToString:@"rtcsav"])
     {
         fileDescription = NSLocalizedString(@"save", @"");
     }

@@ -407,10 +407,17 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     }
     
     NSString *uniqueName = [rom uniqueName];
+    NSString *localPath = rom.saveFileFilepath;
     NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@", uniqueName, [uniqueName stringByAppendingPathExtension:@"sav"]];
     
+    if ([[NSFileManager defaultManager] fileExistsAtPath:rom.rtcFileFilepath])
+    {
+        dropboxPath = [GBASyncManager zippedDropboxPathForSaveFileDropboxPath:dropboxPath];
+        localPath = [GBASyncManager zippedLocalPathForUploadingSaveFileForROM:rom];
+    }
+    
     // Cache it for later
-    GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:rom.saveFileFilepath dropboxPath:dropboxPath];
+    GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath dropboxPath:dropboxPath];
     [self cacheUploadOperation:uploadOperation];
 }
 
@@ -880,6 +887,32 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     }
     
     return localPath;
+}
+
++ (NSString *)zippedDropboxPathForSaveFileDropboxPath:(NSString *)dropboxPath
+{
+    NSString *zippedPath = [[dropboxPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"rtcsav"];
+    return zippedPath;
+}
+
++ (NSString *)zippedLocalPathForUploadingSaveFileForROM:(GBAROM *)rom
+{
+    NSString *uploadsDirectory = [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"Uploads"];
+    NSString *zippedPath = [uploadsDirectory stringByAppendingPathComponent:[rom.name stringByAppendingPathExtension:@"rtcsav"]];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:zippedPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return zippedPath;
+}
+
++ (NSString *)zippedLocalPathForDownloadingSaveFileForROM:(GBAROM *)rom
+{
+    NSString *downloadsDirectory = [[GBASyncManager dropboxSyncDirectoryPath] stringByAppendingPathComponent:@"Downloads"];
+    NSString *zippedPath = [downloadsDirectory stringByAppendingPathComponent:[rom.name stringByAppendingPathExtension:@"rtcsav"]];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:zippedPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return zippedPath;
 }
 
 #pragma mark - Getters/Setters
