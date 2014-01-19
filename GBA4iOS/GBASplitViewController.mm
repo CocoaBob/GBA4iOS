@@ -173,7 +173,17 @@
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
 {
     // Needs to "dismiss" popover when rotating to the orientation 180 degress opposite of the current one (ex Landscape Left to Landscape Right)
-    return (self.emulationViewController.rom != nil || [self isRotatingInterface]);
+    if ([self isRotatingInterface])
+    {
+        return YES;
+    }
+    
+    if ([self.emulationDelegate respondsToSelector:@selector(splitViewControllerShouldResumeEmulation:)])
+    {
+        return [self.emulationDelegate splitViewControllerShouldResumeEmulation:self];
+    }
+    
+    return YES;
 }
 
 #pragma mark - UISplitViewControllerDelegate

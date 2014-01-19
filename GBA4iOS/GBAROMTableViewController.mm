@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     GBAVisibleROMTypeGBC,
 };
 
-@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, RSTWebViewControllerDelegate, GBASettingsViewControllerDelegate, GBASyncingDetailViewControllerDelegate>
+@interface GBAROMTableViewController () <RSTWebViewControllerDownloadDelegate, UIAlertViewDelegate, UIViewControllerTransitioningDelegate, UIPopoverControllerDelegate, RSTWebViewControllerDelegate, GBASettingsViewControllerDelegate, GBASyncingDetailViewControllerDelegate, GBASplitViewControllerEmulationDelegate>
 {
     BOOL _performedInitialRefreshDirectory;
 }
@@ -124,6 +124,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     [self importDefaultSkins];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        [(GBASplitViewController *)self.splitViewController setEmulationDelegate:self];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -1119,6 +1124,21 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     {
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     }
+}
+
+#pragma mark - GBASplitViewControllerEmulationDelegate
+
+- (BOOL)splitViewControllerShouldResumeEmulation:(GBASplitViewController *)splitViewController
+{
+    if (self.emulationViewController.rom == nil)
+    {
+        return NO;
+    }
+    
+    [self startROM:self.emulationViewController.rom showSameROMAlertIfNeeded:NO];
+    
+    // Always return NO, because we'll resume the emulation ourselves
+    return NO;
 }
 
 #pragma mark - Deleting/Renaming/Sharing

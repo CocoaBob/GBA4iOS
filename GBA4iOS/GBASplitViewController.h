@@ -11,12 +11,22 @@
 #import "GBAROMTableViewController.h"
 #import "GBAEmulationViewController.h"
 
+@class GBASplitViewController;
+
+@protocol GBASplitViewControllerEmulationDelegate <NSObject>
+
+@optional
+- (BOOL)splitViewControllerShouldResumeEmulation:(GBASplitViewController *)splitViewController;
+
+@end
+
 @interface GBASplitViewController : UISplitViewController
 
 @property (readonly, assign, nonatomic) BOOL romTableViewControllerIsVisible;
 
 @property (readonly, strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (readonly, strong, nonatomic) GBAEmulationViewController *emulationViewController;
+@property (weak, nonatomic) id<GBASplitViewControllerEmulationDelegate> emulationDelegate;
 
 - (void)showROMTableViewControllerWithAnimation:(BOOL)animated;
 - (void)hideROMTableViewControllerWithAnimation:(BOOL)animated;
