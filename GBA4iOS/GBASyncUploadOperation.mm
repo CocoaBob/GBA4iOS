@@ -79,6 +79,10 @@
                            
             [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:rom.saveFileFilepath error:nil];
             [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:rom.rtcFileFilepath error:nil];
+            
+            NSDate *date = [[[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil] fileModificationDate];
+            
+            DLog(@"Dropbox: %@ Local: %@", metadata.lastModifiedDate, date);
         }
         else
         {
@@ -94,9 +98,7 @@
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         [dropboxFiles setObject:metadata forKey:metadata.path];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
-        
-        
-        
+                
         
         // Only update upload histrory for save files - we only ever use it for this, and keeps the file small
         if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])

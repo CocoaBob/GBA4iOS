@@ -1472,7 +1472,8 @@ void uncaughtExceptionHandler(NSException *exception)
         [self updateAutosaveState];
     }
     
-    if (self.rom && !self.preventSavingROMSaveData)
+    // Only save GBC games; saving some GBA games (such as Wario Ware Twisted) can erase the save file if saved here (due to RTC emulation, I'm guessing, even though Pokemon games work fine)
+    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
     {
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
     }
@@ -1484,7 +1485,8 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     // Check didBecomeActive:
     
-    if (self.rom && !self.preventSavingROMSaveData)
+    // Only save GBC games; saving some GBA games (such as Wario Ware Twisted) can erase the save file if saved here (due to RTC emulation, I'm guessing, even though Pokemon games work fine)
+    if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
     {
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
     }
@@ -2403,6 +2405,12 @@ void uncaughtExceptionHandler(NSException *exception)
 
 - (void)setRom:(GBAROM *)rom
 {
+    // Only save data if the new rom is different; otherwise, we may just be resetting the ROM after downloading a save from Dropbox in which case we *don't* want to save data.
+    if (self.rom && self.rom.type == GBAROMTypeGBC && ![_rom isEqual:rom])
+    {
+        [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
+    }
+    
     _rom = rom;
     
     self.usingGyroscope = NO;

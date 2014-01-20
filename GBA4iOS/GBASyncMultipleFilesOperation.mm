@@ -141,7 +141,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
     
     NSDictionary *pendingDownloads = [[[GBASyncManager sharedManager] pendingDownloads] copy];
-        
+            
     if ([pendingDownloads count] == 0)
     {
         [self uploadFiles];
@@ -209,21 +209,35 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             [pendingDeletions writeToFile:[GBASyncManager pendingDeletionsPath] atomically:YES];
         }
         
+        NSString *dropboxPathExtension = [[downloadOperation.dropboxPath pathExtension] lowercaseString];
+        
         // ROM Save files. Because there's only one save file ever allowed at one time, we have to be extra careful. Otherwise, we don't care if we overwrite local with whatever the new server is.
-        if ([[[downloadOperation.dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[downloadOperation.dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
+        if ([dropboxPathExtension isEqualToString:@"sav"] || [dropboxPathExtension isEqualToString:@"rtcsav"])
         {
-            DBMetadata *cachedMetadata = [dropboxFiles objectForKey:downloadOperation.dropboxPath];
             GBAROM *rom = [GBAROM romWithName:romName];
+            
+            if (([dropboxPathExtension isEqualToString:@"sav"] && [rom usesGBCRTC]) || ([dropboxPathExtension isEqualToString:@"rtcsav"] && ![rom usesGBCRTC]))
+            {
+                // Attempting to download wrong file type for ROM, so abort it.
+                
+                [[[GBASyncManager sharedManager] pendingDownloads] removeObjectForKey:downloadOperation.dropboxPath];
+                [NSKeyedArchiver archiveRootObject:[[GBASyncManager sharedManager] pendingDownloads] toFile:[GBASyncManager pendingDownloadsPath]];
+                
+                return;
+            }
+            
+            DBMetadata *cachedMetadata = [dropboxFiles objectForKey:downloadOperation.dropboxPath];
+            
             
             NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil];
             NSDate *currentDate = [attributes fileModificationDate];
             NSDate *previousDate = cachedMetadata.lastModifiedDate;
             
-            DLog(@"Name: %@ Cached: %@ Previous: %@ Current: %@", rom.name, cachedMetadata, previousDate, currentDate);
-            
+            DLog(@"Cached: %@ Previous: %@ Current: %@", cachedMetadata, previousDate, currentDate);
+                        
             // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
             // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
-            if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath isDirectory:nil])
+            if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath])
             {
                 DLog(@"Conflict downloading file: %@ Cached Metadata: %@", [downloadOperation.dropboxPath lastPathComponent], cachedMetadata.rev);
                 
@@ -447,6 +461,8 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         {
             GBAROM *rom = [GBAROM romWithName:romName];
             
+            // Below code is same as in -[GBASyncingDetailViewController syncWithDropbox]
+            
             if (!([[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath] && [[NSFileManager defaultManager] fileExistsAtPath:rom.rtcFileFilepath]))
             {
                 // Both files should exist for us to continue
@@ -517,7 +533,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         NSString *uniqueName = [rom uniqueName];
         NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@.sav", uniqueName, uniqueName];
         
-        if ([[NSFileManager defaultManager] fileExistsAtPath:rom.rtcFileFilepath])
+        if ([rom usesGBCRTC])
         {
             dropboxPath = [GBASyncManager zippedDropboxPathForSaveFileDropboxPath:dropboxPath];
         }

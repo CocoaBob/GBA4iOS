@@ -95,8 +95,9 @@ void GB::setSaveDir(const std::string &sdir) {
 }
 
 LoadRes GB::load(std::string const &romfile, unsigned const flags) {
-	if (p_->cpu.loaded())
-		p_->cpu.saveSavedata();
+    // We handle this ourselves from setROM in emulationViewController, and has the advantage of not messing up dropbox sync.
+	/*if (p_->cpu.loaded())
+		p_->cpu.saveSavedata(); Riley Testut */
 	
 	LoadRes const loadres = p_->cpu.load(romfile, flags & FORCE_DMG, flags & MULTICART_COMPAT);
 	

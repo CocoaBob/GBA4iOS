@@ -322,7 +322,18 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     
     [self cacheDownloadOperation:downloadOperation];
     
-    [self.pendingUploads removeObjectForKey:downloadOperation.localPath];
+    NSString *localPath = downloadOperation.localPath;
+    
+    // Change local path from Downloads to Uploads to remove from pendingUploads
+    if ([downloadOperation.localPath.pathExtension isEqualToString:@"rtcsav"])
+    {
+        NSString *romName = [GBASyncManager romNameFromDropboxPath:downloadOperation.dropboxPath];
+        GBAROM *rom = [GBAROM romWithName:romName];
+        
+        localPath = [GBASyncManager zippedLocalPathForUploadingSaveFileForROM:rom];
+    }
+    
+    [self.pendingUploads removeObjectForKey:localPath];
     [NSKeyedArchiver archiveRootObject:self.pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
 }
 
@@ -410,7 +421,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     NSString *localPath = rom.saveFileFilepath;
     NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@", uniqueName, [uniqueName stringByAppendingPathExtension:@"sav"]];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:rom.rtcFileFilepath])
+    if ([rom usesGBCRTC])
     {
         dropboxPath = [GBASyncManager zippedDropboxPathForSaveFileDropboxPath:dropboxPath];
         localPath = [GBASyncManager zippedLocalPathForUploadingSaveFileForROM:rom];

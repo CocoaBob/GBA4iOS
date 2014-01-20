@@ -13,6 +13,8 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
 
 @interface GBAROM ()
 
+@property (readonly, assign, nonatomic) BOOL usesGBCRTC;
+
 @property (readwrite, assign, nonatomic) BOOL syncingDisabled;
 @property (readwrite, assign, nonatomic) BOOL conflicted;
 @property (readwrite, assign, nonatomic) BOOL newlyConflicted;

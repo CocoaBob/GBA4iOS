@@ -13,6 +13,7 @@
 #import "GBAEmulatorCore.h"
 
 #import <DropboxSDK/DropboxSDK.h>
+#import <SSZipArchive.h>
 
 NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCurrentGameNotification";
 
@@ -176,14 +177,50 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
         
     };
     
+    BOOL romUsesGBCRTC = [self.rom usesGBCRTC];
+    
+    NSString *localPath = nil;
+    
+    if (romUsesGBCRTC)
+    {
+        if (self.selectedSaveIndexPath.section == 2)
+        {
+            localPath = [GBASyncManager zippedLocalPathForUploadingSaveFileForROM:self.rom];
+        }
+        else
+        {
+            localPath = [GBASyncManager zippedLocalPathForDownloadingSaveFileForROM:self.rom];
+        }
+    }
+    else
+    {
+        localPath = self.rom.saveFileFilepath;
+    }
+    
     NSString *saveFileDropboxPath = [self saveFileDropboxPathForROM:self.rom];
     
     if (self.selectedSaveIndexPath.section == 2) // Selected Local Save
     {
         if (![[NSFileManager defaultManager] fileExistsAtPath:self.rom.saveFileFilepath isDirectory:nil])
         {
-            // Create an empty save file, since dropbox sync does not sync deletions of .sav files (which is intentional as a safety precaution)
+            // Create an empty save file, since dropbox sync does not sync deletions of save files (which is intentional as a safety precaution)
             [@"" writeToFile:self.rom.saveFileFilepath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        }
+        
+        if (romUsesGBCRTC)
+        {
+            if (![[NSFileManager defaultManager] fileExistsAtPath:self.rom.rtcFileFilepath isDirectory:nil])
+            {
+                // Create an empty save file, since dropbox sync does not sync deletions of .rtcsav files (which is intentional as a safety precaution)
+                [@"" writeToFile:self.rom.rtcFileFilepath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+            }
+            
+            // Below code is same as in -[GBASyncMultipleFilesOperation uploadFiles]
+            
+            // Make sure no previous files remain there
+            [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
+            
+            [SSZipArchive createZipFileAtPath:localPath withFilesAtPaths:@[self.rom.saveFileFilepath, self.rom.rtcFileFilepath]];
         }
         
         DBMetadata *metadata = [self dropboxMetadataForROM:self.rom];
@@ -191,11 +228,11 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
         if (metadata)
         {
             // Use metadata in case upload fails, and user uploads another save before this has a chance to re-upload.
-            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:completionBlock];
+            [[GBASyncManager sharedManager] uploadFileAtPath:localPath withMetadata:metadata completionBlock:completionBlock];
         }
         else
         {
-            [[GBASyncManager sharedManager] uploadFileAtPath:self.rom.saveFileFilepath toDropboxPath:saveFileDropboxPath completionBlock:completionBlock];
+            [[GBASyncManager sharedManager] uploadFileAtPath:localPath toDropboxPath:saveFileDropboxPath completionBlock:completionBlock];
         }
         
         // Delete all conflicted files from Dropbox, leaving only the uploaded file (with correct dropbox filename)
@@ -214,11 +251,9 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     }
     
     DBMetadata *metadata = self.remoteSaves[self.selectedSaveIndexPath.row];
-    
-    DLog(@"Metadata: %@", metadata.path);
-    
+        
     // Selected Dropbox Save
-    [[GBASyncManager sharedManager] downloadFileToPath:self.rom.saveFileFilepath withMetadata:metadata completionBlock:^(NSString *localPath, DBMetadata *newMetadata, NSError *error) {
+    [[GBASyncManager sharedManager] downloadFileToPath:localPath withMetadata:metadata completionBlock:^(NSString *localPath, DBMetadata *newMetadata, NSError *error) {
         if (error)
         {
             [self.rom setConflicted:YES];
@@ -312,9 +347,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
 {
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self uploadHistoryDirectoryPath] error:nil];
     for (NSString *filename in contents)
-    {
-        DLog(@"Filename: %@", filename);
-        
+    {        
         if (![[filename pathExtension] isEqualToString:@"plist"])
         {
             continue;
@@ -672,9 +705,20 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
 {
     NSArray *remoteSaves = [self.remoteSaves copy];
     
+    NSString *supportedExtension = nil;
+    
+    if ([rom usesGBCRTC])
+    {
+        supportedExtension = @"rtcsav";
+    }
+    else
+    {
+        supportedExtension = @"sav";
+    }
+    
     for (DBMetadata *metadata in remoteSaves)
     {
-        if ([metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:@"sav"]] || [metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:@"rtcsav"]])
+        if ([metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:supportedExtension]])
         {
             return metadata;
         }
@@ -686,7 +730,19 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
 - (NSString *)saveFileDropboxPathForROM:(GBAROM *)rom
 {
     NSString *uniqueName = rom.uniqueName;
-    return [NSString stringWithFormat:@"/%@/Saves/%@.sav", uniqueName, uniqueName];
+    
+    NSString *dropboxPath = nil;
+    
+    if ([rom usesGBCRTC])
+    {
+        dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@.rtcsav", uniqueName, uniqueName];
+    }
+    else
+    {
+        dropboxPath = [NSString stringWithFormat:@"/%@/Saves/%@.sav", uniqueName, uniqueName];
+    }
+    
+    return dropboxPath;
 }
 
 #pragma mark - Dismissal

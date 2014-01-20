@@ -292,6 +292,27 @@
     return [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
 }
 
+- (NSString *)hexadecimalStringFromData:(NSData *)data {
+    
+    const unsigned char *dataBuffer = (const unsigned char *)[data bytes];
+    
+    if (!dataBuffer)
+    {
+        return @"";
+    }
+    
+    NSUInteger dataLength  = [data length];
+    NSMutableString *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
+    
+    for (NSUInteger i = 0; i < dataLength; ++i)
+    {
+        [hexString appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)dataBuffer[i]]];
+    }
+    
+    return [NSString stringWithString:hexString];
+}
+
+
 #pragma mark - Getters/Setters
 
 - (NSString *)name
@@ -412,6 +433,33 @@
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:[newlyConflictedROMs allObjects] forKey:@"newlyConflictedROMs"];
+}
+
+- (BOOL)usesGBCRTC
+{
+    if (self.type == GBAROMTypeGBA)
+    {
+        return NO;
+    }
+    
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:self.filepath];
+    [fileHandle seekToFileOffset:0x147];
+    
+    NSData *data = [fileHandle readDataOfLength:1];
+    
+    switch (((unsigned char *)[data bytes])[0])
+    {
+        case 0x0F:
+        case 0x10:
+        {
+            return true;
+        }
+            
+        default:
+        {
+           return false;
+        }
+	}
 }
 
 #pragma mark - Unique Name

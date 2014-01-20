@@ -95,6 +95,16 @@
                         return [self restClient:client loadFileFailedWithError:error];
                     }
                 }
+                
+                [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:destinationPath error:&error];
+                
+                if ([filepath.pathExtension isEqualToString:@"sav"])
+                {
+                    NSDate *date = [[[NSFileManager defaultManager] attributesOfItemAtPath:destinationPath error:nil] fileModificationDate];
+                    
+                    DLog(@"Dropbox: %@ Local: %@", metadata.lastModifiedDate, date);
+                    
+                }
             }
             
             [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
