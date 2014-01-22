@@ -85,7 +85,7 @@
             frame.origin.x = -CGRectGetWidth(frame);
         }
         
-        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:0 animations:^{
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:7 << 16 animations:^{
             fromViewController.view.frame = frame;
             
             [(GBAEmulationViewController *)toViewController blurredContentsImageView].frame = CGRectMake(0, CGRectGetHeight(fromViewController.view.bounds), CGRectGetWidth(fromViewController.view.bounds), 0);

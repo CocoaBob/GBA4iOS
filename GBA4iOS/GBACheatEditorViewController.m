@@ -38,6 +38,8 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *codeTypeSegmentedControl;
 @property (strong, nonatomic) IBOutlet GBACheatTextView *codeTextView;
 
+@property (copy, nonatomic) NSString *initialCodeString;
+
 - (IBAction)saveCheat:(UIBarButtonItem *)sender;
 - (IBAction)cancelSavingNewCheat:(UIBarButtonItem *)sender;
 - (IBAction)switchCheatType:(UISegmentedControl *)sender;
@@ -105,6 +107,7 @@
         }
         
         self.codeTextView.text = codes;
+        self.initialCodeString = codes;
         [self textViewDidChange:self.codeTextView];
     }
     
@@ -268,6 +271,16 @@
     }
 }
 
+- (void)updateDoneButtonState
+{
+    self.navigationItem.rightBarButtonItem.enabled = (self.nameTextField.text.length > 0 &&
+                                                      self.codeTextView.text.length > 0 &&
+                                                      (![self.nameTextField.text isEqualToString:self.cheat.name] ||
+                                                      ![self.codeTextView.text isEqualToString:self.initialCodeString]));
+}
+
+#pragma mark - Helper Methods
+
 - (NSArray *)codesFromTextView
 {
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -301,8 +314,7 @@
 - (void)textFieldDidChange:(UITextField *)textField
 {
     self.title = textField.text;
-    
-    self.navigationItem.rightBarButtonItem.enabled = (self.nameTextField.text.length > 0 && self.codeTextView.text.length > 0);
+    [self updateDoneButtonState];
 }
 
 #pragma mark - UITextViewDelegate
@@ -314,8 +326,7 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    self.navigationItem.rightBarButtonItem.enabled = (self.nameTextField.text.length > 0 && self.codeTextView.text.length > 0);
-    
+    [self updateDoneButtonState];
     textView.text = [[textView.text stringByRemovingWhitespace] uppercaseString];
 }
 

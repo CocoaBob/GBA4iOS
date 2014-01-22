@@ -1365,6 +1365,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl
 {
+    self.selectedROMIndexPath = nil;
+    
     GBAVisibleROMType romType = (GBAVisibleROMType)segmentedControl.selectedSegmentIndex;
     self.romType = romType;
 }
