@@ -818,16 +818,6 @@ static GBAEmulationViewController *_emulationViewController;
                 [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
                 
                 [self returnToROMTableViewController];
-                
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-                {
-                    [self blurWithInitialAlpha:0.0];
-                    
-                    id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
-                    [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-                        [self setBlurAlpha:1.0];
-                    } completion:nil];
-                }
             }
         }
         else {
@@ -1484,13 +1474,6 @@ static GBAEmulationViewController *_emulationViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && romTableViewController.presentedViewController == nil)
     {
         [self resumeEmulation];
-        
-        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
-        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            [self setBlurAlpha:0.0];
-        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            [self removeBlur];
-        }];
     }
 }
 

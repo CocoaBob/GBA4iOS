@@ -48,9 +48,13 @@
         toViewController.view.alpha = 0.0;
         toViewController.view.transform = CGAffineTransformScale(transform, 2.0, 2.0);
         
+        [(GBAEmulationViewController *)fromViewController blurWithInitialAlpha:0.0];
+        
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
             toViewController.view.alpha = 1.0;
             toViewController.view.transform = CGAffineTransformScale(transform, 1.0, 1.0);
+            
+            [(GBAEmulationViewController *)fromViewController setBlurAlpha:1.0];
         } completion:^(BOOL finished) {
             
             if (extendedStatusBar)
@@ -78,9 +82,14 @@
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
             fromViewController.view.alpha = 0.0;
             fromViewController.view.transform = CGAffineTransformScale(transform, 2.0, 2.0);
+            
+            [(GBAEmulationViewController *)toViewController setBlurAlpha:0.0];
         } completion:^(BOOL finished) {
             fromViewController.view.transform = CGAffineTransformScale(transform, 1.0, 1.0);
             fromViewController.view.frame = frame;
+            
+            [(GBAEmulationViewController *)toViewController removeBlur];
+            
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];
         
