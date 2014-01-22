@@ -1447,14 +1447,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        [self blurWithInitialAlpha:1.0];
-        
-        self.blurredContentsImageView.frame = CGRectMake(0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds), 0);
-        
-        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
-        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
-        } completion:nil];
+        // Theoretically, I should put the blurring logic here and not in the transition itself, but yeah that doesn't work. With the 7 << 16 UIViewAnimationOption, it doesn't animate alongside it correctly
     }
     else
     {
@@ -1471,12 +1464,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
-        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            self.blurredContentsImageView.frame = CGRectMake(0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds), 0);
-        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            [self removeBlur];
-        }];
+        // Theoretically, I should put the blurring logic here and not in the transition itself, but yeah that doesn't work. With the 7 << 16 UIViewAnimationOption, it doesn't animate alongside it correctly
     }
     else
     {
@@ -1493,7 +1481,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)romTableViewControllerWillDisappear:(GBAROMTableViewController *)romTableViewController
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && romTableViewController.presentedViewController == nil)
     {
         [self resumeEmulation];
         

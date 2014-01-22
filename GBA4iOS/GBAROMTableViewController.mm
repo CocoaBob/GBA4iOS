@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
 @property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
+@property (assign, nonatomic) NSIndexPath *selectedROMIndexPath;
 
 @property (assign, nonatomic) BOOL dismissModalViewControllerUponKeyboardHide;
 
@@ -149,6 +150,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     {
         [self.tableView reloadData];
     }
+    
+    [self.tableView scrollToRowAtIndexPath:self.selectedROMIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -175,6 +178,12 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    // Don't scroll when rotating, we can't guarantee the user wants to stay on this index path
+    // [self.tableView scrollToRowAtIndexPath:self.selectedROMIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 }
 
 - (void)viewWillLayoutSubviews
@@ -440,6 +449,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         // Use name so we don't have to load a uniqueName from disk for every cell
         if ([self.emulationViewController.rom.name isEqualToString:[filename stringByDeletingPathExtension]] && self.emulationViewController.rom.type == romType)
         {
+            self.selectedROMIndexPath = indexPath;
             [self highlightCell:cell];
         }
         
@@ -1034,6 +1044,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         [self.emulationViewController launchGameWithCompletion:^{
             UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+            self.selectedROMIndexPath = indexPath;
             [self highlightCell:cell];
         }];
     };

@@ -25,6 +25,8 @@
     [[UIApplication sharedApplication] setStatusBarStyle:[toViewController preferredStatusBarStyle] animated:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:[toViewController prefersStatusBarHidden] withAnimation:UIStatusBarAnimationFade];
     
+    BOOL extendedStatusBar = ([[UIApplication sharedApplication] statusBarFrame].size.height == 40.f);
+    
     if ([self isPresenting])
     {
         [[transitionContext containerView] addSubview:fromViewController.view];
@@ -34,6 +36,15 @@
         
         toViewController.view.frame = [transitionContext initialFrameForViewController:fromViewController];
         
+        if (extendedStatusBar)
+        {
+            toViewController.view.frame = ({
+                CGRect frame = toViewController.view.frame;
+                frame.origin.y += 40.0f;
+                frame;
+            });
+        }
+        
         toViewController.view.alpha = 0.0;
         toViewController.view.transform = CGAffineTransformScale(transform, 2.0, 2.0);
         
@@ -41,6 +52,16 @@
             toViewController.view.alpha = 1.0;
             toViewController.view.transform = CGAffineTransformScale(transform, 1.0, 1.0);
         } completion:^(BOOL finished) {
+            
+            if (extendedStatusBar)
+            {
+                toViewController.view.frame = ({
+                    CGRect frame = toViewController.view.frame;
+                    frame.origin.y -= 20.0f;
+                    frame;
+                });
+            }
+            
             [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
         }];
     }
