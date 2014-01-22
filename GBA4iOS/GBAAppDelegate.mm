@@ -22,14 +22,27 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import <Crashlytics/Crashlytics.h>
+#import <CrashReporter/CrashReporter.h>
 #endif
 
 NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPlayROMNotification";
+
+static void * GBAApplicationCrashedContext = &GBAApplicationCrashedContext;
+
+static GBAAppDelegate *_appDelegate;
+
+@interface GBAAppDelegate ()
+
+@property (strong, nonatomic) GBAEmulationViewController *emulationViewController;
+
+@end
 
 @implementation GBAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    _appDelegate = self;
+    
     [UIView toggleViewMainThreadChecking];
         
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -51,22 +64,21 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
         }
     }
     
-    GBAEmulationViewController *emulationViewController = nil;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        emulationViewController = [[GBAEmulationViewController alloc] init];
+        self.emulationViewController = [[GBAEmulationViewController alloc] init];
         
-        self.window.rootViewController = emulationViewController;
+        self.window.rootViewController = self.emulationViewController;
     }
     else
     {
         GBASplitViewController *splitViewController = [[GBASplitViewController alloc] init];
         self.window.rootViewController = splitViewController;
         
-        emulationViewController = splitViewController.emulationViewController;
+        self.emulationViewController = splitViewController.emulationViewController;
     }
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -74,12 +86,17 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
     [GBASettingsViewController registerDefaults];
     
 #if !(TARGET_IPHONE_SIMULATOR)
+    
+#warning Uncomment for release, and comment out Crashlytics. Can't have both at once :(
+    //[self setUpCrashCallbacks];
+    
     [Crashlytics startWithAPIKey:@"40b809418ecb525b71aecd5d32fa2612063baaad"];
+    
 #endif
     
     [self.window makeKeyAndVisible];
     
-    [emulationViewController showSplashScreen];
+    [self.emulationViewController showSplashScreen];
     
     return YES;
 }
@@ -245,6 +262,42 @@ NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPla
     
     [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
 }
+
+#pragma mark - Application Crashes
+
+void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
+{
+    [_appDelegate.emulationViewController autoSaveIfPossible];
+}
+
+- (void)setUpCrashCallbacks
+{
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    PLCrashReporter *crashReporter = [PLCrashReporter sharedReporter];
+    
+    // Not interested in actual crashes; we use Crashlytics for that.
+    [crashReporter purgePendingCrashReport];
+    
+    PLCrashReporterCallbacks callbacks = {
+        .version = 0,
+        .context = GBAApplicationCrashedContext,
+        .handleSignal = applicationDidCrash
+    };
+    
+    [crashReporter setCrashCallbacks:&callbacks];
+    
+    NSError *error = nil;
+    
+    if (![crashReporter enableCrashReporterAndReturnError: &error])
+    {
+        DLog(@"Error loading crash reporter: %@", error);
+    }
+    
+#endif
+}
+
+#pragma mark - UIApplicationDelegate
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

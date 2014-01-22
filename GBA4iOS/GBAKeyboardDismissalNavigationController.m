@@ -35,7 +35,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-// Why the fuck is this not a property, I had to make a UINavigationController subclass JUST to return NO.
+// Why is this not a property, I had to make a UINavigationController subclass JUST to return NO.
 
 - (BOOL)disablesAutomaticKeyboardDismissal
 {

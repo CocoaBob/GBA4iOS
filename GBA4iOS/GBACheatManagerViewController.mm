@@ -422,12 +422,12 @@
 
 - (void)dismissCheatManagerViewController:(UIBarButtonItem *)button
 {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    
     if ([self.delegate respondsToSelector:@selector(cheatManagerViewControllerWillDismiss:)])
     {
         [self.delegate cheatManagerViewControllerWillDismiss:self];
     }
-    
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - Getters/Setters

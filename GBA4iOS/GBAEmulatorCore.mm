@@ -1009,10 +1009,12 @@ extern gambatte::GB gbEmu;
 #pragma mark - Wario Ware Twisted
 
 void startDeviceMotionDetection()
-{    
-    if ([[[GBAEmulatorCore sharedCore] delegate] emulatorCore:[GBAEmulatorCore sharedCore] shouldEnableGyroscopeForROM:[[GBAEmulatorCore sharedCore] rom]])
+{
+    [[GBAEmulatorCore sharedCore].motionManager startGyroUpdates];
+    
+    if ([[GBAEmulatorCore sharedCore].delegate respondsToSelector:@selector(emulatorCore:didEnableGyroscopeForROM:)])
     {
-        [[GBAEmulatorCore sharedCore].motionManager startGyroUpdates];
+        [[GBAEmulatorCore sharedCore].delegate emulatorCore:[GBAEmulatorCore sharedCore] didEnableGyroscopeForROM:[GBAEmulatorCore sharedCore].rom];
     }
 }
 

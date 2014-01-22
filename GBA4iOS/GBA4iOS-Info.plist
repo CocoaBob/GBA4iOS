@@ -12,6 +12,8 @@
 			<key>CFBundleTypeIconFiles</key>
 			<array>
 				<string>icon-60@2x</string>
+				<string>GBA4iOS/Images.xcassets/AppIcon.appiconset/Icon.png</string>
+				<string>GBA4iOS/Images.xcassets/AppIcon.appiconset/Icon.png</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>GBA Skin</string>
@@ -193,7 +195,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UIViewGroupOpacity</key>
-	<false/>
+	<true/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

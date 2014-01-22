@@ -498,11 +498,12 @@
 
 - (void)dismissSaveStateViewController:(UIBarButtonItem *)barButtonItem
 {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    
     if ([self.delegate respondsToSelector:@selector(saveStateViewControllerWillDismiss:)])
     {
         [self.delegate saveStateViewControllerWillDismiss:self];
     }
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - UITableViewDataSource

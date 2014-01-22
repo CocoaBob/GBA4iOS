@@ -25,6 +25,8 @@
 - (void)pauseEmulation;
 - (void)resumeEmulation;
 
+- (void)autoSaveIfPossible;
+
 - (void)launchGameWithCompletion:(void (^)(void))completionBlock;
 
 @end

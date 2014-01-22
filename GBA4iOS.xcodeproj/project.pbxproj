@@ -149,6 +149,8 @@
 		BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
 		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
+		BFC09D53188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
+		BFC09D54188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC9B535183182C60012A1EA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFC9B534183182C60012A1EA /* Default-568h@2x.png */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
@@ -454,6 +456,7 @@
 		BFAFF47E18400D7300E3240A /* GBAExternalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalController.m; sourceTree = "<group>"; };
 		BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionViewController.h; sourceTree = "<group>"; };
 		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionViewController.m; sourceTree = "<group>"; };
+		BFC09D52188D201A0064C497 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC9B529183017EE0012A1EA /* To_DO */ = {isa = PBXFileReference; lastKnownFileType = text; path = To_DO; sourceTree = "<group>"; };
@@ -720,6 +723,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */,
+				BFC09D54188D201A0064C497 /* CrashReporter.framework in Frameworks */,
 				BF2F35B5183FF6F9002ACE90 /* CoreMedia.framework in Frameworks */,
 				BF2F35B6183FF6F9002ACE90 /* AssetsLibrary.framework in Frameworks */,
 				BF2F35B7183FF6F9002ACE90 /* DropboxSDK.framework in Frameworks */,
@@ -758,6 +762,7 @@
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
 				CC1577D6179CF1B90068A54E /* QuartzCore.framework in Frameworks */,
 				CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */,
+				BFC09D53188D201A0064C497 /* CrashReporter.framework in Frameworks */,
 				BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */,
 				CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */,
 				CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */,
@@ -838,6 +843,13 @@
 				BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */,
 			);
 			name = "Dropbox File Manipulation Operations";
+			sourceTree = "<group>";
+		};
+		BF50FD69188D189D004153CE /* Exception Handling */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Exception Handling";
 			sourceTree = "<group>";
 		};
 		BF563AB4184B11C000722678 /* Launch Images */ = {
@@ -1074,6 +1086,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFC09D52188D201A0064C497 /* CrashReporter.framework */,
 				BF2638C518700E2400CE55F9 /* CoreMotion.framework */,
 				BF650F1418470DFC008113E4 /* Crashlytics.framework */,
 				BF8789F618404AC200C81AB2 /* GameController.framework */,
@@ -1245,10 +1258,10 @@
 		CC6D0A98180746D7001D089A /* Custom UIViewController Transitions */ = {
 			isa = PBXGroup;
 			children = (
-				CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */,
-				CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */,
 				BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */,
 				BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */,
+				CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */,
+				CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */,
 				CC6420B21807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.h */,
 				CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */,
 			);
@@ -1466,6 +1479,7 @@
 				BF2942A4188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m */,
 				CC76CF0417ED3D180072BF74 /* GBASaveStateTableViewCell.h */,
 				CC76CF0517ED3D180072BF74 /* GBASaveStateTableViewCell.m */,
+				BF50FD69188D189D004153CE /* Exception Handling */,
 			);
 			name = "Save States";
 			sourceTree = "<group>";
@@ -2008,6 +2022,7 @@
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2059,6 +2074,7 @@
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2106,6 +2122,7 @@
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2270,6 +2287,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2313,6 +2331,7 @@
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2599,6 +2618,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2644,6 +2664,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2804,6 +2825,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";

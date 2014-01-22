@@ -32,7 +32,7 @@ extern NSString *const GBAROMDidSaveDataNotification;
 
 @protocol GBAEmulatorCoreDelegate <NSObject>
 
-- (BOOL)emulatorCore:(GBAEmulatorCore *)emulatorCore shouldEnableGyroscopeForROM:(GBAROM *)rom;
+- (void)emulatorCore:(GBAEmulatorCore *)emulatorCore didEnableGyroscopeForROM:(GBAROM *)rom;
 
 @end
 

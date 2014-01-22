@@ -36,7 +36,7 @@
 
 static GBAEmulationViewController *_emulationViewController;
 
-@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate, GBAEventDistributionViewControllerDelegate, GBAEmulatorCoreDelegate> {
+@interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate, GBAEventDistributionViewControllerDelegate, GBAEmulatorCoreDelegate, GBAROMTableViewControllerAppearanceDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
     NSInteger _sustainButtonFrameCount;
@@ -99,7 +99,6 @@ static GBAEmulationViewController *_emulationViewController;
         _launchingApplication = YES;
         
         _emulationViewController = self;
-        InstallUncaughtExceptionHandler();
         
         [[GBAEmulatorCore sharedCore] setDelegate:self];
     }
@@ -163,6 +162,8 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self refreshLayout];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -171,55 +172,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     if ([self isLaunchingApplication])
     {
-        DLog(@"App did launch");
-        
-        self.eventDistributionROMs = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"eventDistributionROMs" ofType:@"plist"]];
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        {
-            // Add to our view so we can animate it
-            [self.view addSubview:self.splashScreenImageView];
-            
-            self.romTableViewController = [[GBAROMTableViewController alloc] init];
-            UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController);
-            navigationController.modalPresentationStyle = UIModalPresentationCustom;
-            navigationController.transitioningDelegate = self;
-            
-            [self presentViewController:navigationController animated:YES completion:^{
-                [self.splashScreenImageView removeFromSuperview];
-                self.splashScreenImageView = nil;
-                
-                if (self.rom)
-                {
-                    GBAROM *rom = self.rom;
-                    self.rom = nil;
-                    [self.romTableViewController startROM:rom];
-                }
-            }];
-        }
-        else
-        {
-            self.romTableViewController = [(GBASplitViewController *)self.splitViewController romTableViewController];
-            [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
-            
-            [UIView animateWithDuration:0.7 animations:^{
-                self.splashScreenImageView.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                [self.splashScreenImageView removeFromSuperview];
-                self.splashScreenImageView = nil;
-                
-                if (self.rom)
-                {
-                    GBAROM *rom = self.rom;
-                    self.rom = nil;
-                    [self.romTableViewController startROM:rom];
-                }
-            }];
-        }
-        
-        [[[[UIApplication sharedApplication] delegate] window] bringSubviewToFront:self.splashScreenImageView];
-        
-        self.romTableViewController.emulationViewController = self;
+        [self finishLaunchingApplication];
     }
     else
     {
@@ -231,6 +184,69 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+}
+
+- (void)finishLaunchingApplication
+{
+    DLog(@"App did launch");
+    
+    self.eventDistributionROMs = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"eventDistributionROMs" ofType:@"plist"]];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        // Add to our view so we can animate it
+        [self.view addSubview:self.splashScreenImageView];
+        
+        self.romTableViewController = [[GBAROMTableViewController alloc] init];
+        self.romTableViewController.appearanceDelegate = self;
+        self.romTableViewController.view.layer.allowsGroupOpacity = YES;
+        
+        UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController);
+        navigationController.modalPresentationStyle = UIModalPresentationCustom;
+        navigationController.transitioningDelegate = self;
+        
+        [self presentViewController:navigationController animated:YES completion:^{
+            
+            //self.romTableViewController.view.layer.allowsGroupOpacity = NO;
+            
+            navigationController.transitioningDelegate = self;
+            
+            [self.splashScreenImageView removeFromSuperview];
+            self.splashScreenImageView = nil;
+            
+            if (self.rom)
+            {
+                GBAROM *rom = self.rom;
+                self.rom = nil;
+                [self.romTableViewController startROM:rom];
+            }
+        }];
+    }
+    else
+    {
+        self.romTableViewController = [(GBASplitViewController *)self.splitViewController romTableViewController];
+        [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
+        
+        [UIView animateWithDuration:0.7 animations:^{
+            self.splashScreenImageView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [self.splashScreenImageView removeFromSuperview];
+            self.splashScreenImageView = nil;
+            
+            if (self.rom)
+            {
+                GBAROM *rom = self.rom;
+                self.rom = nil;
+                [self.romTableViewController startROM:rom];
+            }
+        }];
+    }
+    
+    [[[[UIApplication sharedApplication] delegate] window] bringSubviewToFront:self.splashScreenImageView];
+    
+    self.romTableViewController.emulationViewController = self;
+    
+    self.launchingApplication = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -248,7 +264,7 @@ static GBAEmulationViewController *_emulationViewController;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom == nil)
     {
-        return NO;
+        return YES;
     }
     
     return YES;
@@ -800,7 +816,18 @@ static GBAEmulationViewController *_emulationViewController;
             else
             {
                 [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
+                
                 [self returnToROMTableViewController];
+                
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                {
+                    [self blurWithInitialAlpha:0.0];
+                    
+                    id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
+                    [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+                        [self setBlurAlpha:1.0];
+                    } completion:nil];
+                }
             }
         }
         else {
@@ -1120,30 +1147,10 @@ static GBAEmulationViewController *_emulationViewController;
     }
 }
 
-void InstallUncaughtExceptionHandler()
+- (void)autoSaveIfPossible
 {
-	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-	signal(SIGABRT, SignalHandler);
-	signal(SIGILL, SignalHandler);
-	signal(SIGSEGV, SignalHandler);
-	signal(SIGFPE, SignalHandler);
-	signal(SIGBUS, SignalHandler);
-	signal(SIGPIPE, SignalHandler);
-}
-
-void SignalHandler(int signal)
-{
-    [_emulationViewController handleException];
-}
-
-void uncaughtExceptionHandler(NSException *exception)
-{
-    [_emulationViewController handleException];
-}
-
-- (void)handleException
-{
-    if ([self shouldAutosave]) {
+    if (self.rom && [self shouldAutosave])
+    {
         [self updateAutosaveState];
     }
 }
@@ -1157,7 +1164,6 @@ void uncaughtExceptionHandler(NSException *exception)
 - (void)updateAutosaveState
 {
     NSString *autosaveFilepath = [[self saveStateDirectory] stringByAppendingPathComponent:@"autosave.sgm"];
-    
     [[GBAEmulatorCore sharedCore] saveStateToFilepath:autosaveFilepath];
 }
 
@@ -1183,8 +1189,6 @@ void uncaughtExceptionHandler(NSException *exception)
     
     UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(cheatManagerViewController);
     
-    [self blurWithInitialAlpha:0.0];
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         cheatManagerViewController.theme = GBAThemedTableViewControllerThemeTranslucent;
@@ -1195,13 +1199,11 @@ void uncaughtExceptionHandler(NSException *exception)
     {
         cheatManagerViewController.theme = GBAThemedTableViewControllerThemeOpaque;
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            [self setBlurAlpha:1.0];
-        }];
     }
     
     [self presentViewController:navigationController animated:YES completion:nil];
+    
+    [self prepareForPresentingTranslucentViewController];
 }
 
 - (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController willDismissCheatEditorViewController:(GBACheatEditorViewController *)cheatEditorViewController
@@ -1213,14 +1215,7 @@ void uncaughtExceptionHandler(NSException *exception)
 {
     [self resumeEmulation];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        [UIView animateWithDuration:0.4 animations:^{
-            [self setBlurAlpha:0.0];
-        } completion:^(BOOL finished) {
-            [self removeBlur];
-        }];
-    }
+    [self prepareForDismissingTranslucentViewController];
 }
 
 #pragma mark - Event Distribution
@@ -1287,7 +1282,7 @@ void uncaughtExceptionHandler(NSException *exception)
 
 #pragma mark - GBAEmulatorCoreDelegate
 
-- (BOOL)emulatorCore:(GBAEmulatorCore *)emulatorCore shouldEnableGyroscopeForROM:(GBAROM *)rom
+- (void)emulatorCore:(GBAEmulatorCore *)emulatorCore didEnableGyroscopeForROM:(GBAROM *)rom
 {
     self.usingGyroscope = YES;
     self.showingGyroscopeAlert = YES;
@@ -1334,8 +1329,6 @@ void uncaughtExceptionHandler(NSException *exception)
             }];
         });
     }
-    
-    return YES;
 }
 
 #pragma mark - Settings
@@ -1395,15 +1388,15 @@ void uncaughtExceptionHandler(NSException *exception)
     
     if ([viewController isKindOfClass:[GBAROMTableViewController class]])
     {
-        if ([(GBAROMTableViewController *)viewController theme] == GBAThemedTableViewControllerThemeTranslucent)
+        if ([(GBAROMTableViewController *)viewController theme] == GBAThemedTableViewControllerThemeOpaque)
         {
-            GBAROMTableViewControllerAnimator *animator = [[GBAROMTableViewControllerAnimator alloc] init];
+            GBAInitialPresentROMTableViewControllerAnimator *animator = [[GBAInitialPresentROMTableViewControllerAnimator alloc] init];
             animator.presenting = YES;
             return animator;
         }
         else
         {
-            GBAInitialPresentROMTableViewControllerAnimator *animator = [[GBAInitialPresentROMTableViewControllerAnimator alloc] init];
+            GBAROMTableViewControllerAnimator *animator = [[GBAROMTableViewControllerAnimator alloc] init];
             animator.presenting = YES;
             return animator;
         }
@@ -1448,6 +1441,69 @@ void uncaughtExceptionHandler(NSException *exception)
     }
     
     return nil;
+}
+
+- (void)prepareForPresentingTranslucentViewController
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [self blurWithInitialAlpha:1.0];
+        
+        self.blurredContentsImageView.frame = CGRectMake(0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds), 0);
+        
+        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
+        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            self.blurredContentsImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
+        } completion:nil];
+    }
+    else
+    {
+        [self blurWithInitialAlpha:0.0];
+        
+        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
+        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            [self setBlurAlpha:1.0];
+        } completion:nil];
+    }
+}
+
+- (void)prepareForDismissingTranslucentViewController
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
+        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            self.blurredContentsImageView.frame = CGRectMake(0, CGRectGetHeight(self.view.bounds), CGRectGetWidth(self.view.bounds), 0);
+        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            [self removeBlur];
+        }];
+    }
+    else
+    {
+        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
+        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            [self setBlurAlpha:0.0];
+        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            [self removeBlur];
+        }];
+    }
+}
+
+#pragma mark - GBAROMTableViewControllerAppearanceDelegate
+
+- (void)romTableViewControllerWillDisappear:(GBAROMTableViewController *)romTableViewController
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [self resumeEmulation];
+        
+        id<UIViewControllerTransitionCoordinator> transitionCoordinatior = [self transitionCoordinator];
+        [transitionCoordinatior animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            [self setBlurAlpha:0.0];
+        } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            [self removeBlur];
+        }];
+    }
 }
 
 #pragma mark - App Status
@@ -2178,32 +2234,17 @@ void uncaughtExceptionHandler(NSException *exception)
         UIImage *blurredImage = [self blurredViewImageForInterfaceOrientation:self.interfaceOrientation drawController:YES];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:blurredImage];
         imageView.clipsToBounds = YES;
-        imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        imageView.translatesAutoresizingMaskIntoConstraints = YES;
+        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [imageView sizeToFit];
-        imageView.center = self.emulatorScreen.center;
+        imageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
         imageView.contentMode = UIViewContentModeBottom;
         imageView.alpha = alpha;
         [self.view addSubview:imageView];
         imageView;
     });
     
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.blurredContentsImageView
-                                                                  attribute:NSLayoutAttributeCenterX
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.view
-                                                                  attribute:NSLayoutAttributeCenterX
-                                                                 multiplier:1.0
-                                                                   constant:0];
-    [self.view addConstraint:constraint];
-    
-    constraint = [NSLayoutConstraint constraintWithItem:self.blurredContentsImageView
-                                                    attribute:NSLayoutAttributeCenterY
-                                                    relatedBy:NSLayoutRelationEqual
-                                                       toItem:self.view
-                                                    attribute:NSLayoutAttributeCenterY
-                                                   multiplier:1.0
-                                                     constant:0];
-    [self.view addConstraint:constraint];
+    [self.view addSubview:self.blurredContentsImageView];
     
     self.blurringContents = YES;
 }
