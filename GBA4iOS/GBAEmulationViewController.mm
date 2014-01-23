@@ -227,7 +227,7 @@ static GBAEmulationViewController *_emulationViewController;
         self.romTableViewController = [(GBASplitViewController *)self.splitViewController romTableViewController];
         [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
         
-        [UIView animateWithDuration:0.7 animations:^{
+        [UIView animateWithDuration:0.6 animations:^{
             self.splashScreenImageView.alpha = 0.0;
         } completion:^(BOOL finished) {
             [self.splashScreenImageView removeFromSuperview];
@@ -1922,12 +1922,6 @@ static GBAEmulationViewController *_emulationViewController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        [UIView animateWithDuration:0.4 animations:^{
-            [self setBlurAlpha:0.0];
-        } completion:^(BOOL finished) {
-            [self removeBlur];
-        }];
-        
         [self.romTableViewController dismissViewControllerAnimated:YES completion:nil];
         
         [(GBASplitViewController *)self.splitViewController hideROMTableViewControllerWithAnimation:YES];
