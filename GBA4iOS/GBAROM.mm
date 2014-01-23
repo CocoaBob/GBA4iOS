@@ -547,13 +547,24 @@
         return @"Unknown";
     }
     
-    NSString *embeddedName = [NSString stringWithUTF8String:(const char *)[data bytes]];
+    NSMutableString *embeddedName = [NSMutableString string];
+    
+    // Safety precaution in case other bytes are picked up from header
+    const char *bytes = (const char *)[data bytes];
+    for (NSUInteger i = 0; i < (NSUInteger)[data length]; i++)
+    {
+        unsigned char character = (unsigned char)bytes[i];
+        if (character < 128)
+        {
+            [embeddedName appendFormat:@"%c", character];
+        }
+    }
     
     // Keep this, I promise it's necessary. Sometimes the converted NSString contains too many characters
     if (embeddedName.length > length)
     {
         DLog(@"Embedded name too long: %@", embeddedName);
-        embeddedName = [embeddedName substringToIndex:length];
+        embeddedName = [[embeddedName substringToIndex:length] mutableCopy];
     }
     
     if (embeddedName == nil)
@@ -561,6 +572,8 @@
         DLog(@"Error converting embedded name data to string for ROM: %@", self.name);
         return @"Unknown";
     }
+    
+    [fileHandle closeFile];
     
     // NULL-terminates the string, which we don't want
     //return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

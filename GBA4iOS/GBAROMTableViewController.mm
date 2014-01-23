@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
 @property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
-@property (assign, nonatomic) NSIndexPath *selectedROMIndexPath;
+@property (strong, nonatomic) NSIndexPath *selectedROMIndexPath;
 
 @property (assign, nonatomic) BOOL dismissModalViewControllerUponKeyboardHide;
 

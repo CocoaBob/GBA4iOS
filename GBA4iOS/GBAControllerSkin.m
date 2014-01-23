@@ -203,16 +203,49 @@
     {
         NSDictionary *extendedEdges = buttonRects[@"extendedEdges"];
         
+        CGFloat topEdge = [extendedEdges[@"left"] floatValue];
+        CGFloat bottomEdge = [extendedEdges[@"bottom"] floatValue];
+        CGFloat leftEdge = [extendedEdges[@"left"] floatValue];
+        CGFloat rightEdge = [extendedEdges[@"right"] floatValue];
+        
         // Override master extendedEdges with a specific one for an individual button rect if it exists
         if (buttonRect[@"extendedEdges"])
         {
-            extendedEdges = buttonRect[@"extendedEdges"];
+            NSDictionary *buttonExtendedEdges = buttonRect[@"extendedEdges"];
+            
+            if (buttonExtendedEdges)
+            {
+                CGFloat buttonTopEdge = [buttonExtendedEdges[@"top"] floatValue];
+                CGFloat buttonBottomEdge = [buttonExtendedEdges[@"bottom"] floatValue];
+                CGFloat buttonLeftEdge = [buttonExtendedEdges[@"left"] floatValue];
+                CGFloat buttonRightEdge = [buttonExtendedEdges[@"right"] floatValue];
+                
+                if (buttonTopEdge > 0)
+                {
+                    topEdge = buttonTopEdge;
+                }
+                
+                if (buttonBottomEdge > 0)
+                {
+                    bottomEdge = buttonBottomEdge;
+                }
+                
+                if (buttonLeftEdge > 0)
+                {
+                    leftEdge = buttonLeftEdge;
+                }
+                
+                if (buttonRightEdge > 0)
+                {
+                    rightEdge = buttonRightEdge;
+                }
+            }
         }
         
-        rect.origin.x -= [extendedEdges[@"left"] floatValue];
-        rect.origin.y -= [extendedEdges[@"top"] floatValue];
-        rect.size.width += [extendedEdges[@"left"] floatValue] + [extendedEdges[@"right"] floatValue];
-        rect.size.height += [extendedEdges[@"top"] floatValue] +[extendedEdges[@"bottom"] floatValue];
+        rect.origin.x -= leftEdge;
+        rect.origin.y -= topEdge;
+        rect.size.width += leftEdge + rightEdge;
+        rect.size.height += topEdge + bottomEdge;
     }
         
     return rect;
