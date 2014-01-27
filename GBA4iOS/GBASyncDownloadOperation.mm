@@ -11,7 +11,7 @@
 #import "GBASyncFileOperation_Private.h"
 #import "GBASyncManager_Private.h"
 
-#import <SSZipArchive.h>
+#import "SSZipArchive.h"
 
 @implementation GBASyncDownloadOperation
 

@@ -13,7 +13,7 @@
 #import "GBAControllerSkinDownloadViewController.h"
 #import "GBAControllerSkin.h"
 
-#import <SSZipArchive/minizip/SSZipArchive.h>
+#import "SSZipArchive.h"
 
 @interface GBAControllerSkinSelectionViewController () {
     BOOL _viewDidAppear;

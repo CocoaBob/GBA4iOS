@@ -13,7 +13,7 @@
 #import "GBAEmulatorCore.h"
 
 #import <DropboxSDK/DropboxSDK.h>
-#import <SSZipArchive.h>
+#import "SSZipArchive.h"
 
 NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCurrentGameNotification";
 

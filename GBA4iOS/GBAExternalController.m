@@ -109,6 +109,136 @@
     return string;
 }
 
+#ifdef USE_POLLING
+
+- (void)configureController
+{
+    __weak __typeof__(self) weakSelf = self;
+    self.controller.controllerPausedHandler = ^(GCController *controller)
+    {
+        [weakSelf.delegate controllerInputDidPressMenuButton:weakSelf];
+    };
+}
+
+#pragma mark - Update Controls
+
+- (void)updateControllerInputs
+{
+    GCController *controller = self.controller;
+    
+    [self updateControllerButton:controller.gamepad.buttonA];
+    [self updateControllerButton:controller.gamepad.buttonB];
+    [self updateControllerButton:controller.gamepad.buttonX];
+    [self updateControllerButton:controller.gamepad.buttonY];
+    [self updateControllerButton:controller.gamepad.leftShoulder];
+    [self updateControllerButton:controller.gamepad.rightShoulder];
+    [self updateControllerButton:controller.extendedGamepad.leftTrigger];
+    [self updateControllerButton:controller.extendedGamepad.rightTrigger];
+    
+    [self updateControllerDPad:controller.gamepad.dpad];
+    [self updateControllerDPad:controller.extendedGamepad.leftThumbstick];
+}
+
+- (void)updateControllerButton:(GCControllerButtonInput *)button
+{
+    GBAExternalControllerButtonInput externalControllerButtonInput = [self externalControllerButtonInputForButton:button];
+    
+    BOOL previouslyPressed = [self.previousButtonStates[@(externalControllerButtonInput)] boolValue];
+    
+    if (previouslyPressed == (button.value > 0))
+    {
+        return;
+    }
+    
+    GBAControllerButton controllerButton = [GBAExternalController controllerButtonForControllerButtonInput:externalControllerButtonInput];
+    NSSet *set = [NSSet setWithObject:@(controllerButton)];
+    
+    if (button.value > 0)
+    {
+        [self.delegate controllerInput:self didPressButtons:set];
+    }
+    else
+    {
+        [self.delegate controllerInput:self didReleaseButtons:set];
+    }
+    
+    self.previousButtonStates[@(externalControllerButtonInput)] = @(button.value > 0);
+}
+
+
+- (void)updateControllerDPad:(GCControllerDirectionPad *)dPad
+{
+    NSMutableSet *pressedButtons = [NSMutableSet set];
+    NSMutableSet *releasedButtons = [NSMutableSet set];
+    
+    // Up
+    BOOL previouslyPressedUp = [self.previousButtonStates[@(GBAExternalControllerButtonInputUp)] boolValue];
+    if ([dPad.up isPressed] && !previouslyPressedUp)
+    {
+        [pressedButtons addObject:@(GBAControllerButtonUp)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputUp)] = @(dPad.up.pressed);
+    }
+    else if (![dPad.up isPressed] && previouslyPressedUp)
+    {
+        [releasedButtons addObject:@(GBAControllerButtonUp)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputUp)] = @(dPad.up.pressed);
+    }
+    
+    // Down
+    BOOL previouslyPressedDown = [self.previousButtonStates[@(GBAExternalControllerButtonInputDown)] boolValue];
+    if ([dPad.down isPressed] && !previouslyPressedDown)
+    {
+        [pressedButtons addObject:@(GBAControllerButtonDown)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputDown)] = @(dPad.down.pressed);
+    }
+    else if (![dPad.down isPressed] && previouslyPressedDown)
+    {
+        [releasedButtons addObject:@(GBAControllerButtonDown)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputDown)] = @(dPad.down.pressed);
+    }
+    
+    // Left
+    BOOL previouslyPressedLeft = [self.previousButtonStates[@(GBAExternalControllerButtonInputLeft)] boolValue];
+    if ([dPad.left isPressed] && !previouslyPressedLeft)
+    {
+        [pressedButtons addObject:@(GBAControllerButtonLeft)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputLeft)] = @(dPad.left.pressed);
+    }
+    else if (![dPad.left isPressed] && previouslyPressedLeft)
+    {
+        [releasedButtons addObject:@(GBAControllerButtonLeft)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputLeft)] = @(dPad.left.pressed);
+    }
+    
+    // Right
+    BOOL previouslyPressedRight = [self.previousButtonStates[@(GBAExternalControllerButtonInputRight)] boolValue];
+    if ([dPad.right isPressed] && !previouslyPressedRight)
+    {
+        [pressedButtons addObject:@(GBAControllerButtonRight)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputRight)] = @(dPad.right.pressed);
+    }
+    else if (![dPad.right isPressed] && previouslyPressedRight)
+    {
+        [releasedButtons addObject:@(GBAControllerButtonRight)];
+        self.previousButtonStates[@(GBAExternalControllerButtonInputRight)] = @(dPad.right.pressed);
+    }
+    
+    if ([pressedButtons count] > 0)
+    {
+        [self.delegate controllerInput:self didPressButtons:pressedButtons];
+    }
+    
+    if ([releasedButtons count] > 0)
+    {
+        [self.delegate controllerInput:self didReleaseButtons:releasedButtons];
+    }
+}
+
+/* Keeping all this code around in case Apple fixes the stupid delayed button bug, since it is much more efficient :( */
+
+#else
+
+
 - (void)configureController
 {
     __weak __typeof__(self) weakSelf = self;
@@ -175,6 +305,11 @@
     {
         [self controllerButtonInput:GBAExternalControllerButtonInputRightTrigger wasPressed:pressed];
     };
+    
+    extendedGamepad.leftThumbstick.valueChangedHandler = ^(GCControllerDirectionPad *dpad, float xValue, float yValue)
+    {
+        [self controllerDPadDidChange:dpad];
+    };
 }
 
 #pragma mark - Controls
@@ -196,11 +331,6 @@
     }
     
     self.previousButtonStates[@(buttonInput)] = @(pressed);
-}
-
-- (void)controllerThumbstickDidChange:(GCControllerAxisInput *)thumbstick
-{
-    
 }
 
 - (void)controllerDPadDidChange:(GCControllerDirectionPad *)dPad
@@ -271,6 +401,8 @@
     }
 }
 
+#endif
+
 #pragma mark - Helper Methods
 
 + (GBAControllerButton)controllerButtonForControllerButtonInput:(GBAExternalControllerButtonInput)buttonInput
@@ -312,6 +444,48 @@
     }
     
     return controllerButton;
+}
+
+- (GBAExternalControllerButtonInput)externalControllerButtonInputForButton:(GCControllerButtonInput *)button
+{
+    GCController *controller = self.controller;
+    
+    GBAExternalControllerButtonInput externalControllerButtonInput = 0;
+    
+    if (button == controller.gamepad.buttonA)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputA;
+    }
+    else if (button == controller.gamepad.buttonB)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputB;
+    }
+    else if (button == controller.gamepad.buttonX)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputX;
+    }
+    else if (button == controller.gamepad.buttonY)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputY;
+    }
+    else if (button == controller.gamepad.leftShoulder)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputLeftShoulder;
+    }
+    else if (button == controller.gamepad.rightShoulder)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputRightShoulder;
+    }
+    else if (button == controller.extendedGamepad.leftTrigger)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputLeftTrigger;
+    }
+    else if (button == controller.extendedGamepad.rightTrigger)
+    {
+        externalControllerButtonInput = GBAExternalControllerButtonInputRightTrigger;
+    }
+    
+    return externalControllerButtonInput;
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "GBAControllerSkin.h"
 #import "UIScreen+Widescreen.h"
-#import <SSZipArchive.h>
+#import "SSZipArchive.h"
 
 @interface GBAControllerSkin ()
 
@@ -215,29 +215,25 @@
             
             if (buttonExtendedEdges)
             {
-                CGFloat buttonTopEdge = [buttonExtendedEdges[@"top"] floatValue];
-                CGFloat buttonBottomEdge = [buttonExtendedEdges[@"bottom"] floatValue];
-                CGFloat buttonLeftEdge = [buttonExtendedEdges[@"left"] floatValue];
-                CGFloat buttonRightEdge = [buttonExtendedEdges[@"right"] floatValue];
-                
-                if (buttonTopEdge > 0)
+                // Check if non-nil instead of not-zero so 0 can override the general extended edge
+                if (buttonExtendedEdges[@"top"])
                 {
-                    topEdge = buttonTopEdge;
+                    topEdge = [buttonExtendedEdges[@"top"] floatValue];
                 }
                 
-                if (buttonBottomEdge > 0)
+                if (buttonExtendedEdges[@"bottom"])
                 {
-                    bottomEdge = buttonBottomEdge;
+                    bottomEdge = [buttonExtendedEdges[@"bottom"] floatValue];
                 }
                 
-                if (buttonLeftEdge > 0)
+                if (buttonExtendedEdges[@"left"])
                 {
-                    leftEdge = buttonLeftEdge;
+                    leftEdge = [buttonExtendedEdges[@"left"] floatValue];
                 }
                 
-                if (buttonRightEdge > 0)
+                if (buttonExtendedEdges[@"right"])
                 {
-                    rightEdge = buttonRightEdge;
+                    rightEdge = [buttonExtendedEdges[@"right"] floatValue];
                 }
             }
         }

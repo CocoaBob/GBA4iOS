@@ -19,11 +19,11 @@
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"
 
-#import <RSTWebViewController.h>
+#import "GBAWebViewController.h"
 #import "UIAlertView+RSTAdditions.h"
 #import "UIActionSheet+RSTAdditions.h"
 
-#import <SSZipArchive/minizip/SSZipArchive.h>
+#import "SSZipArchive.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 #define LEGAL_NOTICE_ALERT_TAG 15
@@ -47,7 +47,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (assign, nonatomic) GBAVisibleROMType visibleRomType;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *romTypeSegmentedControl;
 @property (strong, nonatomic) NSMutableSet *currentUnzippingOperations;
-@property (strong, nonatomic) UIProgressView *downloadProgressView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
 @property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
@@ -55,7 +54,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 @property (assign, nonatomic) BOOL dismissModalViewControllerUponKeyboardHide;
 
+@property (assign, nonatomic, getter = isAwaitingDownloadHTTPResponse) BOOL awaitingDownloadHTTPResponse;
 @property (strong, nonatomic) NSProgress *downloadProgress;
+@property (strong, nonatomic) UIProgressView *downloadProgressView;
 @property (strong, nonatomic) NSMutableDictionary *currentDownloadsDictionary;
 
 - (IBAction)switchROMTypes:(UISegmentedControl *)segmentedControl;
@@ -108,20 +109,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     GBAVisibleROMType romType = (GBAVisibleROMType)[[NSUserDefaults standardUserDefaults] integerForKey:@"visibleROMType"];
     self.romType = romType;
     
-    self.downloadProgressView = ({
-        UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-        progressView.frame = CGRectMake(0,
-                                        CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(progressView.bounds),
-                                        CGRectGetWidth(self.navigationController.navigationBar.bounds),
-                                        CGRectGetHeight(progressView.bounds));
-        progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        progressView.trackTintColor = [UIColor clearColor];
-        progressView.progress = 0.0;
-        progressView.alpha = 0.0;
-        [self.navigationController.navigationBar addSubview:progressView];
-        progressView;
-    });
-    
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"Header"];
     
     [self importDefaultSkins];
@@ -171,6 +158,22 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         DLog(@"ROM list appeared");
+        
+        self.downloadProgressView = ({
+            UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+            progressView.frame = CGRectMake(0,
+                                            CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(progressView.bounds),
+                                            CGRectGetWidth(self.navigationController.navigationBar.bounds),
+                                            CGRectGetHeight(progressView.bounds));
+            progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+            progressView.trackTintColor = [UIColor clearColor];
+            progressView.progress = 0.0;
+            progressView.alpha = 0.0;
+            [self.navigationController.navigationBar addSubview:progressView];
+            progressView;
+        });
+        
+        DLog(@"%@", NSStringFromCGRect(self.downloadProgressView.frame));
     });
 }
 
@@ -225,14 +228,39 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     return UIStatusBarStyleLightContent;
 }
 
-#pragma mark - RSTWebViewController delegate
+#pragma mark - Downloading Games
+
+- (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
+{
+    GBAROMType romType = GBAROMTypeGBA;
+    
+    if (self.visibleRomType == GBAVisibleROMTypeGBC) // If ALL or GBA is selected, show GBA search results. If GBC, show GBC results
+    {
+        romType = GBAROMTypeGBC;
+    }
+    
+    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:@"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari"];
+    webViewController.excludedActivityTypes = @[UIActivityTypeMessage];
+    webViewController.showsDoneButton = YES;
+    webViewController.downloadDelegate = self;
+    webViewController.delegate = self;
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:[webViewController preferredStatusBarStyle] animated:YES];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
+    [self presentViewController:navigationController animated:YES completion:NULL];
+}
+
 
 - (BOOL)webViewController:(RSTWebViewController *)webViewController shouldInterceptDownloadRequest:(NSURLRequest *)request
 {
     NSString *fileExtension = request.URL.pathExtension.lowercaseString;
     
-    if (([fileExtension isEqualToString:@"gb"] || [fileExtension isEqualToString:@"gbc"] || [fileExtension isEqualToString:@"gba"] || [fileExtension isEqualToString:@"zip"]) || [request.URL.host hasPrefix:@"dl.coolrom"])
+    if ((([fileExtension isEqualToString:@"gb"] || [fileExtension isEqualToString:@"gbc"] || [fileExtension isEqualToString:@"gba"] || [fileExtension isEqualToString:@"zip"]) ||
+         [request.URL.host hasPrefix:@"dl.coolrom"]) &&
+        ![self isAwaitingDownloadHTTPResponse])
     {
+        self.awaitingDownloadHTTPResponse = YES;
         return YES;
     }
     
@@ -241,45 +269,53 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)webViewController:(RSTWebViewController *)webViewController shouldStartDownloadTask:(NSURLSessionDownloadTask *)downloadTask startDownloadBlock:(RSTWebViewControllerStartDownloadBlock)startDownloadBlock
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"By tapping “Download” below, you confirm that you legally own a physical copy of this ROM. GBA4iOS does not promote pirating in any form.", @"")
-                                                    message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
-    alert.tag = LEGAL_NOTICE_ALERT_TAG;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            
-            if (buttonIndex == 1)
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Name", @"")
-                                                                message:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
-                alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-                alert.tag = NAME_ROM_ALERT_TAG;
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:downloadTask.originalRequest.URL];
+    [request setHTTPMethod:@"HEAD"];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        self.awaitingDownloadHTTPResponse = NO;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"By tapping “Download” below, you confirm that you legally own a physical copy of this game. GBA4iOS does not promote pirating in any form.", @"")
+                                                        message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
+        alert.tag = LEGAL_NOTICE_ALERT_TAG;
+            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 
-                UITextField *textField = [alert textFieldAtIndex:0];
-                textField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+                if (buttonIndex == 1)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Name", @"")
+                                                                    message:nil
+                                                                   delegate:self
+                                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Save", @""), nil];
+                    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                    alert.tag = NAME_ROM_ALERT_TAG;
+                    
+                    UITextField *textField = [alert textFieldAtIndex:0];
+                    textField.text = [[response suggestedFilename] stringByDeletingPathExtension];
+                    textField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+                    
+                    [alert showWithSelectionHandler:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
+                        
+                        if (namingButtonIndex == 1)
+                        {
+                            NSString *filename = [[namingAlertView textFieldAtIndex:0] text];
+                            [self startDownloadWithFilename:filename downloadTask:downloadTask startDownloadBlock:startDownloadBlock];
+                        }
+                        else
+                        {
+                            startDownloadBlock(NO, nil);
+                        }
+                        
+                    }];
+                }
+                else
+                {
+                    startDownloadBlock(NO, nil);
+                }
                 
-                [alert showWithSelectionHandler:^(UIAlertView *namingAlertView, NSInteger namingButtonIndex) {
-                    
-                    if (namingButtonIndex == 1)
-                    {
-                        NSString *filename = [[namingAlertView textFieldAtIndex:0] text];
-                        [self startDownloadWithFilename:filename downloadTask:downloadTask startDownloadBlock:startDownloadBlock];
-                    }
-                    else
-                    {
-                        startDownloadBlock(NO, nil);
-                    }
-                    
-                }];
-            }
-            else
-            {
-                startDownloadBlock(NO, nil);
-            }
-            
-        }];
-    });
+            }];
+        
+    }];
 }
 
 - (void)startDownloadWithFilename:(NSString *)filename downloadTask:(NSURLSessionDownloadTask *)downloadTask startDownloadBlock:(RSTWebViewControllerStartDownloadBlock)startDownloadBlock
@@ -1369,27 +1405,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     GBAVisibleROMType romType = (GBAVisibleROMType)segmentedControl.selectedSegmentIndex;
     self.romType = romType;
-}
-
-- (IBAction)searchForROMs:(UIBarButtonItem *)barButtonItem
-{
-    NSString *address = @"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
-    
-    if (self.visibleRomType == GBAVisibleROMTypeGBC) // If ALL or GBA is selected, show GBA search results. If GBC, show GBC results
-    {
-        address = @"http://www.google.com/search?q=download+GBC+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
-    }
-    
-    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:address];
-    webViewController.excludedActivityTypes = @[UIActivityTypeMessage];
-    webViewController.showsDoneButton = YES;
-    webViewController.downloadDelegate = self;
-    webViewController.delegate = self;
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:[webViewController preferredStatusBarStyle] animated:YES];
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
-    [self presentViewController:navigationController animated:YES completion:NULL];
 }
 
 - (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem

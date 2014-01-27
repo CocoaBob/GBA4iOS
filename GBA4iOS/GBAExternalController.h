@@ -11,6 +11,8 @@
 #import "GBAControllerInput.h"
 #import <GameController/GameController.h>
 
+//#define USE_POLLING 1
+
 @interface GBAExternalController : NSObject <GBAControllerInput>
 
 @property (weak, nonatomic) id<GBAControllerInputDelegate> delegate;
@@ -18,5 +20,9 @@
 
 + (void)registerControllerDefaults;
 + (GBAExternalController *)externalControllerWithController:(GCController *)controller;
+
+#ifdef USE_POLLING
+- (void)updateControllerInputs;
+#endif
 
 @end

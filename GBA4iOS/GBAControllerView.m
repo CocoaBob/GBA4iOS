@@ -400,6 +400,8 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
 
 - (void)showButtonRects
 {
+    [self.overlayView removeFromSuperview];
+    
     self.overlayView = (
                         {
                             UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];

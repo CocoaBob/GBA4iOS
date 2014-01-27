@@ -11,7 +11,7 @@
 
 #import "GBAEmulatorCore.h"
 
-#import <SSZipArchive/minizip/SSZipArchive.h>
+#import "SSZipArchive.h"
 
 @interface GBAROM ()
 

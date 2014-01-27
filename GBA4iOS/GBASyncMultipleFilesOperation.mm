@@ -9,7 +9,7 @@
 #import "GBASyncMultipleFilesOperation_Private.h"
 #import "GBASyncManager_Private.h"
 
-#import <SSZipArchive.h>
+#import "SSZipArchive.h"
 
 NSString * const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification = @"GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification";
 NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceUploadHistoryNotification";

@@ -153,6 +153,18 @@
 		BFC09D53188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
 		BFC09D54188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
+		BFD98C401895FF0100A9432C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
+		BFD98C411895FF0100A9432C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
+		BFD98C421895FF0100A9432C /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C381895FF0100A9432C /* mztools.c */; };
+		BFD98C431895FF0100A9432C /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C381895FF0100A9432C /* mztools.c */; };
+		BFD98C441895FF0100A9432C /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3A1895FF0100A9432C /* unzip.c */; };
+		BFD98C451895FF0100A9432C /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3A1895FF0100A9432C /* unzip.c */; };
+		BFD98C461895FF0100A9432C /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
+		BFD98C471895FF0100A9432C /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
+		BFD98C481895FF0100A9432C /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3F1895FF0100A9432C /* SSZipArchive.m */; };
+		BFD98C491895FF0100A9432C /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3F1895FF0100A9432C /* SSZipArchive.m */; };
+		BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
+		BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BFFBCCD61850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */; };
@@ -462,6 +474,19 @@
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC9B529183017EE0012A1EA /* To_DO */ = {isa = PBXFileReference; lastKnownFileType = text; path = To_DO; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
+		BFD98C351895FF0100A9432C /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		BFD98C361895FF0100A9432C /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		BFD98C371895FF0100A9432C /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		BFD98C381895FF0100A9432C /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		BFD98C391895FF0100A9432C /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		BFD98C3A1895FF0100A9432C /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		BFD98C3B1895FF0100A9432C /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		BFD98C3C1895FF0100A9432C /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		BFD98C3D1895FF0100A9432C /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		BFD98C3E1895FF0100A9432C /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
+		BFD98C3F1895FF0100A9432C /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
+		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
 		BFE579A3183DDCCE005699AA /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		BFFBCCD41850505A005187DF /* GBASyncAllFilesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncAllFilesOperation.h; sourceTree = "<group>"; };
@@ -911,6 +936,41 @@
 			name = "Event Distribution";
 			sourceTree = "<group>";
 		};
+		BFD98C331895FEED00A9432C /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				BFD98C341895FF0100A9432C /* minizip */,
+				BFD98C3E1895FF0100A9432C /* SSZipArchive.h */,
+				BFD98C3F1895FF0100A9432C /* SSZipArchive.m */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		BFD98C341895FF0100A9432C /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				BFD98C351895FF0100A9432C /* crypt.h */,
+				BFD98C361895FF0100A9432C /* ioapi.c */,
+				BFD98C371895FF0100A9432C /* ioapi.h */,
+				BFD98C381895FF0100A9432C /* mztools.c */,
+				BFD98C391895FF0100A9432C /* mztools.h */,
+				BFD98C3A1895FF0100A9432C /* unzip.c */,
+				BFD98C3B1895FF0100A9432C /* unzip.h */,
+				BFD98C3C1895FF0100A9432C /* zip.c */,
+				BFD98C3D1895FF0100A9432C /* zip.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
+		BFD98C4A1895FFAD00A9432C /* Downloading ROMs */ = {
+			isa = PBXGroup;
+			children = (
+				BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */,
+				BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */,
+			);
+			name = "Downloading ROMs";
+			sourceTree = "<group>";
+		};
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
@@ -1070,6 +1130,7 @@
 				CC2D56FE1798F2EC00C616EB /* Frameworks */,
 				CC2D56FD1798F2EC00C616EB /* Products */,
 				BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */,
+				BFD98C331895FEED00A9432C /* Libraries */,
 				B8D7087219E44810B715C233 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
@@ -1120,6 +1181,7 @@
 				CC2D57111798F2EC00C616EB /* Main.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */,
+				BFD98C4A1895FFAD00A9432C /* Downloading ROMs */,
 				BF2AC8861854324B008928D0 /* Debug */,
 				BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */,
 				CC6D0A98180746D7001D089A /* Custom UIViewController Transitions */,
@@ -1712,6 +1774,7 @@
 				BF16DCF7184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */,
 				BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */,
 				BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */,
+				BFD98C451895FF0100A9432C /* unzip.c in Sources */,
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
 				BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */,
 				BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */,
@@ -1728,6 +1791,7 @@
 				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
+				BFD98C491895FF0100A9432C /* SSZipArchive.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
 				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
 				BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
@@ -1740,14 +1804,18 @@
 				BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
 				BF356C8318827E160005E1FC /* GBAEmulatorCore-Simulator.mm in Sources */,
 				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */,
+				BFD98C411895FF0100A9432C /* ioapi.c in Sources */,
 				BFFBCCDB18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */,
 				BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */,
+				BFD98C471895FF0100A9432C /* zip.c in Sources */,
 				BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */,
+				BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */,
 				BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */,
 				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
 				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
+				BFD98C431895FF0100A9432C /* mztools.c in Sources */,
 				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
 				BF2F3595183FF6F9002ACE90 /* GBASyncingDetailViewController.mm in Sources */,
 				BF2F359D183FF6F9002ACE90 /* GBAEmulationViewController.mm in Sources */,
@@ -1842,6 +1910,7 @@
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
 				BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */,
+				BFD98C441895FF0100A9432C /* unzip.c in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
@@ -1856,6 +1925,7 @@
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
 				CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
+				BFD98C461895FF0100A9432C /* zip.c in Sources */,
 				CC5045071814DC69009F7B9E /* Binary_Extractor.cpp in Sources */,
 				CCC9B8B31815AC7E005C90EE /* sound_GBC.cpp in Sources */,
 				CCFA718E179D2EAB00768D24 /* Quartz2d.cc in Sources */,
@@ -1870,6 +1940,7 @@
 				CC5044F11814DC69009F7B9E /* Flash.cpp in Sources */,
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
 				BF359B94187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */,
+				BFD98C421895FF0100A9432C /* mztools.c in Sources */,
 				BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */,
 				CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */,
 				CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */,
@@ -1898,6 +1969,7 @@
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
 				BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
 				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
+				BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
 				CC5045021814DC69009F7B9E /* Blip_Buffer.cpp in Sources */,
@@ -1944,6 +2016,7 @@
 				CCC9B89C1815AC7E005C90EE /* channel4.cpp in Sources */,
 				CC5045011814DC69009F7B9E /* Util.cpp in Sources */,
 				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
+				BFD98C401895FF0100A9432C /* ioapi.c in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
 				CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */,
 				CC5045061814DC69009F7B9E /* Multi_Buffer.cpp in Sources */,
@@ -1956,6 +2029,7 @@
 				BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
 				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
+				BFD98C481895FF0100A9432C /* SSZipArchive.m in Sources */,
 				CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */,
 				CC5044F41814DC69009F7B9E /* GBA.cpp in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
@@ -2012,6 +2086,7 @@
 /* Begin XCBuildConfiguration section */
 		BF2F35D1183FF6F9002ACE90 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8D7087219E44810B715C233 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

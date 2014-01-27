@@ -143,7 +143,7 @@ static GBAEmulationViewController *_emulationViewController;
     self.view.clipsToBounds = NO;
     
     // This isn't for FPS, remember? Keep it here stupid, it's for sustain button
-    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(handleDisplayLink:)];
+    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateControllerInputs:)];
 	[self.displayLink setFrameInterval:1];
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
@@ -337,23 +337,6 @@ static GBAEmulationViewController *_emulationViewController;
     }
 }
 
-- (void)handleDisplayLink:(CADisplayLink *)displayLink
-{
-    if (self.buttonsToPressForNextCycle)
-    {
-        _sustainButtonFrameCount++;
-        
-        if (_sustainButtonFrameCount > 1)
-        {
-            _sustainButtonFrameCount = 0;
-            
-            [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
-            
-            self.buttonsToPressForNextCycle = nil;
-        }
-    }
-}
-
 - (CGSize)screenSizeForContainerSize:(CGSize)containerSize
 {
     CGSize resolution = CGSizeZero;
@@ -491,7 +474,10 @@ static GBAEmulationViewController *_emulationViewController;
         return;
     }
     
-    self.externalController = [GBAExternalController externalControllerWithController:notification.object];
+    GCController *controller = notification.object;
+    [controller setPlayerIndex:0];
+    
+    self.externalController = [GBAExternalController externalControllerWithController:controller];
     self.externalController.delegate = self;
     
     if (self.selectingSustainedButton)
@@ -629,6 +615,33 @@ static GBAEmulationViewController *_emulationViewController;
     
     
     [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
+}
+
+- (void)updateControllerInputs:(CADisplayLink *)displayLink
+{
+    if (self.buttonsToPressForNextCycle)
+    {
+        _sustainButtonFrameCount++;
+        
+        if (_sustainButtonFrameCount > 1)
+        {
+            _sustainButtonFrameCount = 0;
+            
+            [[GBAEmulatorCore sharedCore] pressButtons:self.buttonsToPressForNextCycle];
+            
+            self.buttonsToPressForNextCycle = nil;
+        }
+    }
+    
+#ifdef USE_POLLING
+    if (self.externalController == nil)
+    {
+        return;
+    }
+    
+    [self.externalController updateControllerInputs];
+    
+#endif
 }
 
 #pragma mark - Pause Menu
@@ -897,27 +910,34 @@ static GBAEmulationViewController *_emulationViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         [self.pausedActionSheet showInView:self.view selectionHandler:selectionHandler];
+        
+        return;
     }
-    else
+    
+    if ([self isExternalControllerConnected])
     {
-        // Below code used in didRotateFromInterfaceOrientation as well, except without the selectionHandler
+        [self.pausedActionSheet showInView:self.view selectionHandler:selectionHandler];
         
-        CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation extended:NO];
-        
-        CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
-        
-        CGFloat middleSectionStart = CGRectGetWidth(self.view.bounds) * (1.0/3.0);
-        CGFloat middleSectionEnd = CGRectGetWidth(self.view.bounds) * (2.0/3.0);
-        
-        // Button is in the middle third of the screen, so we make sure it centers the popup instead of putting it off to the side like normal
-        if (CGRectGetMidX(convertedRect) > middleSectionStart && CGRectGetMidX(convertedRect) < middleSectionEnd)
-        {
-            convertedRect.origin.x = 0;
-            convertedRect.size.width = self.controllerView.bounds.size.width;
-        }
-        
-        [self.pausedActionSheet showFromRect:convertedRect inView:self.view animated:YES selectionHandler:selectionHandler];
+        return;
     }
+    
+    // Below code used in didRotateFromInterfaceOrientation as well, except without the selectionHandler
+    
+    CGRect rect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation extended:NO];
+    
+    CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
+    
+    CGFloat middleSectionStart = CGRectGetWidth(self.view.bounds) * (1.0/3.0);
+    CGFloat middleSectionEnd = CGRectGetWidth(self.view.bounds) * (2.0/3.0);
+    
+    // Button is in the middle third of the screen, so we make sure it centers the popup instead of putting it off to the side like normal
+    if (CGRectGetMidX(convertedRect) > middleSectionStart && CGRectGetMidX(convertedRect) < middleSectionEnd)
+    {
+        convertedRect.origin.x = 0;
+        convertedRect.size.width = self.controllerView.bounds.size.width;
+    }
+    
+    [self.pausedActionSheet showFromRect:convertedRect inView:self.view animated:YES selectionHandler:selectionHandler];
 }
 
 - (unsigned int)numberOfCPUCoresForCurrentDevice
@@ -1271,6 +1291,11 @@ static GBAEmulationViewController *_emulationViewController;
 }
 
 #pragma mark - GBAEmulatorCoreDelegate
+
+- (void)updateControllerInputs
+{
+    // Unfortunately, there's a bug that delays valueChangedHandler when multiple buttons are being pressed, so we need to update every CPU loop when using an external controller
+}
 
 - (void)emulatorCore:(GBAEmulatorCore *)emulatorCore didEnableGyroscopeForROM:(GBAROM *)rom
 {
@@ -1629,7 +1654,6 @@ static GBAEmulationViewController *_emulationViewController;
             [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
         }
     }
-    
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1793,6 +1817,8 @@ static GBAEmulationViewController *_emulationViewController;
             self.controllerView.skinOpacity = 1.0f;
         }
     }
+    
+    //[self.controllerView showButtonRects];
 }
 
 - (void)updateEmulatorScreenFrame
@@ -2417,6 +2443,8 @@ static GBAEmulationViewController *_emulationViewController;
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
     }
     
+    DLog(@"%@", [GCController controllers]);
+    
     _rom = rom;
     
     self.usingGyroscope = NO;
@@ -2463,7 +2491,14 @@ static GBAEmulationViewController *_emulationViewController;
             [self refreshLayout];
         }
         
-        //[self.controllerView showButtonRects];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && self.rom.type == GBAROMTypeGBA)
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+        }
+        else
+        {
+            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
+        }
     });
 }
 
@@ -2473,7 +2508,10 @@ static GBAEmulationViewController *_emulationViewController;
     return (self.airplayWindow != nil);
 }
 
-
+- (BOOL)isExternalControllerConnected
+{
+    return (self.externalController != nil);
+}
 
 
 @end

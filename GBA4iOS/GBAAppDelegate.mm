@@ -14,7 +14,7 @@
 #import "GBASplitViewController.h"
 #import "UIAlertView+RSTAdditions.h"
 
-#import <SSZipArchive/minizip/SSZipArchive.h>
+#import "SSZipArchive.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
