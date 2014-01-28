@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GBAROM.h"
 #import "GBAEmulationViewController.h"
 
+@class GBAROM;
 @class GBAEventDistributionViewController;
 
 @protocol GBAEventDistributionViewControllerDelegate <NSObject>

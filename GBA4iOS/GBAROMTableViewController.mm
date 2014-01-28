@@ -172,8 +172,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             [self.navigationController.navigationBar addSubview:progressView];
             progressView;
         });
-        
-        DLog(@"%@", NSStringFromCGRect(self.downloadProgressView.frame));
     });
 }
 

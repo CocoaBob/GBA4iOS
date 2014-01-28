@@ -12,9 +12,14 @@
 
 @interface RSTWebViewController ()
 
+@property (strong, nonatomic) UIBarButtonItem *goBackButton;
+@property (strong, nonatomic) UIBarButtonItem *goForwardButton;
 @property (strong, nonatomic) UIProgressView *progressView;
 
+- (void)refreshToolbarItems;
 - (void)webViewDidFinishLoad:(UIWebView *)webView;
+- (void)goBack:(UIBarButtonItem *)sender;
+- (void)goForward:(UIBarButtonItem *)sender;
 
 @end
 
@@ -36,6 +41,59 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+}
+
+
+#pragma mark - Forward / Backward
+
+- (void)refreshToolbarItems
+{
+    [super refreshToolbarItems];
+    
+    if (![self.webView canGoBack])
+    {
+        if (self.goBackButton.action != @selector(loadGoogleSearch))
+        {
+            self.goBackButton.enabled = YES;
+            self.goBackButton.action = @selector(loadGoogleSearch);
+        }
+        
+    }
+    else
+    {
+        if (self.goBackButton.action != @selector(goBack:))
+        {
+            self.goBackButton.enabled = YES;
+            self.goBackButton.action = @selector(goBack:);
+        }
+    }
+    
+    if (![self.webView canGoForward])
+    {
+        if (self.goBackButton.action == @selector(loadGoogleSearch))
+        {
+            
+        }
+    }
+}
+
+- (void)loadGoogleSearch
+{
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self googleSearchLink]]]];
+}
+
+- (void)loadCoolROM
+{
+    
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    
+}
 
 #pragma mark - Helper Methods
 

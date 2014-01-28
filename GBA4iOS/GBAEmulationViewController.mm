@@ -1242,22 +1242,28 @@ static GBAEmulationViewController *_emulationViewController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        [self blurWithInitialAlpha:0.0];
-        
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            [self setBlurAlpha:1.0];
-        }];
     }
     
     [self presentViewController:navigationController animated:YES completion:nil];
+    
+    [self prepareForPresentingTranslucentViewController];
 }
 
 - (void)finishEventDistribution
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.eventDistributionViewController) animated:YES completion:nil];
+    
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.eventDistributionViewController);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+    
+    [self prepareForPresentingTranslucentViewController];
     
     [self.eventDistributionViewController finishCurrentEvent];
 }
@@ -2442,9 +2448,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
     }
-    
-    DLog(@"%@", [GCController controllers]);
-    
+        
     _rom = rom;
     
     self.usingGyroscope = NO;

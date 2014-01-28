@@ -39,22 +39,28 @@
     // Configure the view for the selected state
 }
 
-- (void)setDownloaded:(BOOL)downloaded
+- (void)setDownloadState:(GBAEventDownloadState)downloadState
 {
-    if (_downloaded == downloaded)
+    if (_downloadState == downloadState)
     {
         return;
     }
     
-    _downloaded = downloaded;
+    _downloadState = downloadState;
     
-    if (downloaded)
+    switch (downloadState)
     {
-        self.textLabel.text = NSLocalizedString(@"Start Event", @"");
-    }
-    else
-    {
-        self.textLabel.text = NSLocalizedString(@"Download", @"");
+        case GBAEventDownloadStateDownloaded:
+            self.textLabel.text = NSLocalizedString(@"Start Event", @"");
+            break;
+            
+        case GBAEventDownloadStateDownloading:
+            self.textLabel.text = NSLocalizedString(@"Downloading…", @"");
+            break;
+            
+        case GBAEventDownloadStateNotDownloaded:
+            self.textLabel.text = NSLocalizedString(@"Download", @"");
+            break;
     }
 }
 

@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @property (readonly, assign, nonatomic) BOOL conflicted;
 
 @property (readonly, assign, nonatomic, getter = isEvent) BOOL event;
+@property (readonly, assign, nonatomic) BOOL eventCompleted;
 
 + (GBAROM *)romWithName:(NSString *)name; // Looks in documents directory
 + (GBAROM *)romWithUniqueName:(NSString *)name;

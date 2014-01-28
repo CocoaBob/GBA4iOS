@@ -13,6 +13,9 @@
 
 #import "SSZipArchive.h"
 
+NSString *const GBAROMConflictedStateChangedNotification = @"GBAROMConflictedStateChangedNotification";
+NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingDisabledStateChangedNotification";
+
 @interface GBAROM ()
 
 @property (readwrite, copy, nonatomic) NSString *filepath;
