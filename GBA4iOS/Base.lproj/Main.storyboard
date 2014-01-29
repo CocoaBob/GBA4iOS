@@ -857,7 +857,6 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
         <!--Event Distribution Detail View Controller-->
         <scene sceneID="KYW-FP-2U5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BPe-dr-V7O" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="eventDistributionDetailViewController" id="h1C-IF-ccX" customClass="GBAEventDistributionDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="YwR-V6-wjm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -940,6 +939,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                         <outlet property="detailTextView" destination="YGo-XF-0P5" id="jq7-HX-VZS"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BPe-dr-V7O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2361" y="219"/>
         </scene>

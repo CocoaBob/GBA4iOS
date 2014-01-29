@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class GBAEvent;
+
 typedef NS_ENUM(NSInteger, GBAROMType)
 {
     GBAROMTypeGBA,
@@ -27,8 +29,7 @@ typedef NS_ENUM(NSInteger, GBAROMType)
 @property (readonly, assign, nonatomic) BOOL syncingDisabled;
 @property (readonly, assign, nonatomic) BOOL conflicted;
 
-@property (readonly, assign, nonatomic, getter = isEvent) BOOL event;
-@property (readonly, assign, nonatomic) BOOL eventCompleted;
+@property (readonly, assign, nonatomic) GBAEvent *event;
 
 + (GBAROM *)romWithName:(NSString *)name; // Looks in documents directory
 + (GBAROM *)romWithUniqueName:(NSString *)name;

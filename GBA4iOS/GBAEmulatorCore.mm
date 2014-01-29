@@ -1040,6 +1040,16 @@ void rumbleDevice(bool vibrate)
     // Vibration duration isn't long enough for the vibration to actually be performed. Workaround?
 }
 
+#pragma mark - Event Distribution
+
+void attemptedMultiplayerLink()
+{
+    if ([[[GBAEmulatorCore sharedCore] rom] isEvent] && ![[[GBAEmulatorCore sharedCore] rom] eventCompleted])
+    {
+        [[[GBAEmulatorCore sharedCore] rom] setEventCompleted:YES];
+    }
+}
+
 #pragma mark - Main App
 
 static uint iOSOrientationToGfx(UIDeviceOrientation orientation)

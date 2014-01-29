@@ -703,7 +703,7 @@ static GBAEmulationViewController *_emulationViewController;
     BOOL eventDistributionCapableROM = ([self.eventDistributionROMs objectForKey:self.rom.uniqueName] != nil);
     
     // iOS 7 has trouble adding buttons to UIActionSheet after it's created, so we just create a different action sheet depending on hardware and situation
-    if ([self.rom isEvent])
+    if ([self.rom event])
     {
         if ([self numberOfCPUCoresForCurrentDevice] == 1)
         {
@@ -822,7 +822,7 @@ static GBAEmulationViewController *_emulationViewController;
         
         if (buttonIndex == 0)
         {
-            if ([self.rom isEvent])
+            if ([self.rom event])
             {
                 [self finishEventDistribution];
             }
@@ -840,7 +840,7 @@ static GBAEmulationViewController *_emulationViewController;
                 buttonIndex = buttonIndex + 1;
             }
             
-            if ([self.rom isEvent] && buttonIndex > 1)
+            if ([self.rom event] && buttonIndex > 1)
             {
                 // We hide Save State, Load State, and Cheat Codes
                 buttonIndex = buttonIndex + 3;
@@ -879,7 +879,7 @@ static GBAEmulationViewController *_emulationViewController;
             {
                 if (eventDistributionCapableROM)
                 {
-                    if (![self.rom isEvent])
+                    if (![self.rom event])
                     {
                         [self presentEventDistribution];
                     }
@@ -1168,7 +1168,7 @@ static GBAEmulationViewController *_emulationViewController;
 - (BOOL)shouldAutosave
 {
     // If the user loads a save state in the first 3 seconds, the autosave would probably be useless to them as it would take them back to the title screen of their game
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"autosave"] && (_romPauseTime - _romStartTime >= 3.0f) && ![self.rom isEvent];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"autosave"] && (_romPauseTime - _romStartTime >= 3.0f) && ![self.rom event];
 }
 
 - (void)updateAutosaveState
@@ -2059,7 +2059,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         self.cachedSaveData = saveData;
         
-        if (![self.rom isEvent])
+        if (![self.rom event])
         {
             [[GBASyncManager sharedManager] prepareToUploadSaveFileForROM:rom];
         }

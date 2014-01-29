@@ -11,23 +11,16 @@
 #import "GBAEventDistributionTableViewCell.h"
 #import "NSDate+Comparing.h"
 #import "UIAlertView+RSTAdditions.h"
-#import "GBAEventDictionary.h"
 #import "GBAEventDistributionDetailViewController.h"
+#import "GBAEvent.h"
 
 #import "GBAROM_Private.h"
 
 #import <AFNetworking/AFNetworking.h>
 
-#define EVENT_DISTRIBUTION_ROOT_ADDRESS @"http://gba4iosapp.com/eventdistribution/"
+#define EVENT_DISTRIBUTION_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/eventdistribution/"
 
 NSString *const GBAEventsKey = @"events";
-NSString *const GBAEventNameKey = @"name";
-NSString *const GBAEventDescriptionKey = @"description";
-NSString *const GBAEventDetailedDescriptionKey = @"detailedDescription";
-NSString *const GBAEventIdentifierKey = @"identifier";
-NSString *const GBAEventGames = @"games";
-NSString *const GBAEventEndDate = @"endDate";
-
 
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
@@ -35,7 +28,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 @interface GBAEventDistributionViewController () <GBAEventDistributionDetailViewControllerDelegate>
 
 @property (strong, nonatomic) UIProgressView *downloadProgressView;
-@property (strong, nonatomic) NSDictionary *eventsDictionary;
+@property (strong, nonatomic) NSMutableDictionary *eventsDictionary;
 @property (strong, nonatomic) NSProgress *downloadProgress;
 @property (strong, nonatomic) NSCache *imageCache;
 @property (strong, nonatomic) GBAROM *eventROM;
@@ -60,6 +53,12 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             NSProgress *progress = [[NSProgress alloc] initWithParent:nil userInfo:0];
             progress;
         });
+        
+        _imageCache = [[NSCache alloc] init];
+        
+        _eventsDictionary = [NSMutableDictionary dictionaryWithObject:@1 forKey:@"apiVersion"];
+        
+        [self loadLocalEvents];
     }
     return self;
 }
@@ -116,6 +115,48 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 #pragma mark - Refresh Events
 
+- (void)loadLocalEvents
+{
+    NSMutableArray *events = [NSMutableArray array];
+    
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:[NSURL fileURLWithPath:[self eventsDirectory]]
+                                                             includingPropertiesForKeys:@[NSURLNameKey, NSURLIsDirectoryKey]
+                                                                                options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                           errorHandler:^BOOL(NSURL *url, NSError *error)
+                                         {
+                                             NSLog(@"[Error] %@ (%@)", error, url);
+                                             return YES;
+                                         }];
+    
+    for (NSURL *fileURL in enumerator)
+    {
+        NSString *filename;
+        [fileURL getResourceValue:&filename forKey:NSURLNameKey error:nil];
+        
+        NSNumber *isDirectory;
+        [fileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
+        
+        if (![isDirectory boolValue])
+        {
+            if (![filename isEqualToString:@"info.gbaevent"])
+            {
+                continue;
+            }
+            
+            GBAEvent *event = [GBAEvent eventWithContentsOfFile:[fileURL path]];
+            
+            if (![event supportsGame:[self eventSupportedGame]])
+            {
+                continue;
+            }
+            
+            [events addObject:event];
+        }
+    }
+    
+    self.eventsDictionary[@"events"] = events;
+}
+
 - (void)refreshEvents
 {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
@@ -135,77 +176,77 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             return;
         }
         
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+        NSArray *localEvents = self.eventsDictionary[@"events"];
+        NSMutableArray *modifiedEvents = [NSMutableArray array];
         
-        NSMutableArray *modifiedEvents = [responseObject[GBAEventsKey] mutableCopy];
+        [modifiedEvents addObjectsFromArray:localEvents];
         
-        [responseObject[GBAEventsKey] enumerateObjectsUsingBlock:^(NSDictionary *event, NSUInteger index, BOOL *stop) {
-            NSArray *games = event[GBAEventGames];
+        for (NSDictionary *eventDictionary in responseObject[GBAEventsKey])
+        {
+            GBAEvent *event = [GBAEvent eventWithDictionary:eventDictionary];
             
-            if (![games containsObject:[self remoteROMName]])
+            if (![event supportsGame:[self eventSupportedGame]])
             {
-                [modifiedEvents removeObject:event];
-                return;
+                continue;
             }
             
-            NSString *dateString = event[GBAEventEndDate];
-            
-            if (dateString == nil)
+            if ([[NSDate date] daysUntilDate:event.endDate] < 0)
             {
-                return;
+                continue;
             }
             
-            NSDate *endDate = [dateFormatter dateFromString:dateString];
-            
-            if (endDate == nil)
+            if ([localEvents containsObject:event])
             {
-                return;
+                continue;
             }
             
-            if ([[NSDate date] daysUntilDate:endDate] < 0)
-            {
-                [modifiedEvents removeObject:event];
-            }
-            else
-            {
-                NSMutableDictionary *mutableEvent = [event mutableCopy];
-                mutableEvent[GBAEventEndDate] = endDate;
-                [modifiedEvents replaceObjectAtIndex:index withObject:mutableEvent];
-            }
-        }];
+            [modifiedEvents addObject:event];
+        }
         
         responseObject[GBAEventsKey] = modifiedEvents;
         
         self.eventsDictionary = responseObject;
         
-        [UIView transitionWithView:self.tableView duration:0.5f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-            [self.tableView reloadData];
-        } completion:NULL];
-        
+        [self updateTableViewWithAnimation];
     }];
     
     [dataTask resume];
 }
 
-- (void)updateSectionForEventDictionary:(NSDictionary *)dictionary
+- (void)updateSectionForEvent:(GBAEvent *)event
 {
     NSArray *events = self.eventsDictionary[GBAEventsKey];
     
-    NSInteger section = [events indexOfObject:dictionary];
+    NSInteger section = [events indexOfObject:event];
     section++; // Compensate for empty section at top
     
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:section]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
+- (void)updateTableViewWithAnimation
+{
+    NSArray *events = self.eventsDictionary[GBAEventsKey];
+    NSUInteger currentNumberOfSections = self.tableView.numberOfSections;
+    
+    [self.tableView beginUpdates];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, currentNumberOfSections)] withRowAnimation:UITableViewRowAnimationFade];
+    
+    if ([events count] > currentNumberOfSections - 1)
+    {
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(currentNumberOfSections, events.count - (currentNumberOfSections - 1))] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
+    [self.tableView endUpdates];
+}
+
 #pragma mark - Download Events
 
-- (void)downloadEventForDictionary:(NSDictionary *)dictionary
+- (void)downloadEvent:(GBAEvent *)event
 {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
-    NSString *identifier = dictionary[GBAEventIdentifierKey];
+    NSString *identifier = event.identifier;
     NSURL *URL = [self URLForFileWithName:[self remoteROMFilename] identifier:identifier];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
@@ -233,8 +274,11 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
                                                                return;
                                                            }
                                                            
-                                                           [self.currentDownloads removeObject:dictionary[GBAEventIdentifierKey]];
-                                                           [self updateSectionForEventDictionary:dictionary];
+                                                           NSString *eventInfoPath = [[fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"info.gbaevent"];
+                                                           [event writeToFile:eventInfoPath];
+                                                           
+                                                           [self.currentDownloads removeObject:event];
+                                                           [self updateSectionForEvent:event];
                                                        }];
     
     [progress addObserver:self forKeyPath:@"totalUnitCount" options:NSKeyValueObservingOptionNew context:GBADownloadProgressTotalUnitContext];
@@ -242,8 +286,8 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     [downloadTask resume];
     
-    [self.currentDownloads addObject:dictionary[GBAEventIdentifierKey]];
-    [self updateSectionForEventDictionary:dictionary];
+    [self.currentDownloads addObject:event];
+    [self updateSectionForEvent:event];
     
 }
 
@@ -336,7 +380,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         }
     }
     
-    if ([self.eventROM eventCompleted])
+    if ([self.rom.event isCompleted])
     {
         // Remove event rom directory
         [[NSFileManager defaultManager] removeItemAtPath:[self.eventROM.filepath stringByDeletingLastPathComponent] error:nil];
@@ -410,8 +454,8 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         return nil;
     }
     
-    NSDictionary *event = [self dictionaryForSection:section];
-    return event[GBAEventNameKey];
+    GBAEvent *event = [self eventForSection:section];
+    return event.name;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
@@ -421,21 +465,21 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         return NSLocalizedString(@"Events unlock certain features that are not normally in the game. However, they can only be used once per save file.", @"");
     }
     
-    NSDictionary *event = [self dictionaryForSection:section];
-    return event[GBAEventDescriptionKey];
+    GBAEvent *event = [self eventForSection:section];
+    return event.description;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dictionary = [self dictionaryForSection:indexPath.section];
+    GBAEvent *event = [self eventForSection:indexPath.section];
     
     if (indexPath.row > 0)
     {
         GBAEventDistributionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
         
-        NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:dictionary[GBAEventIdentifierKey]];
+        NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:event.identifier];
         
-        if ([self.currentDownloads containsObject:dictionary[GBAEventIdentifierKey]])
+        if ([self.currentDownloads containsObject:event])
         {
             cell.downloadState = GBAEventDownloadStateDownloading;
         }
@@ -448,7 +492,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             cell.downloadState = GBAEventDownloadStateNotDownloaded;
         }
         
-        NSDate *endDate = dictionary[GBAEventEndDate];
+        NSDate *endDate = event.endDate;
         
         if (endDate && [endDate isKindOfClass:[NSDate class]])
         {
@@ -463,13 +507,11 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     NSInteger numberOfRows = [self.tableView numberOfRowsInSection:indexPath.section];
     
-    NSString *identifier = dictionary[GBAEventIdentifierKey];
-    
     cell.imageCache = self.imageCache;
     
     NSString *imageFilename = [self remoteThumbnailFilename];
 
-    cell.imageURL = [self URLForFileWithName:imageFilename identifier:identifier];
+    cell.imageURL = [self URLForFileWithName:imageFilename identifier:event.identifier];
     
     cell.separatorInset = UIEdgeInsetsZero;
     
@@ -480,13 +522,13 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *eventDictionary = [self dictionaryForSection:indexPath.section];
+    GBAEvent *event = [self eventForSection:indexPath.section];
     
-    NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:eventDictionary[GBAEventIdentifierKey]];
+    NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:event.identifier];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:uniqueEventDirectory])
     {
-        GBAEventDistributionDetailViewController *eventDistributionDetailViewController = [[GBAEventDistributionDetailViewController alloc] initWithEventDictionary:eventDictionary];
+        GBAEventDistributionDetailViewController *eventDistributionDetailViewController = [[GBAEventDistributionDetailViewController alloc] initWithEvent:event];
         eventDistributionDetailViewController.delegate = self;
         eventDistributionDetailViewController.imageCache = self.imageCache;
         eventDistributionDetailViewController.rom = self.rom;
@@ -500,12 +542,12 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     {
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
         
-        if ([self.currentDownloads containsObject:eventDictionary[GBAEventIdentifierKey]])
+        if ([self.currentDownloads containsObject:event])
         {
             return;
         }
         
-        NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to download the “%@” event?", @""), eventDictionary[GBAEventNameKey]];
+        NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to download the “%@” event?", @""), event.name];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
         [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -514,17 +556,16 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
                 return;
             }
             
-            [self downloadEventForDictionary:eventDictionary];
+            [self downloadEvent:event];
         }];
     }
 }
 
 #pragma mark - GBAEventDistributionDetailViewControllerDelegate
 
-- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController startEventROM:(GBAROM *)eventROM
+- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController startEvent:(GBAEvent *)event forROM:(GBAROM *)rom
 {
-    self.eventROM = eventROM;
-    self.eventROM.event = YES;
+    self.eventROM = rom;
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.rom.saveFileFilepath isDirectory:nil])
     {
@@ -548,9 +589,9 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     [self dismissEventDistributionViewController];
 }
 
-- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController didDeleteEventDictionary:(NSDictionary *)dictionary
+- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController didDeleteEvent:(GBAEvent *)event
 {
-    [self updateSectionForEventDictionary:dictionary];
+    [self updateSectionForEvent:event];
 }
 
 #pragma mark - Paths
@@ -565,7 +606,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 #pragma mark - Helper Methods
 
-- (NSDictionary *)dictionaryForSection:(NSInteger)section
+- (GBAEvent *)eventForSection:(NSInteger)section
 {
     section = section - 1;
     
@@ -615,6 +656,39 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     }
     
     return @"";
+}
+
+- (GBAEventSupportedGame)eventSupportedGame
+{
+    NSString *uniqueName = self.rom.uniqueName;
+    
+    if ([uniqueName hasPrefix:@"POKEMON EMER"])
+    {
+        return GBAEventSupportedGameEmerald;
+    }
+    else if ([uniqueName hasPrefix:@"POKEMON FIRE"])
+    {
+        return GBAEventSupportedGameFireRed;
+    }
+    else if ([uniqueName hasPrefix:@"POKEMON LEAF"])
+    {
+        return GBAEventSupportedGameLeafGreen;
+    }
+    else if ([uniqueName hasPrefix:@"POKEMON RUBY"])
+    {
+        return GBAEventSupportedGameRuby;
+    }
+    else if ([uniqueName hasPrefix:@"POKEMON SAPP"])
+    {
+        return GBAEventSupportedGameSapphire;
+    }
+    
+    return 0;
+}
+
+- (NSString *)downloadedEventsPath
+{
+    return [[self eventsDirectory] stringByAppendingPathComponent:@"downloadedEvents.plist"];
 }
 
 @end

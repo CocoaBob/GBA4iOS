@@ -155,6 +155,8 @@
 		BFC09D53188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
 		BFC09D54188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
+		BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
+		BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD98C401895FF0100A9432C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
 		BFD98C411895FF0100A9432C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
 		BFD98C421895FF0100A9432C /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C381895FF0100A9432C /* mztools.c */; };
@@ -402,7 +404,6 @@
 		BF1C87FA185193B100C72E1C /* FileSHA1Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSHA1Hash.h; sourceTree = "<group>"; };
 		BF20ED6A189769DF00270BC8 /* GBAEventDistributionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionDetailViewController.h; sourceTree = "<group>"; };
 		BF20ED6B189769DF00270BC8 /* GBAEventDistributionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionDetailViewController.m; sourceTree = "<group>"; };
-		BF20ED6E18976BE500270BC8 /* GBAEventDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAEventDictionary.h; sourceTree = "<group>"; };
 		BF216BD61868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAExternalControllerCustomizationViewController.h; sourceTree = "<group>"; };
 		BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalControllerCustomizationViewController.m; sourceTree = "<group>"; };
 		BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCalloutView.h; sourceTree = "<group>"; };
@@ -477,8 +478,9 @@
 		BFC09D52188D201A0064C497 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
-		BFC9B529183017EE0012A1EA /* To_DO */ = {isa = PBXFileReference; lastKnownFileType = text; path = To_DO; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
+		BFD03A9C1898E877001056A5 /* GBAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEvent.h; sourceTree = "<group>"; };
+		BFD03A9D1898E877001056A5 /* GBAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEvent.m; sourceTree = "<group>"; };
 		BFD98C351895FF0100A9432C /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		BFD98C361895FF0100A9432C /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		BFD98C371895FF0100A9432C /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -822,7 +824,6 @@
 			children = (
 				BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */,
 				BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */,
-				BFC9B529183017EE0012A1EA /* To_DO */,
 			);
 			name = Syncing;
 			sourceTree = "<group>";
@@ -933,9 +934,10 @@
 		BFBFC1251878D2E500FF0A3A /* Event Distribution */ = {
 			isa = PBXGroup;
 			children = (
+				BFD03A9C1898E877001056A5 /* GBAEvent.h */,
+				BFD03A9D1898E877001056A5 /* GBAEvent.m */,
 				BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */,
 				BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */,
-				BF20ED6E18976BE500270BC8 /* GBAEventDictionary.h */,
 				BF20ED6A189769DF00270BC8 /* GBAEventDistributionDetailViewController.h */,
 				BF20ED6B189769DF00270BC8 /* GBAEventDistributionDetailViewController.m */,
 				BF359B92187A205400B4CA53 /* GBAEventDistributionTableViewCell.h */,
@@ -1782,6 +1784,7 @@
 				BF2942A6188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m in Sources */,
 				BF16DCF7184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */,
 				BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */,
+				BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */,
 				BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */,
 				BFD98C451895FF0100A9432C /* unzip.c in Sources */,
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
@@ -1920,6 +1923,7 @@
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
 				BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */,
 				BFD98C441895FF0100A9432C /* unzip.c in Sources */,
+				BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,

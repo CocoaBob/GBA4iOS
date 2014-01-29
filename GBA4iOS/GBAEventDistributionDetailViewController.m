@@ -7,31 +7,31 @@
 //
 
 #import "GBAEventDistributionDetailViewController.h"
-#import "GBAEventDictionary.h"
 #import "GBAAsynchronousRemoteTableViewCell.h"
 #import "GBAROM_Private.h"
 #import <PSPDFTextView.h>
 
 #import "UIActionSheet+RSTAdditions.h"
+#import "UIAlertView+RSTAdditions.h"
+
+#import "GBAEvent.h"
 
 @interface GBAEventDistributionDetailViewController ()
 
-@property (copy, nonatomic) NSDictionary *eventDictionary;
 @property (strong, nonatomic) IBOutlet UITextView *detailTextView;
 
 @end
 
 @implementation GBAEventDistributionDetailViewController
 
-- (instancetype)initWithEventDictionary:(NSDictionary *)dictionary
+- (instancetype)initWithEvent:(GBAEvent *)event
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"eventDistributionDetailViewController"];
     if (self)
     {
-        _eventDictionary = [dictionary copy];
-        
-        self.title = dictionary[GBAEventNameKey];
+        _event = event;
+        self.title = event.name;
     }
     return self;
 }
@@ -40,12 +40,14 @@
 {
     [super viewDidLoad];
     
-    NSString *detailedDescription = self.eventDictionary[GBAEventDetailedDescriptionKey];
+    NSString *detailedDescription = self.event.detailedDescription;
         
     self.detailTextView.text = detailedDescription;
     
     UIBarButtonItem *startButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Start", @"") style:UIBarButtonItemStyleDone target:self action:@selector(startEvent:)];
     self.navigationItem.rightBarButtonItem = startButton;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentSizeCategoryDidChange:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -71,27 +73,49 @@
     self.detailTextView.contentSize = self.detailTextView.bounds.size;
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    self.detailTextView.contentSize = self.detailTextView.bounds.size;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 #pragma mark - Event
 
 - (void)startEvent:(UIBarButtonItem *)barButtonItem
 {
-    NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:self.eventDictionary[GBAEventIdentifierKey]];
-    
-    GBAROM *eventROM = [GBAROM romWithContentsOfFile:[uniqueEventDirectory stringByAppendingPathComponent:[self remoteROMFilename]]];
-    eventROM.event = YES;
-    
-    [self.delegate eventDistributionDetailViewController:self startEventROM:eventROM];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Start this event?", @"")
+                                                    message:NSLocalizedString(@"The game will restart, and any unsaved data will be lost.", @"")
+                                                   delegate:nil
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                          otherButtonTitles:NSLocalizedString(@"Start", @""), nil];
+    [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 1)
+        {
+            NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:self.event.identifier];
+            
+            GBAROM *eventROM = [GBAROM romWithContentsOfFile:[uniqueEventDirectory stringByAppendingPathComponent:[self romFilename]]];
+            eventROM.event = self.event;
+            
+            [self.delegate eventDistributionDetailViewController:self startEvent:self.event forROM:eventROM];
+        }
+    }];
 }
 
 - (void)deleteEvent
 {
-    NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:self.eventDictionary[GBAEventIdentifierKey]];
+    NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:self.event.identifier];
     [[NSFileManager defaultManager] removeItemAtPath:uniqueEventDirectory error:nil];
     
-    if ([self.delegate respondsToSelector:@selector(eventDistributionDetailViewController:didDeleteEventDictionary:)])
+    if ([self.delegate respondsToSelector:@selector(eventDistributionDetailViewController:didDeleteEvent:)])
     {
-        [self.delegate eventDistributionDetailViewController:self didDeleteEventDictionary:self.eventDictionary];
+        [self.delegate eventDistributionDetailViewController:self didDeleteEvent:self.event];
     }
     
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -103,7 +127,7 @@
 {
     if (section == 0)
     {
-        return self.eventDictionary[GBAEventNameKey];
+        return self.event.name;
     }
     
     return [super tableView:tableView titleForHeaderInSection:section];
@@ -133,6 +157,10 @@
             [(GBAAsynchronousRemoteTableViewCell *)cell setImageURL:self.imageURL];
         }
     }
+    else if (indexPath.section == 1)
+    {
+        self.detailTextView.contentSize = self.detailTextView.bounds.size;
+    }
     
     return cell;
 }
@@ -148,7 +176,7 @@
     
     NSString *title = nil;
     
-    if (self.eventDictionary[GBAEventEndDate])
+    if (self.event.endDate)
     {
         title = NSLocalizedString(@"Are you sure you want to delete this event? You can download it again at any time before it expires.", @"");
     }
@@ -175,6 +203,29 @@
     }];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    // Stupid hacky UITextView work around so that the user can'ts scroll in the view.
+    // Setting scrollEnabled = NO renders the text incorrectly
+    self.detailTextView.contentSize = self.detailTextView.bounds.size;
+}
+
+#pragma mark - Notifications
+
+- (void)contentSizeCategoryDidChange:(NSNotification *)notification
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        self.detailTextView.font = font;
+        
+        [self.tableView reloadData];
+        
+        self.detailTextView.contentSize = self.detailTextView.bounds.size;
+    });
+}
+
 #pragma mark - Paths
 
 - (NSString *)eventsDirectory
@@ -185,43 +236,34 @@
     return eventsDirectory;
 }
 
-- (NSString *)remoteROMFilename
+- (NSString *)romFilename
 {
-    return [[self remoteROMName] stringByAppendingPathExtension:@"GBA"];
-}
-
-- (NSString *)remoteThumbnailFilename
-{
-    return [[self remoteROMName] stringByAppendingPathExtension:@"PNG"];
-}
-
-- (NSString *)remoteROMName
-{
+    NSString *name = nil;
+    
     NSString *uniqueName = self.rom.uniqueName;
     
     if ([uniqueName hasPrefix:@"POKEMON EMER"])
     {
-        return @"Emerald";
+        name = @"Emerald";
     }
     else if ([uniqueName hasPrefix:@"POKEMON FIRE"])
     {
-        return @"FireRed";
+        name = @"FireRed";
     }
     else if ([uniqueName hasPrefix:@"POKEMON LEAF"])
     {
-        return @"LeafGreen";
+        name = @"LeafGreen";
     }
     else if ([uniqueName hasPrefix:@"POKEMON RUBY"])
     {
-        return @"Ruby";
+        name = @"Ruby";
     }
     else if ([uniqueName hasPrefix:@"POKEMON SAPP"])
     {
-        return @"Sapphire";
+        name = @"Sapphire";
     }
     
-    return @"";
+    return [name stringByAppendingPathExtension:@"GBA"];
 }
-
 
 @end

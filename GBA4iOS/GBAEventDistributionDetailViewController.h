@@ -14,10 +14,10 @@
 
 @protocol GBAEventDistributionDetailViewControllerDelegate <NSObject>
 
-- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController startEventROM:(GBAROM *)eventROM;
+- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController startEvent:(GBAEvent *)event forROM:(GBAROM *)rom;
 
 @optional
-- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController didDeleteEventDictionary:(NSDictionary *)dictionary;
+- (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController didDeleteEvent:(GBAEvent *)event;
 
 @end
 
@@ -26,10 +26,11 @@
 @property (strong, nonatomic) NSURL *imageURL;
 @property (strong, nonatomic) NSCache *imageCache;
 @property (strong, nonatomic) GBAROM *rom;
+@property (readonly, strong, nonatomic) GBAEvent *event;
 
 @property (weak, nonatomic) id <GBAEventDistributionDetailViewControllerDelegate> delegate;
 
 
-- (instancetype)initWithEventDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithEvent:(GBAEvent *)event;
 
 @end

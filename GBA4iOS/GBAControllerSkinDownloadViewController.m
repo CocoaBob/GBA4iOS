@@ -32,7 +32,7 @@ NSString *const Alyssa = @"Alyssa";
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
 
-#define REMOTE_SKIN_ROOT_ADDRESS @"http://gba4iosapp.com/skins/"
+#define REMOTE_SKIN_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/skins/"
 
 @interface GBAControllerSkinDownloadViewController ()
 
@@ -154,9 +154,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         self.skinsDictionary = responseObject;
         [self.skinsDictionary writeToFile:[self cachedControllerSkinInfoPath] atomically:YES];
         
-        [UIView transitionWithView:self.tableView duration:0.5f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-            [self.tableView reloadData];
-        } completion:NULL];
+        [self updateTableViewWithAnimation];
     }];
     
     [dataTask resume];
@@ -281,6 +279,17 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     }
     
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
+- (void)updateTableViewWithAnimation
+{
+    NSArray *events = self.skinsDictionary[GBASkinsKey];
+    NSInteger currentNumberOfSections = self.tableView.numberOfSections;
+    
+    [self.tableView beginUpdates];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, currentNumberOfSections)] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(currentNumberOfSections, events.count - (currentNumberOfSections - 1))] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView endUpdates];
 }
 
 #pragma mark - Dismissal

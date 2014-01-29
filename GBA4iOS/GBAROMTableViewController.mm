@@ -238,7 +238,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     
     RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:@"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari"];
-    webViewController.excludedActivityTypes = @[UIActivityTypeMessage];
     webViewController.showsDoneButton = YES;
     webViewController.downloadDelegate = self;
     webViewController.delegate = self;

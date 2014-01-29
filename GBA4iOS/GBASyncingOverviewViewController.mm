@@ -246,9 +246,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 - (void)restClient:(DBRestClient *)client loadedAccountInfo:(DBAccountInfo *)info
 {
     NSString *currentName = [[NSUserDefaults standardUserDefaults] stringForKey:@"dropboxDisplayName"];
-    
-    DLog(@"%@ %@", currentName, info.displayName);
-    
+        
     if ([currentName isEqualToString:info.displayName])
     {
         return;
