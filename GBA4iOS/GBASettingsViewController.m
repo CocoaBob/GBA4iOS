@@ -249,6 +249,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)dismissExternalControllerCustomizationViewController:(UIBarButtonItem *)barButtonItem
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)changeFrameSkip:(UISegmentedControl *)sender
 {
     NSUInteger frameSkip = sender.selectedSegmentIndex - 1; // -1 is auto, so this works
@@ -321,7 +326,21 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     else if (indexPath.section == EXTERNAL_CONTROLLER_SECTION)
     {
         GBAExternalControllerCustomizationViewController *externalControllerCustomizationViewController = [[GBAExternalControllerCustomizationViewController alloc] init];
-        [self.navigationController pushViewController:externalControllerCustomizationViewController animated:YES];
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            [self.navigationController pushViewController:externalControllerCustomizationViewController animated:YES];
+        }
+        else
+        {
+            UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissExternalControllerCustomizationViewController:)];
+            externalControllerCustomizationViewController.navigationItem.rightBarButtonItem = doneButton;
+            
+            UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(externalControllerCustomizationViewController);
+            navigationController.delegate = self;
+            [self presentViewController:navigationController animated:YES completion:nil];
+        }
+        
     }
     else if (indexPath.section == DROPBOX_SYNC_SECTION)
     {
@@ -409,6 +428,12 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
             self.dropboxSyncStatusLabel.text = NSLocalizedString(@"Off", @"");
         }
     }
+}
+
+
+- (NSUInteger)navigationControllerSupportedInterfaceOrientations:(UINavigationController *)navigationController
+{
+    return [[navigationController topViewController] supportedInterfaceOrientations];
 }
 
 

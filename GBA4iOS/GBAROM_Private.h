@@ -19,6 +19,6 @@ extern NSString *const GBAROMSyncingDisabledStateChangedNotification;
 @property (readwrite, assign, nonatomic) BOOL conflicted;
 @property (readwrite, assign, nonatomic) BOOL newlyConflicted;
 
-@property (readwrite, assign, nonatomic) GBAEvent *event;
+@property (readwrite, strong, nonatomic) GBAEvent *event;
 
 @end

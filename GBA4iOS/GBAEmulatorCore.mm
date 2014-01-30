@@ -12,6 +12,7 @@
 #import "GBAEmulatorCore.h"
 #import "UIDevice-Hardware.h"
 #import "GBAROM_Private.h"
+#import "GBAEvent.h"
 
 #import "MainApp.h"
 #import "EAGLView.h"
@@ -1044,9 +1045,9 @@ void rumbleDevice(bool vibrate)
 
 void attemptedMultiplayerLink()
 {
-    if ([[[GBAEmulatorCore sharedCore] rom] isEvent] && ![[[GBAEmulatorCore sharedCore] rom] eventCompleted])
+    if ([[[GBAEmulatorCore sharedCore] rom] event] && [[[[GBAEmulatorCore sharedCore] rom] event] isCompleted])
     {
-        [[[GBAEmulatorCore sharedCore] rom] setEventCompleted:YES];
+        [[[[GBAEmulatorCore sharedCore] rom] event] setCompleted:YES];
     }
 }
 

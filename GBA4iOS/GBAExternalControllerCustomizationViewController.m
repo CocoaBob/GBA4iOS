@@ -262,8 +262,12 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     CGPoint correctedCenter = CGPointMake(CGRectGetMidX(calloutView.frame), CGRectGetMidY(calloutView.frame));
     GBACalloutView *destinationCalloutView = [self calloutViewForPoint:correctedCenter excludeCalloutView:calloutView];
     
-    // Left the previous _movedCalloutView area, so return _movedCalloutView to original spot
-    if (_movedCalloutView && destinationCalloutView != _movedCalloutView)
+    // If a callout view was moved to make way for the currently being dragged
+    // callout view, and either the destination callout view doesn't match the
+    // moved callout view or they do match but the user returned to the currently
+    // being dragged callout view's original frame, then we return the moved
+    // callout view to its original spot.
+    if (_movedCalloutView && (destinationCalloutView != _movedCalloutView || (destinationCalloutView == _movedCalloutView && !CGRectContainsPoint(_movedCalloutViewOriginalRect, correctedCenter))))
     {
         UIButton *button = [self buttonForCalloutView:_movedCalloutView];
         [self moveCalloutView:_movedCalloutView toFrameForButton:button completion:nil];
