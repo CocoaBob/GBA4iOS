@@ -13,6 +13,8 @@
 #undef Fixed
 #undef Rect
 
+extern bool shouldPlayGameAudio();
+
 namespace Audio
 {
 
@@ -29,6 +31,8 @@ static uint startPlaybackBytes = 0;
 static BufferContext audioBuffLockCtx;
 static bool sessionInit = false;
 static bool soloMix_ = true;
+    
+    bool audioSessionCompletelyInitiated = false;
 
 void setHintPcmFramesPerWrite(uint frames)
 {
@@ -105,6 +109,11 @@ static CallResult openUnit(AudioStreamBasicDescription &fmt)
 
 CallResult openPcm(const PcmFormat &format)
 {
+    if (!audioSessionCompletelyInitiated)
+    {
+        init();
+    }
+    
 	if(isOpen())
 	{
 		logWarn("audio unit already open");
@@ -260,6 +269,11 @@ void initSession()
 
 CallResult init()
 {
+    if (!shouldPlayGameAudio())
+    {
+        return OK;
+    }
+    
 	assert(sessionInit);
 	logMsg("setting up playback audio unit");
 	AudioComponentDescription defaultOutputDescription =
@@ -291,6 +305,9 @@ CallResult init()
 	{
 		logWarn("error in AudioSessionSetActive()");
 	}
+    
+    audioSessionCompletelyInitiated = true;
+    
 	return OK;
 }
 

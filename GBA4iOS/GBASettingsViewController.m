@@ -16,13 +16,14 @@
 #import <DropboxSDK/DropboxSDK.h>
 
 #define FRAME_SKIP_SECTION 0
-#define GENERAL_SECTION 1
+#define AUDIO_SECTION 1
 #define SAVING_SECTION 2
 #define CONTROLLER_SKINS_SECTION 3
 #define CONTROLLER_OPACITY_SECTION 4
-#define EXTERNAL_CONTROLLER_SECTION 5
-#define DROPBOX_SYNC_SECTION 6
-#define CREDITS_SECTION 7
+#define VIBRATION_SECTION 5
+#define EXTERNAL_CONTROLLER_SECTION 6
+#define DROPBOX_SYNC_SECTION 7
+#define CREDITS_SECTION 8
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -31,7 +32,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *frameSkipSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISwitch *autosaveSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *mixAudioSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *preferOtherAudioSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
@@ -42,7 +43,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 - (IBAction)changeFrameSkip:(UISegmentedControl *)sender;
 - (IBAction)toggleAutoSave:(UISwitch *)sender;
 - (IBAction)toggleVibrate:(UISwitch *)sender;
-- (IBAction)toggleMixAudio:(UISwitch *)sender;
+- (IBAction)togglePreferOtherAudio:(UISwitch *)sender;
 - (IBAction)changeControllerOpacity:(UISlider *)sender;
 - (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender;
 
@@ -120,7 +121,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.frameSkipSegmentedControl.selectedSegmentIndex = selectedSegmentIndex + 1;
     
     self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
-    self.mixAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAllowOtherAudioKey];
+    self.preferOtherAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferOtherAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     
@@ -140,10 +141,9 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    if (section == GENERAL_SECTION)
+    if (section == VIBRATION_SECTION)
     {
-        // Hide vibration info if not iPhone (no way to detect if hardware supports vibration)
-        if (![[UIDevice currentDevice].model hasPrefix:@"iPhone"])
+        if (![self deviceSupportsVibration])
         {
             return nil;
         }
@@ -152,12 +152,24 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     return [super tableView:tableView titleForFooterInSection:section];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == VIBRATION_SECTION)
+    {
+        if (![self deviceSupportsVibration])
+        {
+            return 1;
+        }
+    }
+    
+    return [super tableView:tableView heightForHeaderInSection:section];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == GENERAL_SECTION)
+    if (section == VIBRATION_SECTION)
     {
-        // Hide vibration setting if not iPhone (no way to detect if hardware supports vibration)
-        if (![[UIDevice currentDevice].model hasPrefix:@"iPhone"])
+        if (![self deviceSupportsVibration])
         {
             return [super tableView:tableView numberOfRowsInSection:section] - 1;
         }
@@ -217,8 +229,29 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     return cell;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == VIBRATION_SECTION)
+    {
+        if (![self deviceSupportsVibration])
+        {
+            return nil;
+        }
+    }
+    
+    return [super tableView:tableView titleForHeaderInSection:section];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == VIBRATION_SECTION)
+    {
+        if (![self deviceSupportsVibration])
+        {
+            return 1;
+        }
+    }
+    
     return UITableViewAutomaticDimension;
 }
 
@@ -273,10 +306,10 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsVibrateKey, @"value": @(sender.on)}];
 }
 
-- (IBAction)toggleMixAudio:(UISwitch *)sender
+- (IBAction)togglePreferOtherAudio:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsAllowOtherAudioKey];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsAllowOtherAudioKey, @"value": @(sender.on)}];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsPreferOtherAudioKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsPreferOtherAudioKey, @"value": @(sender.on)}];
 }
 
 - (IBAction)toggleShowFramerate:(UISwitch *)sender
@@ -410,6 +443,12 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:scheme]];
+}
+
+- (BOOL)deviceSupportsVibration
+{
+    // No way to detect if hardware supports vibration, so we assume if it's not an iPhone, it doesn't have a vibration motor
+    return [[UIDevice currentDevice].model hasPrefix:@"iPhone"];
 }
 
 #pragma mark - UINavigationController Delegate

@@ -47,24 +47,24 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="General" id="k3M-IC-7Nd">
-                                <string key="footerTitle">The device will vibrate whenever you press a button on the controller. Make sure vibrate is ON in the Settings app for ring, silent, or both, depending on which mode you're in.</string>
+                            <tableViewSection headerTitle="Audio" id="BQC-TG-YXN">
+                                <string key="footerTitle">Game music will only play if no other app is playing audio. Regardless of this setting, you can always start music manually from Control Center.</string>
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="f2g-U9-OTg">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="fFx-sp-PGc">
                                         <rect key="frame" x="0.0" y="255" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f2g-U9-OTg" id="ibD-qN-SCB">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fFx-sp-PGc" id="fs9-Kb-Cvj">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2lV-ON-q1Q">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DUi-8T-x1x">
                                                     <rect key="frame" x="256" y="6" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
-                                                        <action selector="toggleMixAudio:" destination="fFF-zm-sH1" eventType="valueChanged" id="QBh-1T-le2"/>
+                                                        <action selector="togglePreferOtherAudio:" destination="fFF-zm-sH1" eventType="touchUpInside" id="Xmn-d5-F3E"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow Other Audio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bg8-N7-SOb">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prefer Other Audio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfw-hw-HXs">
                                                     <rect key="frame" x="15" y="11" width="233" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -73,53 +73,22 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="bg8-N7-SOb" firstAttribute="leading" secondItem="ibD-qN-SCB" secondAttribute="leading" constant="15" id="Nig-s3-bz5"/>
-                                                <constraint firstItem="2lV-ON-q1Q" firstAttribute="leading" secondItem="bg8-N7-SOb" secondAttribute="trailing" constant="8" id="Pxk-Q2-6vT"/>
-                                                <constraint firstAttribute="centerY" secondItem="2lV-ON-q1Q" secondAttribute="centerY" id="QSo-HF-Yo7"/>
-                                                <constraint firstAttribute="centerY" secondItem="bg8-N7-SOb" secondAttribute="centerY" id="fdP-wp-MJi"/>
-                                                <constraint firstAttribute="trailing" secondItem="2lV-ON-q1Q" secondAttribute="trailing" constant="15" id="u7d-RP-dS4"/>
+                                                <constraint firstAttribute="trailing" secondItem="DUi-8T-x1x" secondAttribute="trailing" constant="15" id="8cV-fF-q4V"/>
+                                                <constraint firstAttribute="centerY" secondItem="yfw-hw-HXs" secondAttribute="centerY" id="ASc-HE-CcH"/>
+                                                <constraint firstItem="yfw-hw-HXs" firstAttribute="leading" secondItem="fs9-Kb-Cvj" secondAttribute="leading" constant="15" id="Ed7-mk-pGc"/>
+                                                <constraint firstItem="DUi-8T-x1x" firstAttribute="leading" secondItem="yfw-hw-HXs" secondAttribute="trailing" constant="8" id="n51-6Q-Ew4"/>
+                                                <constraint firstAttribute="centerY" secondItem="DUi-8T-x1x" secondAttribute="centerY" id="zC5-76-uL6"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="Rw5-ep-vnl">
-                                        <rect key="frame" x="0.0" y="299" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rw5-ep-vnl" id="UAY-2i-Zm8">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ocf-oz-ae8">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <connections>
-                                                        <action selector="toggleVibrate:" destination="fFF-zm-sH1" eventType="valueChanged" id="T27-0C-TcE"/>
-                                                    </connections>
-                                                </switch>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vibrate On Button Press" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyX-GY-xjr">
-                                                    <rect key="frame" x="15" y="11" width="233" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Ocf-oz-ae8" firstAttribute="leading" secondItem="yyX-GY-xjr" secondAttribute="trailing" constant="8" id="Gje-br-1hr"/>
-                                                <constraint firstAttribute="centerY" secondItem="yyX-GY-xjr" secondAttribute="centerY" id="R7O-ai-54l"/>
-                                                <constraint firstItem="yyX-GY-xjr" firstAttribute="leading" secondItem="UAY-2i-Zm8" secondAttribute="leading" constant="15" id="TR7-7Y-iWX"/>
-                                                <constraint firstAttribute="centerY" secondItem="Ocf-oz-ae8" secondAttribute="centerY" id="cMB-5z-EPb"/>
-                                                <constraint firstAttribute="trailing" secondItem="Ocf-oz-ae8" secondAttribute="trailing" constant="15" id="swW-M1-3By"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Saving" id="Ui4-u6-rdp">
-                                <string key="footerTitle">A save state will be created whenever another save state is loaded, you quit the ROM, or the app crashes. This is intended to be used as a backup and not your primary saving method.</string>
+                                <string key="footerTitle">A save state will be created whenever another save state is loaded, you quit the game, or the app crashes. This is intended to be used as a backup and not your primary saving method.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="8RR-ty-VK7">
-                                        <rect key="frame" x="0.0" y="468" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="424" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8RR-ty-VK7" id="Xtw-HB-Dfy">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -154,7 +123,7 @@
                             <tableViewSection headerTitle="Controller Skins" id="6xa-Dc-Gfk" userLabel="Table View Section - Controller Skins">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DisclosureCell" textLabel="OHm-pT-NFJ" detailTextLabel="zFN-2i-CkL" style="IBUITableViewCellStyleValue1" id="O9w-bR-s3j">
-                                        <rect key="frame" x="0.0" y="654" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="610" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O9w-bR-s3j" id="Cmt-mq-7Pc">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -178,7 +147,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="mcv-Gs-kLe" detailTextLabel="WhF-4t-XmH" style="IBUITableViewCellStyleValue1" id="dfL-Rt-5nZ">
-                                        <rect key="frame" x="0.0" y="698" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="654" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dfL-Rt-5nZ" id="1pI-4Q-87i">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -206,7 +175,7 @@
                             <tableViewSection headerTitle="Controller Opacity" footerTitle="Determines how transparent the controller is, if supported by the skin." id="SNw-c2-3jm">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1T7-2h-GFx">
-                                        <rect key="frame" x="0.0" y="790" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="746" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1T7-2h-GFx" id="GfQ-4T-6i1">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -245,10 +214,46 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Controller Vibration" id="k3M-IC-7Nd">
+                                <string key="footerTitle">The device will vibrate whenever you press a button on the controller. Make sure vibrate is ON in the Settings app for ring, silent, or both, depending on which mode you're in.</string>
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="Rw5-ep-vnl">
+                                        <rect key="frame" x="0.0" y="882" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rw5-ep-vnl" id="UAY-2i-Zm8">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ocf-oz-ae8">
+                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="toggleVibrate:" destination="fFF-zm-sH1" eventType="valueChanged" id="T27-0C-TcE"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vibrate On Button Press" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyX-GY-xjr">
+                                                    <rect key="frame" x="15" y="11" width="233" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Ocf-oz-ae8" firstAttribute="leading" secondItem="yyX-GY-xjr" secondAttribute="trailing" constant="8" id="Gje-br-1hr"/>
+                                                <constraint firstAttribute="centerY" secondItem="yyX-GY-xjr" secondAttribute="centerY" id="R7O-ai-54l"/>
+                                                <constraint firstItem="yyX-GY-xjr" firstAttribute="leading" secondItem="UAY-2i-Zm8" secondAttribute="leading" constant="15" id="TR7-7Y-iWX"/>
+                                                <constraint firstAttribute="centerY" secondItem="Ocf-oz-ae8" secondAttribute="centerY" id="cMB-5z-EPb"/>
+                                                <constraint firstAttribute="trailing" secondItem="Ocf-oz-ae8" secondAttribute="trailing" constant="15" id="swW-M1-3By"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="External Controller" id="s3c-lR-3lq" userLabel="Table View Section - External Controller">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="tNu-VX-c2N" detailTextLabel="czk-1N-GQI" style="IBUITableViewCellStyleValue1" id="m63-6B-cbj">
-                                        <rect key="frame" x="0.0" y="926" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1051" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m63-6B-cbj" id="MZN-mS-ibJ">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -276,7 +281,7 @@
                             <tableViewSection headerTitle="Syncing" id="Y91-iU-ZZA">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="bQm-NJ-XIL" detailTextLabel="xfN-uz-80c" style="IBUITableViewCellStyleValue1" id="qSk-zO-gSr">
-                                        <rect key="frame" x="0.0" y="1018" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1143" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qSk-zO-gSr" id="pzv-Oa-VmP">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -307,7 +312,7 @@
 For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="uC9-4O-Vzb" detailTextLabel="c59-FU-Kqa" style="IBUITableViewCellStyleValue1" id="XIV-fF-qzJ">
-                                        <rect key="frame" x="0.0" y="1110" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1235" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XIV-fF-qzJ" id="kN7-gH-xdz">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -331,7 +336,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="yts-uQ-Fyu" detailTextLabel="qY9-bp-cXh" style="IBUITableViewCellStyleValue1" id="gY2-vs-EA6">
-                                        <rect key="frame" x="0.0" y="1154" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1279" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gY2-vs-EA6" id="oKP-Vh-IaR">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -355,7 +360,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="upY-mn-RKX" detailTextLabel="ZSt-Ue-ZUl" style="IBUITableViewCellStyleValue1" id="toN-EG-7ZZ">
-                                        <rect key="frame" x="0.0" y="1198" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1323" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="toN-EG-7ZZ" id="dhY-ye-el0">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -379,7 +384,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="XmL-5Z-36f" detailTextLabel="6nt-U1-98m" style="IBUITableViewCellStyleValue1" id="gM0-9q-VL9">
-                                        <rect key="frame" x="0.0" y="1242" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1367" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gM0-9q-VL9" id="thl-mL-RBx">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -403,7 +408,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="JKF-YX-hl9" detailTextLabel="oQI-aK-3wI" style="IBUITableViewCellStyleValue1" id="CaE-4j-s6R">
-                                        <rect key="frame" x="0.0" y="1286" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1411" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CaE-4j-s6R" id="alq-zA-gT4">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -427,7 +432,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="dc9-F6-nUc" detailTextLabel="kmR-d2-GDL" style="IBUITableViewCellStyleValue1" id="CyV-bM-CXP">
-                                        <rect key="frame" x="0.0" y="1330" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1455" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CyV-bM-CXP" id="vB1-Zu-WeS">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -474,7 +479,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                         <outlet property="controllerOpacityLabel" destination="DCB-nd-WvQ" id="U5i-aL-coc"/>
                         <outlet property="controllerOpacitySlider" destination="EMX-TK-39P" id="P3E-LQ-DgZ"/>
                         <outlet property="frameSkipSegmentedControl" destination="wCX-6F-d72" id="jfC-Vu-4k6"/>
-                        <outlet property="mixAudioSwitch" destination="2lV-ON-q1Q" id="oCd-XD-B7b"/>
+                        <outlet property="preferOtherAudioSwitch" destination="DUi-8T-x1x" id="fqe-xO-nGE"/>
                         <outlet property="vibrateSwitch" destination="Ocf-oz-ae8" id="Z9y-I1-YpG"/>
                     </connections>
                 </tableViewController>

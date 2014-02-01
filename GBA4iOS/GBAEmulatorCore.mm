@@ -8,6 +8,7 @@
 
 #import <CoreMotion/CoreMotion.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import "GBAEmulatorCore.h"
 #import "UIDevice-Hardware.h"
@@ -491,14 +492,6 @@ extern void startGameFromMenu();
     }
     
     optionFrameSkip.val = frameskip;
-    /*EmuSystem::configAudioPlayback();
-    
-    if (self.rom && notification)
-    {
-        startGameFromMenu();
-    }*/
-    
-    optionAudioSoloMix = ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAllowOtherAudioKey];
 }
 
 - (void)setRom:(GBAROM *)rom
@@ -520,6 +513,7 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 - (void)startEmulation
 {
+    optionSound.val = 0;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -586,10 +580,21 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 #endif
 	glFinish();
 	[glView destroyFramebuffer];
+    
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
 }
 
 - (void)resumeEmulation
 {
+    if (shouldPlayGameAudio())
+    {
+        optionSound.val = 1;
+    }
+    else
+    {
+        optionSound.val = 0;
+    }
+    
     using namespace Base;
 	logMsg("became active");
 	if(!Base::openglViewIsInit)
@@ -608,6 +613,18 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 - (void)endEmulation
 {
     EmuSystem::closeGame(NO);
+}
+
+#pragma mark - Audio
+
+bool shouldPlayGameAudio()
+{
+    if ([[AVAudioSession sharedInstance] isOtherAudioPlaying] && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferOtherAudioKey])
+    {
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - Filters
