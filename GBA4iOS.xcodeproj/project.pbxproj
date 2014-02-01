@@ -28,6 +28,10 @@
 		BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */; };
 		BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
+		BF2290A0189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */; };
+		BF2290A1189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */; };
+		BF2290A4189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */; };
+		BF2290A5189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */; };
 		BF2638C618700E2400CE55F9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2638C518700E2400CE55F9 /* CoreMotion.framework */; };
 		BF2942A5188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2942A4188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m */; };
 		BF2942A6188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2942A4188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m */; };
@@ -409,6 +413,10 @@
 		BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCalloutView.h; sourceTree = "<group>"; };
 		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
 		BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAExternalController_Private.h; sourceTree = "<group>"; };
+		BF22909E189C45D20041F1AE /* GBAWebViewControllerURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewControllerURLCache.h; sourceTree = "<group>"; };
+		BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewControllerURLCache.m; sourceTree = "<group>"; };
+		BF2290A2189C98BE0041F1AE /* NSFileManager+ForcefulMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+ForcefulMove.h"; sourceTree = "<group>"; };
+		BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+ForcefulMove.m"; sourceTree = "<group>"; };
 		BF2638C518700E2400CE55F9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		BF2942A3188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAKeyboardDismissalNavigationController.h; sourceTree = "<group>"; };
 		BF2942A4188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAKeyboardDismissalNavigationController.m; sourceTree = "<group>"; };
@@ -977,6 +985,8 @@
 			children = (
 				BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */,
 				BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */,
+				BF22909E189C45D20041F1AE /* GBAWebViewControllerURLCache.h */,
+				BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */,
 			);
 			name = "Downloading ROMs";
 			sourceTree = "<group>";
@@ -1375,6 +1385,8 @@
 				BF1C87F9185193B100C72E1C /* FileSHA1Hash.c */,
 				BF359B96187A64C000B4CA53 /* NSDate+Comparing.h */,
 				BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */,
+				BF2290A2189C98BE0041F1AE /* NSFileManager+ForcefulMove.h */,
+				BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */,
 			);
 			name = "Categories / Protocols";
 			sourceTree = "<group>";
@@ -1786,6 +1798,7 @@
 				BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */,
 				BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */,
 				BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */,
+				BF2290A5189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */,
 				BFD98C451895FF0100A9432C /* unzip.c in Sources */,
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
 				BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */,
@@ -1798,6 +1811,7 @@
 				BF2F353B183FF6F9002ACE90 /* main.mm in Sources */,
 				BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
 				BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */,
+				BF2290A1189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */,
 				BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */,
 				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
 				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
@@ -1954,6 +1968,7 @@
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
 				BF359B94187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */,
 				BFD98C421895FF0100A9432C /* mztools.c in Sources */,
+				BF2290A0189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */,
 				BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */,
 				CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */,
 				CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */,
@@ -2028,6 +2043,7 @@
 				CC5044FC1814DC69009F7B9E /* Mode5.cpp in Sources */,
 				CCC9B8A51815AC7E005C90EE /* resamplerinfo.cpp in Sources */,
 				CCC9B89C1815AC7E005C90EE /* channel4.cpp in Sources */,
+				BF2290A4189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */,
 				CC5045011814DC69009F7B9E /* Util.cpp in Sources */,
 				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
 				BFD98C401895FF0100A9432C /* ioapi.c in Sources */,

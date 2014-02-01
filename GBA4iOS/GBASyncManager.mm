@@ -839,7 +839,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
-    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.uniqueName];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.name];
     
     [[NSFileManager defaultManager] createDirectoryAtPath:cheatsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     
@@ -851,7 +851,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
-    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:rom.uniqueName];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:rom.name];
     
     [[NSFileManager defaultManager] createDirectoryAtPath:saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     

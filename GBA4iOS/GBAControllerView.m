@@ -418,6 +418,7 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
         overlay.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5];
         overlay.text = [self.controllerSkin keyForButtonRect:button];
         overlay.adjustsFontSizeToFitWidth = YES;
+        overlay.minimumScaleFactor = 0.01;
         overlay.textColor = [UIColor whiteColor];
         overlay.font = [UIFont boldSystemFontOfSize:18.0f];
         overlay.textAlignment = NSTextAlignmentCenter;

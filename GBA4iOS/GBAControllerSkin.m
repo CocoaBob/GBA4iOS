@@ -300,6 +300,11 @@
     return [self.infoDictionary[@"type"] integerValue];
 }
 
+- (BOOL)debug
+{
+    return [self.infoDictionary[@"debug"] boolValue];
+}
+
 + (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary
 {
     NSString *key = nil;

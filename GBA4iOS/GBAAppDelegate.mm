@@ -44,6 +44,20 @@ static GBAAppDelegate *_appDelegate;
     _appDelegate = self;
     
     [UIView toggleViewMainThreadChecking];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"performedROMDataMigration"])
+    {
+        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+        
+        NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+        NSString *saveStatesParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+        
+        [self renameUniqueFoldersToNamedFoldersInDirectory:cheatsParentDirectory];
+        [self renameUniqueFoldersToNamedFoldersInDirectory:saveStatesParentDirectory];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"performedROMDataMigration"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
         
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.tintColor = GBA4iOS_PURPLE_COLOR;
@@ -99,6 +113,57 @@ static GBAAppDelegate *_appDelegate;
     [self.emulationViewController showSplashScreen];
     
     return YES;
+}
+
+- (void)renameUniqueFoldersToNamedFoldersInDirectory:(NSString *)directory
+{
+    // NSDirectoryEnumerator raises exception if URL is nil
+    if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:nil])
+    {
+        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:[NSURL fileURLWithPath:directory]
+                                                                 includingPropertiesForKeys:@[NSURLNameKey, NSURLIsDirectoryKey]
+                                                                                    options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                               errorHandler:^BOOL(NSURL *url, NSError *error)
+                                             {
+                                                 NSLog(@"[Error] %@ (%@)", error, url);
+                                                 return YES;
+                                             }];
+        
+        
+        for (NSURL *fileURL in enumerator)
+        {
+            [enumerator skipDescendants];
+            
+            NSString *filename;
+            [fileURL getResourceValue:&filename forKey:NSURLNameKey error:nil];
+            
+            NSNumber *isDirectory;
+            [fileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
+            
+            DLog(@"%@", filename);
+            
+            if ([isDirectory boolValue])
+            {
+                GBAROM *rom = [GBAROM romWithUniqueName:filename];
+                
+                if (rom == nil)
+                {
+                    continue;
+                }
+                
+                NSString *destinationPath = [[fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:rom.name];
+                
+                if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+                {
+                    [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:destinationPath] withItemAtURL:fileURL backupItemName:nil options:0 resultingItemURL:nil error:nil];
+                }
+                else
+                {
+                    [[NSFileManager defaultManager] moveItemAtPath:fileURL.path toPath:destinationPath error:nil];
+                }
+            }
+        }
+    }
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

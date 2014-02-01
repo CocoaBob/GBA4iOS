@@ -53,8 +53,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    self.detailTextView.contentSize = self.detailTextView.bounds.size;
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,18 +64,6 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self.tableView reloadData];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    self.detailTextView.contentSize = self.detailTextView.bounds.size;
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    self.detailTextView.contentSize = self.detailTextView.bounds.size;
 }
 
 - (void)dealloc
@@ -157,10 +143,6 @@
             [(GBAAsynchronousRemoteTableViewCell *)cell setImageURL:self.imageURL];
         }
     }
-    else if (indexPath.section == 1)
-    {
-        self.detailTextView.contentSize = self.detailTextView.bounds.size;
-    }
     
     return cell;
 }
@@ -203,15 +185,6 @@
     }];
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    // Stupid hacky UITextView work around so that the user can'ts scroll in the view.
-    // Setting scrollEnabled = NO renders the text incorrectly
-    self.detailTextView.contentSize = self.detailTextView.bounds.size;
-}
-
 #pragma mark - Notifications
 
 - (void)contentSizeCategoryDidChange:(NSNotification *)notification
@@ -221,8 +194,6 @@
         self.detailTextView.font = font;
         
         [self.tableView reloadData];
-        
-        self.detailTextView.contentSize = self.detailTextView.bounds.size;
     });
 }
 

@@ -18,6 +18,7 @@
 #import "GBASyncManager.h"
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"
+#import "NSFileManager+ForcefulMove.h"
 
 #import "GBAWebViewController.h"
 #import "UIAlertView+RSTAdditions.h"
@@ -237,7 +238,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         romType = GBAROMTypeGBC;
     }
     
-    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:@"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari"];
+    GBAWebViewController *webViewController = [[GBAWebViewController alloc] initWithROMType:romType];
     webViewController.showsDoneButton = YES;
     webViewController.downloadDelegate = self;
     webViewController.delegate = self;
@@ -755,7 +756,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     return gbcSkinsDirectory;
 }
 
-- (NSString *)saveStateDirectoryFovrROM:(GBAROM *)rom
+- (NSString *)saveStateDirectoryForROM:(GBAROM *)rom
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -763,14 +764,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *saveStateDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
     
     return [saveStateDirectory stringByAppendingPathComponent:rom.name];
-}
-
-- (NSString *)cheatCodeFileForROM:(GBAROM *)rom
-{
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *cheatCodeDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
-    
-    return nil;
 }
 
 - (NSString *)cachedROMsPath
@@ -1299,17 +1292,17 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     NSString *romUniqueName = rom.uniqueName;
     
-    if (romUniqueName == nil || [romUniqueName isEqualToString:@""] || [romUniqueName isEqualToString:@"/"])
+    if (rom.name == nil || [rom.name isEqualToString:@""] || [rom.name isEqualToString:@"/"])
     {
         // Do NOT make this string @"", or else it'll then delete the entire cheats/save states folder
         romUniqueName = @"Unknown";
     }
     
     NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
-    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:romUniqueName];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:rom.name];
     
     NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
-    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:romUniqueName];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:rom.name];
         
     // Handled by deletedFileAtIndexPath
     //[[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
@@ -1339,18 +1332,33 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     GBAROM *rom = [GBAROM romWithContentsOfFile:filepath];
     [rom renameToName:newName];
     
+    // ROM
     NSString *romName = [[filepath lastPathComponent] stringByDeletingPathExtension];
     NSString *newRomFilename = [NSString stringWithFormat:@"%@.%@", newName, extension]; // Includes extension
     
+    // Save File
     NSString *saveFile = [NSString stringWithFormat:@"%@.sav", romName];
     NSString *newSaveFile = [NSString stringWithFormat:@"%@.sav", newName];
     
+    // RTC file
     NSString *rtcFile = [NSString stringWithFormat:@"%@.rtc", romName];
     NSString *newRTCFile = [NSString stringWithFormat:@"%@.rtc", newName];
     
-    [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:newRomFilename] error:nil];
-    [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] error:nil];
-    [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] toPath:[documentsDirectory stringByAppendingPathComponent:newRTCFile] error:nil];
+    // Cheats
+    NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
+    NSString *cheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:romName];
+    NSString *newCheatsDirectory = [cheatsParentDirectory stringByAppendingPathComponent:newName];
+    
+    // Save States
+    NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:romName];
+    NSString *newSaveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:newName];
+    
+    [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:newRomFilename] replaceExistingFile:YES error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] replaceExistingFile:YES error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] toPath:[documentsDirectory stringByAppendingPathComponent:newRTCFile] replaceExistingFile:YES error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:cheatsDirectory toPath:newCheatsDirectory replaceExistingFile:YES error:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:saveStateDirectory toPath:newSaveStateDirectory replaceExistingFile:YES error:nil];
     
     NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
     [cachedROMs setObject:cachedROMs[[filepath lastPathComponent]] forKey:newRomFilename];

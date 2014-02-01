@@ -145,18 +145,24 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             
             GBAEvent *event = [GBAEvent eventWithContentsOfFile:[fileURL path]];
             
-            NSURL *romFileURL = [fileURL URLByAppendingPathComponent:[self remoteROMFilename]];
+            NSString *romPath = [[fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:[self remoteROMFilename]];
             
-            if (![event supportsGame:[self eventSupportedGame]] || ![[NSFileManager defaultManager] fileExistsAtPath:[romFileURL path]])
+            DLog(@"%@", romPath);
+            
+            if (![event supportsGame:[self eventSupportedGame]] || ![[NSFileManager defaultManager] fileExistsAtPath:romPath])
             {
                 continue;
             }
+            
+            DLog(@"Adding!");
             
             [events addObject:event];
         }
     }
     
     self.eventsDictionary[@"events"] = events;
+    
+    
 }
 
 - (void)refreshEvents

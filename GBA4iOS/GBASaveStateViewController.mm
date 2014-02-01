@@ -745,7 +745,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
-    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:self.rom.uniqueName];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:self.rom.name];
     
     [[NSFileManager defaultManager] createDirectoryAtPath:saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     

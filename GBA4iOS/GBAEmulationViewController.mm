@@ -672,7 +672,7 @@ static GBAEmulationViewController *_emulationViewController;
 
     [self pauseEmulation];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    if ([self usingGyroscope] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
         [UIViewController attemptRotationToDeviceOrientation];
     }
@@ -1086,8 +1086,6 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)presentSaveStateMenuWithMode:(GBASaveStateViewControllerMode)mode
 {
-    NSString *filename = self.rom.name;
-    
     GBASaveStateViewController *saveStateViewController = [[GBASaveStateViewController alloc] initWithROM:self.rom mode:mode];
     saveStateViewController.delegate = self;
     
@@ -1112,6 +1110,8 @@ static GBAEmulationViewController *_emulationViewController;
     }
     
     [self presentViewController:navigationController animated:YES completion:nil];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)saveStateViewController:(GBASaveStateViewController *)saveStateViewController willLoadStateWithFilename:(NSString *)filename
@@ -1182,12 +1182,12 @@ static GBAEmulationViewController *_emulationViewController;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    NSString *romName = self.rom.uniqueName;
-    NSString *directory = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"Save States/%@", romName]];
+    NSString *saveStateParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
+    NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:self.rom.name];
     
-    [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     
-    return directory;
+    return saveStateDirectory;
 }
 
 #pragma mark - Cheats
@@ -1214,6 +1214,8 @@ static GBAEmulationViewController *_emulationViewController;
     [self presentViewController:navigationController animated:YES completion:nil];
     
     [self prepareForPresentingTranslucentViewController];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)cheatManagerViewController:(GBACheatManagerViewController *)cheatManagerViewController willDismissCheatEditorViewController:(GBACheatEditorViewController *)cheatEditorViewController
@@ -1248,6 +1250,8 @@ static GBAEmulationViewController *_emulationViewController;
     [self presentViewController:navigationController animated:YES completion:nil];
     
     [self prepareForPresentingTranslucentViewController];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)finishEventDistribution
@@ -1394,6 +1398,8 @@ static GBAEmulationViewController *_emulationViewController;
     {
         [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:YES];
     }
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
@@ -1824,7 +1830,14 @@ static GBAEmulationViewController *_emulationViewController;
         }
     }
     
-    //[self.controllerView showButtonRects];
+    if ([self.controllerView.controllerSkin debug])
+    {
+        [self.controllerView showButtonRects];
+    }
+    else
+    {
+        [self.controllerView hideButtonRects];
+    }
 }
 
 - (void)updateEmulatorScreenFrame
@@ -1903,9 +1916,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)viewDidLayoutSubviews
 {
-    // possible iOS 7 bug? self.screenContainerView.bounds still has old bounds when this method is called, so we can't really do anything.
-    
-    
+    // possible iOS 7 bug? self.screenContainerView.bounds still has old bounds when this method is called, so we can't really do anything.    
 }
 
 - (void)refreshLayout
@@ -2016,7 +2027,8 @@ static GBAEmulationViewController *_emulationViewController;
     
     [[GBAEmulatorCore sharedCore] pauseEmulation];
     
-    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+    // iOS 7 bug: dims screen immediately if it has been more than 45 seconds since last touch
+   // [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)resumeEmulation

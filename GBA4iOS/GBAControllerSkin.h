@@ -47,6 +47,7 @@ static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *name;
 @property (readonly, assign, nonatomic) GBAControllerSkinType type;
+@property (readonly, assign, nonatomic) BOOL debug;
 
 + (GBAControllerSkin *)controllerSkinWithContentsOfFile:(NSString *)filepath;
 + (GBAControllerSkin *)defaultControllerSkinForSkinType:(GBAControllerSkinType)skinType;
