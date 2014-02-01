@@ -14,7 +14,7 @@ extern NSString *const GBASettingsDropboxStatusChangedNotification;
 
 static NSString *GBASettingsFrameSkipKey = @"frameSkip";
 static NSString *GBASettingsAutosaveKey = @"autosave";
-static NSString *GBASettingsPreferOtherAudioKey = @"preferOtherAudio";
+static NSString *GBASettingsPreferExternalAudioKey = @"preferExternalAudio";
 static NSString *GBASettingsVibrateKey = @"vibrate";
 static NSString *GBASettingsShowFramerateKey = @"showFramerate";
 static NSString *GBASettingsGBASkinsKey = @"gbaSkins";

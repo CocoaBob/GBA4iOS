@@ -824,7 +824,21 @@ static GBAEmulationViewController *_emulationViewController;
         {
             if ([self.rom event])
             {
-                [self finishEventDistribution];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Exit this event?", @"")
+                                                                message:NSLocalizedString(@"The game will restart, and any unsaved data will be lost. If you haven't yet completed the event, you may start it again at any time.", @"")
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                      otherButtonTitles:NSLocalizedString(@"Exit", @""), nil];
+                [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    if (buttonIndex == 1)
+                    {
+                        [self finishEventDistribution];
+                    }
+                    else
+                    {
+                        [self resumeEmulation];
+                    }
+                }];
             }
             else
             {
@@ -1234,7 +1248,10 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)presentEventDistribution
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    }
     
     GBAEventDistributionViewController *eventDistributionViewController = [[GBAEventDistributionViewController alloc] initWithROM:self.rom];
     eventDistributionViewController.delegate = self;
@@ -1256,7 +1273,10 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)finishEventDistribution
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    }
     
     UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.eventDistributionViewController);
     
@@ -1310,7 +1330,6 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)emulatorCore:(GBAEmulatorCore *)emulatorCore didEnableGyroscopeForROM:(GBAROM *)rom
 {
     self.usingGyroscope = YES;
-    self.showingGyroscopeAlert = YES;
     
     NSString *key = nil;
     
@@ -1324,8 +1343,12 @@ static GBAEmulationViewController *_emulationViewController;
         key = @"presentediPadGyroscopeAlert";
     }
     
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:key] < 3)
+    NSInteger alertPresentationCount = [[NSUserDefaults standardUserDefaults] integerForKey:key];
+    
+    if (alertPresentationCount < 3)
     {
+        self.showingGyroscopeAlert = YES;
+        
         [self pauseEmulation];
         
         NSString *message = nil;
@@ -1353,6 +1376,10 @@ static GBAEmulationViewController *_emulationViewController;
                 self.emulatorScreen.hidden = NO;
             }];
         });
+        
+        alertPresentationCount++;
+        [[NSUserDefaults standardUserDefaults] setInteger:alertPresentationCount forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 

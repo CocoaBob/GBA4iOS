@@ -76,12 +76,8 @@ void EmuSystem::startAutoSaveStateTimer()
 
 void EmuSystem::startSound()
 {
-    printf("No Sound!");
-    
 	if(optionSound)
-	{
-        printf("Sound!");
-        
+	{        
 		if(!Audio::isOpen())
 			Audio::openPcm(pcmFormat);
 		else

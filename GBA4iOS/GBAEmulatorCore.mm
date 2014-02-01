@@ -619,7 +619,7 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 bool shouldPlayGameAudio()
 {
-    if ([[AVAudioSession sharedInstance] isOtherAudioPlaying] && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferOtherAudioKey])
+    if ([[AVAudioSession sharedInstance] isOtherAudioPlaying] && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferExternalAudioKey])
     {
         return NO;
     }

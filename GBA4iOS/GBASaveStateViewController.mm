@@ -9,6 +9,7 @@
 #import "GBASaveStateViewController.h"
 #import "GBASaveStateTableViewCell.h"
 #import "GBASyncManager.h"
+#import "GBASettingsViewController.h"
 
 #import "GBAEmulatorCore.h"
 
@@ -619,7 +620,7 @@
      
         NSString *title = NSLocalizedString(@"Are you sure you want to permanently delete this save state?", @"");
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"dropboxSync"])
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
         {
             title = [NSString stringWithFormat:@"%@ %@", title, NSLocalizedString(@"It'll be removed from all of your Dropbox connected devices.", @"")];
         }
@@ -630,8 +631,10 @@
                                                    destructiveButtonTitle:NSLocalizedString(@"Delete Save State", @"")
                                                         otherButtonTitles:nil];
         
-        [actionSheet showInView:self.view selectionHandler:^(UIActionSheet *sheet, NSInteger buttonIndex) {
-            
+        UIView *presentationView = self.view;
+        CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+        
+        [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
             if (buttonIndex == 0)
             {
                 NSMutableArray *array = [self.saveStateArray[indexPath.section] mutableCopy];
@@ -652,7 +655,6 @@
             }
             
             [self.tableView setEditing:NO animated:YES];
-            
         }];
     }
 }

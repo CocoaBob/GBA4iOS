@@ -97,7 +97,10 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     if ([self.navigationController isBeingPresented])
     {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        }
         [self refreshEvents];
     }
 }
@@ -470,7 +473,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 {
     if (section == 0)
     {
-        return NSLocalizedString(@"Events unlock certain features that are not normally in the game. However, they can only be used once per save file.", @"");
+        return NSLocalizedString(@"Events unlock certain features that are not normally in the game. However, they can only be completed once per save file.", @"");
     }
     
     GBAEvent *event = [self eventForSection:section];

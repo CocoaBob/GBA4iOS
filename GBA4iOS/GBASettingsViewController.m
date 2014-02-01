@@ -32,7 +32,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *frameSkipSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISwitch *autosaveSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *preferOtherAudioSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *preferExternalAudioSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
@@ -43,7 +43,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 - (IBAction)changeFrameSkip:(UISegmentedControl *)sender;
 - (IBAction)toggleAutoSave:(UISwitch *)sender;
 - (IBAction)toggleVibrate:(UISwitch *)sender;
-- (IBAction)togglePreferOtherAudio:(UISwitch *)sender;
+- (IBAction)togglePreferExternalAudio:(UISwitch *)sender;
 - (IBAction)changeControllerOpacity:(UISlider *)sender;
 - (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender;
 
@@ -121,7 +121,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.frameSkipSegmentedControl.selectedSegmentIndex = selectedSegmentIndex + 1;
     
     self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
-    self.preferOtherAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferOtherAudioKey];
+    self.preferExternalAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferExternalAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     
@@ -273,6 +273,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem
 {
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     if ([self.delegate respondsToSelector:@selector(settingsViewControllerWillDismiss:)])
     {
         [self.delegate settingsViewControllerWillDismiss:self];
@@ -306,10 +308,10 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsVibrateKey, @"value": @(sender.on)}];
 }
 
-- (IBAction)togglePreferOtherAudio:(UISwitch *)sender
+- (IBAction)togglePreferExternalAudio:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsPreferOtherAudioKey];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsPreferOtherAudioKey, @"value": @(sender.on)}];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsPreferExternalAudioKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsPreferExternalAudioKey, @"value": @(sender.on)}];
 }
 
 - (IBAction)toggleShowFramerate:(UISwitch *)sender

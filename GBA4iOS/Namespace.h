@@ -212,11 +212,11 @@ namespace Base
     {
         auto sharedApp = [UIApplication sharedApplication];
         assert(sharedApp);
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 30200
+/*#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 30200
 		[sharedApp setStatusBarHidden: hidden ? YES : NO withAnimation: UIStatusBarAnimationFade];
 #else
 		[sharedApp setStatusBarHidden: hidden ? YES : NO animated:YES];
-#endif
+#endif Riley Testut */
         //Riley Testut setViewportForStatusbar(sharedApp);
         generic_resizeEvent(mainWin);
     }
