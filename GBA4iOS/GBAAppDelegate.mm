@@ -21,8 +21,8 @@
 #import "UIView+DTDebug.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
-#import <Crashlytics/Crashlytics.h>
 #import <CrashReporter/CrashReporter.h>
+#import <Crashlytics/Crashlytics.h>
 #endif
 
 NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPlayROMNotification";
@@ -103,9 +103,8 @@ static GBAAppDelegate *_appDelegate;
     
 #warning Uncomment for release, and comment out Crashlytics. Can't have both at once :(
     //[self setUpCrashCallbacks];
-    
-    [Crashlytics startWithAPIKey:@"40b809418ecb525b71aecd5d32fa2612063baaad"];
-    
+    [Crashlytics startWithAPIKey:@"d542629b4f6625cfd5564d27318550321272076d"];
+        
 #endif
     
     [self.window makeKeyAndVisible];

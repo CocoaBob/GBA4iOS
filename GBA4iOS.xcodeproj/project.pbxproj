@@ -87,7 +87,6 @@
 		BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D9C17C515E800EFC10E /* GBACheat.m */; };
 		BF2F35B5183FF6F9002ACE90 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
 		BF2F35B6183FF6F9002ACE90 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
-		BF2F35B7183FF6F9002ACE90 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
 		BF2F35B8183FF6F9002ACE90 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
 		BF2F35B9183FF6F9002ACE90 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC45EE1017E7E9D000AC29FA /* SystemConfiguration.framework */; };
 		BF2F35BA183FF6F9002ACE90 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
@@ -123,16 +122,19 @@
 		BF3E2BD718206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
 		BF3E2BDB18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
-		BF4D917F182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */; };
 		BF537EF9184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */; };
 		BF537EFA184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */; };
 		BF537EFE185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */; };
 		BF537EFF185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */; };
-		BF631FB1185263BF00A91F01 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF650F1418470DFC008113E4 /* Crashlytics.framework */; };
 		BF6ED578185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */; };
 		BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */; };
 		BF6ED57C1851100A0014B6A8 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */; };
 		BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */; };
+		BF7C0E6D189DA30400794093 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
+		BF7C0E6E189DA30400794093 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E69189DA30400794093 /* DropboxSDK.framework */; };
+		BF7C0E6F189DA30400794093 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E69189DA30400794093 /* DropboxSDK.framework */; };
+		BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
+		BF7C0E73189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
@@ -156,9 +158,9 @@
 		BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3C18909EE8002E5F26 /* Default@2x.png */; };
 		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
 		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
-		BFC09D53188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
-		BFC09D54188D201A0064C497 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC09D52188D201A0064C497 /* CrashReporter.framework */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
+		BFC47BC1189DA7C0006C4D55 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC47BC0189DA7C0006C4D55 /* Crashlytics.framework */; };
+		BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
 		BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD98C401895FF0100A9432C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
@@ -169,8 +171,6 @@
 		BFD98C451895FF0100A9432C /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3A1895FF0100A9432C /* unzip.c */; };
 		BFD98C461895FF0100A9432C /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
 		BFD98C471895FF0100A9432C /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
-		BFD98C481895FF0100A9432C /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3F1895FF0100A9432C /* SSZipArchive.m */; };
-		BFD98C491895FF0100A9432C /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3F1895FF0100A9432C /* SSZipArchive.m */; };
 		BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
@@ -450,13 +450,11 @@
 		BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTFileBrowserTableViewCell.m; path = Cocoapods/RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
 		BF3E2BD918206DF2004231F6 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTDirectoryMonitor.h; path = Cocoapods/RSTDirectoryMonitor.h; sourceTree = "<group>"; };
 		BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTDirectoryMonitor.m; path = Cocoapods/RSTDirectoryMonitor.m; sourceTree = "<group>"; };
-		BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		BF537EF7184FE1AC00661C42 /* GBASyncFileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation.h; sourceTree = "<group>"; };
 		BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncFileOperation.mm; sourceTree = "<group>"; };
 		BF537EFB184FEB4600661C42 /* GBASyncFileOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation_Private.h; sourceTree = "<group>"; };
 		BF537EFC185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncUploadDeviceUploadHistoryOperation.h; sourceTree = "<group>"; };
 		BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncUploadDeviceUploadHistoryOperation.mm; sourceTree = "<group>"; };
-		BF650F1418470DFC008113E4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		BF6ED576185102D40014B6A8 /* GBASyncInitialSyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncInitialSyncOperation.h; sourceTree = "<group>"; };
 		BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncInitialSyncOperation.mm; sourceTree = "<group>"; };
 		BF6ED57A1851100A0014B6A8 /* GBASyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncManager.h; sourceTree = "<group>"; };
@@ -464,11 +462,15 @@
 		BF6F2978184D5AB300ECF793 /* cartridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cartridge.h; sourceTree = "<group>"; };
 		BF6F2979184D76AE00ECF793 /* GBA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBA.h; sourceTree = "<group>"; };
 		BF6FF3511845696200A8568C /* GBASyncManager_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBASyncManager_Private.h; sourceTree = "<group>"; };
+		BF7C0E68189DA30400794093 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = GBA4iOS/CrashReporter.framework; sourceTree = "<group>"; };
+		BF7C0E69189DA30400794093 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = GBA4iOS/DropboxSDK.framework; sourceTree = "<group>"; };
+		BF7C0E70189DA35800794093 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = GBA4iOS/SSZipArchive.h; sourceTree = SOURCE_ROOT; };
+		BF7C0E71189DA35800794093 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = GBA4iOS/SSZipArchive.m; sourceTree = SOURCE_ROOT; };
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
-		BFA60DDF184847C40039D77E /* RSTToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTToastView.h; sourceTree = "<group>"; };
-		BFA60DE0184847C40039D77E /* RSTToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTToastView.m; sourceTree = "<group>"; };
+		BFA60DDF184847C40039D77E /* RSTToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTToastView.h; path = GBA4iOS/RSTToastView.h; sourceTree = "<group>"; };
+		BFA60DE0184847C40039D77E /* RSTToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTToastView.m; path = GBA4iOS/RSTToastView.m; sourceTree = "<group>"; };
 		BFAA5239184F8B2B0019A90D /* GBASyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation.h; sourceTree = "<group>"; };
 		BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncOperation.mm; sourceTree = "<group>"; };
 		BFAA523E184FCB040019A90D /* GBASyncOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation_Private.h; sourceTree = "<group>"; };
@@ -483,9 +485,9 @@
 		BFB89E3C18909EE8002E5F26 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionViewController.h; sourceTree = "<group>"; };
 		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionViewController.m; sourceTree = "<group>"; };
-		BFC09D52188D201A0064C497 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
+		BFC47BC0189DA7C0006C4D55 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
 		BFD03A9C1898E877001056A5 /* GBAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEvent.h; sourceTree = "<group>"; };
 		BFD03A9D1898E877001056A5 /* GBAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEvent.m; sourceTree = "<group>"; };
@@ -498,8 +500,6 @@
 		BFD98C3B1895FF0100A9432C /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
 		BFD98C3C1895FF0100A9432C /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
 		BFD98C3D1895FF0100A9432C /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
-		BFD98C3E1895FF0100A9432C /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
-		BFD98C3F1895FF0100A9432C /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
 		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
 		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
 		BFE579A3183DDCCE005699AA /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
@@ -763,10 +763,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */,
-				BFC09D54188D201A0064C497 /* CrashReporter.framework in Frameworks */,
+				BF7C0E6D189DA30400794093 /* CrashReporter.framework in Frameworks */,
 				BF2F35B5183FF6F9002ACE90 /* CoreMedia.framework in Frameworks */,
 				BF2F35B6183FF6F9002ACE90 /* AssetsLibrary.framework in Frameworks */,
-				BF2F35B7183FF6F9002ACE90 /* DropboxSDK.framework in Frameworks */,
 				BF2F35B8183FF6F9002ACE90 /* AVFoundation.framework in Frameworks */,
 				BF2F35B9183FF6F9002ACE90 /* SystemConfiguration.framework in Frameworks */,
 				BF2F35BA183FF6F9002ACE90 /* libz.dylib in Frameworks */,
@@ -779,6 +778,7 @@
 				BF2F35C1183FF6F9002ACE90 /* Reveal.framework in Frameworks */,
 				BF2F35C2183FF6F9002ACE90 /* UIKit.framework in Frameworks */,
 				BF2F35C3183FF6F9002ACE90 /* Foundation.framework in Frameworks */,
+				BF7C0E6F189DA30400794093 /* DropboxSDK.framework in Frameworks */,
 				BF2F35C4183FF6F9002ACE90 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -791,18 +791,18 @@
 				BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */,
 				CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */,
 				CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */,
-				BF4D917F182DBCE400C3A0C6 /* DropboxSDK.framework in Frameworks */,
 				CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */,
 				CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */,
+				BFC47BC1189DA7C0006C4D55 /* Crashlytics.framework in Frameworks */,
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
+				BF7C0E6E189DA30400794093 /* DropboxSDK.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
-				BF631FB1185263BF00A91F01 /* Crashlytics.framework in Frameworks */,
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
 				CC1577D6179CF1B90068A54E /* QuartzCore.framework in Frameworks */,
 				CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */,
-				BFC09D53188D201A0064C497 /* CrashReporter.framework in Frameworks */,
+				BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */,
 				BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */,
 				CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */,
 				CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */,
@@ -958,8 +958,6 @@
 			isa = PBXGroup;
 			children = (
 				BFD98C341895FF0100A9432C /* minizip */,
-				BFD98C3E1895FF0100A9432C /* SSZipArchive.h */,
-				BFD98C3F1895FF0100A9432C /* SSZipArchive.m */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -976,6 +974,8 @@
 				BFD98C3B1895FF0100A9432C /* unzip.h */,
 				BFD98C3C1895FF0100A9432C /* zip.c */,
 				BFD98C3D1895FF0100A9432C /* zip.h */,
+				BF7C0E70189DA35800794093 /* SSZipArchive.h */,
+				BF7C0E71189DA35800794093 /* SSZipArchive.m */,
 			);
 			path = minizip;
 			sourceTree = "<group>";
@@ -1167,11 +1167,11 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BFC09D52188D201A0064C497 /* CrashReporter.framework */,
+				BFC47BC0189DA7C0006C4D55 /* Crashlytics.framework */,
+				BF7C0E68189DA30400794093 /* CrashReporter.framework */,
+				BF7C0E69189DA30400794093 /* DropboxSDK.framework */,
 				BF2638C518700E2400CE55F9 /* CoreMotion.framework */,
-				BF650F1418470DFC008113E4 /* Crashlytics.framework */,
 				BF8789F618404AC200C81AB2 /* GameController.framework */,
-				BF4D917E182DBCE400C3A0C6 /* DropboxSDK.framework */,
 				CC832588180E2D9000001899 /* Potential Future Pods */,
 				CCC0F23217FA95C600235781 /* CoreMedia.framework */,
 				CCC0F23017FA95B500235781 /* AssetsLibrary.framework */,
@@ -1599,7 +1599,7 @@
 				CC2D56F91798F2EC00C616EB /* Frameworks */,
 				CC2D56FA1798F2EC00C616EB /* Resources */,
 				D6789B793A0D43B9AEC5FF1A /* Copy Pods Resources */,
-				BF650F1318470DDD008113E4 /* ShellScript */,
+				BF7C0E74189DA4CB00794093 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1740,7 +1740,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BF650F1318470DDD008113E4 /* ShellScript */ = {
+		BF7C0E74189DA4CB00794093 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1751,7 +1751,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 40b809418ecb525b71aecd5d32fa2612063baaad";
+			shellScript = "./Crashlytics.framework/run d542629b4f6625cfd5564d27318550321272076d";
 		};
 		D6789B793A0D43B9AEC5FF1A /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1779,6 +1779,7 @@
 				BF537EFA184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */,
 				BF2F34E1183FF6F9002ACE90 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
 				BF2F34E2183FF6F9002ACE90 /* RSTFileBrowserTableViewCell.m in Sources */,
+				BF7C0E73189DA35800794093 /* SSZipArchive.m in Sources */,
 				BF2F34E9183FF6F9002ACE90 /* GBACheatManagerTableViewCell.m in Sources */,
 				BF2F34F5183FF6F9002ACE90 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
 				BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */,
@@ -1817,7 +1818,6 @@
 				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
-				BFD98C491895FF0100A9432C /* SSZipArchive.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
 				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
 				BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
@@ -1989,6 +1989,7 @@
 				BF2AC89218543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */,
 				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
 				CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
+				BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */,
 				BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
 				CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */,
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
@@ -2059,7 +2060,6 @@
 				BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
 				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
-				BFD98C481895FF0100A9432C /* SSZipArchive.m in Sources */,
 				CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */,
 				CC5044F41814DC69009F7B9E /* GBA.cpp in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
@@ -2128,6 +2128,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2180,6 +2181,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2228,6 +2230,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2393,6 +2396,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2437,6 +2441,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2724,6 +2729,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2770,6 +2776,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2931,6 +2938,7 @@
 					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";

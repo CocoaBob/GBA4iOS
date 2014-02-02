@@ -20,6 +20,8 @@
 #import "GBAAppDelegate.h"
 #import "NSFileManager+ForcefulMove.h"
 
+#import <Crashlytics/Crashlytics.h>
+
 #import "GBAWebViewController.h"
 #import "UIAlertView+RSTAdditions.h"
 #import "UIActionSheet+RSTAdditions.h"
