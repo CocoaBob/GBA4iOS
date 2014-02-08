@@ -457,7 +457,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection footerTitle="    " id="8wU-vz-JV8">
+                            <tableViewSection headerTitle="GBA4iOS 2.0" footerTitle="    " id="8wU-vz-JV8">
                                 <cells/>
                             </tableViewSection>
                         </sections>

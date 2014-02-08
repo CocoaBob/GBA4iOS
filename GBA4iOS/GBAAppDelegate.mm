@@ -45,17 +45,18 @@ static GBAAppDelegate *_appDelegate;
     
     [UIView toggleViewMainThreadChecking];
     
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"performedROMDataMigration"])
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"showedWarningAlert"])
     {
-        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Welcome to GBA4iOS 2.0!", @"")
+                                                            message:NSLocalizedString(@"If at any time the app fails to open, please set the date back on your device to before February 20, 2014, then try opening the app again. Once the app is opened, you can set the date back to the correct time, and the app will continue to open normally. However, you'll need to repeat this process every time you restart your device.", @"")
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        });
         
-        NSString *cheatsParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Cheats"];
-        NSString *saveStatesParentDirectory = [documentsDirectory stringByAppendingPathComponent:@"Save States"];
-        
-        [self renameUniqueFoldersToNamedFoldersInDirectory:cheatsParentDirectory];
-        [self renameUniqueFoldersToNamedFoldersInDirectory:saveStatesParentDirectory];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"performedROMDataMigration"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"showedWarningAlert"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
         
