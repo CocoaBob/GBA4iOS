@@ -72,7 +72,7 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
 
 + (GBAROM *)romWithUniqueName:(NSString *)uniqueName
 {
-    NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[GBAROM cachedROMsPath]];
+    NSMutableDictionary *cachedROMs = [[NSMutableDictionary alloc] initWithContentsOfFile:[GBAROM cachedROMsPath]];
     
     __block NSString *romFilename = nil;
     
@@ -183,7 +183,7 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
     
     GBAROM *cachedROM = [GBAROM romWithUniqueName:uniqueName];
     
-    if (cachedROM && [[NSFileManager defaultManager] fileExistsAtPath:cachedROM.filepath])
+    if (cachedROM && [[NSFileManager defaultManager] fileExistsAtPath:cachedROM.filepath] && ![cachedROM.filepath isEqualToString:rom.filepath])
     {
         *error = [NSError errorWithDomain:@"com.rileytestut.GBA4iOS" code:NSFileWriteFileExistsError userInfo:nil];
         return NO;

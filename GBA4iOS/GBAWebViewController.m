@@ -82,11 +82,11 @@
 {
     if (self.romType == GBAROMTypeGBA)
     {
-        return @"http://m.coolrom.com/roms/gba/";
+        return @"http://m.coolrom.com/roms/gba/?utm_source=gba4ios&utm_medium=partnerships&utm_campaign=gba4ios";
     }
     else
     {
-        return @"http://m.coolrom.com/roms/gbc/";
+        return @"http://m.coolrom.com/roms/gbc/?utm_source=gba4ios&utm_medium=partnerships&utm_campaign=gba4ios";
     }
 }
 

@@ -25,18 +25,18 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - PSPDFTextView (from `https://github.com/steipete/PSPDFTextView.git`)
-  - RSTWebViewController (from `/Users/Riley/Developer/RSTUtilities/RSTWebViewController`)
+  - RSTWebViewController (from `https://github.com/rileytestut/RSTWebViewController.git`)
 
 EXTERNAL SOURCES:
   PSPDFTextView:
     :git: https://github.com/steipete/PSPDFTextView.git
   RSTWebViewController:
-    :path: /Users/Riley/Developer/RSTUtilities/RSTWebViewController
+    :git: https://github.com/rileytestut/RSTWebViewController.git
 
 SPEC CHECKSUMS:
   AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
   NJKWebViewProgress: e009e9ec4837fcad3959e2672d5282f78148f6b9
   PSPDFTextView: f078c6015a9568241c9518a7bb284bb4cc2fa9e2
-  RSTWebViewController: e5a759e465b807e07fb0c878e9639bc8abe1b4e2
+  RSTWebViewController: ab3b2387d72966448ee132dd3ff90e6591c23ce4
 
 COCOAPODS: 0.29.0

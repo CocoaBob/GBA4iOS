@@ -1,1 +1,1 @@
-../../../../../../RSTUtilities/RSTWebViewController/RSTWebViewController/UIActivities/RSTSafariActivity.h
+../../RSTWebViewController/RSTWebViewController/UIActivities/RSTSafariActivity.h
