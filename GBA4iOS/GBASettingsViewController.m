@@ -12,6 +12,7 @@
 #import "GBASyncingOverviewViewController.h"
 #import "GBAExternalControllerCustomizationViewController.h"
 #import "GBAExternalController.h"
+#import "GBABetaTesterCreditsViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -384,7 +385,15 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == CREDITS_SECTION)
     {
-        [self openLinkForIndexPath:indexPath];
+        if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section] - 1)
+        {
+            GBABetaTesterCreditsViewController *betaTesterCreditsViewController = [[GBABetaTesterCreditsViewController alloc] init];
+            [self.navigationController pushViewController:betaTesterCreditsViewController animated:YES];
+        }
+        else
+        {
+            [self openLinkForIndexPath:indexPath];
+        }
     }
 }
 

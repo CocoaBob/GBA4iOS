@@ -126,6 +126,10 @@
 		BF537EFA184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */; };
 		BF537EFE185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */; };
 		BF537EFF185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */; };
+		BF60A16E18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */; };
+		BF60A16F18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */; };
+		BF60A17118A61D8700B2E7D4 /* betaTesters.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF60A17018A61D8700B2E7D4 /* betaTesters.plist */; };
+		BF60A17218A61D8700B2E7D4 /* betaTesters.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF60A17018A61D8700B2E7D4 /* betaTesters.plist */; };
 		BF6ED578185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */; };
 		BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */; };
 		BF6ED57C1851100A0014B6A8 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */; };
@@ -455,6 +459,9 @@
 		BF537EFB184FEB4600661C42 /* GBASyncFileOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation_Private.h; sourceTree = "<group>"; };
 		BF537EFC185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncUploadDeviceUploadHistoryOperation.h; sourceTree = "<group>"; };
 		BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncUploadDeviceUploadHistoryOperation.mm; sourceTree = "<group>"; };
+		BF60A16C18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBABetaTesterCreditsViewController.h; sourceTree = "<group>"; };
+		BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBABetaTesterCreditsViewController.m; sourceTree = "<group>"; };
+		BF60A17018A61D8700B2E7D4 /* betaTesters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = betaTesters.plist; sourceTree = "<group>"; };
 		BF6ED576185102D40014B6A8 /* GBASyncInitialSyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncInitialSyncOperation.h; sourceTree = "<group>"; };
 		BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncInitialSyncOperation.mm; sourceTree = "<group>"; };
 		BF6ED57A1851100A0014B6A8 /* GBASyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncManager.h; sourceTree = "<group>"; };
@@ -902,6 +909,15 @@
 				BFB89E3C18909EE8002E5F26 /* Default@2x.png */,
 			);
 			name = "Launch Images";
+			sourceTree = "<group>";
+		};
+		BF60A17318A62ADF00B2E7D4 /* Beta Testers */ = {
+			isa = PBXGroup;
+			children = (
+				BF60A16C18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.h */,
+				BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */,
+			);
+			name = "Beta Testers";
 			sourceTree = "<group>";
 		};
 		BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */ = {
@@ -1477,6 +1493,8 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
+				BF60A17018A61D8700B2E7D4 /* betaTesters.plist */,
 				BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */,
 				BF02AFD8182F3E3A0031B8B6 /* Syncing */,
 				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
@@ -1661,6 +1679,7 @@
 				BFB89E3E18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
 				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
 				BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
+				BF60A17218A61D8700B2E7D4 /* betaTesters.plist in Resources */,
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
@@ -1682,6 +1701,7 @@
 				BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
 				BF359B9B187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
+				BF60A17118A61D8700B2E7D4 /* betaTesters.plist in Resources */,
 				BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
@@ -1808,6 +1828,7 @@
 				BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */,
 				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */,
 				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
+				BF60A16F18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */,
 				BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */,
 				BF2F353B183FF6F9002ACE90 /* main.mm in Sources */,
 				BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
@@ -1915,6 +1936,7 @@
 				CC5044FF1814DC69009F7B9E /* Sram.cpp in Sources */,
 				CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */,
 				CC5044FE1814DC69009F7B9E /* Sound.cpp in Sources */,
+				BF60A16E18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */,
 				BF537EFE185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */,
 				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
 				CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */,
