@@ -51,7 +51,7 @@
     switch (downloadState)
     {
         case GBAEventDownloadStateDownloaded:
-            self.textLabel.text = NSLocalizedString(@"Start Event", @"");
+            self.textLabel.text = NSLocalizedString(@"View Details", @"");
             break;
             
         case GBAEventDownloadStateDownloading:
@@ -76,6 +76,12 @@
     NSString *dateString = nil;
     
     NSInteger daysUntilEndDate = [[NSDate date] daysUntilDate:endDate];
+    
+    if (daysUntilEndDate < 0)
+    {
+        self.detailTextLabel.text = nil;
+        return;
+    }
     
     if (daysUntilEndDate <= 1)
     {

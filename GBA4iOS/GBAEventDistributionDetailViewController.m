@@ -44,9 +44,6 @@
         
     self.detailTextView.text = detailedDescription;
     
-    UIBarButtonItem *startButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Start", @"") style:UIBarButtonItemStyleDone target:self action:@selector(startEvent:)];
-    self.navigationItem.rightBarButtonItem = startButton;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentSizeCategoryDidChange:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
@@ -74,7 +71,7 @@
 
 #pragma mark - Event
 
-- (void)startEvent:(UIBarButtonItem *)barButtonItem
+- (void)startEvent
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Start this event?", @"")
                                                     message:NSLocalizedString(@"The game will restart, and any unsaved data will be lost.", @"")
@@ -91,20 +88,48 @@
             
             [self.delegate eventDistributionDetailViewController:self startEvent:self.event forROM:eventROM];
         }
+        
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     }];
 }
 
 - (void)deleteEvent
 {
-    NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:self.event.identifier];
-    [[NSFileManager defaultManager] removeItemAtPath:uniqueEventDirectory error:nil];
+    NSString *title = nil;
     
-    if ([self.delegate respondsToSelector:@selector(eventDistributionDetailViewController:didDeleteEvent:)])
+    if (self.event.endDate)
     {
-        [self.delegate eventDistributionDetailViewController:self didDeleteEvent:self.event];
+        title = NSLocalizedString(@"Are you sure you want to delete this event? You can download it again at any time until the event distribution period ends.", @"");
+    }
+    else
+    {
+        title = NSLocalizedString(@"Are you sure you want to delete this event? You can download it again at any time.", @"");
     }
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                               destructiveButtonTitle:NSLocalizedString(@"Delete Event", @"")
+                                                    otherButtonTitles:nil];
+    UIView *presentationView = self.view;
+    CGRect rect = [self.tableView rectForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+    
+    [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+        if (buttonIndex == 0)
+        {
+            NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:self.event.identifier];
+            [[NSFileManager defaultManager] removeItemAtPath:uniqueEventDirectory error:nil];
+            
+            if ([self.delegate respondsToSelector:@selector(eventDistributionDetailViewController:didDeleteEvent:)])
+            {
+                [self.delegate eventDistributionDetailViewController:self didDeleteEvent:self.event];
+            }
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -156,33 +181,14 @@
         return;
     }
     
-    NSString *title = nil;
-    
-    if (self.event.endDate)
+    if (indexPath.row == 0)
     {
-        title = NSLocalizedString(@"Are you sure you want to delete this event? You can download it again at any time before it expires.", @"");
+        [self startEvent];
     }
-    else
+    else if (indexPath.row == 1)
     {
-        title = NSLocalizedString(@"Are you sure you want to delete this event? You can download it again at any time.", @"");
+        [self deleteEvent];
     }
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
-                                                             delegate:nil
-                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                               destructiveButtonTitle:NSLocalizedString(@"Delete Event", @"")
-                                                    otherButtonTitles:nil];
-    UIView *presentationView = self.view;
-    CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
-    
-    [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-        if (buttonIndex == 0)
-        {
-            [self deleteEvent];
-        }
-        
-        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-    }];
 }
 
 #pragma mark - Notifications

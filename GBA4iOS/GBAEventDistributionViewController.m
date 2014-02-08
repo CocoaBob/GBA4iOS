@@ -69,16 +69,10 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     [self.tableView registerClass:[GBAAsynchronousRemoteTableViewCell class] forCellReuseIdentifier:@"ThumbnailCell"];
     [self.tableView registerClass:[GBAEventDistributionTableViewCell class] forCellReuseIdentifier:@"Cell"];
-    [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"HeaderFooterViewIdentifier"];
-    
-    
+    [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"HeaderFooterViewIdentifier"];    
     
     self.downloadProgressView = ({
         UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
-        progressView.frame = CGRectMake(0,
-                                        CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(progressView.bounds),
-                                        CGRectGetWidth(self.navigationController.navigationBar.bounds),
-                                        CGRectGetHeight(progressView.bounds));
         progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
         progressView.trackTintColor = [UIColor clearColor];
         progressView.progress = 0.0;
@@ -103,6 +97,11 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         }
         [self refreshEvents];
     }
+    
+    self.downloadProgressView.frame = CGRectMake(0,
+                                                 CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(self.downloadProgressView.bounds),
+                                                 CGRectGetWidth(self.navigationController.navigationBar.bounds),
+                                                 CGRectGetHeight(self.downloadProgressView.bounds));
 }
 
 - (void)viewDidAppear:(BOOL)animated
