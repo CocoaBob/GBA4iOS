@@ -391,10 +391,10 @@ void writeSaveFileForCurrentROMToDisk();
 @interface GBAEmulatorCore ()
 
 @property (readwrite, strong, nonatomic) EAGLView *eaglView;
-
 @property (copy, nonatomic) NSSet *previousButtons;
-
 @property (strong, nonatomic) CMMotionManager *motionManager;
+@property (strong, nonatomic) dispatch_queue_t update_save_file_queue;
+@property (strong, nonatomic) NSTimer *updateSaveFileTimer;
 
 @end
 
@@ -413,6 +413,8 @@ void writeSaveFileForCurrentROMToDisk();
     if (self = [super init])
     {
         self.motionManager = [[CMMotionManager alloc] init];
+        
+        self.update_save_file_queue = dispatch_queue_create("GBA4iOS Update Save File Queue", DISPATCH_QUEUE_SERIAL);
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSettings:) name:GBASettingsDidChangeNotification object:nil];
@@ -711,8 +713,12 @@ extern EmuView emuView;
 
 void updateSaveFileForCurrentROM()
 {
-    [NSObject cancelPreviousPerformRequestsWithTarget:[GBAEmulatorCore sharedCore] selector:@selector(writeSaveFileForCurrentROMToDisk) object:nil];
-    [[GBAEmulatorCore sharedCore] performSelector:@selector(writeSaveFileForCurrentROMToDisk) withObject:nil afterDelay:1.0];
+    // Using performSelector:afterDelay: or NSTimer on the main thread slows down emulation when saving.
+    dispatch_async([GBAEmulatorCore sharedCore].update_save_file_queue, ^{
+        [[GBAEmulatorCore sharedCore].updateSaveFileTimer invalidate];
+        [GBAEmulatorCore sharedCore].updateSaveFileTimer = [NSTimer timerWithTimeInterval:1 target:[GBAEmulatorCore sharedCore] selector:@selector(writeSaveFileForCurrentROMToDisk) userInfo:nil repeats:NO];
+        [[NSRunLoop mainRunLoop] addTimer:[GBAEmulatorCore sharedCore].updateSaveFileTimer forMode:NSDefaultRunLoopMode];
+    });
 }
 
 - (void)writeSaveFileForCurrentROMToDisk
