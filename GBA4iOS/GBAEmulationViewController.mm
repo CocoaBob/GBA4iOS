@@ -2023,14 +2023,18 @@ static GBAEmulationViewController *_emulationViewController;
     
     _romStartTime = CFAbsoluteTimeGetCurrent();
     
-    [[GBAEmulatorCore sharedCore] startEmulation];
+    rst_dispatch_sync_on_main_thread(^{
+        [[GBAEmulatorCore sharedCore] startEmulation];
+    });
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)stopEmulation
 {
-    [[GBAEmulatorCore sharedCore] endEmulation];
+    rst_dispatch_sync_on_main_thread(^{
+         [[GBAEmulatorCore sharedCore] endEmulation];
+    });
     
     self.pausedEmulation = NO;
     
@@ -2059,7 +2063,9 @@ static GBAEmulationViewController *_emulationViewController;
         [[GBAEmulatorCore sharedCore] writeSaveFileForCurrentROMToDisk];
     }
     
-    [[GBAEmulatorCore sharedCore] pauseEmulation];
+    rst_dispatch_sync_on_main_thread(^{
+        [[GBAEmulatorCore sharedCore] pauseEmulation];
+    });
     
     // iOS 7 bug: dims screen immediately if it has been more than 45 seconds since last touch
    // [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
@@ -2122,9 +2128,9 @@ static GBAEmulationViewController *_emulationViewController;
     
     [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
     
-    [self pauseEmulation];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self pauseEmulation];
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
