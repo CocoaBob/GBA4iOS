@@ -96,7 +96,6 @@
 		BF2F35BE183FF6F9002ACE90 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D0179CF1B90068A54E /* MessageUI.framework */; };
 		BF2F35BF183FF6F9002ACE90 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D1179CF1B90068A54E /* QuartzCore.framework */; };
 		BF2F35C0183FF6F9002ACE90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57011798F2EC00C616EB /* CoreGraphics.framework */; };
-		BF2F35C1183FF6F9002ACE90 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
 		BF2F35C2183FF6F9002ACE90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		BF2F35C3183FF6F9002ACE90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		BF2F35C4183FF6F9002ACE90 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AFB44A5AB34C2982DE856F /* libPods.a */; };
@@ -177,7 +176,6 @@
 		BFD98C471895FF0100A9432C /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
 		BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
-		BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE579A3183DDCCE005699AA /* Reveal.framework */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BFFBCCD61850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */; };
 		BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */; };
@@ -509,7 +507,6 @@
 		BFD98C3D1895FF0100A9432C /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
 		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
-		BFE579A3183DDCCE005699AA /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		BFFBCCD41850505A005187DF /* GBASyncAllFilesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncAllFilesOperation.h; sourceTree = "<group>"; };
 		BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncAllFilesOperation.mm; sourceTree = "<group>"; };
@@ -782,7 +779,6 @@
 				BF2F35BE183FF6F9002ACE90 /* MessageUI.framework in Frameworks */,
 				BF2F35BF183FF6F9002ACE90 /* QuartzCore.framework in Frameworks */,
 				BF2F35C0183FF6F9002ACE90 /* CoreGraphics.framework in Frameworks */,
-				BF2F35C1183FF6F9002ACE90 /* Reveal.framework in Frameworks */,
 				BF2F35C2183FF6F9002ACE90 /* UIKit.framework in Frameworks */,
 				BF2F35C3183FF6F9002ACE90 /* Foundation.framework in Frameworks */,
 				BF7C0E6F189DA30400794093 /* DropboxSDK.framework in Frameworks */,
@@ -810,7 +806,6 @@
 				CC1577D6179CF1B90068A54E /* QuartzCore.framework in Frameworks */,
 				CC2D57021798F2EC00C616EB /* CoreGraphics.framework in Frameworks */,
 				BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */,
-				BFE579A4183DDCCE005699AA /* Reveal.framework in Frameworks */,
 				CC2D57041798F2EC00C616EB /* UIKit.framework in Frameworks */,
 				CC2D57001798F2EC00C616EB /* Foundation.framework in Frameworks */,
 				36BB379009474825B993FD0E /* libPods.a in Frameworks */,
@@ -1010,7 +1005,6 @@
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
-				BFE579A3183DDCCE005699AA /* Reveal.framework */,
 			);
 			name = Debug;
 			sourceTree = "<group>";

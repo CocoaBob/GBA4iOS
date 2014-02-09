@@ -110,7 +110,15 @@
 {
     GBAControllerSkinDownloadViewController *controllerSkinDownloadViewController = [[GBAControllerSkinDownloadViewController alloc] init];
     controllerSkinDownloadViewController.controllerSkinType = self.controllerSkinType;
-    [self presentViewController:RST_CONTAIN_IN_NAVIGATION_CONTROLLER(controllerSkinDownloadViewController) animated:YES completion:nil];
+    
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(controllerSkinDownloadViewController);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Import Controller Skins

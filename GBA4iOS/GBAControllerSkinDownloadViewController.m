@@ -135,7 +135,10 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         
         if (error)
         {
-            NSLog(@"Error: %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
+                [alert show];
+            });
             return;
         }
         

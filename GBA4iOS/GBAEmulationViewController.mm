@@ -990,7 +990,16 @@ static GBAEmulationViewController *_emulationViewController;
         imageView;
     });
     
-    UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.emulatorScreen.bounds) - 20.0f, CGRectGetHeight(self.emulatorScreen.bounds) - 20.0f)];
+    BOOL screenRectEmpty = NO;
+    CGRect screenRect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectScreen orientation:self.controllerView.orientation];
+    
+    if (CGRectIsEmpty(screenRect))
+    {
+        screenRectEmpty = YES;
+        screenRect = self.screenContainerView.frame;
+    }
+    
+    UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(screenRect) - 20.0f, CGRectGetHeight(screenRect) - 20.0f)];
     instructionsLabel.minimumScaleFactor = 0.5;
     instructionsLabel.numberOfLines = 0.0;
     instructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -1006,15 +1015,6 @@ static GBAEmulationViewController *_emulationViewController;
     }
     
     instructionsLabel.textColor = [UIColor whiteColor];
-    
-    BOOL screenRectEmpty = NO;
-    CGRect screenRect = [self.controllerView.controllerSkin rectForButtonRect:GBAControllerSkinRectScreen orientation:self.controllerView.orientation];
-    
-    if (CGRectIsEmpty(screenRect))
-    {
-        screenRectEmpty = YES;
-        screenRect = self.screenContainerView.frame;
-    }
     
     instructionsLabel.center = CGPointMake(CGRectGetMidX(screenRect), CGRectGetMidY(screenRect));
     

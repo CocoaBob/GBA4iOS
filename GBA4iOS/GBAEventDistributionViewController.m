@@ -33,6 +33,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 @property (strong, nonatomic) NSCache *imageCache;
 @property (strong, nonatomic) GBAROM *eventROM;
 @property (strong, nonatomic) NSMutableSet *currentDownloads;
+@property (strong, nonatomic) UIActivityIndicatorView *downloadingEventDistributionInfoActivityIndicatorView;
 
 @end
 
@@ -81,8 +82,18 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         progressView;
     });
     
+    self.downloadingEventDistributionInfoActivityIndicatorView = ({
+        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        activityIndicatorView.hidesWhenStopped = YES;
+        [activityIndicatorView startAnimating];
+        activityIndicatorView;
+    });
+    
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissEventDistributionViewController)];
     self.navigationItem.rightBarButtonItem = doneButton;
+    
+    UIBarButtonItem *activityIndicatorViewButton = [[UIBarButtonItem alloc] initWithCustomView:self.downloadingEventDistributionInfoActivityIndicatorView];
+    self.navigationItem.leftBarButtonItem = activityIndicatorViewButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -155,9 +166,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             {
                 continue;
             }
-            
-            DLog(@"Adding!");
-            
+                        
             [events addObject:event];
         }
     }
@@ -169,6 +178,10 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (void)refreshEvents
 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.downloadingEventDistributionInfoActivityIndicatorView startAnimating];
+    });
+    
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
@@ -178,11 +191,18 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, NSDictionary *jsonObject, NSError *error) {
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.downloadingEventDistributionInfoActivityIndicatorView stopAnimating];
+        });
+        
         NSMutableDictionary *responseObject = [jsonObject mutableCopy];
         
         if (error)
         {
-            NSLog(@"Error: %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
+                [alert show];
+            });
             return;
         }
         
@@ -270,6 +290,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         
     } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
                                                        {
+                                                           [self.currentDownloads removeObject:event];
                                                            
                                                            if (error)
                                                            {
@@ -278,21 +299,25 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
                                                                    [alert show];
                                                                });
                                                                
-                                                               progress.completedUnitCount = progress.totalUnitCount;
-                                                               
                                                                [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+                                                               
+                                                               [self updateSectionForEvent:event]; // Has to go after removing file
                                                                return;
                                                            }
                                                            
                                                            NSString *eventInfoPath = [[fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"info.gbaevent"];
                                                            [event writeToFile:eventInfoPath];
-                                                           
-                                                           [self.currentDownloads removeObject:event];
-                                                           [self updateSectionForEvent:event];
+                                                           [self updateSectionForEvent:event]; // Has to go after writing to file
                                                        }];
     
     [progress addObserver:self forKeyPath:@"totalUnitCount" options:NSKeyValueObservingOptionNew context:GBADownloadProgressTotalUnitContext];
     [progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:GBADownloadProgressContext];
+    
+    __weak NSProgress *weakProgress = progress;
+    progress.cancellationHandler = ^{
+        DLog(@"Progress: %@", weakProgress);
+        weakProgress.completedUnitCount = weakProgress.totalUnitCount;
+    };
     
     [downloadTask resume];
     
