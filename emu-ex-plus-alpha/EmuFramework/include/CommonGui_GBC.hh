@@ -210,7 +210,7 @@ void onExit(bool backgrounded)
 		EmuSystem::closeGame();
 	}
 
-	saveConfigFile();
+	// saveConfigFile(); Riley Testut
 
 	#ifdef CONFIG_BLUETOOTH
 		if(bta && (!backgrounded || (backgrounded && !optionKeepBluetoothActive)))
@@ -507,7 +507,7 @@ void mainInitCommon()
 	Bluetooth::maxGamepadsPerType = EmuSystem::maxPlayers;
 	#endif
 
-	loadConfigFile();
+	// loadConfigFile(); Riley Testut
 
 	#ifdef USE_BEST_COLOR_MODE_OPTION
 	Base::setWindowPixelBestColorHint(optionBestColorModeHint);

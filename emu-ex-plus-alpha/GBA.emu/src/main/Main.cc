@@ -219,7 +219,7 @@ int systemBlueShift = 3;
 void EmuSystem::initOptions_GBA()
 {
 	#ifndef CONFIG_BASE_ANDROID
-	optionFrameSkip.initDefault(optionFrameSkipAuto); // auto-frameskip default due to highly variable CPU usage
+	// optionFrameSkip.initDefault(optionFrameSkipAuto); Riley Testut // auto-frameskip default due to highly variable CPU usage
 	#endif
 }
 
