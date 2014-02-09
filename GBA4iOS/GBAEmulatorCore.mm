@@ -571,6 +571,13 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 - (void)pauseEmulation
 {
+	if(!optionFrameSkip.isConst)
+    {
+		Gfx::setVideoInterval(1);
+    }
+	Base::setRefreshRate(Base::REFRESH_RATE_DEFAULT);
+	Base::displayNeedsUpdate();
+    
     using namespace Base;
 	appState = APP_PAUSED;
 	Base::stopAnimation();
@@ -586,6 +593,13 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 - (void)resumeEmulation
 {
+    if(!optionFrameSkip.isConst && (uint)optionFrameSkip != EmuSystem::optionFrameSkipAuto)
+    {
+        Gfx::setVideoInterval((int)optionFrameSkip + 1);
+    }
+	Base::setRefreshRate(EmuSystem::vidSysIsPAL() ? 50 : 60);
+	Base::displayNeedsUpdate();
+    
     if (shouldPlayGameAudio())
     {
         optionSound.val = 1;
