@@ -2004,8 +2004,15 @@ static GBAEmulationViewController *_emulationViewController;
             [self removeBlur];
         }
     }
-    
-    [self dismissViewControllerAnimated:YES completion:completionBlock];
+        
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self resumeEmulation]; // In case ROM didn't change
+        
+        if (completionBlock)
+        {
+            completionBlock();
+        }
+    }];
 }
 
 - (void)startEmulation
