@@ -13,6 +13,7 @@
 #import "GBAExternalControllerCustomizationViewController.h"
 #import "GBAExternalController.h"
 #import "GBABetaTesterCreditsViewController.h"
+#import "GBASoftwareUpdateViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -24,7 +25,8 @@
 #define VIBRATION_SECTION 5
 #define EXTERNAL_CONTROLLER_SECTION 6
 #define DROPBOX_SYNC_SECTION 7
-#define CREDITS_SECTION 8
+#define SOFTWARE_UPDATE_SECTION 8
+#define CREDITS_SECTION 9
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -382,6 +384,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     {
         GBASyncingOverviewViewController *syncingOverviewViewController = [[GBASyncingOverviewViewController alloc] init];
         [self.navigationController pushViewController:syncingOverviewViewController animated:YES];
+    }
+    else if (indexPath.section == SOFTWARE_UPDATE_SECTION)
+    {
+        GBASoftwareUpdateViewController *softwareUpdateViewController = [[GBASoftwareUpdateViewController alloc] init];
+        [self.navigationController pushViewController:softwareUpdateViewController animated:YES];
     }
     else if (indexPath.section == CREDITS_SECTION)
     {

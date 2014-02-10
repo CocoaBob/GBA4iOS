@@ -49,7 +49,7 @@ static GBAAppDelegate *_appDelegate;
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Welcome to GBA4iOS 2.0!", @"")
-                                                            message:NSLocalizedString(@"If at any time the app fails to open, please set the date back on your device to before February 20, 2014, then try opening the app again. Once the app is opened, you can set the date back to the correct time, and the app will continue to open normally. However, you'll need to repeat this process every time you restart your device.", @"")
+                                                            message:NSLocalizedString(@"If at any time the app fails to open, please set the date back on your device to before February 10, 2014, then try opening the app again. Once the app is opened, you can set the date back to the correct time, and the app will continue to open normally. However, you'll need to repeat this process every time you restart your device.", @"")
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];

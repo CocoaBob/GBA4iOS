@@ -176,6 +176,10 @@
 		BFD98C471895FF0100A9432C /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
 		BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
+		BFF44FA218A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */; };
+		BFF44FA318A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */; };
+		BFF44FA518A8C4C5006325BC /* base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF44FA418A8C4C5006325BC /* base@2x.png */; };
+		BFF44FA618A8C4C5006325BC /* base@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF44FA418A8C4C5006325BC /* base@2x.png */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BFFBCCD61850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */; };
 		BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */; };
@@ -507,6 +511,9 @@
 		BFD98C3D1895FF0100A9432C /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
 		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
+		BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateViewController.h; sourceTree = "<group>"; };
+		BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateViewController.m; sourceTree = "<group>"; };
+		BFF44FA418A8C4C5006325BC /* base@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "base@2x.png"; path = "../../../../../Desktop/base@2x.png"; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
 		BFFBCCD41850505A005187DF /* GBASyncAllFilesOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncAllFilesOperation.h; sourceTree = "<group>"; };
 		BFFBCCD51850505A005187DF /* GBASyncAllFilesOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncAllFilesOperation.mm; sourceTree = "<group>"; };
@@ -1243,6 +1250,7 @@
 		CC2D57381798F40E00C616EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BFF44FA418A8C4C5006325BC /* base@2x.png */,
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 				BF563AB4184B11C000722678 /* Launch Images */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
@@ -1487,6 +1495,8 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */,
+				BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */,
 				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
 				BF60A17018A61D8700B2E7D4 /* betaTesters.plist */,
 				BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */,
@@ -1629,7 +1639,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = GBA;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Riley Testut";
 				TargetAttributes = {
 					CC2D56FB1798F2EC00C616EB = {
@@ -1669,6 +1679,7 @@
 				BFB89E4418909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
 				BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */,
 				BFB89E4218909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
+				BFF44FA618A8C4C5006325BC /* base@2x.png in Resources */,
 				BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */,
 				BFB89E3E18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
 				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
@@ -1691,6 +1702,7 @@
 				BFB89E4318909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
 				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
 				BFB89E4118909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
+				BFF44FA518A8C4C5006325BC /* base@2x.png in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
 				BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
@@ -1798,6 +1810,7 @@
 				BF2F34F5183FF6F9002ACE90 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
 				BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */,
 				BF2F3500183FF6F9002ACE90 /* GBAEmulatorScreen.mm in Sources */,
+				BFF44FA318A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */,
 				BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.mm in Sources */,
 				BF2AC89318543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */,
 				BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */,
@@ -1895,6 +1908,7 @@
 				CC5045181814DC69009F7B9E /* 7zDec.c in Sources */,
 				CCC9B8B41815AC7E005C90EE /* statesaver.cpp in Sources */,
 				CC5044F51814DC69009F7B9E /* gbafilter.cpp in Sources */,
+				BFF44FA218A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */,
 				CCC9B8AF1815AC7E005C90EE /* interrupter.cpp in Sources */,
 				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
 				CC50451A1814DC69009F7B9E /* 7zStream.c in Sources */,
@@ -2286,7 +2300,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_ID = org.wms.inhouse;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2401,7 +2414,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8D7087219E44810B715C233 /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
@@ -2497,7 +2509,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_ID = com.rileytestut.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2619,7 +2630,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_ID = com.rileytestut.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2734,7 +2744,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8D7087219E44810B715C233 /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
@@ -2781,7 +2790,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8D7087219E44810B715C233 /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
@@ -2828,7 +2836,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_ID = com.rileytestut.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2943,7 +2950,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8D7087219E44810B715C233 /* Pods.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;

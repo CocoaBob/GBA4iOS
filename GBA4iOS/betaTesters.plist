@@ -13,11 +13,19 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>OPERATIONiDROID</string>
 			<key>twitterUsername</key>
 			<string></string>
 			<key>url</key>
+			<string>http://youtube.com/OPERATIONiDROID</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Sean McNally</string>
+			<key>twitterUsername</key>
 			<string></string>
+			<key>url</key>
+			<string>http://www.seanmacproductions.com</string>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -43,6 +51,14 @@
 			<key>url</key>
 			<string>http://themicrosoftgamer.tumblr.com</string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>Frederick Neubauer III</string>
+			<key>twitterUsername</key>
+			<string></string>
+			<key>url</key>
+			<string>http://themicrosoftgamer.tumblr.com</string>
+		</dict>
 	</array>
 	<array>
 		<dict>
@@ -57,7 +73,7 @@
 			<key>name</key>
 			<string>Joe Cassano</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>Jcassanova5</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -65,7 +81,7 @@
 			<key>name</key>
 			<string>Oscar David Torres</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>Melomanodtc</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -73,7 +89,7 @@
 			<key>name</key>
 			<string>Dave Race</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>dave_race</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -81,7 +97,7 @@
 			<key>name</key>
 			<string>Martin Michaud-Couch</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>webcouchdesigns</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -89,7 +105,7 @@
 			<key>name</key>
 			<string>Jake Tarrant</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>Nyy82</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -121,7 +137,7 @@
 			<key>name</key>
 			<string>Ismael Lamas</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>Metsu__Hadoken</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -129,7 +145,7 @@
 			<key>name</key>
 			<string>Nicholas Doglio</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>WhosNickDoglio</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -145,183 +161,103 @@
 			<key>name</key>
 			<string>Alex Jackson</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>AlxSonOfJack</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Nicholas Deleon</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>nicdeleon</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Konstantin Geissler - celebrir</string>
 			<key>twitterUsername</key>
 			<string></string>
+			<key>url</key>
+			<string>http://www.celebrir.com</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Dan Bennett</string>
+			<key>twitterUsername</key>
+			<string>DanBennett</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Marko Henig</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>MarkoHenig</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>James Addyman</string>
 			<key>twitterUsername</key>
 			<string></string>
+			<key>url</key>
+			<string>http://jamesaddyman.com</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Jesse Richmond</string>
+			<key>twitterUsername</key>
+			<string>yourwifeandkids</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Jonathan Dennis</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>jonnythedennis</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Karen Tsai (angelXwind)</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>angelXwind</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Sawyer Stevens</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>sawstevens</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Michael Zhang</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>Malvix_</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Alexsander Akers</string>
 			<key>twitterUsername</key>
 			<string></string>
 			<key>url</key>
-			<string></string>
+			<string>alexsander.ca</string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string></string>
+			<string>Ruben Juarez</string>
 			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string></string>
-			<key>twitterUsername</key>
-			<string></string>
+			<string>_rubenjuarez</string>
 			<key>url</key>
 			<string></string>
 		</dict>

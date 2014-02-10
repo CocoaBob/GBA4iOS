@@ -282,6 +282,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSProgress *progress = nil;
+    __block NSProgress *strongReferenceProgress = nil;
     
     __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:identifier];
@@ -299,6 +300,8 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
                                                                    [alert show];
                                                                });
                                                                
+                                                               strongReferenceProgress.completedUnitCount = strongReferenceProgress.totalUnitCount;
+                                                               
                                                                [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
                                                                
                                                                [self updateSectionForEvent:event]; // Has to go after removing file
@@ -313,11 +316,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     [progress addObserver:self forKeyPath:@"totalUnitCount" options:NSKeyValueObservingOptionNew context:GBADownloadProgressTotalUnitContext];
     [progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:GBADownloadProgressContext];
     
-    __weak NSProgress *weakProgress = progress;
-    progress.cancellationHandler = ^{
-        DLog(@"Progress: %@", weakProgress);
-        weakProgress.completedUnitCount = weakProgress.totalUnitCount;
-    };
+    strongReferenceProgress = progress;
     
     [downloadTask resume];
     

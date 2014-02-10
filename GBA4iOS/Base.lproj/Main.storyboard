@@ -306,13 +306,41 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Check For Updates" id="HXq-6T-tyt">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="Sjb-K1-mRU" detailTextLabel="gQe-TP-V7e" style="IBUITableViewCellStyleValue1" id="WCS-Dm-jQb">
+                                        <rect key="frame" x="0.0" y="1235" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCS-Dm-jQb" id="3V5-4k-QYY">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Software Update" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sjb-K1-mRU">
+                                                    <rect key="frame" x="15" y="11" width="130" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gQe-TP-V7e">
+                                                    <rect key="frame" x="241" y="11" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Credits" id="Yil-Be-Dpf">
                                 <string key="footerTitle">Tap a name to go to their Twitter profile. 
 
 For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="uC9-4O-Vzb" detailTextLabel="c59-FU-Kqa" style="IBUITableViewCellStyleValue1" id="XIV-fF-qzJ">
-                                        <rect key="frame" x="0.0" y="1235" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1327" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XIV-fF-qzJ" id="kN7-gH-xdz">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -336,7 +364,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="yts-uQ-Fyu" detailTextLabel="qY9-bp-cXh" style="IBUITableViewCellStyleValue1" id="gY2-vs-EA6">
-                                        <rect key="frame" x="0.0" y="1279" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1371" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gY2-vs-EA6" id="oKP-Vh-IaR">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -360,7 +388,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="upY-mn-RKX" detailTextLabel="ZSt-Ue-ZUl" style="IBUITableViewCellStyleValue1" id="toN-EG-7ZZ">
-                                        <rect key="frame" x="0.0" y="1323" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1415" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="toN-EG-7ZZ" id="dhY-ye-el0">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -384,7 +412,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="XmL-5Z-36f" detailTextLabel="6nt-U1-98m" style="IBUITableViewCellStyleValue1" id="gM0-9q-VL9">
-                                        <rect key="frame" x="0.0" y="1367" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1459" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gM0-9q-VL9" id="thl-mL-RBx">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -408,7 +436,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="JKF-YX-hl9" detailTextLabel="oQI-aK-3wI" style="IBUITableViewCellStyleValue1" id="CaE-4j-s6R">
-                                        <rect key="frame" x="0.0" y="1411" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1503" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CaE-4j-s6R" id="alq-zA-gT4">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -432,7 +460,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="dc9-F6-nUc" detailTextLabel="kmR-d2-GDL" style="IBUITableViewCellStyleValue1" id="CyV-bM-CXP">
-                                        <rect key="frame" x="0.0" y="1455" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1547" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CyV-bM-CXP" id="vB1-Zu-WeS">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -456,7 +484,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreditsCell" textLabel="jj8-wN-xi5" detailTextLabel="kFC-aZ-ApX" style="IBUITableViewCellStyleValue1" id="6Qu-cw-7sV">
-                                        <rect key="frame" x="0.0" y="1499" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="1591" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Qu-cw-7sV" id="nr7-8W-Vcd">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -758,6 +786,131 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qye-VA-pwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1513" y="-398"/>
+        </scene>
+        <!--Software Update View Controller - Software Update-->
+        <scene sceneID="6TW-5b-UqA">
+            <objects>
+                <tableViewController storyboardIdentifier="softwareUpdateViewController" id="9TZ-lU-1bR" customClass="GBASoftwareUpdateViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="D0H-v7-uTy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="4b6-EJ-r68">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="200" id="1rZ-tw-Ktr">
+                                        <rect key="frame" x="0.0" y="99" width="320" height="200"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1rZ-tw-Ktr" id="tJ7-l8-ba1">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" image="Software_Update_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="pZf-pW-mOh">
+                                                    <rect key="frame" x="7" y="8" width="60" height="60"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="4YA-tn-tBD"/>
+                                                        <constraint firstAttribute="height" constant="60" id="hwO-iG-tN6"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GBA4iOS 2.1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBc-Ut-ebM">
+                                                    <rect key="frame" x="74" y="11" width="226" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="0vH-79-l8T"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Riley Testut" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rdf-Gf-sBN">
+                                                    <rect key="frame" x="74" y="30" width="226" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="for-TJ-cnp"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0 MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7bk-MD-Hx0">
+                                                    <rect key="frame" x="74" y="46" width="226" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="xEW-f7-HWe"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textView userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdt-lk-gA2">
+                                                    <rect key="frame" x="7" y="70" width="313" height="129"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <string key="text">This version of GBA4iOS includes:
+
+• Multiplayer support!</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="eBc-Ut-ebM" secondAttribute="trailing" constant="20" id="0ep-h2-EHh"/>
+                                                <constraint firstAttribute="bottom" secondItem="zdt-lk-gA2" secondAttribute="bottom" id="24m-8Z-xEU"/>
+                                                <constraint firstItem="rdf-Gf-sBN" firstAttribute="top" secondItem="tJ7-l8-ba1" secondAttribute="top" constant="30" id="CMO-yb-kpX"/>
+                                                <constraint firstItem="zdt-lk-gA2" firstAttribute="top" secondItem="pZf-pW-mOh" secondAttribute="bottom" constant="2" id="FfS-aU-Fkw"/>
+                                                <constraint firstItem="rdf-Gf-sBN" firstAttribute="leading" secondItem="pZf-pW-mOh" secondAttribute="trailing" constant="7" id="JCI-Av-pTp"/>
+                                                <constraint firstAttribute="trailing" secondItem="7bk-MD-Hx0" secondAttribute="trailing" constant="20" id="JNx-yW-tBW"/>
+                                                <constraint firstItem="7bk-MD-Hx0" firstAttribute="top" secondItem="eBc-Ut-ebM" secondAttribute="bottom" constant="14" id="SMu-UM-TYG"/>
+                                                <constraint firstAttribute="trailing" secondItem="rdf-Gf-sBN" secondAttribute="trailing" constant="20" id="THu-KE-Xlg"/>
+                                                <constraint firstItem="zdt-lk-gA2" firstAttribute="leading" secondItem="tJ7-l8-ba1" secondAttribute="leading" constant="7" id="Vje-WF-4wp"/>
+                                                <constraint firstItem="pZf-pW-mOh" firstAttribute="top" secondItem="tJ7-l8-ba1" secondAttribute="top" constant="8" id="Zmq-BX-SS5"/>
+                                                <constraint firstItem="pZf-pW-mOh" firstAttribute="leading" secondItem="tJ7-l8-ba1" secondAttribute="leading" constant="7" id="dHf-kG-1qy"/>
+                                                <constraint firstAttribute="trailing" secondItem="zdt-lk-gA2" secondAttribute="trailing" id="gxf-VZ-znO"/>
+                                                <constraint firstItem="7bk-MD-Hx0" firstAttribute="leading" secondItem="pZf-pW-mOh" secondAttribute="trailing" constant="7" id="jNG-eO-StH"/>
+                                                <constraint firstItem="eBc-Ut-ebM" firstAttribute="leading" secondItem="pZf-pW-mOh" secondAttribute="trailing" constant="7" id="xsX-Ty-gQa"/>
+                                                <constraint firstItem="eBc-Ut-ebM" firstAttribute="top" secondItem="tJ7-l8-ba1" secondAttribute="top" constant="11" id="yg2-o6-KpD"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="Amr-CD-moi">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="BMU-EP-k3X" style="IBUITableViewCellStyleDefault" id="VDx-r3-wv8">
+                                        <rect key="frame" x="0.0" y="319" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VDx-r3-wv8" id="xAh-xQ-kbk">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Download Update" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BMU-EP-k3X">
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="9TZ-lU-1bR" id="XJ7-bR-vHb"/>
+                            <outlet property="delegate" destination="9TZ-lU-1bR" id="moy-QP-R4Q"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Software Update" id="dSC-oI-Iej"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="softwareUpdateDescriptionTextView" destination="zdt-lk-gA2" id="vzB-fY-WJj"/>
+                        <outlet property="softwareUpdateDeveloperLabel" destination="rdf-Gf-sBN" id="GpY-VA-ze9"/>
+                        <outlet property="softwareUpdateNameLabel" destination="eBc-Ut-ebM" id="mzc-vQ-zAQ"/>
+                        <outlet property="softwareUpdateSizeLabel" destination="7bk-MD-Hx0" id="gbK-V9-JKn"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fjY-TA-Yaa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1929" y="-486"/>
         </scene>
         <!--Cheat Editor View Controller - New Cheat Code-->
         <scene sceneID="5h7-ni-Euf">
@@ -1108,6 +1261,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
         <image name="Controller_Buttons" width="250" height="250"/>
         <image name="Controller_Triggers" width="250" height="41"/>
         <image name="Gear" width="22" height="23"/>
+        <image name="Software_Update_Icon" width="60" height="60"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
