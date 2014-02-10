@@ -75,20 +75,17 @@
     
     if ([twitterUsername length] > 0)
     {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"@%@", twitterUsername];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
     else if ([url length] > 0)
     {
-        cell.detailTextLabel.text = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
     else
     {
         cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.detailTextLabel.text = nil;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     

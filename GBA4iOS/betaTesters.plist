@@ -37,6 +37,14 @@
 		</dict>
 		<dict>
 			<key>name</key>
+			<string>Frederick Neubauer III</string>
+			<key>twitterUsername</key>
+			<string></string>
+			<key>url</key>
+			<string>http://themicrosoftgamer.tumblr.com</string>
+		</dict>
+		<dict>
+			<key>name</key>
 			<string>Smallcut Powers</string>
 			<key>twitterUsername</key>
 			<string></string>
@@ -45,17 +53,9 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Frederick Neubauer III</string>
+			<string>Dain Schroeder</string>
 			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string>http://themicrosoftgamer.tumblr.com</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Frederick Neubauer III</string>
-			<key>twitterUsername</key>
-			<string></string>
+			<string>dainschroeder</string>
 			<key>url</key>
 			<string>http://themicrosoftgamer.tumblr.com</string>
 		</dict>
@@ -63,81 +63,9 @@
 	<array>
 		<dict>
 			<key>name</key>
-			<string>Jaryth Frenette</string>
+			<string>Dan Bennett</string>
 			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string>http://jaryth.net</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Joe Cassano</string>
-			<key>twitterUsername</key>
-			<string>Jcassanova5</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Oscar David Torres</string>
-			<key>twitterUsername</key>
-			<string>Melomanodtc</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Dave Race</string>
-			<key>twitterUsername</key>
-			<string>dave_race</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Martin Michaud-Couch</string>
-			<key>twitterUsername</key>
-			<string>webcouchdesigns</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Jake Tarrant</string>
-			<key>twitterUsername</key>
-			<string>Nyy82</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Jaryth</string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>William Stafford</string>
-			<key>twitterUsername</key>
-			<string>Wrsford</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>i0s1q</string>
-			<key>twitterUsername</key>
-			<string>i0s1q</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Ismael Lamas</string>
-			<key>twitterUsername</key>
-			<string>Metsu__Hadoken</string>
+			<string>DanBennett</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -151,22 +79,6 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>David &apos;Diggy&apos; Richardson</string>
-			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Alex Jackson</string>
-			<key>twitterUsername</key>
-			<string>AlxSonOfJack</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
 			<string>Nicholas Deleon</string>
 			<key>twitterUsername</key>
 			<string>nicdeleon</string>
@@ -175,25 +87,9 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Konstantin Geissler - celebrir</string>
+			<string>William Stafford</string>
 			<key>twitterUsername</key>
-			<string></string>
-			<key>url</key>
-			<string>http://www.celebrir.com</string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Dan Bennett</string>
-			<key>twitterUsername</key>
-			<string>DanBennett</string>
-			<key>url</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>Marko Henig</string>
-			<key>twitterUsername</key>
-			<string>MarkoHenig</string>
+			<string>Wrsford</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -207,17 +103,33 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Jesse Richmond</string>
+			<string>Martin Michaud-Couch</string>
 			<key>twitterUsername</key>
-			<string>yourwifeandkids</string>
+			<string>webcouchdesigns</string>
 			<key>url</key>
 			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Jonathan Dennis</string>
+			<string>i0s1q</string>
 			<key>twitterUsername</key>
-			<string>jonnythedennis</string>
+			<string>i0s1q</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Konstantin Geissler - celebrir</string>
+			<key>twitterUsername</key>
+			<string></string>
+			<key>url</key>
+			<string>http://www.celebrir.com</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Jesse Richmond</string>
+			<key>twitterUsername</key>
+			<string>yourwifeandkids</string>
 			<key>url</key>
 			<string></string>
 		</dict>
@@ -252,6 +164,86 @@
 			<string></string>
 			<key>url</key>
 			<string>alexsander.ca</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Jake Tarrant</string>
+			<key>twitterUsername</key>
+			<string>Nyy82</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Joe Cassano</string>
+			<key>twitterUsername</key>
+			<string>Jcassanova5</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Oscar David Torres</string>
+			<key>twitterUsername</key>
+			<string>Melomanodtc</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Dave Race</string>
+			<key>twitterUsername</key>
+			<string>dave_race</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Jaryth</string>
+			<key>twitterUsername</key>
+			<string></string>
+			<key>url</key>
+			<string>http://jaryth.net</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Alex Jackson</string>
+			<key>twitterUsername</key>
+			<string>AlxSonOfJack</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>David &apos;Diggy&apos; Richardson</string>
+			<key>twitterUsername</key>
+			<string>heyitsdiggy</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Ismael Lamas</string>
+			<key>twitterUsername</key>
+			<string>Metsu__Hadoken</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Jonathan Dennis</string>
+			<key>twitterUsername</key>
+			<string>jonnythedennis</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Marko Henig</string>
+			<key>twitterUsername</key>
+			<string>MarkoHenig</string>
+			<key>url</key>
+			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
