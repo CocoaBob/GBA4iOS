@@ -20,7 +20,6 @@
 @property (strong, nonatomic) UILabel *statusLabel;
 @property (strong, nonatomic) UIActivityIndicatorView *statusActivityIndicatorView;
 @property (strong, nonatomic) NSLayoutConstraint *statusLabelHorizontalLayoutConstraint;
-@property (assign, nonatomic) BOOL checkedForUpdate;
 
 @property (weak, nonatomic) IBOutlet UILabel *softwareUpdateNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *softwareUpdateDeveloperLabel;
@@ -134,10 +133,10 @@
 {
     CGFloat constant = -((CGRectGetWidth(self.statusLabel.bounds) + CGRectGetWidth(self.statusActivityIndicatorView.bounds) + 5) - CGRectGetWidth(self.statusLabel.bounds))/2.0f;
     self.statusLabelHorizontalLayoutConstraint.constant = constant;
+    self.statusLabel.text = NSLocalizedString(@"Checking for Update…", @"");
     
     [self.tableView.backgroundView updateConstraints];
     
-    self.checkedForUpdate = NO;
     [self.statusActivityIndicatorView startAnimating];
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
@@ -148,8 +147,6 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, NSDictionary *jsonObject, NSError *error) {
-        self.checkedForUpdate = YES;
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [self.statusActivityIndicatorView stopAnimating];
