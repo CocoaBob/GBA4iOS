@@ -60,13 +60,13 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     }
     
     // Stores DBMetadata, so it has to be archived
-    _pendingUploads = [NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager pendingUploadsPath]];
+    _pendingUploads = [[NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager pendingUploadsPath]] mutableCopy];
     if (_pendingUploads == nil)
     {
         _pendingUploads = [NSMutableDictionary dictionary];
     }
     
-    _pendingDownloads = [NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager pendingDownloadsPath]];
+    _pendingDownloads = [[NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager pendingDownloadsPath]] mutableCopy];
     if (_pendingDownloads == nil)
     {
         _pendingDownloads = [NSMutableDictionary dictionary];
@@ -90,7 +90,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
         _deviceUploadHistory = [NSMutableDictionary dictionary];
     }
     
-    _dropboxFiles = [NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager dropboxFilesPath]];
+    _dropboxFiles = [[NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager dropboxFilesPath]] mutableCopy];
     if (_dropboxFiles == nil)
     {
         _dropboxFiles = [NSMutableDictionary dictionary];

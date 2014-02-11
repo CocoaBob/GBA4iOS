@@ -63,6 +63,14 @@
 	<array>
 		<dict>
 			<key>name</key>
+			<string>Tyler Livingston</string>
+			<key>twitterUsername</key>
+			<string></string>
+			<key>url</key>
+			<string>http://gba4ioskins.com/</string>
+		</dict>
+		<dict>
+			<key>name</key>
 			<string>Dan Bennett</string>
 			<key>twitterUsername</key>
 			<string>DanBennett</string>
@@ -119,7 +127,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Konstantin Geissler - celebrir</string>
+			<string>Konstantin Geissler (celebrir)</string>
 			<key>twitterUsername</key>
 			<string></string>
 			<key>url</key>
@@ -151,7 +159,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>Michael Zhang</string>
+			<string>Michael Zhang (Malvix_)</string>
 			<key>twitterUsername</key>
 			<string>Malvix_</string>
 			<key>url</key>
@@ -250,6 +258,22 @@
 			<string>Ruben Juarez</string>
 			<key>twitterUsername</key>
 			<string>_rubenjuarez</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Joseph Sides</string>
+			<key>twitterUsername</key>
+			<string>JoeySides</string>
+			<key>url</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>David Sexton</string>
+			<key>twitterUsername</key>
+			<string>davidfsexton</string>
 			<key>url</key>
 			<string></string>
 		</dict>

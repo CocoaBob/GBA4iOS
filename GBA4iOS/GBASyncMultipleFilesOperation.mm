@@ -137,7 +137,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
 {    
     NSSet *syncingDisabledROMs = [[GBASyncManager sharedManager] syncingDisabledROMs];
     NSDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-    NSMutableDictionary *pendingDeletions = [[[GBASyncManager sharedManager] pendingDeletions] copy];
+    NSMutableDictionary *pendingDeletions = [[GBASyncManager sharedManager] pendingDeletions];
     NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
     
     NSDictionary *pendingDownloads = [[[GBASyncManager sharedManager] pendingDownloads] copy];
@@ -734,7 +734,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
 {
     NSSet *syncingDisabledROMs = [NSSet setWithArray:[NSArray arrayWithContentsOfFile:[GBASyncManager syncingDisabledROMsPath]]];
     
-    NSMutableDictionary *pendingDeletions = [[[GBASyncManager sharedManager] pendingDeletions] copy];
+    NSMutableDictionary *pendingDeletions = [[[GBASyncManager sharedManager] pendingDeletions] mutableCopy];
     
     if ([pendingDeletions count] == 0)
     {

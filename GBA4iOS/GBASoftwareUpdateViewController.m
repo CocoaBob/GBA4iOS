@@ -224,7 +224,7 @@
 {
     if (indexPath.section == 0)
     {
-        return 70 + [self.softwareUpdateDescriptionTextView sizeThatFits:self.softwareUpdateDescriptionTextView.bounds.size].height;
+        return 70 + [self.softwareUpdateDescriptionTextView sizeThatFits:CGSizeMake(CGRectGetWidth(self.softwareUpdateDescriptionTextView.bounds), FLT_MAX)].height + 1; // Add one to ensure iOS 7 UITextView displays all lines of text
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
