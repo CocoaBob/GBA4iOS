@@ -36,11 +36,12 @@
 
 - (instancetype)initWithROMType:(GBAROMType)romType
 {
+    _romType = romType;
+    
     self = [super initWithAddress:[self googleSearchLink]];
     
     if (self)
     {
-        _romType = romType;
         _loadingGoogleSearchRequest = YES;
         
         self.progressView.hidden = YES;
@@ -94,11 +95,11 @@
 {
     if (self.romType == GBAROMTypeGBA)
     {
-        return @"http://www.google.com/search?q=download+GBA+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
+        return @"http://www.google.com/search?q=download+GBA+roms&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
     }
     else
     {
-        return @"http://www.google.com/search?q=download+GBC+roms+coolrom&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
+        return @"http://www.google.com/search?q=download+GBC+roms&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
     }
 }
 
