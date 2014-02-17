@@ -475,6 +475,11 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (NSDictionary *)dictionaryForSection:(NSInteger)section
 {
+    if (section == 0)
+    {
+        return nil;
+    }
+    
     // Account for first section that has no cells and only a footer
     section = section - 1;
     

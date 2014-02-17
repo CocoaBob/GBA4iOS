@@ -49,7 +49,7 @@ static GBAAppDelegate *_appDelegate;
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Welcome to GBA4iOS 2.0!", @"")
-                                                            message:NSLocalizedString(@"If at any time the app fails to open, please set the date back on your device to before February 10, 2014, then try opening the app again. Once the app is opened, you can set the date back to the correct time, and the app will continue to open normally. However, you'll need to repeat this process every time you restart your device.", @"")
+                                                            message:NSLocalizedString(@"If at any time the app fails to open, please set the date back on your device to before February 19, 2014, then try opening the app again. Once the app is opened, you can set the date back to the correct time, and the app will continue to open normally. However, you'll need to repeat this process every time you restart your device.", @"")
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
@@ -64,21 +64,6 @@ static GBAAppDelegate *_appDelegate;
     self.window.tintColor = GBA4iOS_PURPLE_COLOR;
     
     [[UISwitch appearance] setOnTintColor:GBA4iOS_PURPLE_COLOR]; // Apparently UISwitches don't inherit tint color from superview
-    
-    NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];
-    
-    if (url)
-    {
-        if ([url isFileURL])
-        {
-            [self handleFileURL:url];
-        }
-        else
-        {
-            [self handleURLSchemeURL:url];
-        }
-    }
-    
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
@@ -102,9 +87,9 @@ static GBAAppDelegate *_appDelegate;
     
 #if !(TARGET_IPHONE_SIMULATOR)
     
-#warning Uncomment for release, and comment out Crashlytics. Can't have both at once :(
-    //[self setUpCrashCallbacks];
-    [Crashlytics startWithAPIKey:@"d542629b4f6625cfd5564d27318550321272076d"];
+//#warning Uncomment for release, and comment out Crashlytics. Can't have both at once :(
+    [self setUpCrashCallbacks];
+    //[Crashlytics startWithAPIKey:@"d542629b4f6625cfd5564d27318550321272076d"];
         
 #endif
     
