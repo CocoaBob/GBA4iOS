@@ -468,6 +468,8 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
         return;
     }
     
+    DLog("Uploading: %@", filepath);
+    
     NSString *uniqueName = [rom uniqueName];
     NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Save States/%@", uniqueName, [filepath lastPathComponent]];
     

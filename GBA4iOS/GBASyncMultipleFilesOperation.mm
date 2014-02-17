@@ -605,9 +605,9 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             
             NSString *filepath = [fileURL path];
             filepath = [filepath stringByReplacingOccurrencesOfString:@"/private/var/mobile" withString:@"/var/mobile"];
-            NSString *uniqueName = [[filepath stringByDeletingLastPathComponent] lastPathComponent];
+            NSString *romName = [[filepath stringByDeletingLastPathComponent] lastPathComponent];
             
-            GBAROM *rom = [GBAROM romWithUniqueName:uniqueName];
+            GBAROM *rom = [GBAROM romWithName:romName];
             
             // ROM doesn't exist, don't upload
             if (rom == nil)
@@ -615,7 +615,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 continue;
             }
             
-            NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Cheats/%@", uniqueName, filename];
+            NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Cheats/%@", rom.uniqueName, filename];
             
             // Already marked for upload, don't need to upload again
             if (pendingUploads[filepath])
@@ -692,9 +692,9 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             NSString *filepath = [fileURL path];
             filepath = [filepath stringByReplacingOccurrencesOfString:@"/private/var/mobile" withString:@"/var/mobile"];
             
-            NSString *uniqueName = [[filepath stringByDeletingLastPathComponent] lastPathComponent];
+            NSString *romName = [[filepath stringByDeletingLastPathComponent] lastPathComponent];
             
-            GBAROM *rom = [GBAROM romWithUniqueName:uniqueName];
+            GBAROM *rom = [GBAROM romWithName:romName];
             
             // ROM doesn't exist, don't upload
             if (rom == nil)
@@ -702,7 +702,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 continue;
             }
             
-            NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Save States/%@", uniqueName, filename];
+            NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Save States/%@", rom.uniqueName, filename];
             
             // Already marked for upload, don't need to upload again
             if (pendingUploads[filepath])
@@ -721,7 +721,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             {
                 continue;
             }
-            
+                        
             [[GBASyncManager sharedManager] prepareToUploadSaveStateAtPath:filepath forROM:rom];
         }
         
