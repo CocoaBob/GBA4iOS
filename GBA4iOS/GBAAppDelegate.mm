@@ -5,6 +5,7 @@
 //  Created by Riley Testut on 7/18/13.
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
+//  Completed 2.0 2/19/14 3:46am CST.
 
 #import "GBAAppDelegate.h"
 #import "GBAEmulationViewController.h"

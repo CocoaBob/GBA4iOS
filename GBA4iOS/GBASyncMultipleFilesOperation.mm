@@ -721,7 +721,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             {
                 continue;
             }
-                        
+            
             [[GBASyncManager sharedManager] prepareToUploadSaveStateAtPath:filepath forROM:rom];
         }
         
