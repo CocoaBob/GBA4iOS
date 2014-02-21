@@ -184,7 +184,19 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         
         NSString *filepath = [[targetPath path] stringByDeletingPathExtension];
-        filepath = [filepath stringByAppendingPathExtension:@"gbaskin"];
+        
+        switch (self.controllerSkinType)
+        {
+            case GBAControllerSkinTypeGBA:
+                filepath = [filepath stringByAppendingPathExtension:@"gbaskin"];
+                break;
+                
+            case GBAControllerSkinTypeGBC:
+                filepath = [filepath stringByAppendingPathExtension:@"gbcskin"];
+                break;
+        }
+        
+        
         
         return [NSURL fileURLWithPath:filepath];
         
