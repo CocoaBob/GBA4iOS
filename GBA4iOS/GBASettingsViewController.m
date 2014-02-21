@@ -24,9 +24,10 @@
 #define CONTROLLER_OPACITY_SECTION 4
 #define VIBRATION_SECTION 5
 #define EXTERNAL_CONTROLLER_SECTION 6
-#define DROPBOX_SYNC_SECTION 7
-#define SOFTWARE_UPDATE_SECTION 8
-#define CREDITS_SECTION 9
+#define AIRPLAY_SECTION 7
+#define DROPBOX_SYNC_SECTION 8
+#define SOFTWARE_UPDATE_SECTION 9
+#define CREDITS_SECTION 10
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -40,6 +41,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
 @property (weak, nonatomic) UILabel *dropboxSyncStatusLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *airplaySwitch;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -49,6 +51,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 - (IBAction)togglePreferExternalAudio:(UISwitch *)sender;
 - (IBAction)changeControllerOpacity:(UISlider *)sender;
 - (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender;
+- (IBAction)toggleAirPlay:(UISwitch *)sender;
 
 @end
 
@@ -110,7 +113,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsVibrateKey: @YES,
                                GBASettingsGBASkinsKey: @{@"portrait": @"GBA/com.GBA4iOS.default", @"landscape": @"GBA/com.GBA4iOS.default"},
                                GBASettingsGBCSkinsKey: @{@"portrait": @"GBC/com.GBA4iOS.default", @"landscape": @"GBC/com.GBA4iOS.default"},
-                               GBASettingsControllerOpacityKey: @0.5};
+                               GBASettingsControllerOpacityKey: @0.5,
+                               GBASettingsAirPlayEnabled: @YES};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
@@ -126,6 +130,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
     self.preferExternalAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferExternalAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
+    self.airplaySwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabled];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     
     NSString *percentage = [NSString stringWithFormat:@"%.f", self.controllerOpacitySlider.value * 100];
@@ -339,6 +344,12 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     CGFloat roundedValue = roundf(sender.value / 0.05) * 0.05;
     sender.value = roundedValue;
+}
+
+- (IBAction)toggleAirPlay:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsAirPlayEnabled];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsAirPlayEnabled, @"value": @(sender.on)}];
 }
 
 

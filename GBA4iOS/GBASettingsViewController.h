@@ -22,6 +22,7 @@ static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
 static NSString *GBASettingsControllerOpacityKey = @"controllerOpacity";
 static NSString *GBASettingsDropboxSyncKey = @"dropboxSync";
 static NSString *GBASettingsExternalControllerButtonsKey = @"externalControllerButtons";
+static NSString *GBASettingsAirPlayEnabled = @"airPlayEnabled";
 
 @class GBASettingsViewController;
 
