@@ -2499,6 +2499,213 @@
 			};
 			name = Enterprise;
 		};
+		BF941F9B18B71CC0002510D0 /* Jailbreak */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_ID = com.rileytestut.enterprise.GBA4iOS;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = (
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-Isrc",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/bundle/darwin-iOS/armv7/include\"",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/build/ios-jb-armv7/gen\"",
+					"-Isrc",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src\"",
+					"-DHAVE_ZLIB_H",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+					"-DNO_PNG",
+					"-DNO_LINK",
+					"-DNO_DEBUGGER",
+					"-DBLIP_BUFFER_FAST=1",
+					"-DSysDecimal=float",
+					"-Isrc/vbam",
+					"-I\"$(SRCROOT)/emu-ex-plus-alpha/imagine/build/ios-armv7/gen\"",
+					"-I/usr/lib/c++/v1",
+					"-Woverloaded-virtual",
+					"-fno-rtti",
+					"-fno-exceptions",
+					"-fno-threadsafe-statics",
+					"-pipe",
+					"-fvisibility=hidden",
+					"-ffast-math",
+					"-fmerge-all-constants",
+					"-g",
+					"-Wall",
+					"-Wextra",
+					"-Wno-comment",
+					"-Wno-missing-field-initializers",
+					"-Wno-unused",
+					"-Wno-unused-parameter",
+					"-Wno-attributes",
+					"-DHAVE_STDINT_H",
+					"-DGAMBATTE_CONST_FB_PITCH=160",
+					"-DGAMBATTE_NO_OSD",
+					"-DSysDDec=float",
+				);
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevBuildPackageOnAnyBuild = "";
+			};
+			name = Jailbreak;
+		};
+		BF941F9C18B71CC0002510D0 /* Jailbreak */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8D7087219E44810B715C233 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				OTHER_LDFLAGS = (
+					"-Objc",
+					"-all_load",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Jailbreak;
+		};
+		BF941F9D18B71CC0002510D0 /* Jailbreak */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
+					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOAPODS=1",
+					"SIMULATOR=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
+					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
+					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
+					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/common\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
+					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
+				OTHER_LDFLAGS = (
+					"-Objc",
+					"-all_load",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "GBA4iOS copy";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Jailbreak;
+		};
 		CC2D572F1798F2ED00C616EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2637,8 +2844,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yvette Testut (6XVY5G3U44)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
@@ -2996,6 +3202,7 @@
 				BF2F35D2183FF6F9002ACE90 /* Release */,
 				BF2F35D3183FF6F9002ACE90 /* Ad Hoc */,
 				BF89A45318585D3100464448 /* Enterprise */,
+				BF941F9D18B71CC0002510D0 /* Jailbreak */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3007,6 +3214,7 @@
 				CC2D57301798F2ED00C616EB /* Release */,
 				CC347BB017A3CF2200309436 /* Ad Hoc */,
 				BF89A45118585D3100464448 /* Enterprise */,
+				BF941F9B18B71CC0002510D0 /* Jailbreak */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3018,6 +3226,7 @@
 				CC2D57331798F2ED00C616EB /* Release */,
 				CC347BB117A3CF2200309436 /* Ad Hoc */,
 				BF89A45218585D3100464448 /* Enterprise */,
+				BF941F9C18B71CC0002510D0 /* Jailbreak */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

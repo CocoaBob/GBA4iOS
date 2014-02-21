@@ -34,6 +34,8 @@
 #define DELETE_ROM_ALERT_TAG 2
 #define RENAME_GESTURE_RECOGNIZER_TAG 22
 
+#define OVERWRITE_DEFAULT_SKIN 0
+
 static void * GBADownloadROMProgressContext = &GBADownloadROMProgressContext;
 
 typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
@@ -790,7 +792,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
+#if OVERWRITE_DEFAULT_SKIN
+#warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
+#else
         return;
+#endif
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
@@ -806,7 +812,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {
+#if OVERWRITE_DEFAULT_SKIN
+#warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
+#else
         return;
+#endif
     }
     
     [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
