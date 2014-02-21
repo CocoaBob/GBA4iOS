@@ -842,6 +842,15 @@
 			name = Syncing;
 			sourceTree = "<group>";
 		};
+		BF03836318B7E7C3002E45FC /* Software Update */ = {
+			isa = PBXGroup;
+			children = (
+				BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */,
+				BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */,
+			);
+			name = "Software Update";
+			sourceTree = "<group>";
+		};
 		BF104A8217EB7B8F003C86F5 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -1491,8 +1500,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
-				BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */,
-				BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */,
+				BF03836318B7E7C3002E45FC /* Software Update */,
 				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
 				BF60A17018A61D8700B2E7D4 /* betaTesters.plist */,
 				BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */,

@@ -156,6 +156,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
             return nil;
         }
     }
+    else if (section == [tableView numberOfSections] - 1)
+    {
+        NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+        return [NSString stringWithFormat:@"GBA4iOS %@", bundleVersion];
+    }
     
     return [super tableView:tableView titleForFooterInSection:section];
 }
@@ -270,7 +275,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         UILabel *versionLabel = [[UILabel alloc] init];
         versionLabel.textAlignment = NSTextAlignmentCenter;
         versionLabel.textColor = [UIColor grayColor];
-        versionLabel.text = [super tableView:tableView titleForFooterInSection:section];
+        versionLabel.text = [self tableView:tableView titleForFooterInSection:section];
         return versionLabel;
     }
     
