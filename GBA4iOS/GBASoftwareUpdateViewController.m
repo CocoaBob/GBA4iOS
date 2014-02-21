@@ -140,6 +140,7 @@
     [self.statusActivityIndicatorView startAnimating];
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
     NSString *address = [SOFTWARE_UPDATE_ROOT_ADDRESS stringByAppendingPathComponent:@"update.json"];
