@@ -535,7 +535,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     [super didRefreshCurrentDirectory];
     
-    if ([self ignoreDirectoryContentChanges])
+    if ([self isIgnoringDirectoryContentChanges])
     {
         return;
     }
@@ -1366,11 +1366,15 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *saveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:romName];
     NSString *newSaveStateDirectory = [saveStateParentDirectory stringByAppendingPathComponent:newName];
     
+    [self setIgnoreDirectoryContentChanges:YES];
+    
     [[NSFileManager defaultManager] moveItemAtPath:filepath toPath:[documentsDirectory stringByAppendingPathComponent:newRomFilename] replaceExistingFile:YES error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:saveFile] toPath:[documentsDirectory stringByAppendingPathComponent:newSaveFile] replaceExistingFile:YES error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:[documentsDirectory stringByAppendingPathComponent:rtcFile] toPath:[documentsDirectory stringByAppendingPathComponent:newRTCFile] replaceExistingFile:YES error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:cheatsDirectory toPath:newCheatsDirectory replaceExistingFile:YES error:nil];
     [[NSFileManager defaultManager] moveItemAtPath:saveStateDirectory toPath:newSaveStateDirectory replaceExistingFile:YES error:nil];
+    
+    [self setIgnoreDirectoryContentChanges:NO];
     
     NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
     [cachedROMs setObject:cachedROMs[[filepath lastPathComponent]] forKey:newRomFilename];

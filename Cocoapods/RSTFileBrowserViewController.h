@@ -67,7 +67,7 @@
 @property (readonly, copy, nonatomic) NSArray *unsupportedFiles;
 
 // Determines whether the file browser should respond to directory content changes
-@property (assign, nonatomic) BOOL ignoreDirectoryContentChanges;
+@property (assign, nonatomic, getter = isIgnoringDirectoryContentChanges) BOOL ignoreDirectoryContentChanges;
 
 
 // Refreshes UI to show all files in the current directory

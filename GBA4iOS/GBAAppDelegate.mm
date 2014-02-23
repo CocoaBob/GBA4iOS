@@ -89,9 +89,10 @@ static GBAAppDelegate *_appDelegate;
 #if !(TARGET_IPHONE_SIMULATOR)
     
 //#warning Uncomment for release, and comment out Crashlytics. Can't have both at once :(
-    [self setUpCrashCallbacks];
-    //[Crashlytics startWithAPIKey:@"d542629b4f6625cfd5564d27318550321272076d"];
-        
+    //[self setUpCrashCallbacks];
+    
+    NSString *apiKey = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Crashlytics" ofType:@"apikey"] encoding:NSUTF8StringEncoding error:nil];
+    [Crashlytics startWithAPIKey:apiKey];
 #endif
     
     [self.window makeKeyAndVisible];

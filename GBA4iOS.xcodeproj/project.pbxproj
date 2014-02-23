@@ -138,6 +138,8 @@
 		BF7C0E6F189DA30400794093 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E69189DA30400794093 /* DropboxSDK.framework */; };
 		BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
 		BF7C0E73189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
+		BF8138A318BA82C700BAA717 /* Crashlytics.apikey in Resources */ = {isa = PBXBuildFile; fileRef = BF8138A218BA82C700BAA717 /* Crashlytics.apikey */; };
+		BF8138A418BA82C700BAA717 /* Crashlytics.apikey in Resources */ = {isa = PBXBuildFile; fileRef = BF8138A218BA82C700BAA717 /* Crashlytics.apikey */; };
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
@@ -473,6 +475,7 @@
 		BF7C0E69189DA30400794093 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = GBA4iOS/DropboxSDK.framework; sourceTree = "<group>"; };
 		BF7C0E70189DA35800794093 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = GBA4iOS/SSZipArchive.h; sourceTree = SOURCE_ROOT; };
 		BF7C0E71189DA35800794093 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = GBA4iOS/SSZipArchive.m; sourceTree = SOURCE_ROOT; };
+		BF8138A218BA82C700BAA717 /* Crashlytics.apikey */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Crashlytics.apikey; sourceTree = SOURCE_ROOT; };
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
@@ -1256,6 +1259,7 @@
 		CC2D57381798F40E00C616EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BF8138A218BA82C700BAA717 /* Crashlytics.apikey */,
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 				BF563AB4184B11C000722678 /* Launch Images */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
@@ -1692,6 +1696,7 @@
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
 				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
+				BF8138A418BA82C700BAA717 /* Crashlytics.apikey in Resources */,
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
 				BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
@@ -1714,6 +1719,7 @@
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
+				BF8138A318BA82C700BAA717 /* Crashlytics.apikey in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,

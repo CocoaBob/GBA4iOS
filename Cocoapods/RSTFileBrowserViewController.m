@@ -20,6 +20,8 @@
 @property (readwrite, copy, nonatomic) NSArray *supportedFiles;
 @property (readwrite, copy, nonatomic) NSArray *unsupportedFiles;
 
+@property (assign, nonatomic) NSInteger ignoreDirectoryContentChangesCount;
+
 @end
 
 @implementation RSTFileBrowserViewController
@@ -396,12 +398,26 @@
 
 - (void)setIgnoreDirectoryContentChanges:(BOOL)ignoreDirectoryContentChanges
 {
-    self.directoryMonitor.ignoreDirectoryContentChanges = ignoreDirectoryContentChanges;
-    
-    if (!ignoreDirectoryContentChanges)
+    if (ignoreDirectoryContentChanges)
     {
-        [self refreshDirectory];
+        self.ignoreDirectoryContentChangesCount++;
+        self.directoryMonitor.ignoreDirectoryContentChanges = YES;
     }
+    else
+    {
+        self.ignoreDirectoryContentChangesCount--;
+        
+        if (self.ignoreDirectoryContentChangesCount <= 0)
+        {
+            self.directoryMonitor.ignoreDirectoryContentChanges = NO;
+            [self refreshDirectory];
+        }
+    }
+}
+
+- (BOOL)isIgnoringDirectoryContentChanges
+{
+    return (self.ignoreDirectoryContentChangesCount > 0);
 }
 
 @end
