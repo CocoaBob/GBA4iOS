@@ -143,6 +143,7 @@
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
+		BFA5250F18BEC7280099A86A /* GBA4iOS copy-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFA5250E18BEC7280099A86A /* GBA4iOS copy-Info.plist */; };
 		BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
 		BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
 		BFAA523B184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
@@ -437,7 +438,6 @@
 		BF2AC89018543BD9008928D0 /* GBASyncDeleteOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncDeleteOperation.h; sourceTree = "<group>"; };
 		BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncDeleteOperation.m; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GBA4iOS copy-Info.plist"; path = "/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		BF356C7818814A180005E1FC /* GBACheatTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatTextView.h; sourceTree = "<group>"; };
 		BF356C7918814A180005E1FC /* GBACheatTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatTextView.m; sourceTree = "<group>"; };
 		BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GBAEmulatorCore-Simulator.mm"; sourceTree = "<group>"; };
@@ -479,6 +479,7 @@
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
+		BFA5250E18BEC7280099A86A /* GBA4iOS copy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GBA4iOS copy-Info.plist"; sourceTree = "<group>"; };
 		BFA60DDF184847C40039D77E /* RSTToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTToastView.h; path = GBA4iOS/RSTToastView.h; sourceTree = "<group>"; };
 		BFA60DE0184847C40039D77E /* RSTToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTToastView.m; path = GBA4iOS/RSTToastView.m; sourceTree = "<group>"; };
 		BFAA5239184F8B2B0019A90D /* GBASyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation.h; sourceTree = "<group>"; };
@@ -1175,7 +1176,7 @@
 				CC2D57381798F40E00C616EB /* Resources */,
 				CC2D56FE1798F2EC00C616EB /* Frameworks */,
 				CC2D56FD1798F2EC00C616EB /* Products */,
-				BF2F35D6183FF6FA002ACE90 /* GBA4iOS copy-Info.plist */,
+				BFA5250E18BEC7280099A86A /* GBA4iOS copy-Info.plist */,
 				BFD98C331895FEED00A9432C /* Libraries */,
 				B8D7087219E44810B715C233 /* Pods.xcconfig */,
 			);
@@ -1692,6 +1693,7 @@
 				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
 				BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
 				BF60A17218A61D8700B2E7D4 /* betaTesters.plist in Resources */,
+				BFA5250F18BEC7280099A86A /* GBA4iOS copy-Info.plist in Resources */,
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
