@@ -2436,9 +2436,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2643,9 +2640,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2972,9 +2966,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -3018,9 +3009,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -3178,9 +3166,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
-					"/Users/Riley/Developer/Open_Source/Emulators/GBA4iOS-2.0",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
