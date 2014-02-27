@@ -92,7 +92,9 @@ static GBAAppDelegate *_appDelegate;
     //[self setUpCrashCallbacks];
     
     NSString *apiKey = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Crashlytics" ofType:@"apikey"] encoding:NSUTF8StringEncoding error:nil];
-    if (apiKey.length) {
+    
+    if (apiKey.length)
+    {
         [Crashlytics startWithAPIKey:apiKey];
     }
 #endif
