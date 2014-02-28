@@ -233,8 +233,6 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             NSDate *currentDate = [attributes fileModificationDate];
             NSDate *previousDate = cachedMetadata.lastModifiedDate;
             
-            DLog(@"Cached: %@ Previous: %@ Current: %@", cachedMetadata, previousDate, currentDate);
-                        
             // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
             // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
             if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath])
