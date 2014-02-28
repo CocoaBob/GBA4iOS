@@ -134,8 +134,6 @@
 		BF6ED57C1851100A0014B6A8 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */; };
 		BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */; };
 		BF7C0E6D189DA30400794093 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
-		BF7C0E6E189DA30400794093 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E69189DA30400794093 /* DropboxSDK.framework */; };
-		BF7C0E6F189DA30400794093 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E69189DA30400794093 /* DropboxSDK.framework */; };
 		BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
 		BF7C0E73189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
@@ -163,7 +161,6 @@
 		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
 		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
-		BFC47BC1189DA7C0006C4D55 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC47BC0189DA7C0006C4D55 /* Crashlytics.framework */; };
 		BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
 		BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
@@ -470,7 +467,6 @@
 		BF6F2979184D76AE00ECF793 /* GBA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBA.h; sourceTree = "<group>"; };
 		BF6FF3511845696200A8568C /* GBASyncManager_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBASyncManager_Private.h; sourceTree = "<group>"; };
 		BF7C0E68189DA30400794093 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = GBA4iOS/CrashReporter.framework; sourceTree = "<group>"; };
-		BF7C0E69189DA30400794093 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = GBA4iOS/DropboxSDK.framework; sourceTree = "<group>"; };
 		BF7C0E70189DA35800794093 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = GBA4iOS/SSZipArchive.h; sourceTree = SOURCE_ROOT; };
 		BF7C0E71189DA35800794093 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = GBA4iOS/SSZipArchive.m; sourceTree = SOURCE_ROOT; };
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
@@ -495,7 +491,6 @@
 		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionViewController.m; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
-		BFC47BC0189DA7C0006C4D55 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
 		BFD03A9C1898E877001056A5 /* GBAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEvent.h; sourceTree = "<group>"; };
 		BFD03A9D1898E877001056A5 /* GBAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEvent.m; sourceTree = "<group>"; };
@@ -786,7 +781,6 @@
 				BF2F35C0183FF6F9002ACE90 /* CoreGraphics.framework in Frameworks */,
 				BF2F35C2183FF6F9002ACE90 /* UIKit.framework in Frameworks */,
 				BF2F35C3183FF6F9002ACE90 /* Foundation.framework in Frameworks */,
-				BF7C0E6F189DA30400794093 /* DropboxSDK.framework in Frameworks */,
 				BF2F35C4183FF6F9002ACE90 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -801,10 +795,8 @@
 				CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */,
 				CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */,
 				CC45EE1117E7E9D000AC29FA /* SystemConfiguration.framework in Frameworks */,
-				BFC47BC1189DA7C0006C4D55 /* Crashlytics.framework in Frameworks */,
 				CC1577D8179CF1F80068A54E /* libz.dylib in Frameworks */,
 				CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */,
-				BF7C0E6E189DA30400794093 /* DropboxSDK.framework in Frameworks */,
 				CC1577D3179CF1B90068A54E /* CoreAudio.framework in Frameworks */,
 				CC1577D4179CF1B90068A54E /* CoreFoundation.framework in Frameworks */,
 				CC1577D5179CF1B90068A54E /* MessageUI.framework in Frameworks */,
@@ -1191,9 +1183,7 @@
 		CC2D56FE1798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BFC47BC0189DA7C0006C4D55 /* Crashlytics.framework */,
 				BF7C0E68189DA30400794093 /* CrashReporter.framework */,
-				BF7C0E69189DA30400794093 /* DropboxSDK.framework */,
 				BF2638C518700E2400CE55F9 /* CoreMotion.framework */,
 				BF8789F618404AC200C81AB2 /* GameController.framework */,
 				CC832588180E2D9000001899 /* Potential Future Pods */,
@@ -1795,7 +1785,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "key=$(cat Crashlytics.apikey 2>/dev/null)\nif [ -n \"$key\" ]; then\n    ./Crashlytics.framework/run d542629b4f6625cfd5564d27318550321272076d\nfi";
+			shellScript = "key=$(cat Crashlytics.apikey 2>/dev/null)\nif [ -n \"$key\" ]; then\n    ./Pods/CrashlyticsFramework/Crashlytics.framework/run d542629b4f6625cfd5564d27318550321272076d\nfi";
 		};
 		D6789B793A0D43B9AEC5FF1A /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2172,9 +2162,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2225,9 +2212,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2274,9 +2258,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2437,7 +2418,6 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2480,9 +2460,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2641,7 +2618,6 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2684,9 +2660,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0",
-					"/Users/Riley/Dropbox/Developer/Open_Source/Emulators/GBA4iOS-2.0/GBA4iOS",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -2967,7 +2940,6 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -3010,7 +2982,6 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
@@ -3167,7 +3138,6 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SYSTEM_APPS_DIR)/Reveal.app/Contents/SharedSupport/iOS-Libraries",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/GBA4iOS",
 				);
