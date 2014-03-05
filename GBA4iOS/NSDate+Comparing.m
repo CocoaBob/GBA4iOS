@@ -18,6 +18,11 @@
 
 - (NSInteger)daysUntilDate:(NSDate *)date
 {
+    if (date == nil)
+    {
+        return 0;
+    }
+    
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSInteger startDay = [calendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSEraCalendarUnit forDate:self];
     NSInteger endDay = [calendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSEraCalendarUnit forDate:date];

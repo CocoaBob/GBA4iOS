@@ -219,8 +219,8 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             {
                 continue;
             }
-            
-            if ([[NSDate date] daysUntilDate:event.endDate] < 0)
+                        
+            if (event.endDate && [[NSDate date] daysUntilDate:event.endDate] < 0)
             {
                 continue;
             }
