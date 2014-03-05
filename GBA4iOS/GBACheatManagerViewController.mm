@@ -62,6 +62,23 @@
     [self.tableView registerClass:[GBACheatManagerTableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"showedCheatsAlert"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning!", @"")
+                                                        message:NSLocalizedString(@"Cheats should only be used if you know exactly what you are doing. Incorrect usage of cheats, such as entering codes incorrectly or using potentially dangerous codes, can have serious side effects in the game. These can result in anything from major graphical glitches to the loss of save data.", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"I Understand", @"") otherButtonTitles:nil];
+        [alert show];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showedCheatsAlert"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
