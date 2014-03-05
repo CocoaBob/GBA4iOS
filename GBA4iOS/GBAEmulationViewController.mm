@@ -147,14 +147,7 @@ static GBAEmulationViewController *_emulationViewController;
 	[self.displayLink setFrameInterval:1];
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
-    {
-        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
-    }
-    else
-    {
-        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
-    }
+    [self updateFilter];
     
     [self updateSettings:nil];
 }
@@ -1697,17 +1690,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     [self updateEmulatorScreenFrame];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
-    {
-        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
-        }
-        else
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
-        }
-    }
+    [self updateFilter];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1963,17 +1946,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)refreshLayout
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
-    {
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
-        }
-        else
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
-        }
-    }
+    [self updateFilter];
     
     [self updateControllerSkinForInterfaceOrientation:self.interfaceOrientation];
     
@@ -2107,6 +2080,18 @@ static GBAEmulationViewController *_emulationViewController;
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+}
+
+- (void)updateFilter
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && self.rom.type == GBAROMTypeGBA && ![self isAirplaying])
+    {
+        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
+    }
+    else
+    {
+        [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
+    }
 }
 
 #pragma mark - Notifications
@@ -2532,14 +2517,7 @@ static GBAEmulationViewController *_emulationViewController;
             [self resumeEmulation];
         }
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && self.rom.type == GBAROMTypeGBA)
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
-        }
-        else
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
-        }
+        [self updateFilter];
         
         [self stopFastForwarding];
         
@@ -2562,14 +2540,7 @@ static GBAEmulationViewController *_emulationViewController;
             [self refreshLayout];
         }
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && self.rom.type == GBAROMTypeGBA)
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
-        }
-        else
-        {
-            [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterNone];
-        }
+        [self updateFilter];
     });
 }
 
