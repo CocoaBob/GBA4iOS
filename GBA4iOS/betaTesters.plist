@@ -277,6 +277,14 @@
 			<key>url</key>
 			<string></string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>Bronson Lane</string>
+			<key>twitterUsername</key>
+			<string>ioslife</string>
+			<key>url</key>
+			<string></string>
+		</dict>
 	</array>
 </array>
 </plist>

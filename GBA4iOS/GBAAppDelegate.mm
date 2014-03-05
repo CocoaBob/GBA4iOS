@@ -106,57 +106,6 @@ static GBAAppDelegate *_appDelegate;
     return YES;
 }
 
-- (void)renameUniqueFoldersToNamedFoldersInDirectory:(NSString *)directory
-{
-    // NSDirectoryEnumerator raises exception if URL is nil
-    if ([[NSFileManager defaultManager] fileExistsAtPath:directory isDirectory:nil])
-    {
-        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:[NSURL fileURLWithPath:directory]
-                                                                 includingPropertiesForKeys:@[NSURLNameKey, NSURLIsDirectoryKey]
-                                                                                    options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                               errorHandler:^BOOL(NSURL *url, NSError *error)
-                                             {
-                                                 NSLog(@"[Error] %@ (%@)", error, url);
-                                                 return YES;
-                                             }];
-        
-        
-        for (NSURL *fileURL in enumerator)
-        {
-            [enumerator skipDescendants];
-            
-            NSString *filename;
-            [fileURL getResourceValue:&filename forKey:NSURLNameKey error:nil];
-            
-            NSNumber *isDirectory;
-            [fileURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:nil];
-            
-            DLog(@"%@", filename);
-            
-            if ([isDirectory boolValue])
-            {
-                GBAROM *rom = [GBAROM romWithUniqueName:filename];
-                
-                if (rom == nil)
-                {
-                    continue;
-                }
-                
-                NSString *destinationPath = [[fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:rom.name];
-                
-                if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
-                {
-                    [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:destinationPath] withItemAtURL:fileURL backupItemName:nil options:0 resultingItemURL:nil error:nil];
-                }
-                else
-                {
-                    [[NSFileManager defaultManager] moveItemAtPath:fileURL.path toPath:destinationPath error:nil];
-                }
-            }
-        }
-    }
-}
-
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     if ([url isFileURL])
