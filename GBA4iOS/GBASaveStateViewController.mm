@@ -81,6 +81,23 @@
     return NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"showedSaveStateAlert"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning!", @"")
+                                                        message:NSLocalizedString(@"Save states are intended to be used as a convenience, and not as the primary saving method. To ensure that save data is never lost or corrupted, please save in-game as you would if you were playing on an actual Game Boy Advance.", @"")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+        [alert show];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showedSaveStateAlert"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
