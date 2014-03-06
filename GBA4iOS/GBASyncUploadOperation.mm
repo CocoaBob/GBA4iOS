@@ -75,7 +75,11 @@
             GBAROM *rom = [GBAROM romWithName:[[localPath lastPathComponent] stringByDeletingPathExtension]];
             
             // Delete temporary .rtcsav file if we made one
-            [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
+            BOOL isDirectory = NO;
+            if ([[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:&isDirectory] && !isDirectory)
+            {
+                [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
+            }
                            
             [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:rom.saveFileFilepath error:nil];
             [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:rom.rtcFileFilepath error:nil];

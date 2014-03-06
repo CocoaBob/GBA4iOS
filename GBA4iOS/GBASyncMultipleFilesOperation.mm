@@ -886,7 +886,14 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 {
                     [[[GBASyncManager sharedManager] dropboxFiles] removeObjectForKey:key];
                     
-                    [[NSFileManager defaultManager] removeItemAtPath:[GBASyncManager localPathForDropboxPath:key] error:nil];
+                    NSString *localPath = [GBASyncManager localPathForDropboxPath:key];
+                    
+                    BOOL isDirectory = NO;
+                    if ([[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:&isDirectory] && !isDirectory)
+                    {
+                        [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
+                    }
+                    
                 }
             }
             

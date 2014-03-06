@@ -885,6 +885,11 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     
     GBAROM *rom = [GBAROM romWithName:romName];
     
+    if (rom == nil || rom.name == nil || [rom.name isEqualToString:@""] || [rom.name isEqualToString:@"/"])
+    {
+        return nil;
+    }
+    
     NSString *localPath = nil;
     
     if ([directory isEqualToString:@"Saves"]) // ROM save files
