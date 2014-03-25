@@ -141,7 +141,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
     
     NSDictionary *pendingDownloads = [[[GBASyncManager sharedManager] pendingDownloads] copy];
-            
+    
     if ([pendingDownloads count] == 0)
     {
         [self uploadFiles];

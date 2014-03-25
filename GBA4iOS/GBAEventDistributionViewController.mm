@@ -25,6 +25,9 @@ NSString *const GBAEventsKey = @"events";
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
 
+// Emulator externs
+extern bool useCustomSavePath;
+
 @interface GBAEventDistributionViewController () <GBAEventDistributionDetailViewControllerDelegate>
 
 @property (strong, nonatomic) UIProgressView *downloadProgressView;
@@ -402,23 +405,8 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (void)finishCurrentEvent
 {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.eventROM.saveFileFilepath isDirectory:nil])
-    {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:self.rom.saveFileFilepath isDirectory:nil])
-        {
-            [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.rom.saveFileFilepath] withItemAtURL:[NSURL fileURLWithPath:self.eventROM.saveFileFilepath] backupItemName:nil options:0 resultingItemURL:nil error:nil];
-        }
-        else
-        {
-            [[NSFileManager defaultManager] copyItemAtPath:self.eventROM.saveFileFilepath toPath:self.rom.saveFileFilepath error:nil];
-        }
-    }
-    
-    if ([self.rom.event isCompleted])
-    {
-        // Remove event rom directory
-        [[NSFileManager defaultManager] removeItemAtPath:[self.eventROM.filepath stringByDeletingLastPathComponent] error:nil];
-    }
+    useCustomSavePath = false;
+    _eventSavePath = nil;
     
     self.emulationViewController.rom = self.rom;
     
@@ -597,22 +585,15 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 #pragma mark - GBAEventDistributionDetailViewControllerDelegate
 
+static NSString *_eventSavePath = nil;
+
 - (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController startEvent:(GBAEvent *)event forROM:(GBAROM *)rom
 {
+    useCustomSavePath = true;
+    _eventSavePath = [self.rom.saveFileFilepath copy];
+    
     self.eventROM = rom;
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.rom.saveFileFilepath isDirectory:nil])
-    {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:self.eventROM.saveFileFilepath isDirectory:nil])
-        {
-            [[NSFileManager defaultManager] replaceItemAtURL:[NSURL fileURLWithPath:self.eventROM.saveFileFilepath] withItemAtURL:[NSURL fileURLWithPath:self.rom.saveFileFilepath] backupItemName:nil options:0 resultingItemURL:nil error:nil];
-        }
-        else
-        {
-            [[NSFileManager defaultManager] copyItemAtPath:self.rom.saveFileFilepath toPath:self.eventROM.saveFileFilepath error:nil];
-        }
-    }
-    
+
     self.emulationViewController.rom = self.eventROM;
     
     if ([self.delegate respondsToSelector:@selector(eventDistributionViewController:willStartEvent:)])
@@ -636,6 +617,11 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     NSString *eventsDirectory = [libraryDirectory stringByAppendingPathComponent:@"Events"];
     [[NSFileManager defaultManager] createDirectoryAtPath:eventsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     return eventsDirectory;
+}
+
+const char * customSavePath()
+{
+    return [_eventSavePath UTF8String];
 }
 
 #pragma mark - Helper Methods
@@ -717,7 +703,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         return GBAEventSupportedGameSapphire;
     }
     
-    return 0;
+    return GBAEventSupportedGameNone;
 }
 
 - (NSString *)downloadedEventsPath

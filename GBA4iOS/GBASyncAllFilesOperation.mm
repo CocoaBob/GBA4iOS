@@ -45,7 +45,7 @@
         DLog(@"Received Delta Entries");
         
         NSDictionary *newDropboxFiles = [self validDropboxFilesFromDeltaEntries:entries deleteDeletedDropboxFiles:YES];
-                
+        
         [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
             [self prepareToDownloadFileWithMetadataIfNeeded:metadata isDeltaChange:YES];
         }];

@@ -43,6 +43,9 @@ bool CPUWriteState(GBASys &gba, const char *);
 
 bool isGBAROM = false;
 
+bool useCustomSavePath = false;
+extern const char *customSavePath();
+
 const char *creditsViewStr = "(c) 2012-2013\nRobert Broglia\nwww.explusalpha.com\n\nPortions (c) the\nVBA-m Team\nvba-m.com";
 const uint EmuSystem::maxPlayers = 1;
 uint EmuSystem::aspectRatioX = 3, EmuSystem::aspectRatioY = 2;
@@ -284,7 +287,16 @@ void EmuSystem::saveBackupMem_GBA()
 	{
 		logMsg("saving backup memory");
 		FsSys::cPath saveStr;
-		snprintf(saveStr, sizeof(saveStr), "%s/%s.sav", savePath(), gameName);
+        
+        if (useCustomSavePath)
+        {
+            snprintf(saveStr, sizeof(saveStr), "%s", customSavePath());
+        }
+        else
+        {
+            snprintf(saveStr, sizeof(saveStr), "%s/%s.sav", savePath(), gameName);
+        }
+        
 		if(Config::envIsIOSJB)
 			fixFilePermissions(saveStr);
 		CPUWriteBatteryFile(gGba, saveStr);
@@ -374,7 +386,16 @@ int EmuSystem::loadGame_GBA(const char *path)
 	CPUInit(gGba, 0, 0);
 	CPUReset(gGba);
 	FsSys::cPath saveStr;
-	snprintf(saveStr, sizeof(saveStr), "%s/%s.sav", savePath(), gameName);
+	
+    if (useCustomSavePath)
+    {
+        snprintf(saveStr, sizeof(saveStr), "%s", customSavePath());
+    }
+    else
+    {
+        snprintf(saveStr, sizeof(saveStr), "%s/%s.sav", savePath(), gameName);
+    }
+        
 	CPUReadBatteryFile(gGba, saveStr);
 	readCheatFile_GBA();
 	logMsg("started emu");

@@ -885,7 +885,8 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     
     GBAROM *rom = [GBAROM romWithName:romName];
     
-    if (rom == nil || rom.name == nil || [rom.name isEqualToString:@""] || [rom.name isEqualToString:@"/"])
+    // If not Upload History, make sure the rom is valid before continuing
+    if (![pathComponents[1] isEqualToString:@"Upload History"] && (rom == nil || rom.name == nil || [rom.name isEqualToString:@""] || [rom.name isEqualToString:@"/"]))
     {
         return nil;
     }

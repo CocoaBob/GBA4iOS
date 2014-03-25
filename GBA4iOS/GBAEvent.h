@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, GBAEventSupportedGame) {
+    GBAEventSupportedGameNone       = 0,
     GBAEventSupportedGameRuby       = 1 << 0,
     GBAEventSupportedGameSapphire   = 1 << 1,
     GBAEventSupportedGameFireRed    = 1 << 2,
@@ -25,7 +26,6 @@ typedef NS_ENUM(NSInteger, GBAEventSupportedGame) {
 @property (readonly, copy, nonatomic) NSDate *endDate;
 @property (readonly, assign, nonatomic) GBAEventSupportedGame supportedGames;
 @property (readonly, assign, nonatomic) NSInteger apiVersion;
-@property (assign, nonatomic, getter = isCompleted) BOOL completed;
 
 + (instancetype)eventWithContentsOfFile:(NSString *)filepath;
 + (instancetype)eventWithDictionary:(NSDictionary *)dictionary;

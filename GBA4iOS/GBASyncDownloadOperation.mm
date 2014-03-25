@@ -114,7 +114,7 @@
         {
             [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:localPath error:nil];
         }
-        
+                
         // Pending Downloads
         NSMutableDictionary *pendingDownloads = [[GBASyncManager sharedManager] pendingDownloads];
         [pendingDownloads removeObjectForKey:dropboxPath];

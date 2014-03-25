@@ -158,8 +158,8 @@
 		BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3B18909EE8002E5F26 /* Default-Portrait~ipad.png */; };
 		BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3C18909EE8002E5F26 /* Default@2x.png */; };
 		BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3C18909EE8002E5F26 /* Default@2x.png */; };
-		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
-		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */; };
+		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
+		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
 		BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
@@ -488,7 +488,7 @@
 		BFB89E3B18909EE8002E5F26 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		BFB89E3C18909EE8002E5F26 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionViewController.h; sourceTree = "<group>"; };
-		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionViewController.m; sourceTree = "<group>"; };
+		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEventDistributionViewController.mm; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
@@ -962,7 +962,7 @@
 				BFD03A9C1898E877001056A5 /* GBAEvent.h */,
 				BFD03A9D1898E877001056A5 /* GBAEvent.m */,
 				BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */,
-				BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.m */,
+				BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */,
 				BF20ED6A189769DF00270BC8 /* GBAEventDistributionDetailViewController.h */,
 				BF20ED6B189769DF00270BC8 /* GBAEventDistributionDetailViewController.m */,
 				BF359B92187A205400B4CA53 /* GBAEventDistributionTableViewCell.h */,
@@ -1824,7 +1824,7 @@
 				BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */,
 				BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */,
 				BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */,
-				BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */,
+				BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */,
 				BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */,
 				BF2F350E183FF6F9002ACE90 /* UITouch+ControllerButtons.m in Sources */,
 				BF16DCF3184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */,
@@ -1921,7 +1921,7 @@
 				CCFA7176179D2EAB00768D24 /* Pixmap.cc in Sources */,
 				CC50451A1814DC69009F7B9E /* 7zStream.c in Sources */,
 				CC76CF0217ED1B1B0072BF74 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
-				BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.m in Sources */,
+				BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */,
 				BF16DCF6184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */,
 				CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */,
 				CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */,
