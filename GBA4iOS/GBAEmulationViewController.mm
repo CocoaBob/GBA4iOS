@@ -1875,7 +1875,7 @@ static GBAEmulationViewController *_emulationViewController;
     if (![self isAirplaying])
     {
         CGRect screenRect = [self.controllerView.controllerSkin screenRectForOrientation:self.controllerView.orientation];
-        
+                
         if (CGRectIsEmpty(screenRect) || self.externalController)
         {
             [UIView animateWithDuration:0.4 animations:^{
@@ -1915,7 +1915,6 @@ static GBAEmulationViewController *_emulationViewController;
                 
                 frame.origin = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f - aspectSize.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f - aspectSize.height/2.0f);
                 frame.size = aspectSize;
-                
                 frame;
             });
             self.emulatorScreen.center = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f);
@@ -1923,9 +1922,7 @@ static GBAEmulationViewController *_emulationViewController;
             
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
             [self.emulatorScreen invalidateIntrinsicContentSize];
-            
         }
-        
     }
     else
     {

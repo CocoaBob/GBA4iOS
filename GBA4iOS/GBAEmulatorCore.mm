@@ -204,7 +204,7 @@ namespace GameFilePicker {
     
 	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &backingWidth);
 	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &backingHeight);
-    
+            
 	if(Base::USE_DEPTH_BUFFER)
 	{
 		glGenRenderbuffersOES(1, &depthRenderbuffer);
@@ -431,6 +431,7 @@ void writeSaveFileForCurrentROMToDisk();
     optionAutoSaveState = 0;
     optionConfirmAutoLoadState = NO;
     optionHideStatusBar = YES;
+    optionAspectRatio.val = 2;
     
     [self updateSettings:nil];
 }
@@ -474,6 +475,12 @@ void writeSaveFileForCurrentROMToDisk();
             self.eaglView.layer.contentsScale = screen.scale;
             Base::pointScale = screen.scale;
         }
+        
+        // Update framebuffer for new size (or else graphics are slightly blurred)
+        [Base::glView destroyFramebuffer];
+        [Base::glView createFramebuffer];
+        Gfx::setOutputVideoMode(mainWin);
+        startGameFromMenu();
     }
 }
 
