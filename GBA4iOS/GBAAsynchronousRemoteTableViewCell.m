@@ -73,6 +73,7 @@
     self.backgroundImageView.alpha = 0.0;
     self.imageURL = nil;
     self.activityIndicatorView.alpha = 1.0f;
+    [self.activityIndicatorView startAnimating];
     
     [self setEditing:NO];
 }
@@ -107,7 +108,9 @@
     
     __weak __typeof__(self) weakSelf = self;
     [self.backgroundImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-        [weakSelf prepareAndDisplayImage:image];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [weakSelf prepareAndDisplayImage:image];
+        });
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         DLog(@"Failure :( %@", error);
     }];
