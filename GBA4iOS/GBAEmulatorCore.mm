@@ -480,7 +480,12 @@ void writeSaveFileForCurrentROMToDisk();
         [Base::glView destroyFramebuffer];
         [Base::glView createFramebuffer];
         Gfx::setOutputVideoMode(mainWin);
+        
+        bool fastForwardEnabled = emuView.ffGuiTouch;
+        
         startGameFromMenu();
+        
+        emuView.ffGuiTouch = fastForwardEnabled;
     }
 }
 

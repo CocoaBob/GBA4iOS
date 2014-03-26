@@ -257,9 +257,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 - (BOOL)webViewController:(RSTWebViewController *)webViewController shouldInterceptDownloadRequest:(NSURLRequest *)request
 {
     NSString *fileExtension = request.URL.pathExtension.lowercaseString;
-    
+
     if ((([fileExtension isEqualToString:@"gb"] || [fileExtension isEqualToString:@"gbc"] || [fileExtension isEqualToString:@"gba"] || [fileExtension isEqualToString:@"zip"]) ||
-         [request.URL.host hasPrefix:@"dl.coolrom"]) &&
+         ([request.URL.host.lowercaseString rangeOfString:@"m.coolrom"].location == NSNotFound && [request.URL.host.lowercaseString rangeOfString:@".coolrom"].location != NSNotFound)) &&
         ![self isAwaitingDownloadHTTPResponse])
     {
         self.awaitingDownloadHTTPResponse = YES;
