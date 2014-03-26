@@ -13,6 +13,7 @@
 #import "UIAlertView+RSTAdditions.h"
 #import "GBAEventDistributionDetailViewController.h"
 #import "GBAEvent.h"
+#import "GBAEmulatorCore.h"
 
 #import "GBAROM_Private.h"
 
@@ -24,9 +25,6 @@ NSString *const GBAEventsKey = @"events";
 
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
-
-// Emulator externs
-extern bool useCustomSavePath;
 
 @interface GBAEventDistributionViewController () <GBAEventDistributionDetailViewControllerDelegate>
 
@@ -405,8 +403,7 @@ extern bool useCustomSavePath;
 
 - (void)finishCurrentEvent
 {
-    useCustomSavePath = false;
-    _eventSavePath = nil;
+    [[GBAEmulatorCore sharedCore] setCustomSavePath:nil];
     
     self.emulationViewController.rom = self.rom;
     
@@ -585,12 +582,10 @@ extern bool useCustomSavePath;
 
 #pragma mark - GBAEventDistributionDetailViewControllerDelegate
 
-static NSString *_eventSavePath = nil;
 
 - (void)eventDistributionDetailViewController:(GBAEventDistributionDetailViewController *)eventDistributionDetailViewController startEvent:(GBAEvent *)event forROM:(GBAROM *)rom
 {
-    useCustomSavePath = true;
-    _eventSavePath = [self.rom.saveFileFilepath copy];
+    [[GBAEmulatorCore sharedCore] setCustomSavePath:self.rom.saveFileFilepath];
     
     self.eventROM = rom;
 
@@ -617,11 +612,6 @@ static NSString *_eventSavePath = nil;
     NSString *eventsDirectory = [libraryDirectory stringByAppendingPathComponent:@"Events"];
     [[NSFileManager defaultManager] createDirectoryAtPath:eventsDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     return eventsDirectory;
-}
-
-const char * customSavePath()
-{
-    return [_eventSavePath UTF8String];
 }
 
 #pragma mark - Helper Methods

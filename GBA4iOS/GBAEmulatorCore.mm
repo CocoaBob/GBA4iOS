@@ -753,6 +753,32 @@ void updateSaveFileForCurrentROM()
     [[NSNotificationCenter defaultCenter] postNotificationName:GBAROMDidSaveDataNotification object:self.rom];
 }
 
+extern bool useCustomSavePath;
+
+- (void)setCustomSavePath:(NSString *)customSavePath
+{
+    if ([customSavePath isEqualToString:_customSavePath])
+    {
+        return;
+    }
+    
+    _customSavePath = [customSavePath copy];
+    
+    if (customSavePath)
+    {
+        useCustomSavePath = true;
+    }
+    else
+    {
+        useCustomSavePath = false;
+    }
+}
+
+const char * customSavePath()
+{
+    return [[[GBAEmulatorCore sharedCore] customSavePath] UTF8String];
+}
+
 
 extern GBASys gGba;
 extern gambatte::GB gbEmu;

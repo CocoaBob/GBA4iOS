@@ -122,4 +122,6 @@ NSString *const GBAROMDidSaveDataNotification = @"GBAROMDidSaveDataNotification"
     
 }
 
+bool useCustomSavePath();
+
 @end

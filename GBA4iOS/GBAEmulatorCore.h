@@ -41,6 +41,7 @@ extern NSString *const GBAROMDidSaveDataNotification;
 @property (readonly, strong, nonatomic) EAGLView *eaglView;
 @property (strong, nonatomic) GBAROM *rom;
 @property (weak, nonatomic) id<GBAEmulatorCoreDelegate> delegate;
+@property (copy, nonatomic) NSString *customSavePath;
 
 + (instancetype)sharedCore;
 

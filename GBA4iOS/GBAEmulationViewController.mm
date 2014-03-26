@@ -675,7 +675,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {
-        returnToMenuButtonTitle = NSLocalizedString(@"Show ROM List", @"");
+        returnToMenuButtonTitle = NSLocalizedString(@"Show Game List", @"");
     }
     else
     {
