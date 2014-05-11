@@ -222,17 +222,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
             cell.detailTextLabel.backgroundColor = [UIColor clearColor];
         }
     }
-    else if (indexPath.section == CREDITS_SECTION)
-    {
-        if (indexPath.row == 2)
-        {
-            if ([[[[[UIDevice currentDevice] name] lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"iphone"] ||
-                [[[[UIDevice currentDevice] name] lowercaseString] hasPrefix:@"david m"])
-            {
-                cell.textLabel.text = @"Alyssa Testut";
-            }
-        }
-    }
     
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.textColor = [UIColor blackColor];
