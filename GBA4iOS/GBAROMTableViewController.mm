@@ -559,16 +559,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     dispatch_async(self.directory_contents_changed_queue, ^{
         
-        NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+        __block NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
         
         if (cachedROMs == nil)
         {
             cachedROMs = [NSMutableDictionary dictionary];
         }
         
-        NSArray *contents = [self allFiles];
-        
-        for (NSString *filename in contents)
+        for (NSString *filename in [self allFiles])
         {
             NSString *filepath = [self.currentDirectory stringByAppendingPathComponent:filename];
             
@@ -688,7 +686,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         }
         
         // Check to see if all cached ROMs exist. If not we remove them and their syncing data.
-        [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *filename, NSString *uniqueName, BOOL *stop) {
+        [[cachedROMs copy] enumerateKeysAndObjectsUsingBlock:^(NSString *filename, NSString *uniqueName, BOOL *stop) {
             
             GBAROM *rom = [GBAROM romWithContentsOfFile:[self.currentDirectory stringByAppendingPathComponent:filename]];
             
