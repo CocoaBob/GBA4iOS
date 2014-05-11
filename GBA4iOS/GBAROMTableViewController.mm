@@ -143,7 +143,12 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         [self.tableView reloadData];
     }
     
-    [self.tableView scrollToRowAtIndexPath:self.selectedROMIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    if (self.selectedROMIndexPath &&
+        self.selectedROMIndexPath.section < [self.tableView numberOfSections] &&
+        self.selectedROMIndexPath.row < [self.tableView numberOfRowsInSection:self.selectedROMIndexPath.section])
+    {
+        [self.tableView scrollToRowAtIndexPath:self.selectedROMIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
