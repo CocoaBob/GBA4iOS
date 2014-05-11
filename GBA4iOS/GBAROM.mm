@@ -79,7 +79,7 @@ NSString *const GBAROMSyncingDisabledStateChangedNotification = @"GBAROMSyncingD
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
-    [cachedROMs enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *cachedUniqueName, BOOL *stop) {
+    [[cachedROMs copy] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *cachedUniqueName, BOOL *stop) {
         if ([uniqueName isEqualToString:cachedUniqueName])
         {
             NSString *cachedFilepath = [documentsDirectory stringByAppendingPathComponent:key];
