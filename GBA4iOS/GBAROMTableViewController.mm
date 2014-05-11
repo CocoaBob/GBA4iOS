@@ -1382,7 +1382,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [self setIgnoreDirectoryContentChanges:NO];
     
     NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
-    [cachedROMs setObject:cachedROMs[[filepath lastPathComponent]] forKey:newRomFilename];
+    [cachedROMs setObject:rom.uniqueName forKey:newRomFilename];
     [cachedROMs removeObjectForKey:[filepath lastPathComponent]];
     [cachedROMs writeToFile:[self cachedROMsPath] atomically:YES];
 }
