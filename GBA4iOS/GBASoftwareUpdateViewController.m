@@ -238,7 +238,7 @@
     if (indexPath.section == 1)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Are you sure you want to update GBA4iOS?", @"")
-                                                        message:NSLocalizedString(@"The app will quit, and any unsaved progress will be lost.", @"")
+                                                        message:NSLocalizedString(@"Before updating, make sure you have set the date back on this device at least 24 hours. Failure to do so may result in an incomplete update and prevent the app from opening.", @"")
                                                        delegate:nil
                                               cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                               otherButtonTitles:NSLocalizedString(@"Update", @""), nil];

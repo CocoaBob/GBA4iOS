@@ -68,7 +68,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        
     [self.tableView registerClass:[GBAAsynchronousRemoteTableViewCell class] forCellReuseIdentifier:@"ThumbnailCell"];
     [self.tableView registerClass:[GBAEventDistributionTableViewCell class] forCellReuseIdentifier:@"Cell"];
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"HeaderFooterViewIdentifier"];    
@@ -160,7 +160,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             GBAEvent *event = [GBAEvent eventWithContentsOfFile:[fileURL path]];
             
             NSString *romPath = [[fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:[self remoteROMFilename]];
-                        
+            
             if (![event supportsGame:[self eventSupportedGame]] || ![[NSFileManager defaultManager] fileExistsAtPath:romPath])
             {
                 continue;
@@ -495,12 +495,13 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         GBAEventDistributionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
         
         NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:event.identifier];
-        
+        NSString *eventFilepath = [uniqueEventDirectory stringByAppendingPathComponent:[self remoteROMFilename]];
+                
         if ([self.currentDownloads containsObject:event])
         {
             cell.downloadState = GBAEventDownloadStateDownloading;
         }
-        else if ([[NSFileManager defaultManager] fileExistsAtPath:uniqueEventDirectory isDirectory:nil])
+        else if ([[NSFileManager defaultManager] fileExistsAtPath:eventFilepath])
         {
             cell.downloadState = GBAEventDownloadStateDownloaded;
         }
@@ -542,8 +543,9 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     GBAEvent *event = [self eventForSection:indexPath.section];
     
     NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:event.identifier];
+    NSString *eventFilepath = [uniqueEventDirectory stringByAppendingPathComponent:[self remoteROMFilename]];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:uniqueEventDirectory])
+    if ([[NSFileManager defaultManager] fileExistsAtPath:eventFilepath])
     {
         GBAEventDistributionDetailViewController *eventDistributionDetailViewController = [[GBAEventDistributionDetailViewController alloc] initWithEvent:event];
         eventDistributionDetailViewController.delegate = self;

@@ -172,7 +172,14 @@ namespace GameFilePicker {
 	//[EAGLContext setCurrentContext:context];
 	//glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 	if(unlikely(!Base::displayLinkActive))
+    {
 		return;
+    }
+    
+    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground)
+    {
+        return;
+    }
     
 	//logMsg("screen update");
 	Base::runEngine(Base::displayLink.timestamp);
