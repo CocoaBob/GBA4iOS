@@ -785,6 +785,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     [self importDefaultGBASkin];
     [self importDefaultGBCSkin];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"removedNintendoLogos"];
 }
 
 - (void)importDefaultGBASkin
@@ -793,7 +795,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     NSString *destinationPath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath] && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
@@ -813,7 +815,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     NSString *destinationPath = [[self GBCSkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath] && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
