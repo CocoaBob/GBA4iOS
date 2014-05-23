@@ -28,11 +28,13 @@
 
 @implementation GBAWebViewController
 
+/*
 + (void)initialize
 {
     GBAWebViewControllerURLCache *cache = [[GBAWebViewControllerURLCache alloc] init];
     [NSURLCache setSharedURLCache:cache];
 }
+*/
 
 - (instancetype)initWithROMType:(GBAROMType)romType
 {

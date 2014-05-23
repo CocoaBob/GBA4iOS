@@ -22,7 +22,7 @@
 
 #import <Crashlytics/Crashlytics.h>
 
-#import "GBAWebViewController.h"
+#import <RSTWebViewController/RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
 #import "UIActionSheet+RSTAdditions.h"
 
@@ -247,7 +247,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         romType = GBAROMTypeGBC;
     }
     
-    GBAWebViewController *webViewController = [[GBAWebViewController alloc] initWithROMType:romType];
+    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:@"http://google.com"];
     webViewController.showsDoneButton = YES;
     webViewController.downloadDelegate = self;
     webViewController.delegate = self;
