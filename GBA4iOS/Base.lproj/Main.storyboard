@@ -1219,7 +1219,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 <action selector="switchROMTypes:" destination="8cV-d5-THO" eventType="valueChanged" id="peA-y8-8YM"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lhi-LK-iGI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="lhi-LK-iGI">
                             <connections>
                                 <action selector="searchForROMs:" destination="8cV-d5-THO" id="4U1-ve-tRv"/>
                             </connections>
