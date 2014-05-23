@@ -302,12 +302,17 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (void)updateTableViewWithAnimation
 {
-    NSArray *events = self.skinsDictionary[GBASkinsKey];
+    NSArray *skins = self.skinsDictionary[GBASkinsKey];
     NSInteger currentNumberOfSections = self.tableView.numberOfSections;
     
     [self.tableView beginUpdates];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, currentNumberOfSections)] withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(currentNumberOfSections, events.count - (currentNumberOfSections - 1))] withRowAnimation:UITableViewRowAnimationFade];
+    
+    if ((int)[skins count] > currentNumberOfSections - 1)
+    {
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(currentNumberOfSections, skins.count - (currentNumberOfSections - 1))] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
     [self.tableView endUpdates];
 }
 
