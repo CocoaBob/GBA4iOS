@@ -388,8 +388,10 @@ static RSTToastView *_globalToastView;
 {
     CGAffineTransform transform = CGAffineTransformIdentity;
     
-    switch (interfaceOrientation) {
+    switch (interfaceOrientation)
+    {
         case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationUnknown:
             transform = CGAffineTransformIdentity;
             break;
             

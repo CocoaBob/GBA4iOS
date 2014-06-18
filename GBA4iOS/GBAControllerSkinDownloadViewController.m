@@ -577,8 +577,10 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 {
     NSString *deviceString = nil;
     
-    switch ([[UIDevice currentDevice] userInterfaceIdiom]) {
+    switch ([[UIDevice currentDevice] userInterfaceIdiom])
+    {
         case UIUserInterfaceIdiomPhone:
+        case UIUserInterfaceIdiomUnspecified:
             deviceString = @"iPhone";
             break;
             
