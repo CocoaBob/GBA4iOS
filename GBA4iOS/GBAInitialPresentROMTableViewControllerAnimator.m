@@ -34,7 +34,6 @@
         
         toViewController.view.layer.allowsGroupOpacity = YES;
         
-        [[transitionContext containerView] addSubview:fromViewController.view];
         [[transitionContext containerView] addSubview:toViewController.view];
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
@@ -51,7 +50,6 @@
         UIView *fromContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([transitionContext containerView].bounds), CGRectGetHeight([transitionContext containerView].bounds))];
         [fromContainerView addSubview:fromViewController.view];
         
-        [[transitionContext containerView] addSubview:toViewController.view];
         [[transitionContext containerView] addSubview:fromContainerView];
         
         fromContainerView.layer.allowsGroupOpacity = YES; // Better animation

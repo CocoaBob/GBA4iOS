@@ -29,7 +29,6 @@
     
     if ([self isPresenting])
     {
-        [[transitionContext containerView] addSubview:fromViewController.view];
         [[transitionContext containerView] addSubview:toViewController.view];
         
         CGAffineTransform transform = toViewController.view.transform;
@@ -71,7 +70,6 @@
     }
     else
     {
-        [[transitionContext containerView] addSubview:toViewController.view];
         [[transitionContext containerView] addSubview:fromViewController.view];
         
         CGAffineTransform transform = fromViewController.view.transform;
