@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Riley Testut. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "GBAControllerInput.h"
 
 typedef NS_ENUM(NSInteger, GBAControllerSkinRect)

@@ -113,7 +113,7 @@
     NSError *error = nil;
     if (![[NSFileManager defaultManager] createDirectoryAtPath:skinTypeDirectory withIntermediateDirectories:YES attributes:nil error:&error])
     {
-        ELog(error);
+        NSLog(@"%@", error);
     }
     
     NSString *destinationPath = [skinTypeDirectory stringByAppendingPathComponent:controllerSkin.identifier];
@@ -131,7 +131,7 @@
     
     if ([contents count] == 0)
     {
-        DLog(@"Not finished yet");
+        NSLog(@"Not finished yet");
         // Unzipped before it was done copying over
         return NO;
     }

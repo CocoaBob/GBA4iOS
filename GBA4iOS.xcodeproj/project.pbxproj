@@ -145,6 +145,18 @@
 		BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
 		BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
+		BFB39AD11958D796003330AE /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB39AD01958D796003330AE /* KeyboardViewController.m */; };
+		BFB39AD41958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BFB39ACB1958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex */; };
+		BFB39ADE1958D864003330AE /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
+		BFB39ADF1958D866003330AE /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
+		BFB39AE01958D869003330AE /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
+		BFB39AE11958D87A003330AE /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
+		BFB39AE21958D891003330AE /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
+		BFB39AE31958D891003330AE /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C381895FF0100A9432C /* mztools.c */; };
+		BFB39AE41958D891003330AE /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3A1895FF0100A9432C /* unzip.c */; };
+		BFB39AE51958D891003330AE /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
+		BFB39AE61958D891003330AE /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
+		BFB39AE71958D8CD003330AE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
 		BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */; };
 		BFB89E3E18909EE8002E5F26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */; };
 		BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3818909EE8002E5F26 /* Default-Landscape@2x~ipad.png */; };
@@ -383,6 +395,37 @@
 		CCFA7239179D340400768D24 /* Quartz2dUIKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCFA7173179D2EAB00768D24 /* Quartz2dUIKit.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		BFB39AD21958D796003330AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFB39ACA1958D796003330AE;
+			remoteInfo = GBA4Keyboard;
+		};
+		BFB39AD51958D796003330AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC2D56F41798F2EC00C616EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFB39ACA1958D796003330AE;
+			remoteInfo = GBA4Keyboard;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BFB39ADD1958D796003330AE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BFB39AD41958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1A5BAE7E17D04B0A00BABC01 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlays128.png; sourceTree = "<group>"; };
 		1AD65D7817D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinSelectionViewController.h; sourceTree = "<group>"; };
@@ -480,6 +523,10 @@
 		BFAFF47C1840084500E3240A /* GBAControllerInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerInput.h; sourceTree = "<group>"; };
 		BFAFF47D18400D7300E3240A /* GBAExternalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAExternalController.h; sourceTree = "<group>"; };
 		BFAFF47E18400D7300E3240A /* GBAExternalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalController.m; sourceTree = "<group>"; };
+		BFB39ACB1958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = com.rileytestut.GBA4iOS.GBA4Keyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFB39ACE1958D796003330AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFB39ACF1958D796003330AE /* KeyboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardViewController.h; sourceTree = "<group>"; };
+		BFB39AD01958D796003330AE /* KeyboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardViewController.m; sourceTree = "<group>"; };
 		BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BFB89E3818909EE8002E5F26 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		BFB89E3918909EE8002E5F26 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
@@ -784,6 +831,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BFB39AC81958D796003330AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFB39AE71958D8CD003330AE /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC2D56F91798F2EC00C616EB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -953,6 +1008,24 @@
 				BFFBCCD31850502D005187DF /* Single File Operations */,
 			);
 			name = Operations;
+			sourceTree = "<group>";
+		};
+		BFB39ACC1958D796003330AE /* GBA4Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				BFB39ACF1958D796003330AE /* KeyboardViewController.h */,
+				BFB39AD01958D796003330AE /* KeyboardViewController.m */,
+				BFB39ACD1958D796003330AE /* Supporting Files */,
+			);
+			path = GBA4Keyboard;
+			sourceTree = "<group>";
+		};
+		BFB39ACD1958D796003330AE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BFB39ACE1958D796003330AE /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		BFBFC1251878D2E500FF0A3A /* Event Distribution */ = {
@@ -1162,6 +1235,7 @@
 			children = (
 				CC2D57051798F2EC00C616EB /* GBA4iOS */,
 				CC2D57381798F40E00C616EB /* Resources */,
+				BFB39ACC1958D796003330AE /* GBA4Keyboard */,
 				CC2D56FE1798F2EC00C616EB /* Frameworks */,
 				CC2D56FD1798F2EC00C616EB /* Products */,
 				BFA5250E18BEC7280099A86A /* GBA4iOS copy-Info.plist */,
@@ -1175,6 +1249,7 @@
 			children = (
 				CC2D56FC1798F2EC00C616EB /* GBA4iOS.app */,
 				BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */,
+				BFB39ACB1958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1606,6 +1681,23 @@
 			productReference = BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BFB39ACA1958D796003330AE /* GBA4Keyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFB39ADC1958D796003330AE /* Build configuration list for PBXNativeTarget "GBA4Keyboard" */;
+			buildPhases = (
+				BFB39AC71958D796003330AE /* Sources */,
+				BFB39AC81958D796003330AE /* Frameworks */,
+				BFB39AC91958D796003330AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GBA4Keyboard;
+			productName = GBA4Keyboard;
+			productReference = BFB39ACB1958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		CC2D56FB1798F2EC00C616EB /* GBA4iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC2D57311798F2ED00C616EB /* Build configuration list for PBXNativeTarget "GBA4iOS" */;
@@ -1617,10 +1709,13 @@
 				D6789B793A0D43B9AEC5FF1A /* Copy Pods Resources */,
 				657CB59918BF14DD00217F96 /* ShellScript */,
 				BF7C0E74189DA4CB00794093 /* ShellScript */,
+				BFB39ADD1958D796003330AE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BFB39AD31958D796003330AE /* PBXTargetDependency */,
+				BFB39AD61958D796003330AE /* PBXTargetDependency */,
 			);
 			name = GBA4iOS;
 			productName = GBA4iOS;
@@ -1638,6 +1733,10 @@
 				ORGANIZATIONNAME = "Riley Testut";
 				TargetAttributes = {
 					BF2F34DB183FF6F9002ACE90 = {
+						DevelopmentTeam = 6XVY5G3U44;
+					};
+					BFB39ACA1958D796003330AE = {
+						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = 6XVY5G3U44;
 					};
 					CC2D56FB1798F2EC00C616EB = {
@@ -1665,6 +1764,7 @@
 			targets = (
 				CC2D56FB1798F2EC00C616EB /* GBA4iOS */,
 				BF2F34DB183FF6F9002ACE90 /* GBA4iOS-Simulator */,
+				BFB39ACA1958D796003330AE /* GBA4Keyboard */,
 			);
 		};
 /* End PBXProject section */
@@ -1689,6 +1789,13 @@
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
 				BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB39AC91958D796003330AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1888,6 +1995,23 @@
 				BF359B99187A64C000B4CA53 /* NSDate+Comparing.m in Sources */,
 				BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */,
 				BF2AC88318543246008928D0 /* DTObjectBlockExecutor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFB39AC71958D796003330AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFB39AE21958D891003330AE /* ioapi.c in Sources */,
+				BFB39AD11958D796003330AE /* KeyboardViewController.m in Sources */,
+				BFB39AE01958D869003330AE /* GBAControllerSkin.m in Sources */,
+				BFB39AE51958D891003330AE /* zip.c in Sources */,
+				BFB39AE11958D87A003330AE /* UIScreen+Widescreen.m in Sources */,
+				BFB39AE31958D891003330AE /* mztools.c in Sources */,
+				BFB39AE61958D891003330AE /* SSZipArchive.m in Sources */,
+				BFB39ADE1958D864003330AE /* GBAExternalController.m in Sources */,
+				BFB39AE41958D891003330AE /* unzip.c in Sources */,
+				BFB39ADF1958D866003330AE /* GBAControllerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2132,6 +2256,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BFB39AD31958D796003330AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFB39ACA1958D796003330AE /* GBA4Keyboard */;
+			targetProxy = BFB39AD21958D796003330AE /* PBXContainerItemProxy */;
+		};
+		BFB39AD61958D796003330AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BFB39ACA1958D796003330AE /* GBA4Keyboard */;
+			targetProxy = BFB39AD51958D796003330AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CC2D57081798F2EC00C616EB /* InfoPlist.strings */ = {
@@ -2714,6 +2851,106 @@
 			};
 			name = Jailbreak;
 		};
+		BFB39AD71958D796003330AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = GBA4Keyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		BFB39AD81958D796003330AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = GBA4Keyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BFB39AD91958D796003330AE /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = GBA4Keyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = "Ad Hoc";
+		};
+		BFB39ADA1958D796003330AE /* Enterprise */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = GBA4Keyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Enterprise;
+		};
+		BFB39ADB1958D796003330AE /* Jailbreak */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = GBA4Keyboard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Jailbreak;
+		};
 		CC2D572F1798F2ED00C616EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3211,6 +3448,17 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		BFB39ADC1958D796003330AE /* Build configuration list for PBXNativeTarget "GBA4Keyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFB39AD71958D796003330AE /* Debug */,
+				BFB39AD81958D796003330AE /* Release */,
+				BFB39AD91958D796003330AE /* Ad Hoc */,
+				BFB39ADA1958D796003330AE /* Enterprise */,
+				BFB39ADB1958D796003330AE /* Jailbreak */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		CC2D56F71798F2EC00C616EB /* Build configuration list for PBXProject "GBA4iOS" */ = {
 			isa = XCConfigurationList;

@@ -364,7 +364,14 @@
 
 - (void)zipInfo:(zip_fileinfo*)zipInfo setDate:(NSDate*)date {
     NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    
     uint flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    
+#pragma clang diagnostic pop
+    
     NSDateComponents *components = [currentCalendar components:flags fromDate:date];
     zipInfo->tmz_date.tm_sec = (unsigned int)components.second;
     zipInfo->tmz_date.tm_min = (unsigned int)components.minute;
@@ -492,7 +499,10 @@
 	static NSCalendar *gregorian;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
 		gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+#pragma clang diagnostic pop
 	});
 
     NSDateComponents *components = [[NSDateComponents alloc] init];
