@@ -76,7 +76,7 @@ static GBAAppDelegate *_appDelegate;
     }
     else
     {
-        GBASplitViewController *splitViewController = [[GBASplitViewController alloc] init];
+        GBASplitViewController *splitViewController = [GBASplitViewController appropriateSplitViewController];
         self.window.rootViewController = splitViewController;
         
         self.emulationViewController = splitViewController.emulationViewController;

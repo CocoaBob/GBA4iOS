@@ -136,6 +136,10 @@
 		BF7C0E6D189DA30400794093 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
 		BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
 		BF7C0E73189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
+		BF7EC2ED196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7EC2EC196DF34300F61351 /* GBAClassicSplitViewController.m */; };
+		BF7EC2EE196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7EC2EC196DF34300F61351 /* GBAClassicSplitViewController.m */; };
+		BF7EC2F2196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7EC2F1196E3A8F00F61351 /* GBAModernSplitViewController.m */; };
+		BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7EC2F1196E3A8F00F61351 /* GBAModernSplitViewController.m */; };
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
@@ -145,7 +149,6 @@
 		BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
 		BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
-		BFB39AD11958D796003330AE /* KeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB39AD01958D796003330AE /* KeyboardViewController.m */; };
 		BFB39AD41958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BFB39ACB1958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex */; };
 		BFB39ADE1958D864003330AE /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFB39ADF1958D866003330AE /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
@@ -157,6 +160,9 @@
 		BFB39AE51958D891003330AE /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
 		BFB39AE61958D891003330AE /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
 		BFB39AE71958D8CD003330AE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577D7179CF1F80068A54E /* libz.dylib */; };
+		BFB39AE81958DACE003330AE /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
+		BFB39AEB1958DF8E003330AE /* GBAKeyboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB39AEA1958DF8E003330AE /* GBAKeyboardViewController.m */; };
+		BFB39AEC19590C91003330AE /* UITouch+ControllerButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */; };
 		BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */; };
 		BFB89E3E18909EE8002E5F26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */; };
 		BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3818909EE8002E5F26 /* Default-Landscape@2x~ipad.png */; };
@@ -185,6 +191,7 @@
 		BFD98C471895FF0100A9432C /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3C1895FF0100A9432C /* zip.c */; };
 		BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
+		BFE2345A196F48A30082BD9D /* Default_New.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFE23459196F48A30082BD9D /* Default_New.gbaskin */; };
 		BFF44FA218A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */; };
 		BFF44FA318A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
@@ -511,6 +518,11 @@
 		BF7C0E68189DA30400794093 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = GBA4iOS/CrashReporter.framework; sourceTree = "<group>"; };
 		BF7C0E70189DA35800794093 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = GBA4iOS/SSZipArchive.h; sourceTree = SOURCE_ROOT; };
 		BF7C0E71189DA35800794093 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = GBA4iOS/SSZipArchive.m; sourceTree = SOURCE_ROOT; };
+		BF7EC2EB196DF34300F61351 /* GBAClassicSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAClassicSplitViewController.h; sourceTree = "<group>"; };
+		BF7EC2EC196DF34300F61351 /* GBAClassicSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAClassicSplitViewController.m; sourceTree = "<group>"; };
+		BF7EC2EF196DF98300F61351 /* GBASplitViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBASplitViewController_Private.h; sourceTree = "<group>"; };
+		BF7EC2F0196E3A8F00F61351 /* GBAModernSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAModernSplitViewController.h; sourceTree = "<group>"; };
+		BF7EC2F1196E3A8F00F61351 /* GBAModernSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAModernSplitViewController.m; sourceTree = "<group>"; };
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
@@ -525,8 +537,8 @@
 		BFAFF47E18400D7300E3240A /* GBAExternalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalController.m; sourceTree = "<group>"; };
 		BFB39ACB1958D796003330AE /* com.rileytestut.GBA4iOS.GBA4Keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = com.rileytestut.GBA4iOS.GBA4Keyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFB39ACE1958D796003330AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BFB39ACF1958D796003330AE /* KeyboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardViewController.h; sourceTree = "<group>"; };
-		BFB39AD01958D796003330AE /* KeyboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardViewController.m; sourceTree = "<group>"; };
+		BFB39AE91958DF8E003330AE /* GBAKeyboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAKeyboardViewController.h; sourceTree = "<group>"; };
+		BFB39AEA1958DF8E003330AE /* GBAKeyboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAKeyboardViewController.m; sourceTree = "<group>"; };
 		BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BFB89E3818909EE8002E5F26 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		BFB89E3918909EE8002E5F26 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
@@ -551,6 +563,7 @@
 		BFD98C3D1895FF0100A9432C /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
 		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
+		BFE23459196F48A30082BD9D /* Default_New.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default_New.gbaskin; path = Skins/Default_New/Default_New.gbaskin; sourceTree = SOURCE_ROOT; };
 		BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateViewController.h; sourceTree = "<group>"; };
 		BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateViewController.m; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
@@ -1013,8 +1026,8 @@
 		BFB39ACC1958D796003330AE /* GBA4Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				BFB39ACF1958D796003330AE /* KeyboardViewController.h */,
-				BFB39AD01958D796003330AE /* KeyboardViewController.m */,
+				BFB39AE91958DF8E003330AE /* GBAKeyboardViewController.h */,
+				BFB39AEA1958DF8E003330AE /* GBAKeyboardViewController.m */,
 				BFB39ACD1958D796003330AE /* Supporting Files */,
 			);
 			path = GBA4Keyboard;
@@ -1325,6 +1338,7 @@
 				BF563AB4184B11C000722678 /* Launch Images */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
 				CC5044E61814C474009F7B9E /* Default.gbcskin */,
+				BFE23459196F48A30082BD9D /* Default_New.gbaskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
@@ -1536,7 +1550,12 @@
 			isa = PBXGroup;
 			children = (
 				CCA1056917F6A5F80018D364 /* GBASplitViewController.h */,
+				BF7EC2EF196DF98300F61351 /* GBASplitViewController_Private.h */,
 				CCA1056A17F6A5F80018D364 /* GBASplitViewController.mm */,
+				BF7EC2EB196DF34300F61351 /* GBAClassicSplitViewController.h */,
+				BF7EC2EC196DF34300F61351 /* GBAClassicSplitViewController.m */,
+				BF7EC2F0196E3A8F00F61351 /* GBAModernSplitViewController.h */,
+				BF7EC2F1196E3A8F00F61351 /* GBAModernSplitViewController.m */,
 			);
 			name = GBASplitViewController;
 			sourceTree = "<group>";
@@ -1796,6 +1815,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFE2345A196F48A30082BD9D /* Default_New.gbaskin in Resources */,
+				BFB39AE81958DACE003330AE /* Default.gbaskin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1964,6 +1985,7 @@
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
 				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
+				BF7EC2EE196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */,
 				BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
 				BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */,
 				BF2F3554183FF6F9002ACE90 /* GBACheatEditorViewController.m in Sources */,
@@ -1983,6 +2005,7 @@
 				BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */,
 				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
+				BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */,
 				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
 				BFD98C431895FF0100A9432C /* mztools.c in Sources */,
@@ -2002,10 +2025,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFB39AEC19590C91003330AE /* UITouch+ControllerButtons.m in Sources */,
 				BFB39AE21958D891003330AE /* ioapi.c in Sources */,
-				BFB39AD11958D796003330AE /* KeyboardViewController.m in Sources */,
 				BFB39AE01958D869003330AE /* GBAControllerSkin.m in Sources */,
 				BFB39AE51958D891003330AE /* zip.c in Sources */,
+				BFB39AEB1958DF8E003330AE /* GBAKeyboardViewController.m in Sources */,
 				BFB39AE11958D87A003330AE /* UIScreen+Widescreen.m in Sources */,
 				BFB39AE31958D891003330AE /* mztools.c in Sources */,
 				BFB39AE61958D891003330AE /* SSZipArchive.m in Sources */,
@@ -2100,6 +2124,7 @@
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
 				BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */,
 				BFD98C441895FF0100A9432C /* unzip.c in Sources */,
+				BF7EC2ED196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */,
 				BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
@@ -2150,6 +2175,7 @@
 				CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
 				BF2AC89218543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */,
+				BF7EC2F2196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */,
 				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
 				CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */,
@@ -3459,6 +3485,7 @@
 				BFB39ADB1958D796003330AE /* Jailbreak */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CC2D56F71798F2EC00C616EB /* Build configuration list for PBXProject "GBA4iOS" */ = {
 			isa = XCConfigurationList;

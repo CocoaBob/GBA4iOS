@@ -31,4 +31,6 @@
 - (void)showROMTableViewControllerWithAnimation:(BOOL)animated;
 - (void)hideROMTableViewControllerWithAnimation:(BOOL)animated;
 
++ (instancetype)appropriateSplitViewController;
+
 @end
