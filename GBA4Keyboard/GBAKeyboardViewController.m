@@ -49,14 +49,12 @@
     controllerView.delegate = self;
     controllerView.orientation = GBAControllerSkinOrientationPortrait;
     controllerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:controllerView];
-    
-    [controllerView showButtonRects];
-    
+    [self.inputView addSubview:controllerView];
+        
     NSArray *horizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[controllerView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(controllerView)];
     NSArray *verticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[controllerView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(controllerView)];
-    [self.view addConstraints:horizontalConstraints];
-    [self.view addConstraints:verticalConstraints];
+    [self.inputView addConstraints:horizontalConstraints];
+    [self.inputView addConstraints:verticalConstraints];
 }
 
 - (void)didReceiveMemoryWarning
@@ -148,6 +146,8 @@
     {
         [self.textDocumentProxy adjustTextPositionByCharacterOffset:-1];
     }
+    
+    [[UIDevice currentDevice] playInputClick];
 }
 
 - (void)controllerInput:(id)controllerInput didReleaseButtons:(NSSet *)buttons
