@@ -15,6 +15,10 @@
 		36BB379009474825B993FD0E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AFB44A5AB34C2982DE856F /* libPods.a */; };
 		BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */; };
 		BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */; };
+		BF02D2C4197344950034A515 /* GBASoftwareUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */; };
+		BF02D2C5197344950034A515 /* GBASoftwareUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */; };
+		BF02D2C8197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */; };
+		BF02D2C9197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
 		BF16DCF3184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
@@ -449,6 +453,10 @@
 		BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncingOverviewViewController.mm; sourceTree = "<group>"; };
 		BF02AFDD182F6E200031B8B6 /* GBASyncingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncingDetailViewController.h; sourceTree = "<group>"; };
 		BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncingDetailViewController.mm; sourceTree = "<group>"; };
+		BF02D2C2197344950034A515 /* GBASoftwareUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdate.h; sourceTree = "<group>"; };
+		BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdate.m; sourceTree = "<group>"; };
+		BF02D2C6197347740034A515 /* GBASoftwareUpdateOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateOperation.h; sourceTree = "<group>"; };
+		BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateOperation.m; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
 		BF16DCF0184FD32A0092A3F5 /* GBASyncUploadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncUploadOperation.h; sourceTree = "<group>"; };
@@ -907,6 +915,10 @@
 			children = (
 				BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */,
 				BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */,
+				BF02D2C2197344950034A515 /* GBASoftwareUpdate.h */,
+				BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */,
+				BF02D2C6197347740034A515 /* GBASoftwareUpdateOperation.h */,
+				BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */,
 			);
 			name = "Software Update";
 			sourceTree = "<group>";
@@ -1976,6 +1988,7 @@
 				BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */,
 				BF2F353B183FF6F9002ACE90 /* main.mm in Sources */,
 				BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
+				BF02D2C9197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */,
 				BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */,
 				BF2290A1189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */,
 				BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */,
@@ -2007,6 +2020,7 @@
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
 				BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */,
 				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
+				BF02D2C5197344950034A515 /* GBASoftwareUpdate.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
 				BFD98C431895FF0100A9432C /* mztools.c in Sources */,
 				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
@@ -2053,6 +2067,7 @@
 				CCC9B8AA1815AC7E005C90EE /* pakinfo.cpp in Sources */,
 				CC5044F71814DC69009F7B9E /* Mode0.cpp in Sources */,
 				BF1C87FB185193B100C72E1C /* FileSHA1Hash.c in Sources */,
+				BF02D2C4197344950034A515 /* GBASoftwareUpdate.m in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
 				CCC9B89A1815AC7E005C90EE /* channel2.cpp in Sources */,
 				BFFC588E186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
@@ -2226,6 +2241,7 @@
 				CCC9B8931815AC7E005C90EE /* Main.cc in Sources */,
 				BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
+				BF02D2C8197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */,
 				BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
 				BF2AC88418543246008928D0 /* NSObject+DTRuntime.m in Sources */,
 				BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */,

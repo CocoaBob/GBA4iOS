@@ -1,0 +1,26 @@
+//
+//  GBASoftwareUpdate.h
+//  GBA4iOS
+//
+//  Created by Riley Testut on 7/13/14.
+//  Copyright (c) 2014 Riley Testut. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface GBASoftwareUpdate : NSObject
+
+@property (readonly, copy, nonatomic) NSString *version;
+@property (readonly, copy, nonatomic) NSString *name;
+@property (readonly, copy, nonatomic) NSString *developer;
+@property (readonly, copy, nonatomic) NSString *description;
+@property (readonly, copy, nonatomic) NSURL *url;
+
+@property (readonly, nonatomic) long long size;
+@property (readonly, copy, nonatomic) NSString *localizedSize;
+
+@property (readonly, nonatomic, getter=isNewerThanAppVersion) BOOL newerThanAppVersion;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+@end

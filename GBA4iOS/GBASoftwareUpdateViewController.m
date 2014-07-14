@@ -7,15 +7,13 @@
 //
 
 #import "GBASoftwareUpdateViewController.h"
+#import "GBASoftwareUpdateOperation.h"
 
-#import <AFNetworking/AFNetworking.h>
 #import "UIAlertView+RSTAdditions.h"
-
-#define SOFTWARE_UPDATE_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/softwareupdate/"
 
 @interface GBASoftwareUpdateViewController ()
 
-@property (copy, nonatomic) NSDictionary *updateDictionary;
+@property (strong, nonatomic) GBASoftwareUpdate *softwareUpdate;
 
 @property (strong, nonatomic) UILabel *statusLabel;
 @property (strong, nonatomic) UIActivityIndicatorView *statusActivityIndicatorView;
@@ -115,7 +113,7 @@
 {
     [super viewWillAppear:animated];
     
-    if (self.updateDictionary == nil)
+    if (self.softwareUpdate == nil)
     {
         [self checkForUpdate];
     }
@@ -139,15 +137,8 @@
     
     [self.statusActivityIndicatorView startAnimating];
     
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    
-    NSString *address = [SOFTWARE_UPDATE_ROOT_ADDRESS stringByAppendingPathComponent:@"update.json"];
-    NSURL *URL = [NSURL URLWithString:address];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, NSDictionary *jsonObject, NSError *error) {
+    GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
+    [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
             [self.statusActivityIndicatorView stopAnimating];
@@ -169,7 +160,7 @@
                 return;
             }
             
-            if (![self bundleVersionIsOlderThanUpdate:jsonObject])
+            if (![softwareUpdate isNewerThanAppVersion])
             {
                 NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
                 NSString *upToDateMessage = [NSString stringWithFormat:@"GBA4iOS %@\n%@", bundleVersion, NSLocalizedString(@"Your software is up to date.", @"")];
@@ -183,24 +174,19 @@
                 return;
             }
             
-            self.updateDictionary = jsonObject;
+            self.softwareUpdate = softwareUpdate;
             [self refreshViewWithSoftwareUpdateInfo];
             
         });
-        
     }];
-    
-    [dataTask resume];
 }
 
 - (void)refreshViewWithSoftwareUpdateInfo
 {
-    self.softwareUpdateNameLabel.text = self.updateDictionary[@"name"];
-    self.softwareUpdateDeveloperLabel.text = self.updateDictionary[@"developer"];
-    self.softwareUpdateDescriptionTextView.text = self.updateDictionary[@"description"];
-    
-    long long numberOfBytes = [self.updateDictionary[@"size"] longLongValue];
-    self.softwareUpdateSizeLabel.text = [NSByteCountFormatter stringFromByteCount:numberOfBytes countStyle:NSByteCountFormatterCountStyleFile];
+    self.softwareUpdateNameLabel.text = self.softwareUpdate.name;
+    self.softwareUpdateDeveloperLabel.text = self.softwareUpdate.developer;
+    self.softwareUpdateDescriptionTextView.text = self.softwareUpdate.description;
+    self.softwareUpdateSizeLabel.text = self.softwareUpdate.localizedSize;
     
     [UIView transitionWithView:self.tableView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         self.statusLabel.alpha = 0.0;
@@ -213,7 +199,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.updateDictionary == nil)
+    if (self.softwareUpdate == nil)
     {
         return 0;
     }
@@ -246,20 +232,13 @@
             
             if (buttonIndex == 1)
             {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.updateDictionary[@"url"]]];
+                [[UIApplication sharedApplication] openURL:self.softwareUpdate.url];
             }
             
         }];
     }
     
     [self.tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
-}
-
-#pragma mark - Helper Methods
-
-- (BOOL)bundleVersionIsOlderThanUpdate:(NSDictionary *)updateDictionary
-{
-    return ([[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey] compare:updateDictionary[@"version"] options:NSNumericSearch] == NSOrderedAscending);
 }
 
 @end
