@@ -24,6 +24,7 @@
         _name = [dictionary[@"name"] copy];
         _developer = [dictionary[@"developer"] copy];
         _description = [dictionary[@"description"] copy];
+        _minimumiOSVersion = [dictionary[@"minimumiOSVersion"] copy];
         
         _url = [[NSURL URLWithString:dictionary[@"url"]] copy];
         _size = [dictionary[@"size"] longLongValue];
@@ -40,6 +41,11 @@
 - (BOOL)isNewerThanAppVersion
 {
     return ([[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey] compare:self.version options:NSNumericSearch] == NSOrderedAscending);
+}
+
+- (BOOL)isSupportedOnCurrentiOSVersion
+{
+    return ([self.minimumiOSVersion compare:[[UIDevice currentDevice] systemVersion] options:NSNumericSearch] != NSOrderedDescending);
 }
 
 @end

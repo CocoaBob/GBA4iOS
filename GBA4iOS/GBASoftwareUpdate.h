@@ -15,11 +15,13 @@
 @property (readonly, copy, nonatomic) NSString *developer;
 @property (readonly, copy, nonatomic) NSString *description;
 @property (readonly, copy, nonatomic) NSURL *url;
+@property (readonly, copy, nonatomic) NSString *minimumiOSVersion;
 
 @property (readonly, nonatomic) long long size;
 @property (readonly, copy, nonatomic) NSString *localizedSize;
 
 @property (readonly, nonatomic, getter=isNewerThanAppVersion) BOOL newerThanAppVersion;
+@property (readonly, nonatomic, getter=isSupportedOnCurrentiOSVersion) BOOL supportedOnCurrentiOSVersion;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

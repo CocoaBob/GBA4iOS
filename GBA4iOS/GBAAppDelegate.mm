@@ -355,14 +355,14 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
     [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
         
-        if (error || ![softwareUpdate isNewerThanAppVersion])
+        if (error || ![softwareUpdate isNewerThanAppVersion] || ![softwareUpdate isSupportedOnCurrentiOSVersion])
         {
             return;
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            NSString *updateMessage = [NSString stringWithFormat:@"GBA4iOS %@ %@", softwareUpdate.version, NSLocalizedString(@"is now available for download.", @"")];
+            NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"") message:updateMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
             [alert show];
@@ -400,14 +400,14 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         
         UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
-        if ([softwareUpdate isNewerThanAppVersion])
+        if ([softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
         {
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             localNotification.applicationIconBadgeNumber = 1;
             localNotification.soundName = UILocalNotificationDefaultSoundName;
             localNotification.alertAction = NSLocalizedString(@"Open", @"");
             
-            NSString *updateMessage = [NSString stringWithFormat:@"GBA4iOS %@ %@", softwareUpdate.version, NSLocalizedString(@"is now available for download.", @"")];
+            NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
             localNotification.alertBody = updateMessage;
             
             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];

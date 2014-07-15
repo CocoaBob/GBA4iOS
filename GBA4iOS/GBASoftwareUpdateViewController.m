@@ -160,7 +160,7 @@
                 return;
             }
             
-            if (![softwareUpdate isNewerThanAppVersion])
+            if (![softwareUpdate isNewerThanAppVersion] || ![softwareUpdate isSupportedOnCurrentiOSVersion])
             {
                 NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
                 NSString *upToDateMessage = [NSString stringWithFormat:@"GBA4iOS %@\n%@", bundleVersion, NSLocalizedString(@"Your software is up to date.", @"")];
