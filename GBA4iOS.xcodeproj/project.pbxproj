@@ -1765,6 +1765,11 @@
 				TargetAttributes = {
 					BF2F34DB183FF6F9002ACE90 = {
 						DevelopmentTeam = 6XVY5G3U44;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					BFB39ACA1958D796003330AE = {
 						CreatedOnToolsVersion = 6.0;
@@ -1773,6 +1778,9 @@
 					CC2D56FB1798F2EC00C616EB = {
 						DevelopmentTeam = 6XVY5G3U44;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 0;
 							};

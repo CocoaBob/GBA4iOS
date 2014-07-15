@@ -14,6 +14,7 @@
 #import "GBAROM.h"
 #import "GBASplitViewController.h"
 #import "UIAlertView+RSTAdditions.h"
+#import "GBASoftwareUpdateOperation.h"
 
 #import "SSZipArchive.h"
 #import <DropboxSDK/DropboxSDK.h>
@@ -44,7 +45,7 @@ static GBAAppDelegate *_appDelegate;
 {
     _appDelegate = self;
     
-    [UIView toggleViewMainThreadChecking];
+    //[UIView toggleViewMainThreadChecking];
     
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"showedWarningAlert"])
     {
@@ -83,6 +84,8 @@ static GBAAppDelegate *_appDelegate;
     }
     
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    
+    [self preparePushNotifications];
     
     [GBASettingsViewController registerDefaults];
     
@@ -300,6 +303,121 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     }
     
 #endif
+}
+
+#pragma mark - Push Notifications
+
+- (void)preparePushNotifications
+{
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:1 * 60 * 60 * 24]; // Check approximately once a day
+    
+    if ([UIUserNotificationSettings class])
+    {
+        UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+    }
+    
+    // Delay until after app boots up
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *previousAppVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"appVersion"];
+        NSString *currentAppVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+        
+        // No previous version, or current app version is newer than previous
+        if (!previousAppVersion || [previousAppVersion compare:currentAppVersion options:NSNumericSearch] == NSOrderedAscending)
+        {
+            [[NSUserDefaults standardUserDefaults] setObject:currentAppVersion forKey:@"appVersion"];
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        }
+        
+        
+        // Manually check for updates
+        NSDate *lastBackgroundFetch = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastCheckForUpdates"];
+        NSInteger daysPassed = 0;
+        
+        if (lastBackgroundFetch)
+        {
+            NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+            NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:lastBackgroundFetch toDate:[NSDate date] options:0];
+            daysPassed = components.day;
+        }
+        
+        if (!lastBackgroundFetch || daysPassed > 0)
+        {
+            [self manuallyCheckForUpdates];
+        }
+        
+    });
+    
+}
+
+- (void)manuallyCheckForUpdates
+{
+    GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
+    [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
+        
+        if (error || ![softwareUpdate isNewerThanAppVersion])
+        {
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSString *updateMessage = [NSString stringWithFormat:@"GBA4iOS %@ %@", softwareUpdate.version, NSLocalizedString(@"is now available for download.", @"")];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"") message:updateMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
+            [alert show];
+            
+        });
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+        
+    }];
+}
+
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    if ([UIUserNotificationSettings class])
+    {
+        UIUserNotificationSettings *currentSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+        
+        if (currentSettings.types == UIUserNotificationTypeNone)
+        {
+            return;
+        }
+    }
+    
+    GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
+    [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
+        
+        if (error)
+        {
+            completionHandler(UIBackgroundFetchResultFailed);
+            return;
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+        
+        UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
+        
+        if ([softwareUpdate isNewerThanAppVersion])
+        {
+            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            localNotification.applicationIconBadgeNumber = 1;
+            localNotification.soundName = UILocalNotificationDefaultSoundName;
+            localNotification.alertAction = NSLocalizedString(@"Open", @"");
+            
+            NSString *updateMessage = [NSString stringWithFormat:@"GBA4iOS %@ %@", softwareUpdate.version, NSLocalizedString(@"is now available for download.", @"")];
+            localNotification.alertBody = updateMessage;
+            
+            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+            
+            backgroundFetchResult = UIBackgroundFetchResultNewData;
+        }
+        
+        completionHandler(backgroundFetchResult);
+        
+    }];
 }
 
 #pragma mark - UIApplicationDelegate
