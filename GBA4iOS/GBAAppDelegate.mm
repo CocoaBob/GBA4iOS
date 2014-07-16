@@ -331,6 +331,11 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         }
         
+        if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive)
+        {
+            return;
+        }
+        
         
         // Manually check for updates
         NSDate *lastBackgroundFetch = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastCheckForUpdates"];
@@ -376,13 +381,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
                 
                 if (buttonIndex == 1)
                 {
-                    GBASoftwareUpdateViewController *softwareUpdateViewController = [[GBASoftwareUpdateViewController alloc] initWithSoftwareUpdate:softwareUpdate];
-                    
-                    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissPresentedViewController:)];
-                    softwareUpdateViewController.navigationItem.leftBarButtonItem = cancelButton;
-                    
-                    self.presentedViewController = softwareUpdateViewController;
-                    [self.emulationViewController prepareAndPresentViewController:softwareUpdateViewController];
+                    [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
                 }
                 
             }];
@@ -392,6 +391,22 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
         
     }];
+}
+
+- (void)presentSoftwareUpdateViewControllerWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate
+{
+    if (self.presentedViewController)
+    {
+        return;
+    }
+    
+    GBASoftwareUpdateViewController *softwareUpdateViewController = [[GBASoftwareUpdateViewController alloc] initWithSoftwareUpdate:softwareUpdate];
+    
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissPresentedViewController:)];
+    softwareUpdateViewController.navigationItem.leftBarButtonItem = cancelButton;
+    
+    self.presentedViewController = softwareUpdateViewController;
+    [self.emulationViewController prepareAndPresentViewController:softwareUpdateViewController];
 }
 
 - (void)dismissPresentedViewController:(UIBarButtonItem *)barButtonItem
@@ -432,7 +447,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             localNotification.applicationIconBadgeNumber = 1;
             localNotification.soundName = UILocalNotificationDefaultSoundName;
-            localNotification.alertAction = NSLocalizedString(@"Open", @"");
+            localNotification.alertAction = NSLocalizedString(@"View", @"");
             
             NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
             localNotification.alertBody = updateMessage;
@@ -445,6 +460,16 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         completionHandler(backgroundFetchResult);
         
     }];
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    if (application.applicationState == UIApplicationStateActive)
+    {
+        return;
+    }
+    
+    [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:nil];
 }
 
 #pragma mark - UIApplicationDelegate
