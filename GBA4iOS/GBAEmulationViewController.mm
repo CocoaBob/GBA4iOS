@@ -2125,50 +2125,12 @@ static GBAEmulationViewController *_emulationViewController;
     
     [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
     
+    GBASyncingDetailViewController *syncingDetailViewController = [[GBASyncingDetailViewController alloc] initWithROM:self.rom];
+    syncingDetailViewController.delegate = self;
+    syncingDetailViewController.showDoneButton = YES;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [self pauseEmulation];
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            if (self.blurringContents)
-            {
-                [self refreshLayout];
-            }
-            else
-            {
-                [self blurWithInitialAlpha:0.0];
-                
-                [UIView animateWithDuration:0.3 animations:^{
-                    [self setBlurAlpha:1.0];
-                }];
-            }
-        }
-        
-        GBASyncingDetailViewController *syncingDetailViewController = [[GBASyncingDetailViewController alloc] initWithROM:self.rom];
-        syncingDetailViewController.delegate = self;
-        syncingDetailViewController.showDoneButton = YES;
-        
-        UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(syncingDetailViewController);
-        
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-        }
-        else
-        {
-            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
-            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-        }
-        
-        UIViewController *presentingViewController = self;
-        
-        while (presentingViewController.presentedViewController)
-        {
-            presentingViewController = presentingViewController.presentedViewController;
-        }
-        
-        [presentingViewController presentViewController:navigationController animated:YES completion:NULL];
+        [self prepareAndPresentViewController:syncingDetailViewController];
         
         [self.rom setNewlyConflicted:NO];
     });
@@ -2213,6 +2175,72 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)syncingDetailViewControllerWillDismiss:(GBASyncingDetailViewController *)syncingDetailViewController
 {
+    [self prepareForDismissingPresentedViewController:syncingDetailViewController];
+}
+
+#pragma mark - Presenting/Dismissing External View Controllers
+
+- (void)prepareAndPresentViewController:(UIViewController *)viewController
+{
+    if (![self selectingSustainedButton])
+    {
+        [self pauseEmulation];
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        if (self.blurringContents)
+        {
+            [self refreshLayout];
+        }
+        else
+        {
+            
+            if (![self selectingSustainedButton])
+            {
+                [self blurWithInitialAlpha:0.0];
+                
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self setBlurAlpha:1.0];
+                }];
+            }
+            
+        }
+    }
+    
+    
+    UINavigationController *navigationController = (UINavigationController *)viewController;
+    
+    if (![viewController isKindOfClass:[UINavigationController class]])
+    {
+        navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(viewController);
+    }
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    else
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    }
+    
+    UIViewController *presentingViewController = self;
+    
+    while (presentingViewController.presentedViewController)
+    {
+        presentingViewController = presentingViewController.presentedViewController;
+    }
+    
+    [presentingViewController presentViewController:navigationController animated:YES completion:NULL];
+    
+    [self.pausedActionSheet dismissWithClickedButtonIndex:0 animated:YES];
+    self.pausedActionSheet = nil;
+}
+
+- (void)prepareForDismissingPresentedViewController:(UIViewController *)dismissedViewController
+{
     UIViewController *presentedViewController = self.presentedViewController;
     if ([presentedViewController isKindOfClass:[UINavigationController class]])
     {
@@ -2222,7 +2250,7 @@ static GBAEmulationViewController *_emulationViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         // Only hide status bar if the syncingDetailViewController was the modal view controller. If it isn't, the status bar should stay
-        if (presentedViewController == syncingDetailViewController)
+        if (presentedViewController == dismissedViewController)
         {
             [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
         }
@@ -2232,25 +2260,31 @@ static GBAEmulationViewController *_emulationViewController;
     }
     
     self.preventSavingROMSaveData = NO;
-
-    if (presentedViewController == syncingDetailViewController)
+    
+    if (presentedViewController == dismissedViewController)
     {
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
             if (![(GBASplitViewController *)self.splitViewController romTableViewControllerIsVisible])
             {
-                [UIView animateWithDuration:0.3 animations:^{
-                    [self setBlurAlpha:0.0];
-                } completion:^(BOOL finished) {
-                    [self removeBlur];
-                }];
-                
-                [self resumeEmulation];
+                if (![self selectingSustainedButton])
+                {
+                    [UIView animateWithDuration:0.3 animations:^{
+                        [self setBlurAlpha:0.0];
+                    } completion:^(BOOL finished) {
+                        [self removeBlur];
+                    }];
+                    
+                    [self resumeEmulation];
+                }
             }
         }
         else
         {
-            [self resumeEmulation];
+            if (![self selectingSustainedButton])
+            {
+                [self resumeEmulation];
+            }
         }
     }
     

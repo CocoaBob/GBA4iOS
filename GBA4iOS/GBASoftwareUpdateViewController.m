@@ -28,13 +28,18 @@
 
 @implementation GBASoftwareUpdateViewController
 
-- (id)init
+- (instancetype)init
+{
+    return [self initWithSoftwareUpdate:nil];
+}
+
+- (instancetype)initWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"softwareUpdateViewController"];
     if (self)
     {
-        
+        _softwareUpdate = softwareUpdate;
     }
     
     return self;
@@ -116,6 +121,10 @@
     if (self.softwareUpdate == nil)
     {
         [self checkForUpdate];
+    }
+    else
+    {
+        [self refreshViewWithSoftwareUpdateInfo];
     }
 }
 

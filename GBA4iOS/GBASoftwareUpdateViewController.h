@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class GBASoftwareUpdate;
+
 @interface GBASoftwareUpdateViewController : UITableViewController
+
+- (instancetype)initWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate;
 
 @end

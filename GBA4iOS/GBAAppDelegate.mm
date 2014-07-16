@@ -15,6 +15,7 @@
 #import "GBASplitViewController.h"
 #import "UIAlertView+RSTAdditions.h"
 #import "GBASoftwareUpdateOperation.h"
+#import "GBASoftwareUpdateViewController.h"
 
 #import "SSZipArchive.h"
 #import <DropboxSDK/DropboxSDK.h>
@@ -36,6 +37,7 @@ static GBAAppDelegate *_appDelegate;
 @interface GBAAppDelegate ()
 
 @property (strong, nonatomic) GBAEmulationViewController *emulationViewController;
+@property (strong, nonatomic) UIViewController *presentedViewController;
 
 @end
 
@@ -341,7 +343,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             daysPassed = components.day;
         }
         
-        if (!lastBackgroundFetch || daysPassed > 0)
+        if (!lastBackgroundFetch || daysPassed == 0)
         {
             [self manuallyCheckForUpdates];
         }
@@ -364,8 +366,26 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             
             NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"") message:updateMessage delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil];
-            [alert show];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"")
+                                                            message:updateMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"Later", @"")
+                                                  otherButtonTitles:NSLocalizedString(@"Update", @""), nil];
+            
+            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                
+                if (buttonIndex == 1)
+                {
+                    GBASoftwareUpdateViewController *softwareUpdateViewController = [[GBASoftwareUpdateViewController alloc] initWithSoftwareUpdate:softwareUpdate];
+                    
+                    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissPresentedViewController:)];
+                    softwareUpdateViewController.navigationItem.leftBarButtonItem = cancelButton;
+                    
+                    self.presentedViewController = softwareUpdateViewController;
+                    [self.emulationViewController prepareAndPresentViewController:softwareUpdateViewController];
+                }
+                
+            }];
             
         });
         
@@ -374,6 +394,13 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     }];
 }
 
+- (void)dismissPresentedViewController:(UIBarButtonItem *)barButtonItem
+{
+    [self.emulationViewController prepareForDismissingPresentedViewController:self.presentedViewController];
+    [self.presentedViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    self.presentedViewController = nil;
+}
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {

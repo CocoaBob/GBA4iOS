@@ -25,6 +25,9 @@
 - (void)pauseEmulation;
 - (void)resumeEmulation;
 
+- (void)prepareAndPresentViewController:(UIViewController *)viewController;
+- (void)prepareForDismissingPresentedViewController:(UIViewController *)dismissedViewController;
+
 - (void)autoSaveIfPossible;
 
 - (void)launchGameWithCompletion:(void (^)(void))completionBlock;
