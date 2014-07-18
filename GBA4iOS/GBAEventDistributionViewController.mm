@@ -9,11 +9,11 @@
 #import "GBAEventDistributionViewController.h"
 #import "GBAAsynchronousRemoteTableViewCell.h"
 #import "GBAEventDistributionTableViewCell.h"
-#import "NSDate+Comparing.h"
 #import "UIAlertView+RSTAdditions.h"
 #import "GBAEventDistributionDetailViewController.h"
 #import "GBAEvent.h"
 #import "GBAEmulatorCore.h"
+#import "GBAEventDistributionOperation.h"
 
 #import "GBAROM_Private.h"
 
@@ -21,15 +21,13 @@
 
 #define EVENT_DISTRIBUTION_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/eventdistribution/"
 
-NSString *const GBAEventsKey = @"events";
-
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
 
 @interface GBAEventDistributionViewController () <GBAEventDistributionDetailViewControllerDelegate>
 
 @property (strong, nonatomic) UIProgressView *downloadProgressView;
-@property (strong, nonatomic) NSMutableDictionary *eventsDictionary;
+@property (strong, nonatomic) NSMutableArray *eventsArray;
 @property (strong, nonatomic) NSProgress *downloadProgress;
 @property (strong, nonatomic) NSCache *imageCache;
 @property (strong, nonatomic) GBAROM *eventROM;
@@ -58,7 +56,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         
         _imageCache = [[NSCache alloc] init];
         
-        _eventsDictionary = [NSMutableDictionary dictionaryWithObject:@1 forKey:@"apiVersion"];
+        _eventsArray = [NSMutableArray array];
         
         [self loadLocalEvents];
     }
@@ -170,9 +168,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         }
     }
     
-    self.eventsDictionary[@"events"] = events;
-    
-    
+    self.eventsArray = events;
 }
 
 - (void)refreshEvents
@@ -181,20 +177,12 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
         [self.downloadingEventDistributionInfoActivityIndicatorView startAnimating];
     });
     
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    
-    NSString *address = [EVENT_DISTRIBUTION_ROOT_ADDRESS stringByAppendingPathComponent:@"root.json"];
-    NSURL *URL = [NSURL URLWithString:address];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, NSDictionary *jsonObject, NSError *error) {
+    GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
+    [eventDistributionOperation checkForEventsWithCompletion:^(NSArray *events, NSError *error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.downloadingEventDistributionInfoActivityIndicatorView stopAnimating];
         });
-        
-        NSMutableDictionary *responseObject = [jsonObject mutableCopy];
         
         if (error)
         {
@@ -205,21 +193,19 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             return;
         }
         
-        NSArray *localEvents = self.eventsDictionary[@"events"];
+        NSArray *localEvents = [self.eventsArray copy];
         NSMutableArray *modifiedEvents = [NSMutableArray array];
         
         [modifiedEvents addObjectsFromArray:localEvents];
         
-        for (NSDictionary *eventDictionary in responseObject[GBAEventsKey])
+        for (GBAEvent *event in events)
         {
-            GBAEvent *event = [GBAEvent eventWithDictionary:eventDictionary];
-            
             if (![event supportsGame:[self eventSupportedGame]])
             {
                 continue;
             }
-                        
-            if (event.endDate && [[NSDate date] daysUntilDate:event.endDate] < 0)
+            
+            if ([event isExpired])
             {
                 continue;
             }
@@ -232,21 +218,16 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
             [modifiedEvents addObject:event];
         }
         
-        responseObject[GBAEventsKey] = modifiedEvents;
-        
-        self.eventsDictionary = responseObject;
+        self.eventsArray = modifiedEvents;
         
         [self updateTableViewWithAnimation];
+        
     }];
-    
-    [dataTask resume];
 }
 
 - (void)updateSectionForEvent:(GBAEvent *)event
 {
-    NSArray *events = self.eventsDictionary[GBAEventsKey];
-    
-    NSInteger section = [events indexOfObject:event];
+    NSInteger section = [self.eventsArray indexOfObject:event];
     section++; // Compensate for empty section at top
     
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:section]] withRowAnimation:UITableViewRowAnimationFade];
@@ -254,15 +235,14 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (void)updateTableViewWithAnimation
 {
-    NSArray *events = self.eventsDictionary[GBAEventsKey];
     NSUInteger currentNumberOfSections = self.tableView.numberOfSections;
     
     [self.tableView beginUpdates];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, currentNumberOfSections)] withRowAnimation:UITableViewRowAnimationFade];
     
-    if ([events count] > currentNumberOfSections - 1)
+    if ([self.eventsArray count] > currentNumberOfSections - 1)
     {
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(currentNumberOfSections, events.count - (currentNumberOfSections - 1))] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(currentNumberOfSections, self.eventsArray.count - (currentNumberOfSections - 1))] withRowAnimation:UITableViewRowAnimationFade];
     }
     
     [self.tableView endUpdates];
@@ -435,8 +415,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSArray *events = self.eventsDictionary[GBAEventsKey];
-    return events.count + 1;
+    return self.eventsArray.count + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -620,8 +599,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 {
     section = section - 1;
     
-    NSArray *events = self.eventsDictionary[GBAEventsKey];
-    return events[section];
+    return self.eventsArray[section];
 }
 
 - (NSURL *)URLForFileWithName:(NSString *)name identifier:(NSString *)identifier

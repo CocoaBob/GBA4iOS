@@ -24,8 +24,9 @@ typedef NS_ENUM(NSInteger, GBAEventSupportedGame) {
 @property (readonly, copy, nonatomic) NSString *detailedDescription;
 @property (readonly, copy, nonatomic) NSString *identifier;
 @property (readonly, copy, nonatomic) NSDate *endDate;
-@property (readonly, assign, nonatomic) GBAEventSupportedGame supportedGames;
+@property (readonly, nonatomic, getter=isExpired) BOOL expired;
 @property (readonly, assign, nonatomic) NSInteger apiVersion;
+@property (readonly, nonatomic) NSString *localizedSupportedGames;
 
 + (instancetype)eventWithContentsOfFile:(NSString *)filepath;
 + (instancetype)eventWithDictionary:(NSDictionary *)dictionary;

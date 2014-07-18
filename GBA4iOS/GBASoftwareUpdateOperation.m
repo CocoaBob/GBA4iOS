@@ -10,7 +10,7 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-static NSString * const GBASoftwareUpdateRootAddress = @"http://gba4iosapp.com/delta/softwareupdate/";
+static NSString * const GBASoftwareUpdateRootAddress = @"http://gba4iosapp.com/delta/software_update/";
 
 @implementation GBASoftwareUpdateOperation
 
@@ -25,9 +25,15 @@ static NSString * const GBASoftwareUpdateRootAddress = @"http://gba4iosapp.com/d
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, NSDictionary *jsonObject, NSError *error) {
+        
         GBASoftwareUpdate *softwareUpdate = [[GBASoftwareUpdate alloc] initWithDictionary:jsonObject];
+        
+        DLog(@"Found software update version: %@", softwareUpdate.version);
+        
         completionBlock(softwareUpdate, error);
     }];
+    
+    DLog(@"Checking for Software Updates...");
     
     [dataTask resume];
 }

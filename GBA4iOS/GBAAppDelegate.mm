@@ -13,15 +13,17 @@
 #import "GBAControllerSkin.h"
 #import "GBAROM.h"
 #import "GBASplitViewController.h"
-#import "UIAlertView+RSTAdditions.h"
 #import "GBASoftwareUpdateOperation.h"
 #import "GBASoftwareUpdateViewController.h"
+#import "GBAEventDistributionOperation.h"
 
 #import "SSZipArchive.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 #import "UIView+DTDebug.h"
+#import "NSDate+Comparing.h"
+#import "UIAlertView+RSTAdditions.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import <CrashReporter/CrashReporter.h>
@@ -29,6 +31,10 @@
 #endif
 
 NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPlayROMNotification";
+
+static NSString * const GBALocalNotificationTypeKey = @"type";
+static NSString * const GBALocalNotificationTypeSoftwareUpdate = @"softwareUpdate";
+static NSString * const GBALocalNotificationTypeEventDistribution = @"eventDistribution";
 
 static void * GBAApplicationCrashedContext = &GBAApplicationCrashedContext;
 
@@ -339,16 +345,9 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         
         // Manually check for updates
         NSDate *lastBackgroundFetch = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastCheckForUpdates"];
-        NSInteger daysPassed = 0;
+        NSInteger daysPassed = [[NSDate date] daysSinceDate:lastBackgroundFetch];
         
-        if (lastBackgroundFetch)
-        {
-            NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-            NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:lastBackgroundFetch toDate:[NSDate date] options:0];
-            daysPassed = components.day;
-        }
-        
-        if (!lastBackgroundFetch || daysPassed == 0)
+        if (!lastBackgroundFetch || daysPassed > 0)
         {
             [self manuallyCheckForUpdates];
         }
@@ -434,13 +433,12 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         
         if (error)
         {
+            ELog(error);
             completionHandler(UIBackgroundFetchResultFailed);
             return;
         }
         
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
-        
-        UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
+        __block UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
         if ([softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
         {
@@ -448,6 +446,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             localNotification.applicationIconBadgeNumber = 1;
             localNotification.soundName = UILocalNotificationDefaultSoundName;
             localNotification.alertAction = NSLocalizedString(@"View", @"");
+            localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeSoftwareUpdate};
             
             NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
             localNotification.alertBody = updateMessage;
@@ -456,8 +455,72 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             
             backgroundFetchResult = UIBackgroundFetchResultNewData;
         }
+        else
+        {
+            DLog(@"Software update is not new");
+        }
         
-        completionHandler(backgroundFetchResult);
+        
+        GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
+        [eventDistributionOperation checkForEventsWithCompletion:^(NSArray *events, NSError *error) {
+            
+            if (error)
+            {
+                ELog(error);
+                completionHandler(UIBackgroundFetchResultFailed);
+                return;
+            }
+            
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+            
+            __block GBAEvent *event = nil;
+            
+            [events enumerateObjectsUsingBlock:^(GBAEvent *potentialEvent, NSUInteger index, BOOL *stop) {
+                
+                if ([potentialEvent isExpired])
+                {
+                    return;
+                }
+                
+                event = potentialEvent;
+                
+            }];
+            
+            if (event)
+            {
+                
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                localNotification.soundName = UILocalNotificationDefaultSoundName;
+                localNotification.alertAction = NSLocalizedString(@"View", @"");
+                localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeEventDistribution};
+                
+                NSString *updateMessage = nil;
+                NSString *localizedSupportedGames = event.localizedSupportedGames;
+                
+                if (localizedSupportedGames)
+                {
+                    updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available to download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
+                }
+                else
+                {
+                    updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download.", @"Leave the %@'s, they are placeholders for the event name"), event.name];
+                }
+                
+                localNotification.alertBody = updateMessage;
+                
+                [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+                
+                backgroundFetchResult = UIBackgroundFetchResultNewData;
+            }
+            else
+            {
+                DLog(@"No new events");
+            }
+            
+            completionHandler(backgroundFetchResult);
+            
+        }];
+        
         
     }];
 }
@@ -469,7 +532,10 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         return;
     }
     
-    [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:nil];
+    if ([notification.userInfo[GBALocalNotificationTypeKey] isEqualToString:GBALocalNotificationTypeSoftwareUpdate])
+    {
+        [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:nil];
+    }
 }
 
 #pragma mark - UIApplicationDelegate

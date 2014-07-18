@@ -8,6 +8,8 @@
 
 #import "GBAEvent.h"
 
+#import "NSDate+Comparing.h"
+
 @interface GBAEvent ()
 
 @property (readwrite, copy, nonatomic) NSString *name;
@@ -158,6 +160,67 @@
 - (NSUInteger)hash
 {
     return [self.identifier hash];
+}
+
+#pragma mark - Getters/Setters
+
+- (BOOL)isExpired
+{
+    return (self.endDate && [[NSDate date] daysUntilDate:self.endDate] < 0);
+}
+
+- (NSString *)localizedSupportedGames
+{
+    NSMutableArray *supportedGames = [NSMutableArray array];
+    
+    if ([self supportsGame:GBAEventSupportedGameRuby])
+    {
+        [supportedGames addObject:NSLocalizedString(@"Ruby", @"The Pokemon game Ruby, not the jewel")];
+    }
+    if ([self supportsGame:GBAEventSupportedGameSapphire])
+    {
+        [supportedGames addObject:NSLocalizedString(@"Sapphire", @"The Pokemon game Sapphire, not the jewel")];
+    }
+    if ([self supportsGame:GBAEventSupportedGameFireRed])
+    {
+        [supportedGames addObject:NSLocalizedString(@"FireRed", @"The Pokemon game FireRed")];
+    }
+    if ([self supportsGame:GBAEventSupportedGameLeafGreen])
+    {
+        [supportedGames addObject:NSLocalizedString(@"LeafGreen", @"The Pokemon game LeafGreen")];
+    }
+    if ([self supportsGame:GBAEventSupportedGameEmerald])
+    {
+        [supportedGames addObject:NSLocalizedString(@"Emerald", @"The Pokemon game Emerald, not the jewel")];
+    }
+    
+    if (supportedGames.count == 0)
+    {
+        return nil;
+    }
+    
+    NSMutableString *localizedSupportedGames = [NSMutableString stringWithFormat:NSLocalizedString(@"Pokemon", @"")];
+    
+    [supportedGames enumerateObjectsUsingBlock:^(NSString *game, NSUInteger index, BOOL *stop) {
+        
+        if (index != 0)
+        {
+            if (supportedGames.count > 2)
+            {
+                [localizedSupportedGames appendString:@","];
+            }
+            
+            if (index == supportedGames.count - 1)
+            {
+                [localizedSupportedGames appendFormat:@" %@", NSLocalizedString(@"and", @"")];
+            }
+        }
+        
+        [localizedSupportedGames appendFormat:@" %@", game];
+        
+    }];
+    
+    return localizedSupportedGames;
 }
 
 @end

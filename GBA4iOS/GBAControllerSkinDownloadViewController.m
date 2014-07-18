@@ -32,7 +32,7 @@ NSString *const Alyssa = @"Alyssa";
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
 
-#define REMOTE_SKIN_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/skins/"
+#define REMOTE_SKIN_ROOT_ADDRESS @"http://gba4iosapp.com/delta/skins_legacy/"
 
 @interface GBAControllerSkinDownloadViewController ()
 

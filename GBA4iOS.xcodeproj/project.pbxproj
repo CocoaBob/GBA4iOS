@@ -179,6 +179,8 @@
 		BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3B18909EE8002E5F26 /* Default-Portrait~ipad.png */; };
 		BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3C18909EE8002E5F26 /* Default@2x.png */; };
 		BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3C18909EE8002E5F26 /* Default@2x.png */; };
+		BFBAAF841977027F00754626 /* GBAEventDistributionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */; };
+		BFBAAF851977027F00754626 /* GBAEventDistributionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */; };
 		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
 		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
@@ -553,6 +555,8 @@
 		BFB89E3A18909EE8002E5F26 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		BFB89E3B18909EE8002E5F26 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		BFB89E3C18909EE8002E5F26 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		BFBAAF821977027F00754626 /* GBAEventDistributionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionOperation.h; sourceTree = "<group>"; };
+		BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionOperation.m; sourceTree = "<group>"; };
 		BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionViewController.h; sourceTree = "<group>"; };
 		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEventDistributionViewController.mm; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
@@ -1058,6 +1062,8 @@
 			children = (
 				BFD03A9C1898E877001056A5 /* GBAEvent.h */,
 				BFD03A9D1898E877001056A5 /* GBAEvent.m */,
+				BFBAAF821977027F00754626 /* GBAEventDistributionOperation.h */,
+				BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */,
 				BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */,
 				BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */,
 				BF20ED6A189769DF00270BC8 /* GBAEventDistributionDetailViewController.h */,
@@ -2006,6 +2012,7 @@
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
 				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
+				BFBAAF851977027F00754626 /* GBAEventDistributionOperation.m in Sources */,
 				BF7EC2EE196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */,
 				BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
 				BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */,
@@ -2066,6 +2073,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCC9B8A91815AC7E005C90EE /* memptrs.cpp in Sources */,
+				BFBAAF841977027F00754626 /* GBAEventDistributionOperation.m in Sources */,
 				CCC9B8B61815AC7E005C90EE /* video.cpp in Sources */,
 				CC50450C1814DC69009F7B9E /* File_Extractor.cpp in Sources */,
 				CC33F0E317E9630F00F57D66 /* RSTFileBrowserTableViewCell+LongPressGestureRecognizer.m in Sources */,
