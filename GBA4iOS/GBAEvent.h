@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, GBAEventSupportedGame) {
     GBAEventSupportedGameEmerald    = 1 << 5
 };
 
-@interface GBAEvent : NSObject
+@interface GBAEvent : NSObject <NSCoding>
 
 @property (readonly, copy, nonatomic) NSString *name;
 @property (readonly, copy, nonatomic) NSString *description;

@@ -36,6 +36,8 @@ static NSString * const GBALocalNotificationTypeKey = @"type";
 static NSString * const GBALocalNotificationTypeSoftwareUpdate = @"softwareUpdate";
 static NSString * const GBALocalNotificationTypeEventDistribution = @"eventDistribution";
 
+static NSString * const GBALocalNotificationSoftwareUpdateKey = @"softwareUpdate";
+
 static void * GBAApplicationCrashedContext = &GBAApplicationCrashedContext;
 
 static GBAAppDelegate *_appDelegate;
@@ -446,7 +448,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             localNotification.applicationIconBadgeNumber = 1;
             localNotification.soundName = UILocalNotificationDefaultSoundName;
             localNotification.alertAction = NSLocalizedString(@"View", @"");
-            localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeSoftwareUpdate};
+            localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeSoftwareUpdate, GBALocalNotificationSoftwareUpdateKey: [softwareUpdate dataRepresentation]};
             
             NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
             localNotification.alertBody = updateMessage;
@@ -499,7 +501,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
                 
                 if (localizedSupportedGames)
                 {
-                    updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available to download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
+                    updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
                 }
                 else
                 {
@@ -534,7 +536,9 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     
     if ([notification.userInfo[GBALocalNotificationTypeKey] isEqualToString:GBALocalNotificationTypeSoftwareUpdate])
     {
-        [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:nil];
+        NSData *softwareUpdateData = notification.userInfo[@"softwareUpdate"];
+        GBASoftwareUpdate *softwareUpdate = [[GBASoftwareUpdate alloc] initWithData:softwareUpdateData];
+        [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
     }
 }
 

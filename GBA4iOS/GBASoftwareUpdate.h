@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GBASoftwareUpdate : NSObject
+@interface GBASoftwareUpdate : NSObject <NSCoding>
 
-@property (readonly, copy, nonatomic) NSString *version;
 @property (readonly, copy, nonatomic) NSString *name;
+@property (readonly, copy, nonatomic) NSString *version;
 @property (readonly, copy, nonatomic) NSString *developer;
 @property (readonly, copy, nonatomic) NSString *description;
 @property (readonly, copy, nonatomic) NSURL *url;
@@ -24,5 +24,8 @@
 @property (readonly, nonatomic, getter=isSupportedOnCurrentiOSVersion) BOOL supportedOnCurrentiOSVersion;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithData:(NSData *)data;
+
+- (NSData *)dataRepresentation;
 
 @end
