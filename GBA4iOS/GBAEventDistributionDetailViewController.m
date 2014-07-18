@@ -39,10 +39,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSString *detailedDescription = self.event.detailedDescription;
-        
-    self.detailTextView.text = detailedDescription;
+            
+    self.detailTextView.text = self.event.eventDescription;;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentSizeCategoryDidChange:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 }

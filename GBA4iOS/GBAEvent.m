@@ -13,8 +13,8 @@
 @interface GBAEvent ()
 
 @property (readwrite, copy, nonatomic) NSString *name;
-@property (readwrite, copy, nonatomic) NSString *description;
-@property (readwrite, copy, nonatomic) NSString *detailedDescription;
+@property (readwrite, copy, nonatomic) NSString *blurb;
+@property (readwrite, copy, nonatomic) NSString *eventDescription;
 @property (readwrite, copy, nonatomic) NSString *identifier;
 @property (readwrite, copy, nonatomic) NSDate *endDate;
 @property (readwrite, assign, nonatomic) GBAEventSupportedGame supportedGames;
@@ -35,8 +35,8 @@
     if (self)
     {
         _name = [dictionary[@"name"] copy];
-        _description = [dictionary[@"description"] copy];
-        _detailedDescription = [dictionary[@"detailedDescription"] copy];
+        _blurb = [dictionary[@"blurb"] copy];
+        _eventDescription = [dictionary[@"description"] copy];
         _identifier = [dictionary[@"identifier"] copy];
         
         _apiVersion = 1;
@@ -114,30 +114,40 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:self.name forKey:@"name"];
-    [aCoder encodeObject:self.identifier forKey:@"identifier"];
-    [aCoder encodeObject:self.description forKey:@"description"];
-    [aCoder encodeObject:self.detailedDescription forKey:@"detailedDescription"];
-    [aCoder encodeObject:@(self.supportedGames) forKey:@"supportedGames"];
-    [aCoder encodeObject:self.endDate forKey:@"endDate"];
-    [aCoder encodeObject:@(self.apiVersion) forKey:@"apiVersion"];
+    [aCoder encodeObject:self.name forKey:NSStringFromSelector(@selector(name))];
+    [aCoder encodeObject:self.identifier forKey:NSStringFromSelector(@selector(identifier))];
+    [aCoder encodeObject:self.blurb forKey:NSStringFromSelector(@selector(blurb))];
+    [aCoder encodeObject:self.eventDescription forKey:NSStringFromSelector(@selector(eventDescription))];
+    [aCoder encodeObject:@(self.supportedGames) forKey:NSStringFromSelector(@selector(supportedGames))];
+    [aCoder encodeObject:self.endDate forKey:NSStringFromSelector(@selector(endDate))];
+    [aCoder encodeObject:@(self.apiVersion) forKey:NSStringFromSelector(@selector(apiVersion))];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    NSString *name = [aDecoder decodeObjectForKey:@"name"];
-    NSString *identifier = [aDecoder decodeObjectForKey:@"identifier"];
-    NSString *description = [aDecoder decodeObjectForKey:@"description"];
-    NSString *detailedDescription = [aDecoder decodeObjectForKey:@"detailedDescription"];
-    GBAEventSupportedGame supportedGames = [[aDecoder decodeObjectForKey:@"supportedGames"] integerValue];
-    NSDate *endDate = [aDecoder decodeObjectForKey:@"endDate"];
-    NSInteger apiVersion = [[aDecoder decodeObjectForKey:@"apiVersion"] integerValue];
+    NSString *name = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(name))];
+    NSString *identifier = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(identifier))];
+    NSString *blurb = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(blurb))];
+    NSString *eventDescription = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(eventDescription))];
+    GBAEventSupportedGame supportedGames = [[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(supportedGames))] integerValue];
+    NSDate *endDate = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(endDate))];
+    NSInteger apiVersion = [[aDecoder decodeObjectForKey:NSStringFromSelector(@selector(apiVersion))] integerValue];
+    
+    if (blurb == nil)
+    {
+        blurb = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(description))];
+    }
+    
+    if (eventDescription == nil)
+    {
+        eventDescription = [aDecoder decodeObjectForKey:@"detailedDescription"];
+    }
     
     self = [self init];
     self.name = name;
     self.identifier = identifier;
-    self.description = description;
-    self.detailedDescription = detailedDescription;
+    self.blurb = blurb;
+    self.eventDescription = eventDescription;
     self.supportedGames = supportedGames;
     self.endDate = endDate;
     self.apiVersion = apiVersion;
@@ -160,6 +170,11 @@
 - (NSUInteger)hash
 {
     return [self.identifier hash];
+}
+
+- (NSString *)description
+{
+    return self.name;
 }
 
 #pragma mark - Getters/Setters

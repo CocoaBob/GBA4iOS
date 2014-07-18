@@ -20,8 +20,8 @@ typedef NS_ENUM(NSInteger, GBAEventSupportedGame) {
 @interface GBAEvent : NSObject <NSCoding>
 
 @property (readonly, copy, nonatomic) NSString *name;
-@property (readonly, copy, nonatomic) NSString *description;
-@property (readonly, copy, nonatomic) NSString *detailedDescription;
+@property (readonly, copy, nonatomic) NSString *blurb;
+@property (readonly, copy, nonatomic) NSString *eventDescription; // Don't rename this to description again dumbass, that's already implemented on NSObject for debugging!
 @property (readonly, copy, nonatomic) NSString *identifier;
 @property (readonly, copy, nonatomic) NSDate *endDate;
 @property (readonly, nonatomic, getter=isExpired) BOOL expired;

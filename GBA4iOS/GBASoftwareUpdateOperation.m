@@ -28,7 +28,7 @@ static NSString * const GBASoftwareUpdateRootAddress = @"http://gba4iosapp.com/d
         
         GBASoftwareUpdate *softwareUpdate = [[GBASoftwareUpdate alloc] initWithDictionary:jsonObject];
         
-        DLog(@"Found software update version: %@", softwareUpdate.version);
+        DLog(@"Found software update: %@", softwareUpdate);
         
         completionBlock(softwareUpdate, error);
     }];

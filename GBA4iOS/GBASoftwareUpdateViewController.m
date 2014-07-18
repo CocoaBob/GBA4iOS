@@ -194,7 +194,7 @@
 {
     self.softwareUpdateNameLabel.text = self.softwareUpdate.name;
     self.softwareUpdateDeveloperLabel.text = self.softwareUpdate.developer;
-    self.softwareUpdateDescriptionTextView.text = self.softwareUpdate.description;
+    self.softwareUpdateDescriptionTextView.text = self.softwareUpdate.releaseNotes;
     self.softwareUpdateSizeLabel.text = self.softwareUpdate.localizedSize;
     
     [UIView transitionWithView:self.tableView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{

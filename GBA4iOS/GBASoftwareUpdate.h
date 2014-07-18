@@ -13,7 +13,7 @@
 @property (readonly, copy, nonatomic) NSString *name;
 @property (readonly, copy, nonatomic) NSString *version;
 @property (readonly, copy, nonatomic) NSString *developer;
-@property (readonly, copy, nonatomic) NSString *description;
+@property (readonly, copy, nonatomic) NSString *releaseNotes;
 @property (readonly, copy, nonatomic) NSURL *url;
 @property (readonly, copy, nonatomic) NSString *minimumiOSVersion;
 

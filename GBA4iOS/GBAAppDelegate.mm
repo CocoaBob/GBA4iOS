@@ -343,7 +343,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         NSDate *lastBackgroundFetch = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastCheckForUpdates"];
         NSInteger daysPassed = [[NSDate date] daysSinceDate:lastBackgroundFetch];
         
-        if (!lastBackgroundFetch || daysPassed == 0)
+        if (!lastBackgroundFetch || daysPassed > 0)
         {
             [self manuallyCheckForUpdates];
         }
@@ -354,98 +354,59 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
 
 - (void)manuallyCheckForUpdates
 {
-    GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
-    [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
+    [self performChecksForSoftwareUpdatesWithCompletion:^(GBASoftwareUpdate *softwareUpdate) {
+        // Software Update Available
         
-        if (error)
-        {
-            return;
-        }
-        
-        if ([softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"")
-                                                                message:updateMessage
-                                                               delegate:nil
-                                                      cancelButtonTitle:NSLocalizedString(@"Later", @"")
-                                                      otherButtonTitles:NSLocalizedString(@"Update", @""), nil];
-                
-                [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                    
-                    if (buttonIndex == 1)
-                    {
-                        [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
-                    }
-                    
-                }];
-                
-            });
-        }
-        
-        
-        GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
-        [eventDistributionOperation checkForEventsWithCompletion:^(NSArray *events, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             
-            if (error)
-            {
-                ELog(error);
-                return;
-            }
+            NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
             
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"")
+                                                            message:updateMessage
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"Later", @"")
+                                                  otherButtonTitles:NSLocalizedString(@"Update", @""), nil];
             
-            __block GBAEvent *event = nil;
-            
-            [events enumerateObjectsUsingBlock:^(GBAEvent *potentialEvent, NSUInteger index, BOOL *stop) {
+            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 
-                if ([potentialEvent isExpired])
+                if (buttonIndex == 1)
                 {
-                    return;
+                    [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
                 }
-                
-                event = potentialEvent;
                 
             }];
             
-            if (event)
+        });
+        
+        
+    } andEventsWithCompletion:^(GBAEvent *event) {
+        // New Event Available
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            NSString *message = nil;
+            NSString *localizedSupportedGames = event.localizedSupportedGames;
+            
+            if (localizedSupportedGames)
             {
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    NSString *message = nil;
-                    NSString *localizedSupportedGames = event.localizedSupportedGames;
-                    
-                    if (localizedSupportedGames)
-                    {
-                        message = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
-                    }
-                    else
-                    {
-                        message = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download.", @"Leave the %@'s, they are placeholders for the event name"), event.name];
-                    }
-                    
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"New Event Available", @"")
-                                                                    message:message
-                                                                   delegate:nil
-                                                          cancelButtonTitle:nil
-                                                          otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
-                    
-                    [alert show];
-                    
-                });
+                message = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
             }
             else
             {
-                DLog(@"No new events");
+                message = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download.", @"Leave the %@'s, they are placeholders for the event name"), event.name];
             }
             
-        }];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"New Event Available", @"")
+                                                            message:message
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
+            
+            [alert show];
+            
+        });
         
-    }];
+    } backgroundFetchCompletionHandler:nil];
 }
 
 - (void)presentSoftwareUpdateViewControllerWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate
@@ -484,101 +445,45 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         }
     }
     
-    GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
-    [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
+    [self performChecksForSoftwareUpdatesWithCompletion:^(GBASoftwareUpdate *softwareUpdate) {
+        // Software Update Available
         
-        if (error)
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.applicationIconBadgeNumber = 1;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        localNotification.alertAction = NSLocalizedString(@"View", @"");
+        localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeSoftwareUpdate, GBALocalNotificationSoftwareUpdateKey: [softwareUpdate dataRepresentation]};
+        
+        NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
+        localNotification.alertBody = updateMessage;
+        
+        [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+        
+    } andEventsWithCompletion:^(GBAEvent *event) {
+        // New Event Available
+        
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        localNotification.alertAction = NSLocalizedString(@"View", @"");
+        localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeEventDistribution};
+        
+        NSString *updateMessage = nil;
+        NSString *localizedSupportedGames = event.localizedSupportedGames;
+        
+        if (localizedSupportedGames)
         {
-            ELog(error);
-            completionHandler(UIBackgroundFetchResultFailed);
-            return;
-        }
-        
-        __block UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
-        
-        if ([softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
-        {
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            localNotification.applicationIconBadgeNumber = 1;
-            localNotification.soundName = UILocalNotificationDefaultSoundName;
-            localNotification.alertAction = NSLocalizedString(@"View", @"");
-            localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeSoftwareUpdate, GBALocalNotificationSoftwareUpdateKey: [softwareUpdate dataRepresentation]};
-            
-            NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
-            localNotification.alertBody = updateMessage;
-            
-            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-            
-            backgroundFetchResult = UIBackgroundFetchResultNewData;
+            updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
         }
         else
         {
-            DLog(@"Software update is not new");
+            updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download.", @"Leave the %@'s, they are placeholders for the event name"), event.name];
         }
         
+        localNotification.alertBody = updateMessage;
         
-        GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
-        [eventDistributionOperation checkForEventsWithCompletion:^(NSArray *events, NSError *error) {
-            
-            if (error)
-            {
-                ELog(error);
-                completionHandler(UIBackgroundFetchResultFailed);
-                return;
-            }
-            
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
-            
-            __block GBAEvent *event = nil;
-            
-            [events enumerateObjectsUsingBlock:^(GBAEvent *potentialEvent, NSUInteger index, BOOL *stop) {
-                
-                if ([potentialEvent isExpired])
-                {
-                    return;
-                }
-                
-                event = potentialEvent;
-                
-            }];
-            
-            if (event)
-            {
-                
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.soundName = UILocalNotificationDefaultSoundName;
-                localNotification.alertAction = NSLocalizedString(@"View", @"");
-                localNotification.userInfo = @{GBALocalNotificationTypeKey: GBALocalNotificationTypeEventDistribution};
-                
-                NSString *updateMessage = nil;
-                NSString *localizedSupportedGames = event.localizedSupportedGames;
-                
-                if (localizedSupportedGames)
-                {
-                    updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
-                }
-                else
-                {
-                    updateMessage = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download.", @"Leave the %@'s, they are placeholders for the event name"), event.name];
-                }
-                
-                localNotification.alertBody = updateMessage;
-                
-                [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-                
-                backgroundFetchResult = UIBackgroundFetchResultNewData;
-            }
-            else
-            {
-                DLog(@"No new events");
-            }
-            
-            completionHandler(backgroundFetchResult);
-            
-        }];
+        [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
         
-        
-    }];
+    } backgroundFetchCompletionHandler:completionHandler];
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
@@ -594,6 +499,123 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         GBASoftwareUpdate *softwareUpdate = [[GBASoftwareUpdate alloc] initWithData:softwareUpdateData];
         [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
     }
+}
+
+- (void)performChecksForSoftwareUpdatesWithCompletion:(void (^)(GBASoftwareUpdate *))softwareUpdateCompletionBlock
+                              andEventsWithCompletion:(void (^)(GBAEvent *))eventDistributionCompletionBlock
+                     backgroundFetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
+    [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
+        
+        if (error)
+        {
+            ELog(error);
+            
+            if (completionHandler)
+            {
+                completionHandler(UIBackgroundFetchResultFailed);
+            }
+            
+            return;
+        }
+        
+        __block UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
+        
+        if ([softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
+        {
+            if (softwareUpdateCompletionBlock)
+            {
+                softwareUpdateCompletionBlock(softwareUpdate);
+            }
+            
+            backgroundFetchResult = UIBackgroundFetchResultNewData;
+        }
+        else
+        {
+            DLog(@"Software update is not new");
+        }
+        
+        
+        GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
+        [eventDistributionOperation checkForEventsWithCompletion:^(NSArray *events, NSError *error) {
+            
+            if (error)
+            {
+                ELog(error);
+                
+                if (completionHandler)
+                {
+                    completionHandler(UIBackgroundFetchResultFailed);
+                }
+                
+                return;
+            }
+            
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+            
+            __block GBAEvent *event = nil;
+            
+            [events enumerateObjectsUsingBlock:^(GBAEvent *potentialEvent, NSUInteger index, BOOL *stop) {
+                
+                if ([potentialEvent isExpired])
+                {
+                    return;
+                }
+                
+                if (![self userHasSupportedGameForEvent:event])
+                {
+                    return;
+                }
+                
+                event = potentialEvent;
+                
+            }];
+            
+            if (event)
+            {
+                if (eventDistributionCompletionBlock)
+                {
+                    eventDistributionCompletionBlock(event);
+                }
+                
+                backgroundFetchResult = UIBackgroundFetchResultNewData;
+            }
+            else
+            {
+                DLog(@"No new events");
+            }
+            
+            if (completionHandler)
+            {
+                completionHandler(backgroundFetchResult);
+            }
+            
+        }];
+        
+        
+    }];
+}
+
+- (NSString *)cachedROMsPath
+{
+    NSString *libraryDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
+    return [libraryDirectory stringByAppendingPathComponent:@"cachedROMs.plist"];
+}
+
+- (BOOL)userHasSupportedGameForEvent:(GBAEvent *)event
+{
+    // Determine if user has any of the event's supported games installed
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"eventDistributionROMs" ofType:@"plist"];
+    NSDictionary *compatibleROMsDictionary = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSSet *compatibleROMs = [NSSet setWithArray:compatibleROMsDictionary.allKeys];
+    
+    NSDictionary *cachedROMsDictionary = [NSDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
+    NSMutableSet *cachedROMs = [NSMutableSet setWithArray:cachedROMsDictionary.allValues];
+    
+    [cachedROMs intersectSet:compatibleROMs];
+    
+    return ([cachedROMs count] > 0);
 }
 
 #pragma mark - UIApplicationDelegate

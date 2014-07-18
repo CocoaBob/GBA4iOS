@@ -462,7 +462,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     }
     
     GBAEvent *event = [self eventForSection:section];
-    return event.description;
+    return event.blurb;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
