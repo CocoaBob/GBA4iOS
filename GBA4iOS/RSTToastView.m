@@ -807,7 +807,15 @@ static RSTToastView *_globalToastView;
     static RSTPresentationWindow *_presentationWindow = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _presentationWindow = [[RSTPresentationWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        
+        CGRect bounds = [[UIScreen mainScreen] bounds];
+        
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
+        {
+            bounds = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
+        }
+        
+        _presentationWindow = [[RSTPresentationWindow alloc] initWithFrame:bounds];
         _presentationWindow.windowLevel = (UIWindowLevelNormal + UIWindowLevelStatusBar) / 2.0f;
         [_presentationWindow setHidden:NO];
     });

@@ -324,7 +324,15 @@ static GBAEmulationViewController *_emulationViewController;
         }
         
         self.splashScreenImageView.transform = transform;
-        self.splashScreenImageView.frame = [[UIScreen mainScreen] bounds];
+        
+        CGRect bounds = [[UIScreen mainScreen] bounds];
+        
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
+        {
+            bounds = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
+        }
+        
+        self.splashScreenImageView.frame = bounds;
         
         [window addSubview:self.splashScreenImageView];
     }
@@ -2350,15 +2358,16 @@ static GBAEmulationViewController *_emulationViewController;
     // Can be modified if wanting to eventually blur separate parts of the view, so it extends outwards into the black (smoother)
     CGFloat edgeExtension = 0;
     
-    CGSize viewSize = CGSizeZero;
+    CGSize viewSize = [UIScreen mainScreen].bounds.size;
     
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)])
     {
-        viewSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+        viewSize = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace].size;
     }
-    else
+    
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
     {
-        viewSize = CGSizeMake([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+        viewSize = CGSizeMake(viewSize.height, viewSize.width);
     }
     
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2,

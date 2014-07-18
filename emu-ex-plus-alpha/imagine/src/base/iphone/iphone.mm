@@ -626,8 +626,14 @@ static uint iOSOrientationToGfx(UIDeviceOrientation orientation)
 		#endif*/
 	}
 	#endif
+    
+    CGRect rect = [[UIScreen mainScreen] bounds];
+    
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
+    {
+        rect = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
+    }
 
-	CGRect rect = [[UIScreen mainScreen] bounds];
 	mainWin.w = mainWin.rect.x2 = rect.size.width;
 	mainWin.h = mainWin.rect.y2 = rect.size.height;
 	Gfx::viewMMWidth_ = std::round((mainWin.w / (float)unscaledDPI) * 25.4);
