@@ -536,7 +536,6 @@
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
-		BFA5250E18BEC7280099A86A /* GBA4iOS copy-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GBA4iOS copy-Info.plist"; sourceTree = "<group>"; };
 		BFA60DDF184847C40039D77E /* RSTToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTToastView.h; path = GBA4iOS/RSTToastView.h; sourceTree = "<group>"; };
 		BFA60DE0184847C40039D77E /* RSTToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTToastView.m; path = GBA4iOS/RSTToastView.m; sourceTree = "<group>"; };
 		BFAA5239184F8B2B0019A90D /* GBASyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation.h; sourceTree = "<group>"; };
@@ -1269,7 +1268,6 @@
 				BFB39ACC1958D796003330AE /* GBA4Keyboard */,
 				CC2D56FE1798F2EC00C616EB /* Frameworks */,
 				CC2D56FD1798F2EC00C616EB /* Products */,
-				BFA5250E18BEC7280099A86A /* GBA4iOS copy-Info.plist */,
 				BFD98C331895FEED00A9432C /* Libraries */,
 				B8D7087219E44810B715C233 /* Pods.xcconfig */,
 			);
@@ -2389,7 +2387,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -2437,7 +2435,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -2485,7 +2483,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -2692,7 +2690,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -2897,7 +2895,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS copy-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",

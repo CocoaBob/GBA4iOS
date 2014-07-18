@@ -563,7 +563,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
                     return;
                 }
                 
-                if (![self userHasSupportedGameForEvent:event])
+                if (![self userHasSupportedGameForEvent:potentialEvent])
                 {
                     return;
                 }
@@ -615,7 +615,23 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     
     [cachedROMs intersectSet:compatibleROMs];
     
-    return ([cachedROMs count] > 0);
+    __block BOOL userHasSupportedGame = NO;
+    
+    [cachedROMs enumerateObjectsUsingBlock:^(NSString *uniqueName, BOOL *stop) {
+        
+        if (([uniqueName hasPrefix:@"POKEMON RUBY"] && [event supportsGame:GBAEventSupportedGameRuby]) ||
+            ([uniqueName hasPrefix:@"POKEMON SAPP"] && [event supportsGame:GBAEventSupportedGameSapphire]) ||
+            ([uniqueName hasPrefix:@"POKEMON FIRE"] && [event supportsGame:GBAEventSupportedGameFireRed]) ||
+            ([uniqueName hasPrefix:@"POKEMON LEAF"] && [event supportsGame:GBAEventSupportedGameLeafGreen]) ||
+            ([uniqueName hasPrefix:@"POKEMON EMER"] && [event supportsGame:GBAEventSupportedGameEmerald]))
+        {
+            userHasSupportedGame = YES;
+            *stop = YES;
+        }
+        
+    }];
+    
+    return userHasSupportedGame;
 }
 
 #pragma mark - UIApplicationDelegate
