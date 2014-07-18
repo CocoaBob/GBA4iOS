@@ -199,7 +199,7 @@
         return nil;
     }
     
-    NSMutableString *localizedSupportedGames = [NSMutableString stringWithFormat:NSLocalizedString(@"Pokemon", @"")];
+    NSMutableString *localizedSupportedGames = [NSMutableString stringWithFormat:NSLocalizedString(@"Pokémon", @"")];
     
     [supportedGames enumerateObjectsUsingBlock:^(NSString *game, NSUInteger index, BOOL *stop) {
         

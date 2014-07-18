@@ -339,17 +339,11 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         }
         
-        if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive)
-        {
-            return;
-        }
-        
-        
         // Manually check for updates
         NSDate *lastBackgroundFetch = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastCheckForUpdates"];
         NSInteger daysPassed = [[NSDate date] daysSinceDate:lastBackgroundFetch];
         
-        if (!lastBackgroundFetch || daysPassed > 0)
+        if (!lastBackgroundFetch || daysPassed == 0)
         {
             [self manuallyCheckForUpdates];
         }
@@ -363,33 +357,93 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
     [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
         
-        if (error || ![softwareUpdate isNewerThanAppVersion] || ![softwareUpdate isSupportedOnCurrentiOSVersion])
+        if (error)
         {
             return;
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"")
-                                                            message:updateMessage
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"Later", @"")
-                                                  otherButtonTitles:NSLocalizedString(@"Update", @""), nil];
-            
-            [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if ([softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
                 
-                if (buttonIndex == 1)
+                NSString *updateMessage = [NSString stringWithFormat:@"%@ %@", softwareUpdate.name, NSLocalizedString(@"is now available for download.", @"")];
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Software Update Available", @"")
+                                                                message:updateMessage
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Later", @"")
+                                                      otherButtonTitles:NSLocalizedString(@"Update", @""), nil];
+                
+                [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                    if (buttonIndex == 1)
+                    {
+                        [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
+                    }
+                    
+                }];
+                
+            });
+        }
+        
+        
+        GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
+        [eventDistributionOperation checkForEventsWithCompletion:^(NSArray *events, NSError *error) {
+            
+            if (error)
+            {
+                ELog(error);
+                return;
+            }
+            
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+            
+            __block GBAEvent *event = nil;
+            
+            [events enumerateObjectsUsingBlock:^(GBAEvent *potentialEvent, NSUInteger index, BOOL *stop) {
+                
+                if ([potentialEvent isExpired])
                 {
-                    [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
+                    return;
                 }
+                
+                event = potentialEvent;
                 
             }];
             
-        });
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+            if (event)
+            {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    NSString *message = nil;
+                    NSString *localizedSupportedGames = event.localizedSupportedGames;
+                    
+                    if (localizedSupportedGames)
+                    {
+                        message = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download for %@.", @"Leave the %@'s, they are placeholders for the event name and Pokemon games"), event.name, localizedSupportedGames];
+                    }
+                    else
+                    {
+                        message = [NSString stringWithFormat:NSLocalizedString(@"The event “%@” is now available for download.", @"Leave the %@'s, they are placeholders for the event name"), event.name];
+                    }
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"New Event Available", @"")
+                                                                    message:message
+                                                                   delegate:nil
+                                                          cancelButtonTitle:nil
+                                                          otherButtonTitles:NSLocalizedString(@"OK", @""), nil];
+                    
+                    [alert show];
+                    
+                });
+            }
+            else
+            {
+                DLog(@"No new events");
+            }
+            
+        }];
         
     }];
 }
