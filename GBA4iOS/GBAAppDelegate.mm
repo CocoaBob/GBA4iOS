@@ -38,6 +38,11 @@ static NSString * const GBALocalNotificationTypeEventDistribution = @"eventDistr
 
 static NSString * const GBALocalNotificationSoftwareUpdateKey = @"softwareUpdate";
 
+static NSString * const GBACachedSoftwareUpdateKey = @"cachedSoftwareUpdate";
+static NSString * const GBACachedEventDistributionsKey = @"cachedEventDistributions";
+static NSString * const GBAAppVersionKey = @"appVersion";
+static NSString * const GBALastCheckForUpdatesKey = @"lastCheckForUpdates";
+
 static void * GBAApplicationCrashedContext = &GBAApplicationCrashedContext;
 
 static GBAAppDelegate *_appDelegate;
@@ -319,6 +324,11 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
 
 - (void)preparePushNotifications
 {
+    // Uncomment to removed cached events and update information
+    //[[NSUserDefaults standardUserDefaults] removeObjectForKey:GBACachedSoftwareUpdateKey];
+    //[[NSUserDefaults standardUserDefaults] removeObjectForKey:GBACachedEventDistributionsKey];
+    
+    
     [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:1 * 60 * 60 * 24]; // Check approximately once a day
     
     if ([UIUserNotificationSettings class])
@@ -329,21 +339,21 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     
     // Delay until after app boots up
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *previousAppVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"appVersion"];
+        NSString *previousAppVersion = [[NSUserDefaults standardUserDefaults] objectForKey:GBAAppVersionKey];
         NSString *currentAppVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
         
         // No previous version, or current app version is newer than previous
         if (!previousAppVersion || [previousAppVersion compare:currentAppVersion options:NSNumericSearch] == NSOrderedAscending)
         {
-            [[NSUserDefaults standardUserDefaults] setObject:currentAppVersion forKey:@"appVersion"];
+            [[NSUserDefaults standardUserDefaults] setObject:currentAppVersion forKey:GBAAppVersionKey];
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         }
         
         // Manually check for updates
-        NSDate *lastBackgroundFetch = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastCheckForUpdates"];
-        NSInteger daysPassed = [[NSDate date] daysSinceDate:lastBackgroundFetch];
+        NSDate *lastManualFetch = [[NSUserDefaults standardUserDefaults] objectForKey:GBALastCheckForUpdatesKey];
+        NSInteger daysPassed = [[NSDate date] daysSinceDate:lastManualFetch];
         
-        if (!lastBackgroundFetch || daysPassed > 0)
+        if (!lastManualFetch || daysPassed > 0)
         {
             [self manuallyCheckForUpdates];
         }
@@ -407,6 +417,8 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         });
         
     } backgroundFetchCompletionHandler:nil];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:GBALastCheckForUpdatesKey];
 }
 
 - (void)presentSoftwareUpdateViewControllerWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate
@@ -495,7 +507,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     
     if ([notification.userInfo[GBALocalNotificationTypeKey] isEqualToString:GBALocalNotificationTypeSoftwareUpdate])
     {
-        NSData *softwareUpdateData = notification.userInfo[@"softwareUpdate"];
+        NSData *softwareUpdateData = notification.userInfo[GBALocalNotificationSoftwareUpdateKey];
         GBASoftwareUpdate *softwareUpdate = [[GBASoftwareUpdate alloc] initWithData:softwareUpdateData];
         [self presentSoftwareUpdateViewControllerWithSoftwareUpdate:softwareUpdate];
     }
@@ -529,14 +541,18 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             return;
         }
         
+        NSString *cachedSoftwareUpdateVersion = [[NSUserDefaults standardUserDefaults] objectForKey:GBACachedSoftwareUpdateKey];
+        
         __block UIBackgroundFetchResult backgroundFetchResult = UIBackgroundFetchResultNoData;
         
-        if ([softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
+        if (![cachedSoftwareUpdateVersion isEqualToString:softwareUpdate.version] && [softwareUpdate isNewerThanAppVersion] && [softwareUpdate isSupportedOnCurrentiOSVersion])
         {
             if (softwareUpdateCompletionBlock)
             {
                 softwareUpdateCompletionBlock(softwareUpdate);
             }
+            
+            [[NSUserDefaults standardUserDefaults] setObject:softwareUpdate.version forKey:GBACachedSoftwareUpdateKey];
             
             backgroundFetchResult = UIBackgroundFetchResultNewData;
         }
@@ -570,7 +586,12 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
                 return;
             }
             
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastCheckForUpdates"];
+            NSMutableArray *cachedEvents = [[[NSUserDefaults standardUserDefaults] objectForKey:GBACachedEventDistributionsKey] mutableCopy];
+            
+            if (cachedEvents == nil)
+            {
+                cachedEvents = [NSMutableArray array];
+            }
             
             __block GBAEvent *event = nil;
             
@@ -586,6 +607,11 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
                     return;
                 }
                 
+                if ([cachedEvents containsObject:potentialEvent.identifier])
+                {
+                    return;
+                }
+                    
                 event = potentialEvent;
                 
             }];
@@ -596,6 +622,10 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
                 {
                     eventDistributionCompletionBlock(event);
                 }
+                
+                [cachedEvents addObject:event.identifier];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:cachedEvents forKey:GBACachedEventDistributionsKey];
                 
                 backgroundFetchResult = UIBackgroundFetchResultNewData;
             }
