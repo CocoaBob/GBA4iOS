@@ -9,6 +9,7 @@
 #import "GBAEventDistributionOperation.h"
 
 #import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 static NSString * const GBAEventDistributionRootAddress = @"http://gba4iosapp.com/delta/event_distribution/";
 
@@ -47,6 +48,11 @@ static NSString * const GBAEventDistributionRootAddress = @"http://gba4iosapp.co
         DLog(@"Found events: %@", events);
         
         completion(events, error);
+        
+        if ([UIAlertController class]) // AFNetworking doesn't decrement correctly on iOS 8
+        {
+            [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
+        }
         
     }];
     

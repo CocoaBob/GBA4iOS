@@ -10,7 +10,7 @@
 #import "GBAModernSplitViewController.h"
 #import "GBASyncManager.h"
 
-@interface GBAModernSplitViewController () <UISplitViewControllerDelegate>
+@interface GBAModernSplitViewController () <UISplitViewControllerDelegate, UIPopoverControllerDelegate>
 
 @end
 
@@ -41,6 +41,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    UIPopoverController *popoverController = [self.romTableViewController.navigationController valueForKey:@"_popoverController"];
+    popoverController.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,6 +106,18 @@
             self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
         } completion:nil];
     });
+}
+
+#pragma mark - UIPopoverControllerDelegate
+
+- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
+{
+    if ([self.emulationDelegate respondsToSelector:@selector(splitViewControllerShouldResumeEmulation:)])
+    {
+        return [self.emulationDelegate splitViewControllerShouldResumeEmulation:self];
+    }
+    
+    return YES;
 }
 
 @end

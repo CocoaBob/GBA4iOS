@@ -353,7 +353,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         NSDate *lastManualFetch = [[NSUserDefaults standardUserDefaults] objectForKey:GBALastCheckForUpdatesKey];
         NSInteger daysPassed = [[NSDate date] daysSinceDate:lastManualFetch];
         
-        if (!lastManualFetch || daysPassed > 0)
+        if (!lastManualFetch || daysPassed == 0)
         {
             [self manuallyCheckForUpdates];
         }

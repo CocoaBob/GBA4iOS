@@ -9,6 +9,7 @@
 #import "GBASoftwareUpdateOperation.h"
 
 #import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 static NSString * const GBASoftwareUpdateRootAddress = @"http://gba4iosapp.com/delta/software_update/";
 
@@ -41,6 +42,11 @@ static NSString * const GBASoftwareUpdateRootAddress = @"http://gba4iosapp.com/d
         DLog(@"Found software update: %@", softwareUpdate);
         
         completionBlock(softwareUpdate, error);
+        
+        if ([UIAlertController class]) // AFNetworking doesn't decrement correctly on iOS 8
+        {
+            [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
+        }
     }];
     
     DLog(@"Checking for Software Updates...");
