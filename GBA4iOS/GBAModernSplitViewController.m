@@ -8,8 +8,9 @@
 
 #import "GBASplitViewController_Private.h"
 #import "GBAModernSplitViewController.h"
+#import "GBASyncManager.h"
 
-@interface GBAModernSplitViewController () <GBAROMTableViewControllerAppearanceDelegate>
+@interface GBAModernSplitViewController () <UISplitViewControllerDelegate>
 
 @end
 
@@ -25,13 +26,13 @@
         self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
         
         self.romTableViewController = [[GBAROMTableViewController alloc] init];
-        self.romTableViewController.appearanceDelegate = self;
         
         self.emulationViewController = [[GBAEmulationViewController alloc] init];
         
         self.viewControllers = @[RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController), self.emulationViewController];
         
         self.presentsWithGesture = NO;
+        self.delegate = self;
     }
     
     return self;
@@ -47,5 +48,56 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - UISplitViewControllerDelegate
+
+// Will be right back, I'm going to shave for Alyssa
+
+- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
+{
+    if (displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
+    {
+        [self.emulationViewController blurWithInitialAlpha:0.0];
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.emulationViewController setBlurAlpha:1.0];
+        }];
+        
+        self.romTableViewControllerIsVisible = YES;
+    }
+    else
+    {
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.emulationViewController setBlurAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [self.emulationViewController removeBlur];
+        }];
+        
+        [[GBASyncManager sharedManager] setShouldShowSyncingStatus:NO];
+        [self.emulationViewController resumeEmulation];
+        
+        self.romTableViewControllerIsVisible = NO;
+    }
+}
+
+#pragma mark - Public
+
+- (void)showROMTableViewControllerWithAnimation:(BOOL)animated
+{
+    // dispatch_async so animation doesn't cause layout of emulation view controller to animate as well
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.2 delay:0 options:0 animations:^{
+            self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
+        } completion:nil];
+    });
+}
+
+- (void)hideROMTableViewControllerWithAnimation:(BOOL)animated
+{
+     // dispatch_async so animation doesn't cause layout of emulation view controller to animate as well
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.2 delay:0 options:0 animations:^{
+            self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+        } completion:nil];
+    });
+}
 
 @end

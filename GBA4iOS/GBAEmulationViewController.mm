@@ -1650,7 +1650,7 @@ static GBAEmulationViewController *_emulationViewController;
     UIView *controllerSnapshot = [self.controllerView snapshotViewAfterScreenUpdates:NO];
     controllerSnapshot.frame = self.controllerView.frame;
     controllerSnapshot.tag = CONTROLLER_SNAPSHOT_TAG;
-    controllerSnapshot.alpha = self.controllerView.skinOpacity;
+    controllerSnapshot.alpha = 1.0; // Snapshots take on the alpha of snapshotted view; if the original view was 0.7, 1.0 for the snapshot view will appear as if it was 0.7
     [self.view insertSubview:controllerSnapshot aboveSubview:self.controllerView];
     
     if (self.blurringContents)
@@ -1904,8 +1904,6 @@ static GBAEmulationViewController *_emulationViewController;
             }];
             
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size] screen:[UIScreen mainScreen]];
-            [self.emulatorScreen invalidateIntrinsicContentSize];
-
         }
         else
         {
@@ -1934,14 +1932,14 @@ static GBAEmulationViewController *_emulationViewController;
             self.emulatorScreen.frame = screenRect;
             
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
-            [self.emulatorScreen invalidateIntrinsicContentSize];
         }
     }
     else
     {
         [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.airplayWindow.bounds.size] screen:self.airplayWindow.screen];
-        [self.emulatorScreen invalidateIntrinsicContentSize];
     }
+    
+    [self.emulatorScreen invalidateIntrinsicContentSize];
     
     if (self.emulatorScreen.eaglView == nil)
     {
