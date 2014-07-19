@@ -343,7 +343,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         NSDate *lastBackgroundFetch = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastCheckForUpdates"];
         NSInteger daysPassed = [[NSDate date] daysSinceDate:lastBackgroundFetch];
         
-        if (!lastBackgroundFetch || daysPassed == 0)
+        if (!lastBackgroundFetch || daysPassed > 0)
         {
             [self manuallyCheckForUpdates];
         }

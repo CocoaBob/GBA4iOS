@@ -125,6 +125,8 @@
 		BF3E2BD718206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
 		BF3E2BDB18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
+		BF52A566197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */; };
+		BF52A567197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */; };
 		BF537EF9184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */; };
 		BF537EFA184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */; };
 		BF537EFE185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */; };
@@ -530,6 +532,8 @@
 		BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTFileBrowserTableViewCell.m; path = Cocoapods/RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
 		BF3E2BD918206DF2004231F6 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTDirectoryMonitor.h; path = Cocoapods/RSTDirectoryMonitor.h; sourceTree = "<group>"; };
 		BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTDirectoryMonitor.m; path = Cocoapods/RSTDirectoryMonitor.m; sourceTree = "<group>"; };
+		BF52A564197A5E1F00F88815 /* GBAPushNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPushNotificationsViewController.h; sourceTree = "<group>"; };
+		BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPushNotificationsViewController.m; sourceTree = "<group>"; };
 		BF537EF7184FE1AC00661C42 /* GBASyncFileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation.h; sourceTree = "<group>"; };
 		BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncFileOperation.mm; sourceTree = "<group>"; };
 		BF537EFB184FEB4600661C42 /* GBASyncFileOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation_Private.h; sourceTree = "<group>"; };
@@ -1009,6 +1013,15 @@
 			children = (
 			);
 			name = "Exception Handling";
+			sourceTree = "<group>";
+		};
+		BF52A568197A5E4900F88815 /* Push Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				BF52A564197A5E1F00F88815 /* GBAPushNotificationsViewController.h */,
+				BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */,
+			);
+			name = "Push Notifications";
 			sourceTree = "<group>";
 		};
 		BF563AB4184B11C000722678 /* Launch Images */ = {
@@ -1648,6 +1661,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF52A568197A5E4900F88815 /* Push Notifications */,
 				BF03836318B7E7C3002E45FC /* Software Update */,
 				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
 				BF60A17018A61D8700B2E7D4 /* betaTesters.plist */,
@@ -2072,6 +2086,7 @@
 				BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */,
 				BF2290A1189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */,
 				BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */,
+				BF52A567197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */,
 				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
 				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
@@ -2229,6 +2244,7 @@
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CC5045041814DC69009F7B9E /* Gb_Apu.cpp in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
+				BF52A566197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */,
 				CCA1056B17F6A5F80018D364 /* GBASplitViewController.mm in Sources */,
 				CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				CCFA71BA179D2FE400768D24 /* FileUtils.cc in Sources */,

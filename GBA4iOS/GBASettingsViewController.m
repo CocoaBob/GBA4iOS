@@ -14,20 +14,22 @@
 #import "GBAExternalController.h"
 #import "GBABetaTesterCreditsViewController.h"
 #import "GBASoftwareUpdateViewController.h"
+#import "GBAPushNotificationsViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
 #define FRAME_SKIP_SECTION 0
 #define AUDIO_SECTION 1
 #define SAVING_SECTION 2
-#define CONTROLLER_SKINS_SECTION 3
-#define CONTROLLER_OPACITY_SECTION 4
-#define VIBRATION_SECTION 5
-#define EXTERNAL_CONTROLLER_SECTION 6
-#define AIRPLAY_SECTION 7
-#define DROPBOX_SYNC_SECTION 8
-#define SOFTWARE_UPDATE_SECTION 9
-#define CREDITS_SECTION 10
+#define PUSH_NOTIFICATIONS_SECTION 3
+#define CONTROLLER_SKINS_SECTION 4
+#define CONTROLLER_OPACITY_SECTION 5
+#define VIBRATION_SECTION 6
+#define EXTERNAL_CONTROLLER_SECTION 7
+#define AIRPLAY_SECTION 8
+#define DROPBOX_SYNC_SECTION 9
+#define SOFTWARE_UPDATE_SECTION 10
+#define CREDITS_SECTION 11
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -42,6 +44,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
 @property (weak, nonatomic) UILabel *dropboxSyncStatusLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *airplaySwitch;
+@property (weak, nonatomic) UILabel *pushNotificationsEnabledLabel;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -114,7 +117,9 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsGBASkinsKey: @{@"portrait": @"GBA/com.GBA4iOS.default", @"landscape": @"GBA/com.GBA4iOS.default"},
                                GBASettingsGBCSkinsKey: @{@"portrait": @"GBC/com.GBA4iOS.default", @"landscape": @"GBC/com.GBA4iOS.default"},
                                GBASettingsControllerOpacityKey: @0.5,
-                               GBASettingsAirPlayEnabled: @YES};
+                               GBASettingsAirPlayEnabled: @YES,
+                               GBASettingsEventDistributionPushNotifications: @YES,
+                               GBASettingsSoftwareUpdatePushNotifications: @YES};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
@@ -203,7 +208,21 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    if (indexPath.section == DROPBOX_SYNC_SECTION)
+    if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
+    {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotifications] || [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications])
+        {
+            cell.detailTextLabel.text = NSLocalizedString(@"On", @"");
+        }
+        else
+        {
+            cell.detailTextLabel.text = NSLocalizedString(@"Off", @"");
+        }
+        
+        self.pushNotificationsEnabledLabel = cell.detailTextLabel;
+        cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    }
+    else if (indexPath.section == DROPBOX_SYNC_SECTION)
     {
         if (indexPath.row == 0)
         {
@@ -351,6 +370,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
+    {
+        GBAPushNotificationsViewController *pushNotificationsViewController = [GBAPushNotificationsViewController new];
+        [self.navigationController pushViewController:pushNotificationsViewController animated:YES];
+    }
     if (indexPath.section == CONTROLLER_SKINS_SECTION)
     {
         GBAControllerSkinDetailViewController *controllerSkinDetailViewController = [[GBAControllerSkinDetailViewController alloc] init];
@@ -488,6 +512,15 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         else
         {
             self.dropboxSyncStatusLabel.text = NSLocalizedString(@"Off", @"");
+        }
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotifications] || [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications])
+        {
+            self.pushNotificationsEnabledLabel.text = NSLocalizedString(@"On", @"");
+        }
+        else
+        {
+            self.pushNotificationsEnabledLabel.text = NSLocalizedString(@"Off", @"");
         }
     }
 }
