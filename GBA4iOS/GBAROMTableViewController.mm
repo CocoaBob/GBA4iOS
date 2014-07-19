@@ -1207,31 +1207,53 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     UITableViewCell *cell = (UITableViewCell *)[gestureRecognizer view];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:nil
-                                                    cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:NSLocalizedString(@"Rename Game", @""), NSLocalizedString(@"Share Game", @""), nil];
-    UIView *presentationView = self.view;
     CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    if ([UIAlertController class])
     {
-        presentationView = self.splitViewController.view;
-        rect = [presentationView convertRect:rect fromView:self.tableView];
-    }
-    
-    [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-         if (buttonIndex == 0)
-         {
-             [self showRenameAlertForROMAtIndexPath:indexPath];
-         }
-        else if (buttonIndex == 1)
-        {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Rename Game", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self showRenameAlertForROMAtIndexPath:indexPath];
+        }]];
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Share Game", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self shareROMAtIndexPath:indexPath];
+        }]];
+        
+        UIPopoverPresentationController *presentationController = [alertController popoverPresentationController];
+        presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        presentationController.sourceView = self.splitViewController.view;
+        presentationController.sourceRect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                 delegate:nil
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:NSLocalizedString(@"Rename Game", @""), NSLocalizedString(@"Share Game", @""), nil];
+        UIView *presentationView = self.view;
+        
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        {
+            presentationView = self.splitViewController.view;
+            rect = [presentationView convertRect:rect fromView:self.tableView];
         }
-     }];
-    
+        
+        [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+            if (buttonIndex == 0)
+            {
+                [self showRenameAlertForROMAtIndexPath:indexPath];
+            }
+            else if (buttonIndex == 1)
+            {
+                [self shareROMAtIndexPath:indexPath];
+            }
+        }];
+    }
 }
 
 - (void)showRenameAlertForROMAtIndexPath:(NSIndexPath *)indexPath
@@ -1393,26 +1415,50 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
     NSString *romFilepath = [self filepathForIndexPath:indexPath];
-    
     NSString *romName = [[romFilepath lastPathComponent] stringByDeletingPathExtension];
-    
     NSURL *romFileURL = [NSURL fileURLWithPath:romFilepath];
     
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[romFileURL] applicationActivities:@[[[GBAMailActivity alloc] init]]];
-    activityViewController.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail]; // Can't install from Messages app, and we use our own Mail activity that supports custom file types
+    UIActivityViewController *activityViewController = nil;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_0)
     {
-        [self presentViewController:activityViewController animated:YES completion:NULL];
+        activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[romFileURL] applicationActivities:@[[GBAMailActivity new]]];
+        activityViewController.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail]; // Can't install from Messages app, and we use our own Mail activity that supports custom file types
     }
     else
     {
-        CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
-        rect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
+        activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[romFileURL] applicationActivities:nil];
+        activityViewController.excludedActivityTypes = @[UIActivityTypeMessage];
+    }
+    
+    CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+    
+    if ([UIAlertController class])
+    {
+        activityViewController.modalPresentationStyle = UIModalPresentationPopover;
         
-        self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-        self.activityPopoverController.delegate = self;
-        [self.activityPopoverController presentPopoverFromRect:rect inView:self.splitViewController.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+        UIPopoverPresentationController *presentationController = [activityViewController popoverPresentationController];
+        presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        presentationController.sourceView = self.splitViewController.view;
+        presentationController.sourceRect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
+        
+        [self presentViewController:activityViewController animated:YES completion:nil];
+    }
+    else
+    {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            [self presentViewController:activityViewController animated:YES completion:NULL];
+        }
+        else
+        {
+            CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+            rect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
+            
+            self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+            self.activityPopoverController.delegate = self;
+            [self.activityPopoverController presentPopoverFromRect:rect inView:self.splitViewController.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+        }
     }
 }
 

@@ -2236,6 +2236,16 @@ static GBAEmulationViewController *_emulationViewController;
     
     UIViewController *presentingViewController = self;
     
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        GBASplitViewController *splitViewController = (GBASplitViewController *)self.splitViewController;
+        
+        if ([splitViewController romTableViewControllerIsVisible])
+        {
+            presentingViewController = splitViewController.romTableViewController;
+        }
+    }
+    
     while (presentingViewController.presentedViewController)
     {
         presentingViewController = presentingViewController.presentedViewController;

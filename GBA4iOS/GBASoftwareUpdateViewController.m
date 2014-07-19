@@ -48,9 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.tableView.alwaysBounceVertical = NO;
-    
+        
     self.statusLabel = ({
         UILabel *label = [[UILabel alloc] init];
         label.numberOfLines = 0;
@@ -220,7 +218,7 @@
 {
     if (indexPath.section == 0)
     {
-        return 70 + [self.softwareUpdateDescriptionTextView sizeThatFits:CGSizeMake(CGRectGetWidth(self.softwareUpdateDescriptionTextView.bounds), FLT_MAX)].height + 1; // Add one to ensure iOS 7 UITextView displays all lines of text
+        return 70 + [self.softwareUpdateDescriptionTextView sizeThatFits:CGSizeMake(CGRectGetWidth(self.view.bounds), FLT_MAX)].height + 1; // Add one to ensure iOS 7 UITextView displays all lines of text
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
