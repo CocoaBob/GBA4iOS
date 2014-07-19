@@ -184,6 +184,8 @@
             self.softwareUpdate = softwareUpdate;
             [self refreshViewWithSoftwareUpdateInfo];
             
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+            
         });
     }];
 }

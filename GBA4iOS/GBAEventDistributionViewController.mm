@@ -263,10 +263,15 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     NSProgress *progress = nil;
     __block NSProgress *strongReferenceProgress = nil;
     
-    __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:identifier];
-        [[NSFileManager defaultManager] createDirectoryAtPath:uniqueEventDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-        return [NSURL fileURLWithPath:[uniqueEventDirectory stringByAppendingPathComponent:[self remoteROMFilename]]];
+    // iOS 8 crashes when trying to figure out destinationURL in destination block
+    NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:identifier];
+    [[NSFileManager defaultManager] createDirectoryAtPath:uniqueEventDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    NSURL *destinationURL = [NSURL fileURLWithPath:[uniqueEventDirectory stringByAppendingPathComponent:[self remoteROMFilename]]];
+    
+    __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response)
+    {
+        return destinationURL;
         
     } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
                                                        {
@@ -287,7 +292,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
                                                                return;
                                                            }
                                                            
-                                                           NSString *eventInfoPath = [[fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"info.gbaevent"];
+                                                           NSString *eventInfoPath = [[destinationURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"info.gbaevent"];
                                                            [event writeToFile:eventInfoPath];
                                                            [self updateSectionForEvent:event]; // Has to go after writing to file
                                                        }];

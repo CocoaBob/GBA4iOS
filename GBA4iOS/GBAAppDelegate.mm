@@ -327,7 +327,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     // Uncomment to removed cached events and update information
     //[[NSUserDefaults standardUserDefaults] removeObjectForKey:GBACachedSoftwareUpdateKey];
     //[[NSUserDefaults standardUserDefaults] removeObjectForKey:GBACachedEventDistributionsKey];
-    
+    //[[NSUserDefaults standardUserDefaults] synchronize];
     
     [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:1 * 60 * 60 * 24]; // Check approximately once a day
     
@@ -353,7 +353,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         NSDate *lastManualFetch = [[NSUserDefaults standardUserDefaults] objectForKey:GBALastCheckForUpdatesKey];
         NSInteger daysPassed = [[NSDate date] daysSinceDate:lastManualFetch];
         
-        if (!lastManualFetch || daysPassed == 0)
+        if (!lastManualFetch || daysPassed > 0)
         {
             [self manuallyCheckForUpdates];
         }
@@ -387,6 +387,8 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
             }];
             
         });
+        
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
         
         
     } andEventsWithCompletion:^(GBAEvent *event) {
