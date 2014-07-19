@@ -11,7 +11,7 @@
 @implementation UIScreen (Widescreen)
 
 - (BOOL)isWidescreen {
-    return [self bounds].size.height == 568;
+    return [self bounds].size.height == 568 || [self bounds].size.width == 568;
 }
 
 @end

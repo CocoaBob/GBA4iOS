@@ -21,9 +21,9 @@
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
-
-        [[UIApplication sharedApplication] setStatusBarStyle:[toViewController preferredStatusBarStyle] animated:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:[toViewController prefersStatusBarHidden] withAnimation:UIStatusBarAnimationFade];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:[toViewController preferredStatusBarStyle] animated:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:[toViewController prefersStatusBarHidden] withAnimation:UIStatusBarAnimationFade];
     
     if ([self isPresenting])
     {
@@ -34,13 +34,20 @@
         
         [[transitionContext containerView] addSubview:toViewController.view];
         
-        if (UIInterfaceOrientationIsPortrait(fromViewController.interfaceOrientation))
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
         {
             frame.origin.y = CGRectGetHeight(frame);
         }
         else
         {
-            frame.origin.x = -CGRectGetWidth(frame);
+            if (UIInterfaceOrientationIsPortrait(fromViewController.interfaceOrientation))
+            {
+                frame.origin.y = CGRectGetHeight(frame);
+            }
+            else
+            {
+                frame.origin.x = -CGRectGetWidth(frame);
+            }
         }
         
         BOOL extendedStatusBar = ([[UIApplication sharedApplication] statusBarFrame].size.height == 40.f);
@@ -76,13 +83,20 @@
     {
         CGRect frame = [transitionContext initialFrameForViewController:fromViewController];
         
-        if (UIInterfaceOrientationIsPortrait(fromViewController.interfaceOrientation))
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
         {
             frame.origin.y = CGRectGetHeight(frame);
         }
         else
         {
-            frame.origin.x = -CGRectGetWidth(frame);
+            if (UIInterfaceOrientationIsPortrait(fromViewController.interfaceOrientation))
+            {
+                frame.origin.y = CGRectGetHeight(frame);
+            }
+            else
+            {
+                frame.origin.x = -CGRectGetWidth(frame);
+            }
         }
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:7 << 16 animations:^{
