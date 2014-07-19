@@ -1642,10 +1642,15 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    if ([self.view viewWithTag:CONTROLLER_SNAPSHOT_TAG]) // Prevents this method from being called twice because Apple is stupid and iOS 8 beta 3 calls all rotation methods twice
+    {
+        return;
+    }
+    
     UIView *controllerSnapshot = [self.controllerView snapshotViewAfterScreenUpdates:NO];
     controllerSnapshot.frame = self.controllerView.frame;
     controllerSnapshot.tag = CONTROLLER_SNAPSHOT_TAG;
-    controllerSnapshot.alpha = 1.0;
+    controllerSnapshot.alpha = self.controllerView.skinOpacity;
     [self.view insertSubview:controllerSnapshot aboveSubview:self.controllerView];
     
     if (self.blurringContents)

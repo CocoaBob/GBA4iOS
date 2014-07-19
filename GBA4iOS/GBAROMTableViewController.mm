@@ -1432,6 +1432,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     }
     
     CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+    rect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
     
     if ([UIAlertController class])
     {
@@ -1452,9 +1453,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         }
         else
         {
-            CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
-            rect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
-            
             self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
             self.activityPopoverController.delegate = self;
             [self.activityPopoverController presentPopoverFromRect:rect inView:self.splitViewController.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
