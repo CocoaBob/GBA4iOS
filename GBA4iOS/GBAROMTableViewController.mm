@@ -953,28 +953,48 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             title = [title stringByAppendingFormat:@" Your data in Dropbox will not be affected."];
         }
         
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
-                                                                 delegate:nil
-                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                                   destructiveButtonTitle:NSLocalizedString(@"Delete Game and Saved Data", nil)
-                                                        otherButtonTitles:nil];
-        
-        UIView *presentationView = self.view;
         CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        if ([UIAlertController class])
         {
-            presentationView = self.splitViewController.view;
-            rect = [presentationView convertRect:rect fromView:self.tableView];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+            [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Delete Game and Data", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                [self deleteROMAtIndexPath:indexPath];
+            }]];
+            
+            UIPopoverPresentationController *presentationController = [alertController popoverPresentationController];
+            presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+            presentationController.sourceView = self.splitViewController.view;
+            presentationController.sourceRect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else
+        {
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
+                                                                     delegate:nil
+                                                            cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                       destructiveButtonTitle:NSLocalizedString(@"Delete Game and Data", nil)
+                                                            otherButtonTitles:nil];
+            
+            UIView *presentationView = self.view;
+            
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+            {
+                presentationView = self.splitViewController.view;
+                rect = [presentationView convertRect:rect fromView:self.tableView];
+            }
+            
+            [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                
+                if (buttonIndex == 0)
+                {
+                    [self deleteROMAtIndexPath:indexPath];
+                }
+            }];
         }
         
-        [actionSheet showFromRect:rect inView:presentationView animated:YES selectionHandler:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-            
-            if (buttonIndex == 0)
-            {
-                [self deleteROMAtIndexPath:indexPath];
-            }
-        }];
     }
 }
 
