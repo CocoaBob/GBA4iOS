@@ -1106,8 +1106,6 @@ static GBAEmulationViewController *_emulationViewController;
     
     GBAKeyboardDismissalNavigationController *navigationController = [[GBAKeyboardDismissalNavigationController alloc] initWithRootViewController:saveStateViewController];
     
-    [self blurWithInitialAlpha:0.0];
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         saveStateViewController.theme = GBAThemedTableViewControllerThemeTranslucent;
@@ -1118,13 +1116,20 @@ static GBAEmulationViewController *_emulationViewController;
     {
         saveStateViewController.theme = GBAThemedTableViewControllerThemeOpaque;
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            [self setBlurAlpha:1.0];
-        }];
     }
     
-    [self presentViewController:navigationController animated:YES completion:nil];
+    if ([UIAlertController class] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) // iOS 8 beta 3 glitch: can't present while UIActionController is dismissing
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self presentViewController:navigationController animated:YES completion:nil];
+            [self prepareForPresentingTranslucentViewController];
+        }];
+    }
+    else
+    {
+        [self presentViewController:navigationController animated:YES completion:nil];
+        [self prepareForPresentingTranslucentViewController];
+    }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
@@ -1226,9 +1231,18 @@ static GBAEmulationViewController *_emulationViewController;
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
-    [self presentViewController:navigationController animated:YES completion:nil];
-    
-    [self prepareForPresentingTranslucentViewController];
+    if ([UIAlertController class] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) // iOS 8 beta 3 glitch: can't present while UIActionController is dismissing
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self presentViewController:navigationController animated:YES completion:nil];
+            [self prepareForPresentingTranslucentViewController];
+        }];
+    }
+    else
+    {
+        [self presentViewController:navigationController animated:YES completion:nil];
+        [self prepareForPresentingTranslucentViewController];
+    }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
@@ -1265,9 +1279,18 @@ static GBAEmulationViewController *_emulationViewController;
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
-    [self presentViewController:navigationController animated:YES completion:nil];
-    
-    [self prepareForPresentingTranslucentViewController];
+    if ([UIAlertController class] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) // iOS 8 beta 3 glitch: can't present while UIActionController is dismissing
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self presentViewController:navigationController animated:YES completion:nil];
+            [self prepareForPresentingTranslucentViewController];
+        }];
+    }
+    else
+    {
+        [self presentViewController:navigationController animated:YES completion:nil];
+        [self prepareForPresentingTranslucentViewController];
+    }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
