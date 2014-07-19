@@ -298,38 +298,36 @@ static GBAEmulationViewController *_emulationViewController;
             self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Landscape"];
         }
         
-        CGAffineTransform transform = CGAffineTransformIdentity;
-        
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-        {
-            if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
-            {
-                transform = CGAffineTransformMakeRotation(RADIANS(0.0f));
-            }
-            else
-            {
-                transform = CGAffineTransformMakeRotation(RADIANS(180.0f));
-            }
-        }
-        else
-        {
-            if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-            {
-                transform = CGAffineTransformMakeRotation(RADIANS(270.0f));
-            }
-            else
-            {
-                transform = CGAffineTransformMakeRotation(RADIANS(90.0f));
-            }
-        }
-        
-        self.splashScreenImageView.transform = transform;
-        
         CGRect bounds = [[UIScreen mainScreen] bounds];
         
-        if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
+        if (![[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
         {
-            bounds = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
+            CGAffineTransform transform = CGAffineTransformIdentity;
+            
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            {
+                if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(0.0f));
+                }
+                else
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(180.0f));
+                }
+            }
+            else
+            {
+                if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(270.0f));
+                }
+                else
+                {
+                    transform = CGAffineTransformMakeRotation(RADIANS(90.0f));
+                }
+            }
+            
+            self.splashScreenImageView.transform = transform;
         }
         
         self.splashScreenImageView.frame = bounds;
