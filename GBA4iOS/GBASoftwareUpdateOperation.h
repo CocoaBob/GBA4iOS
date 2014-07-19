@@ -14,6 +14,8 @@ typedef void (^GBASoftwareUpdateCompletionBlock)(GBASoftwareUpdate *softwareUpda
 
 @interface GBASoftwareUpdateOperation : NSObject
 
+@property (nonatomic, assign) BOOL performsNoOperation;
+
 - (void)checkForUpdateWithCompletion:(GBASoftwareUpdateCompletionBlock)completionBlock;
 
 @end

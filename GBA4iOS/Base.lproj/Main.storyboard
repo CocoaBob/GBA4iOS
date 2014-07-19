@@ -673,8 +673,23 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle=" " id="igE-0h-kuN">
-                                <string key="footerTitle">To make sure GBA4iOS can check for new data and send push notifications, please make sure “Background Fetch” is turned ON for GBA4iOS in the Settings app.</string>
-                                <cells/>
+                                <string key="footerTitle">To make sure GBA4iOS can check for new data and send push notifications, please make sure “Background App Refresh” is turned ON for GBA4iOS in the Settings app.</string>
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Hny-dp-MQF" style="IBUITableViewCellStyleDefault" id="EFu-sZ-pWi">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EFu-sZ-pWi" id="lSS-NS-DZJ">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Open Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hny-dp-MQF">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
                             </tableViewSection>
                         </sections>
                         <connections>

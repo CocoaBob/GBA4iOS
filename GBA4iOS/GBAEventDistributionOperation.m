@@ -16,6 +16,16 @@ static NSString * const GBAEventDistributionRootAddress = @"http://gba4iosapp.co
 
 - (void)checkForEventsWithCompletion:(GBAEventDistributionOperationCompletionBlock)completion
 {
+    if (self.performsNoOperation)
+    {
+        if (completion)
+        {
+            completion(nil, nil);
+        }
+        
+        return;
+    }
+    
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];

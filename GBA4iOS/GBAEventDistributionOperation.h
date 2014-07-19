@@ -13,6 +13,8 @@ typedef void (^GBAEventDistributionOperationCompletionBlock)(NSArray *events, NS
 
 @interface GBAEventDistributionOperation : NSObject
 
+@property (assign, nonatomic) BOOL performsNoOperation;
+
 - (void)checkForEventsWithCompletion:(GBAEventDistributionOperationCompletionBlock)completion;
 
 @end

@@ -36,10 +36,39 @@
     self.softwareUpdatesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UITableView
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1 && section == 2)
+    {
+        return 0;
+    }
+    
+    return [super tableView:tableView numberOfRowsInSection:section];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section != 2)
+    {
+        return;
+    }
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 }
 
 #pragma mark - Toggling Notifications

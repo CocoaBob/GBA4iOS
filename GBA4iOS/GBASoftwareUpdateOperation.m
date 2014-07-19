@@ -16,6 +16,16 @@ static NSString * const GBASoftwareUpdateRootAddress = @"http://gba4iosapp.com/d
 
 - (void)checkForUpdateWithCompletion:(GBASoftwareUpdateCompletionBlock)completionBlock
 {
+    if (self.performsNoOperation)
+    {
+        if (completionBlock)
+        {
+            completionBlock(nil, nil);
+        }
+        
+        return;
+    }
+    
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     configuration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];

@@ -506,7 +506,16 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
                      backgroundFetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications] && completionHandler)
+    {
+        DLog(@"Software Update Push Notifications Disabled");
+        [softwareUpdateOperation setPerformsNoOperation:YES];
+    }
+    
     [softwareUpdateOperation checkForUpdateWithCompletion:^(GBASoftwareUpdate *softwareUpdate, NSError *error) {
+        
+        // Don't return if softwareUpdate is nil, in case we perform no network operation
         
         if (error)
         {
@@ -538,7 +547,16 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         
         
         GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
+        
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotifications] && completionHandler)
+        {
+            DLog(@"Event Distribution Push Notifications Disabled");
+            [eventDistributionOperation setPerformsNoOperation:YES];
+        }
+        
         [eventDistributionOperation checkForEventsWithCompletion:^(NSArray *events, NSError *error) {
+            
+            // Don't return if events is nil, in case we perform no network operation
             
             if (error)
             {
