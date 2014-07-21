@@ -532,6 +532,8 @@
 		BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTFileBrowserTableViewCell.m; path = Cocoapods/RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
 		BF3E2BD918206DF2004231F6 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTDirectoryMonitor.h; path = Cocoapods/RSTDirectoryMonitor.h; sourceTree = "<group>"; };
 		BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTDirectoryMonitor.m; path = Cocoapods/RSTDirectoryMonitor.m; sourceTree = "<group>"; };
+		BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GBA4iOS.entitlements; sourceTree = "<group>"; };
+		BF4B0FF2197C9D36003CF17D /* com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements; sourceTree = "<group>"; };
 		BF52A564197A5E1F00F88815 /* GBAPushNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPushNotificationsViewController.h; sourceTree = "<group>"; };
 		BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPushNotificationsViewController.m; sourceTree = "<group>"; };
 		BF537EF7184FE1AC00661C42 /* GBASyncFileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation.h; sourceTree = "<group>"; };
@@ -1084,6 +1086,7 @@
 		BFB39ACC1958D796003330AE /* GBA4Keyboard */ = {
 			isa = PBXGroup;
 			children = (
+				BF4B0FF2197C9D36003CF17D /* com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements */,
 				BFB39AE91958DF8E003330AE /* GBAKeyboardViewController.h */,
 				BFB39AEA1958DF8E003330AE /* GBAKeyboardViewController.m */,
 				BFB39ACD1958D796003330AE /* Supporting Files */,
@@ -1373,6 +1376,7 @@
 		CC2D57051798F2EC00C616EB /* GBA4iOS */ = {
 			isa = PBXGroup;
 			children = (
+				BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */,
 				CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */,
 				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */,
 				CC2D57111798F2EC00C616EB /* Main.storyboard */,
@@ -1840,6 +1844,11 @@
 					BFB39ACA1958D796003330AE = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = 6XVY5G3U44;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					CC2D56FB1798F2EC00C616EB = {
 						DevelopmentTeam = 6XVY5G3U44;
@@ -1848,7 +1857,7 @@
 								enabled = 1;
 							};
 							com.apple.Keychain = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -2685,7 +2694,7 @@
 					"-DSysDDec=float",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
-				PROVISIONING_PROFILE = "14E3F4BC-8F04-4B7F-8348-CD6A5B8C671B";
+				PROVISIONING_PROFILE = "9074FF0C-ED39-4AE8-B0F4-605D0A23D671";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2700,8 +2709,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2733,7 +2741,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9074FF0C-ED39-4AE8-B0F4-605D0A23D671";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Enterprise;
@@ -2905,6 +2913,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2994,7 +3003,9 @@
 		BFB39AD71958D796003330AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_ID = com.rileytestut.GBA4iOS.GBA4Keyboard;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4Keyboard/com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3018,7 +3029,9 @@
 		BFB39AD81958D796003330AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_ID = com.rileytestut.GBA4iOS.GBA4Keyboard;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4Keyboard/com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3037,7 +3050,9 @@
 		BFB39AD91958D796003330AE /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_ID = com.rileytestut.GBA4iOS.GBA4Keyboard;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4Keyboard/com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3056,9 +3071,9 @@
 		BFB39ADA1958D796003330AE /* Enterprise */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_ID = com.rileytestut.enterprise.GBA4iOS.GBA4Keyboard;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = GBA4Keyboard/com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -3067,7 +3082,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
-				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Enterprise;
@@ -3075,7 +3089,9 @@
 		BFB39ADB1958D796003330AE /* Jailbreak */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_ID = com.rileytestut.GBA4iOS.GBA4Keyboard;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4Keyboard/com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3332,6 +3348,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3377,6 +3394,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3536,6 +3554,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
