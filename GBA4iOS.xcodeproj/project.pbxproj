@@ -1086,7 +1086,6 @@
 		BFB39ACC1958D796003330AE /* GBA4Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				BF4B0FF2197C9D36003CF17D /* com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements */,
 				BFB39AE91958DF8E003330AE /* GBAKeyboardViewController.h */,
 				BFB39AEA1958DF8E003330AE /* GBAKeyboardViewController.m */,
 				BFB39ACD1958D796003330AE /* Supporting Files */,
@@ -1097,6 +1096,7 @@
 		BFB39ACD1958D796003330AE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BF4B0FF2197C9D36003CF17D /* com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements */,
 				BFB39ACE1958D796003330AE /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -1376,7 +1376,6 @@
 		CC2D57051798F2EC00C616EB /* GBA4iOS */ = {
 			isa = PBXGroup;
 			children = (
-				BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */,
 				CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */,
 				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */,
 				CC2D57111798F2EC00C616EB /* Main.storyboard */,
@@ -1401,6 +1400,7 @@
 			isa = PBXGroup;
 			children = (
 				CC2D57071798F2EC00C616EB /* GBA4iOS-Info.plist */,
+				BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */,
 				CC2D57081798F2EC00C616EB /* InfoPlist.strings */,
 				CC2D570B1798F2EC00C616EB /* main.mm */,
 				CCF025A5179E4E49002A3BF6 /* config.h */,
@@ -3074,6 +3074,8 @@
 				BUNDLE_ID = com.rileytestut.enterprise.GBA4iOS.GBA4Keyboard;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4Keyboard/com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -3082,6 +3084,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Enterprise;
@@ -3221,7 +3224,7 @@
 					"-DSysDDec=float",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
-				PROVISIONING_PROFILE = "6D897175-CD29-4F70-845C-27910180CA1F";
+				PROVISIONING_PROFILE = "F6DE422A-C118-4D57-980D-2DF6297A1B10";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = "";
@@ -3349,8 +3352,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3382,7 +3383,6 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

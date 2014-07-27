@@ -1,7 +1,7 @@
 GBA4iOS
 ===========
 
-<img src="http://gba4iosapp.com/images/download/gba4ios2_devices.png">
+![GBA4iOS](http://gba4iosapp.com/images/download/gba4ios2_devices.png)
 
 The number one Game Boy Advance emulator for iOS is back, and has been rewritten from the ground up for iOS 7.
 
