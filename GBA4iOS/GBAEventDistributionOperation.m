@@ -11,7 +11,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
-static NSString * const GBAEventDistributionRootAddress = @"http://gba4iosapp.com/delta/event_distribution/";
+NSString * const GBAEventDistributionRootAddress = @"http://gba4iosapp.com/delta/event_distribution/";
 
 @implementation GBAEventDistributionOperation
 

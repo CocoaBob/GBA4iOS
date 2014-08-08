@@ -19,8 +19,6 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-#define EVENT_DISTRIBUTION_ROOT_ADDRESS @"http://rileytestut.com/gba4ios/eventdistribution/"
-
 static void * GBADownloadProgressContext = &GBADownloadProgressContext;
 static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUnitContext;
 
@@ -609,7 +607,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 
 - (NSURL *)URLForFileWithName:(NSString *)name identifier:(NSString *)identifier
 {
-    NSString *address = [EVENT_DISTRIBUTION_ROOT_ADDRESS stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@", identifier, name]];
+    NSString *address = [GBAEventDistributionRootAddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@", identifier, name]];
     return [NSURL URLWithString:address];
 }
 

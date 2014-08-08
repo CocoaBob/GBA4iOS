@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "GBAEvent.h"
 
+extern NSString * const GBAEventDistributionRootAddress;
+
 typedef void (^GBAEventDistributionOperationCompletionBlock)(NSArray *events, NSError *error);
 
 @interface GBAEventDistributionOperation : NSObject

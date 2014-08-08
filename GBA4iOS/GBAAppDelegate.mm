@@ -329,7 +329,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
     //[[NSUserDefaults standardUserDefaults] removeObjectForKey:GBACachedEventDistributionsKey];
     //[[NSUserDefaults standardUserDefaults] synchronize];
     
-    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:1 * 60 * 60 * 24]; // Check approximately once a day
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:1 * 60 * 60 * 12]; // Check approximately twice a day (keep the app alive without iOS preving opening due to expired certificate)
     
     if ([UIUserNotificationSettings class])
     {
