@@ -111,11 +111,14 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 + (void)registerDefaults
 {
+    NSString *gbaDefaultString = [NSString stringWithFormat:@"GBA/%@", GBADefaultSkinIdentifier];
+    NSString *gbcDefaultString = [NSString stringWithFormat:@"GBC/%@", GBADefaultSkinIdentifier];
+    
     NSDictionary *defaults = @{GBASettingsFrameSkipKey: @(-1),
                                GBASettingsAutosaveKey: @(1),
                                GBASettingsVibrateKey: @YES,
-                               GBASettingsGBASkinsKey: @{@"portrait": @"GBA/com.GBA4iOS.default", @"landscape": @"GBA/com.GBA4iOS.default"},
-                               GBASettingsGBCSkinsKey: @{@"portrait": @"GBC/com.GBA4iOS.default", @"landscape": @"GBC/com.GBA4iOS.default"},
+                               GBASettingsGBASkinsKey: @{@"portrait": gbaDefaultString, @"landscape": gbaDefaultString},
+                               GBASettingsGBCSkinsKey: @{@"portrait": gbcDefaultString, @"landscape": gbcDefaultString},
                                GBASettingsControllerOpacityKey: @0.5,
                                GBASettingsAirPlayEnabled: @YES,
                                GBASettingsEventDistributionPushNotifications: @YES,

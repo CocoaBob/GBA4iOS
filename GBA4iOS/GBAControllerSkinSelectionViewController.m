@@ -203,7 +203,7 @@
             
             if ([controller imageForOrientation:self.controllerOrientation])
             {
-                if ([identifier isEqualToString:@"com.GBA4iOS.default"] && prioritizeDefaultSkin)
+                if ([identifier isEqualToString:GBADefaultSkinIdentifier] && prioritizeDefaultSkin)
                 {
                     [array insertObject:controller atIndex:0];
                 }

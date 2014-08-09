@@ -69,7 +69,7 @@
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default_New" ofType:@"gbaskin"];
     
-    NSString *destinationPath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"];
+    NSString *destinationPath = [[self GBASkinsDirectory] stringByAppendingPathComponent:GBADefaultSkinIdentifier];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
     {

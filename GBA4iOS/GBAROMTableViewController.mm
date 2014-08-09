@@ -793,9 +793,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
     
-    NSString *destinationPath = [[self GBASkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"];
+    GBAControllerSkin *defaultSkin = [GBAControllerSkin defaultControllerSkinForSkinType:GBAControllerSkinTypeGBA];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath] && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
+    if ([defaultSkin imageForOrientation:GBAControllerSkinOrientationPortrait] && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
@@ -804,8 +804,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 #endif
     }
     
-    [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
-        
     [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
 
@@ -813,9 +811,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbcskin"];
     
-    NSString *destinationPath = [[self GBCSkinsDirectory] stringByAppendingPathComponent:@"com.GBA4iOS.default"];
+    GBAControllerSkin *defaultSkin = [GBAControllerSkin defaultControllerSkinForSkinType:GBAControllerSkinTypeGBC];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath] && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
+    if ([defaultSkin imageForOrientation:GBAControllerSkinOrientationPortrait]  && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
@@ -823,8 +821,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
 #endif
     }
-    
-    [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:nil];
     
     [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
