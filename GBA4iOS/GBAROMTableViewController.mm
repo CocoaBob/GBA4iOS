@@ -584,9 +584,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                 {
                     if ([error code] == NSFileWriteFileExistsError)
                     {
-                        // Same as below when importing ROM file
+                        //////////////////// Same as below when importing ROM file ////////////////////
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists", @"")
+                            NSString *title = [NSString stringWithFormat:@"“%@” %@", [filename stringByDeletingPathExtension], NSLocalizedString(@"Already Exists", @"")];
+                            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                                             message:NSLocalizedString(@"Only one copy of a game is supported at a time. To use a new version of this game, please delete the previous version and try again.", @"")
                                                                            delegate:nil
                                                                   cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
@@ -611,7 +613,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                     else if ([error code] == NSFileWriteInvalidFileNameError)
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists With This Name", @"")
+                            NSString *title = [NSString stringWithFormat:@"%@ “%@”", NSLocalizedString(@"Game Already Exists With The Name", @""), [filename stringByDeletingPathExtension]];
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                                             message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
                                                                            delegate:nil
                                                                   cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
@@ -647,9 +650,11 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
             {
                 if ([error code] == NSFileWriteFileExistsError)
                 {
-                    // Same as above when importing ROM file
+                    //////////////////// Same as above when importing ROM file ////////////////////
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists", @"")
+                        NSString *title = [NSString stringWithFormat:@"“%@” %@", [filename stringByDeletingPathExtension], NSLocalizedString(@"Already Exists", @"")];
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                                         message:NSLocalizedString(@"Only one copy of a game is supported at a time. To use a new version of this game, please delete the previous version and try again.", @"")
                                                                        delegate:nil
                                                               cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
@@ -661,7 +666,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
                 else if ([error code] == NSFileWriteInvalidFileNameError)
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Game Already Exists With This Name", @"")
+                        NSString *title = [NSString stringWithFormat:@"%@ “%@”", NSLocalizedString(@"Game Already Exists With The Name", @""), [filename stringByDeletingPathExtension]];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                                         message:NSLocalizedString(@"Please rename either the existing file or the file to be imported and try again.", @"")
                                                                        delegate:nil
                                                               cancelButtonTitle:NSLocalizedString(@"Dismiss", @"") otherButtonTitles:nil];
