@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, GBAControllerSkinType)
     GBAControllerSkinTypeGBC = 1
 };
 
-typedef NS_ENUM(NSInteger, GBAControllerOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
+typedef NS_OPTIONS(NSInteger, GBAControllerOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
 {
     GBAControllerSkinOrientationPortrait   =    1 << 0,
     GBAControllerSkinOrientationLandscape  =    1 << 1,

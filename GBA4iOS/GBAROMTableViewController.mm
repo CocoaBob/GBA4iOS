@@ -797,11 +797,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (void)importDefaultGBASkin
 {
-    NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
-    
     GBAControllerSkin *defaultSkin = [GBAControllerSkin defaultControllerSkinForSkinType:GBAControllerSkinTypeGBA];
     
-    if ([defaultSkin imageForOrientation:GBAControllerSkinOrientationPortrait] && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
+    if (defaultSkin && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
@@ -810,16 +808,15 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 #endif
     }
     
+    NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbaskin"];
     [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
 
 - (void)importDefaultGBCSkin
 {
-    NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbcskin"];
-    
     GBAControllerSkin *defaultSkin = [GBAControllerSkin defaultControllerSkinForSkinType:GBAControllerSkinTypeGBC];
     
-    if ([defaultSkin imageForOrientation:GBAControllerSkinOrientationPortrait]  && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
+    if (defaultSkin && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
@@ -828,6 +825,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 #endif
     }
     
+    NSString *filepath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"gbcskin"];
     [GBAControllerSkin extractSkinAtPathToSkinsDirectory:filepath];
 }
 

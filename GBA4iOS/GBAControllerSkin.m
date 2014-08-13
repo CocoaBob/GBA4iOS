@@ -67,8 +67,33 @@
             filepath = [skinsDirectory stringByAppendingPathComponent:[@"GBC/" stringByAppendingString:GBADefaultSkinIdentifier]];
             break;
     }
-            
+                
     GBAControllerSkin *controllerSkin = [[GBAControllerSkin alloc] initWithContentsOfFile:filepath];
+    
+    if ([controllerSkin imageForOrientation:GBAControllerSkinOrientationPortrait] == nil || [controllerSkin imageForOrientation:GBAControllerSkinOrientationLandscape] == nil)
+    {
+        NSLog(@"Fixing corrupted default skin...");
+        
+        NSString *fileType = nil;
+        
+        switch (skinType)
+        {
+            case GBAControllerSkinTypeGBA:
+                fileType = @"gbaskin";
+                break;
+                
+            case GBAControllerSkinTypeGBC:
+                fileType = @"gbcskin";
+                break;
+        }
+        
+        
+        NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:fileType];
+        [GBAControllerSkin extractSkinAtPathToSkinsDirectory:bundlePath];
+        
+        controllerSkin = [[GBAControllerSkin alloc] initWithContentsOfFile:filepath];
+    }
+    
     return controllerSkin;
 }
 

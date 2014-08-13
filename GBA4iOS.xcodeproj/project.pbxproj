@@ -3053,8 +3053,6 @@
 				BUNDLE_ID = com.rileytestut.GBA4iOS.GBA4Keyboard;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4Keyboard/com.rileytestut.GBA4iOS.GBA4Keyboard.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -3063,7 +3061,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "com.rileytestut.GBA4iOS.$(TARGET_NAME:rfc1034identifier)";
-				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = "Ad Hoc";
@@ -3450,8 +3447,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yvette Testut (6XVY5G3U44)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: FOSHAN CITY SHUNDE WIN-MEGA ELECTRIC CO., LTD.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: FOSHAN CITY SHUNDE WIN-MEGA ELECTRIC CO., LTD.";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
@@ -3539,7 +3536,7 @@
 					"-DSysDDec=float",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
-				PROVISIONING_PROFILE = "879165B9-4F5B-4CA1-95E1-EE2A9DF21354";
+				PROVISIONING_PROFILE = "841DF111-6648-4185-A0D1-E5FDF05C0B8A";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3555,8 +3552,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
