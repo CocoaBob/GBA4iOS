@@ -200,26 +200,6 @@
 		BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */; };
 		BFE2345A196F48A30082BD9D /* Default_New.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFE23459196F48A30082BD9D /* Default_New.gbaskin */; };
-		BFF220781979EB27006D98A1 /* Controller_Buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF2206E1979EB27006D98A1 /* Controller_Buttons.png */; };
-		BFF220791979EB27006D98A1 /* Controller_Buttons.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF2206E1979EB27006D98A1 /* Controller_Buttons.png */; };
-		BFF2207A1979EB27006D98A1 /* Controller_Buttons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF2206F1979EB27006D98A1 /* Controller_Buttons@2x.png */; };
-		BFF2207B1979EB27006D98A1 /* Controller_Buttons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF2206F1979EB27006D98A1 /* Controller_Buttons@2x.png */; };
-		BFF2207C1979EB27006D98A1 /* Controller_Triggers.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220701979EB27006D98A1 /* Controller_Triggers.png */; };
-		BFF2207D1979EB27006D98A1 /* Controller_Triggers.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220701979EB27006D98A1 /* Controller_Triggers.png */; };
-		BFF2207E1979EB27006D98A1 /* Controller_Triggers@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220711979EB27006D98A1 /* Controller_Triggers@2x.png */; };
-		BFF2207F1979EB27006D98A1 /* Controller_Triggers@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220711979EB27006D98A1 /* Controller_Triggers@2x.png */; };
-		BFF220801979EB27006D98A1 /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220721979EB27006D98A1 /* Gear.png */; };
-		BFF220811979EB27006D98A1 /* Gear.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220721979EB27006D98A1 /* Gear.png */; };
-		BFF220821979EB27006D98A1 /* Gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220731979EB27006D98A1 /* Gear@2x.png */; };
-		BFF220831979EB27006D98A1 /* Gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220731979EB27006D98A1 /* Gear@2x.png */; };
-		BFF220841979EB27006D98A1 /* Mail_Activity_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220741979EB27006D98A1 /* Mail_Activity_Icon.png */; };
-		BFF220851979EB27006D98A1 /* Mail_Activity_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220741979EB27006D98A1 /* Mail_Activity_Icon.png */; };
-		BFF220861979EB27006D98A1 /* Mail_Activity_Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220751979EB27006D98A1 /* Mail_Activity_Icon@2x.png */; };
-		BFF220871979EB27006D98A1 /* Mail_Activity_Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220751979EB27006D98A1 /* Mail_Activity_Icon@2x.png */; };
-		BFF220881979EB27006D98A1 /* Software_Update_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220761979EB27006D98A1 /* Software_Update_Icon.png */; };
-		BFF220891979EB27006D98A1 /* Software_Update_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220761979EB27006D98A1 /* Software_Update_Icon.png */; };
-		BFF2208A1979EB27006D98A1 /* Software_Update_Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220771979EB27006D98A1 /* Software_Update_Icon@2x.png */; };
-		BFF2208B1979EB27006D98A1 /* Software_Update_Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFF220771979EB27006D98A1 /* Software_Update_Icon@2x.png */; };
 		BFF44FA218A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */; };
 		BFF44FA318A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */; };
 		BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
@@ -601,16 +581,6 @@
 		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
 		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
 		BFE23459196F48A30082BD9D /* Default_New.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default_New.gbaskin; path = Skins/Default_New/Default_New.gbaskin; sourceTree = SOURCE_ROOT; };
-		BFF2206E1979EB27006D98A1 /* Controller_Buttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Controller_Buttons.png; sourceTree = "<group>"; };
-		BFF2206F1979EB27006D98A1 /* Controller_Buttons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Controller_Buttons@2x.png"; sourceTree = "<group>"; };
-		BFF220701979EB27006D98A1 /* Controller_Triggers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Controller_Triggers.png; sourceTree = "<group>"; };
-		BFF220711979EB27006D98A1 /* Controller_Triggers@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Controller_Triggers@2x.png"; sourceTree = "<group>"; };
-		BFF220721979EB27006D98A1 /* Gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gear.png; sourceTree = "<group>"; };
-		BFF220731979EB27006D98A1 /* Gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Gear@2x.png"; sourceTree = "<group>"; };
-		BFF220741979EB27006D98A1 /* Mail_Activity_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mail_Activity_Icon.png; sourceTree = "<group>"; };
-		BFF220751979EB27006D98A1 /* Mail_Activity_Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Mail_Activity_Icon@2x.png"; sourceTree = "<group>"; };
-		BFF220761979EB27006D98A1 /* Software_Update_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Software_Update_Icon.png; sourceTree = "<group>"; };
-		BFF220771979EB27006D98A1 /* Software_Update_Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Software_Update_Icon@2x.png"; sourceTree = "<group>"; };
 		BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateViewController.h; sourceTree = "<group>"; };
 		BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateViewController.m; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
@@ -1156,23 +1126,6 @@
 			name = "Downloading ROMs";
 			sourceTree = "<group>";
 		};
-		BFF220491979E940006D98A1 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				BFF2206E1979EB27006D98A1 /* Controller_Buttons.png */,
-				BFF2206F1979EB27006D98A1 /* Controller_Buttons@2x.png */,
-				BFF220701979EB27006D98A1 /* Controller_Triggers.png */,
-				BFF220711979EB27006D98A1 /* Controller_Triggers@2x.png */,
-				BFF220721979EB27006D98A1 /* Gear.png */,
-				BFF220731979EB27006D98A1 /* Gear@2x.png */,
-				BFF220741979EB27006D98A1 /* Mail_Activity_Icon.png */,
-				BFF220751979EB27006D98A1 /* Mail_Activity_Icon@2x.png */,
-				BFF220761979EB27006D98A1 /* Software_Update_Icon.png */,
-				BFF220771979EB27006D98A1 /* Software_Update_Icon@2x.png */,
-			);
-			name = Images;
-			sourceTree = "<group>";
-		};
 		BFF66D8A17C95663002FDC14 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
@@ -1414,7 +1367,6 @@
 		CC2D57381798F40E00C616EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BFF220491979E940006D98A1 /* Images */,
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 				BF563AB4184B11C000722678 /* Launch Images */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
@@ -1890,28 +1842,18 @@
 			files = (
 				BFB89E4418909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
 				BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */,
-				BFF220811979EB27006D98A1 /* Gear.png in Resources */,
 				BFB89E4218909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
 				BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */,
 				BFB89E3E18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
 				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
 				BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
-				BFF220891979EB27006D98A1 /* Software_Update_Icon.png in Resources */,
-				BFF220851979EB27006D98A1 /* Mail_Activity_Icon.png in Resources */,
 				BF60A17218A61D8700B2E7D4 /* betaTesters.plist in Resources */,
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
-				BFF2207B1979EB27006D98A1 /* Controller_Buttons@2x.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
-				BFF2207F1979EB27006D98A1 /* Controller_Triggers@2x.png in Resources */,
-				BFF2207D1979EB27006D98A1 /* Controller_Triggers.png in Resources */,
-				BFF220791979EB27006D98A1 /* Controller_Buttons.png in Resources */,
-				BFF2208B1979EB27006D98A1 /* Software_Update_Icon@2x.png in Resources */,
 				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
 				BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */,
-				BFF220871979EB27006D98A1 /* Mail_Activity_Icon@2x.png in Resources */,
-				BFF220831979EB27006D98A1 /* Gear@2x.png in Resources */,
 				BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1931,28 +1873,18 @@
 			files = (
 				BFB89E4318909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
 				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
-				BFF220801979EB27006D98A1 /* Gear.png in Resources */,
 				BFB89E4118909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
 				BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
 				BF359B9B187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
-				BFF220881979EB27006D98A1 /* Software_Update_Icon.png in Resources */,
-				BFF220841979EB27006D98A1 /* Mail_Activity_Icon.png in Resources */,
 				BF60A17118A61D8700B2E7D4 /* betaTesters.plist in Resources */,
 				BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
-				BFF2207A1979EB27006D98A1 /* Controller_Buttons@2x.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
-				BFF2207E1979EB27006D98A1 /* Controller_Triggers@2x.png in Resources */,
-				BFF2207C1979EB27006D98A1 /* Controller_Triggers.png in Resources */,
-				BFF220781979EB27006D98A1 /* Controller_Buttons.png in Resources */,
-				BFF2208A1979EB27006D98A1 /* Software_Update_Icon@2x.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
-				BFF220861979EB27006D98A1 /* Mail_Activity_Icon@2x.png in Resources */,
-				BFF220821979EB27006D98A1 /* Gear@2x.png in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
