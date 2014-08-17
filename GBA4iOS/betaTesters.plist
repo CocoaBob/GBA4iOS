@@ -129,9 +129,9 @@
 			<key>name</key>
 			<string>Konstantin Geissler (celebrir)</string>
 			<key>twitterUsername</key>
-			<string></string>
+			<string>Mc_celebrir</string>
 			<key>url</key>
-			<string>http://www.celebrir.eu</string>
+			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -171,7 +171,7 @@
 			<key>twitterUsername</key>
 			<string></string>
 			<key>url</key>
-			<string>alexsander.ca</string>
+			<string>http://alexsander.ca</string>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -223,7 +223,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>David &apos;Diggy&apos; Richardson</string>
+			<string>David 'Diggy' Richardson</string>
 			<key>twitterUsername</key>
 			<string>heyitsdiggy</string>
 			<key>url</key>
