@@ -22,14 +22,15 @@
 #define AUDIO_SECTION 1
 #define SAVING_SECTION 2
 #define PUSH_NOTIFICATIONS_SECTION 3
-#define CONTROLLER_SKINS_SECTION 4
-#define CONTROLLER_OPACITY_SECTION 5
-#define VIBRATION_SECTION 6
-#define EXTERNAL_CONTROLLER_SECTION 7
-#define AIRPLAY_SECTION 8
-#define DROPBOX_SYNC_SECTION 9
-#define SOFTWARE_UPDATE_SECTION 10
-#define CREDITS_SECTION 11
+#define GAME_BOY_COLOR_PALETTE_SECTION 4
+#define CONTROLLER_SKINS_SECTION 5
+#define CONTROLLER_OPACITY_SECTION 6
+#define VIBRATION_SECTION 7
+#define EXTERNAL_CONTROLLER_SECTION 8
+#define AIRPLAY_SECTION 9
+#define DROPBOX_SYNC_SECTION 10
+#define SOFTWARE_UPDATE_SECTION 11
+#define CREDITS_SECTION 12
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -42,9 +43,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
-@property (weak, nonatomic) UILabel *dropboxSyncStatusLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *airplaySwitch;
+
+@property (weak, nonatomic) UILabel *dropboxSyncStatusLabel;
 @property (weak, nonatomic) UILabel *pushNotificationsEnabledLabel;
+@property (weak, nonatomic) UILabel *colorPaletteLabel;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -225,6 +228,15 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         self.pushNotificationsEnabledLabel = cell.detailTextLabel;
         cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     }
+    else if (indexPath.section == GAME_BOY_COLOR_PALETTE_SECTION)
+    {
+        GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPalette];
+        NSString *localizedString = [GBAColorSelectionViewController localizedNameFromGBCColorPalette:selectedColorPalette];
+        
+        self.colorPaletteLabel = cell.detailTextLabel;
+        
+        cell.detailTextLabel.text = localizedString;
+    }
     else if (indexPath.section == DROPBOX_SYNC_SECTION)
     {
         if (indexPath.row == 0)
@@ -378,7 +390,12 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         GBAPushNotificationsViewController *pushNotificationsViewController = [GBAPushNotificationsViewController new];
         [self.navigationController pushViewController:pushNotificationsViewController animated:YES];
     }
-    if (indexPath.section == CONTROLLER_SKINS_SECTION)
+    else if (indexPath.section == GAME_BOY_COLOR_PALETTE_SECTION)
+    {
+        GBAColorSelectionViewController *colorSelectionViewController = [GBAColorSelectionViewController new];
+        [self.navigationController pushViewController:colorSelectionViewController animated:YES];
+    }
+    else if (indexPath.section == CONTROLLER_SKINS_SECTION)
     {
         GBAControllerSkinDetailViewController *controllerSkinDetailViewController = [[GBAControllerSkinDetailViewController alloc] init];
         
@@ -508,6 +525,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     if (viewController == self)
     {
         // Use a reference to the label because reloading the section or row causes graphical glitches under iOS 7, and also removes the highlighted state when using interactive back gesture
+        
         if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
         {
             self.dropboxSyncStatusLabel.text = NSLocalizedString(@"On", @"");
@@ -525,6 +543,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         {
             self.pushNotificationsEnabledLabel.text = NSLocalizedString(@"Off", @"");
         }
+        
+        GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPalette];
+        NSString *localizedString = [GBAColorSelectionViewController localizedNameFromGBCColorPalette:selectedColorPalette];
+        
+        self.colorPaletteLabel.text = localizedString;
     }
 }
 

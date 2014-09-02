@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GBAROMTableViewController.h"
+#import "GBAColorSelectionViewController.h"
 
 extern NSString *const GBASettingsDidChangeNotification;
 extern NSString *const GBASettingsDropboxStatusChangedNotification;
@@ -25,6 +26,7 @@ static NSString *GBASettingsExternalControllerButtonsKey = @"externalControllerB
 static NSString *GBASettingsAirPlayEnabled = @"airPlayEnabled";
 static NSString *GBASettingsSoftwareUpdatePushNotifications = @"softwareUpdatePushNotifications";
 static NSString *GBASettingsEventDistributionPushNotifications = @"eventDistributionPushNotifications";
+static NSString *GBASettingsSelectedColorPalette = @"selectedColorPalette";
 
 @class GBASettingsViewController;
 

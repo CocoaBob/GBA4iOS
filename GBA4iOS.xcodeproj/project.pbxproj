@@ -187,6 +187,8 @@
 		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
+		BFC82E1119B676A400284BAE /* GBAColorSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */; };
+		BFC82E1219B676A400284BAE /* GBAColorSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */; };
 		BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD98C401895FF0100A9432C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
@@ -566,6 +568,8 @@
 		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEventDistributionViewController.mm; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
+		BFC82E0F19B676A400284BAE /* GBAColorSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAColorSelectionViewController.h; sourceTree = "<group>"; };
+		BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAColorSelectionViewController.m; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
 		BFD03A9C1898E877001056A5 /* GBAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEvent.h; sourceTree = "<group>"; };
 		BFD03A9D1898E877001056A5 /* GBAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEvent.m; sourceTree = "<group>"; };
@@ -1617,6 +1621,8 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BFC82E0F19B676A400284BAE /* GBAColorSelectionViewController.h */,
+				BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
 				BF03836318B7E7C3002E45FC /* Software Update */,
 				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
@@ -2003,6 +2009,7 @@
 				BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */,
 				BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */,
 				BF2F350E183FF6F9002ACE90 /* UITouch+ControllerButtons.m in Sources */,
+				BFC82E1219B676A400284BAE /* GBAColorSelectionViewController.m in Sources */,
 				BF16DCF3184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */,
 				BF2F351B183FF6F9002ACE90 /* RSTFileBrowserViewController.m in Sources */,
 				BF2942A6188A6E4000B96F98 /* GBAKeyboardDismissalNavigationController.m in Sources */,
@@ -2172,6 +2179,7 @@
 				CCC9B8AD1815AC7E005C90EE /* gambatte.cpp in Sources */,
 				CCFA7180179D2EAB00768D24 /* IoMmapFd.cc in Sources */,
 				CCFA71B3179D2FE400768D24 /* EmuInput.cc in Sources */,
+				BFC82E1119B676A400284BAE /* GBAColorSelectionViewController.m in Sources */,
 				BFFBCCD61850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */,
 				CC157AE6179D1BC60068A54E /* pngget.c in Sources */,
 				CC5045111814DC69009F7B9E /* Zip7_Extractor.cpp in Sources */,
