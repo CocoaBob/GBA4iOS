@@ -101,8 +101,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingsDidChange:) name:GBASettingsDidChangeNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -248,20 +254,25 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         romType = GBAROMTypeGBC;
     }
     
-    if (self.webViewController == nil)
+    GBAWebViewController *webViewController = self.webViewController;
+    
+    if (webViewController == nil)
     {
-        GBAWebViewController *webViewController = [[GBAWebViewController alloc] init];
+        webViewController = [[GBAWebViewController alloc] init];
         webViewController.showsDoneButton = YES;
         webViewController.downloadDelegate = self;
         webViewController.delegate = self;
-        
-        self.webViewController = webViewController;
     }
     
-    [[UIApplication sharedApplication] setStatusBarStyle:[self.webViewController preferredStatusBarStyle] animated:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:[webViewController preferredStatusBarStyle] animated:YES];
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
     [self presentViewController:navigationController animated:YES completion:NULL];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsRememberLastWebpageKey] && self.webViewController == nil)
+    {
+        self.webViewController = webViewController;
+    }
 }
 
 
@@ -1520,6 +1531,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 }
 
 #pragma mark - Settings
+
+- (void)settingsDidChange:(NSNotification *)notification
+{
+    if ([notification.userInfo[@"key"] isEqualToString:GBASettingsRememberLastWebpageKey])
+    {
+        self.webViewController = nil;
+    }
+}
 
 - (void)settingsViewControllerWillDismiss:(GBASettingsViewController *)settingsViewController
 {

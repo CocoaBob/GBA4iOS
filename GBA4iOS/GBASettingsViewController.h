@@ -18,17 +18,21 @@ static NSString *GBASettingsAutosaveKey = @"autosave";
 static NSString *GBASettingsPreferExternalAudioKey = @"preferExternalAudio";
 static NSString *GBASettingsVibrateKey = @"vibrate";
 static NSString *GBASettingsShowFramerateKey = @"showFramerate";
-static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
-static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
 static NSString *GBASettingsControllerOpacityKey = @"controllerOpacity";
 static NSString *GBASettingsDropboxSyncKey = @"dropboxSync";
 static NSString *GBASettingsExternalControllerButtonsKey = @"externalControllerButtons";
 static NSString *GBASettingsAirPlayEnabledKey = @"airPlayEnabled";
+static NSString *GBASettingsSelectedColorPaletteKey = @"selectedColorPalette";
+
+static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
+static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
+
 static NSString *GBASettingsSoftwareUpdatePushNotificationsKey = @"softwareUpdatePushNotifications";
 static NSString *GBASettingsEventDistributionPushNotificationsKey = @"eventDistributionPushNotifications";
-static NSString *GBASettingsSelectedColorPaletteKey = @"selectedColorPalette";
+
 static NSString *GBASettingsSelectedHomepageKey = @"selectedHomepage";
 static NSString *GBASettingsCustomHomepageKey = @"customHomepage";
+static NSString *GBASettingsRememberLastWebpageKey = @"rememberLastWebpage";
 
 @class GBASettingsViewController;
 

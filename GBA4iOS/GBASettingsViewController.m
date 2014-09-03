@@ -46,6 +46,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *airplaySwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *rememberLastWebpageSwitch;
 
 @property (weak, nonatomic) IBOutlet UILabel *dropboxSyncStatusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pushNotificationsEnabledLabel;
@@ -146,6 +147,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
     self.airplaySwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabledKey];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
+    self.rememberLastWebpageSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsRememberLastWebpageKey];
     
     NSString *percentage = [NSString stringWithFormat:@"%.f", self.controllerOpacitySlider.value * 100];
     percentage = [percentage stringByAppendingString:@"%"];
@@ -339,6 +341,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsAirPlayEnabledKey, @"value": @(sender.on)}];
 }
 
+- (IBAction)toggleRememberLastWebpage:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsRememberLastWebpageKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsRememberLastWebpageKey, @"value": @(sender.on)}];
+}
 
 #pragma mark - Selection
 
@@ -356,8 +363,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == WEB_BROWSER_SECTION)
     {
-        GBAWebBrowserHomepageViewController *homepageViewController = [GBAWebBrowserHomepageViewController new];
-        [self.navigationController pushViewController:homepageViewController animated:YES];
+        if (indexPath.row == 0)
+        {
+            GBAWebBrowserHomepageViewController *homepageViewController = [GBAWebBrowserHomepageViewController new];
+            [self.navigationController pushViewController:homepageViewController animated:YES];
+        }
     }
     else if (indexPath.section == CONTROLLER_SKINS_SECTION)
     {
