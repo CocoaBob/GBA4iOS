@@ -47,7 +47,10 @@
 {
     [super viewWillAppear:animated];
     
-    [self.navigationController setToolbarHidden:NO animated:NO];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+        [self.navigationController setToolbarHidden:NO animated:NO];
+    }
     
     if (_reloadWhenVisible)
     {
