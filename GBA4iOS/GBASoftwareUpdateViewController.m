@@ -178,6 +178,8 @@
                     [self.tableView.backgroundView layoutIfNeeded];
                 } completion:nil];
                 
+                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+                
                 return;
             }
             
