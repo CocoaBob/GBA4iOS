@@ -16,6 +16,7 @@
 #import "GBASoftwareUpdateViewController.h"
 #import "GBAPushNotificationsViewController.h"
 #import "GBAWebBrowserHomepageViewController.h"
+#import "GBAAcknowledgementsViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -415,10 +416,15 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == CREDITS_SECTION)
     {
-        if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section] - 1)
+        if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section] - 2)
         {
             GBABetaTesterCreditsViewController *betaTesterCreditsViewController = [[GBABetaTesterCreditsViewController alloc] init];
             [self.navigationController pushViewController:betaTesterCreditsViewController animated:YES];
+        }
+        else if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section] - 1)
+        {
+            GBAAcknowledgementsViewController *acknowledgementsViewController = [[GBAAcknowledgementsViewController alloc] init];
+            [self.navigationController pushViewController:acknowledgementsViewController animated:YES];
         }
         else
         {

@@ -179,6 +179,10 @@
 		BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3B18909EE8002E5F26 /* Default-Portrait~ipad.png */; };
 		BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3C18909EE8002E5F26 /* Default@2x.png */; };
 		BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3C18909EE8002E5F26 /* Default@2x.png */; };
+		BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = BFBA77B919B715E1000E8425 /* Acknowledgements.html */; };
+		BFBA77BB19B715E1000E8425 /* Acknowledgements.html in Resources */ = {isa = PBXBuildFile; fileRef = BFBA77B919B715E1000E8425 /* Acknowledgements.html */; };
+		BFBA77BE19B71602000E8425 /* GBAAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBA77BD19B71602000E8425 /* GBAAcknowledgementsViewController.m */; };
+		BFBA77BF19B71602000E8425 /* GBAAcknowledgementsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBA77BD19B71602000E8425 /* GBAAcknowledgementsViewController.m */; };
 		BFBAAF841977027F00754626 /* GBAEventDistributionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */; };
 		BFBAAF851977027F00754626 /* GBAEventDistributionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */; };
 		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
@@ -560,6 +564,9 @@
 		BFB89E3A18909EE8002E5F26 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		BFB89E3B18909EE8002E5F26 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		BFB89E3C18909EE8002E5F26 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		BFBA77B919B715E1000E8425 /* Acknowledgements.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Acknowledgements.html; sourceTree = "<group>"; };
+		BFBA77BC19B71602000E8425 /* GBAAcknowledgementsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAAcknowledgementsViewController.h; sourceTree = "<group>"; };
+		BFBA77BD19B71602000E8425 /* GBAAcknowledgementsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAAcknowledgementsViewController.m; sourceTree = "<group>"; };
 		BFBAAF821977027F00754626 /* GBAEventDistributionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionOperation.h; sourceTree = "<group>"; };
 		BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionOperation.m; sourceTree = "<group>"; };
 		BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionViewController.h; sourceTree = "<group>"; };
@@ -1085,6 +1092,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BFBA77C019B71894000E8425 /* Acknowledgements */ = {
+			isa = PBXGroup;
+			children = (
+				BFBA77BC19B71602000E8425 /* GBAAcknowledgementsViewController.h */,
+				BFBA77BD19B71602000E8425 /* GBAAcknowledgementsViewController.m */,
+			);
+			name = Acknowledgements;
+			sourceTree = "<group>";
+		};
 		BFBFC1251878D2E500FF0A3A /* Event Distribution */ = {
 			isa = PBXGroup;
 			children = (
@@ -1397,6 +1413,7 @@
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
 				CC15E53C179ECDCC00449972 /* xButton.png */,
 				BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */,
+				BFBA77B919B715E1000E8425 /* Acknowledgements.html */,
 			);
 			name = Resources;
 			path = GBA4iOS;
@@ -1637,6 +1654,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BFBA77C019B71894000E8425 /* Acknowledgements */,
 				BF77FBE319B6D81000B9E3A1 /* Web Browser Homepage */,
 				BFC82E1319B68B8E00284BAE /* Color Palette */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
@@ -1875,6 +1893,7 @@
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
 				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
+				BFBA77BB19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 			);
@@ -1906,6 +1925,7 @@
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
+				BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 			);
@@ -2055,6 +2075,7 @@
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
+				BFBA77BF19B71602000E8425 /* GBAAcknowledgementsViewController.m in Sources */,
 				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
 				BFBAAF851977027F00754626 /* GBAEventDistributionOperation.m in Sources */,
 				BF7EC2EE196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */,
@@ -2315,6 +2336,7 @@
 				BF2290A4189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */,
 				CC5045011814DC69009F7B9E /* Util.cpp in Sources */,
 				CCFA7188179D2EAB00768D24 /* MenuItem.cc in Sources */,
+				BFBA77BE19B71602000E8425 /* GBAAcknowledgementsViewController.m in Sources */,
 				BFD98C401895FF0100A9432C /* ioapi.c in Sources */,
 				CC157AEB179D1BC60068A54E /* pngrtran.c in Sources */,
 				CCFA718A179D2EAB00768D24 /* FSPicker.cc in Sources */,
