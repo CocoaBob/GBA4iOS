@@ -6,52 +6,36 @@
 //  Copyright (c) 2014 Riley Testut. All rights reserved.
 //
 
-// RSTWebViewController is not meant to be subclassed, but eh I need to to achieve some features
-
 #import "GBAWebViewController.h"
-#import "GBAWebViewControllerURLCache.h"
+#import "GBASettingsViewController.h"
+#import "GBAWebBrowserHomepageViewController.h"
 
-@interface RSTWebViewController ()
-
-@property (strong, nonatomic) UIProgressView *progressView;
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView;
-
-@end
-
-@interface GBAWebViewController () <RSTWebViewControllerDelegate>
-
-@property (assign, nonatomic) BOOL loadingGoogleSearchRequest;
-@property (assign, nonatomic) NSInteger initialLoadingGoogleSearchRequestCount;
+@interface GBAWebViewController ()
+{
+    BOOL _reloadWhenVisible;
+}
 
 @end
 
 @implementation GBAWebViewController
 
-/*
-+ (void)initialize
+- (instancetype)init
 {
-    GBAWebViewControllerURLCache *cache = [[GBAWebViewControllerURLCache alloc] init];
-    [NSURLCache setSharedURLCache:cache];
-}
-*/
-
-- (instancetype)initWithROMType:(GBAROMType)romType
-{
-    _romType = romType;
+    GBAWebBrowserHomepage homepage = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedHomepageKey];
+    NSString *address = [self addressForHomepage:homepage];
     
-    self = [super initWithAddress:[self googleSearchLink]];
-    
+    self = [super initWithAddress:address];
     if (self)
     {
-        _loadingGoogleSearchRequest = YES;
-        
-        self.progressView.hidden = YES;
-        
-        [(GBAWebViewControllerURLCache *)[NSURLCache sharedURLCache] setReplaceInitialRequestWithBlankPage:YES];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingsDidChange:) name:GBASettingsDidChangeNotification object:nil];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:GBASettingsDidChangeNotification object:nil];
 }
 
 - (void)viewDidLoad
@@ -59,50 +43,87 @@
     [super viewDidLoad];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super webViewDidFinishLoad:webView];
+    [super viewWillAppear:animated];
     
-    if (self.loadingGoogleSearchRequest)
+    [self.navigationController setToolbarHidden:NO animated:NO];
+    
+    if (_reloadWhenVisible)
     {
-        self.initialLoadingGoogleSearchRequestCount++;
+        GBAWebBrowserHomepage homepage = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedHomepageKey];
+        NSString *address = [self addressForHomepage:homepage];
         
-        if (self.initialLoadingGoogleSearchRequestCount >= 2)
-        {
-            self.loadingGoogleSearchRequest = NO;
-            self.initialLoadingGoogleSearchRequestCount = 0;
-            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self coolROMURLAddress]]]];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:address]]];
+        
+        _reloadWhenVisible = NO;
+    }
+}
+
+#pragma mark - Settings Notification -
+
+- (void)settingsDidChange:(NSNotification *)notification
+{
+    if ([notification.userInfo[@"key"] isEqualToString:GBASettingsSelectedHomepageKey] || [notification.userInfo[@"key"] isEqualToString:GBASettingsCustomHomepageKey])
+    {
+        _reloadWhenVisible = YES;
+    }
+}
+
+#pragma mark - Helper Methods -
+
+- (NSString *)addressForHomepage:(GBAWebBrowserHomepage)homepage
+{
+    NSString *address = @"http://google.com";
+    
+    switch (homepage)
+    {
+        case GBAWebBrowserHomepageGoogle:
+            address = @"http://www.google.com";
+            break;
             
-            self.progressView.progress = 0;
-            self.progressView.hidden = NO;
+        case GBAWebBrowserHomepageYahoo:
+            address = @"http://www.yahoo.com";
+            break;
+            
+        case GBAWebBrowserHomepageBing:
+            address = @"http://www.bing.com";
+            break;
+            
+        case GBAWebBrowserHomepageGameFAQs:
+            address = @"http://www.gamefaqs.com";
+            break;
+            
+        case GBAWebBrowserHomepageSuperCheats:
+            address = @"http://www.supercheats.com";
+            break;
+            
+        case GBAWebBrowserHomepageCustom:
+        {
+            address = [[NSUserDefaults standardUserDefaults] objectForKey:GBASettingsCustomHomepageKey];
+            
+            if (address.length == 0)
+            {
+                address = @"http://gba4iosapp.com";
+            }
+            
+            NSURLComponents *components = [NSURLComponents componentsWithString:address];
+            
+            if (components.scheme == nil)
+            {
+                components.scheme = @"http";
+                
+                address = [components string];
+            }
+            
+            break;
         }
+            
+        default:
+            break;
     }
-}
-
-#pragma mark - Helper Methods
-
-- (NSString *)coolROMURLAddress
-{
-    if (self.romType == GBAROMTypeGBA)
-    {
-        return @"http://m.coolrom.com/roms/gba/?utm_source=gba4ios&utm_medium=partnerships&utm_campaign=gba4ios";
-    }
-    else
-    {
-        return @"http://m.coolrom.com/roms/gbc/?utm_source=gba4ios&utm_medium=partnerships&utm_campaign=gba4ios";
-    }
-}
-
-- (NSString *)googleSearchLink
-{
-    if (self.romType == GBAROMTypeGBA)
-    {
-        return @"http://www.google.com/search?q=download+GBA+roms&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
-    }
-    else
-    {
-        return @"http://www.google.com/search?q=download+GBC+roms&ie=UTF-8&oe=UTF-8&hl=en&client=safari";
-    }
+    
+    return address;
 }
 
 @end

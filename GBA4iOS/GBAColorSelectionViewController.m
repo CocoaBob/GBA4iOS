@@ -40,7 +40,7 @@
 
 #pragma mark - Public -
 
-+ (NSString *)localizedNameFromGBCColorPalette:(GBCColorPalette)colorPalette
++ (NSString *)localizedNameForGBCColorPalette:(GBCColorPalette)colorPalette
 {
     NSString *localizedName = nil;
     
@@ -130,11 +130,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
-    
-    NSIndexPath *previousIndexPath = [NSIndexPath indexPathForRow:selectedColorPalette inSection:0];
-    
-    selectedColorPalette = indexPath.row;
+    GBCColorPalette selectedColorPalette = indexPath.row;
     [[NSUserDefaults standardUserDefaults] setInteger:selectedColorPalette forKey:GBASettingsSelectedColorPaletteKey];
     
     [self.tableView reloadData];

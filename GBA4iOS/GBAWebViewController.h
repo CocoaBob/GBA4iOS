@@ -8,12 +8,6 @@
 
 #import "RSTWebViewController.h"
 
-#import "GBAROM.h"
-
 @interface GBAWebViewController : RSTWebViewController
-
-@property (readonly, assign, nonatomic) GBAROMType romType;
-
-- (instancetype)initWithROMType:(GBAROMType)romType;
 
 @end

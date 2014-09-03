@@ -32,8 +32,6 @@
 		BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */; };
 		BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
-		BF2290A0189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */; };
-		BF2290A1189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */; };
 		BF2290A4189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */; };
 		BF2290A5189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */; };
 		BF2638C618700E2400CE55F9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2638C518700E2400CE55F9 /* CoreMotion.framework */; };
@@ -189,6 +187,8 @@
 		BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
 		BFC82E1119B676A400284BAE /* GBAColorSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */; };
 		BFC82E1219B676A400284BAE /* GBAColorSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */; };
+		BFC82E1619B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC82E1519B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m */; };
+		BFC82E1719B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC82E1519B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m */; };
 		BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD03A9D1898E877001056A5 /* GBAEvent.m */; };
 		BFD98C401895FF0100A9432C /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
@@ -478,8 +478,6 @@
 		BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCalloutView.h; sourceTree = "<group>"; };
 		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
 		BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAExternalController_Private.h; sourceTree = "<group>"; };
-		BF22909E189C45D20041F1AE /* GBAWebViewControllerURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewControllerURLCache.h; sourceTree = "<group>"; };
-		BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewControllerURLCache.m; sourceTree = "<group>"; };
 		BF2290A2189C98BE0041F1AE /* NSFileManager+ForcefulMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+ForcefulMove.h"; sourceTree = "<group>"; };
 		BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+ForcefulMove.m"; sourceTree = "<group>"; };
 		BF2638C518700E2400CE55F9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -570,6 +568,8 @@
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC82E0F19B676A400284BAE /* GBAColorSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAColorSelectionViewController.h; sourceTree = "<group>"; };
 		BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAColorSelectionViewController.m; sourceTree = "<group>"; };
+		BFC82E1419B6A23E00284BAE /* GBAWebBrowserHomepageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebBrowserHomepageViewController.h; sourceTree = "<group>"; };
+		BFC82E1519B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebBrowserHomepageViewController.m; sourceTree = "<group>"; };
 		BFC9B52A18304E880012A1EA /* GBAROM_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAROM_Private.h; sourceTree = "<group>"; };
 		BFD03A9C1898E877001056A5 /* GBAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEvent.h; sourceTree = "<group>"; };
 		BFD03A9D1898E877001056A5 /* GBAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEvent.m; sourceTree = "<group>"; };
@@ -1035,6 +1035,15 @@
 			name = "Dropbox Sync";
 			sourceTree = "<group>";
 		};
+		BF77FBE319B6D81000B9E3A1 /* Web Browser Homepage */ = {
+			isa = PBXGroup;
+			children = (
+				BFC82E1419B6A23E00284BAE /* GBAWebBrowserHomepageViewController.h */,
+				BFC82E1519B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m */,
+			);
+			name = "Web Browser Homepage";
+			sourceTree = "<group>";
+		};
 		BFA60DE3184847CA0039D77E /* RSTToastView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1133,8 +1142,6 @@
 			children = (
 				BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */,
 				BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */,
-				BF22909E189C45D20041F1AE /* GBAWebViewControllerURLCache.h */,
-				BF22909F189C45D20041F1AE /* GBAWebViewControllerURLCache.m */,
 			);
 			name = "Downloading ROMs";
 			sourceTree = "<group>";
@@ -1630,6 +1637,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF77FBE319B6D81000B9E3A1 /* Web Browser Homepage */,
 				BFC82E1319B68B8E00284BAE /* Color Palette */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
 				BF03836318B7E7C3002E45FC /* Software Update */,
@@ -2040,7 +2048,6 @@
 				BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
 				BF02D2C9197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */,
 				BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */,
-				BF2290A1189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */,
 				BF2F353E183FF6F9002ACE90 /* UIImage+ImageEffects.m in Sources */,
 				BF52A567197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */,
 				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
@@ -2068,6 +2075,7 @@
 				BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */,
 				BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */,
 				BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */,
+				BFC82E1719B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m in Sources */,
 				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
 				BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */,
@@ -2226,7 +2234,6 @@
 				CCFA718B179D2EAB00768D24 /* AlertView.cc in Sources */,
 				BF359B94187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */,
 				BFD98C421895FF0100A9432C /* mztools.c in Sources */,
-				BF2290A0189C45D20041F1AE /* GBAWebViewControllerURLCache.m in Sources */,
 				BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */,
 				CCC9B8A01815AC7E005C90EE /* chainresampler.cpp in Sources */,
 				CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */,
@@ -2239,6 +2246,7 @@
 				CCC7298717C7357E0001BC6F /* GBAROM.mm in Sources */,
 				CC5044EA1814DC69009F7B9E /* EmuControls.cc in Sources */,
 				CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */,
+				BFC82E1619B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m in Sources */,
 				CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */,
 				BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,

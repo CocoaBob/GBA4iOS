@@ -15,6 +15,7 @@
 #import "GBABetaTesterCreditsViewController.h"
 #import "GBASoftwareUpdateViewController.h"
 #import "GBAPushNotificationsViewController.h"
+#import "GBAWebBrowserHomepageViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -22,15 +23,16 @@
 #define AUDIO_SECTION 1
 #define SAVING_SECTION 2
 #define PUSH_NOTIFICATIONS_SECTION 3
-#define GAME_BOY_COLOR_PALETTE_SECTION 4
-#define CONTROLLER_SKINS_SECTION 5
-#define CONTROLLER_OPACITY_SECTION 6
-#define VIBRATION_SECTION 7
-#define EXTERNAL_CONTROLLER_SECTION 8
-#define AIRPLAY_SECTION 9
-#define DROPBOX_SYNC_SECTION 10
-#define SOFTWARE_UPDATE_SECTION 11
-#define CREDITS_SECTION 12
+#define ORIGINAL_GAMEBOY_SECTION 4
+#define WEB_BROWSER_SECTION 5
+#define CONTROLLER_SKINS_SECTION 6
+#define CONTROLLER_OPACITY_SECTION 7
+#define VIBRATION_SECTION 8
+#define EXTERNAL_CONTROLLER_SECTION 9
+#define AIRPLAY_SECTION 10
+#define DROPBOX_SYNC_SECTION 11
+#define SOFTWARE_UPDATE_SECTION 12
+#define CREDITS_SECTION 13
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -45,9 +47,10 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *airplaySwitch;
 
-@property (weak, nonatomic) UILabel *dropboxSyncStatusLabel;
-@property (weak, nonatomic) UILabel *pushNotificationsEnabledLabel;
-@property (weak, nonatomic) UILabel *colorPaletteLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dropboxSyncStatusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pushNotificationsEnabledLabel;
+@property (weak, nonatomic) IBOutlet UILabel *colorPaletteLabel;
+@property (weak, nonatomic) IBOutlet UILabel *homepageLabel;
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -213,50 +216,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    
-    if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
-    {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotificationsKey] || [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotificationsKey])
-        {
-            cell.detailTextLabel.text = NSLocalizedString(@"On", @"");
-        }
-        else
-        {
-            cell.detailTextLabel.text = NSLocalizedString(@"Off", @"");
-        }
-        
-        self.pushNotificationsEnabledLabel = cell.detailTextLabel;
-        cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-    }
-    else if (indexPath.section == GAME_BOY_COLOR_PALETTE_SECTION)
-    {
-        GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
-        NSString *localizedString = [GBAColorSelectionViewController localizedNameFromGBCColorPalette:selectedColorPalette];
-        
-        self.colorPaletteLabel = cell.detailTextLabel;
-        
-        cell.detailTextLabel.text = localizedString;
-    }
-    else if (indexPath.section == DROPBOX_SYNC_SECTION)
-    {
-        if (indexPath.row == 0)
-        {
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
-            {
-                cell.detailTextLabel.text = NSLocalizedString(@"On", @"");
-            }
-            else
-            {
-                cell.detailTextLabel.text = NSLocalizedString(@"Off", @"");
-            }
-            
-            self.dropboxSyncStatusLabel = cell.detailTextLabel;
-            
-            // iOS 7 bug: background turns white when returning to this view from the syncing overview view
-            cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-        }
-    }
-    
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.backgroundColor = [UIColor whiteColor];
@@ -390,10 +349,15 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         GBAPushNotificationsViewController *pushNotificationsViewController = [GBAPushNotificationsViewController new];
         [self.navigationController pushViewController:pushNotificationsViewController animated:YES];
     }
-    else if (indexPath.section == GAME_BOY_COLOR_PALETTE_SECTION)
+    else if (indexPath.section == ORIGINAL_GAMEBOY_SECTION)
     {
         GBAColorSelectionViewController *colorSelectionViewController = [GBAColorSelectionViewController new];
         [self.navigationController pushViewController:colorSelectionViewController animated:YES];
+    }
+    else if (indexPath.section == WEB_BROWSER_SECTION)
+    {
+        GBAWebBrowserHomepageViewController *homepageViewController = [GBAWebBrowserHomepageViewController new];
+        [self.navigationController pushViewController:homepageViewController animated:YES];
     }
     else if (indexPath.section == CONTROLLER_SKINS_SECTION)
     {
@@ -545,9 +509,10 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
         }
         
         GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
-        NSString *localizedString = [GBAColorSelectionViewController localizedNameFromGBCColorPalette:selectedColorPalette];
+        self.colorPaletteLabel.text = [GBAColorSelectionViewController localizedNameForGBCColorPalette:selectedColorPalette];
         
-        self.colorPaletteLabel.text = localizedString;
+        GBAWebBrowserHomepage homepage = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedHomepageKey];
+        self.homepageLabel.text = [GBAWebBrowserHomepageViewController localizedNameForWebBrowserHomepage:homepage];
     }
 }
 

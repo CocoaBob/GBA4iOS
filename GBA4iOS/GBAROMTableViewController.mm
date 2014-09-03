@@ -19,10 +19,10 @@
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"
 #import "NSFileManager+ForcefulMove.h"
+#import "GBAWebViewController.h"
 
 #import <Crashlytics/Crashlytics.h>
 
-#import <RSTWebViewController/RSTWebViewController.h>
 #import "UIAlertView+RSTAdditions.h"
 #import "UIActionSheet+RSTAdditions.h"
 
@@ -59,6 +59,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 @property (assign, nonatomic) BOOL dismissModalViewControllerUponKeyboardHide;
 
+@property (strong, nonatomic) GBAWebViewController *webViewController;
 @property (assign, nonatomic, getter = isAwaitingDownloadHTTPResponse) BOOL awaitingDownloadHTTPResponse;
 @property (strong, nonatomic) NSProgress *downloadProgress;
 @property (strong, nonatomic) UIProgressView *downloadProgressView;
@@ -247,14 +248,19 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         romType = GBAROMTypeGBC;
     }
     
-    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithAddress:@"http://google.com"];
-    webViewController.showsDoneButton = YES;
-    webViewController.downloadDelegate = self;
-    webViewController.delegate = self;
+    if (self.webViewController == nil)
+    {
+        GBAWebViewController *webViewController = [[GBAWebViewController alloc] init];
+        webViewController.showsDoneButton = YES;
+        webViewController.downloadDelegate = self;
+        webViewController.delegate = self;
+        
+        self.webViewController = webViewController;
+    }
     
-    [[UIApplication sharedApplication] setStatusBarStyle:[webViewController preferredStatusBarStyle] animated:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:[self.webViewController preferredStatusBarStyle] animated:YES];
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self.webViewController];
     [self presentViewController:navigationController animated:YES completion:NULL];
 }
 

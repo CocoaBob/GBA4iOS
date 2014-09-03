@@ -27,6 +27,8 @@ static NSString *GBASettingsAirPlayEnabledKey = @"airPlayEnabled";
 static NSString *GBASettingsSoftwareUpdatePushNotificationsKey = @"softwareUpdatePushNotifications";
 static NSString *GBASettingsEventDistributionPushNotificationsKey = @"eventDistributionPushNotifications";
 static NSString *GBASettingsSelectedColorPaletteKey = @"selectedColorPalette";
+static NSString *GBASettingsSelectedHomepageKey = @"selectedHomepage";
+static NSString *GBASettingsCustomHomepageKey = @"customHomepage";
 
 @class GBASettingsViewController;
 
