@@ -1093,6 +1093,15 @@
 			name = "Event Distribution";
 			sourceTree = "<group>";
 		};
+		BFC82E1319B68B8E00284BAE /* Color Palette */ = {
+			isa = PBXGroup;
+			children = (
+				BFC82E0F19B676A400284BAE /* GBAColorSelectionViewController.h */,
+				BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */,
+			);
+			name = "Color Palette";
+			sourceTree = "<group>";
+		};
 		BFD98C331895FEED00A9432C /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -1621,8 +1630,7 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
-				BFC82E0F19B676A400284BAE /* GBAColorSelectionViewController.h */,
-				BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */,
+				BFC82E1319B68B8E00284BAE /* Color Palette */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
 				BF03836318B7E7C3002E45FC /* Software Update */,
 				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
@@ -3158,7 +3166,7 @@
 					"-DSysDDec=float",
 				);
 				PODS_ROOT = "${SRCROOT}/Pods";
-				PROVISIONING_PROFILE = "F6DE422A-C118-4D57-980D-2DF6297A1B10";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = "";

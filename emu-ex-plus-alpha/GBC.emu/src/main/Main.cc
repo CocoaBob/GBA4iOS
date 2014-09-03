@@ -67,7 +67,7 @@ static GBPalette gbPal[] =
 	{ { 0x040204, 0x04a2a4, 0xf4fe04, 0xfcfafc }, { 0x040204, 0x04a2a4, 0xf4fe04, 0xfcfafc }, { 0x040204, 0x04a2a4, 0xf4fe04, 0xfcfafc } }, // Reverse
 };
 
-static void applyGBPalette(uint idx)
+void applyGBPalette(uint idx)
 {
 	assert(idx < sizeofArray(gbPal));
 	GBPalette &pal = gbPal[idx];

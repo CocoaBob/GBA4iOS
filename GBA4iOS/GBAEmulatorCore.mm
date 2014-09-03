@@ -30,6 +30,7 @@
 #import <EmuView.hh>
 #import <gba/GBA.h>
 #import <main/Main.hh>
+#import <OptionView.hh>
 
 #include <fs/sys.hh>
 
@@ -50,9 +51,6 @@ extern bool isGBAROM;
 extern int app_argc;
 extern char **app_argv;
 
-namespace GameFilePicker {
-    void onSelectFile(const char* name, const Input::Event &e);
-}
 
 @interface GBAEmulatorCore ()
 
@@ -502,17 +500,28 @@ void writeSaveFileForCurrentROMToDisk();
 }
 
 extern void startGameFromMenu();
+extern void applyGBPalette(uint idx);
 
 - (void)updateSettings:(NSNotification *)notification
 {
-    NSInteger frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
+    NSString *settingsKey = notification.userInfo[@"key"];
     
-    if (frameskip < 0)
+    if ([settingsKey isEqualToString:GBASettingsFrameSkipKey])
     {
-        frameskip = EmuSystem::optionFrameSkipAuto;
+        NSInteger frameskip = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsFrameSkipKey];
+        
+        if (frameskip < 0)
+        {
+            frameskip = EmuSystem::optionFrameSkipAuto;
+        }
+        
+        optionFrameSkip.val = frameskip;
     }
+    else if ([settingsKey isEqualToString:GBASettingsSelectedColorPaletteKey])
+    {
+        applyGBPalette((uint)[[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey]);
+    }    
     
-    optionFrameSkip.val = frameskip;
 }
 
 - (void)setRom:(GBAROM *)rom
@@ -570,6 +579,7 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
     else
     {
         doOrExit(Base::onInit_GBC(app_argc, app_argv));
+        applyGBPalette((uint)[[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey]);
     }
     
     Audio::closePcm();

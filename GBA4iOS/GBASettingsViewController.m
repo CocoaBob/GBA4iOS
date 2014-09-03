@@ -123,9 +123,9 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsGBASkinsKey: @{@"portrait": gbaDefaultString, @"landscape": gbaDefaultString},
                                GBASettingsGBCSkinsKey: @{@"portrait": gbcDefaultString, @"landscape": gbcDefaultString},
                                GBASettingsControllerOpacityKey: @0.5,
-                               GBASettingsAirPlayEnabled: @YES,
-                               GBASettingsEventDistributionPushNotifications: @YES,
-                               GBASettingsSoftwareUpdatePushNotifications: @YES};
+                               GBASettingsAirPlayEnabledKey: @YES,
+                               GBASettingsEventDistributionPushNotificationsKey: @YES,
+                               GBASettingsSoftwareUpdatePushNotificationsKey: @YES};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
@@ -141,7 +141,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
     self.preferExternalAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferExternalAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
-    self.airplaySwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabled];
+    self.airplaySwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabledKey];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     
     NSString *percentage = [NSString stringWithFormat:@"%.f", self.controllerOpacitySlider.value * 100];
@@ -216,7 +216,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     
     if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
     {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotifications] || [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications])
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotificationsKey] || [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotificationsKey])
         {
             cell.detailTextLabel.text = NSLocalizedString(@"On", @"");
         }
@@ -230,7 +230,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == GAME_BOY_COLOR_PALETTE_SECTION)
     {
-        GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPalette];
+        GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
         NSString *localizedString = [GBAColorSelectionViewController localizedNameFromGBCColorPalette:selectedColorPalette];
         
         self.colorPaletteLabel = cell.detailTextLabel;
@@ -376,8 +376,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (IBAction)toggleAirPlay:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsAirPlayEnabled];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsAirPlayEnabled, @"value": @(sender.on)}];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsAirPlayEnabledKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsAirPlayEnabledKey, @"value": @(sender.on)}];
 }
 
 
@@ -535,7 +535,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
             self.dropboxSyncStatusLabel.text = NSLocalizedString(@"Off", @"");
         }
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotifications] || [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications])
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotificationsKey] || [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotificationsKey])
         {
             self.pushNotificationsEnabledLabel.text = NSLocalizedString(@"On", @"");
         }
@@ -544,7 +544,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
             self.pushNotificationsEnabledLabel.text = NSLocalizedString(@"Off", @"");
         }
         
-        GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPalette];
+        GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
         NSString *localizedString = [GBAColorSelectionViewController localizedNameFromGBCColorPalette:selectedColorPalette];
         
         self.colorPaletteLabel.text = localizedString;

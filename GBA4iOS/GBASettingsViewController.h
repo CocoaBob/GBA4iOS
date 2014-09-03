@@ -23,10 +23,10 @@ static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";
 static NSString *GBASettingsControllerOpacityKey = @"controllerOpacity";
 static NSString *GBASettingsDropboxSyncKey = @"dropboxSync";
 static NSString *GBASettingsExternalControllerButtonsKey = @"externalControllerButtons";
-static NSString *GBASettingsAirPlayEnabled = @"airPlayEnabled";
-static NSString *GBASettingsSoftwareUpdatePushNotifications = @"softwareUpdatePushNotifications";
-static NSString *GBASettingsEventDistributionPushNotifications = @"eventDistributionPushNotifications";
-static NSString *GBASettingsSelectedColorPalette = @"selectedColorPalette";
+static NSString *GBASettingsAirPlayEnabledKey = @"airPlayEnabled";
+static NSString *GBASettingsSoftwareUpdatePushNotificationsKey = @"softwareUpdatePushNotifications";
+static NSString *GBASettingsEventDistributionPushNotificationsKey = @"eventDistributionPushNotifications";
+static NSString *GBASettingsSelectedColorPaletteKey = @"selectedColorPalette";
 
 @class GBASettingsViewController;
 

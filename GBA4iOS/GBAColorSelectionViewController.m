@@ -112,7 +112,7 @@
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPalette];
+    GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
     
     if (indexPath.row == selectedColorPalette)
     {
@@ -130,14 +130,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPalette];
+    GBCColorPalette selectedColorPalette = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
     
     NSIndexPath *previousIndexPath = [NSIndexPath indexPathForRow:selectedColorPalette inSection:0];
     
     selectedColorPalette = indexPath.row;
-    [[NSUserDefaults standardUserDefaults] setInteger:selectedColorPalette forKey:GBASettingsSelectedColorPalette];
+    [[NSUserDefaults standardUserDefaults] setInteger:selectedColorPalette forKey:GBASettingsSelectedColorPaletteKey];
     
     [self.tableView reloadData];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsSelectedColorPaletteKey, @"value": @(selectedColorPalette)}];
     
 }
 

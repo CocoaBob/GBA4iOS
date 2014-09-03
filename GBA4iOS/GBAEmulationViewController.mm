@@ -115,7 +115,7 @@ static GBAEmulationViewController *_emulationViewController;
 #endif
     self.controllerView.delegate = self;
         
-    if ([[UIScreen screens] count] > 1 && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabled])
+    if ([[UIScreen screens] count] > 1 && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabledKey])
     {
         UIScreen *newScreen = [UIScreen screens][1];
         [self setUpAirplayScreen:newScreen];
@@ -396,7 +396,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)screenDidConnect:(NSNotification *)notification
 {
-    if ([self isAirplaying] || ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabled])
+    if ([self isAirplaying] || ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabledKey])
     {
         return;
     }
@@ -1420,7 +1420,7 @@ static GBAEmulationViewController *_emulationViewController;
         self.controllerView.skinOpacity = 1.0f;
     }
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabled])
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabledKey])
     {
         if (![self isAirplaying] && [[UIScreen screens] count] > 1)
         {

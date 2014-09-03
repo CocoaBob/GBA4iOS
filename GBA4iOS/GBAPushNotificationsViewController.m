@@ -32,8 +32,8 @@
 {
     [super viewDidLoad];
     
-    self.eventDistributionsSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotifications];
-    self.softwareUpdatesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications];
+    self.eventDistributionsSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotificationsKey];
+    self.softwareUpdatesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotificationsKey];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -75,12 +75,12 @@
 
 - (IBAction)toggleEventDistributionPushNotifications:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsEventDistributionPushNotifications];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsEventDistributionPushNotificationsKey];
 }
 
 - (IBAction)toggleSoftwareUpdatePushNotifications:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsSoftwareUpdatePushNotifications];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsSoftwareUpdatePushNotificationsKey];
 }
 
 

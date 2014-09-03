@@ -521,7 +521,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
 {
     GBASoftwareUpdateOperation *softwareUpdateOperation = [GBASoftwareUpdateOperation new];
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotifications] && completionHandler)
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsSoftwareUpdatePushNotificationsKey] && completionHandler)
     {
         DLog(@"Software Update Push Notifications Disabled");
         [softwareUpdateOperation setPerformsNoOperation:YES];
@@ -566,7 +566,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         
         GBAEventDistributionOperation *eventDistributionOperation = [GBAEventDistributionOperation new];
         
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotifications] && completionHandler)
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsEventDistributionPushNotificationsKey] && completionHandler)
         {
             DLog(@"Event Distribution Push Notifications Disabled");
             [eventDistributionOperation setPerformsNoOperation:YES];
