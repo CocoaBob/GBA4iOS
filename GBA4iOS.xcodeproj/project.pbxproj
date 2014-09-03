@@ -1025,6 +1025,7 @@
 			children = (
 				BF60A16C18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.h */,
 				BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */,
+				BF60A17018A61D8700B2E7D4 /* betaTesters.plist */,
 			);
 			name = "Beta Testers";
 			sourceTree = "<group>";
@@ -1097,6 +1098,7 @@
 			children = (
 				BFBA77BC19B71602000E8425 /* GBAAcknowledgementsViewController.h */,
 				BFBA77BD19B71602000E8425 /* GBAAcknowledgementsViewController.m */,
+				BFBA77B919B715E1000E8425 /* Acknowledgements.html */,
 			);
 			name = Acknowledgements;
 			sourceTree = "<group>";
@@ -1413,7 +1415,6 @@
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
 				CC15E53C179ECDCC00449972 /* xButton.png */,
 				BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */,
-				BFBA77B919B715E1000E8425 /* Acknowledgements.html */,
 			);
 			name = Resources;
 			path = GBA4iOS;
@@ -1654,16 +1655,15 @@
 			children = (
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
-				BFBA77C019B71894000E8425 /* Acknowledgements */,
-				BF77FBE319B6D81000B9E3A1 /* Web Browser Homepage */,
-				BFC82E1319B68B8E00284BAE /* Color Palette */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
-				BF03836318B7E7C3002E45FC /* Software Update */,
-				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
-				BF60A17018A61D8700B2E7D4 /* betaTesters.plist */,
+				BFC82E1319B68B8E00284BAE /* Color Palette */,
+				BF77FBE319B6D81000B9E3A1 /* Web Browser Homepage */,
+				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
 				BF216BD51868D8ED000A0DB8 /* iOS 7 Controllers */,
 				BF02AFD8182F3E3A0031B8B6 /* Syncing */,
-				1AD65D7717D2DB7100E2CF0C /* Controller Skins */,
+				BF03836318B7E7C3002E45FC /* Software Update */,
+				BF60A17318A62ADF00B2E7D4 /* Beta Testers */,
+				BFBA77C019B71894000E8425 /* Acknowledgements */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
