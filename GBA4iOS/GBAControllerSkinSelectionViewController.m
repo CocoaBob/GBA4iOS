@@ -174,7 +174,7 @@
     return controllerTypeDirectory;
 }
 
-- (NSString *)keyForControllerOrientation:(GBAControllerOrientation)orientation
+- (NSString *)keyForControllerOrientation:(GBAControllerSkinOrientation)orientation
 {
     NSString *key = nil;
     switch (orientation) {

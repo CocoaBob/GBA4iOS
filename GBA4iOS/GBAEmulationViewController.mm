@@ -1409,7 +1409,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)updateSettings:(NSNotification *)notification
 {    
-    BOOL translucent = [[self.controllerView.controllerSkin dictionaryForOrientation:self.controllerView.orientation][@"translucent"] boolValue];
+    BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:self.controllerView.orientation];
     
     if (translucent)
     {
@@ -1847,7 +1847,7 @@ static GBAEmulationViewController *_emulationViewController;
         self.controllerView.controllerSkin = controller;
         self.controllerView.orientation = GBAControllerSkinOrientationPortrait;
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationPortrait][@"translucent"] boolValue];
+        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:self.controllerView.orientation];
         
         if (translucent)
         {
@@ -1877,7 +1877,7 @@ static GBAEmulationViewController *_emulationViewController;
         self.controllerView.controllerSkin = controller;
         self.controllerView.orientation = GBAControllerSkinOrientationLandscape;
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationLandscape][@"translucent"] boolValue];
+        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:self.controllerView.orientation];
         
         if (translucent)
         {
@@ -2458,7 +2458,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
         }
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationPortrait][@"translucent"] boolValue];
+        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:self.controllerView.orientation];
         
         if (translucent)
         {
@@ -2522,7 +2522,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
         }
         
-        BOOL translucent = [[controller dictionaryForOrientation:GBAControllerSkinOrientationLandscape][@"translucent"] boolValue];
+        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:self.controllerView.orientation];
         
         if (translucent)
         {

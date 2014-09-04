@@ -10,6 +10,13 @@
 #import "UIScreen+Widescreen.h"
 #import "SSZipArchive.h"
 
+NSString *const GBAScreenTypeiPhone = @"iPhone";
+NSString *const GBAScreenTypeiPhoneWidescreen = @"iPhone Widescreen";
+NSString *const GBAScreenTypeiPad = @"iPad";
+NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
+
+NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
+
 @interface GBAControllerSkin ()
 
 @property (copy, nonatomic) NSDictionary *infoDictionary;
@@ -104,6 +111,8 @@
     return controllerSkin;
 }
 
+#pragma mark - Extracting -
+
 + (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -166,13 +175,30 @@
     return YES;
 }
 
+#pragma mark - Retrieve Public Properties -
+
 - (NSString *)name
 {
     NSString *filename = self.infoDictionary[@"name"];
     return filename;
 }
 
-- (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation
+- (NSString *)identifier
+{
+    return self.infoDictionary[@"identifier"];
+}
+
+- (GBAControllerSkinType)type
+{
+    return [self.infoDictionary[@"type"] integerValue];
+}
+
+- (BOOL)debug
+{
+    return [self.infoDictionary[@"debug"] boolValue];
+}
+
+- (UIImage *)imageForOrientation:(GBAControllerSkinOrientation)orientation
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *assets = dictionary[@"assets"];
@@ -181,7 +207,7 @@
     NSString *relativePath = assets[key];
     
     NSString *filepath = [self.filepath stringByAppendingPathComponent:relativePath];
-        
+    
     CGFloat scale = [[UIScreen mainScreen] scale];
     
     if ([key isEqualToString:GBAScreenTypeiPad])
@@ -194,7 +220,7 @@
     return image;
 }
 
-- (BOOL)imageExistsForOrientation:(GBAControllerOrientation)orientation
+- (BOOL)imageExistsForOrientation:(GBAControllerSkinOrientation)orientation
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *assets = dictionary[@"assets"];
@@ -205,12 +231,40 @@
     return (relativePath != nil);
 }
 
-- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation
+- (BOOL)isTranslucentForOrientation:(GBAControllerSkinOrientation)orientation
+{
+    NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
+    return [dictionary[@"translucent"] boolValue];
+}
+
+- (CGRect)screenRectForOrientation:(GBAControllerSkinOrientation)orientation
+{
+    return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation extended:YES];
+}
+
+- (GBAControllerSkinOrientation)supportedOrientations
+{
+    GBAControllerSkinOrientation supportedOrientations = 0;
+    
+    if ([self dictionaryForOrientation:GBAControllerSkinOrientationPortrait])
+    {
+        supportedOrientations |= GBAControllerSkinOrientationPortrait;
+    }
+    
+    if ([self dictionaryForOrientation:GBAControllerSkinOrientationLandscape])
+    {
+        supportedOrientations |= GBAControllerSkinOrientationLandscape;
+    }
+    
+    return supportedOrientations;
+}
+
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation
 {
     return [self rectForButtonRect:button orientation:orientation extended:YES];
 }
 
-- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation extended:(BOOL)extended
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation extended:(BOOL)extended
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *layouts = dictionary[@"layouts"];
@@ -268,66 +322,27 @@
         rect.size.width += leftEdge + rightEdge;
         rect.size.height += topEdge + bottomEdge;
     }
-        
+    
     return rect;
 }
 
-- (NSString *)keyForButtonRect:(GBAControllerSkinRect)button
+#pragma mark - Helper Methods -
+
+- (NSDictionary *)dictionaryForOrientation:(GBAControllerSkinOrientation)orientation
 {
-    NSString *key = nil;
-    switch (button) {
-        case GBAControllerSkinRectDPad:
-            key = @"dpad";
+    NSDictionary *dictionary = nil;
+    
+    switch (orientation) {
+        case GBAControllerSkinOrientationPortrait:
+            dictionary = self.infoDictionary[@"portrait"];
             break;
             
-        case GBAControllerSkinRectA:
-            key = @"a";
-            break;
-            
-        case GBAControllerSkinRectB:
-            key = @"b";
-            break;
-            
-        case GBAControllerSkinRectAB:
-            key = @"ab";
-            break;
-            
-        case GBAControllerSkinRectStart:
-            key = @"start";
-            break;
-            
-        case GBAControllerSkinRectSelect:
-            key = @"select";
-            break;
-            
-        case GBAControllerSkinRectL:
-            key = @"l";
-            break;
-            
-        case GBAControllerSkinRectR:
-            key = @"r";
-            break;
-            
-        case GBAControllerSkinRectMenu:
-            key = @"menu";
-            break;
-            
-        case GBAControllerSkinRectScreen:
-            key = @"screen";
+        case GBAControllerSkinOrientationLandscape:
+            dictionary = self.infoDictionary[@"landscape"];
             break;
     }
     
-    return key;
-}
-
-- (GBAControllerSkinType)type
-{
-    return [self.infoDictionary[@"type"] integerValue];
-}
-
-- (BOOL)debug
-{
-    return [self.infoDictionary[@"debug"] boolValue];
+    return dictionary;
 }
 
 + (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary
@@ -393,48 +408,54 @@
     return exists;
 }
 
-- (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation
+- (NSString *)keyForButtonRect:(GBAControllerSkinRect)button
 {
-    NSDictionary *dictionary = nil;
-    
-    switch (orientation) {
-        case GBAControllerSkinOrientationPortrait:
-            dictionary = self.infoDictionary[@"portrait"];
+    NSString *key = nil;
+    switch (button) {
+        case GBAControllerSkinRectDPad:
+            key = @"dpad";
             break;
             
-        case GBAControllerSkinOrientationLandscape:
-            dictionary = self.infoDictionary[@"landscape"];
+        case GBAControllerSkinRectA:
+            key = @"a";
+            break;
+            
+        case GBAControllerSkinRectB:
+            key = @"b";
+            break;
+            
+        case GBAControllerSkinRectAB:
+            key = @"ab";
+            break;
+            
+        case GBAControllerSkinRectStart:
+            key = @"start";
+            break;
+            
+        case GBAControllerSkinRectSelect:
+            key = @"select";
+            break;
+            
+        case GBAControllerSkinRectL:
+            key = @"l";
+            break;
+            
+        case GBAControllerSkinRectR:
+            key = @"r";
+            break;
+            
+        case GBAControllerSkinRectMenu:
+            key = @"menu";
+            break;
+            
+        case GBAControllerSkinRectScreen:
+            key = @"screen";
             break;
     }
     
-    return dictionary;
+    return key;
 }
 
-- (CGRect)screenRectForOrientation:(GBAControllerOrientation)orientation
-{
-    return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation extended:YES];
-}
 
-- (GBAControllerOrientation)supportedOrientations
-{
-    GBAControllerOrientation supportedOrientations = 0;
-    
-    if ([self dictionaryForOrientation:GBAControllerSkinOrientationPortrait])
-    {
-        supportedOrientations |= GBAControllerSkinOrientationPortrait;
-    }
-    
-    if ([self dictionaryForOrientation:GBAControllerSkinOrientationLandscape])
-    {
-        supportedOrientations |= GBAControllerSkinOrientationLandscape;
-    }
-        
-    return supportedOrientations;
-}
-
-- (NSString *)identifier
-{
-    return self.infoDictionary[@"identifier"];
-}
 
 @end

@@ -11,7 +11,7 @@
 
 @interface GBAControllerSkinSelectionViewController : UITableViewController
 
-@property (assign, nonatomic) GBAControllerOrientation controllerOrientation;
+@property (assign, nonatomic) GBAControllerSkinOrientation controllerOrientation;
 @property (assign, nonatomic) GBAControllerSkinType controllerSkinType;
 
 @end

@@ -528,6 +528,7 @@
 		BF60A16C18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBABetaTesterCreditsViewController.h; sourceTree = "<group>"; };
 		BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBABetaTesterCreditsViewController.m; sourceTree = "<group>"; };
 		BF60A17018A61D8700B2E7D4 /* betaTesters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = betaTesters.plist; sourceTree = "<group>"; };
+		BF6346C719B7DE050023DADF /* GBAControllerSkin_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkin_Private.h; sourceTree = "<group>"; };
 		BF6ED576185102D40014B6A8 /* GBASyncInitialSyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncInitialSyncOperation.h; sourceTree = "<group>"; };
 		BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncInitialSyncOperation.mm; sourceTree = "<group>"; };
 		BF6ED57A1851100A0014B6A8 /* GBASyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncManager.h; sourceTree = "<group>"; };
@@ -1430,6 +1431,7 @@
 				CC8D5A7817AAE3A800E89F43 /* GBAControllerView.h */,
 				CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */,
 				1AD971F017D2C6ED007097BC /* GBAControllerSkin.h */,
+				BF6346C719B7DE050023DADF /* GBAControllerSkin_Private.h */,
 				1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */,
 			);
 			name = Controller;

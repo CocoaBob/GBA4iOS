@@ -29,25 +29,27 @@ typedef NS_ENUM(NSInteger, GBAControllerSkinType)
     GBAControllerSkinTypeGBC = 1
 };
 
-typedef NS_OPTIONS(NSInteger, GBAControllerOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
+typedef NS_OPTIONS(NSInteger, GBAControllerSkinOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
 {
     GBAControllerSkinOrientationPortrait   =    1 << 0,
     GBAControllerSkinOrientationLandscape  =    1 << 1,
 };
 
-static NSString *GBAScreenTypeiPhone = @"iPhone";
-static NSString *GBAScreenTypeiPhoneWidescreen = @"iPhone Widescreen";
-static NSString *GBAScreenTypeiPad = @"iPad";
-static NSString *GBAScreenTypeiPadRetina = @"iPad Retina";
+extern NSString *const GBAScreenTypeiPhone;
+extern NSString *const GBAScreenTypeiPhoneWidescreen;
+extern NSString *const GBAScreenTypeiPad;
+extern NSString *const GBAScreenTypeiPadRetina;
 
-static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
+extern NSString *const GBADefaultSkinIdentifier;
 
 @interface GBAControllerSkin : NSObject
 
 @property (readonly, copy, nonatomic) NSString *filepath;
-@property (readonly, copy, nonatomic) NSString *name;
-@property (readonly, assign, nonatomic) GBAControllerSkinType type;
-@property (readonly, assign, nonatomic) BOOL debug;
+
+@property (readonly, nonatomic) NSString *name;
+@property (readonly, nonatomic) NSString *identifier;
+@property (readonly, nonatomic) GBAControllerSkinType type;
+@property (readonly, nonatomic) BOOL debug;
 
 + (GBAControllerSkin *)controllerSkinWithContentsOfFile:(NSString *)filepath;
 + (GBAControllerSkin *)defaultControllerSkinForSkinType:(GBAControllerSkinType)skinType;
@@ -55,16 +57,13 @@ static NSString *GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 
 + (BOOL)extractSkinAtPathToSkinsDirectory:(NSString *)filepath;
 
-- (UIImage *)imageForOrientation:(GBAControllerOrientation)orientation;
-- (BOOL)imageExistsForOrientation:(GBAControllerOrientation)orientation;
-- (NSDictionary *)dictionaryForOrientation:(GBAControllerOrientation)orientation;
-- (NSString *)keyForButtonRect:(GBAControllerSkinRect)button;
-- (GBAControllerOrientation)supportedOrientations;
-+ (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary;
-- (NSString *)identifier;
-- (CGRect)screenRectForOrientation:(GBAControllerOrientation)orientation;
+- (UIImage *)imageForOrientation:(GBAControllerSkinOrientation)orientation;
+- (BOOL)imageExistsForOrientation:(GBAControllerSkinOrientation)orientation;
+- (BOOL)isTranslucentForOrientation:(GBAControllerSkinOrientation)orientation;
+- (CGRect)screenRectForOrientation:(GBAControllerSkinOrientation)orientation;
+- (GBAControllerSkinOrientation)supportedOrientations;
 
-- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation; // Uses extended edges
-- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerOrientation)orientation extended:(BOOL)extended;
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation; // Uses extended edges
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation extended:(BOOL)extended;
 
 @end

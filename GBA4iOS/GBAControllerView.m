@@ -7,6 +7,7 @@
 //
 
 #import "GBAControllerView.h"
+#import "GBAControllerSkin_Private.h"
 #import "UIScreen+Widescreen.h"
 #import "UITouch+ControllerButtons.h"
 #import "UIDevice-Hardware.h"
@@ -68,7 +69,7 @@
     [self update];
 }
 
-- (void)setOrientation:(GBAControllerOrientation)orientation
+- (void)setOrientation:(GBAControllerSkinOrientation)orientation
 {
     _orientation = orientation;
     
