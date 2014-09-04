@@ -240,6 +240,42 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
     return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation extended:YES];
 }
 
+- (CGSize)displaySizeForOrientation:(GBAControllerSkinOrientation)orientation
+{
+    CGSize displaySize = [self imageForOrientation:orientation].size;
+    CGFloat scale = 1.0f;
+    
+    CGSize windowSize = [UIApplication sharedApplication].delegate.window.bounds.size;
+    
+    if (orientation == GBAControllerSkinOrientationPortrait)
+    {
+        if (windowSize.width > windowSize.height)
+        {
+            windowSize = CGSizeMake(windowSize.height, windowSize.width);
+        }
+        
+        // Resize so width matches screen width
+        scale = windowSize.width / displaySize.width;
+    }
+    else
+    {
+        if (windowSize.height > windowSize.width)
+        {
+            windowSize = CGSizeMake(windowSize.height, windowSize.width);
+        }
+        
+        // Resize to fit screen
+        
+        CGFloat widthScale = windowSize.width / displaySize.width;
+        CGFloat heightScale = windowSize.height / displaySize.height;
+        scale = fminf(widthScale, heightScale);
+    }
+    
+    displaySize = CGSizeMake(displaySize.width * scale, displaySize.height * scale);
+    
+    return displaySize;
+}
+
 - (GBAControllerSkinOrientation)supportedOrientations
 {
     GBAControllerSkinOrientation supportedOrientations = 0;
@@ -367,8 +403,6 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
 {
     NSString *screenType = nil;
     
-    DLog(@"Screen Size: %@", NSStringFromCGSize([UIScreen mainScreen].bounds.size));
-    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         if ([[UIScreen mainScreen] isWidescreen])
@@ -458,9 +492,7 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
             screenType = GBAScreenTypeiPad;
         }
     }
-    
-    DLog(@"Screen Type: %@", screenType);
-    
+        
     return screenType;
 }
 

@@ -56,6 +56,7 @@ extern NSString *const GBADefaultSkinIdentifier;
 - (BOOL)imageExistsForOrientation:(GBAControllerSkinOrientation)orientation;
 - (BOOL)isTranslucentForOrientation:(GBAControllerSkinOrientation)orientation;
 - (CGRect)screenRectForOrientation:(GBAControllerSkinOrientation)orientation;
+- (CGSize)displaySizeForOrientation:(GBAControllerSkinOrientation)orientation;
 - (GBAControllerSkinOrientation)supportedOrientations;
 
 - (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation; // Uses extended edges

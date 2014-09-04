@@ -88,28 +88,7 @@
 
 - (CGSize)intrinsicContentSize
 {
-    CGSize contentSize = self.imageView.image.size;
-    CGFloat scale = 1.0f;
-    
-    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-    
-    if (self.orientation == GBAControllerSkinOrientationPortrait)
-    {
-        // Resize so width matches screen width
-        scale = window.bounds.size.width / contentSize.width;
-    }
-    else
-    {
-        // Resize to fit screen
-        
-        CGFloat widthScale = window.bounds.size.width / contentSize.width;
-        CGFloat heightScale = window.bounds.size.height / contentSize.height;
-        scale = fminf(widthScale, heightScale);
-    }
-    
-    contentSize = CGSizeMake(contentSize.width * scale, contentSize.height * scale);
-    
-    return contentSize;
+    return [self.controllerSkin displaySizeForOrientation:self.orientation];
 }
 
 #pragma mark - Touch Handling

@@ -2393,190 +2393,131 @@ static GBAEmulationViewController *_emulationViewController;
     CGFloat edgeExtension = 0;
     
     CGSize viewSize = [[[UIApplication sharedApplication] delegate] window].bounds.size;
+    NSString *userDefaultsSkinOrientation = nil;
+    GBAControllerSkinOrientation skinOrientation = GBAControllerSkinOrientationPortrait;
     
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
-    {
-        if (viewSize.height > viewSize.width)
-        {
-            viewSize = CGSizeMake(viewSize.height, viewSize.width);
-        }
-    }
-    else
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
     {
         if (viewSize.width > viewSize.height)
         {
             viewSize = CGSizeMake(viewSize.height, viewSize.width);
         }
-    }
-    
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2,
-                                                      viewSize.height + edgeExtension * 2),
-                                           YES, 0.5);
-    
-    NSString *defaultSkinIdentifier = nil;
-    NSString *skinsKey = nil;
-    GBAControllerSkinType skinType = GBAControllerSkinTypeGBA;
-    
-    switch (self.rom.type)
-    {
-        case GBAROMTypeGBA:
-            defaultSkinIdentifier = [@"GBA/" stringByAppendingString:GBADefaultSkinIdentifier];
-            skinsKey = GBASettingsGBASkinsKey;
-            skinType = GBAControllerSkinTypeGBA;
-            break;
-            
-        case GBAROMTypeGBC:
-            defaultSkinIdentifier = [@"GBC/" stringByAppendingString:GBADefaultSkinIdentifier];
-            skinsKey = GBASettingsGBCSkinsKey;
-            skinType = GBAControllerSkinTypeGBC;
-            break;
-    }
-    
-    CGFloat controllerAlpha = 1.0f;
-    
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
-    {
-        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"portrait"];
-        GBAControllerSkin *controller = nil;
-        UIImage *controllerSkinImage = nil;
         
-        
-        if (self.externalController)
-        {
-            controller = [GBAControllerSkin invisibleSkin];
-            controllerSkinImage = nil;
-        }
-        else
-        {
-            controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
-            
-            controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
-            
-            if (controllerSkinImage == nil)
-            {
-                controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
-                
-                NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
-                skins[@"portrait"] = defaultSkinIdentifier;
-                [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
-                
-                controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
-            }
-        }
-        
-        
-        CGSize resizedControllerSkinSize = controllerSkinImage.size;
-        
-        CGFloat scale = viewSize.width / resizedControllerSkinSize.width;
-        resizedControllerSkinSize = CGSizeMake(resizedControllerSkinSize.width * scale, resizedControllerSkinSize.height * scale);
-        
-        
-        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:GBAControllerSkinOrientationPortrait];
-        
-        if (translucent)
-        {
-            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
-        }
-        
-        CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - resizedControllerSkinSize.height);
-        CGRect screenRect = [controller screenRectForOrientation:GBAControllerSkinOrientationPortrait];
-        
-        if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
-        {
-            if (CGRectIsEmpty(screenRect) || self.externalController)
-            {
-                CGSize screenSize = [self screenSizeForContainerSize:viewSize];
-                
-                [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
-                                                                        edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
-                                                                        screenSize.width,
-                                                                        screenSize.height) afterScreenUpdates:NO];
-            }
-            else
-            {
-                [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
-            }
-        }
-        
-        if (drawController)
-        {
-            [controllerSkinImage drawInRect:CGRectMake(edgeExtension + (viewSize.width - resizedControllerSkinSize.width) / 2.0f,
-                                                  edgeExtension + screenContainerSize.height,
-                                                  resizedControllerSkinSize.width,
-                                                  resizedControllerSkinSize.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
-        }
+        userDefaultsSkinOrientation = @"portrait";
+        skinOrientation = GBAControllerSkinOrientationPortrait;
     }
     else
     {
-        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"landscape"];
-        GBAControllerSkin *controller = nil;
-        UIImage *controllerSkinImage = nil;
-        
-        if (self.externalController)
+        if (viewSize.height > viewSize.width)
         {
-            controller = [GBAControllerSkin invisibleSkin];
-            controllerSkinImage = nil;
+            viewSize = CGSizeMake(viewSize.height, viewSize.width);
+        }
+        
+        userDefaultsSkinOrientation = @"landscape";
+        skinOrientation = GBAControllerSkinOrientationLandscape;
+    }
+    
+    GBAControllerSkin *controllerSkin = nil;
+    UIImage *controllerSkinImage = nil;
+    
+    if (self.externalController)
+    {
+        controllerSkin = [GBAControllerSkin invisibleSkin];
+        controllerSkinImage = nil;
+    }
+    else
+    {
+        NSString *defaultSkinIdentifier = nil;
+        NSString *skinsKey = nil;
+        GBAControllerSkinType skinType = GBAControllerSkinTypeGBA;
+        
+        switch (self.rom.type)
+        {
+            case GBAROMTypeGBA:
+                defaultSkinIdentifier = [@"GBA/" stringByAppendingString:GBADefaultSkinIdentifier];
+                skinsKey = GBASettingsGBASkinsKey;
+                skinType = GBAControllerSkinTypeGBA;
+                break;
+                
+            case GBAROMTypeGBC:
+                defaultSkinIdentifier = [@"GBC/" stringByAppendingString:GBADefaultSkinIdentifier];
+                skinsKey = GBASettingsGBCSkinsKey;
+                skinType = GBAControllerSkinTypeGBC;
+                break;
+        }
+        
+        NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][userDefaultsSkinOrientation];
+        
+        controllerSkin = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
+        controllerSkinImage = [controllerSkin imageForOrientation:skinOrientation];
+        
+        if (controllerSkinImage == nil)
+        {
+            controllerSkin = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
+            
+            NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
+            skins[userDefaultsSkinOrientation] = defaultSkinIdentifier;
+            [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
+            
+            controllerSkinImage = [controllerSkin imageForOrientation:skinOrientation];
+        }
+    }
+    
+    CGFloat controllerAlpha = 1.0f;
+    if ([self.controllerView.controllerSkin isTranslucentForOrientation:skinOrientation])
+    {
+        controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
+    }
+    
+    CGSize controllerDisplaySize = [controllerSkin displaySizeForOrientation:skinOrientation];
+    CGSize screenContainerSize = CGSizeZero;
+    CGRect drawingRect = CGRectZero;
+    
+    CGSize screenSize = [self screenSizeForContainerSize:viewSize];
+    
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
+        screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerDisplaySize.height);
+        
+        drawingRect = CGRectMake(edgeExtension + (viewSize.width - controllerDisplaySize.width) / 2.0f,
+                                 edgeExtension + screenContainerSize.height,
+                                 controllerDisplaySize.width,
+                                 controllerDisplaySize.height);
+    }
+    else
+    {
+        screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
+        
+        drawingRect = CGRectMake(edgeExtension + (screenContainerSize.width - controllerDisplaySize.width) / 2.0,
+                                 edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                 controllerDisplaySize.width,
+                                 controllerDisplaySize.height);
+    }
+    
+
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2, viewSize.height + edgeExtension * 2),
+                                           YES, 0.5);
+    
+    if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
+    {
+        CGRect screenRect = [controllerSkin screenRectForOrientation:skinOrientation];
+        
+        if (CGRectIsEmpty(screenRect) || self.externalController)
+        {
+            [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
+                                                                    edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+                                                                    screenSize.width,
+                                                                    screenSize.height) afterScreenUpdates:NO];
         }
         else
         {
-            controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
-            
-            controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
-            
-            if (controllerSkinImage == nil)
-            {
-                controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
-                
-                NSMutableDictionary *skins = [[[NSUserDefaults standardUserDefaults] objectForKey:skinsKey] mutableCopy];
-                skins[@"landscape"] = defaultSkinIdentifier;
-                [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
-                
-                controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
-            }
+            [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
         }
-        
-        CGSize resizedControllerSkinSize = controllerSkinImage.size;
-        
-        CGFloat widthScale = viewSize.width / resizedControllerSkinSize.width;
-        CGFloat heightScale = viewSize.height / resizedControllerSkinSize.height;
-        CGFloat scale = fminf(widthScale, heightScale);
-        
-        resizedControllerSkinSize = CGSizeMake(resizedControllerSkinSize.width * scale, resizedControllerSkinSize.height * scale);
-        
-        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:GBAControllerSkinOrientationLandscape];
-        
-        if (translucent)
-        {
-            controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
-        }
-        
-        CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
-        CGRect screenRect = [controller screenRectForOrientation:GBAControllerSkinOrientationLandscape];
-        
-        if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
-        {
-            if (CGRectIsEmpty(screenRect) || self.externalController)
-            {
-                CGSize screenSize = [self screenSizeForContainerSize:viewSize];
-                
-                [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
-                                                                        edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
-                                                                        screenSize.width,
-                                                                        screenSize.height) afterScreenUpdates:NO];
-            }
-            else
-            {
-                [self.emulatorScreen drawViewHierarchyInRect:screenRect afterScreenUpdates:NO];
-            }
-        }
-        
-        if (drawController)
-        {
-            [controllerSkinImage drawInRect:CGRectMake(edgeExtension + (viewSize.width - resizedControllerSkinSize.width) / 2.0f,
-                                                  edgeExtension,
-                                                  resizedControllerSkinSize.width,
-                                                  resizedControllerSkinSize.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
-        }
+    }
+    
+    if (drawController)
+    {
+        [controllerSkinImage drawInRect:drawingRect blendMode:kCGBlendModeNormal alpha:controllerAlpha];
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
