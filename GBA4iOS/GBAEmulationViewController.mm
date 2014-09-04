@@ -2392,16 +2392,21 @@ static GBAEmulationViewController *_emulationViewController;
     // Can be modified if wanting to eventually blur separate parts of the view, so it extends outwards into the black (smoother)
     CGFloat edgeExtension = 0;
     
-    CGSize viewSize = [UIScreen mainScreen].bounds.size;
-    
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)])
-    {
-        viewSize = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace].size;
-    }
+    CGSize viewSize = [[[UIApplication sharedApplication] delegate] window].bounds.size;
     
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
     {
-        viewSize = CGSizeMake(viewSize.height, viewSize.width);
+        if (viewSize.height > viewSize.width)
+        {
+            viewSize = CGSizeMake(viewSize.height, viewSize.width);
+        }
+    }
+    else
+    {
+        if (viewSize.width > viewSize.height)
+        {
+            viewSize = CGSizeMake(viewSize.height, viewSize.width);
+        }
     }
     
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2,
@@ -2433,20 +2438,21 @@ static GBAEmulationViewController *_emulationViewController;
     {
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"portrait"];
         GBAControllerSkin *controller = nil;
-        UIImage *controllerSkin = nil;
+        UIImage *controllerSkinImage = nil;
+        
         
         if (self.externalController)
         {
             controller = [GBAControllerSkin invisibleSkin];
-            controllerSkin = nil;
+            controllerSkinImage = nil;
         }
         else
         {
             controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
             
-            controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
+            controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
             
-            if (controllerSkin == nil)
+            if (controllerSkinImage == nil)
             {
                 controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
                 
@@ -2454,18 +2460,25 @@ static GBAEmulationViewController *_emulationViewController;
                 skins[@"portrait"] = defaultSkinIdentifier;
                 [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
                 
-                controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
+                controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationPortrait];
             }
         }
         
-        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:self.controllerView.orientation];
+        
+        CGSize resizedControllerSkinSize = controllerSkinImage.size;
+        
+        CGFloat scale = viewSize.width / resizedControllerSkinSize.width;
+        resizedControllerSkinSize = CGSizeMake(resizedControllerSkinSize.width * scale, resizedControllerSkinSize.height * scale);
+        
+        
+        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:GBAControllerSkinOrientationPortrait];
         
         if (translucent)
         {
             controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
         }
         
-        CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerSkin.size.height);
+        CGSize screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - resizedControllerSkinSize.height);
         CGRect screenRect = [controller screenRectForOrientation:GBAControllerSkinOrientationPortrait];
         
         if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
@@ -2487,30 +2500,30 @@ static GBAEmulationViewController *_emulationViewController;
         
         if (drawController)
         {
-            [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
+            [controllerSkinImage drawInRect:CGRectMake(edgeExtension + (viewSize.width - resizedControllerSkinSize.width) / 2.0f,
                                                   edgeExtension + screenContainerSize.height,
-                                                  controllerSkin.size.width,
-                                                  controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
+                                                  resizedControllerSkinSize.width,
+                                                  resizedControllerSkinSize.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
         }
     }
     else
     {
         NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:skinsKey][@"landscape"];
         GBAControllerSkin *controller = nil;
-        UIImage *controllerSkin = nil;
+        UIImage *controllerSkinImage = nil;
         
         if (self.externalController)
         {
             controller = [GBAControllerSkin invisibleSkin];
-            controllerSkin = nil;
+            controllerSkinImage = nil;
         }
         else
         {
             controller = [GBAControllerSkin controllerSkinWithContentsOfFile:[self filepathForSkinIdentifier:name]];
             
-            controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
+            controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
             
-            if (controllerSkin == nil)
+            if (controllerSkinImage == nil)
             {
                 controller = [GBAControllerSkin defaultControllerSkinForSkinType:skinType];
                 
@@ -2518,11 +2531,19 @@ static GBAEmulationViewController *_emulationViewController;
                 skins[@"landscape"] = defaultSkinIdentifier;
                 [[NSUserDefaults standardUserDefaults] setObject:skins forKey:skinsKey];
                 
-                controllerSkin = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
+                controllerSkinImage = [controller imageForOrientation:GBAControllerSkinOrientationLandscape];
             }
         }
         
-        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:self.controllerView.orientation];
+        CGSize resizedControllerSkinSize = controllerSkinImage.size;
+        
+        CGFloat widthScale = viewSize.width / resizedControllerSkinSize.width;
+        CGFloat heightScale = viewSize.height / resizedControllerSkinSize.height;
+        CGFloat scale = fminf(widthScale, heightScale);
+        
+        resizedControllerSkinSize = CGSizeMake(resizedControllerSkinSize.width * scale, resizedControllerSkinSize.height * scale);
+        
+        BOOL translucent = [self.controllerView.controllerSkin isTranslucentForOrientation:GBAControllerSkinOrientationLandscape];
         
         if (translucent)
         {
@@ -2551,10 +2572,10 @@ static GBAEmulationViewController *_emulationViewController;
         
         if (drawController)
         {
-            [controllerSkin drawInRect:CGRectMake(edgeExtension + (viewSize.width - controllerSkin.size.width) / 2.0f,
+            [controllerSkinImage drawInRect:CGRectMake(edgeExtension + (viewSize.width - resizedControllerSkinSize.width) / 2.0f,
                                                   edgeExtension,
-                                                  controllerSkin.size.width,
-                                                  controllerSkin.size.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
+                                                  resizedControllerSkinSize.width,
+                                                  resizedControllerSkinSize.height) blendMode:kCGBlendModeNormal alpha:controllerAlpha];
         }
     }
     

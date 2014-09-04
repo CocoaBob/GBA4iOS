@@ -54,6 +54,7 @@
     
     self.imageView = ({
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [self addSubview:imageView];
         imageView;
@@ -87,14 +88,31 @@
 
 - (CGSize)intrinsicContentSize
 {
-    return self.imageView.image.size;
+    CGSize contentSize = self.imageView.image.size;
+    CGFloat scale = 1.0f;
+    
+    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+    
+    if (self.orientation == GBAControllerSkinOrientationPortrait)
+    {
+        // Resize so width matches screen width
+        scale = window.bounds.size.width / contentSize.width;
+    }
+    else
+    {
+        // Resize to fit screen
+        
+        CGFloat widthScale = window.bounds.size.width / contentSize.width;
+        CGFloat heightScale = window.bounds.size.height / contentSize.height;
+        scale = fminf(widthScale, heightScale);
+    }
+    
+    contentSize = CGSizeMake(contentSize.width * scale, contentSize.height * scale);
+    
+    return contentSize;
 }
 
 #pragma mark - Touch Handling
-
-static unsigned long pressedButtons;
-static unsigned long newtouches[15];
-static unsigned long oldtouches[15];
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
