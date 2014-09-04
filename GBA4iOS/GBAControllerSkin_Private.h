@@ -14,4 +14,8 @@
 - (NSString *)keyForButtonRect:(GBAControllerSkinRect)button;
 + (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary;
 
+// Should use -[GBAControllerView displayFrameForButtonRect:orientation:useExtendedEdges:] instead
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation useExtendedEdges:(BOOL)useExtendedEdges;
+- (CGRect)screenRectForOrientation:(GBAControllerSkinOrientation)orientation;
+
 @end

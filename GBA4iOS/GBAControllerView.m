@@ -88,7 +88,7 @@
 
 - (CGSize)intrinsicContentSize
 {
-    return [self.controllerSkin displaySizeForOrientation:self.orientation];
+    return [self displaySizeForOrientation:self.orientation];
 }
 
 #pragma mark - Touch Handling
@@ -259,10 +259,10 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     
     CGPoint point = [touch locationInView:self.imageView]; // In case, for example, a widescreen iPhone is using a skin that doesn't support the 4" screen
     
-    CGRect extendedDPadRect = [self.controllerSkin rectForButtonRect:GBAControllerSkinRectDPad orientation:self.orientation extended:YES];
+    CGRect extendedDPadRect = [self displayFrameForButtonRect:GBAControllerSkinRectDPad orientation:self.orientation];
     if (CGRectContainsPoint(extendedDPadRect, point))
     {
-        CGRect dPadRect = [self.controllerSkin rectForButtonRect:GBAControllerSkinRectDPad orientation:self.orientation extended:NO];
+        CGRect dPadRect = [self displayFrameForButtonRect:GBAControllerSkinRectDPad orientation:self.orientation useExtendedEdges:NO];
         
         CGFloat extendedTop       = CGRectGetMinY(dPadRect) - CGRectGetMinY(extendedDPadRect);
         CGFloat extendedBottom    = CGRectGetMaxY(extendedDPadRect) - CGRectGetMaxY(dPadRect);
@@ -354,38 +354,37 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
         {
             [buttons addObject:@(GBAControllerButtonRight)];
         }
-        
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectA orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectA orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonA)];
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectB orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectB orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonB)];
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectAB orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectAB orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonA)];
         [buttons addObject:@(GBAControllerButtonB)];
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectL orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectL orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonL)];
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectR orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectR orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonR)];
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectSelect orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectSelect orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonSelect)];
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectStart orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectStart orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonStart)];
     }
-    else if (CGRectContainsPoint([self.controllerSkin rectForButtonRect:GBAControllerSkinRectMenu orientation:self.orientation], point))
+    else if (CGRectContainsPoint([self displayFrameForButtonRect:GBAControllerSkinRectMenu orientation:self.orientation], point))
     {
         [buttons addObject:@(GBAControllerButtonMenu)];
     }
@@ -411,7 +410,7 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     
     void(^AddOverlayForButton)(GBAControllerSkinRect button) = ^(GBAControllerSkinRect button)
     {
-        UILabel *overlay = [[UILabel alloc] initWithFrame:[self.controllerSkin rectForButtonRect:button orientation:self.orientation]];
+        UILabel *overlay = [[UILabel alloc] initWithFrame:[self displayFrameForButtonRect:button orientation:self.orientation]];
                 
         overlay.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.5];
         overlay.text = [self.controllerSkin keyForButtonRect:button];
@@ -442,12 +441,79 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
     self.overlayView = nil;
 }
 
+- (CGSize)displaySizeForOrientation:(GBAControllerSkinOrientation)orientation
+{
+    CGSize displaySize = [self.controllerSkin imageForOrientation:orientation].size;
+    CGFloat scale = 1.0f;
+    
+    CGSize windowSize = [UIApplication sharedApplication].delegate.window.bounds.size;
+    
+    if (orientation == GBAControllerSkinOrientationPortrait)
+    {
+        if (windowSize.width > windowSize.height)
+        {
+            windowSize = CGSizeMake(windowSize.height, windowSize.width);
+        }
+        
+        // Resize so width matches screen width
+        scale = windowSize.width / displaySize.width;
+    }
+    else
+    {
+        if (windowSize.height > windowSize.width)
+        {
+            windowSize = CGSizeMake(windowSize.height, windowSize.width);
+        }
+        
+        // Resize to fit screen
+        
+        CGFloat widthScale = windowSize.width / displaySize.width;
+        CGFloat heightScale = windowSize.height / displaySize.height;
+        scale = fminf(widthScale, heightScale);
+    }
+    
+    displaySize = CGSizeMake(displaySize.width * scale, displaySize.height * scale);
+    
+    return displaySize;
+}
+
+- (CGRect)displayScreenFrameForOrientation:(GBAControllerSkinOrientation)orientation
+{
+    CGRect screenFrame = [self.controllerSkin screenRectForOrientation:orientation];
+    return [self displayFrameForControllerSkinRect:screenFrame];
+}
+
+- (CGRect)displayFrameForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation
+{
+    return [self displayFrameForButtonRect:button orientation:orientation useExtendedEdges:YES];
+}
+
+- (CGRect)displayFrameForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation useExtendedEdges:(BOOL)useExtendedEdges
+{
+    CGRect buttonRect = [self.controllerSkin rectForButtonRect:button orientation:orientation useExtendedEdges:useExtendedEdges];
+    return [self displayFrameForControllerSkinRect:buttonRect];
+}
+
 #pragma mark - Private
 
 - (void)update
 {
     self.imageView.image = [self.controllerSkin imageForOrientation:self.orientation];
     [self invalidateIntrinsicContentSize];
+}
+
+- (CGRect)displayFrameForControllerSkinRect:(CGRect)rect
+{
+    CGSize displaySize = [self displaySizeForOrientation:self.orientation];
+    CGFloat horizontalScale = displaySize.width / self.imageView.image.size.width;
+    CGFloat verticalScale = displaySize.height / self.imageView.image.size.height;
+    
+    rect.origin.x *= horizontalScale;
+    rect.origin.y *= verticalScale;
+    rect.size.width *= horizontalScale;
+    rect.size.height *= verticalScale;
+    
+    return rect;
 }
 
 #pragma mark - Private Helper Methods

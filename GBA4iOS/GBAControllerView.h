@@ -21,5 +21,9 @@
 - (void)showButtonRects;
 - (void)hideButtonRects;
 
+- (CGSize)displaySizeForOrientation:(GBAControllerSkinOrientation)orientation;
+- (CGRect)displayFrameForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation;
+- (CGRect)displayFrameForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation useExtendedEdges:(BOOL)useExtendedEdges;
+- (CGRect)displayScreenFrameForOrientation:(GBAControllerSkinOrientation)orientation;
 
 @end

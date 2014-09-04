@@ -23,6 +23,8 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
 @interface GBAControllerSkin ()
 
 @property (copy, nonatomic) NSDictionary *infoDictionary;
+@property (strong, nonatomic) UIImage *portraitImage;
+@property (strong, nonatomic) UIImage *landscapeImage;
 
 @end
 
@@ -203,17 +205,40 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
 
 - (UIImage *)imageForOrientation:(GBAControllerSkinOrientation)orientation
 {
-    NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
-    NSDictionary *assets = dictionary[@"assets"];
+    UIImage *image = nil;
     
-    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets];
-    NSString *relativePath = assets[screenType];
+    if (orientation == GBAControllerSkinOrientationPortrait)
+    {
+        image = self.portraitImage;
+    }
+    else
+    {
+        image = self.landscapeImage;
+    }
     
-    NSString *filepath = [self.filepath stringByAppendingPathComponent:relativePath];
-    
-    CGFloat scale = [self imageScaleForScreenType:screenType];
-    
-    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfFile:filepath] scale:scale];
+    if (image == nil)
+    {
+        NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
+        NSDictionary *assets = dictionary[@"assets"];
+        
+        NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets];
+        NSString *relativePath = assets[screenType];
+        
+        NSString *filepath = [self.filepath stringByAppendingPathComponent:relativePath];
+        
+        CGFloat scale = [self imageScaleForScreenType:screenType];
+        
+        image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfFile:filepath] scale:scale];
+        
+        if (orientation == GBAControllerSkinOrientationPortrait)
+        {
+            self.portraitImage = image;
+        }
+        else
+        {
+            self.landscapeImage = image;
+        }
+    }
     
     return image;
 }
@@ -237,43 +262,7 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
 
 - (CGRect)screenRectForOrientation:(GBAControllerSkinOrientation)orientation
 {
-    return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation extended:YES];
-}
-
-- (CGSize)displaySizeForOrientation:(GBAControllerSkinOrientation)orientation
-{
-    CGSize displaySize = [self imageForOrientation:orientation].size;
-    CGFloat scale = 1.0f;
-    
-    CGSize windowSize = [UIApplication sharedApplication].delegate.window.bounds.size;
-    
-    if (orientation == GBAControllerSkinOrientationPortrait)
-    {
-        if (windowSize.width > windowSize.height)
-        {
-            windowSize = CGSizeMake(windowSize.height, windowSize.width);
-        }
-        
-        // Resize so width matches screen width
-        scale = windowSize.width / displaySize.width;
-    }
-    else
-    {
-        if (windowSize.height > windowSize.width)
-        {
-            windowSize = CGSizeMake(windowSize.height, windowSize.width);
-        }
-        
-        // Resize to fit screen
-        
-        CGFloat widthScale = windowSize.width / displaySize.width;
-        CGFloat heightScale = windowSize.height / displaySize.height;
-        scale = fminf(widthScale, heightScale);
-    }
-    
-    displaySize = CGSizeMake(displaySize.width * scale, displaySize.height * scale);
-    
-    return displaySize;
+    return [self rectForButtonRect:GBAControllerSkinRectScreen orientation:orientation useExtendedEdges:YES];
 }
 
 - (GBAControllerSkinOrientation)supportedOrientations
@@ -292,13 +281,7 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
     
     return supportedOrientations;
 }
-
-- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation
-{
-    return [self rectForButtonRect:button orientation:orientation extended:YES];
-}
-
-- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation extended:(BOOL)extended
+- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation useExtendedEdges:(BOOL)useExtendedEdges
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *layouts = dictionary[@"layouts"];
@@ -312,7 +295,7 @@ NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
     CGRect rect = CGRectMake([buttonRect[@"x"] floatValue], [buttonRect[@"y"] floatValue], [buttonRect[@"width"] floatValue], [buttonRect[@"height"] floatValue]);
     
     // The screen size should be absolute, no extended edges
-    if (buttonRect && extended && button != GBAControllerSkinRectScreen)
+    if (buttonRect && useExtendedEdges && button != GBAControllerSkinRectScreen)
     {
         NSDictionary *extendedEdges = buttonRects[@"extendedEdges"];
         
