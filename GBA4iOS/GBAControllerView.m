@@ -8,7 +8,7 @@
 
 #import "GBAControllerView.h"
 #import "GBAControllerSkin_Private.h"
-#import "UIScreen+Widescreen.h"
+#import "UIScreen+Size.h"
 #import "UITouch+ControllerButtons.h"
 #import "UIDevice-Hardware.h"
 

@@ -35,11 +35,6 @@ typedef NS_OPTIONS(NSInteger, GBAControllerSkinOrientation) // Yes, it's suppose
     GBAControllerSkinOrientationLandscape  =    1 << 1,
 };
 
-extern NSString *const GBAScreenTypeiPhone;
-extern NSString *const GBAScreenTypeiPhoneWidescreen;
-extern NSString *const GBAScreenTypeiPad;
-extern NSString *const GBAScreenTypeiPadRetina;
-
 extern NSString *const GBADefaultSkinIdentifier;
 
 @interface GBAControllerSkin : NSObject

@@ -7,7 +7,7 @@
 //
 
 #import "GBAControllerSkinSelectionViewController.h"
-#import "UIScreen+Widescreen.h"
+#import "UIScreen+Size.h"
 #import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDownloadViewController.h"

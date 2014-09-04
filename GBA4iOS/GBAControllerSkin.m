@@ -7,15 +7,18 @@
 //
 
 #import "GBAControllerSkin.h"
-#import "UIScreen+Widescreen.h"
+#import "UIScreen+Size.h"
 #import "SSZipArchive.h"
+
+NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 
 NSString *const GBAScreenTypeiPhone = @"iPhone";
 NSString *const GBAScreenTypeiPhoneWidescreen = @"iPhone Widescreen";
+NSString *const GBAScreenTypeiPhone4_0 = @"iPhone 4\"";
+NSString *const GBAScreenTypeiPhone4_7 = @"iPhone 4.7\"";
+NSString *const GBAScreenTypeiPhone5_5 = @"iPhone 5.5\"";
 NSString *const GBAScreenTypeiPad = @"iPad";
 NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
-
-NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 
 @interface GBAControllerSkin ()
 
@@ -203,17 +206,12 @@ NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *assets = dictionary[@"assets"];
     
-    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:assets];
-    NSString *relativePath = assets[key];
+    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets];
+    NSString *relativePath = assets[screenType];
     
     NSString *filepath = [self.filepath stringByAppendingPathComponent:relativePath];
     
-    CGFloat scale = [[UIScreen mainScreen] scale];
-    
-    if ([key isEqualToString:GBAScreenTypeiPad])
-    {
-        scale = 1.0f; // In case of a skin without retina artwork
-    }
+    CGFloat scale = [self imageScaleForScreenType:screenType];
     
     UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfFile:filepath] scale:scale];
     
@@ -225,8 +223,8 @@ NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *assets = dictionary[@"assets"];
     
-    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:assets];
-    NSString *relativePath = assets[key];
+    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets];
+    NSString *relativePath = assets[screenType];
     
     return (relativePath != nil);
 }
@@ -269,8 +267,8 @@ NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *layouts = dictionary[@"layouts"];
     
-    NSString *deviceKey = [GBAControllerSkin keyForCurrentDeviceWithDictionary:layouts];
-    NSDictionary *buttonRects = layouts[deviceKey];
+    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:layouts];
+    NSDictionary *buttonRects = layouts[screenType];
     
     NSString *buttonKey = [self keyForButtonRect:button];
     NSDictionary *buttonRect = buttonRects[buttonKey];
@@ -328,6 +326,26 @@ NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
 
 #pragma mark - Helper Methods -
 
+- (CGFloat)imageScaleForScreenType:(NSString *)screenType
+{
+    CGFloat imageScale = 2.0f;
+    
+    if ([screenType isEqualToString:GBAScreenTypeiPhone5_5])
+    {
+        imageScale = 3.0f;
+    }
+    else if ([screenType isEqualToString:GBAScreenTypeiPad])
+    {
+        imageScale = 1.0f;
+    }
+    else
+    {
+        imageScale = 2.0f;
+    }
+    
+    return imageScale;
+}
+
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerSkinOrientation)orientation
 {
     NSDictionary *dictionary = nil;
@@ -345,28 +363,82 @@ NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
     return dictionary;
 }
 
-+ (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary
++ (NSString *)screenTypeForCurrentDeviceWithDictionary:(NSDictionary *)dictionary
 {
-    NSString *key = nil;
+    NSString *screenType = nil;
+    
+    DLog(@"Screen Size: %@", NSStringFromCGSize([UIScreen mainScreen].bounds.size));
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         if ([[UIScreen mainScreen] isWidescreen])
         {
-            if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhoneWidescreen])
+            if ([[UIScreen mainScreen] is5_5inches])
             {
-                key = GBAScreenTypeiPhoneWidescreen;
+                if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone5_5])
+                {
+                    screenType = GBAScreenTypeiPhone5_5;
+                }
+                else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone4_7])
+                {
+                    screenType = GBAScreenTypeiPhone4_7;
+                }
+                else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone4_0])
+                {
+                    screenType = GBAScreenTypeiPhone4_0;
+                }
+                else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhoneWidescreen])
+                {
+                    screenType = GBAScreenTypeiPhoneWidescreen;
+                }
+                else
+                {
+                    screenType = GBAScreenTypeiPhone;
+                }
+            }
+            else if ([[UIScreen mainScreen] is4_7inches])
+            {
+                if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone4_7])
+                {
+                    screenType = GBAScreenTypeiPhone4_7;
+                }
+                else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone4_0])
+                {
+                    screenType = GBAScreenTypeiPhone4_0;
+                }
+                else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhoneWidescreen])
+                {
+                    screenType = GBAScreenTypeiPhoneWidescreen;
+                }
+                else
+                {
+                    screenType = GBAScreenTypeiPhone;
+                }
+            }
+            else if ([[UIScreen mainScreen] is4inches])
+            {
+                if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone4_0])
+                {
+                    screenType = GBAScreenTypeiPhone4_0;
+                }
+                else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhoneWidescreen])
+                {
+                    screenType = GBAScreenTypeiPhoneWidescreen;
+                }
+                else
+                {
+                    screenType = GBAScreenTypeiPhone;
+                }
             }
             else
             {
-                key = GBAScreenTypeiPhone;
+                screenType = GBAScreenTypeiPhone;
             }
         }
         else
         {
-            key = GBAScreenTypeiPhone;
+            screenType = GBAScreenTypeiPhone;
         }
-        
     }
     else
     {
@@ -374,20 +446,22 @@ NSString *const GBADefaultSkinIdentifier = @"com.GBA4iOS.default";
         {
             if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPadRetina])
             {
-                key = GBAScreenTypeiPadRetina;
+                screenType = GBAScreenTypeiPadRetina;
             }
             else
             {
-                key = GBAScreenTypeiPad;
+                screenType = GBAScreenTypeiPad;
             }
         }
         else
         {
-            key = GBAScreenTypeiPad;
+            screenType = GBAScreenTypeiPad;
         }
     }
     
-    return key;
+    DLog(@"Screen Type: %@", screenType);
+    
+    return screenType;
 }
 
 + (BOOL)validObjectExistsInDictionary:(NSDictionary *)dictionary forKey:(NSString *)key

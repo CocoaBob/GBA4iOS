@@ -59,7 +59,7 @@
 		BF2F351B183FF6F9002ACE90 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
 		BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9EA6CA17FE7CE1005BD5E6 /* UITableViewController+Theming.m */; };
 		BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
-		BF2F352D183FF6F9002ACE90 /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
+		BF2F352D183FF6F9002ACE90 /* UIScreen+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Size.m */; };
 		BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCA1056A17F6A5F80018D364 /* GBASplitViewController.mm */; };
 		BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE18DEA17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m */; };
 		BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */; };
@@ -157,7 +157,7 @@
 		BFB39ADE1958D864003330AE /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFB39ADF1958D866003330AE /* GBAControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D5A7917AAE3A800E89F43 /* GBAControllerView.m */; };
 		BFB39AE01958D869003330AE /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
-		BFB39AE11958D87A003330AE /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
+		BFB39AE11958D87A003330AE /* UIScreen+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Size.m */; };
 		BFB39AE21958D891003330AE /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C361895FF0100A9432C /* ioapi.c */; };
 		BFB39AE31958D891003330AE /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C381895FF0100A9432C /* mztools.c */; };
 		BFB39AE41958D891003330AE /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = BFD98C3A1895FF0100A9432C /* unzip.c */; };
@@ -329,7 +329,7 @@
 		CCC0F22F17FA95A700235781 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F22E17FA95A700235781 /* AVFoundation.framework */; };
 		CCC0F23117FA95B500235781 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23017FA95B500235781 /* AssetsLibrary.framework */; };
 		CCC0F23317FA95C600235781 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC0F23217FA95C600235781 /* CoreMedia.framework */; };
-		CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */; };
+		CCC17743179FC7AF00AB529A /* UIScreen+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC17742179FC7AF00AB529A /* UIScreen+Size.m */; };
 		CCC7298717C7357E0001BC6F /* GBAROM.mm in Sources */ = {isa = PBXBuildFile; fileRef = CCC7298517C7357E0001BC6F /* GBAROM.mm */; };
 		CCC9B8911815AC7E005C90EE /* Cheats_GBC.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575760180C759900BF3DA5 /* Cheats_GBC.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */ = {isa = PBXBuildFile; fileRef = CC575761180C759900BF3DA5 /* EmuControls.cc */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -734,8 +734,8 @@
 		CCC0F22E17FA95A700235781 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CCC0F23017FA95B500235781 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		CCC0F23217FA95C600235781 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Widescreen.h"; sourceTree = "<group>"; };
-		CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Widescreen.m"; sourceTree = "<group>"; };
+		CCC17741179FC7AF00AB529A /* UIScreen+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+Size.h"; sourceTree = "<group>"; };
+		CCC17742179FC7AF00AB529A /* UIScreen+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+Size.m"; sourceTree = "<group>"; };
 		CCC7298417C7357E0001BC6F /* GBAROM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROM.h; sourceTree = "<group>"; };
 		CCC7298517C7357E0001BC6F /* GBAROM.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAROM.mm; sourceTree = "<group>"; };
 		CCE18DE917D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAAsynchronousLocalImageTableViewCell.h; sourceTree = "<group>"; };
@@ -1548,8 +1548,8 @@
 				CC823BC317B04A7A000A25E6 /* UIImage+ImageEffects.m */,
 				CC7F4C9F17B5E6F8006888CE /* UITouch+ControllerButtons.h */,
 				CC7F4CA017B5E6F8006888CE /* UITouch+ControllerButtons.m */,
-				CCC17741179FC7AF00AB529A /* UIScreen+Widescreen.h */,
-				CCC17742179FC7AF00AB529A /* UIScreen+Widescreen.m */,
+				CCC17741179FC7AF00AB529A /* UIScreen+Size.h */,
+				CCC17742179FC7AF00AB529A /* UIScreen+Size.m */,
 				BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */,
 				BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */,
 				CCBD34EF17F7492F00592602 /* UIDevice-Hardware.h */,
@@ -2060,7 +2060,7 @@
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
 				BF2F352B183FF6F9002ACE90 /* GBAControllerSkinSelectionViewController.m in Sources */,
 				BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */,
-				BF2F352D183FF6F9002ACE90 /* UIScreen+Widescreen.m in Sources */,
+				BF2F352D183FF6F9002ACE90 /* UIScreen+Size.m in Sources */,
 				BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */,
 				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */,
 				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
@@ -2127,7 +2127,7 @@
 				BFB39AE01958D869003330AE /* GBAControllerSkin.m in Sources */,
 				BFB39AE51958D891003330AE /* zip.c in Sources */,
 				BFB39AEB1958DF8E003330AE /* GBAKeyboardViewController.m in Sources */,
-				BFB39AE11958D87A003330AE /* UIScreen+Widescreen.m in Sources */,
+				BFB39AE11958D87A003330AE /* UIScreen+Size.m in Sources */,
 				BFB39AE31958D891003330AE /* mztools.c in Sources */,
 				BFB39AE61958D891003330AE /* SSZipArchive.m in Sources */,
 				BFB39ADE1958D864003330AE /* GBAExternalController.m in Sources */,
@@ -2231,7 +2231,7 @@
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CC5045041814DC69009F7B9E /* Gb_Apu.cpp in Sources */,
-				CCC17743179FC7AF00AB529A /* UIScreen+Widescreen.m in Sources */,
+				CCC17743179FC7AF00AB529A /* UIScreen+Size.m in Sources */,
 				BF52A566197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */,
 				CCA1056B17F6A5F80018D364 /* GBASplitViewController.mm in Sources */,
 				CCE18DEC17D7EF10000592B7 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
@@ -2468,6 +2468,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2516,6 +2517,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2564,6 +2566,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";
@@ -2769,6 +2772,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Enterprise;
@@ -2975,6 +2979,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Jailbreak;

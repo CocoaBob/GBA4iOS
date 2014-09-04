@@ -19,7 +19,7 @@
 #import "GBAInitialPresentROMTableViewControllerAnimator.h"
 #import "GBAPresentOverlayViewControllerAnimator.h"
 #import "GBASyncManager.h"
-#import "UIScreen+Widescreen.h"
+#import "UIScreen+Size.h"
 #import "GBAExternalController.h"
 #import "GBASyncingDetailViewController.h"
 #import "GBAAppDelegate.h"

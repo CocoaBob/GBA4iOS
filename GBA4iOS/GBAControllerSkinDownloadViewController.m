@@ -7,7 +7,7 @@
 //
 
 #import "GBAControllerSkinDownloadViewController.h"
-#import "UIScreen+Widescreen.h"
+#import "UIScreen+Size.h"
 #import "GBAAsynchronousRemoteTableViewCell.h"
 #import "GBAControllerSkin_Private.h"
 #import "UIAlertView+RSTAdditions.h"
