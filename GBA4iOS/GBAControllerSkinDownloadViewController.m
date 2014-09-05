@@ -16,13 +16,7 @@
 #import <AFNetworking/AFNetworking.h>
 
 NSString *const GBASkinsKey = @"skins";
-NSString *const GBASkinNameKey = @"name";
-NSString *const GBASkinIdentifierKey = @"identifier";
-NSString *const GBASkinTypeKey = @"type";
 NSString *const GBASkinFilenameKey = @"filename";
-NSString *const GBASkinAssetsKey = @"assets";
-NSString *const GBASkinAssetPortraitKey = @"portrait";
-NSString *const GBASkinAssetLandscapeKey = @"landscape";
 NSString *const GBASkinDesignerKey = @"designer";
 NSString *const GBASkinDesignerNameKey = @"name";
 NSString *const GBASkinDesignerURLKey = @"url";
@@ -172,7 +166,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
-    NSURL *URL = [self URLForFileWithName:dictionary[GBASkinFilenameKey] identifier:dictionary[GBASkinIdentifierKey]];
+    NSURL *URL = [self URLForFileWithName:dictionary[GBASkinFilenameKey] identifier:dictionary[GBAControllerSkinIdentifierKey]];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
@@ -339,16 +333,16 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     }
     
     NSDictionary *dictionary = [self dictionaryForSection:section];
-    NSDictionary *assets = dictionary[GBASkinAssetsKey];
+    NSDictionary *assets = dictionary[GBAControllerSkinAssetsKey];
     
     NSInteger supportedOrientations = 0;
     
-    if (assets[GBASkinAssetPortraitKey])
+    if (assets[GBAControllerSkinOrientationPortraitKey])
     {
         supportedOrientations++;
     }
     
-    if (assets[GBASkinAssetLandscapeKey])
+    if (assets[GBAControllerSkinOrientationLandscapeKey])
     {
         supportedOrientations++;
     }
@@ -365,7 +359,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     NSDictionary *dictionary = [self dictionaryForSection:section];
     
-    return dictionary[GBASkinNameKey];
+    return dictionary[GBAControllerSkinNameKey];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
@@ -389,13 +383,14 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     NSInteger numberOfRows = [self.tableView numberOfRowsInSection:indexPath.section];
     
     NSDictionary *dictionary = [self dictionaryForSection:indexPath.section];
-    NSString *identifier = dictionary[GBASkinIdentifierKey];
-    NSString *type = dictionary[GBASkinTypeKey];
+    NSString *identifier = dictionary[GBAControllerSkinIdentifierKey];
+    NSString *type = dictionary[GBAControllerSkinTypeKey];
+    BOOL resizable = dictionary[GBAControllerSkinResizableKey];
     
-    NSDictionary *assets = dictionary[GBASkinAssetsKey];
+    NSDictionary *assets = dictionary[GBAControllerSkinAssetsKey];
     
-    NSDictionary *portraitAssets = assets[GBASkinAssetPortraitKey];
-    NSDictionary *landscapeAssets = assets[GBASkinAssetLandscapeKey];
+    NSDictionary *portraitAssets = assets[GBAControllerSkinOrientationPortraitKey];
+    NSDictionary *landscapeAssets = assets[GBAControllerSkinOrientationLandscapeKey];
     
     cell.imageCache = self.imageCache;
     
@@ -405,22 +400,22 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     {
         if (portraitAssets)
         {
-            imageFilename = [self imageFilenameForDictionary:portraitAssets];
+            imageFilename = [self imageFilenameForDictionary:portraitAssets resizable:resizable];
         }
         else
         {
-            imageFilename = [self imageFilenameForDictionary:landscapeAssets];
+            imageFilename = [self imageFilenameForDictionary:landscapeAssets resizable:resizable];
         }
     }
     else if (numberOfRows == 2)
     {
         if (indexPath.row == 0)
         {
-            imageFilename = [self imageFilenameForDictionary:portraitAssets];
+            imageFilename = [self imageFilenameForDictionary:portraitAssets resizable:resizable];
         }
         else
         {
-            imageFilename = [self imageFilenameForDictionary:landscapeAssets];
+            imageFilename = [self imageFilenameForDictionary:landscapeAssets resizable:resizable];
         }
     }
     
@@ -459,7 +454,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
 {
     NSDictionary *skinDictionary = [self dictionaryForSection:indexPath.section];
     
-    NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to download “%@” skin?", @""), skinDictionary[GBASkinNameKey]];
+    NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to download “%@” skin?", @""), skinDictionary[GBAControllerSkinNameKey]];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
     [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -508,9 +503,9 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     return skins[section];
 }
 
-- (NSString *)imageFilenameForDictionary:(NSDictionary *)dictionary
+- (NSString *)imageFilenameForDictionary:(NSDictionary *)dictionary resizable:(BOOL)resizable
 {
-    NSString *key = [GBAControllerSkin keyForCurrentDeviceWithDictionary:dictionary];
+    NSString *key = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:dictionary resizable:resizable];
     return dictionary[key];
 }
 

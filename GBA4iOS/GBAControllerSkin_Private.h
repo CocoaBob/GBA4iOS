@@ -8,14 +8,38 @@
 
 #import "GBAControllerSkin.h"
 
+extern NSString *const GBAControllerSkinNameKey;
+extern NSString *const GBAControllerSkinIdentifierKey;
+extern NSString *const GBAControllerSkinTypeKey;
+extern NSString *const GBAControllerSkinResizableKey;
+extern NSString *const GBAControllerSkinDebugKey;
+extern NSString *const GBAControllerSkinOrientationPortraitKey;
+extern NSString *const GBAControllerSkinOrientationLandscapeKey;
+extern NSString *const GBAControllerSkinAssetsKey;
+extern NSString *const GBAControllerSkinLayoutsKey;
+
+extern NSString *const GBAControllerSkinLayoutXKey;
+extern NSString *const GBAControllerSkinLayoutYKey;
+extern NSString *const GBAControllerSkinLayoutWidthKey;
+extern NSString *const GBAControllerSkinLayoutHeightKey;
+
+extern NSString *const GBAControllerSkinExtendedEdgesKey;
+extern NSString *const GBAControllerSkinExtendedEdgesTopKey;
+extern NSString *const GBAControllerSkinExtendedEdgesBottomKey;
+extern NSString *const GBAControllerSkinExtendedEdgesLeftKey;
+extern NSString *const GBAControllerSkinExtendedEdgesRightKey;
+
+extern NSString *const GBAControllerSkinMappingSizeKey;
+extern NSString *const GBAControllerSkinMappingSizeWidthKey;
+extern NSString *const GBAControllerSkinMappingSizeHeightKey;
+
 @interface GBAControllerSkin ()
 
 - (NSDictionary *)dictionaryForOrientation:(GBAControllerSkinOrientation)orientation;
-- (NSString *)keyForButtonRect:(GBAControllerSkinRect)button;
-+ (NSString *)keyForCurrentDeviceWithDictionary:(NSDictionary *)dictionary;
+- (NSString *)keyForMapping:(GBAControllerSkinMapping)mapping;
 
-// Should use -[GBAControllerView displayFrameForButtonRect:orientation:useExtendedEdges:] instead
-- (CGRect)rectForButtonRect:(GBAControllerSkinRect)button orientation:(GBAControllerSkinOrientation)orientation useExtendedEdges:(BOOL)useExtendedEdges;
-- (CGRect)screenRectForOrientation:(GBAControllerSkinOrientation)orientation;
+- (CGSize)mappingSizeForOrientation:(GBAControllerSkinOrientation)orientation;
+
++ (NSString *)screenTypeForCurrentDeviceWithDictionary:(NSDictionary *)dictionary resizable:(BOOL)resizable;
 
 @end

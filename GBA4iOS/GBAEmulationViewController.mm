@@ -936,7 +936,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     // Below code used in didRotateFromInterfaceOrientation as well, except without the selectionHandler
     
-    CGRect rect = [self.controllerView displayFrameForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation useExtendedEdges:NO];
+    CGRect rect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingMenu orientation:self.controllerView.orientation controllerDisplaySize:self.view.window.bounds.size useExtendedEdges:NO];
     
     CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
     
@@ -990,7 +990,7 @@ static GBAEmulationViewController *_emulationViewController;
     });
     
     BOOL screenRectEmpty = NO;
-    CGRect screenRect = [self.controllerView displayScreenFrameForOrientation:self.controllerView.orientation];
+    CGRect screenRect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingScreen orientation:self.controllerView.orientation controllerDisplaySize:self.view.window.bounds.size];
     
     if (CGRectIsEmpty(screenRect))
     {
@@ -1750,7 +1750,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         // Below code used in controllerInputDidPressPauseButton as well, except with a selectionHandler
         
-        CGRect rect = [self.controllerView displayFrameForButtonRect:GBAControllerSkinRectMenu orientation:self.controllerView.orientation];
+        CGRect rect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingMenu orientation:self.controllerView.orientation controllerDisplaySize:self.view.window.bounds.size useExtendedEdges:NO];
         
         CGRect convertedRect = [self.view convertRect:rect fromView:self.controllerView];
         
@@ -1908,7 +1908,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (![self isAirplaying])
     {
-        CGRect screenRect = [self.controllerView displayScreenFrameForOrientation:self.controllerView.orientation];
+        CGRect screenRect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingScreen orientation:self.controllerView.orientation controllerDisplaySize:self.view.window.bounds.size];
                 
         if (CGRectIsEmpty(screenRect) || self.externalController)
         {
@@ -2469,10 +2469,7 @@ static GBAEmulationViewController *_emulationViewController;
         controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     }
     
-    GBAControllerView *controllerView = [GBAControllerView new];
-    controllerView.controllerSkin = controllerSkin;
-    
-    CGSize controllerDisplaySize = [controllerView displaySizeForOrientation:skinOrientation];
+    CGSize controllerDisplaySize = [controllerSkin frameForMapping:GBAControllerSkinMappingControllerImage orientation:skinOrientation controllerDisplaySize:viewSize].size;
     CGSize screenContainerSize = CGSizeZero;
     CGRect drawingRect = CGRectZero;
     
@@ -2503,7 +2500,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
     {
-        CGRect screenRect = [controllerView displayScreenFrameForOrientation:skinOrientation];
+        CGRect screenRect = [controllerSkin frameForMapping:GBAControllerSkinMappingScreen orientation:skinOrientation controllerDisplaySize:viewSize];
         
         if (CGRectIsEmpty(screenRect) || self.externalController)
         {

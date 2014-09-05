@@ -129,6 +129,18 @@
 		BF537EFA184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EF8184FE1AC00661C42 /* GBASyncFileOperation.mm */; };
 		BF537EFE185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */; };
 		BF537EFF185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */; };
+		BF58D30E19B91550003B2B62 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = BF58D30319B91550003B2B62 /* LICENSE.txt */; };
+		BF58D30F19B91550003B2B62 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = BF58D30319B91550003B2B62 /* LICENSE.txt */; };
+		BF58D31019B91550003B2B62 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30519B91550003B2B62 /* NSData+MD5.m */; };
+		BF58D31119B91550003B2B62 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30519B91550003B2B62 /* NSData+MD5.m */; };
+		BF58D31219B91550003B2B62 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30719B91550003B2B62 /* NSString+MD5.m */; };
+		BF58D31319B91550003B2B62 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30719B91550003B2B62 /* NSString+MD5.m */; };
+		BF58D31419B91550003B2B62 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30919B91550003B2B62 /* PDFView.m */; };
+		BF58D31519B91550003B2B62 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30919B91550003B2B62 /* PDFView.m */; };
+		BF58D31619B91550003B2B62 /* UIImage+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30B19B91550003B2B62 /* UIImage+PDF.m */; };
+		BF58D31719B91550003B2B62 /* UIImage+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30B19B91550003B2B62 /* UIImage+PDF.m */; };
+		BF58D31819B91550003B2B62 /* UIView+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30D19B91550003B2B62 /* UIView+Image.m */; };
+		BF58D31919B91550003B2B62 /* UIView+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = BF58D30D19B91550003B2B62 /* UIView+Image.m */; };
 		BF60A16E18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */; };
 		BF60A16F18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */; };
 		BF60A17118A61D8700B2E7D4 /* betaTesters.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF60A17018A61D8700B2E7D4 /* betaTesters.plist */; };
@@ -491,6 +503,17 @@
 		BF537EFB184FEB4600661C42 /* GBASyncFileOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncFileOperation_Private.h; sourceTree = "<group>"; };
 		BF537EFC185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncUploadDeviceUploadHistoryOperation.h; sourceTree = "<group>"; };
 		BF537EFD185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncUploadDeviceUploadHistoryOperation.mm; sourceTree = "<group>"; };
+		BF58D30319B91550003B2B62 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		BF58D30419B91550003B2B62 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		BF58D30519B91550003B2B62 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
+		BF58D30619B91550003B2B62 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		BF58D30719B91550003B2B62 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
+		BF58D30819B91550003B2B62 /* PDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFView.h; sourceTree = "<group>"; };
+		BF58D30919B91550003B2B62 /* PDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFView.m; sourceTree = "<group>"; };
+		BF58D30A19B91550003B2B62 /* UIImage+PDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PDF.h"; sourceTree = "<group>"; };
+		BF58D30B19B91550003B2B62 /* UIImage+PDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PDF.m"; sourceTree = "<group>"; };
+		BF58D30C19B91550003B2B62 /* UIView+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Image.h"; sourceTree = "<group>"; };
+		BF58D30D19B91550003B2B62 /* UIView+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Image.m"; sourceTree = "<group>"; };
 		BF60A16C18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBABetaTesterCreditsViewController.h; sourceTree = "<group>"; };
 		BF60A16D18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBABetaTesterCreditsViewController.m; sourceTree = "<group>"; };
 		BF60A17018A61D8700B2E7D4 /* betaTesters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = betaTesters.plist; sourceTree = "<group>"; };
@@ -974,6 +997,24 @@
 			name = "Launch Images";
 			sourceTree = "<group>";
 		};
+		BF58D30219B91550003B2B62 /* UIImage+PDF */ = {
+			isa = PBXGroup;
+			children = (
+				BF58D30319B91550003B2B62 /* LICENSE.txt */,
+				BF58D30419B91550003B2B62 /* NSData+MD5.h */,
+				BF58D30519B91550003B2B62 /* NSData+MD5.m */,
+				BF58D30619B91550003B2B62 /* NSString+MD5.h */,
+				BF58D30719B91550003B2B62 /* NSString+MD5.m */,
+				BF58D30819B91550003B2B62 /* PDFView.h */,
+				BF58D30919B91550003B2B62 /* PDFView.m */,
+				BF58D30A19B91550003B2B62 /* UIImage+PDF.h */,
+				BF58D30B19B91550003B2B62 /* UIImage+PDF.m */,
+				BF58D30C19B91550003B2B62 /* UIView+Image.h */,
+				BF58D30D19B91550003B2B62 /* UIView+Image.m */,
+			);
+			path = "UIImage+PDF";
+			sourceTree = "<group>";
+		};
 		BF60A17318A62ADF00B2E7D4 /* Beta Testers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1067,6 +1108,7 @@
 		BFD98C331895FEED00A9432C /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				BF58D30219B91550003B2B62 /* UIImage+PDF */,
 				BFD98C341895FF0100A9432C /* minizip */,
 			);
 			name = Libraries;
@@ -1784,6 +1826,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF58D30F19B91550003B2B62 /* LICENSE.txt in Resources */,
 				BFB89E4418909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
 				BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */,
 				BFB89E4218909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
@@ -1807,6 +1850,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF58D30E19B91550003B2B62 /* LICENSE.txt in Resources */,
 				BFB89E4318909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
 				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
 				BFB89E4118909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
@@ -1948,6 +1992,7 @@
 				BFFBCCD71850505A005187DF /* GBASyncAllFilesOperation.mm in Sources */,
 				BFD03A9F1898E877001056A5 /* GBAEvent.m in Sources */,
 				BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */,
+				BF58D31319B91550003B2B62 /* NSString+MD5.m in Sources */,
 				BF2290A5189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */,
 				BFD98C451895FF0100A9432C /* unzip.c in Sources */,
 				BF2F352A183FF6F9002ACE90 /* UITableViewController+Theming.m in Sources */,
@@ -1969,16 +2014,20 @@
 				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
+				BF58D31919B91550003B2B62 /* UIView+Image.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
 				BFBA77BF19B71602000E8425 /* GBAAcknowledgementsViewController.m in Sources */,
+				BF58D31519B91550003B2B62 /* PDFView.m in Sources */,
 				BF2F354C183FF6F9002ACE90 /* GBAROM.mm in Sources */,
 				BFBAAF851977027F00754626 /* GBAEventDistributionOperation.m in Sources */,
 				BF7EC2EE196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */,
 				BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
 				BF2F3550183FF6F9002ACE90 /* GBACheatManagerViewController.mm in Sources */,
 				BF2F3554183FF6F9002ACE90 /* GBACheatEditorViewController.m in Sources */,
+				BF58D31119B91550003B2B62 /* NSData+MD5.m in Sources */,
 				BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */,
 				BF537EFF185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */,
+				BF58D31719B91550003B2B62 /* UIImage+PDF.m in Sources */,
 				BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */,
 				BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */,
 				BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
@@ -2048,6 +2097,7 @@
 				BF16DCF6184FD3430092A3F5 /* GBASyncDownloadOperation.mm in Sources */,
 				CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */,
 				CC86CC1C17BEAFAB00A4B84E /* ButtonConfigView.cc in Sources */,
+				BF58D31419B91550003B2B62 /* PDFView.m in Sources */,
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
 				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
@@ -2063,6 +2113,7 @@
 				CC5044EC1814DC69009F7B9E /* Cheats.cc in Sources */,
 				CCFA71AA179D2FE400768D24 /* MsgPopup.cc in Sources */,
 				CCC9B8951815AC7E005C90EE /* lyc_irq.cpp in Sources */,
+				BF58D31219B91550003B2B62 /* NSString+MD5.m in Sources */,
 				CC5045161814DC69009F7B9E /* 7zCrc.c in Sources */,
 				CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CC5045091814DC69009F7B9E /* blargg_errors.cpp in Sources */,
@@ -2161,6 +2212,7 @@
 				CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */,
 				CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */,
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
+				BF58D31819B91550003B2B62 /* UIView+Image.m in Sources */,
 				BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
 				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
 				BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */,
@@ -2178,8 +2230,10 @@
 				CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */,
 				CC5045121814DC69009F7B9E /* Zlib_Inflater.cpp in Sources */,
 				CC5044F61814DC69009F7B9E /* Globals.cpp in Sources */,
+				BF58D31619B91550003B2B62 /* UIImage+PDF.m in Sources */,
 				CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */,
 				CC50450D1814DC69009F7B9E /* Gzip_Extractor.cpp in Sources */,
+				BF58D31019B91550003B2B62 /* NSData+MD5.m in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				BF20ED6C189769DF00270BC8 /* GBAEventDistributionDetailViewController.m in Sources */,
 				CC5045001814DC69009F7B9E /* Patch.cpp in Sources */,

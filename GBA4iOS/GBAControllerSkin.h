@@ -9,18 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "GBAControllerInput.h"
 
-typedef NS_ENUM(NSInteger, GBAControllerSkinRect)
+typedef NS_ENUM(NSInteger, GBAControllerSkinMapping)
 {
-    GBAControllerSkinRectDPad,
-    GBAControllerSkinRectA,
-    GBAControllerSkinRectB,
-    GBAControllerSkinRectAB,
-    GBAControllerSkinRectL,
-    GBAControllerSkinRectR,
-    GBAControllerSkinRectStart,
-    GBAControllerSkinRectSelect,
-    GBAControllerSkinRectMenu,
-    GBAControllerSkinRectScreen
+    GBAControllerSkinMappingDPad,
+    GBAControllerSkinMappingA,
+    GBAControllerSkinMappingB,
+    GBAControllerSkinMappingAB,
+    GBAControllerSkinMappingL,
+    GBAControllerSkinMappingR,
+    GBAControllerSkinMappingStart,
+    GBAControllerSkinMappingSelect,
+    GBAControllerSkinMappingMenu,
+    GBAControllerSkinMappingScreen,
+    GBAControllerSkinMappingControllerImage,
 };
 
 typedef NS_ENUM(NSInteger, GBAControllerSkinType)
@@ -44,6 +45,7 @@ extern NSString *const GBADefaultSkinIdentifier;
 @property (readonly, nonatomic) NSString *name;
 @property (readonly, nonatomic) NSString *identifier;
 @property (readonly, nonatomic) GBAControllerSkinType type;
+@property (readonly, nonatomic, getter=isResizable) BOOL resizable;
 @property (readonly, nonatomic) BOOL debug;
 
 + (GBAControllerSkin *)controllerSkinWithContentsOfFile:(NSString *)filepath;
@@ -56,5 +58,8 @@ extern NSString *const GBADefaultSkinIdentifier;
 - (BOOL)imageExistsForOrientation:(GBAControllerSkinOrientation)orientation;
 - (BOOL)isTranslucentForOrientation:(GBAControllerSkinOrientation)orientation;
 - (GBAControllerSkinOrientation)supportedOrientations;
+
+- (CGRect)frameForMapping:(GBAControllerSkinMapping)mapping orientation:(GBAControllerSkinOrientation)orientation controllerDisplaySize:(CGSize)displaySize;
+- (CGRect)frameForMapping:(GBAControllerSkinMapping)mapping orientation:(GBAControllerSkinOrientation)orientation controllerDisplaySize:(CGSize)displaySize useExtendedEdges:(BOOL)useExtendedEdges;
 
 @end
