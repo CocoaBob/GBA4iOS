@@ -542,7 +542,6 @@
 		BFD98C3D1895FF0100A9432C /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
 		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
-		BFE23459196F48A30082BD9D /* Default_New.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default_New.gbaskin; path = Skins/Default_New/Default_New.gbaskin; sourceTree = SOURCE_ROOT; };
 		BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateViewController.h; sourceTree = "<group>"; };
 		BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateViewController.m; sourceTree = "<group>"; };
 		BFFA355117ECD2A70038D34F /* Default.gbaskin */ = {isa = PBXFileReference; lastKnownFileType = file; name = Default.gbaskin; path = Skins/Default/Default.gbaskin; sourceTree = SOURCE_ROOT; };
@@ -1304,7 +1303,6 @@
 				BF563AB4184B11C000722678 /* Launch Images */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
 				CC5044E61814C474009F7B9E /* Default.gbcskin */,
-				BFE23459196F48A30082BD9D /* Default_New.gbaskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
 				CC15E53A179ECDCC00449972 /* overlays128.png */,
