@@ -1908,8 +1908,8 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (![self isAirplaying])
     {
-        CGRect screenRect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingScreen orientation:self.controllerView.orientation controllerDisplaySize:self.view.window.bounds.size];
-                
+        CGRect screenRect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingScreen orientation:self.controllerView.orientation controllerDisplaySize:self.view.bounds.size];
+        
         if (CGRectIsEmpty(screenRect) || self.externalController)
         {
             [UIView animateWithDuration:0.4 animations:^{
@@ -1940,16 +1940,6 @@ static GBAEmulationViewController *_emulationViewController;
                 }
             }];
             
-            
-            self.emulatorScreen.frame = ({
-                CGRect frame = self.emulatorScreen.frame;
-                CGSize aspectSize = [self screenSizeForContainerSize:screenRect.size];
-                
-                frame.origin = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f - aspectSize.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f - aspectSize.height/2.0f);
-                frame.size = aspectSize;
-                frame;
-            });
-            self.emulatorScreen.center = CGPointMake(screenRect.origin.x + screenRect.size.width/2.0f, screenRect.origin.y + screenRect.size.height/2.0f);
             self.emulatorScreen.frame = screenRect;
             
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
@@ -1958,6 +1948,7 @@ static GBAEmulationViewController *_emulationViewController;
     else
     {
         [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.airplayWindow.bounds.size] screen:self.airplayWindow.screen];
+        
     }
     
     [self.emulatorScreen invalidateIntrinsicContentSize];
@@ -2464,7 +2455,7 @@ static GBAEmulationViewController *_emulationViewController;
     }
     
     CGFloat controllerAlpha = 1.0f;
-    if ([self.controllerView.controllerSkin isTranslucentForOrientation:skinOrientation])
+    if ([controllerSkin isTranslucentForOrientation:skinOrientation])
     {
         controllerAlpha = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     }

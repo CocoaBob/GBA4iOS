@@ -1783,7 +1783,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                             </connections>
                         </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="vw4-Ob-Njc">
-                            <rect key="frame" x="86" y="6" width="149" height="33"/>
+                            <rect key="frame" x="85.5" y="5.5" width="149" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="ALL"/>
