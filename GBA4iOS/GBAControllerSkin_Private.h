@@ -8,6 +8,16 @@
 
 #import "GBAControllerSkin.h"
 
+extern NSString *const GBAScreenTypeiPhone;
+extern NSString *const GBAScreenTypeiPhoneWidescreen;
+extern NSString *const GBAScreenTypeiPhone4_0;
+extern NSString *const GBAScreenTypeiPhone4_7;
+extern NSString *const GBAScreenTypeiPhone5_5;
+extern NSString *const GBAScreenTypeiPad;
+extern NSString *const GBAScreenTypeiPadRetina;
+extern NSString *const GBAScreenTypeResizableiPhone;
+extern NSString *const GBAScreenTypeResizableiPad;
+
 extern NSString *const GBAControllerSkinNameKey;
 extern NSString *const GBAControllerSkinIdentifierKey;
 extern NSString *const GBAControllerSkinTypeKey;

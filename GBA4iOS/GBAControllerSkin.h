@@ -45,7 +45,6 @@ extern NSString *const GBADefaultSkinIdentifier;
 @property (readonly, nonatomic) NSString *name;
 @property (readonly, nonatomic) NSString *identifier;
 @property (readonly, nonatomic) GBAControllerSkinType type;
-@property (readonly, nonatomic, getter=isResizable) BOOL resizable;
 @property (readonly, nonatomic) BOOL debug;
 
 + (GBAControllerSkin *)controllerSkinWithContentsOfFile:(NSString *)filepath;
@@ -57,6 +56,7 @@ extern NSString *const GBADefaultSkinIdentifier;
 - (UIImage *)imageForOrientation:(GBAControllerSkinOrientation)orientation;
 - (BOOL)imageExistsForOrientation:(GBAControllerSkinOrientation)orientation;
 - (BOOL)isTranslucentForOrientation:(GBAControllerSkinOrientation)orientation;
+- (BOOL)isResizableForOrientation:(GBAControllerSkinOrientation)orientation;
 - (GBAControllerSkinOrientation)supportedOrientations;
 
 - (CGRect)frameForMapping:(GBAControllerSkinMapping)mapping orientation:(GBAControllerSkinOrientation)orientation controllerDisplaySize:(CGSize)displaySize;

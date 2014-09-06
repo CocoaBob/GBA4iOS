@@ -385,9 +385,21 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     NSDictionary *dictionary = [self dictionaryForSection:indexPath.section];
     NSString *identifier = dictionary[GBAControllerSkinIdentifierKey];
     NSString *type = dictionary[GBAControllerSkinTypeKey];
-    BOOL resizable = dictionary[GBAControllerSkinResizableKey];
     
     NSDictionary *assets = dictionary[GBAControllerSkinAssetsKey];
+    
+    NSString *filename = nil;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        filename = assets[GBAScreenTypeResizableiPad];
+    }
+    else
+    {
+        filename = assets[GBAScreenTypeResizableiPhone];
+    }
+    
+    BOOL resizable = (filename != nil);
     
     NSDictionary *portraitAssets = assets[GBAControllerSkinOrientationPortraitKey];
     NSDictionary *landscapeAssets = assets[GBAControllerSkinOrientationLandscapeKey];

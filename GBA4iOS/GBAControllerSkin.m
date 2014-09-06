@@ -22,6 +22,8 @@ NSString *const GBAScreenTypeiPhone4_7 = @"iPhone 4.7\"";
 NSString *const GBAScreenTypeiPhone5_5 = @"iPhone 5.5\"";
 NSString *const GBAScreenTypeiPad = @"iPad";
 NSString *const GBAScreenTypeiPadRetina = @"iPad Retina";
+NSString *const GBAScreenTypeResizableiPhone = @"Resizable iPhone";
+NSString *const GBAScreenTypeResizableiPad = @"Resizable iPad";
 
 NSString *const GBAControllerSkinNameKey = @"name";
 NSString *const GBAControllerSkinIdentifierKey = @"identifier";
@@ -130,7 +132,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         
         NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"Default" ofType:fileType];
         [GBAControllerSkin extractSkinAtPathToSkinsDirectory:bundlePath];
-        
+                
         controllerSkin = [[GBAControllerSkin alloc] initWithContentsOfFile:filepath];
     }
     
@@ -226,11 +228,6 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
     return [self.infoDictionary[GBAControllerSkinTypeKey] integerValue];
 }
 
-- (BOOL)isResizable
-{
-    return [self.infoDictionary[GBAControllerSkinResizableKey] boolValue];
-}
-
 - (BOOL)debug
 {
     return [self.infoDictionary[GBAControllerSkinDebugKey] boolValue];
@@ -254,7 +251,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
         NSDictionary *assets = dictionary[GBAControllerSkinAssetsKey];
         
-        NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets resizable:self.resizable];
+        NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets resizable:[self isResizableForOrientation:orientation]];
         NSString *relativePath = assets[screenType];
         
         NSURL *fileURL = [NSURL fileURLWithPath:[self.filepath stringByAppendingPathComponent:relativePath]];
@@ -314,7 +311,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *assets = dictionary[GBAControllerSkinAssetsKey];
     
-    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets resizable:self.resizable];
+    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:assets resizable:[self isResizableForOrientation:orientation]];
     NSString *relativePath = assets[screenType];
     
     return (relativePath != nil);
@@ -324,6 +321,25 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
 {
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     return [dictionary[@"translucent"] boolValue];
+}
+
+- (BOOL)isResizableForOrientation:(GBAControllerSkinOrientation)orientation
+{
+    NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
+    NSDictionary *assets = dictionary[GBAControllerSkinAssetsKey];
+    
+    NSString *filename = nil;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        filename = assets[GBAScreenTypeResizableiPad];
+    }
+    else
+    {
+        filename = assets[GBAScreenTypeResizableiPhone];
+    }
+    
+    return (filename != nil);
 }
 
 - (GBAControllerSkinOrientation)supportedOrientations
@@ -366,7 +382,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
     {
         NSDictionary *layouts = [self dictionaryForOrientation:orientation][GBAControllerSkinLayoutsKey];
         
-        NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:layouts resizable:self.resizable];
+        NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:layouts resizable:[self isResizableForOrientation:orientation]];
         NSDictionary *mappings = layouts[screenType];
         
         NSString *mappingKey = [self keyForMapping:mapping];
@@ -516,7 +532,10 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         }
         else
         {
-            screenType = GBAScreenTypeiPhone;
+            if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone])
+            {
+                screenType = GBAScreenTypeiPhone;
+            }
         }
         
         // Because we resize skins to fit screen, we start at highest resolution and work our way down as a fallback mechanism
@@ -524,20 +543,13 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         {
             if (resizable)
             {
-                if ([[UIScreen mainScreen] isWidescreen])
+                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
                 {
-                    if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhoneWidescreen])
-                    {
-                        screenType = GBAScreenTypeiPhoneWidescreen;
-                    }
-                    else
-                    {
-                        screenType = GBAScreenTypeiPhone;
-                    }
+                    screenType = GBAScreenTypeResizableiPad;
                 }
                 else
                 {
-                    screenType = GBAScreenTypeiPhone;
+                    screenType = GBAScreenTypeResizableiPhone;
                 }
             }
             else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone5_5])
@@ -620,7 +632,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
     NSDictionary *dictionary = [self dictionaryForOrientation:orientation];
     NSDictionary *layouts = dictionary[GBAControllerSkinLayoutsKey];
     
-    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:layouts resizable:self.resizable];
+    NSString *screenType = [GBAControllerSkin screenTypeForCurrentDeviceWithDictionary:layouts resizable:[self isResizableForOrientation:orientation]];
     NSDictionary *layoutDictionary = layouts[screenType];
     
     NSDictionary *mappingSizeDictionary = layoutDictionary[GBAControllerSkinMappingSizeKey];
