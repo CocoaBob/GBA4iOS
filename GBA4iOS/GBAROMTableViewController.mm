@@ -57,6 +57,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
 @property (strong, nonatomic) NSIndexPath *selectedROMIndexPath;
 
+@property (strong, nonatomic) IBOutlet UILabel *noGamesLabel;
+@property (strong, nonatomic) IBOutlet UILabel *noGamesDescriptionLabel;
+
 @property (assign, nonatomic) BOOL dismissModalViewControllerUponKeyboardHide;
 
 @property (strong, nonatomic) GBAWebViewController *webViewController;
@@ -562,6 +565,15 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
+    if ([self.supportedFiles count] == 0)
+    {
+        [self showNoGamesView];
+    }
+    else
+    {
+        [self hideNoGamesView];
+    }
+    
     // Sometimes pesky invisible files remain unavailable after a download, so we filter them out
     BOOL unavailableFilesContainsVisibleFile = NO;
     
@@ -940,6 +952,29 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     backgroundView.backgroundColor = GBA4iOS_PURPLE_COLOR;
     backgroundView.alpha = 0.6;
     cell.backgroundView = backgroundView;
+}
+
+- (void)showNoGamesView
+{
+    UINib *noGamesViewNib = [UINib nibWithNibName:@"GBANoGamesView" bundle:nil];
+    UIView *view = [[noGamesViewNib instantiateWithOwner:self options:nil] firstObject];
+    
+    if (self.theme == GBAThemedTableViewControllerThemeTranslucent)
+    {
+        view.backgroundColor = [UIColor clearColor];
+        
+        self.noGamesLabel.textColor = [UIColor whiteColor];
+        self.noGamesDescriptionLabel.textColor = [UIColor whiteColor];
+    }
+    
+    self.tableView.backgroundView = view;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+- (void)hideNoGamesView
+{
+    self.tableView.backgroundView = nil;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 }
 
 #pragma mark - UITableView Delegate

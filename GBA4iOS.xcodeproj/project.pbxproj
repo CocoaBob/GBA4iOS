@@ -108,6 +108,8 @@
 		BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
+		BF30DA0A19BAC8F6009754FF /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */; };
+		BF30DA0B19BAC8F6009754FF /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */; };
 		BF356C7A18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
 		BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
 		BF356C8318827E160005E1FC /* GBAEmulatorCore-Simulator.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */; };
@@ -477,6 +479,7 @@
 		BF2AC89018543BD9008928D0 /* GBASyncDeleteOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncDeleteOperation.h; sourceTree = "<group>"; };
 		BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncDeleteOperation.m; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GBANoGamesView.xib; sourceTree = "<group>"; };
 		BF356C7818814A180005E1FC /* GBACheatTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatTextView.h; sourceTree = "<group>"; };
 		BF356C7918814A180005E1FC /* GBACheatTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatTextView.m; sourceTree = "<group>"; };
 		BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GBAEmulatorCore-Simulator.mm"; sourceTree = "<group>"; };
@@ -1347,6 +1350,7 @@
 				CC2D57111798F2EC00C616EB /* Main.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */,
+				BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */,
 				BFD98C4A1895FFAD00A9432C /* Downloading ROMs */,
 				BF2AC8861854324B008928D0 /* Debug */,
 				BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */,
@@ -1838,6 +1842,7 @@
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
+				BF30DA0B19BAC8F6009754FF /* GBANoGamesView.xib in Resources */,
 				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
 				BFBA77BB19B715E1000E8425 /* Acknowledgements.html in Resources */,
@@ -1862,6 +1867,7 @@
 				BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
+				BF30DA0A19BAC8F6009754FF /* GBANoGamesView.xib in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 				BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */,
