@@ -1913,15 +1913,8 @@ static GBAEmulationViewController *_emulationViewController;
         if (CGRectIsEmpty(screenRect) || self.externalController)
         {
             [UIView animateWithDuration:0.4 animations:^{
-                if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
-                {
-                    [self.screenContainerView addConstraint:self.screenHorizontalCenterLayoutConstraint];
-                }
-                
-                if (![self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
-                {
-                    [self.screenContainerView addConstraint:self.screenVerticalCenterLayoutConstraint];
-                }
+                self.screenHorizontalCenterLayoutConstraint.constant = 0;
+                self.screenVerticalCenterLayoutConstraint.constant = 0;
             }];
             
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size] screen:[UIScreen mainScreen]];
@@ -1929,15 +1922,12 @@ static GBAEmulationViewController *_emulationViewController;
         else
         {
             [UIView animateWithDuration:0.4 animations:^{
-                if ([self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
-                {
-                    [self.screenContainerView removeConstraint:self.screenHorizontalCenterLayoutConstraint];
-                }
+                CGPoint center = CGPointMake(CGRectGetMidX(self.screenContainerView.bounds), CGRectGetMidY(self.screenContainerView.bounds));
+                CGPoint screenRectCenter = CGPointMake(CGRectGetMinX(screenRect) + CGRectGetWidth(screenRect) / 2.0,
+                                                       CGRectGetMinY(screenRect) + CGRectGetHeight(screenRect) / 2.0);
                 
-                if ([self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
-                {
-                    [self.screenContainerView removeConstraint:self.screenVerticalCenterLayoutConstraint];
-                }
+                self.screenHorizontalCenterLayoutConstraint.constant = center.x - screenRectCenter.x;
+                self.screenVerticalCenterLayoutConstraint.constant = center.y - screenRectCenter.y;
             }];
             
             self.emulatorScreen.frame = screenRect;
