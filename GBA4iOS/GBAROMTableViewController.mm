@@ -954,6 +954,9 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     cell.backgroundView = backgroundView;
 }
 
+
+#pragma mark - No Games View
+
 - (void)showNoGamesView
 {
     UINib *noGamesViewNib = [UINib nibWithNibName:@"GBANoGamesView" bundle:nil];
@@ -969,6 +972,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     self.tableView.backgroundView = view;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.noGamesDescriptionLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.tableView.bounds) - (29 * 2);
 }
 
 - (void)hideNoGamesView

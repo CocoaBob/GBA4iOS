@@ -1145,7 +1145,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="http://gba4iosapp.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MFx-SK-tmk">
                                                     <rect key="frame" x="15" y="11" width="290" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="FpP-Ux-VrQ" id="Xex-vW-q9z"/>
                                                     </connections>
