@@ -47,7 +47,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Multiplayer" footerTitle="Linking allows you to use multiplayer features that normally require a Link Cable." id="haO-MB-L62">
+                            <tableViewSection headerTitle="Multiplayer" id="haO-MB-L62">
+                                <string key="footerTitle">Linking allows you to use multiplayer features that normally require a Link Cable. 
+
+Make sure to turn on Push Notifications or follow @rileytestut and @pau1thor on Twitter to know when this feature is available!</string>
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="LinkingCell" textLabel="AiC-rk-75b" detailTextLabel="pY5-Cn-qd9" style="IBUITableViewCellStyleValue1" id="oCU-uU-god">
                                         <rect key="frame" x="0.0" y="1279" width="320" height="44"/>
