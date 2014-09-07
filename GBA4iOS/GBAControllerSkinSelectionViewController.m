@@ -108,10 +108,9 @@
 
 - (void)downloadSkins:(UIBarButtonItem *)sender
 {
-    GBAControllerSkinDownloadViewController *controllerSkinDownloadViewController = [[GBAControllerSkinDownloadViewController alloc] init];
-    controllerSkinDownloadViewController.controllerSkinType = self.controllerSkinType;
+    GBAControllerSkinDownloadViewController *downloadGroupsViewController = [[GBAControllerSkinDownloadViewController alloc] initWithControllerSkinType:self.controllerSkinType];
     
-    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(controllerSkinDownloadViewController);
+    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(downloadGroupsViewController);
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
     {

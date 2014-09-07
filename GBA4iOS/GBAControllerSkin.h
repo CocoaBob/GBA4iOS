@@ -27,7 +27,13 @@ typedef NS_ENUM(NSInteger, GBAControllerSkinMapping)
 typedef NS_ENUM(NSInteger, GBAControllerSkinType)
 {
     GBAControllerSkinTypeGBA = 0,
-    GBAControllerSkinTypeGBC = 1
+    GBAControllerSkinTypeGBC = 1,
+};
+
+typedef NS_OPTIONS(NSInteger, GBAControllerSkinDeviceType)
+{
+    GBAControllerSkinDeviceTypeiPhone   = 1 << 0,
+    GBAControllerSkinDeviceTypeiPad     = 1 << 1,
 };
 
 typedef NS_OPTIONS(NSInteger, GBAControllerSkinOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
@@ -41,11 +47,19 @@ extern NSString *const GBADefaultSkinIdentifier;
 @interface GBAControllerSkin : NSObject
 
 @property (readonly, copy, nonatomic) NSString *filepath;
+@property (readonly, copy, nonatomic) NSString *filename;
 
 @property (readonly, nonatomic) NSString *name;
 @property (readonly, nonatomic) NSString *identifier;
 @property (readonly, nonatomic) GBAControllerSkinType type;
+@property (readonly, nonatomic) GBAControllerSkinDeviceType deviceType;
+@property (readonly, nonatomic) GBAControllerSkinOrientation supportedOrientations;
 @property (readonly, nonatomic) BOOL debug;
+@property (readonly, nonatomic) NSString *designerName;
+@property (readonly, nonatomic) NSURL *designerURL;
+
+- (instancetype)initWithContentsOfFile:(NSString *)filepath;
+- (instancetype)initWithRemoteDictionary:(NSDictionary *)dictionary;
 
 + (GBAControllerSkin *)controllerSkinWithContentsOfFile:(NSString *)filepath;
 + (GBAControllerSkin *)defaultControllerSkinForSkinType:(GBAControllerSkinType)skinType;
@@ -57,7 +71,6 @@ extern NSString *const GBADefaultSkinIdentifier;
 - (BOOL)imageExistsForOrientation:(GBAControllerSkinOrientation)orientation;
 - (BOOL)isTranslucentForOrientation:(GBAControllerSkinOrientation)orientation;
 - (BOOL)isResizableForOrientation:(GBAControllerSkinOrientation)orientation;
-- (GBAControllerSkinOrientation)supportedOrientations;
 
 - (CGRect)frameForMapping:(GBAControllerSkinMapping)mapping orientation:(GBAControllerSkinOrientation)orientation controllerDisplaySize:(CGSize)displaySize;
 - (CGRect)frameForMapping:(GBAControllerSkinMapping)mapping orientation:(GBAControllerSkinOrientation)orientation controllerDisplaySize:(CGSize)displaySize useExtendedEdges:(BOOL)useExtendedEdges;

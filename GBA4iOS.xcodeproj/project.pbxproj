@@ -11,7 +11,7 @@
 		1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
 		1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		1AD971F317D2C6ED007097BC /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
-		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
+		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */; };
 		36BB379009474825B993FD0E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AFB44A5AB34C2982DE856F /* libPods.a */; };
 		BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */; };
 		BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */; };
@@ -32,6 +32,10 @@
 		BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BD71868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m */; };
 		BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
 		BF216BDD1868DEBD000A0DB8 /* SMCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */; };
+		BF2212FB19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2212FA19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m */; };
+		BF2212FC19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2212FA19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m */; };
+		BF2212FF19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2212FE19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m */; };
+		BF22130019BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2212FE19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m */; };
 		BF2290A4189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */; };
 		BF2290A5189C98BE0041F1AE /* NSFileManager+ForcefulMove.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */; };
 		BF2638C618700E2400CE55F9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF2638C518700E2400CE55F9 /* CoreMotion.framework */; };
@@ -78,7 +82,7 @@
 		BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
-		BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */; };
+		BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */; };
 		BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
 		BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
 		BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
@@ -215,6 +219,10 @@
 		BFFC588E186AB7CC00E7AC2F /* GBACalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFC588D186AB7CC00E7AC2F /* GBACalloutView.m */; };
 		BFFC588F186AB7CC00E7AC2F /* GBACalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFC588D186AB7CC00E7AC2F /* GBACalloutView.m */; };
 		BFFD47721841DC1F004BA938 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
+		BFFDAE1219BC2FD100BE5F74 /* GBAControllerSkinGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDAE0E19BC2FD100BE5F74 /* GBAControllerSkinGroup.m */; };
+		BFFDAE1319BC2FD100BE5F74 /* GBAControllerSkinGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDAE0E19BC2FD100BE5F74 /* GBAControllerSkinGroup.m */; };
+		BFFDAE1419BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDAE1119BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m */; };
+		BFFDAE1519BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDAE1119BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m */; };
 		CC0978721804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */; };
 		CC126F2B17A074A700FDBA56 /* GBAEmulatorScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */; };
 		CC1577D2179CF1B90068A54E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1577CD179CF1B90068A54E /* AudioToolbox.framework */; };
@@ -436,8 +444,8 @@
 		1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDetailViewController.m; sourceTree = "<group>"; };
 		1AD971F017D2C6ED007097BC /* GBAControllerSkin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkin.h; sourceTree = "<group>"; };
 		1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkin.m; sourceTree = "<group>"; };
-		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewController.h; sourceTree = "<group>"; };
-		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewController.m; sourceTree = "<group>"; };
+		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewControllerOld.h; sourceTree = "<group>"; };
+		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewControllerOld.m; sourceTree = "<group>"; };
 		B7AFB44A5AB34C2982DE856F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D7087219E44810B715C233 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncingOverviewViewController.h; sourceTree = "<group>"; };
@@ -463,6 +471,10 @@
 		BF216BDA1868DEBD000A0DB8 /* SMCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMCalloutView.h; sourceTree = "<group>"; };
 		BF216BDB1868DEBD000A0DB8 /* SMCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMCalloutView.m; sourceTree = "<group>"; };
 		BF216BDE186937B8000A0DB8 /* GBAExternalController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAExternalController_Private.h; sourceTree = "<group>"; };
+		BF2212F919BCC99900DFD5C1 /* GBAControllerSkinDownloadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadController.h; sourceTree = "<group>"; };
+		BF2212FA19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadController.m; sourceTree = "<group>"; };
+		BF2212FD19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinGroupViewController.h; sourceTree = "<group>"; };
+		BF2212FE19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinGroupViewController.m; sourceTree = "<group>"; };
 		BF2290A2189C98BE0041F1AE /* NSFileManager+ForcefulMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+ForcefulMove.h"; sourceTree = "<group>"; };
 		BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+ForcefulMove.m"; sourceTree = "<group>"; };
 		BF2638C518700E2400CE55F9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -590,6 +602,10 @@
 		BFFBCCDC18505D25005187DF /* GBASyncMultipleFilesOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncMultipleFilesOperation_Private.h; sourceTree = "<group>"; };
 		BFFC588C186AB7CC00E7AC2F /* GBACalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACalloutView.h; sourceTree = "<group>"; };
 		BFFC588D186AB7CC00E7AC2F /* GBACalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACalloutView.m; sourceTree = "<group>"; };
+		BFFDAE0E19BC2FD100BE5F74 /* GBAControllerSkinGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinGroup.m; sourceTree = "<group>"; };
+		BFFDAE0F19BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewController.h; sourceTree = "<group>"; };
+		BFFDAE1019BC2FD100BE5F74 /* GBAControllerSkinGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinGroup.h; sourceTree = "<group>"; };
+		BFFDAE1119BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewController.m; sourceTree = "<group>"; };
 		CC0978701804BB40008F4A90 /* GBAROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		CC0978711804BB40008F4A90 /* GBAROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
 		CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorScreen.h; sourceTree = "<group>"; };
@@ -894,8 +910,16 @@
 				1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */,
 				1AD65D7817D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h */,
 				1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */,
-				1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.h */,
-				1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m */,
+				BFFDAE0F19BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.h */,
+				BFFDAE1119BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m */,
+				BFFDAE1019BC2FD100BE5F74 /* GBAControllerSkinGroup.h */,
+				BFFDAE0E19BC2FD100BE5F74 /* GBAControllerSkinGroup.m */,
+				BF2212F919BCC99900DFD5C1 /* GBAControllerSkinDownloadController.h */,
+				BF2212FA19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m */,
+				BF2212FD19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.h */,
+				BF2212FE19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m */,
+				1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.h */,
+				1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */,
 				BF104A8217EB7B8F003C86F5 /* Cells */,
 			);
 			name = "Controller Skins";
@@ -2021,6 +2045,7 @@
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF58D31919B91550003B2B62 /* UIView+Image.m in Sources */,
+				BF2212FC19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m in Sources */,
 				BF2F354A183FF6F9002ACE90 /* GBAControllerView.m in Sources */,
 				BFBA77BF19B71602000E8425 /* GBAAcknowledgementsViewController.m in Sources */,
 				BF58D31519B91550003B2B62 /* PDFView.m in Sources */,
@@ -2035,10 +2060,12 @@
 				BF537EFF185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */,
 				BF58D31719B91550003B2B62 /* UIImage+PDF.m in Sources */,
 				BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */,
+				BFFDAE1319BC2FD100BE5F74 /* GBAControllerSkinGroup.m in Sources */,
 				BF216BD91868D92B000A0DB8 /* GBAExternalControllerCustomizationViewController.m in Sources */,
 				BF2F355C183FF6F9002ACE90 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */,
 				BF356C8318827E160005E1FC /* GBAEmulatorCore-Simulator.mm in Sources */,
 				BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */,
+				BF22130019BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m in Sources */,
 				BFD98C411895FF0100A9432C /* ioapi.c in Sources */,
 				BFFBCCDB18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */,
 				BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */,
@@ -2047,11 +2074,12 @@
 				BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */,
 				BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */,
 				BFC82E1719B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m in Sources */,
-				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewController.m in Sources */,
+				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
 				BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */,
 				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				BF02D2C5197344950034A515 /* GBASoftwareUpdate.m in Sources */,
+				BFFDAE1519BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */,
 				BFD98C431895FF0100A9432C /* mztools.c in Sources */,
 				BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */,
@@ -2123,6 +2151,7 @@
 				CC5045161814DC69009F7B9E /* 7zCrc.c in Sources */,
 				CC491D4E17BCAA940060A107 /* GBASaveStateViewController.mm in Sources */,
 				CC5045091814DC69009F7B9E /* blargg_errors.cpp in Sources */,
+				BFFDAE1219BC2FD100BE5F74 /* GBAControllerSkinGroup.m in Sources */,
 				BF359B98187A64C000B4CA53 /* NSDate+Comparing.m in Sources */,
 				CC7F4CA117B5E6F8006888CE /* UITouch+ControllerButtons.m in Sources */,
 				CCFA718D179D2EAB00768D24 /* ResourceFont.cc in Sources */,
@@ -2205,6 +2234,7 @@
 				CCC9B89E1815AC7E005C90EE /* envelope_unit.cpp in Sources */,
 				BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
+				BF2212FB19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m in Sources */,
 				CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
 				BF2AC89218543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */,
@@ -2258,10 +2288,11 @@
 				CC50450B1814DC69009F7B9E /* fex.cpp in Sources */,
 				BFFBCCDA18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */,
 				CCC9B89F1815AC7E005C90EE /* length_counter.cpp in Sources */,
-				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewController.m in Sources */,
+				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */,
 				CCC9B8931815AC7E005C90EE /* Main.cc in Sources */,
 				BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
+				BF2212FF19BCE95800DFD5C1 /* GBAControllerSkinGroupViewController.m in Sources */,
 				BF02D2C8197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */,
 				BF216BDC1868DEBD000A0DB8 /* SMCalloutView.m in Sources */,
 				BF2AC88418543246008928D0 /* NSObject+DTRuntime.m in Sources */,
@@ -2305,6 +2336,7 @@
 				BF537EF9184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */,
 				CCC9B8961815AC7E005C90EE /* next_m0_time.cpp in Sources */,
 				CCFA71B9179D2FE400768D24 /* InputManagerView.cc in Sources */,
+				BFFDAE1419BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m in Sources */,
 				CC5045191814DC69009F7B9E /* 7zIn.c in Sources */,
 				CC5045151814DC69009F7B9E /* 7zBuf.c in Sources */,
 				CC5044E91814DC69009F7B9E /* Main.cc in Sources */,

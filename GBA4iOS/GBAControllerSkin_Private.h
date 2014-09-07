@@ -27,6 +27,8 @@ extern NSString *const GBAControllerSkinOrientationPortraitKey;
 extern NSString *const GBAControllerSkinOrientationLandscapeKey;
 extern NSString *const GBAControllerSkinAssetsKey;
 extern NSString *const GBAControllerSkinLayoutsKey;
+extern NSString *const GBAControllerSkinDesignerKey;
+extern NSString *const GBAControllerSkinURLKey;
 
 extern NSString *const GBAControllerSkinLayoutXKey;
 extern NSString *const GBAControllerSkinLayoutYKey;
@@ -50,6 +52,6 @@ extern NSString *const GBAControllerSkinMappingSizeHeightKey;
 
 - (CGSize)mappingSizeForOrientation:(GBAControllerSkinOrientation)orientation;
 
-+ (NSString *)screenTypeForCurrentDeviceWithDictionary:(NSDictionary *)dictionary resizable:(BOOL)resizable;
+- (NSString *)screenTypeForCurrentDeviceWithDictionary:(NSDictionary *)dictionary orientation:(GBAControllerSkinOrientation)orientation;
 
 @end
