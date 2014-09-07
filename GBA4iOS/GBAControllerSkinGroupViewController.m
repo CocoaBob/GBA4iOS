@@ -12,6 +12,8 @@
 #import "GBAControllerSkinGroup.h"
 #import "GBAControllerSkinDownloadController.h"
 
+#import <RSTWebViewController.h>
+
 #import "UIAlertView+RSTAdditions.h"
 
 @interface GBAControllerSkinGroupViewController ()
@@ -53,6 +55,7 @@
     self.tableView.rowHeight = CGRectGetWidth(self.view.bounds) * landscapeAspectRatio;
     
     [self.tableView registerClass:[GBAAsynchronousRemoteTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"HeaderFooterViewIdentifier"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,6 +84,20 @@
     return [imageURLs count];
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GBAAsynchronousRemoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    GBAControllerSkin *skin = self.self.controllerSkinGroup.skins[indexPath.section - 1];
+    cell.imageURL = [self.downloadController imageURLsForControllerSkin:skin][indexPath.row];
+    cell.imageCache = self.imageCache;
+    
+    cell.separatorInset = UIEdgeInsetsZero;
+    // Configure the cell...
+    
+    return cell;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0)
@@ -104,20 +121,46 @@
     return [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"By", @""), skin.designerName];
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    GBAAsynchronousRemoteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    if (section == 0)
+    {
+        return [super tableView:tableView viewForFooterInSection:section];
+    }
     
-    GBAControllerSkin *skin = self.self.controllerSkinGroup.skins[indexPath.section - 1];
-    cell.imageURL = [self.downloadController imageURLsForControllerSkin:skin][indexPath.row];
-    cell.imageCache = self.imageCache;
+    static NSString *HeaderFooterViewIdentifier = @"HeaderFooterViewIdentifier";
     
-    cell.separatorInset = UIEdgeInsetsZero;
-    // Configure the cell...
+    UIView *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:HeaderFooterViewIdentifier];
     
-    return cell;
+    if ([footerView gestureRecognizers] == 0)
+    {
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapSkinDesigner:)];
+        [footerView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
+    footerView.tag = section;
+    
+    return footerView;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return UITableViewAutomaticDimension;
+}
+
+#pragma mark - Skin Designers -
+
+- (void)didTapSkinDesigner:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    GBAControllerSkin *skin = [self.controllerSkinGroup.skins objectAtIndex:tapGestureRecognizer.view.tag - 1];
+    
+    if (skin.designerURL == nil)
+    {
+        return;
+    }
+    
+    RSTWebViewController *webViewController = [[RSTWebViewController alloc] initWithURL:skin.designerURL];
+    [self.navigationController pushViewController:webViewController animated:YES];
+}
 
 @end
