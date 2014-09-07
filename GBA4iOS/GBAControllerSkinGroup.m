@@ -9,6 +9,12 @@
 #import "GBAControllerSkinGroup.h"
 #import "GBAControllerSkinDownloadController.h"
 
+@interface GBAControllerSkinGroup ()
+
+@property (copy, nonatomic, readwrite) NSArray /* GBAControllerSkin */ *skins;
+
+@end
+
 @implementation GBAControllerSkinGroup
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary
@@ -36,13 +42,28 @@
     return self;
 }
 
-#pragma mark - Retrieving Information -
+#pragma mark - Filter Skin -
+
+- (void)filterSkinsForDeviceType:(GBAControllerSkinDeviceType)deviceType controllerSkinType:(GBAControllerSkinType)controllerSkinType
+{
+    NSMutableArray *filteredSkins = [NSMutableArray array];
+    
+    for (GBAControllerSkin *skin in self.skins)
+    {
+        if (skin.type == controllerSkinType && (skin.deviceType & deviceType) == deviceType)
+        {
+            [filteredSkins addObject:skin];
+        }
+    }
+    
+    self.skins = filteredSkins;
+}
 
 - (BOOL)containsControllerSkinsForDeviceType:(GBAControllerSkinDeviceType)deviceType
 {
     for (GBAControllerSkin *skin in self.skins)
     {
-        if (skin.deviceType & deviceType)
+        if ((skin.deviceType & deviceType) == deviceType)
         {
             return YES;
         }
@@ -55,7 +76,7 @@
 {
     for (GBAControllerSkin *skin in self.skins)
     {
-        if (skin.type & controllerSkinType)
+        if (skin.type == controllerSkinType)
         {
             return YES;
         }

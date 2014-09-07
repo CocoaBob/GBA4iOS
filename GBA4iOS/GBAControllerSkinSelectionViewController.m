@@ -7,11 +7,12 @@
 //
 
 #import "GBAControllerSkinSelectionViewController.h"
-#import "UIScreen+Size.h"
 #import "GBAAsynchronousLocalImageTableViewCell.h"
 #import "GBASettingsViewController.h"
 #import "GBAControllerSkinDownloadViewController.h"
 #import "GBAControllerSkin.h"
+
+#import "UITableViewController+ControllerSkins.h"
 
 #import "SSZipArchive.h"
 
@@ -39,20 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if ([[UIScreen mainScreen] isWidescreen])
-    {
-        self.tableView.rowHeight = 190;
-    }
-    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        self.tableView.rowHeight = 230;
-    }
-    else
-    {
-        self.tableView.rowHeight = 150;
-    }
-    
+
     switch (self.controllerSkinType)
     {
         case GBAControllerSkinTypeGBA:
@@ -74,6 +62,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self updateRowHeightsForDisplayingControllerSkinsWithType:self.controllerSkinType];
     
     [self refreshControllerSkins];
 }

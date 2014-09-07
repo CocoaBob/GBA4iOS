@@ -15,6 +15,7 @@
 #import <RSTWebViewController.h>
 
 #import "UIAlertView+RSTAdditions.h"
+#import "UITableViewController+ControllerSkins.h"
 
 @interface GBAControllerSkinGroupViewController ()
 
@@ -30,8 +31,22 @@
     if (self)
     {
         _controllerSkinGroup = controllerSkinGroup;
+        
         _imageCache = [[NSCache alloc] init];
         
+        
+        UIUserInterfaceIdiom userInterfaceIdiom = [[UIDevice currentDevice] userInterfaceIdiom];
+        GBAControllerSkinDeviceType deviceType = GBAControllerSkinDeviceTypeiPhone;
+        
+        if (userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        {
+            deviceType = GBAControllerSkinDeviceTypeiPad;
+        }
+        else
+        {
+            deviceType = GBAControllerSkinDeviceTypeiPhone;
+        }
+
         self.title = controllerSkinGroup.name;
     }
     
@@ -42,19 +57,16 @@
 {
     [super viewDidLoad];
     
-    CGFloat rowHeight = 150;
-    
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
-    {
-        screenBounds = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
-    }
-    
-    CGFloat landscapeAspectRatio = CGRectGetWidth(screenBounds) / CGRectGetHeight(screenBounds);
-    self.tableView.rowHeight = CGRectGetWidth(self.view.bounds) * landscapeAspectRatio;
-    
     [self.tableView registerClass:[GBAAsynchronousRemoteTableViewCell class] forCellReuseIdentifier:@"Cell"];
     [self.tableView registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:@"HeaderFooterViewIdentifier"];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    GBAControllerSkin *skin = [self.controllerSkinGroup.skins firstObject];
+    [self updateRowHeightsForDisplayingControllerSkinsWithType:skin.type];
 }
 
 - (void)didReceiveMemoryWarning
@@ -191,7 +203,7 @@
 
 - (void)didTapSkinDesigner:(UITapGestureRecognizer *)tapGestureRecognizer
 {
-    GBAControllerSkin *skin = [self.controllerSkinGroup.skins objectAtIndex:tapGestureRecognizer.view.tag - 1];
+    GBAControllerSkin *skin = self.controllerSkinGroup.skins[tapGestureRecognizer.view.tag - 1];
     
     if (skin.designerURL == nil)
     {

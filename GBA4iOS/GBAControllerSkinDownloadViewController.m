@@ -13,6 +13,7 @@
 #import "GBAControllerSkinGroupViewController.h"
 
 #import "UIAlertView+RSTAdditions.h"
+#import "UITableViewController+ControllerSkins.h"
 
 static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkinDownloadViewControllerContext;
 
@@ -64,17 +65,6 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
 {
     [super viewDidLoad];
     
-    CGFloat rowHeight = 150;
-    
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
-    {
-        screenBounds = [[UIScreen mainScreen].fixedCoordinateSpace convertRect:[UIScreen mainScreen].bounds fromCoordinateSpace:[UIScreen mainScreen].coordinateSpace];
-    }
-    
-    CGFloat landscapeAspectRatio = CGRectGetWidth(screenBounds) / CGRectGetHeight(screenBounds);
-    self.tableView.rowHeight = CGRectGetWidth(self.view.bounds) * landscapeAspectRatio;
-    
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
@@ -96,6 +86,8 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
     
     if ([self.groups count] == 0)
     {
+        [self updateRowHeightsForDisplayingControllerSkinsWithType:self.controllerSkinType];
+        
         [self refreshControllerSkinGroups];
     }
 }
@@ -123,7 +115,7 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
         
         NSMutableArray *filteredGroups = [NSMutableArray array];
         
-        for (GBAControllerSkinGroup *group in self.groups)
+        for (GBAControllerSkinGroup *group in groups)
         {
             UIUserInterfaceIdiom userInterfaceIdiom = [[UIDevice currentDevice] userInterfaceIdiom];
             GBAControllerSkinDeviceType deviceType = GBAControllerSkinDeviceTypeiPhone;
@@ -137,13 +129,15 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
                 deviceType = GBAControllerSkinDeviceTypeiPhone;
             }
             
-            if ([group containsControllerSkinsForDeviceType:deviceType] && [group containsControllerSkinsForControllerSkinType:self.controllerSkinType])
+            [group filterSkinsForDeviceType:deviceType controllerSkinType:self.controllerSkinType];
+            
+            if ([group.skins count] > 0)
             {
                 [filteredGroups addObject:group];
             }
         }
         
-        self.groups = groups;
+        self.groups = filteredGroups;
         
         [self updateTableViewWithAnimation];
         

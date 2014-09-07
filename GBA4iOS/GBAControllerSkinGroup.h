@@ -14,11 +14,10 @@
 @property (copy, nonatomic, readonly) NSString *name;
 @property (copy, nonatomic, readonly) NSString *blurb;
 @property (copy, nonatomic, readonly) NSArray /* GBAControllerSkin */ *skins;
-@property (nonatomic, readonly) NSArray *imageURLs;
+@property (nonatomic, readonly) NSArray /* NSURL */ *imageURLs;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
-- (BOOL)containsControllerSkinsForDeviceType:(GBAControllerSkinDeviceType)deviceType;
-- (BOOL)containsControllerSkinsForControllerSkinType:(GBAControllerSkinType)controllerSkinType;
+- (void)filterSkinsForDeviceType:(GBAControllerSkinDeviceType)deviceType controllerSkinType:(GBAControllerSkinType)controllerSkinType;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GBAControllerSkin.h"
 
 @class GBAControllerSkinGroup;
 @class GBAControllerSkinDownloadController;

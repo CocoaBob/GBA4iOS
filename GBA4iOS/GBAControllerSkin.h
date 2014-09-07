@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, GBAControllerSkinType)
 typedef NS_OPTIONS(NSInteger, GBAControllerSkinDeviceType)
 {
     GBAControllerSkinDeviceTypeiPhone   = 1 << 0,
-    GBAControllerSkinDeviceTypeiPad     = 1 << 1,
+    GBAControllerSkinDeviceTypeiPad     = 1 << 2,
 };
 
 typedef NS_OPTIONS(NSInteger, GBAControllerSkinOrientation) // Yes, it's supposed to be a bitmask. Don't try to turn it into a normal enum like last time, dumbass.
