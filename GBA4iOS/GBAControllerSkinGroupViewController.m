@@ -30,7 +30,6 @@
     if (self)
     {
         _controllerSkinGroup = controllerSkinGroup;
-        
         _imageCache = [[NSCache alloc] init];
         
         self.title = controllerSkinGroup.name;
@@ -62,6 +61,25 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Download Skin -
+
+- (void)downloadControllerSkin:(GBAControllerSkin *)controllerSkin
+{
+    [self.downloadController downloadRemoteControllerSkin:controllerSkin completion:^(NSURL *fileURL, NSError *error) {
+        
+        if (error)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
+            [alert show];
+            
+            return;
+        }
+        
+        [GBAControllerSkin extractSkinAtPathToSkinsDirectory:[fileURL path]];
+        
+    }];
 }
 
 #pragma mark - Table view data source
@@ -146,6 +164,27 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return UITableViewAutomaticDimension;
+}
+
+#pragma mark - UITableViewDelegate -
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GBAControllerSkin *skin = self.controllerSkinGroup.skins[indexPath.section - 1];
+    
+    NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to download “%@” skin?", @""), skin.name];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:NSLocalizedString(@"Download", @""), nil];
+    [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 0)
+        {
+            return;
+        }
+        
+        [self downloadControllerSkin:skin];
+    }];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 #pragma mark - Skin Designers -

@@ -14,12 +14,15 @@
 
 #import "UIAlertView+RSTAdditions.h"
 
+static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkinDownloadViewControllerContext;
+
 @interface GBAControllerSkinDownloadViewController ()
 
 @property (copy, nonatomic) NSArray *groups;
 @property (strong, nonatomic) UIActivityIndicatorView *refreshingActivityIndicatorView;
 @property (strong, nonatomic) NSCache *imageCache;
 @property (strong, nonatomic) GBAControllerSkinDownloadController *downloadController;
+@property (strong, nonatomic) UIProgressView *progressView;
 
 @end
 
@@ -34,13 +37,24 @@
         
         _controllerSkinType = controllerSkinType;
         _imageCache = [[NSCache alloc] init];
+        
         _downloadController = [GBAControllerSkinDownloadController new];
+        [_downloadController.progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:GBAControllerSkinDownloadViewControllerContext];
         
         _refreshingActivityIndicatorView = ({
             UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             activityIndicatorView.hidesWhenStopped = YES;
             [activityIndicatorView startAnimating];
             activityIndicatorView;
+        });
+        
+        _progressView = ({
+            UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleBar];
+            progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+            progressView.trackTintColor = [UIColor clearColor];
+            progressView.progress = 0.0;
+            progressView.alpha = 0.0;
+            progressView;
         });
     }
     return self;
@@ -66,6 +80,12 @@
     
     UIBarButtonItem *activityIndicatorViewButton = [[UIBarButtonItem alloc] initWithCustomView:self.refreshingActivityIndicatorView];
     self.navigationItem.leftBarButtonItem = activityIndicatorViewButton;
+    
+    self.progressView.frame = CGRectMake(0,
+                                    CGRectGetHeight(self.navigationController.navigationBar.bounds) - CGRectGetHeight(self.progressView.bounds),
+                                    CGRectGetWidth(self.navigationController.navigationBar.bounds),
+                                    CGRectGetHeight(self.progressView.bounds));
+    [self.navigationController.navigationBar addSubview:self.progressView];
     
     [self.tableView registerClass:[GBAAsynchronousRemoteTableViewCell class] forCellReuseIdentifier:@"Cell"];
 }
@@ -150,6 +170,51 @@
 - (void)dismiss:(UIBarButtonItem *)sender
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - Download Progress -
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context != GBAControllerSkinDownloadViewControllerContext)
+    {
+        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+    
+    if ([keyPath isEqualToString:@"fractionCompleted"])
+    {
+        NSProgress *progress = object;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (progress.fractionCompleted > 0)
+            {
+                if (self.progressView.alpha == 0)
+                {
+                    [UIView animateWithDuration:0.4 animations:^{
+                        [self.progressView setAlpha:1.0];
+                    }];
+                }
+            }
+            else
+            {
+                if (self.progressView.alpha > 0)
+                {
+                    [UIView animateWithDuration:0.4 animations:^{
+                        [self.progressView setAlpha:0.0];
+                    } completion:^(BOOL finished) {
+                        [self.progressView setProgress:0.0];
+                    }];
+                }
+            }
+            
+            if (self.progressView.alpha > 0)
+            {
+                self.progressView.progress = progress.fractionCompleted;
+            }
+            
+        });
+    }
 }
 
 #pragma mark - Table view data source

@@ -190,6 +190,8 @@ static void *GBAControllerSkinDownloadControllerContext = &GBAControllerSkinDown
             if (progress.fractionCompleted == 1)
             {
                 [progress removeObserver:self forKeyPath:@"completedUnitCount" context:GBAControllerSkinDownloadControllerContext];
+                self.progress.completedUnitCount = 0.0;
+                self.progress.totalUnitCount = 0.0;
             }
         });
         
