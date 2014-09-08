@@ -26,6 +26,7 @@ static void *GBAControllerSkinDownloadControllerContext = &GBAControllerSkinDown
 - (id)responseObjectForResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
 {
     NSArray *responseObject = [super responseObjectForResponse:response data:data error:error];
+    
     NSMutableArray *groups = [NSMutableArray array];
     
     for (NSDictionary *groupDictionary in responseObject)

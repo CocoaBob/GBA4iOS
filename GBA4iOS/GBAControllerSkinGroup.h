@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GBAControllerSkin.h"
 
-@interface GBAControllerSkinGroup : NSObject
+@interface GBAControllerSkinGroup : NSObject <NSCoding>
 
 @property (copy, nonatomic, readonly) NSString *name;
 @property (copy, nonatomic, readonly) NSString *blurb;

@@ -86,6 +86,8 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
     
     if ([self.groups count] == 0)
     {
+        self.groups = [NSKeyedUnarchiver unarchiveObjectWithFile:[self cachedResponsePath]];
+        
         [self updateRowHeightsForDisplayingControllerSkinsWithType:self.controllerSkinType];
         
         [self refreshControllerSkinGroups];
@@ -137,9 +139,18 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
             }
         }
         
+        if ([self.groups isEqualToArray:filteredGroups])
+        {
+            return;
+        }
+        
         self.groups = filteredGroups;
         
         [self updateTableViewWithAnimation];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [NSKeyedArchiver archiveRootObject:filteredGroups toFile:[self cachedResponsePath]];
+        });
         
     }];
 }
@@ -277,6 +288,17 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
     GBAControllerSkinGroupViewController *groupViewController = [[GBAControllerSkinGroupViewController alloc] initWithControllerSkinGroup:group];
     groupViewController.downloadController = self.downloadController;
     [self.navigationController pushViewController:groupViewController animated:YES];
+}
+
+#pragma mark - Filepaths
+
+- (NSString *)cachedResponsePath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachesDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *cachedSkinsResponsePath = [cachesDirectory stringByAppendingPathComponent:@"controllerSkinsResponse.plist"];
+    
+    return cachedSkinsResponsePath;
 }
 
 @end

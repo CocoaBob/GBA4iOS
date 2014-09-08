@@ -63,20 +63,20 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:self.name forKey:@"name"];
-    [aCoder encodeObject:self.codes forKey:@"codes"];
-    [aCoder encodeObject:self.uid forKey:@"uid"];
-    [aCoder encodeObject:@(self.type) forKey:@"type"];
-    [aCoder encodeObject:@(self.index) forKey:@"index"];
+    [aCoder encodeObject:self.name forKey:NSStringFromSelector(@selector(name))];
+    [aCoder encodeObject:self.codes forKey:NSStringFromSelector(@selector(codes))];
+    [aCoder encodeObject:self.uid forKey:NSStringFromSelector(@selector(uid))];
+    [aCoder encodeObject:@(self.type) forKey:NSStringFromSelector(@selector(type))];
+    [aCoder encodeObject:@(self.index) forKey:NSStringFromSelector(@selector(index))];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    NSString *name = [aDecoder decodeObjectForKey:@"name"];
-    NSArray *codes = [aDecoder decodeObjectForKey:@"codes"];
-    NSString *uid = [aDecoder decodeObjectForKey:@"uid"];
-    NSNumber *type = [aDecoder decodeObjectForKey:@"type"];
-    NSNumber *index = [aDecoder decodeObjectForKey:@"index"];
+    NSString *name = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(name))];
+    NSArray *codes = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(codes))];
+    NSString *uid = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(uid))];
+    NSNumber *type = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(type))];
+    NSNumber *index = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(index))];
     
     self = [self initWithName:name codes:codes];
     self.uid = uid;

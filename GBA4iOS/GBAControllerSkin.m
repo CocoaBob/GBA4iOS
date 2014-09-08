@@ -54,6 +54,9 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
 
 @interface GBAControllerSkin ()
 
+@property (readwrite, copy, nonatomic) NSString *filepath;
+@property (readwrite, copy, nonatomic) NSString *filename;
+
 @property (copy, nonatomic) NSDictionary *infoDictionary;
 @property (strong, nonatomic) UIImage *portraitImage;
 @property (strong, nonatomic) UIImage *landscapeImage;
@@ -121,6 +124,30 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
     
     return self;
 }
+
+#pragma mark - NSCoding -
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    NSString *filepath = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(filepath))];
+    NSString *filename = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(filename))];
+    NSDictionary *infoDictionary = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(infoDictionary))];
+    
+    self = [self initWithDictionary:infoDictionary];
+    self.filepath = filepath;
+    self.filename = filename;
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.filepath forKey:NSStringFromSelector(@selector(filepath))];
+    [aCoder encodeObject:self.filename forKey:NSStringFromSelector(@selector(filename))];
+    [aCoder encodeObject:self.infoDictionary forKey:NSStringFromSelector(@selector(infoDictionary))];
+}
+
+#pragma mark - Convenience Initializers -
 
 + (instancetype)controllerSkinWithContentsOfFile:(NSString *)filepath
 {
@@ -805,6 +832,24 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
     }
     
     return key;
+}
+
+#pragma mark - Equality Testing -
+
+- (BOOL)isEqual:(id)object
+{
+    if (![object isKindOfClass:[GBAControllerSkin class]])
+    {
+        return NO;
+    }
+    
+    GBAControllerSkin *controllerSkin = object;
+    return (([self.filepath isEqualToString:controllerSkin.filepath] || (self.filepath == nil && controllerSkin.filepath == nil)) && [self.filename isEqualToString:controllerSkin.filename] && [self.infoDictionary isEqual:controllerSkin.infoDictionary]);
+}
+
+- (NSUInteger)hash
+{
+    return [self.filepath hash] + [self.filename hash] + [self.infoDictionary hash];
 }
 
 

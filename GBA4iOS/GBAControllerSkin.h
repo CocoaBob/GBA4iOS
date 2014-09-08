@@ -44,7 +44,7 @@ typedef NS_OPTIONS(NSInteger, GBAControllerSkinOrientation) // Yes, it's suppose
 
 extern NSString *const GBADefaultSkinIdentifier;
 
-@interface GBAControllerSkin : NSObject
+@interface GBAControllerSkin : NSObject <NSCoding>
 
 @property (readonly, copy, nonatomic) NSString *filepath;
 @property (readonly, copy, nonatomic) NSString *filename;
