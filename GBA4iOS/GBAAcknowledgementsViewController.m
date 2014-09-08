@@ -21,7 +21,7 @@
     self = [super init];
     if (self)
     {
-        self.title = NSLocalizedString(@"Legal", @"");
+        self.title = NSLocalizedString(@"Acknowledgements", @"");
     }
     
     return self;
