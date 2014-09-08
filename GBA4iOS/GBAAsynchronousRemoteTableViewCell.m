@@ -9,12 +9,14 @@
 #import "GBAAsynchronousRemoteTableViewCell.h"
 #import "UIImage+RSTResizing.h"
 
-#import <AFNetworking/UIImageView+AFNetworking.h>
+#import <AFNetworking/AFNetworking.h>
+#import "GBAControllerSkinImageResponseSerializer.h"
 
 @interface GBAAsynchronousRemoteTableViewCell ()
 
 @property (strong, nonatomic) UIImageView *backgroundImageView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) NSURLSessionDataTask *imageDataTask;
 
 @end
 
@@ -68,7 +70,9 @@
 
 - (void)prepareForReuse
 {
-    [self.backgroundImageView cancelImageRequestOperation];
+    [self.imageDataTask cancel];
+    self.imageDataTask = nil;
+    
     self.backgroundImageView.image = nil;
     self.backgroundImageView.alpha = 0.0;
     self.imageURL = nil;
@@ -106,14 +110,38 @@
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
     
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+    CGSize windowSize = [[[UIApplication sharedApplication] delegate] window].bounds.size;
+    
+    if (windowSize.width > windowSize.height)
+    {
+        windowSize = CGSizeMake(windowSize.height, windowSize.width);
+    }
+    
+    GBAControllerSkinImageResponseSerializer *serializer = [GBAControllerSkinImageResponseSerializer serializer];
+    serializer.resizableImageTargetSize = windowSize;
+    
+    manager.responseSerializer = serializer;
+    
     __weak __typeof__(self) weakSelf = self;
-    [self.backgroundImageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    self.imageDataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, UIImage *image, NSError *error) {
+        
+        if (error)
+        {
+            DLog(@"Failure :( %@", error);
+            
+            return;
+        }
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [weakSelf prepareAndDisplayImage:image];
         });
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        DLog(@"Failure :( %@", error);
+        
     }];
+    
+    [self.imageDataTask resume];
 }
 
 - (void)prepareAndDisplayImage:(UIImage *)image
