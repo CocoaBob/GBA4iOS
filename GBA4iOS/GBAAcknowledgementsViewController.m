@@ -41,7 +41,19 @@
     [super viewDidLoad];
     
     NSURL *acknowledgementsURL = [[NSBundle mainBundle] URLForResource:@"Acknowledgements" withExtension:@"html"];
-    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithFileURL:acknowledgementsURL options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}  documentAttributes:nil error:nil];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithFileURL:acknowledgementsURL options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType}  documentAttributes:nil error:nil];
+    
+    [attributedString enumerateAttribute:NSFontAttributeName inRange:NSMakeRange(0, attributedString.length) options:0 usingBlock:^(UIFont *font, NSRange range, BOOL *stop) {
+        
+        UIFontDescriptorSymbolicTraits symbolicTraits = font.fontDescriptor.symbolicTraits;
+        
+        UIFontDescriptor *fontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+        fontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
+        UIFont *newFont = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
+        
+        [attributedString addAttribute:NSFontAttributeName value:newFont range:range];
+        
+    }];
     
     self.textView.attributedText = attributedString;
 }
