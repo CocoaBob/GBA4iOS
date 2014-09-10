@@ -19,6 +19,8 @@
 		BF02D2C5197344950034A515 /* GBASoftwareUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */; };
 		BF02D2C8197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */; };
 		BF02D2C9197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */; };
+		BF0EBB1119C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
+		BF0EBB1219C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
 		BF16DCF3184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
@@ -460,6 +462,7 @@
 		BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdate.m; sourceTree = "<group>"; };
 		BF02D2C6197347740034A515 /* GBASoftwareUpdateOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateOperation.h; sourceTree = "<group>"; };
 		BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateOperation.m; sourceTree = "<group>"; };
+		BF0EBB1019C026E500703623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
 		BF16DCF0184FD32A0092A3F5 /* GBASyncUploadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncUploadOperation.h; sourceTree = "<group>"; };
@@ -1440,6 +1443,7 @@
 			isa = PBXGroup;
 			children = (
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
+				BF0EBB1019C026E500703623 /* Launch Screen.xib */,
 				BF563AB4184B11C000722678 /* Launch Images */,
 				BFFA355117ECD2A70038D34F /* Default.gbaskin */,
 				CC5044E61814C474009F7B9E /* Default.gbcskin */,
@@ -1891,6 +1895,7 @@
 				BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */,
 				BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
 				BF60A17218A61D8700B2E7D4 /* betaTesters.plist in Resources */,
+				BF0EBB1219C026E500703623 /* Launch Screen.xib in Resources */,
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
@@ -1916,6 +1921,7 @@
 				CC58C8FC17E64A91008F472E /* xButton.png in Resources */,
 				BF359B9B187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
 				BF60A17118A61D8700B2E7D4 /* betaTesters.plist in Resources */,
+				BF0EBB1119C026E500703623 /* Launch Screen.xib in Resources */,
 				BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,

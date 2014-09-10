@@ -51,7 +51,7 @@ static GBAEmulationViewController *_emulationViewController;
 @property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
 @property (strong, nonatomic) UIWindow *airplayWindow;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
-@property (strong, nonatomic) UIImageView *splashScreenImageView;
+@property (strong, nonatomic) UIView *splashScreenView;
 @property (strong, nonatomic) GBAEventDistributionViewController *eventDistributionViewController;
 @property (copy, nonatomic) NSDictionary *eventDistributionROMs;
 
@@ -188,7 +188,7 @@ static GBAEmulationViewController *_emulationViewController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         // Add to our view so we can animate it
-        [self.view addSubview:self.splashScreenImageView];
+        [self.view addSubview:self.splashScreenView];
         
         self.romTableViewController = [[GBAROMTableViewController alloc] init];
         self.romTableViewController.appearanceDelegate = self;
@@ -204,8 +204,8 @@ static GBAEmulationViewController *_emulationViewController;
             
             navigationController.transitioningDelegate = self;
             
-            [self.splashScreenImageView removeFromSuperview];
-            self.splashScreenImageView = nil;
+            [self.splashScreenView removeFromSuperview];
+            self.splashScreenView = nil;
             
             if (self.rom)
             {
@@ -221,10 +221,10 @@ static GBAEmulationViewController *_emulationViewController;
         [(GBASplitViewController *)self.splitViewController showROMTableViewControllerWithAnimation:NO];
         
         [UIView animateWithDuration:0.6 animations:^{
-            self.splashScreenImageView.alpha = 0.0;
+            self.splashScreenView.alpha = 0.0;
         } completion:^(BOOL finished) {
-            [self.splashScreenImageView removeFromSuperview];
-            self.splashScreenImageView = nil;
+            [self.splashScreenView removeFromSuperview];
+            self.splashScreenView = nil;
             
             if (self.rom)
             {
@@ -235,7 +235,7 @@ static GBAEmulationViewController *_emulationViewController;
         }];
     }
     
-    [[[[UIApplication sharedApplication] delegate] window] bringSubviewToFront:self.splashScreenImageView];
+    [[[[UIApplication sharedApplication] delegate] window] bringSubviewToFront:self.splashScreenView];
     
     self.romTableViewController.emulationViewController = self;
     
@@ -267,73 +267,81 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)showSplashScreen
 {
-    self.splashScreenImageView = [[UIImageView alloc] init];
-    self.splashScreenImageView.backgroundColor = [UIColor blackColor];
+    CGRect bounds = [[UIScreen mainScreen] bounds];
     
-    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    // iOS 7 doesn't support using Nibs for Launch Screens
+    if (![[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
     {
-        if ([[UIScreen mainScreen] isWidescreen])
-        {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-568h"];
-        }
-        else
-        {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default"];
-        }
+        UIImageView *imageView = [[UIImageView alloc] init];
         
-        [self.splashScreenImageView sizeToFit];
-        
-        [window addSubview:self.splashScreenImageView];
-    }
-    else
-    {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Portrait"];
-        }
-        else
-        {
-            self.splashScreenImageView.image = [UIImage imageNamed:@"Default-Landscape"];
-        }
-        
-        CGRect bounds = [[UIScreen mainScreen] bounds];
-        
-        if (![[UIScreen mainScreen] respondsToSelector:@selector(fixedCoordinateSpace)])
-        {
-            CGAffineTransform transform = CGAffineTransformIdentity;
-            
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            if ([[UIScreen mainScreen] isWidescreen])
             {
-                if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(0.0f));
-                }
-                else
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(180.0f));
-                }
+                imageView.image = [UIImage imageNamed:@"Default-568h"];
             }
             else
             {
-                if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(270.0f));
-                }
-                else
-                {
-                    transform = CGAffineTransformMakeRotation(RADIANS(90.0f));
-                }
+                imageView.image = [UIImage imageNamed:@"Default"];
             }
-            
-            self.splashScreenImageView.transform = transform;
+        }
+        else
+        {
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            {
+                imageView.image = [UIImage imageNamed:@"Default-Portrait"];
+            }
+            else
+            {
+                imageView.image = [UIImage imageNamed:@"Default-Landscape"];
+            }
         }
         
-        self.splashScreenImageView.frame = bounds;
+        [imageView sizeToFit];
+        imageView.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds)); // Make sure it is centered, so when it rotates it will line up
         
-        [window addSubview:self.splashScreenImageView];
+        CGAffineTransform transform = CGAffineTransformIdentity;
+        
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        {
+            if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(0.0f));
+            }
+            else
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(180.0f));
+            }
+        }
+        else
+        {
+            if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(270.0f));
+            }
+            else
+            {
+                transform = CGAffineTransformMakeRotation(RADIANS(90.0f));
+            }
+        }
+        
+        imageView.transform = transform;
+        
+        self.splashScreenView = imageView;
     }
+    else
+    {
+        UINib *splashScreenViewNib = [UINib nibWithNibName:@"Launch Screen" bundle:nil];
+        NSArray *views = [splashScreenViewNib instantiateWithOwner:nil options:nil];
+        
+        self.splashScreenView = [views firstObject];
+        self.splashScreenView.frame = CGRectMake(0, 0, CGRectGetWidth(bounds), CGRectGetHeight(bounds));
+        
+        self.splashScreenView.layer.allowsGroupOpacity = YES;
+    }
+    
+    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+    [window addSubview:self.splashScreenView];
 }
 
 - (CGSize)screenSizeForContainerSize:(CGSize)containerSize
