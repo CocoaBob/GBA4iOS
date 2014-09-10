@@ -50,7 +50,7 @@
 
 - (id)init
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
     
     self = [storyboard instantiateViewControllerWithIdentifier:@"cheatEditorViewController"];
     if (self)
