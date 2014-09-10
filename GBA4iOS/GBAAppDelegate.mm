@@ -84,8 +84,6 @@ static GBAAppDelegate *_appDelegate;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
         self.emulationViewController = [[GBAEmulationViewController alloc] init];
         
         self.window.rootViewController = self.emulationViewController;

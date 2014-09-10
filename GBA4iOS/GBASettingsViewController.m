@@ -70,7 +70,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (id)init
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"settingsViewController"];
     if (self)
     {

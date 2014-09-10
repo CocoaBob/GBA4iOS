@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"romTableViewController"];
     if (self)
     {

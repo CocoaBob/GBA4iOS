@@ -35,7 +35,7 @@
 
 - (instancetype)initWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"softwareUpdateViewController"];
     if (self)
     {

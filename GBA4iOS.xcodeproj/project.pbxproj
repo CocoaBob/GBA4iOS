@@ -21,6 +21,8 @@
 		BF02D2C9197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */; };
 		BF0EBB1119C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
 		BF0EBB1219C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
+		BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1619C0493000703623 /* Settings.storyboard */; };
+		BF0EBB1819C0493000703623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1619C0493000703623 /* Settings.storyboard */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
 		BF16DCF3184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
@@ -107,7 +109,7 @@
 		BF2F35C2183FF6F9002ACE90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D57031798F2EC00C616EB /* UIKit.framework */; };
 		BF2F35C3183FF6F9002ACE90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2D56FF1798F2EC00C616EB /* Foundation.framework */; };
 		BF2F35C4183FF6F9002ACE90 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AFB44A5AB34C2982DE856F /* libPods.a */; };
-		BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
+		BF2F35C7183FF6F9002ACE90 /* Emulation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Emulation.storyboard */; };
 		BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */ = {isa = PBXBuildFile; fileRef = BFFA355117ECD2A70038D34F /* Default.gbaskin */; };
 		BF2F35C9183FF6F9002ACE90 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2D571A1798F2EC00C616EB /* Images.xcassets */; };
@@ -320,7 +322,7 @@
 		CC5045201814DC69009F7B9E /* LzmaDec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F7179D304700768D24 /* LzmaDec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CC5045211814DC69009F7B9E /* Ppmd7.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F8179D304700768D24 /* Ppmd7.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CC5045221814DC69009F7B9E /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = CCFA71F9179D304700768D24 /* Ppmd7Dec.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		CC58C8F817E64A20008F472E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Main.storyboard */; };
+		CC58C8F817E64A20008F472E /* Emulation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57111798F2EC00C616EB /* Emulation.storyboard */; };
 		CC58C8FC17E64A91008F472E /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC15E53C179ECDCC00449972 /* xButton.png */; };
 		CC6420B41807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = CC6420B31807590A00B83B22 /* GBAPresentOverlayViewControllerAnimator.m */; };
 		CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC6A2D8F17C508DC00EFC10E /* GBACheatManagerViewController.mm */; };
@@ -463,6 +465,7 @@
 		BF02D2C6197347740034A515 /* GBASoftwareUpdateOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateOperation.h; sourceTree = "<group>"; };
 		BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateOperation.m; sourceTree = "<group>"; };
 		BF0EBB1019C026E500703623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		BF0EBB1619C0493000703623 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
 		BF16DCF0184FD32A0092A3F5 /* GBASyncUploadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncUploadOperation.h; sourceTree = "<group>"; };
@@ -658,7 +661,7 @@
 		CC2D570D1798F2EC00C616EB /* GBA4iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GBA4iOS-Prefix.pch"; sourceTree = "<group>"; };
 		CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAAppDelegate.h; sourceTree = "<group>"; };
 		CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAAppDelegate.mm; sourceTree = "<group>"; };
-		CC2D57121798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CC2D57121798F2EC00C616EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Emulation.storyboard; sourceTree = "<group>"; };
 		CC2D571A1798F2EC00C616EB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CC2D57211798F2ED00C616EB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAROMTableViewController.h; sourceTree = "<group>"; };
@@ -1405,7 +1408,6 @@
 			children = (
 				CC2D570E1798F2EC00C616EB /* GBAAppDelegate.h */,
 				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */,
-				CC2D57111798F2EC00C616EB /* Main.storyboard */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */,
 				BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */,
@@ -1561,6 +1563,7 @@
 		CC7AC2EB17C694E800FB7642 /* Emulation */ = {
 			isa = PBXGroup;
 			children = (
+				CC2D57111798F2EC00C616EB /* Emulation.storyboard */,
 				CCC7298317C7347F0001BC6F /* ROM */,
 				CC8BB0611799A21000F9864F /* Emulation View Controller */,
 				CC15E545179F2F3500449972 /* Core */,
@@ -1688,6 +1691,7 @@
 		CCE3CDF917AE9E4500FAB9C8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				BF0EBB1619C0493000703623 /* Settings.storyboard */,
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
@@ -1888,7 +1892,7 @@
 			files = (
 				BF58D30F19B91550003B2B62 /* LICENSE.txt in Resources */,
 				BFB89E4418909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
-				BF2F35C7183FF6F9002ACE90 /* Main.storyboard in Resources */,
+				BF2F35C7183FF6F9002ACE90 /* Emulation.storyboard in Resources */,
 				BFB89E4218909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
 				BF2F35C8183FF6F9002ACE90 /* Default.gbaskin in Resources */,
 				BFB89E3E18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
@@ -1905,6 +1909,7 @@
 				BFBA77BB19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
+				BF0EBB1819C0493000703623 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1914,7 +1919,7 @@
 			files = (
 				BF58D30E19B91550003B2B62 /* LICENSE.txt in Resources */,
 				BFB89E4318909EE8002E5F26 /* Default-Portrait@2x~ipad.png in Resources */,
-				CC58C8F817E64A20008F472E /* Main.storyboard in Resources */,
+				CC58C8F817E64A20008F472E /* Emulation.storyboard in Resources */,
 				BFB89E4118909EE8002E5F26 /* Default-Landscape~ipad.png in Resources */,
 				BFFA355217ECD2A70038D34F /* Default.gbaskin in Resources */,
 				BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */,
@@ -1931,6 +1936,7 @@
 				BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
+				BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2400,12 +2406,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		CC2D57111798F2EC00C616EB /* Main.storyboard */ = {
+		CC2D57111798F2EC00C616EB /* Emulation.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				CC2D57121798F2EC00C616EB /* Base */,
 			);
-			name = Main.storyboard;
+			name = Emulation.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

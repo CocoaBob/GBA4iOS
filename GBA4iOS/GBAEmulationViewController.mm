@@ -92,7 +92,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (instancetype)init
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
     if (self)
     {

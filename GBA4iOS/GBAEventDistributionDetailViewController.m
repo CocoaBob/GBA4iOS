@@ -26,7 +26,7 @@
 
 - (instancetype)initWithEvent:(GBAEvent *)event
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
     self = [storyboard instantiateViewControllerWithIdentifier:@"eventDistributionDetailViewController"];
     if (self)
     {
