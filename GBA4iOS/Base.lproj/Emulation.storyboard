@@ -230,14 +230,14 @@
                         <sections>
                             <tableViewSection headerTitle="Name" id="IRp-bi-6xE">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatNameCell" id="u2W-Dw-4h5">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatNameCell" id="u2W-Dw-4h5" customClass="GBASettingsTableViewCell">
                                         <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u2W-Dw-4h5" id="ZPl-l5-ldd">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Cheat Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l8o-9P-x4c">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Cheat Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l8o-9P-x4c">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
@@ -246,13 +246,23 @@
                                                     </connections>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="l8o-9P-x4c" firstAttribute="top" secondItem="ZPl-l5-ldd" secondAttribute="top" id="0Js-3q-IFC"/>
+                                                <constraint firstItem="l8o-9P-x4c" firstAttribute="leading" secondItem="ZPl-l5-ldd" secondAttribute="leading" constant="15" id="GPA-nl-17s"/>
+                                                <constraint firstAttribute="trailing" secondItem="l8o-9P-x4c" secondAttribute="trailing" constant="15" id="Ggk-al-IXW"/>
+                                                <constraint firstAttribute="bottom" secondItem="l8o-9P-x4c" secondAttribute="bottom" id="dTx-1r-mYn"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="leftInsetConstraint" destination="GPA-nl-17s" id="Reo-Rf-xZh"/>
+                                            <outlet property="rightInsetConstraint" destination="Ggk-al-IXW" id="H9m-NX-1wW"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Type" footerTitle="Code format is XXXXXXXX YYYYYYYY." id="rb8-cQ-kZU">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatTypeCell" id="gAs-q5-UHI">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatTypeCell" id="gAs-q5-UHI" customClass="GBASettingsTableViewCell">
                                         <rect key="frame" x="0.0" y="211" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gAs-q5-UHI" id="Goz-4w-FPB">
@@ -278,12 +288,16 @@
                                                 <constraint firstItem="fl2-uD-BuI" firstAttribute="leading" secondItem="Goz-4w-FPB" secondAttribute="leading" constant="15" id="mI0-pC-NtH"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="leftInsetConstraint" destination="mI0-pC-NtH" id="DWD-oO-881"/>
+                                            <outlet property="rightInsetConstraint" destination="ZyV-Jc-kKS" id="9pL-rc-EDw"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Code" footerTitle="Code will be formatted automatically as you type." id="iX4-B9-cGU">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatCodeCell" rowHeight="190" id="UKc-cO-rtV">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CheatCodeCell" rowHeight="190" id="UKc-cO-rtV" customClass="GBASettingsTableViewCell">
                                         <rect key="frame" x="0.0" y="330" width="320" height="190"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UKc-cO-rtV" id="q6n-OA-Fee">
@@ -307,6 +321,10 @@
                                                 <constraint firstItem="APi-To-g4e" firstAttribute="leading" secondItem="q6n-OA-Fee" secondAttribute="leading" constant="10" id="wmc-mB-ngt"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="leftInsetConstraint" destination="wmc-mB-ngt" id="gTI-HV-W9b"/>
+                                            <outlet property="rightInsetConstraint" destination="Jrw-BT-GzN" id="wBE-zr-Ush"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>

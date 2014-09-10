@@ -9,6 +9,9 @@
 #import "GBACheatEditorViewController.h"
 #import "GBACheatTextView.h"
 
+CGFloat GBATextViewInsetDefaultLeft = 6;
+CGFloat GBATextViewInsetDefaultRight = 6;
+
 @interface NSString (RemoveWhitespace)
 
 - (NSString *)stringByRemovingWhitespace;
@@ -110,6 +113,8 @@
         self.initialCodeString = codes;
         [self textViewDidChange:self.codeTextView];
     }
+    
+    self.codeTextView.textContainerInset = UIEdgeInsetsMake(self.codeTextView.textContainerInset.top, -GBATextViewInsetDefaultLeft, self.codeTextView.textContainerInset.bottom, -GBATextViewInsetDefaultRight);
     
     [self.codeTextView setCheatCodeType:[self currentCheatCodeType]];
     

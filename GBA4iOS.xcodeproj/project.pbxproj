@@ -23,6 +23,8 @@
 		BF0EBB1219C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
 		BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1619C0493000703623 /* Settings.storyboard */; };
 		BF0EBB1819C0493000703623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1619C0493000703623 /* Settings.storyboard */; };
+		BF0EBB1F19C05D1000703623 /* GBASettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */; };
+		BF0EBB2019C05D1000703623 /* GBASettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
 		BF16DCF2184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
 		BF16DCF3184FD32A0092A3F5 /* GBASyncUploadOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF16DCF1184FD32A0092A3F5 /* GBASyncUploadOperation.mm */; };
@@ -466,6 +468,8 @@
 		BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateOperation.m; sourceTree = "<group>"; };
 		BF0EBB1019C026E500703623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		BF0EBB1619C0493000703623 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		BF0EBB1D19C05D1000703623 /* GBASettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASettingsTableViewCell.h; sourceTree = "<group>"; };
+		BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASettingsTableViewCell.m; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
 		BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSTResizing.m"; sourceTree = "<group>"; };
 		BF16DCF0184FD32A0092A3F5 /* GBASyncUploadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncUploadOperation.h; sourceTree = "<group>"; };
@@ -1649,6 +1653,8 @@
 			children = (
 				CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */,
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
+				BF0EBB1D19C05D1000703623 /* GBASettingsTableViewCell.h */,
+				BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */,
 				CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */,
 				CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */,
 			);
@@ -2071,6 +2077,7 @@
 				BF2F352D183FF6F9002ACE90 /* UIScreen+Size.m in Sources */,
 				BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */,
 				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */,
+				BF0EBB2019C05D1000703623 /* GBASettingsTableViewCell.m in Sources */,
 				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
 				BF60A16F18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */,
 				BF2F3534183FF6F9002ACE90 /* GBASettingsViewController.m in Sources */,
@@ -2233,6 +2240,7 @@
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
+				BF0EBB1F19C05D1000703623 /* GBASettingsTableViewCell.m in Sources */,
 				1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */,
 				CC5045041814DC69009F7B9E /* Gb_Apu.cpp in Sources */,
 				CCC17743179FC7AF00AB529A /* UIScreen+Size.m in Sources */,
