@@ -72,7 +72,13 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;
 
+// Fast Forward
 - (void)startFastForwarding;
 - (void)stopFastForwarding;
+
+// Linking
+- (void)startServer;
+- (void)connectToServer;
+- (void)startConnection;
 
 @end

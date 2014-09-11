@@ -185,6 +185,17 @@
 		BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
 		BFAA523B184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
 		BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
+		BFADD3C919C156240010AC9F /* SocketHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3C819C156240010AC9F /* SocketHelper.cpp */; };
+		BFADD3D119C1563E0010AC9F /* Ftp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CA19C1563E0010AC9F /* Ftp.cpp */; };
+		BFADD3D219C1563E0010AC9F /* Http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CB19C1563E0010AC9F /* Http.cpp */; };
+		BFADD3D319C1563E0010AC9F /* IPAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CC19C1563E0010AC9F /* IPAddress.cpp */; };
+		BFADD3D419C1563E0010AC9F /* Packet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CD19C1563E0010AC9F /* Packet.cpp */; };
+		BFADD3D519C1563E0010AC9F /* SelectorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CE19C1563E0010AC9F /* SelectorBase.cpp */; };
+		BFADD3D619C1563E0010AC9F /* SocketTCP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CF19C1563E0010AC9F /* SocketTCP.cpp */; };
+		BFADD3D719C1563E0010AC9F /* SocketUDP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3D019C1563E0010AC9F /* SocketUDP.cpp */; };
+		BFADD3D919C156610010AC9F /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3D819C156610010AC9F /* Thread.cpp */; };
+		BFADD3DE19C156BE0010AC9F /* GBALink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3DA19C156BE0010AC9F /* GBALink.cpp */; };
+		BFADD3DF19C156BE0010AC9F /* GBASockClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3DC19C156BE0010AC9F /* GBASockClient.cpp */; };
 		BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */; };
@@ -590,6 +601,19 @@
 		BFAA5239184F8B2B0019A90D /* GBASyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation.h; sourceTree = "<group>"; };
 		BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncOperation.mm; sourceTree = "<group>"; };
 		BFAA523E184FCB040019A90D /* GBASyncOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation_Private.h; sourceTree = "<group>"; };
+		BFADD3C819C156240010AC9F /* SocketHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketHelper.cpp; path = SFML/src/SFML/Network/Unix/SocketHelper.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CA19C1563E0010AC9F /* Ftp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ftp.cpp; path = SFML/src/SFML/Network/Ftp.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CB19C1563E0010AC9F /* Http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Http.cpp; path = SFML/src/SFML/Network/Http.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CC19C1563E0010AC9F /* IPAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPAddress.cpp; path = SFML/src/SFML/Network/IPAddress.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CD19C1563E0010AC9F /* Packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Packet.cpp; path = SFML/src/SFML/Network/Packet.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CE19C1563E0010AC9F /* SelectorBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SelectorBase.cpp; path = SFML/src/SFML/Network/SelectorBase.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CF19C1563E0010AC9F /* SocketTCP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketTCP.cpp; path = SFML/src/SFML/Network/SocketTCP.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3D019C1563E0010AC9F /* SocketUDP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketUDP.cpp; path = SFML/src/SFML/Network/SocketUDP.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3D819C156610010AC9F /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = SFML/src/SFML/System/Unix/Thread.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3DA19C156BE0010AC9F /* GBALink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GBALink.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink.cpp"; sourceTree = SOURCE_ROOT; };
+		BFADD3DB19C156BE0010AC9F /* GBALink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBALink.h; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink.h"; sourceTree = SOURCE_ROOT; };
+		BFADD3DC19C156BE0010AC9F /* GBASockClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GBASockClient.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBASockClient.cpp"; sourceTree = SOURCE_ROOT; };
+		BFADD3DD19C156BE0010AC9F /* GBASockClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBASockClient.h; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBASockClient.h"; sourceTree = SOURCE_ROOT; };
 		BFAFF47C1840084500E3240A /* GBAControllerInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerInput.h; sourceTree = "<group>"; };
 		BFAFF47D18400D7300E3240A /* GBAExternalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAExternalController.h; sourceTree = "<group>"; };
 		BFAFF47E18400D7300E3240A /* GBAExternalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalController.m; sourceTree = "<group>"; };
@@ -1148,6 +1172,38 @@
 			name = Operations;
 			sourceTree = "<group>";
 		};
+		BFADD3C519C1559F0010AC9F /* SFML */ = {
+			isa = PBXGroup;
+			children = (
+				BFADD3C619C155AA0010AC9F /* System */,
+				BFADD3C719C155BB0010AC9F /* Network */,
+			);
+			name = SFML;
+			sourceTree = "<group>";
+		};
+		BFADD3C619C155AA0010AC9F /* System */ = {
+			isa = PBXGroup;
+			children = (
+				BFADD3D819C156610010AC9F /* Thread.cpp */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		BFADD3C719C155BB0010AC9F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BFADD3C819C156240010AC9F /* SocketHelper.cpp */,
+				BFADD3CA19C1563E0010AC9F /* Ftp.cpp */,
+				BFADD3CB19C1563E0010AC9F /* Http.cpp */,
+				BFADD3CC19C1563E0010AC9F /* IPAddress.cpp */,
+				BFADD3CD19C1563E0010AC9F /* Packet.cpp */,
+				BFADD3CE19C1563E0010AC9F /* SelectorBase.cpp */,
+				BFADD3CF19C1563E0010AC9F /* SocketTCP.cpp */,
+				BFADD3D019C1563E0010AC9F /* SocketUDP.cpp */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 		BFBA77C019B71894000E8425 /* Acknowledgements */ = {
 			isa = PBXGroup;
 			children = (
@@ -1291,6 +1347,7 @@
 		CC1578A6179D051E0068A54E /* Emulator Code */ = {
 			isa = PBXGroup;
 			children = (
+				BFADD3C519C1559F0010AC9F /* SFML */,
 				CC575683180C725100BF3DA5 /* Shared */,
 				CC157AB3179D19EB0068A54E /* GBA */,
 				CC575684180C726200BF3DA5 /* GBC */,
@@ -1301,6 +1358,10 @@
 		CC157AB3179D19EB0068A54E /* GBA */ = {
 			isa = PBXGroup;
 			children = (
+				BFADD3DA19C156BE0010AC9F /* GBALink.cpp */,
+				BFADD3DB19C156BE0010AC9F /* GBALink.h */,
+				BFADD3DC19C156BE0010AC9F /* GBASockClient.cpp */,
+				BFADD3DD19C156BE0010AC9F /* GBASockClient.h */,
 				CCFA71C0179D304600768D24 /* Main.cc */,
 				CCFA71C1179D304600768D24 /* EmuControls.cc */,
 				CCFA71C2179D304600768D24 /* VbamApi.cc */,
@@ -2221,6 +2282,7 @@
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
 				CCC9B8AB1815AC7E005C90EE /* rtc.cpp in Sources */,
 				CC5045181814DC69009F7B9E /* 7zDec.c in Sources */,
+				BFADD3D919C156610010AC9F /* Thread.cpp in Sources */,
 				CCC9B8B41815AC7E005C90EE /* statesaver.cpp in Sources */,
 				CC5044F51814DC69009F7B9E /* gbafilter.cpp in Sources */,
 				BFF44FA218A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */,
@@ -2236,6 +2298,7 @@
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
 				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
+				BFADD3D419C1563E0010AC9F /* Packet.cpp in Sources */,
 				CCC9B8941815AC7E005C90EE /* ly_counter.cpp in Sources */,
 				CCC9B8B11815AC7E005C90EE /* loadres.cpp in Sources */,
 				CC5045101814DC69009F7B9E /* Zip_Extractor.cpp in Sources */,
@@ -2264,6 +2327,7 @@
 				CC5044FE1814DC69009F7B9E /* Sound.cpp in Sources */,
 				BF60A16E18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */,
 				BF537EFE185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */,
+				BFADD3D119C1563E0010AC9F /* Ftp.cpp in Sources */,
 				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
 				CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */,
 				CCC9B8A61815AC7E005C90EE /* u48div.cpp in Sources */,
@@ -2290,6 +2354,7 @@
 				BF7EC2ED196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */,
 				BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
+				BFADD3D719C1563E0010AC9F /* SocketUDP.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
 				BF0EBB1F19C05D1000703623 /* GBASettingsTableViewCell.m in Sources */,
@@ -2340,6 +2405,7 @@
 				BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				BF2212FB19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m in Sources */,
+				BFADD3D619C1563E0010AC9F /* SocketTCP.cpp in Sources */,
 				CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
 				BF2AC89218543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */,
@@ -2351,6 +2417,7 @@
 				CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */,
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
 				CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */,
+				BFADD3C919C156240010AC9F /* SocketHelper.cpp in Sources */,
 				CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */,
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
 				BF58D31819B91550003B2B62 /* UIView+Image.m in Sources */,
@@ -2358,8 +2425,11 @@
 				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
 				BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
+				BFADD3D219C1563E0010AC9F /* Http.cpp in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
+				BFADD3D519C1563E0010AC9F /* SelectorBase.cpp in Sources */,
 				CC5045021814DC69009F7B9E /* Blip_Buffer.cpp in Sources */,
+				BFADD3D319C1563E0010AC9F /* IPAddress.cpp in Sources */,
 				CC5044F01814DC69009F7B9E /* EEprom.cpp in Sources */,
 				CC50451F1814DC69009F7B9E /* Lzma2Dec.c in Sources */,
 				CCC9B8971815AC7E005C90EE /* ppu.cpp in Sources */,
@@ -2371,6 +2441,7 @@
 				BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */,
 				CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */,
 				CC5045121814DC69009F7B9E /* Zlib_Inflater.cpp in Sources */,
+				BFADD3DF19C156BE0010AC9F /* GBASockClient.cpp in Sources */,
 				CC5044F61814DC69009F7B9E /* Globals.cpp in Sources */,
 				BF58D31619B91550003B2B62 /* UIImage+PDF.m in Sources */,
 				CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */,
@@ -2425,6 +2496,7 @@
 				BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */,
 				CCFA7238179D340400768D24 /* ResourceFontUIKit.mm in Sources */,
 				CCFA7179179D2EAB00768D24 /* ScrollView1D.cc in Sources */,
+				BFADD3DE19C156BE0010AC9F /* GBALink.cpp in Sources */,
 				CCC9B8A71815AC7E005C90EE /* file_zip.cpp in Sources */,
 				CC5044F41814DC69009F7B9E /* GBA.cpp in Sources */,
 				CC157AE7179D1BC60068A54E /* pngmem.c in Sources */,
@@ -2778,6 +2850,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -2984,6 +3057,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3311,6 +3385,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3356,6 +3431,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3514,6 +3590,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (

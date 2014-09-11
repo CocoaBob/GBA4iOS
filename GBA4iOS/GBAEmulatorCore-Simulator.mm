@@ -122,6 +122,21 @@ NSString *const GBAROMDidSaveDataNotification = @"GBAROMDidSaveDataNotification"
     
 }
 
+- (void)startServer
+{
+    
+}
+
+- (void)connectToServer
+{
+    
+}
+
+- (void)startConnection
+{
+    
+}
+
 bool useCustomSavePath();
 
 @end

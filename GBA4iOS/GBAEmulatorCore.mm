@@ -18,6 +18,7 @@
 #import "MainApp.h"
 #import "EAGLView.h"
 #import "GBASettingsViewController.h"
+#import "GBALinkManager.h"
 
 #import "EAGLView_Private.h"
 
@@ -39,6 +40,7 @@
 #include <base/Base.hh>
 #include <base/iphone/private.hh>
 #include <mem/cartridge.h>
+#include "GBALink.h"
 
 #ifdef CONFIG_INPUT
 #include <input/Input.hh>
@@ -1098,6 +1100,153 @@ extern gambatte::GB gbEmu;
     
     return cheatsString;
 }
+
+#pragma mark - Multiplayer
+
+int GBALinkSendDataToPeerAtIndex(int index, const char *data, size_t size)
+{
+    return [[GBALinkManager sharedManager] sendData:data withSize:size toPeerAtIndex:index];
+}
+
+int GBALinkReceiveDataFromPeerAtIndex(int index, char *data, size_t maxSize)
+{
+    return [[GBALinkManager sharedManager] receiveData:data withMaxSize:maxSize fromPeerAtIndex:index];
+}
+
+- (void)startServer
+{
+    
+}
+
+- (void)connectToServer
+{
+    
+}
+
+- (void)startConnection
+{
+    
+}
+
+#ifdef OLD_MULTIPLAYER
+
+void systemScreenMessage(const char *message)
+{
+    DLog("%s", message);
+}
+
+static const int length = 256;
+
+- (void)startServer
+{
+    SetLinkTimeout(1000);
+    EnableSpeedHacks(false);
+    EnableLinkServer(true,  1);
+    
+    
+    
+    __block ConnectionState state = InitLink(LINK_CABLE_SOCKET);
+    
+    char localhost[length];
+    GetLinkServerHost(localhost, length);
+    
+    NSString *message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
+    DLog(@"%@", message);
+    
+    while (state == LINK_NEEDS_UPDATE) {
+        // Ask the core for updates
+        char message[length];
+        state = ConnectLinkUpdate(message, length);
+    }
+    
+    message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connected!"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    });
+    
+    switch (state) {
+        case LINK_OK:
+            DLog(@"Link OK!");
+            break;
+            
+        case LINK_ERROR:
+            DLog(@"Link Error :((");
+            break;
+            
+        case LINK_NEEDS_UPDATE:
+            DLog(@"Link needs update!");
+            break;
+            
+        case LINK_ABORT:
+            DLog(@"Link abort");
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)connectToServer
+{
+    EnableSpeedHacks(false);
+    SetLinkServerHost("192.168.1.64");
+    
+    __block ConnectionState state = InitLink(LINK_CABLE_SOCKET);
+    
+    while (state == LINK_NEEDS_UPDATE) {
+        // Ask the core for updates
+        char message[length];
+        state = ConnectLinkUpdate(message, length);
+    }
+    
+    char localhost[length];
+    GetLinkServerHost(localhost, length);
+    
+    NSString *message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connected!"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    });
+    
+    switch (state) {
+        case LINK_OK:
+            DLog(@"Link OK!");
+            break;
+            
+        case LINK_ERROR:
+            DLog(@"Link Error :((");
+            break;
+            
+        case LINK_NEEDS_UPDATE:
+            DLog(@"Link needs update!");
+            break;
+            
+        case LINK_ABORT:
+            DLog(@"Link abort");
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)startConnection
+{
+    CheckLinkConnection();
+}
+
+#endif
 
 #pragma mark - Wario Ware Twisted
 
