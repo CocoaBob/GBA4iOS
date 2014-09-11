@@ -17,6 +17,7 @@
 #import "GBAPushNotificationsViewController.h"
 #import "GBAWebBrowserHomepageViewController.h"
 #import "GBAAcknowledgementsViewController.h"
+#import "GBALinkViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 

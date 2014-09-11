@@ -16,6 +16,7 @@
 #import "GBASoftwareUpdateOperation.h"
 #import "GBASoftwareUpdateViewController.h"
 #import "GBAEventDistributionOperation.h"
+#import "GBALinkManager.h"
 
 #import "SSZipArchive.h"
 #import <DropboxSDK/DropboxSDK.h>
@@ -101,6 +102,11 @@ static GBAAppDelegate *_appDelegate;
     [self preparePushNotifications];
     
     [GBASettingsViewController registerDefaults];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+    {
+        [[GBALinkManager sharedManager] start];
+    }
     
 #if !(TARGET_IPHONE_SIMULATOR)
     

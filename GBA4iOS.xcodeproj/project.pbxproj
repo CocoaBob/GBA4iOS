@@ -120,6 +120,16 @@
 		BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
 		BF30DA0A19BAC8F6009754FF /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */; };
 		BF30DA0B19BAC8F6009754FF /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */; };
+		BF33ECF019C13127006E534B /* GBALinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEB19C13127006E534B /* GBALinkViewController.m */; };
+		BF33ECF119C13127006E534B /* GBALinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEB19C13127006E534B /* GBALinkViewController.m */; };
+		BF33ECF219C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */; };
+		BF33ECF319C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */; };
+		BF33ECF419C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */; };
+		BF33ECF519C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */; };
+		BF33ECF919C13169006E534B /* GBALinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.m */; };
+		BF33ECFA19C13169006E534B /* GBALinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.m */; };
+		BF33ECFD19C13188006E534B /* MCPeerID+Conveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */; };
+		BF33ECFE19C13188006E534B /* MCPeerID+Conveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */; };
 		BF356C7A18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
 		BF356C7B18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
 		BF356C8318827E160005E1FC /* GBAEmulatorCore-Simulator.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */; };
@@ -506,6 +516,16 @@
 		BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncDeleteOperation.m; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GBANoGamesView.xib; sourceTree = "<group>"; };
+		BF33ECEA19C13127006E534B /* GBALinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkViewController.h; sourceTree = "<group>"; };
+		BF33ECEB19C13127006E534B /* GBALinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkViewController.m; sourceTree = "<group>"; };
+		BF33ECEC19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkNearbyPeersHeaderFooterView.h; sourceTree = "<group>"; };
+		BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkNearbyPeersHeaderFooterView.m; sourceTree = "<group>"; };
+		BF33ECEE19C13127006E534B /* GBALinkViewControllerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkViewControllerTableViewCell.h; sourceTree = "<group>"; };
+		BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkViewControllerTableViewCell.m; sourceTree = "<group>"; };
+		BF33ECF719C13169006E534B /* GBALinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkManager.h; sourceTree = "<group>"; };
+		BF33ECF819C13169006E534B /* GBALinkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkManager.m; sourceTree = "<group>"; };
+		BF33ECFB19C13188006E534B /* MCPeerID+Conveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCPeerID+Conveniences.h"; sourceTree = "<group>"; };
+		BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MCPeerID+Conveniences.m"; sourceTree = "<group>"; };
 		BF356C7818814A180005E1FC /* GBACheatTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatTextView.h; sourceTree = "<group>"; };
 		BF356C7918814A180005E1FC /* GBACheatTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatTextView.m; sourceTree = "<group>"; };
 		BF356C8218827E160005E1FC /* GBAEmulatorCore-Simulator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GBAEmulatorCore-Simulator.mm"; sourceTree = "<group>"; };
@@ -1003,6 +1023,28 @@
 				BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */,
 			);
 			name = "Dropbox File Manipulation Operations";
+			sourceTree = "<group>";
+		};
+		BF33ECE919C13118006E534B /* Linking */ = {
+			isa = PBXGroup;
+			children = (
+				BF33ECEA19C13127006E534B /* GBALinkViewController.h */,
+				BF33ECEB19C13127006E534B /* GBALinkViewController.m */,
+				BF33ECEC19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.h */,
+				BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */,
+				BF33ECEE19C13127006E534B /* GBALinkViewControllerTableViewCell.h */,
+				BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */,
+			);
+			name = Linking;
+			sourceTree = "<group>";
+		};
+		BF33ECF619C13157006E534B /* Linking */ = {
+			isa = PBXGroup;
+			children = (
+				BF33ECF719C13169006E534B /* GBALinkManager.h */,
+				BF33ECF819C13169006E534B /* GBALinkManager.m */,
+			);
+			name = Linking;
 			sourceTree = "<group>";
 		};
 		BF50FD69188D189D004153CE /* Exception Handling */ = {
@@ -1568,8 +1610,9 @@
 			isa = PBXGroup;
 			children = (
 				CC2D57111798F2EC00C616EB /* Emulation.storyboard */,
-				CCC7298317C7347F0001BC6F /* ROM */,
 				CC8BB0611799A21000F9864F /* Emulation View Controller */,
+				BF33ECF619C13157006E534B /* Linking */,
+				CCC7298317C7347F0001BC6F /* ROM */,
 				CC15E545179F2F3500449972 /* Core */,
 				CC347BAF17A3C95500309436 /* Controller */,
 				CCFE7B3517BD172F00F099F2 /* Save States */,
@@ -1602,6 +1645,8 @@
 				BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */,
 				BF2290A2189C98BE0041F1AE /* NSFileManager+ForcefulMove.h */,
 				BF2290A3189C98BE0041F1AE /* NSFileManager+ForcefulMove.m */,
+				BF33ECFB19C13188006E534B /* MCPeerID+Conveniences.h */,
+				BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */,
 			);
 			name = "Categories / Protocols";
 			sourceTree = "<group>";
@@ -1700,6 +1745,7 @@
 				BF0EBB1619C0493000703623 /* Settings.storyboard */,
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF33ECE919C13118006E534B /* Linking */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
 				BFC82E1319B68B8E00284BAE /* Color Palette */,
 				BF77FBE319B6D81000B9E3A1 /* Web Browser Homepage */,
@@ -2049,13 +2095,16 @@
 				BF7C0E73189DA35800794093 /* SSZipArchive.m in Sources */,
 				BF2F34E9183FF6F9002ACE90 /* GBACheatManagerTableViewCell.m in Sources */,
 				BF2F34F5183FF6F9002ACE90 /* GBAAsynchronousRemoteTableViewCell.m in Sources */,
+				BF33ECF119C13127006E534B /* GBALinkViewController.m in Sources */,
 				BF2F34F7183FF6F9002ACE90 /* GBAROMTableViewControllerAnimator.m in Sources */,
 				BF2F3500183FF6F9002ACE90 /* GBAEmulatorScreen.mm in Sources */,
 				BFF44FA318A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */,
 				BF2F3504183FF6F9002ACE90 /* GBASyncingOverviewViewController.mm in Sources */,
 				BF2AC89318543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */,
 				BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */,
+				BF33ECF319C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */,
 				BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */,
+				BF33ECFA19C13169006E534B /* GBALinkManager.m in Sources */,
 				BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */,
 				BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */,
 				BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */,
@@ -2089,6 +2138,7 @@
 				BF52A567197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */,
 				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
 				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
+				BF33ECFE19C13188006E534B /* MCPeerID+Conveniences.m in Sources */,
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF58D31919B91550003B2B62 /* UIView+Image.m in Sources */,
@@ -2139,6 +2189,7 @@
 				BF359B95187A205400B4CA53 /* GBAEventDistributionTableViewCell.m in Sources */,
 				BF359B99187A64C000B4CA53 /* NSDate+Comparing.m in Sources */,
 				BF2F35AC183FF6F9002ACE90 /* GBACheat.m in Sources */,
+				BF33ECF519C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */,
 				BF2AC88318543246008928D0 /* DTObjectBlockExecutor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2159,6 +2210,7 @@
 				CC5044F71814DC69009F7B9E /* Mode0.cpp in Sources */,
 				BF1C87FB185193B100C72E1C /* FileSHA1Hash.c in Sources */,
 				BF02D2C4197344950034A515 /* GBASoftwareUpdate.m in Sources */,
+				BF33ECFD19C13188006E534B /* MCPeerID+Conveniences.m in Sources */,
 				CC157AF2179D1BC60068A54E /* pngwutil.c in Sources */,
 				CCC9B89A1815AC7E005C90EE /* channel2.cpp in Sources */,
 				BFFC588E186AB7CC00E7AC2F /* GBACalloutView.m in Sources */,
@@ -2252,6 +2304,7 @@
 				CCC9B89D1815AC7E005C90EE /* duty_unit.cpp in Sources */,
 				CC157AEC179D1BC60068A54E /* pngrutil.c in Sources */,
 				CCE3CDFD17AE9F0200FAB9C8 /* GBASettingsViewController.m in Sources */,
+				BF33ECF419C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */,
 				CC157AE4179D1BC60068A54E /* png.c in Sources */,
 				BFD98C461895FF0100A9432C /* zip.c in Sources */,
 				CC5045071814DC69009F7B9E /* Binary_Extractor.cpp in Sources */,
@@ -2311,6 +2364,7 @@
 				CC50451F1814DC69009F7B9E /* Lzma2Dec.c in Sources */,
 				CCC9B8971815AC7E005C90EE /* ppu.cpp in Sources */,
 				CC157AE8179D1BC60068A54E /* pngpread.c in Sources */,
+				BF33ECF219C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */,
 				CC5044F21814DC69009F7B9E /* GBA-arm.cpp in Sources */,
 				CC157AEA179D1BC60068A54E /* pngrio.c in Sources */,
 				CC96F01117C29A1E00C7DD0C /* GBAEmulatorCore.mm in Sources */,
@@ -2324,6 +2378,7 @@
 				BF58D31019B91550003B2B62 /* NSData+MD5.m in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				BF20ED6C189769DF00270BC8 /* GBAEventDistributionDetailViewController.m in Sources */,
+				BF33ECF919C13169006E534B /* GBALinkManager.m in Sources */,
 				CC5045001814DC69009F7B9E /* Patch.cpp in Sources */,
 				CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */,
 				CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */,
@@ -2384,6 +2439,7 @@
 				CCFA717B179D2EAB00768D24 /* ScrollableGuiTable1D.cc in Sources */,
 				CCC9B8A81815AC7E005C90EE /* cartridge.cpp in Sources */,
 				CC5045031814DC69009F7B9E /* Gb_Apu_State.cpp in Sources */,
+				BF33ECF019C13127006E534B /* GBALinkViewController.m in Sources */,
 				CC5045131814DC69009F7B9E /* memgzio.c in Sources */,
 				BF537EF9184FE1AC00661C42 /* GBASyncFileOperation.mm in Sources */,
 				CCC9B8961815AC7E005C90EE /* next_m0_time.cpp in Sources */,
