@@ -79,6 +79,5 @@ extern NSString *const GBAROMDidSaveDataNotification;
 // Linking
 - (void)startServer;
 - (void)connectToServer;
-- (void)startConnection;
 
 @end

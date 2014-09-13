@@ -614,7 +614,6 @@ void cpuEnableProfiling(int hz)
 }
 #endif
 
-
 inline int CPUUpdateTicks(ARM7TDMI &cpu)
 {
 #ifdef VBAM_USE_SWITICKS
@@ -2684,10 +2683,10 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
 	  break;
 
   case COMM_SIODATA8:
-	  if (gba_link_enabled)
+	 /* if (gba_link_enabled)
 	  {
 		  LinkSSend(value);
-	  }
+	  } GBARemove */
 	  UPDATE_REG(cpu.gba, COMM_SIODATA8, value);
 	  break;
 
@@ -2701,7 +2700,7 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
 	  break;
 
   case COMM_RCNT:
-	  StartGPLink(cpu.gba, value);
+	  StartGPLink(value);
 	  break;
 
   case COMM_JOYCNT:
@@ -3212,8 +3211,8 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
   cpu.cpuTotalTicks = 0;
 
   // shuffle2: what's the purpose?
-  if(gba_link_enabled)
-    cpu.cpuNextEvent = 1;
+    if(GetLinkMode() != LINK_DISCONNECTED)
+        cpu.cpuNextEvent = 1;
 
   bool cpuBreakLoop = false;
   cpu.cpuNextEvent = CPUUpdateTicks(cpu);
@@ -3634,10 +3633,8 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
 	  /*if (gba_joybus_enabled)
 		  JoyBusUpdate(clockTicks);*/
 
-	  if (gba_link_enabled)
-	  {
-		  LinkUpdate(clockTicks);
-	  }
+        if(GetLinkMode() != LINK_DISCONNECTED)
+            LinkUpdate(clockTicks);
 
       cpu.cpuNextEvent = CPUUpdateTicks(cpu);
 
@@ -3654,8 +3651,8 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
       }
 
 	  // shuffle2: what's the purpose?
-	  if(gba_link_enabled)
-  	       cpu.cpuNextEvent = 1;
+        if(GetLinkMode() != LINK_DISCONNECTED)
+            cpu.cpuNextEvent = 1;
 
       if(IF && (IME & 1) && armIrqEnable) {
         int res = IF & IE;
@@ -3735,6 +3732,12 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
   } while(!cpuBreakLoop);
 
   gba.cpu = cpu;
+    
+    if (GetLinkMode() != LINK_DISCONNECTED)
+    {
+        CheckLinkConnection();
+    }
+    
 }
 
 

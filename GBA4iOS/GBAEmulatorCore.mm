@@ -1113,22 +1113,6 @@ int GBALinkReceiveDataFromPeerAtIndex(int index, char *data, size_t maxSize)
     return [[GBALinkManager sharedManager] receiveData:data withMaxSize:maxSize fromPeerAtIndex:index];
 }
 
-- (void)startServer
-{
-    
-}
-
-- (void)connectToServer
-{
-    
-}
-
-- (void)startConnection
-{
-    
-}
-
-#ifdef OLD_MULTIPLAYER
 
 void systemScreenMessage(const char *message)
 {
@@ -1194,8 +1178,9 @@ static const int length = 256;
 
 - (void)connectToServer
 {
+    SetLinkTimeout(1000);
     EnableSpeedHacks(false);
-    SetLinkServerHost("192.168.1.64");
+    SetLinkServerHost("192.168.1.68");
     
     __block ConnectionState state = InitLink(LINK_CABLE_SOCKET);
     
@@ -1240,13 +1225,6 @@ static const int length = 256;
             break;
     }
 }
-
-- (void)startConnection
-{
-    CheckLinkConnection();
-}
-
-#endif
 
 #pragma mark - Wario Ware Twisted
 

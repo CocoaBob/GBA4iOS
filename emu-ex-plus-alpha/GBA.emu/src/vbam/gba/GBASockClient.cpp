@@ -4,15 +4,19 @@
 
 // Currently only for Joybus communications
 
-GBASockClient::GBASockClient(sf::IPAddress _server_addr)
+GBASockClient::GBASockClient()
 {
-	if (!_server_addr.IsValid())
-		server_addr = sf::IPAddress::LocalHost;
-	else
-		server_addr = _server_addr;
+	server_addr = sf::IPAddress::LocalHost;
+}
 
-	client.Connect(0xd6ba, server_addr);
+bool GBASockClient::Connect(sf::IPAddress _server_addr) {
+	if (_server_addr.IsValid())
+		server_addr = _server_addr;
+    
+	sf::Socket::Status result = client.Connect(0xd6ba, server_addr);
 	//client.SetBlocking(false);
+    
+	return result == sf::Socket::Done;
 }
 
 GBASockClient::~GBASockClient()
@@ -24,9 +28,9 @@ void GBASockClient::Send(std::vector<char> data)
 {
 	char* plain_data = new char[data.size()];
 	std::copy(data.begin(), data.end(), plain_data);
-
+    
 	client.Send(plain_data, data.size());
-
+    
 	delete[] plain_data;
 }
 
@@ -35,7 +39,7 @@ char GBASockClient::ReceiveCmd(char* data_in)
 {
 	std::size_t num_received;
 	client.Receive(data_in, 5, num_received);
-
+    
 	return data_in[0];
 }
 

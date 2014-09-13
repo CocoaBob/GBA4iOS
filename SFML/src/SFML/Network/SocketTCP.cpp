@@ -236,6 +236,37 @@ Socket::Status SocketTCP::Accept(SocketTCP& Connected, IPAddress* Address)
 ////////////////////////////////////////////////////////////
 Socket::Status SocketTCP::Send(const char* Data, std::size_t Size)
 {
+    
+    // First check that socket is valid
+    if (!IsValid())
+        return Socket::Error;
+    
+    // Check parameters
+    if (Data && Size)
+    {
+        // Loop until every byte has been sent
+        int Sent = 0;
+        int SizeToSend = static_cast<int>(Size);
+        for (int Length = 0; Length < SizeToSend; Length += Sent)
+        {
+            // Send a chunk of data
+            Sent = (int)send(mySocket, Data + Length, SizeToSend - Length, 0);
+            
+            // Check if an error occured
+            if (Sent <= 0)
+                return SocketHelper::GetErrorStatus();
+        }
+        
+        return Socket::Done;
+    }
+    else
+    {
+        // Error...
+        std::cerr << "Cannot send data over the network (invalid parameters)" << std::endl;
+        return Socket::Error;
+    }
+    
+    /*
     // First check that socket is valid
     if (!IsValid())
         return Socket::Error;
@@ -261,7 +292,7 @@ Socket::Status SocketTCP::Send(const char* Data, std::size_t Size)
         // Error...
         std::cerr << "Cannot send data over the network (invalid parameters)" << std::endl;
         return Socket::Error;
-    }
+    }*/
 }
 
 
@@ -282,8 +313,8 @@ Socket::Status SocketTCP::Receive(char* Data, std::size_t MaxSize, std::size_t& 
     if (Data && MaxSize)
     {
         // Receive a chunk of bytes
-        int Received = GBALinkReceiveDataFromPeerAtIndex(0, Data, static_cast<int>(MaxSize));
-        //int Received = recv(mySocket, Data, static_cast<int>(MaxSize), 0);
+        //int Received = GBALinkReceiveDataFromPeerAtIndex(0, Data, static_cast<int>(MaxSize));
+        int Received = (int)recv(mySocket, Data, static_cast<int>(MaxSize), 0);
 
         // Check the number of bytes received
         if (Received > 0)

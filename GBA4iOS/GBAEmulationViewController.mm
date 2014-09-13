@@ -882,11 +882,27 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 2)
             {
-                [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeSaving];
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+                {
+                    [[GBAEmulatorCore sharedCore] startServer];
+                    [self resumeEmulation];
+                }
+                else
+                {
+                    [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeSaving];
+                }
             }
             else if (buttonIndex == 3)
             {
-                [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeLoading];
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+                {
+                    [[GBAEmulatorCore sharedCore] connectToServer];
+                    [self resumeEmulation];
+                }
+                else
+                {
+                    [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeLoading];
+                }
             }
             else if (buttonIndex == 4)
             {
