@@ -11,21 +11,21 @@
 
 @implementation GBASyncFileOperation
 
-- (instancetype)initWithLocalPath:(NSString *)localPath dropboxPath:(NSString *)dropboxPath
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath
 {
-    self = [self initWithLocalPath:localPath dropboxPath:dropboxPath metadata:nil];
+    self = [self initWithDropboxPath:dropboxPath metadata:nil];
     
     return self;
 }
 
-- (instancetype)initWithLocalPath:(NSString *)localPath metadata:(DBMetadata *)metadata
+- (instancetype)initWithMetadata:(DBMetadata *)metadata
 {
-    self = [self initWithLocalPath:localPath dropboxPath:metadata.path metadata:metadata];
+    self = [self initWithDropboxPath:metadata.path metadata:metadata];
     
     return self;
 }
 
-- (instancetype)initWithLocalPath:(NSString *)localPath dropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
 {
     self = [super init];
     
@@ -34,7 +34,6 @@
         return nil;
     }
     
-    _localPath = [localPath copy];
     _dropboxPath = [dropboxPath copy];
     _metadata = metadata;
     
@@ -47,7 +46,7 @@
 {
     if (self.syncCompletionBlock)
     {
-        self.syncCompletionBlock(self.localPath, self.metadata, error);
+        self.syncCompletionBlock([GBASyncManager localPathForDropboxPath:self.dropboxPath], self.metadata, error);
     }
     
     [self finish];
@@ -56,11 +55,6 @@
 - (NSDictionary *)dictionaryRepresentation
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    
-    if (self.localPath)
-    {
-        dictionary[GBASyncLocalPathKey] = self.localPath;
-    }
     
     if (self.dropboxPath)
     {

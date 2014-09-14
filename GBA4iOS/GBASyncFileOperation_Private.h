@@ -10,7 +10,6 @@
 
 @interface GBASyncFileOperation ()
 
-@property (readwrite, copy, nonatomic) NSString *localPath;
 @property (readwrite, copy, nonatomic) NSString *dropboxPath;
 @property (readwrite, copy, nonatomic) DBMetadata *metadata;
 

@@ -17,9 +17,9 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithLocalPath:(NSString *)localPath dropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
 {
-    self = [super initWithLocalPath:localPath dropboxPath:dropboxPath metadata:metadata];
+    self = [super initWithDropboxPath:dropboxPath metadata:metadata];
     
     if (self == nil)
     {
@@ -33,7 +33,9 @@
 
 - (void)beginSyncOperation
 {
-    DLog(@"Downloading file %@ to %@...", self.dropboxPath, self.localPath);
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath];
+    
+    DLog(@"Downloading file %@ to %@...", self.dropboxPath, localPath);
     
     NSString *localizedString = NSLocalizedString(@"Downloading", @"");
     NSString *message = [NSString stringWithFormat:@"%@ %@", localizedString, [self humanReadableFileDescriptionForDropboxPath:self.dropboxPath]];
@@ -43,11 +45,11 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.metadata)
         {
-            [self.restClient loadFile:self.metadata.path atRev:self.metadata.rev intoPath:self.localPath];
+            [self.restClient loadFile:self.metadata.path atRev:self.metadata.rev intoPath:localPath];
         }
         else
         {
-            [self.restClient loadFile:self.dropboxPath intoPath:self.localPath];
+            [self.restClient loadFile:self.dropboxPath intoPath:localPath];
         }
     });    
 }
@@ -134,13 +136,10 @@
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         
         NSString *dropboxPath = [error userInfo][@"path"];
-        NSString *localPath = self.localPath;
         
         NSDictionary *dropboxFiles = [[GBASyncManager sharedManager] pendingDownloads];
         DBMetadata *metadata = dropboxFiles[self.dropboxPath];
-        
-        
-        
+                
         if ([error code] == 404) // 404: File has been deleted (according to dropbox)
         {
             DLog(@"File doesn't exist for download...ignoring %@", [dropboxPath lastPathComponent]);
