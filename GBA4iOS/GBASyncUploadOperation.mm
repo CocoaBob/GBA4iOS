@@ -17,9 +17,9 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithLocalPath:(NSString *)localPath dropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
 {
-    self = [super initWithLocalPath:localPath dropboxPath:dropboxPath metadata:metadata];
+    self = [super initWithDropboxPath:dropboxPath metadata:metadata];
     
     if (self == nil)
     {
@@ -34,6 +34,7 @@
 - (void)beginSyncOperation
 {
     DBMetadata *metadata = self.metadata;
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath];
     
     if (metadata == nil)
     {
@@ -43,11 +44,11 @@
     
     if (metadata.rev)
     {
-        DLog(@"Uploading %@... (Replacing Rev %@)", [self.localPath lastPathComponent], metadata.rev);
+        DLog(@"Uploading %@... (Replacing Rev %@)", [localPath lastPathComponent], metadata.rev);
     }
     else
     {
-        DLog(@"Uploading %@...", [self.localPath lastPathComponent]);
+        DLog(@"Uploading %@...", [localPath lastPathComponent]);
     }
     
     NSString *localizedString = NSLocalizedString(@"Uploading", @"");
@@ -57,7 +58,7 @@
     [self showToastViewWithMessage:message forDuration:0 showActivityIndicator:YES];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] withParentRev:metadata.rev fromPath:self.localPath];
+        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] withParentRev:metadata.rev fromPath:localPath];
     });
 }
 
@@ -66,7 +67,7 @@
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], metadata.path, metadata.rev);
-        
+                
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
         NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
         
@@ -95,7 +96,9 @@
         
         // Pending Uploads
         NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
-        [pendingUploads removeObjectForKey:localPath];
+        
+        NSString *relativePath = [GBASyncManager relativePathForLocalPath:localPath];
+        [[GBASyncManager sharedManager] removeCachedUploadOperationForRelativePath:relativePath];
         [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
         
         // Dropbox Files
@@ -162,7 +165,8 @@
         {
             DLog(@"File doesn't exist for upload...ignoring %@", [localPath lastPathComponent]);
             
-            [pendingUploads removeObjectForKey:localPath];
+            NSString *relativePath = [GBASyncManager relativePathForLocalPath:localPath];
+            [[GBASyncManager sharedManager] removeCachedUploadOperationForRelativePath:relativePath];
             [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
             
             [self finishedWithMetadata:self.metadata error:nil];

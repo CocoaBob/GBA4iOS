@@ -14,7 +14,6 @@
 #import "GBASyncDeleteOperation.h"
 #import "GBASyncMoveOperation.h"
 
-extern NSString * const GBASyncLocalPathKey;
 extern NSString * const GBASyncDropboxPathKey;
 extern NSString * const GBASyncMetadataKey;
 extern NSString * const GBASyncDestinationPathKey;
@@ -39,6 +38,8 @@ extern NSString * const GBASyncDestinationPathKey;
 - (void)cacheDeleteOperation:(GBASyncDeleteOperation *)deleteOperation;
 - (void)cacheMoveOperation:(GBASyncMoveOperation *)moveOperation;
 
+- (void)removeCachedUploadOperationForRelativePath:(NSString *)relativePath;
+
 // Filepaths
 + (NSString *)dropboxSyncDirectoryPath;
 + (NSString *)dropboxFilesPath;
@@ -55,6 +56,7 @@ extern NSString * const GBASyncDestinationPathKey;
 
 + (NSString *)localPathForDropboxPath:(NSString *)dropboxPath;
 + (NSString *)localPathForDropboxPath:(NSString *)dropboxPath uploading:(BOOL)uploading;
++ (NSString *)relativePathForLocalPath:(NSString *)localPath;
 + (NSString *)zippedDropboxPathForSaveFileDropboxPath:(NSString *)dropboxPath;
 + (NSString *)zippedLocalPathForUploadingSaveFileForROM:(GBAROM *)rom;
 + (NSString *)zippedLocalPathForDownloadingSaveFileForROM:(GBAROM *)rom;

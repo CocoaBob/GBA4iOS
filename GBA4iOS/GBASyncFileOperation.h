@@ -13,15 +13,14 @@
 
 @interface GBASyncFileOperation : GBASyncOperation
 
-@property (readonly, copy, nonatomic) NSString *localPath;
 @property (readonly, copy, nonatomic) NSString *dropboxPath;
 @property (readonly, copy, nonatomic) DBMetadata *metadata;
 
 @property (copy, nonatomic) GBASyncCompletionBlock syncCompletionBlock;
 
-- (instancetype)initWithLocalPath:(NSString *)localPath dropboxPath:(NSString *)dropboxPath;
-- (instancetype)initWithLocalPath:(NSString *)localPath metadata:(DBMetadata *)metadata;
-- (instancetype)initWithLocalPath:(NSString *)localPath dropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata; // Operation decides what is most important to use, dropbox or metadata
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath;
+- (instancetype)initWithMetadata:(DBMetadata *)metadata;
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata; // Operation decides what is most important to use, dropbox or metadata
 
 - (NSDictionary *)dictionaryRepresentation;
 

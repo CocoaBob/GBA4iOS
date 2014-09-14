@@ -25,7 +25,6 @@
     NSString *deviceName = [[UIDevice currentDevice] name];
     
     self.dropboxPath = [[NSString stringWithFormat:@"/Upload History/%@.plist", deviceName] copy];
-    self.localPath = [[GBASyncManager currentDeviceUploadHistoryPath] copy];
     
     return self;
 }
@@ -39,7 +38,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] fromPath:self.localPath];
+        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] fromPath:[GBASyncManager localPathForDropboxPath:self.dropboxPath]];
 #pragma clang diagnostic pop
     });
 }
@@ -55,7 +54,9 @@
         
         // Pending Uploads
         NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
-        [pendingUploads removeObjectForKey:localPath];
+        
+        NSString *relativePath = [GBASyncManager relativePathForLocalPath:localPath];
+        [[GBASyncManager sharedManager] removeCachedUploadOperationForRelativePath:relativePath];
         [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
         
         // Dropbox Files
@@ -78,7 +79,8 @@
         {
             DLog(@"File doesn't exist for upload...ignoring %@", [localPath lastPathComponent]);
             
-            [pendingUploads removeObjectForKey:localPath];
+            NSString *relativePath = [GBASyncManager relativePathForLocalPath:localPath];
+            [[GBASyncManager sharedManager] removeCachedUploadOperationForRelativePath:relativePath];
             [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
             
             [self finishedWithMetadata:self.metadata error:nil];

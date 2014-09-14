@@ -162,8 +162,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
         DBMetadata *metadata = downloadOperationDictionary[GBASyncMetadataKey];
         
-        GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath
-                                                                                        dropboxPath:dropboxPath
+        GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithDropboxPath:dropboxPath
                                                                                            metadata:metadata];
         
         if ([[GBASyncManager uniqueROMNameFromDropboxPath:downloadOperation.dropboxPath] isEqualToString:@"Upload History"])
@@ -184,7 +183,6 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         }
         
         NSString *romName = [GBASyncManager romNameFromDropboxPath:downloadOperation.dropboxPath];
-        
         
         if (romName == nil)
         {
@@ -228,7 +226,6 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             
             DBMetadata *cachedMetadata = [dropboxFiles objectForKey:downloadOperation.dropboxPath];
             
-            
             NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil];
             NSDate *currentDate = [attributes fileModificationDate];
             NSDate *previousDate = cachedMetadata.lastModifiedDate;
@@ -259,9 +256,12 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         else
         {
             // This will really only ever happen with cheats, so we make sure to delete it from pending uploads since we're now downloading it instead.
-            if (pendingUploads[downloadOperation.localPath])
+            
+            NSString *relativePath = [GBASyncManager relativePathForLocalPath:localPath];
+            
+            if (pendingUploads[relativePath])
             {
-                [pendingUploads removeObjectForKey:downloadOperation.localPath];
+                [[GBASyncManager sharedManager] removeCachedUploadOperationForRelativePath:relativePath];
                 [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
             }
         }
@@ -389,7 +389,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     // GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath metadata:metadata];
     
     // Cache it to pendingDownloads
-    GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath dropboxPath:metadata.path];
+    GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithDropboxPath:metadata.path];
     [[GBASyncManager sharedManager] cacheDownloadOperation:downloadOperation];
 }
 
@@ -401,7 +401,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     
     NSDictionary *pendingUploads = [[[GBASyncManager sharedManager] pendingUploads] copy];
     NSMutableDictionary *pendingDeletions = [[GBASyncManager sharedManager] pendingDeletions];
-    
+        
     if ([pendingUploads count] == 0)
     {
         [self deleteFiles]; // No need to update upload history, since there were no files to upload
@@ -420,10 +420,10 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         
         NSString *dropboxPath = uploadOperationDictionary[GBASyncDropboxPathKey];
         NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath uploading:YES];
+        
         DBMetadata *metadata = uploadOperationDictionary[GBASyncMetadataKey];
         
-        GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithLocalPath:localPath
-                                                                                        dropboxPath:dropboxPath
+        GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithDropboxPath:dropboxPath
                                                                                            metadata:metadata];
         
         if ([[GBASyncManager uniqueROMNameFromDropboxPath:uploadOperation.dropboxPath] isEqualToString:@"Upload History"])
@@ -434,7 +434,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         }
         
         // Always good to check, but it also is important so we don't remove from pendingDeletions when the file doesn't even exist to re-upload
-        if (![[NSFileManager defaultManager] fileExistsAtPath:uploadOperation.localPath isDirectory:nil])
+        if (![[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:nil])
         {
             return;
         }
@@ -455,7 +455,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             return;
         }
         
-        if ([uploadOperation.localPath.pathExtension isEqualToString:@"rtcsav"])
+        if ([localPath.pathExtension isEqualToString:@"rtcsav"])
         {
             GBAROM *rom = [GBAROM romWithName:romName];
             
@@ -468,9 +468,9 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             }
             
             // Make sure no previous files remain there
-            [[NSFileManager defaultManager] removeItemAtPath:uploadOperation.localPath error:nil];
+            [[NSFileManager defaultManager] removeItemAtPath:localPath error:nil];
             
-            [SSZipArchive createZipFileAtPath:uploadOperation.localPath withFilesAtPaths:@[rom.saveFileFilepath, rom.rtcFileFilepath]];
+            [SSZipArchive createZipFileAtPath:localPath withFilesAtPaths:@[rom.saveFileFilepath, rom.rtcFileFilepath]];
         }
             
         uploadOperation.delegate = self;
@@ -537,7 +537,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         }
         
         // Already marked for upload, don't need to upload again
-        if (pendingUploads[filepath])
+        if (pendingUploads[[GBASyncManager relativePathForLocalPath:filepath]])
         {
             continue;
         }
@@ -616,7 +616,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Cheats/%@", rom.uniqueName, filename];
             
             // Already marked for upload, don't need to upload again
-            if (pendingUploads[filepath])
+            if (pendingUploads[[GBASyncManager relativePathForLocalPath:filepath]])
             {
                 continue;
             }
@@ -703,7 +703,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             NSString *dropboxPath = [NSString stringWithFormat:@"/%@/Save States/%@", rom.uniqueName, filename];
             
             // Already marked for upload, don't need to upload again
-            if (pendingUploads[filepath])
+            if (pendingUploads[[GBASyncManager relativePathForLocalPath:filepath]])
             {
                 continue;
             }
