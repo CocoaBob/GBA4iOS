@@ -8,16 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GBABluetoothLinkManager.h"
+
 // Can't use @import in C++ linked code :(
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 extern NSString *const GBALinkSessionServiceType;
-
-typedef NS_ENUM(NSUInteger, GBALinkPeerType) {
-    GBALinkPeerTypeUnknown = 0,
-    GBALinkPeerTypeClient  = 1,
-    GBALinkPeerTypeServer  = 2,
-};
 
 @class GBALinkManager;
 
