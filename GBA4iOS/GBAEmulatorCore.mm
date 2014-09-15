@@ -1103,16 +1103,20 @@ extern gambatte::GB gbEmu;
 
 #pragma mark - Multiplayer
 
-int GBALinkSendDataToPeerAtIndex(int index, const char *data, size_t size)
+int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size)
 {
-    return [[GBALinkManager sharedManager] sendData:data withSize:size toPeerAtIndex:index];
+    return (int)[[GBALinkManager sharedManager] sendData:data withSize:size toPlayerAtIndex:index];
 }
 
-int GBALinkReceiveDataFromPeerAtIndex(int index, char *data, size_t maxSize)
+int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
 {
-    return [[GBALinkManager sharedManager] receiveData:data withMaxSize:maxSize fromPeerAtIndex:index];
+    return (int)[[GBALinkManager sharedManager] receiveData:data withMaxSize:maxSize fromPlayerAtIndex:index];
 }
 
+bool GBALinkWaitForLinkDataWithTimeout(int timeout)
+{
+    return (int)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
+}
 
 void systemScreenMessage(const char *message)
 {

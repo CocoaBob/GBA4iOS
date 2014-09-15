@@ -194,6 +194,10 @@ static void UpdateCableIPC(int ticks);
 static void UpdateRFUIPC(int ticks);
 static void UpdateSocket(int ticks);
 
+extern int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size);
+extern int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize);
+extern bool GBALinkWaitForLinkDataWithTimeout(int timeout);
+
 static ConnectionState ConnectUpdateSocket(char * const message, size_t size);
 
 struct LinkDriver {
@@ -1588,9 +1592,14 @@ void lserver::Send(void){
 			outbuffer[0] = 4;
 			outbuffer[1] = -32;	//0xe0
 			for(i=1;i<=lanlink.numslaves;i++){
-				tcpsocket[i].Send(outbuffer, 4);
-				size_t nr;
-				tcpsocket[i].Receive(inbuffer, 4, nr);
+                
+                GBALinkSendDataToPlayerAtIndex(i, outbuffer, 4);
+				//tcpsocket[i].Send(outbuffer, 4);
+				
+                size_t nr;
+                
+                nr = GBALinkReceiveDataFromPlayerAtIndex(i, inbuffer, 4);
+                //tcpsocket[i].Receive(inbuffer, 4, nr);
 			}
 		}
 		outbuffer[1] = tspeed;
@@ -1599,27 +1608,43 @@ void lserver::Send(void){
 		if(lanlink.numslaves==1){
 			if(lanlink.type==0){
 				outbuffer[0] = 8;
-				tcpsocket[1].Send(outbuffer, 8);
+                
+                GBALinkSendDataToPlayerAtIndex(1, outbuffer, 8);
+				//tcpsocket[1].Send(outbuffer, 8);
 			}
 		}
 		else if(lanlink.numslaves==2){
 			WRITE16LE(&u16outbuffer[4], linkdata[2]);
 			if(lanlink.type==0){
 				outbuffer[0] = 10;
-				tcpsocket[1].Send(outbuffer, 10);
-				WRITE16LE(&u16outbuffer[4], linkdata[1]);
-				tcpsocket[2].Send(outbuffer, 10);
+                
+                GBALinkSendDataToPlayerAtIndex(1, outbuffer, 10);
+				//tcpsocket[1].Send(outbuffer, 10);
+				
+                WRITE16LE(&u16outbuffer[4], linkdata[1]);
+				
+                GBALinkSendDataToPlayerAtIndex(2, outbuffer, 10);
+                //tcpsocket[2].Send(outbuffer, 10);
 			}
 		} else {
 			if(lanlink.type==0){
 				outbuffer[0] = 12;
 				WRITE16LE(&u16outbuffer[4], linkdata[2]);
 				WRITE16LE(&u16outbuffer[5], linkdata[3]);
-				tcpsocket[1].Send(outbuffer, 12);
-				WRITE16LE(&u16outbuffer[4], linkdata[1]);
-				tcpsocket[2].Send(outbuffer, 12);
-				WRITE16LE(&u16outbuffer[5], linkdata[2]);
-				tcpsocket[3].Send(outbuffer, 12);
+                
+                GBALinkSendDataToPlayerAtIndex(1, outbuffer, 12);
+				//tcpsocket[1].Send(outbuffer, 12);
+                
+                WRITE16LE(&u16outbuffer[4], linkdata[1]);
+                
+                GBALinkSendDataToPlayerAtIndex(2, outbuffer, 12);
+				//tcpsocket[2].Send(outbuffer, 12);
+				
+                WRITE16LE(&u16outbuffer[5], linkdata[2]);
+                
+                GBALinkSendDataToPlayerAtIndex(3, outbuffer, 12);
+				//tcpsocket[3].Send(outbuffer, 12);
+                
 			}
 		}
 	}
@@ -1632,18 +1657,32 @@ void lserver::Recv(void){
 		fdset.Clear();
 		for(i=0;i<lanlink.numslaves;i++) fdset.Add(tcpsocket[i+1]);
 		// was linktimeout/1000 (i.e., drop ms part), but that's wrong
-		if (fdset.Wait((float)(linktimeout / 1000.)) == 0)
+        
+        
+		/*if (fdset.Wait((float)(linktimeout / 1000.)) == 0)
 		{
 			return;
-		}
+		}*/
+        
+        if (!GBALinkWaitForLinkDataWithTimeout((linktimeout / 1000.)))
+        {
+            printf("timed out");
+            
+            numtransfers = 0;
+            return;
+        }
+        
 		howmanytimes++;
 		for(i=0;i<lanlink.numslaves;i++){
 			numbytes = 0;
 			inbuffer[0] = 1;
 			while(numbytes<howmanytimes*inbuffer[0]) {
 				size_t nr;
-				tcpsocket[i+1].Receive(inbuffer+numbytes, howmanytimes*inbuffer[0]-numbytes, nr);
-				numbytes += nr;
+                
+                nr = GBALinkReceiveDataFromPlayerAtIndex(i+1, inbuffer+numbytes, howmanytimes*inbuffer[0]-numbytes);
+				//tcpsocket[i+1].Receive(inbuffer+numbytes, howmanytimes*inbuffer[0]-numbytes, nr);
+                
+                numbytes += nr;
 			}
 			if(howmanytimes>1) memmove(inbuffer, inbuffer+inbuffer[0]*(howmanytimes-1), inbuffer[0]);
 			if(inbuffer[1]==-32){
@@ -1653,9 +1692,16 @@ void lserver::Recv(void){
 				outbuffer[0] = 4;
 				outbuffer[1] = -32;
 				for(i=1;i<lanlink.numslaves;i++){
-					tcpsocket[i].Send(outbuffer, 12);
-					size_t nr;
-					tcpsocket[i].Receive(inbuffer, 256, nr);
+                    
+                    GBALinkSendDataToPlayerAtIndex(i, outbuffer, 12);
+					//tcpsocket[i].Send(outbuffer, 12);
+					
+                    
+                    size_t nr;
+                    
+                    nr = GBALinkReceiveDataFromPlayerAtIndex(i, inbuffer, 256);
+					//tcpsocket[i].Receive(inbuffer, 256, nr);
+                    
 					tcpsocket[i].Close();
 				}
 				CloseLink();
@@ -1689,17 +1735,26 @@ lclient::lclient(void){
 
 void lclient::CheckConn(void){
 	size_t nr;
-	lanlink.tcpsocket.Receive(inbuffer, 1, nr);
-	numbytes = (int)nr;
+    
+    nr = GBALinkReceiveDataFromPlayerAtIndex(0, inbuffer, 1);
+	//lanlink.tcpsocket.Receive(inbuffer, 1, nr);
+	
+    numbytes = (int)nr;
 	if(numbytes>0){
 		while(numbytes<inbuffer[0]) {
-			lanlink.tcpsocket.Receive(inbuffer+numbytes, inbuffer[0] - numbytes, nr);
-			numbytes += nr;
+            
+            nr = GBALinkReceiveDataFromPlayerAtIndex(0, inbuffer+numbytes, inbuffer[0] - numbytes);
+			//lanlink.tcpsocket.Receive(inbuffer+numbytes, inbuffer[0] - numbytes, nr);
+			
+            numbytes += nr;
 		}
 		if(inbuffer[1]==-32){
 			outbuffer[0] = 4;
-			lanlink.tcpsocket.Send(outbuffer, 4);
-			systemScreenMessage(_("Server disconnected."));
+            
+            GBALinkSendDataToPlayerAtIndex(0, outbuffer, 4);
+			//lanlink.tcpsocket.Send(outbuffer, 4);
+			
+            systemScreenMessage(_("Server disconnected."));
 			CloseLink();
 			return;
 		}
@@ -1723,21 +1778,36 @@ void lclient::Recv(void){
 	// old code used socket # instead of mask again
 	fdset.Add(lanlink.tcpsocket);
 	// old code stripped off ms again
-	if (fdset.Wait((float)(linktimeout / 1000.)) == 0)
+    
+    
+	/*if (fdset.Wait((float)(linktimeout / 1000.)) == 0)
 	{
 		numtransfers = 0;
 		return;
-	}
+	}*/
+    
+    if (!GBALinkWaitForLinkDataWithTimeout((linktimeout / 1000.)))
+    {
+        numtransfers = 0;
+        return;
+    }
+    
 	numbytes = 0;
 	inbuffer[0] = 1;
 	size_t nr;
 	while(numbytes<inbuffer[0]) {
-		lanlink.tcpsocket.Receive(inbuffer+numbytes, inbuffer[0] - numbytes, nr);
+        
+        nr = GBALinkReceiveDataFromPlayerAtIndex(0, inbuffer+numbytes, inbuffer[0] - numbytes);
+		//lanlink.tcpsocket.Receive(inbuffer+numbytes, inbuffer[0] - numbytes, nr);
+        
 		numbytes += nr;
 	}
 	if(inbuffer[1]==-32){
 		outbuffer[0] = 4;
-		lanlink.tcpsocket.Send(outbuffer, 4);
+        
+        GBALinkSendDataToPlayerAtIndex(0, outbuffer, 4);
+		//lanlink.tcpsocket.Send(outbuffer, 4);
+        
 		systemScreenMessage(_("Server disconnected."));
 		CloseLink();
 		return;
@@ -1759,7 +1829,9 @@ void lclient::Send(){
 	outbuffer[0] = 4;
 	outbuffer[1] = linkid<<2;
 	WRITE16LE(&u16outbuffer[1], linkdata[linkid]);
-	lanlink.tcpsocket.Send(outbuffer, 4);
+    
+    GBALinkSendDataToPlayerAtIndex(0, outbuffer, 4);
+	//lanlink.tcpsocket.Send(outbuffer, 4);
 	return;
 }
 #endif

@@ -29,6 +29,7 @@
 #import <GameController/GameController.h>
 
 #import "GBAEmulatorCore.h"
+#import "GBALinkManager.h"
 
 #import "UIActionSheet+RSTAdditions.h"
 #import "UIAlertView+RSTAdditions.h"
@@ -906,7 +907,8 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 4)
             {
-                [self presentCheatManager];
+                [[GBALinkManager sharedManager] testLatency];
+                [self resumeEmulation];
             }
             else if (buttonIndex == 5)
             {

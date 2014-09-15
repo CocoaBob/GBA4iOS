@@ -14,16 +14,17 @@
 NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 @interface GBALinkManager () <MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, NSStreamDelegate>
+{
+    BOOL _testingLatency;
+}
 
 @property (readwrite, assign, nonatomic) GBALinkPeerType peerType;
 
 @property (strong, nonatomic) MCNearbyServiceAdvertiser *nearbyServiceAdvertiser;
 @property (strong, nonatomic) MCNearbyServiceBrowser *nearbyServiceBrowser;
 
-@property (strong, nonatomic) NSMutableData *inputDataBuffer;
-
-@property (strong, nonatomic) dispatch_semaphore_t input_data_dispatch_semaphore;
-@property (strong, nonatomic) dispatch_queue_t input_data_dispatch_queue;
+@property (strong, nonatomic) NSMutableDictionary *outputStreams;
+@property (strong, nonatomic) NSMutableDictionary *inputStreams;
 
 @end
 
@@ -59,9 +60,8 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
             nearbyServiceAdvertiser;
         });
         
-        _inputDataBuffer = [NSMutableData data];
-        
-        _input_data_dispatch_queue = dispatch_queue_create("com.rileytestut.GBA4iOS.input_data_dispatch_queue", DISPATCH_QUEUE_SERIAL);
+        _outputStreams = [NSMutableDictionary dictionary];
+        _inputStreams = [NSMutableDictionary dictionary];
     }
     
     return self;
@@ -85,46 +85,144 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     [self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataReliable error:nil];
 }
 
-#pragma mark - Emulator Link
+#pragma mark - Streaming Data -
 
-- (int)sendData:(const char *)data withSize:(size_t)size toPeerAtIndex:(int)index
+- (NSInteger)sendData:(const char *)data withSize:(size_t)size toPlayerAtIndex:(NSInteger)index
 {
-    MCPeerID *peerID = [self.session connectedPeers][index];
-    
-    NSError *error = nil;
-    if (![self.session sendData:[NSData dataWithBytes:data length:size] toPeers:@[peerID] withMode:MCSessionSendDataReliable error:&error])
+    if (self.peerType == GBALinkPeerTypeServer)
     {
-        ELog(error);
+        index--;
     }
     
-    return (int)size;
+    MCPeerID *peerID = [self.session connectedPeers][index];
+    NSOutputStream *outputStream = self.outputStreams[peerID];
+    
+    NSInteger bytesWritten = [outputStream write:(const uint8_t *)data maxLength:size];
+    
+    return bytesWritten;
 }
 
-- (int)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPeerAtIndex:(int)index
+- (NSInteger)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPlayerAtIndex:(NSInteger)index
 {
+    if (self.peerType == GBALinkPeerTypeServer)
+    {
+        index--;
+    }
+    
     MCPeerID *peerID = [self.session connectedPeers][index];
+    NSInputStream *inputStream = self.inputStreams[peerID];
     
-    int receivedBytes = 0;
-    
-    if ([self.inputDataBuffer length] == 0)
+    if (![inputStream hasBytesAvailable])
     {
-        self.input_data_dispatch_semaphore = dispatch_semaphore_create(0);
-        dispatch_semaphore_wait(self.input_data_dispatch_semaphore, DISPATCH_TIME_FOREVER);
-        self.input_data_dispatch_semaphore = nil;
+        return 0;
     }
     
-    if ([self.inputDataBuffer length] > 0)
-    {
-        NSRange range = NSMakeRange(0, MIN(maxSize, self.inputDataBuffer.length));
-        
-        [self.inputDataBuffer getBytes:(void *)data range:range];
-        [self.inputDataBuffer replaceBytesInRange:range withBytes:NULL length:0];
-        
-        receivedBytes = (int)range.length;
-    }
+    NSInteger bytesRead = [inputStream read:(uint8_t *)data maxLength:maxSize];
     
-    return receivedBytes;
+    return bytesRead;
 }
+
+- (BOOL)waitForLinkDataWithTimeout:(NSTimeInterval)timeout
+{
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    
+    NSArray *inputStreams = [self.inputStreams allValues];
+    
+    while (![self hasBytesAvailableFromInputStreams:inputStreams]);
+    
+    if (![self hasBytesAvailableFromInputStreams:inputStreams])
+    {
+       DLog(@"Timeout");
+    }
+    
+    return [self hasBytesAvailableFromInputStreams:inputStreams];
+}
+
+- (BOOL)hasBytesAvailableFromInputStreams:(NSArray *)inputStreams
+{
+    for (NSInputStream *inputStream in inputStreams)
+    {
+        if ([inputStream hasBytesAvailable])
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+#pragma mark - Latency -
+
+- (void)testLatency
+{
+    _testingLatency = YES;
+    
+    CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
+    
+    NSData *data = [NSData dataWithBytes:&currentTime length:sizeof(currentTime)];
+    
+    [self.outputStreams enumerateKeysAndObjectsUsingBlock:^(MCPeerID *peerID, NSOutputStream *outputstream, BOOL *stop) {
+        
+        [self sendLatencyData:data toPeer:peerID];
+        
+    }];
+}
+
+- (void)sendLatencyData:(NSData *)data toPeer:(MCPeerID *)peerID
+{
+    /*NSInteger bytesToStream = [data length];
+    
+    NSInteger bytesWritten = [outputStream write:[data bytes] maxLength:bytesToStream];
+    
+    if (bytesWritten < 0)
+    {
+        DLog(@"Error streaming bytes");
+    }
+    
+    DLog(@"Wrote %li bytes", bytesWritten);*/
+    
+    [self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataUnreliable error:nil];
+}
+
+- (void)receiveLatencyData:(NSData *)data fromPeer:(MCPeerID *)peerID
+{
+    if (!_testingLatency)
+    {
+        [self sendLatencyData:data toPeer:peerID];
+    }
+    else
+    {
+        _testingLatency = NO;
+        
+        CFAbsoluteTime previousTime;
+        [data getBytes:(uint8_t *)&previousTime length:sizeof(previousTime)];
+        
+        DLog(@"Latency: %gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2);
+    }
+}
+
+/*
+- (void)receiveLatencyDataFromInputStream:(NSInputStream *)inputStream
+{
+    CFAbsoluteTime previousTime;
+    NSInteger bytesRead = [inputStream read:(uint8_t *)&previousTime maxLength:sizeof(previousTime)];
+    
+    if (_testingLatency)
+    {
+        _testingLatency = NO;
+        DLog(@"Latency: %gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2);
+    }
+    else
+    {
+        NSData *data = [NSData dataWithBytes:&previousTime length:sizeof(previousTime)];
+        
+        [self.outputStreams enumerateKeysAndObjectsUsingBlock:^(MCPeerID *peer, NSOutputStream *outputstream, BOOL *stop) {
+            
+            //[self sendLatencyData:data toOutputStream:outputstream];
+            
+        }];
+    }
+}*/
 
 #pragma mark - MCNearbyServiceAdvertiserDelagate
 
@@ -186,6 +284,28 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
             
             [self sendPeerType:peerType toPeer:peerID];
         }
+        
+        if (![self.outputStreams objectForKey:peerID])
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSError *error = nil;
+                NSOutputStream *outputStream = [session startStreamWithName:[[UIDevice currentDevice] name] toPeer:peerID error:&error];
+                
+                if (error)
+                {
+                    ELog(error);
+                }
+                
+                outputStream.delegate = self;
+                
+                [outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+                [outputStream open];
+                
+                self.outputStreams[peerID] = outputStream;
+                
+            });
+        }
     }
     
     if ([self.delegate respondsToSelector:@selector(linkManager:peer:didChangeState:)])
@@ -205,17 +325,22 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         return;
     }
     
-    [self.inputDataBuffer appendData:data];
-    
-    if (self.input_data_dispatch_semaphore)
-    {
-        dispatch_semaphore_signal(self.input_data_dispatch_semaphore);
-    }
+    [self receiveLatencyData:data fromPeer:peerID];
 }
 
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
 {
-    // complete delegate protocol
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if (![self.inputStreams objectForKey:peerID])
+        {
+            stream.delegate = self;
+            [stream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+            [stream open];
+            
+            self.inputStreams[peerID] = stream;
+        }
+    });
 }
 
 - (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
@@ -227,5 +352,109 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 {
     // complete delegate protocol
 }
+
+#pragma mark - NSStreamDelegate
+
+- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([stream isKindOfClass:[NSInputStream class]])
+        {
+            [self inputStream:(NSInputStream *)stream handleEvent:eventCode];
+        }
+        else
+        {
+            [self outputStream:(NSOutputStream *)stream handleEvent:eventCode];
+        }
+    });
+}
+
+- (void)inputStream:(NSInputStream *)inputStream handleEvent:(NSStreamEvent)eventCode
+{
+    switch (eventCode)
+    {
+        case NSStreamEventNone:
+        {
+            DLog(@"Input stream: %@ has no event", inputStream);
+            break;
+        }
+            
+            
+        case NSStreamEventEndEncountered:
+        {
+            DLog(@"Input stream %@ end encountered", inputStream);
+            break;
+        }
+            
+        case NSStreamEventErrorOccurred:
+        {
+            DLog(@"Input stream %@ error occured", inputStream);
+            break;
+        }
+            
+        case NSStreamEventHasBytesAvailable:
+        {
+            DLog(@"New Data!");
+            //[self receiveLatencyDataFromInputStream:inputStream];
+            break;
+        }
+            
+        case NSStreamEventHasSpaceAvailable:
+        {
+            DLog(@"Input stream %@ has space available", inputStream);
+            break;
+        }
+            
+        case NSStreamEventOpenCompleted:
+        {
+            DLog(@"Input stream %@ open completed", inputStream);
+            break;
+        }
+    }
+}
+
+- (void)outputStream:(NSOutputStream *)outputStream handleEvent:(NSStreamEvent)eventCode
+{
+    switch (eventCode)
+    {
+        case NSStreamEventNone:
+        {
+            DLog(@"Output stream: %@ has no event", outputStream);
+            break;
+        }
+            
+            
+        case NSStreamEventEndEncountered:
+        {
+            DLog(@"Output stream %@ end encountered", outputStream);
+            break;
+        }
+            
+        case NSStreamEventErrorOccurred:
+        {
+            DLog(@"Output stream %@ error occured", outputStream);
+            break;
+        }
+            
+        case NSStreamEventHasBytesAvailable:
+        {
+            //DLog(@"Output stream %@ has bytes available", outputStream);
+            break;
+        }
+            
+        case NSStreamEventHasSpaceAvailable:
+        {
+            //DLog(@"Output stream %@ has space available", outputStream);
+            break;
+        }
+            
+        case NSStreamEventOpenCompleted:
+        {
+            DLog(@"Output stream %@ open completed", outputStream);
+            break;
+        }
+    }
+}
+
 
 @end
