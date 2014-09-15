@@ -19,11 +19,12 @@
     {
         _bluetoothPeer = peer;
         _playerIndex = -1;
+        _identifier = [peer.identifier copy];
         
         if ([peer isKindOfClass:[CBPeripheral class]])
         {
             CBPeripheral *peripheral = (CBPeripheral *)peer;
-            _name = peripheral.name;
+            _name = [peripheral.name copy];
         }
     }
     

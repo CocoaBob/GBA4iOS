@@ -27,6 +27,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 // Server (P1)
 @property (strong, nonatomic) CBPeripheralManager *peripheralManager;
+@property (strong, nonatomic) CBMutableService *linkService;
 @property (strong, nonatomic) GBAPeer *currentPeer;
 
 // Client (P2, P3, P4)
@@ -58,6 +59,9 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
     {
         _peerType = GBALinkPeerTypeUnknown;
         
+        _nearbyPeers = [NSMutableArray array];
+        _connectedPeers = [NSMutableArray array];
+        
         _linkDispatchQueue = dispatch_queue_create("com.GBA4iOS.linkDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
     }
     
@@ -74,7 +78,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
         return;
     }
     
-    [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:GBALinkServiceUUID]] options:nil];
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
 }
 
 - (void)stopScanningForPeers
@@ -129,10 +133,10 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
                                                                                                 value:nil
                                                                                           permissions:CBAttributePermissionsReadable];
     
-    CBMutableService *linkService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:GBALinkServiceUUID] primary:YES];
-    linkService.characteristics = @[inputDataCharacteristic, outputDataCharacteristic];
+    self.linkService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:GBALinkServiceUUID] primary:YES];
+    self.linkService.characteristics = @[inputDataCharacteristic, outputDataCharacteristic];
     
-    [self.peripheralManager addService:linkService];
+    self.peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
 }
 
 - (void)stopAdvertisingPeer
@@ -143,6 +147,8 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 - (void)didStartAdvertisingPeer
 {
+    DLog(@"Did start advertising %@", self.currentPeer.name);
+    
     if ([self.delegate respondsToSelector:@selector(linkManager:didStartAdvertisingPeer:)])
     {
         [self.delegate linkManager:self didStartAdvertisingPeer:self.currentPeer];
@@ -151,6 +157,8 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 - (void)didFailToStartAdvertisingPeerWithError:(NSError *)error
 {
+    DLog(@"Did fail to start advertising %@", self.currentPeer.name);
+    
     [self stopAdvertisingPeer];
     
     if ([self.delegate respondsToSelector:@selector(linkManager:didFailToAdvertisePeer:error:)])
@@ -163,7 +171,16 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
-    DLog(@"Started Central Manager!");
+    if (central.state == CBCentralManagerStatePoweredOn)
+    {
+        DLog(@"Starting Scan...");
+        [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:GBALinkServiceUUID]] options:nil];
+    }
+    else
+    {
+        DLog(@"Problem with central: %ld", central.state);
+    }
+    
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
@@ -268,7 +285,15 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
 {
-    DLog(@"Started Peripheral Manager!");
+    if (peripheral.state == CBPeripheralManagerStatePoweredOn)
+    {
+        DLog(@"Adding service %@...", self.linkService);
+        [self.peripheralManager addService:self.linkService];
+    }
+    else
+    {
+        DLog(@"Problem with Peripheral Manager: %ld", peripheral.state);
+    }
 }
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error
@@ -279,8 +304,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
         return;
     }
     
-    [peripheral startAdvertising:@{CBAdvertisementDataLocalNameKey: self.currentPeer.name,
-                                   CBAdvertisementDataServiceUUIDsKey: @[[CBUUID UUIDWithString:GBALinkInputDataCharacteristicUUID], [CBUUID UUIDWithString:GBALinkOutputDataCharacteristicUUID]]}];
+    [peripheral startAdvertising:@{CBAdvertisementDataLocalNameKey: self.currentPeer.name, CBAdvertisementDataServiceUUIDsKey: @[[CBUUID UUIDWithString:GBALinkServiceUUID]]}];
 }
 
 - (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error
@@ -296,7 +320,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didSubscribeToCharacteristic:(CBCharacteristic *)characteristic
 {
-    //[peripheral setDesiredConnectionLatency:CBPeripheralManagerConnectionLatencyLow forCentral:central];
+    [peripheral setDesiredConnectionLatency:CBPeripheralManagerConnectionLatencyHigh forCentral:central];
     DLog(@"Central subscribed: %@", central);
 }
 
@@ -321,30 +345,6 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
     }
     
     return nil;
-}
-
-#pragma mark - Getters/Setters -
-
-- (void)setPeerType:(GBALinkPeerType)peerType
-{
-    if (_peerType == peerType)
-    {
-        return;
-    }
-    
-    switch (peerType)
-    {
-        case GBALinkPeerTypeServer:
-            _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
-            break;
-            
-        case GBALinkPeerTypeClient:
-            _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
-            break;
-            
-        case GBALinkPeerTypeUnknown:
-            break;
-    }
 }
 
 @end

@@ -8,10 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, GBAPeerState)
+{
+    GBAPeerStateDisconnected = 0,
+    GBAPeerStateConnecting,
+    GBAPeerStateConnected,
+};
+
 @interface GBAPeer : NSObject
 
 @property (copy, nonatomic, readonly) NSString *name;
 @property (assign, nonatomic, readonly) NSInteger playerIndex;
 @property (copy, nonatomic, readonly) NSUUID *identifier;
+@property (assign, nonatomic, readonly) GBAPeerState state;
 
 @end

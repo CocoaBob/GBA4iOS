@@ -16,6 +16,7 @@
 @property (copy, nonatomic, readwrite) NSString *name;
 @property (assign, nonatomic, readwrite) NSInteger playerIndex;
 @property (copy, nonatomic, readwrite) NSUUID *identifier;
+@property (assign, nonatomic, readwrite) GBAPeerState state;
 
 @property (strong, nonatomic) CBPeer *bluetoothPeer; // May be nil if creating to be used by client (server)
 @property (weak, nonatomic) CBCharacteristic *inputDataCharacteristic;

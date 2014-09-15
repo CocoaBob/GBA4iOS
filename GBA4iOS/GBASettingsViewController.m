@@ -17,7 +17,7 @@
 #import "GBAPushNotificationsViewController.h"
 #import "GBAWebBrowserHomepageViewController.h"
 #import "GBAAcknowledgementsViewController.h"
-#import "GBALinkViewController.h"
+#import "GBABluetoothLinkViewController.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -356,7 +356,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     if (indexPath.section == LINKING_SECTION)
     {
-        GBALinkViewController *linkViewController = [GBALinkViewController new];
+        GBABluetoothLinkViewController *linkViewController = [GBABluetoothLinkViewController new];
         [self.navigationController pushViewController:linkViewController animated:YES];
     }
     else if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
