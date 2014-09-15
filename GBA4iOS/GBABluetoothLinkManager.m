@@ -88,6 +88,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 - (void)connectPeer:(GBAPeer *)peer
 {
+    peer.state = GBAPeerStateConnecting;
     [self.centralManager connectPeripheral:(CBPeripheral *)peer.bluetoothPeer options:nil];
 }
 
@@ -95,6 +96,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 {
     GBAPeer *peer = [self peerForBluetoothPeer:peripheral];
     peer.playerIndex = 0;
+    peer.state = GBAPeerStateConnected;
     
     [_nearbyPeers removeObject:peer];
     [_connectedPeers addObject:peer];
@@ -108,6 +110,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 - (void)didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     GBAPeer *peer = [self peerForBluetoothPeer:peripheral];
+    peer.state = GBAPeerStateDisconnected;
     
     if ([self.delegate respondsToSelector:@selector(linkManager:didFailToConnectPeer:error:)])
     {
@@ -189,6 +192,8 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
     
     if (peer == nil)
     {
+        DLog(@"Found Peer: %@", peripheral.name);
+        
         peer = [[GBAPeer alloc] initWithBluetoothPeer:peripheral];
         
         [_nearbyPeers addObject:peer];
@@ -203,6 +208,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
     peripheral.delegate = self;
+    [peripheral discoverServices:nil];
 }
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
@@ -249,7 +255,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
         }
     }
     
-    [peripheral discoverCharacteristics:@[GBALinkInputDataCharacteristicUUID, GBALinkOutputDataCharacteristicUUID] forService:linkService];
+    [peripheral discoverCharacteristics:nil forService:linkService];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
@@ -304,6 +310,7 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
         return;
     }
     
+    DLog(@"Name: %@", self.currentPeer.name);
     [peripheral startAdvertising:@{CBAdvertisementDataLocalNameKey: self.currentPeer.name, CBAdvertisementDataServiceUUIDsKey: @[[CBUUID UUIDWithString:GBALinkServiceUUID]]}];
 }
 

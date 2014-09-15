@@ -157,7 +157,7 @@ BOOL transientLinkEnabled = NO;
 
 - (void)connectPeer:(GBAPeer *)peer
 {
-    [self addNearbyPeer:peer];
+    [self addConnectedPeer:peer];
     
     [[GBABluetoothLinkManager sharedManager] connectPeer:peer];
 }
@@ -307,7 +307,24 @@ BOOL transientLinkEnabled = NO;
     });
 }
 
-#pragma mark - Table view data source
+#pragma mark - UITableViewDelegate - 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section != 3)
+    {
+        return;
+    }
+    
+    if (indexPath.row == 0 && [self.nearbyPeers count] == 0)
+    {
+        return;
+    }
+    
+    [self connectPeer:self.nearbyPeers[indexPath.row]];
+}
+
+#pragma mark - UITableViewDataSource -
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -464,6 +481,7 @@ BOOL transientLinkEnabled = NO;
     {
         GBAPeer *peer = self.connectedPeers[indexPath.row];
         cell.textLabel.text = peer.name;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (peer.state == GBAPeerStateConnected)
         {
@@ -480,6 +498,7 @@ BOOL transientLinkEnabled = NO;
         {
             cell.textLabel.textColor = [UIColor grayColor];
             cell.textLabel.text = NSLocalizedString(@"Searching…", @"");
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             [(GBALinkViewControllerTableViewCell *)cell setShowsActivityIndicator:YES];
         }
@@ -487,6 +506,7 @@ BOOL transientLinkEnabled = NO;
         {
             GBAPeer *peer = self.nearbyPeers[indexPath.row];
             cell.textLabel.text = peer.name;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         }
     }
     
