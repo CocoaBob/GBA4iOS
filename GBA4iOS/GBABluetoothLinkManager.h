@@ -52,4 +52,6 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType)
 - (void)startAdvertisingPeer;
 - (void)stopAdvertisingPeer;
 
+- (void)testLatency;
+
 @end

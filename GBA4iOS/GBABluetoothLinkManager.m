@@ -18,6 +18,7 @@
 NSString *const GBALinkServiceUUID = @"8F2262D3-55A0-4E47-9A60-422F81C548F8";
 NSString *const GBALinkInputDataCharacteristicUUID = @"3FC39C36-2D07-4E12-A83C-AAF9C8222FF8";
 NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-487BE8DE3DE3";
+NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8-45929F219D10";
 
 @interface GBABluetoothLinkManager () <CBCentralManagerDelegate, CBPeripheralDelegate, CBPeripheralManagerDelegate>
 {
@@ -136,8 +137,17 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
                                                                                                 value:nil
                                                                                           permissions:CBAttributePermissionsReadable];
     
+    CBMutableCharacteristic *latencyTestCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:GBALinkLatencyTestCharacteristicUUID]
+                                                                                            properties:(CBCharacteristicPropertyWrite | CBCharacteristicPropertyWriteWithoutResponse | CBCharacteristicPropertyRead | CBCharacteristicPropertyNotify)
+                                                                                                 value:nil
+                                                                                           permissions:CBAttributePermissionsWriteable | CBAttributePermissionsReadable];
+    
+    self.currentPeer.inputDataCharacteristic = inputDataCharacteristic;
+    self.currentPeer.outputDataCharacteristic = outputDataCharacteristic;
+    self.currentPeer.latencyTestCharacteristic = latencyTestCharacteristic;
+    
     self.linkService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:GBALinkServiceUUID] primary:YES];
-    self.linkService.characteristics = @[inputDataCharacteristic, outputDataCharacteristic];
+    self.linkService.characteristics = @[inputDataCharacteristic, outputDataCharacteristic, latencyTestCharacteristic];
     
     self.peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
 }
@@ -282,9 +292,27 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             peer.outputDataCharacteristic = characteristic;
         }
+        
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkLatencyTestCharacteristicUUID]])
+        {
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+            peer.latencyTestCharacteristic = characteristic;
+        }
     }
     
     [self didConnectPeripheral:peripheral];
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    CFAbsoluteTime previousTime;
+    [characteristic.value getBytes:(uint8_t *)&previousTime length:sizeof(previousTime)];
+    
+    DLog(@"Latency: %gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2);
 }
 
 #pragma mark - CBPeripheralManagerDelegate -
@@ -327,8 +355,20 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didSubscribeToCharacteristic:(CBCharacteristic *)characteristic
 {
-    [peripheral setDesiredConnectionLatency:CBPeripheralManagerConnectionLatencyHigh forCentral:central];
+    [peripheral setDesiredConnectionLatency:CBPeripheralManagerConnectionLatencyLow forCentral:central];
     DLog(@"Central subscribed: %@", central);
+}
+
+- (void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray *)requests
+{
+    CBATTRequest *request = [requests firstObject];
+    
+    if ([request.characteristic.UUID isEqual:self.currentPeer.latencyTestCharacteristic.UUID])
+    {
+        [self.peripheralManager respondToRequest:request withResult:CBATTErrorSuccess];
+        
+        [self.peripheralManager updateValue:request.value forCharacteristic:(CBMutableCharacteristic *)self.currentPeer.latencyTestCharacteristic onSubscribedCentrals:nil];
+    }
 }
 
 #pragma mark - Helper Methods -
@@ -352,6 +392,22 @@ NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-
     }
     
     return nil;
+}
+
+- (void)testLatency
+{
+    if (self.peerType != GBALinkPeerTypeClient)
+    {
+        DLog(@"Error Scanning: Only Clients may test latency.");
+        return;
+    }
+    
+    CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
+    NSData *data = [NSData dataWithBytes:&currentTime length:sizeof(currentTime)];
+    
+    GBAPeer *peer = [self.connectedPeers firstObject];
+    
+    [(CBPeripheral *)peer.bluetoothPeer writeValue:data forCharacteristic:peer.latencyTestCharacteristic type:CBCharacteristicWriteWithoutResponse];
 }
 
 @end

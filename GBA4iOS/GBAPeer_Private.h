@@ -21,6 +21,7 @@
 @property (strong, nonatomic) CBPeer *bluetoothPeer; // May be nil if creating to be used by client (server)
 @property (weak, nonatomic) CBCharacteristic *inputDataCharacteristic;
 @property (weak, nonatomic) CBCharacteristic *outputDataCharacteristic;
+@property (weak, nonatomic) CBCharacteristic *latencyTestCharacteristic;
 
 - (instancetype)initWithBluetoothPeer:(CBPeer *)peer;
 
