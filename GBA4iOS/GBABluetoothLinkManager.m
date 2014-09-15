@@ -16,10 +16,10 @@
 // This seems counter-intuitive, and in fact goes agains the spec, but this way the clients (P2, P3, P4) can search for servers (P1)
 
 NSString *const GBALinkServiceUUID = @"8F2262D3-55A0-4E47-9A60-422F81C548F8";
-NSString *const GBALinkInputDataCharacteristic = @"3FC39C36-2D07-4E12-A83C-AAF9C8222FF8";
-NSString *const GBALinkOutputDataCharacteristic = @"BB844434-AD22-478B-8E0C-487BE8DE3DE3";
+NSString *const GBALinkInputDataCharacteristicUUID = @"3FC39C36-2D07-4E12-A83C-AAF9C8222FF8";
+NSString *const GBALinkOutputDataCharacteristicUUID = @"BB844434-AD22-478B-8E0C-487BE8DE3DE3";
 
-@interface GBABluetoothLinkManager () <CBCentralManagerDelegate, CBPeripheralDelegate>
+@interface GBABluetoothLinkManager () <CBCentralManagerDelegate, CBPeripheralDelegate, CBPeripheralManagerDelegate>
 {
     NSMutableArray *_nearbyPeers;
     NSMutableArray *_connectedPeers;
@@ -27,6 +27,7 @@ NSString *const GBALinkOutputDataCharacteristic = @"BB844434-AD22-478B-8E0C-487B
 
 // Server (P1)
 @property (strong, nonatomic) CBPeripheralManager *peripheralManager;
+@property (strong, nonatomic) GBAPeer *currentPeer;
 
 // Client (P2, P3, P4)
 @property (strong, nonatomic) CBCentralManager *centralManager;
@@ -114,12 +115,48 @@ NSString *const GBALinkOutputDataCharacteristic = @"BB844434-AD22-478B-8E0C-487B
 
 - (void)startAdvertisingPeer
 {
+    self.currentPeer = [[GBAPeer alloc] init];
+    self.currentPeer.name = [[UIDevice currentDevice] name];
+    self.currentPeer.identifier = [NSUUID UUID];
     
+    CBMutableCharacteristic *inputDataCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:GBALinkInputDataCharacteristicUUID]
+                                                                                          properties:CBCharacteristicPropertyWrite | CBCharacteristicPropertyWriteWithoutResponse
+                                                                                               value:nil
+                                                                                         permissions:CBAttributePermissionsWriteable];
+    
+    CBMutableCharacteristic *outputDataCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:GBALinkOutputDataCharacteristicUUID]
+                                                                                           properties:CBCharacteristicPropertyRead | CBCharacteristicPropertyNotify
+                                                                                                value:nil
+                                                                                          permissions:CBAttributePermissionsReadable];
+    
+    CBMutableService *linkService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:GBALinkServiceUUID] primary:YES];
+    linkService.characteristics = @[inputDataCharacteristic, outputDataCharacteristic];
+    
+    [self.peripheralManager addService:linkService];
 }
 
 - (void)stopAdvertisingPeer
 {
+    self.currentPeer = nil;
+    [self.peripheralManager removeAllServices];
+}
+
+- (void)didStartAdvertisingPeer
+{
+    if ([self.delegate respondsToSelector:@selector(linkManager:didStartAdvertisingPeer:)])
+    {
+        [self.delegate linkManager:self didStartAdvertisingPeer:self.currentPeer];
+    }
+}
+
+- (void)didFailToStartAdvertisingPeerWithError:(NSError *)error
+{
+    [self stopAdvertisingPeer];
     
+    if ([self.delegate respondsToSelector:@selector(linkManager:didFailToAdvertisePeer:error:)])
+    {
+        [self.delegate linkManager:self didFailToAdvertisePeer:self.currentPeer error:error];
+    }
 }
 
 #pragma mark - GBCentralManagerDelegate -
@@ -195,7 +232,7 @@ NSString *const GBALinkOutputDataCharacteristic = @"BB844434-AD22-478B-8E0C-487B
         }
     }
     
-    [peripheral discoverCharacteristics:@[GBALinkInputDataCharacteristic, GBALinkOutputDataCharacteristic] forService:linkService];
+    [peripheral discoverCharacteristics:@[GBALinkInputDataCharacteristicUUID, GBALinkOutputDataCharacteristicUUID] forService:linkService];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
@@ -212,12 +249,12 @@ NSString *const GBALinkOutputDataCharacteristic = @"BB844434-AD22-478B-8E0C-487B
     
     for (CBCharacteristic *characteristic in service.characteristics)
     {
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkInputDataCharacteristic]])
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkInputDataCharacteristicUUID]])
         {
             peer.inputDataCharacteristic = characteristic;
         }
         
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkOutputDataCharacteristic]])
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkOutputDataCharacteristicUUID]])
         {
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             peer.outputDataCharacteristic = characteristic;
@@ -225,6 +262,42 @@ NSString *const GBALinkOutputDataCharacteristic = @"BB844434-AD22-478B-8E0C-487B
     }
     
     [self didConnectPeripheral:peripheral];
+}
+
+#pragma mark - CBPeripheralManagerDelegate -
+
+- (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
+{
+    DLog(@"Started Peripheral Manager!");
+}
+
+- (void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error
+{
+    if (error)
+    {
+        [self didFailToStartAdvertisingPeerWithError:error];
+        return;
+    }
+    
+    [peripheral startAdvertising:@{CBAdvertisementDataLocalNameKey: self.currentPeer.name,
+                                   CBAdvertisementDataServiceUUIDsKey: @[[CBUUID UUIDWithString:GBALinkInputDataCharacteristicUUID], [CBUUID UUIDWithString:GBALinkOutputDataCharacteristicUUID]]}];
+}
+
+- (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error
+{
+    if (error)
+    {
+        [self didFailToStartAdvertisingPeerWithError:error];
+        return;
+    }
+    
+    [self didStartAdvertisingPeer];
+}
+
+- (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didSubscribeToCharacteristic:(CBCharacteristic *)characteristic
+{
+    //[peripheral setDesiredConnectionLatency:CBPeripheralManagerConnectionLatencyLow forCentral:central];
+    DLog(@"Central subscribed: %@", central);
 }
 
 #pragma mark - Helper Methods -
@@ -262,7 +335,7 @@ NSString *const GBALinkOutputDataCharacteristic = @"BB844434-AD22-478B-8E0C-487B
     switch (peerType)
     {
         case GBALinkPeerTypeServer:
-            //_peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
+            _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
             break;
             
         case GBALinkPeerTypeClient:

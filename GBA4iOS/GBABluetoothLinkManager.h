@@ -22,6 +22,11 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType)
 
 @optional
 
+// Server
+- (void)linkManager:(GBABluetoothLinkManager *)linkManager didStartAdvertisingPeer:(GBAPeer *)peer;
+- (void)linkManager:(GBABluetoothLinkManager *)linkManager didFailToAdvertisePeer:(GBAPeer *)peer error:(NSError *)error;
+
+// Client
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didDiscoverPeer:(GBAPeer *)peer;
 
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didConnectPeer:(GBAPeer *)peer;
