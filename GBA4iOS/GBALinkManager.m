@@ -170,7 +170,9 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (void)sendLatencyData:(NSData *)data toPeer:(MCPeerID *)peerID
 {
-    /*NSInteger bytesToStream = [data length];
+    NSInteger bytesToStream = [data length];
+    
+    NSOutputStream *outputStream = self.outputStreams[peerID];
     
     NSInteger bytesWritten = [outputStream write:[data bytes] maxLength:bytesToStream];
     
@@ -179,9 +181,9 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         DLog(@"Error streaming bytes");
     }
     
-    DLog(@"Wrote %li bytes", bytesWritten);*/
+    //DLog(@"Wrote %li bytes", bytesWritten);
     
-    [self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataUnreliable error:nil];
+    //[self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataUnreliable error:nil];
 }
 
 - (void)receiveLatencyData:(NSData *)data fromPeer:(MCPeerID *)peerID
@@ -201,7 +203,7 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     }
 }
 
-/*
+
 - (void)receiveLatencyDataFromInputStream:(NSInputStream *)inputStream
 {
     CFAbsoluteTime previousTime;
@@ -211,6 +213,11 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     {
         _testingLatency = NO;
         DLog(@"Latency: %gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Latency Test" message:[NSString stringWithFormat:@"%gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        });
     }
     else
     {
@@ -218,11 +225,11 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         
         [self.outputStreams enumerateKeysAndObjectsUsingBlock:^(MCPeerID *peer, NSOutputStream *outputstream, BOOL *stop) {
             
-            //[self sendLatencyData:data toOutputStream:outputstream];
+            [self sendLatencyData:data toPeer:peer];
             
         }];
     }
-}*/
+}
 
 #pragma mark - MCNearbyServiceAdvertiserDelagate
 
@@ -395,7 +402,7 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         case NSStreamEventHasBytesAvailable:
         {
             DLog(@"New Data!");
-            //[self receiveLatencyDataFromInputStream:inputStream];
+            [self receiveLatencyDataFromInputStream:inputStream];
             break;
         }
             

@@ -28,7 +28,6 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType)
 
 // Client
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didDiscoverPeer:(GBAPeer *)peer;
-
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didConnectPeer:(GBAPeer *)peer;
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didFailToConnectPeer:(GBAPeer *)peer error:(NSError *)error;
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didDisconnectPeer:(GBAPeer *)peer error:(NSError *)error;
@@ -39,8 +38,9 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType)
 
 @property (weak, nonatomic) id<GBABluetoothLinkManagerDelegate> delegate;
 @property (assign, nonatomic) GBALinkPeerType peerType;
+@property (copy, nonatomic) NSString *name;
+@property (assign, nonatomic, getter=isEnabled) BOOL enabled;
 
-@property (copy, nonatomic, readonly) NSArray *connectedPeers;
 @property (copy, nonatomic, readonly) NSArray *nearbyPeers;
 
 + (instancetype)sharedManager;

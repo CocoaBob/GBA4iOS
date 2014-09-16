@@ -23,7 +23,6 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
 @interface GBABluetoothLinkManager () <CBCentralManagerDelegate, CBPeripheralDelegate, CBPeripheralManagerDelegate>
 {
     NSMutableArray *_nearbyPeers;
-    NSMutableArray *_connectedPeers;
 }
 
 // Server (P1)
@@ -41,7 +40,6 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
 
 @implementation GBABluetoothLinkManager
 @synthesize nearbyPeers = _nearbyPeers;
-@synthesize connectedPeers = _connectedPeers;
 
 + (instancetype)sharedManager
 {
@@ -59,10 +57,7 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
     if (self)
     {
         _peerType = GBALinkPeerTypeUnknown;
-        
         _nearbyPeers = [NSMutableArray array];
-        _connectedPeers = [NSMutableArray array];
-        
         _linkDispatchQueue = dispatch_queue_create("com.GBA4iOS.linkDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
     }
     
@@ -79,12 +74,20 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
         return;
     }
     
-    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
+    if (self.centralManager == nil)
+    {
+        self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
+    }
+    else
+    {
+        [self centralManagerDidUpdateState:self.centralManager];
+    }
 }
 
 - (void)stopScanningForPeers
 {
     [self.centralManager stopScan];
+    [_nearbyPeers removeAllObjects];
 }
 
 - (void)connectPeer:(GBAPeer *)peer
@@ -98,9 +101,6 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
     GBAPeer *peer = [self peerForBluetoothPeer:peripheral];
     peer.playerIndex = 0;
     peer.state = GBAPeerStateConnected;
-    
-    [_nearbyPeers removeObject:peer];
-    [_connectedPeers addObject:peer];
     
     if ([self.delegate respondsToSelector:@selector(linkManager:didConnectPeer:)])
     {
@@ -124,8 +124,13 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
 - (void)startAdvertisingPeer
 {
     self.currentPeer = [[GBAPeer alloc] init];
-    self.currentPeer.name = [[UIDevice currentDevice] name];
+    self.currentPeer.name = self.name;
     self.currentPeer.identifier = [NSUUID UUID];
+    
+    if (self.currentPeer.name == nil)
+    {
+        self.currentPeer.name = [[UIDevice currentDevice] name];
+    }
     
     CBMutableCharacteristic *inputDataCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:GBALinkInputDataCharacteristicUUID]
                                                                                           properties:CBCharacteristicPropertyWrite | CBCharacteristicPropertyWriteWithoutResponse
@@ -149,11 +154,20 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
     self.linkService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:GBALinkServiceUUID] primary:YES];
     self.linkService.characteristics = @[inputDataCharacteristic, outputDataCharacteristic, latencyTestCharacteristic];
     
-    self.peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
+    if (self.peripheralManager == nil)
+    {
+        self.peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.linkDispatchQueue options:nil];
+    }
+    else
+    {
+        [self peripheralManagerDidUpdateState:self.peripheralManager];
+    }
 }
 
 - (void)stopAdvertisingPeer
 {
+    [self.peripheralManager stopAdvertising];
+    
     self.currentPeer = nil;
     [self.peripheralManager removeAllServices];
 }
@@ -171,6 +185,7 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
 - (void)didFailToStartAdvertisingPeerWithError:(NSError *)error
 {
     DLog(@"Did fail to start advertising %@", self.currentPeer.name);
+    ELog(error);
     
     [self stopAdvertisingPeer];
     
@@ -202,7 +217,8 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
     
     if (peer == nil)
     {
-        DLog(@"Found Peer: %@", peripheral.name);
+        // Get notified when they update their name
+        peripheral.delegate = self;
         
         peer = [[GBAPeer alloc] initWithBluetoothPeer:peripheral];
         
@@ -213,11 +229,22 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
             [self.delegate linkManager:self didDiscoverPeer:peer];
         }
     }
+    else if (![peer.name isEqualToString:peripheral.name])
+    {
+        DLog(@"Updated Peer Name: %@", peripheral.name);
+        
+        peer.name = peripheral.name;
+        
+        if ([self.delegate respondsToSelector:@selector(linkManager:didDiscoverPeer:)])
+        {
+            [self.delegate linkManager:self didDiscoverPeer:peer];
+        }
+    }
+        
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    peripheral.delegate = self;
     [peripheral discoverServices:nil];
 }
 
@@ -230,11 +257,8 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
 {
     GBAPeer *peer = [self peerForBluetoothPeer:peripheral];
     
-    if ([_connectedPeers containsObject:peer])
+    if (peer.state == GBAPeerStateConnected)
     {
-        [_connectedPeers removeObject:peer];
-        [_nearbyPeers addObject:peer];
-        
         if ([self.delegate respondsToSelector:@selector(linkManager:didDisconnectPeer:error:)])
         {
             [self.delegate linkManager:self didDisconnectPeer:peer error:error];
@@ -286,14 +310,12 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
         {
             peer.inputDataCharacteristic = characteristic;
         }
-        
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkOutputDataCharacteristicUUID]])
+        else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkOutputDataCharacteristicUUID]])
         {
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             peer.outputDataCharacteristic = characteristic;
         }
-        
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkLatencyTestCharacteristicUUID]])
+        else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkLatencyTestCharacteristicUUID]])
         {
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             peer.latencyTestCharacteristic = characteristic;
@@ -303,16 +325,36 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
     [self didConnectPeripheral:peripheral];
 }
 
+- (void)peripheralDidUpdateName:(CBPeripheral *)peripheral
+{
+    DLog(@"Updated Peer Name: %@", peripheral.name);
+    
+    GBAPeer *peer = [self peerForBluetoothPeer:peripheral];
+    peer.name = peripheral.name;
+    
+    if ([self.delegate respondsToSelector:@selector(linkManager:didDiscoverPeer:)])
+    {
+        [self.delegate linkManager:self didDiscoverPeer:peer];
+    }
+}
+
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
+    if (error)
+    {
+        ELog(error);
+    }
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    CFAbsoluteTime previousTime;
-    [characteristic.value getBytes:(uint8_t *)&previousTime length:sizeof(previousTime)];
-    
-    DLog(@"Latency: %gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2);
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:GBALinkLatencyTestCharacteristicUUID]])
+    {
+        CFTimeInterval previousTime;
+        [characteristic.value getBytes:(uint8_t *)&previousTime length:sizeof(previousTime)];
+        
+        DLog(@"Latency: %gms", ((CACurrentMediaTime() - previousTime) * 1000) / 2);
+    }
 }
 
 #pragma mark - CBPeripheralManagerDelegate -
@@ -338,7 +380,6 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
         return;
     }
     
-    DLog(@"Name: %@", self.currentPeer.name);
     [peripheral startAdvertising:@{CBAdvertisementDataLocalNameKey: self.currentPeer.name, CBAdvertisementDataServiceUUIDsKey: @[[CBUUID UUIDWithString:GBALinkServiceUUID]]}];
 }
 
@@ -356,7 +397,6 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
 - (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didSubscribeToCharacteristic:(CBCharacteristic *)characteristic
 {
     [peripheral setDesiredConnectionLatency:CBPeripheralManagerConnectionLatencyLow forCentral:central];
-    DLog(@"Central subscribed: %@", central);
 }
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray *)requests
@@ -383,14 +423,6 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
         }
     }
     
-    for (GBAPeer *peer in self.connectedPeers)
-    {
-        if ([peer.identifier isEqual:bluetoothPeer.identifier])
-        {
-            return peer;
-        }
-    }
-    
     return nil;
 }
 
@@ -402,12 +434,12 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
         return;
     }
     
-    CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
+    CFTimeInterval currentTime = CACurrentMediaTime();
     NSData *data = [NSData dataWithBytes:&currentTime length:sizeof(currentTime)];
     
-    GBAPeer *peer = [self.connectedPeers firstObject];
+    GBAPeer *peer = [self.nearbyPeers firstObject];
     
-    [(CBPeripheral *)peer.bluetoothPeer writeValue:data forCharacteristic:peer.latencyTestCharacteristic type:CBCharacteristicWriteWithoutResponse];
+    [(CBPeripheral *)peer.bluetoothPeer writeValue:data forCharacteristic:peer.latencyTestCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 
 @end

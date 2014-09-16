@@ -18,6 +18,8 @@
 #import "GBAWebBrowserHomepageViewController.h"
 #import "GBAAcknowledgementsViewController.h"
 #import "GBABluetoothLinkViewController.h"
+#import "GBALinkViewController.h"
+#import "GBABluetoothLinkManager.h"
 
 #import <DropboxSDK/DropboxSDK.h>
 
@@ -132,7 +134,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsControllerOpacityKey: @0.5,
                                GBASettingsAirPlayEnabledKey: @YES,
                                GBASettingsEventDistributionPushNotificationsKey: @YES,
-                               GBASettingsSoftwareUpdatePushNotificationsKey: @YES};
+                               GBASettingsSoftwareUpdatePushNotificationsKey: @YES,
+                               GBASettingsLinkPeerType: @(GBALinkPeerTypeServer)};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     

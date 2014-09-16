@@ -29,6 +29,7 @@
 #import <GameController/GameController.h>
 
 #import "GBAEmulatorCore.h"
+#import "GBALinkManager.h"
 #import "GBABluetoothLinkManager.h"
 
 #import "UIActionSheet+RSTAdditions.h"
@@ -883,7 +884,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 2)
             {
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+                if ([[GBABluetoothLinkManager sharedManager] isEnabled])
                 {
                     [[GBAEmulatorCore sharedCore] startServer];
                     [self resumeEmulation];
@@ -895,7 +896,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 3)
             {
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+                if ([[GBABluetoothLinkManager sharedManager] isEnabled])
                 {
                     [[GBAEmulatorCore sharedCore] connectToServer];
                     [self resumeEmulation];
@@ -907,8 +908,16 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 4)
             {
-                [[GBABluetoothLinkManager sharedManager] testLatency];
-                [self resumeEmulation];
+                if ([[GBABluetoothLinkManager sharedManager] isEnabled])
+                {
+                    [[GBABluetoothLinkManager sharedManager] testLatency];
+                    [self resumeEmulation];
+                }
+                else
+                {
+                    [self presentCheatManager];
+                }
+                
             }
             else if (buttonIndex == 5)
             {
