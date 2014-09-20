@@ -19,6 +19,7 @@
 #import "EAGLView.h"
 #import "GBASettingsViewController.h"
 #import "GBALinkManager.h"
+#import "GBABluetoothLinkManager.h"
 
 #import "EAGLView_Private.h"
 
@@ -182,7 +183,9 @@ extern char **app_argv;
     }
     
 	//logMsg("screen update");
+    
 	Base::runEngine(Base::displayLink.timestamp);
+        
 	if(!Base::gfxUpdate)
 	{
 		Base::stopAnimation();
@@ -1103,20 +1106,115 @@ extern gambatte::GB gbEmu;
 
 #pragma mark - Multiplayer
 
+#ifdef USE_BLUETOOTH
+
 int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size)
 {
-    return (int)[[GBALinkManager sharedManager] sendData:data withSize:size toPlayerAtIndex:index];
+    NSData *outputData = [NSData dataWithBytes:(const void *)data length:size];
+    int sentDataLength = (int)[[GBABluetoothLinkManager sharedManager] sendData:outputData toPlayerAtIndex:index];
+    
+    /*if (sentDataLength > 0)
+    {
+        NSLog(@"Sent data! (%d)", sentDataLength);
+    }
+    else
+    {
+        NSLog(@"Failed to send data :(");
+    }*/
+    
+    return sentDataLength;
 }
 
 int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
 {
-    return (int)[[GBALinkManager sharedManager] receiveData:data withMaxSize:maxSize fromPlayerAtIndex:index];
+    NSData *receivedData = nil;
+    int receivedDataLength = (int)[[GBABluetoothLinkManager sharedManager] receiveData:&receivedData withMaxSize:maxSize fromPlayerAtIndex:index];
+    
+    [receivedData getBytes:data];
+    
+    /*if (receivedDataLength > 0)
+    {
+        NSLog(@"Received data! (%d)", receivedDataLength);
+    }*/
+    
+    return receivedDataLength;
 }
 
 bool GBALinkWaitForLinkDataWithTimeout(int timeout)
 {
-    return (int)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    
+    bool success = (bool)[[GBABluetoothLinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
+
+    NSLog(@"Wireless Delay: %g seconds", CFAbsoluteTimeGetCurrent() - startTime);
+    
+    /*if (success)
+    {
+        NSLog(@"Has Data");
+    }
+    else
+    {
+        NSLog(@"Timeout");
+    }*/
+    
+    return success;
 }
+
+#else
+
+int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size)
+{
+    int sentDataLength = (int)[[GBALinkManager sharedManager] sendData:data withSize:size toPlayerAtIndex:index];
+    
+    if (sentDataLength > 0)
+    {
+        NSLog(@"Sent data! (%d)", sentDataLength);
+    }
+    else
+    {
+        NSLog(@"Failed to send data :(");
+    }
+    
+    return sentDataLength;
+}
+
+int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
+{
+    int receivedDataLength = (int)[[GBALinkManager sharedManager] receiveData:data withMaxSize:maxSize fromPlayerAtIndex:index];
+    
+    if (receivedDataLength > 0)
+    {
+        NSLog(@"Received data! (%d)", receivedDataLength);
+    }
+    else
+    {
+        NSLog(@"Didn't receive data");
+    }
+    
+    return receivedDataLength;
+}
+
+bool GBALinkWaitForLinkDataWithTimeout(int timeout)
+{
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    
+    bool success = (bool)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
+    
+    if (success)
+    {
+        NSLog(@"Has Data");
+    }
+    else
+    {
+        NSLog(@"Timeout");
+    }
+    
+    //NSLog(@"Task Length: %g seconds", CFAbsoluteTimeGetCurrent() - startTime);
+    
+    return success;
+}
+
+#endif
 
 void systemScreenMessage(const char *message)
 {

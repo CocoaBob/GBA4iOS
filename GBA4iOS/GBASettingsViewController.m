@@ -359,8 +359,13 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     if (indexPath.section == LINKING_SECTION)
     {
+#ifdef USE_BLUETOOTH
         GBABluetoothLinkViewController *linkViewController = [GBABluetoothLinkViewController new];
         [self.navigationController pushViewController:linkViewController animated:YES];
+#else
+        GBALinkViewController *linkViewController = [GBALinkViewController new];
+        [self.navigationController pushViewController:linkViewController animated:YES];
+#endif
     }
     else if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
     {

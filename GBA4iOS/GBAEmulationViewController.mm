@@ -882,6 +882,7 @@ static GBAEmulationViewController *_emulationViewController;
                 
                 [self resumeEmulation];
             }
+#ifdef USE_BLUETOOTH
             else if (buttonIndex == 2)
             {
                 if ([[GBABluetoothLinkManager sharedManager] isEnabled])
@@ -917,8 +918,45 @@ static GBAEmulationViewController *_emulationViewController;
                 {
                     [self presentCheatManager];
                 }
-                
             }
+#else
+            else if (buttonIndex == 2)
+            {
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+                {
+                    [[GBAEmulatorCore sharedCore] startServer];
+                    [self resumeEmulation];
+                }
+                else
+                {
+                    [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeSaving];
+                }
+            }
+            else if (buttonIndex == 3)
+            {
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+                {
+                    [[GBAEmulatorCore sharedCore] connectToServer];
+                    [self resumeEmulation];
+                }
+                else
+                {
+                    [self presentSaveStateMenuWithMode:GBASaveStateViewControllerModeLoading];
+                }
+            }
+            else if (buttonIndex == 4)
+            {
+                if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+                {
+                    [[GBALinkManager sharedManager] testLatency];
+                    [self resumeEmulation];
+                }
+                else
+                {
+                    [self presentCheatManager];
+                }
+            }
+#endif
             else if (buttonIndex == 5)
             {
                 [self enterSustainButtonSelectionMode];

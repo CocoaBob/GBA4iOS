@@ -41,6 +41,7 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType)
 @property (copy, nonatomic) NSString *name;
 @property (assign, nonatomic, getter=isEnabled) BOOL enabled;
 
+@property (copy, nonatomic, readonly) NSArray *connectedPeers;
 @property (copy, nonatomic, readonly) NSArray *nearbyPeers;
 
 + (instancetype)sharedManager;
@@ -53,5 +54,10 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType)
 - (void)stopAdvertisingPeer;
 
 - (void)testLatency;
+
+- (NSInteger)sendData:(NSData *)data toPlayerAtIndex:(NSInteger)index;
+- (NSInteger)receiveData:(NSData **)data withMaxSize:(NSUInteger)maxSize fromPlayerAtIndex:(NSInteger)index;
+
+- (BOOL)waitForLinkDataWithTimeout:(NSTimeInterval)timeout;
 
 @end

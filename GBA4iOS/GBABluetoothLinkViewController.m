@@ -70,6 +70,11 @@
     [super viewWillAppear:animated];
     
     [[GBABluetoothLinkManager sharedManager] setDelegate:self];
+    
+    if ([[GBABluetoothLinkManager sharedManager] isEnabled])
+    {
+        [self enableLinking];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -77,6 +82,15 @@
     [super viewDidDisappear:animated];
     
     [[GBABluetoothLinkManager sharedManager] setDelegate:nil];
+    
+    if (self.peerType == GBALinkPeerTypeClient)
+    {
+        [[GBABluetoothLinkManager sharedManager] stopScanningForPeers];
+    }
+    else
+    {
+        [[GBABluetoothLinkManager sharedManager] startAdvertisingPeer];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,7 +142,7 @@
 - (void)disableLinking
 {
     [[GBABluetoothLinkManager sharedManager] setEnabled:NO];
-    [self.peerTypeSegmentedControl setEnabled:YES];
+    [self.peerTypeSegmentedControl setEnabled:NO];
     
     NSRange range = NSMakeRange(0, 0);
     
@@ -184,7 +198,7 @@
     {
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:NEARBY_PEERS_SECTION]] withRowAnimation:UITableViewRowAnimationFade];
         
-        GBALinkNearbyPeersHeaderFooterView *headerFooterView = (GBALinkNearbyPeersHeaderFooterView *)[self.tableView headerViewForSection:3];
+        GBALinkNearbyPeersHeaderFooterView *headerFooterView = (GBALinkNearbyPeersHeaderFooterView *)[self.tableView headerViewForSection:NEARBY_PEERS_SECTION];
         [headerFooterView setShowsActivityIndicator:YES];
     }
     else

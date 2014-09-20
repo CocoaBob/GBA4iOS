@@ -1665,9 +1665,7 @@ void lserver::Recv(void){
 		}*/
         
         if (!GBALinkWaitForLinkDataWithTimeout((linktimeout / 1000.)))
-        {
-            printf("timed out");
-            
+        {            
             numtransfers = 0;
             return;
         }
