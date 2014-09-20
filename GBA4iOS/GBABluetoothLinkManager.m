@@ -98,10 +98,7 @@ NSData *GBAData = nil;
                 peer = p;
             }
         }
-        
-        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-        [outputData writeToFile:[documentsDirectory stringByAppendingPathComponent:@"LinkData.gbalink"] atomically:YES];
-        
+
         [(CBPeripheral *)peer.bluetoothPeer writeValue:outputData forCharacteristic:peer.inputDataCharacteristic type:CBCharacteristicWriteWithoutResponse];
     }
     else
