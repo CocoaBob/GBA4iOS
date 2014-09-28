@@ -89,14 +89,10 @@ extern char **app_argv;
 	using namespace Base;
 	if(usingiOS4)
 	{
-		logMsg("testing for Retina Display");
-		if([[GBAEmulatorCore sharedCore] screen].scale == 2.0)
-		{
-			logMsg("running on Retina Display");
-			eaglLayer.contentsScale = 2.0;
-			pointScale = 2;
-			currWin = mainWin;
-	    }
+        CGFloat scale = [[[GBAEmulatorCore sharedCore] screen] scale];
+        eaglLayer.contentsScale = scale;
+        pointScale = scale;
+        currWin = mainWin;
 	}
 #endif
     

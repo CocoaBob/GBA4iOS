@@ -2167,7 +2167,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)updateFilter
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && self.rom.type == GBAROMTypeGBA && ![self isAirplaying])
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && [[UIScreen mainScreen] scale] < 3.0 && UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && self.rom.type == GBAROMTypeGBA && ![self isAirplaying])
     {
         [[GBAEmulatorCore sharedCore] applyEmulationFilter:GBAEmulationFilterLinear];
     }
