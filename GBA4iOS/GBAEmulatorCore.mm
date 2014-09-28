@@ -165,6 +165,8 @@ extern char **app_argv;
 	return self;
 }
 
+extern void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio);
+
 - (void)drawView
 {
 	/*TimeSys now;
@@ -184,8 +186,13 @@ extern char **app_argv;
     
 	//logMsg("screen update");
     
-	Base::runEngine(Base::displayLink.timestamp);
-        
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    
+    //CPULoop(gGba, false, false, true);
+    Base::runEngine(Base::displayLink.timestamp);
+    
+    DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    
 	if(!Base::gfxUpdate)
 	{
 		Base::stopAnimation();
@@ -1168,7 +1175,7 @@ int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size)
     
     if (sentDataLength > 0)
     {
-        NSLog(@"Sent data! (%d)", sentDataLength);
+        NSLog(@"Sent data! (%@)", [NSData dataWithBytes:(const void *)data length:size]);
     }
     else
     {
@@ -1184,7 +1191,7 @@ int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
     
     if (receivedDataLength > 0)
     {
-        NSLog(@"Received data! (%d)", receivedDataLength);
+        NSLog(@"Received data! (%@)", [NSData dataWithBytes:(const void *)data length:maxSize]);
     }
     else
     {
@@ -1200,16 +1207,16 @@ bool GBALinkWaitForLinkDataWithTimeout(int timeout)
     
     bool success = (bool)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
     
-    if (success)
+    NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    
+    /*if (success)
     {
-        NSLog(@"Has Data");
+        NSLog(@"Has Data %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     }
     else
     {
         NSLog(@"Timeout");
-    }
-    
-    //NSLog(@"Task Length: %g seconds", CFAbsoluteTimeGetCurrent() - startTime);
+    }*/
     
     return success;
 }
@@ -1227,9 +1234,7 @@ static const int length = 256;
 {
     SetLinkTimeout(1000);
     EnableSpeedHacks(false);
-    EnableLinkServer(true,  1);
-    
-    
+    EnableLinkServer(true,  1);    
     
     __block ConnectionState state = InitLink(LINK_CABLE_SOCKET);
     
@@ -1282,7 +1287,7 @@ static const int length = 256;
 {
     SetLinkTimeout(1000);
     EnableSpeedHacks(false);
-    SetLinkServerHost("192.168.1.68");
+    SetLinkServerHost("192.168.1.101");
     
     __block ConnectionState state = InitLink(LINK_CABLE_SOCKET);
     

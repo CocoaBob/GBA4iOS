@@ -127,8 +127,8 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     
     NSArray *inputStreams = [self.inputStreams allValues];
-    
-    while (![self hasBytesAvailableFromInputStreams:inputStreams]);
+
+    while (![self hasBytesAvailableFromInputStreams:inputStreams] && CFAbsoluteTimeGetCurrent() - startTime < timeout);
     
     if (![self hasBytesAvailableFromInputStreams:inputStreams])
     {
@@ -402,7 +402,9 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         case NSStreamEventHasBytesAvailable:
         {
             DLog(@"New Data!");
+           
             [self receiveLatencyDataFromInputStream:inputStream];
+            
             break;
         }
             

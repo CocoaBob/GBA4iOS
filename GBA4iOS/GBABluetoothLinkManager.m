@@ -56,8 +56,6 @@ NSString *const GBALinkLatencyTestCharacteristicUUID = @"E5C9177D-FE00-428E-BAC8
     return sharedManager;
 }
 
-NSData *GBAData = nil;
-
 - (instancetype)init
 {
     self = [super init];
@@ -117,12 +115,6 @@ NSData *GBAData = nil;
 
 - (NSInteger)receiveData:(NSData **)data withMaxSize:(NSUInteger)maxSize fromPlayerAtIndex:(NSInteger)index
 {
-    if (self.inputDataBuffer.length == 0 && GBAData)
-    {
-        *data = [GBAData subdataWithRange:NSMakeRange(0, maxSize)];
-        return maxSize;
-    }
-    
     __block NSRange range = NSMakeRange(0, 0);
     
     range = NSMakeRange(0, MIN(maxSize, self.inputDataBuffer.length));
@@ -139,21 +131,12 @@ NSData *GBAData = nil;
         return YES;
     }
     
-    if (self.peerType == GBALinkPeerTypeServer)
-    {
-        return YES;
-    }
-    
     self.inputDataDispatchSemaphore = dispatch_semaphore_create(0);
     
     dispatch_time_t dispatchTime = dispatch_time(DISPATCH_TIME_NOW, timeout * NSEC_PER_SEC);
     dispatch_semaphore_wait(self.inputDataDispatchSemaphore, DISPATCH_TIME_FOREVER);
 
     self.inputDataDispatchSemaphore = nil;
-    
-    /*CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
-    
-    while ([self.inputDataBuffer length] == 0 && CFAbsoluteTimeGetCurrent() - currentTime < timeout);*/
     
     return ([self.inputDataBuffer length] > 0);
 }
