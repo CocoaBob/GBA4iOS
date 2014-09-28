@@ -313,7 +313,7 @@ static sf::IPAddress joybusHostAddr = sf::IPAddress::LocalHost;
 // Hodgepodge
 static u8 tspeed = 3;
 static u8 transfer = 0;
-static LINKDATA *linkmem = NULL;
+static LINKDATA linkmem;
 static int linkid = 0;
 #if (defined __WIN32__ || defined _WIN32)
 static HANDLE linksync[4];
@@ -342,7 +342,7 @@ static bool oncewait = false, after = false;
 // RFU crap (except for numtransfers note...should probably check that out)
 static u8 rfu_cmd, rfu_qsend, rfu_qrecv;
 static int rfu_state, rfu_polarity, rfu_counter, rfu_masterq;
-// numtransfers seems to be used interchangeably with linkmem->numtransfers
+// numtransfers seems to be used interchangeably with linkmem.numtransfers
 // in rfu code; probably a bug?
 static int rfu_transfer_end;
 // in local comm, setting this keeps slaves from trying to communicate even
@@ -416,7 +416,7 @@ static void StartRFU(u16 siocnt)
                                 rfu_counter = 0;
                             }
                             if (rfu_cmd == 0x25 || rfu_cmd == 0x24) {
-                                linkmem->rfu_q[vbaid] = rfu_qsend;
+                                linkmem.rfu_q[vbaid] = rfu_qsend;
                             }
                             UPDATE_REG(COMM_SIODATA32_L, 0);
                             UPDATE_REG(COMM_SIODATA32_H, 0x8000);
@@ -425,7 +425,7 @@ static void StartRFU(u16 siocnt)
                         {
                             switch (rfu_cmd) {
                                 case 0x1a:	// check if someone joined
-                                    if (linkmem->rfu_request[vbaid] != 0) {
+                                    if (linkmem.rfu_request[vbaid] != 0) {
                                         rfu_state = RFU_RECV;
                                         rfu_qrecv = 1;
                                     }
@@ -443,12 +443,12 @@ static void StartRFU(u16 siocnt)
                                     break;
                                     
                                 case 0x30:
-                                    linkmem->rfu_request[vbaid] = 0;
-                                    linkmem->rfu_q[vbaid] = 0;
+                                    linkmem.rfu_request[vbaid] = 0;
+                                    linkmem.rfu_q[vbaid] = 0;
                                     linkid = 0;
                                     numtransfers = 0;
                                     rfu_cmd |= 0x80;
-                                    if (linkmem->numgbas == 2)
+                                    if (linkmem.numgbas == 2)
                                         ReleaseSemaphore(linksync[1-vbaid], 1, NULL);
                                     break;
                                     
@@ -466,7 +466,7 @@ static void StartRFU(u16 siocnt)
                                     if(linkid>0){
                                         rfu_qrecv = rfu_masterq;
                                     }
-                                    if((rfu_qrecv=linkmem->rfu_q[1-vbaid])!=0){
+                                    if((rfu_qrecv=linkmem.rfu_q[1-vbaid])!=0){
                                         rfu_state = RFU_RECV;
                                         rfu_counter = 0;
                                     }
@@ -475,8 +475,8 @@ static void StartRFU(u16 siocnt)
                                     
                                 case 0x24:	// send data
                                     if((numtransfers++)==0) linktime = 1;
-                                    linkmem->rfu_linktime[vbaid] = linktime;
-                                    if(linkmem->numgbas==2){
+                                    linkmem.rfu_linktime[vbaid] = linktime;
+                                    if(linkmem.numgbas==2){
                                         ReleaseSemaphore(linksync[1-vbaid], 1, NULL);
                                         WaitForSingleObject(linksync[vbaid], linktimeout);
                                     }
@@ -500,10 +500,10 @@ static void StartRFU(u16 siocnt)
                                 case 0xa7:	//	2nd part of wait function 0x27
                                     if (linkid == -1) {
                                         linkid++;
-                                        linkmem->rfu_linktime[vbaid] = 0;
+                                        linkmem.rfu_linktime[vbaid] = 0;
                                     }
-                                    if (linkid&&linkmem->rfu_request[1-vbaid] == 0) {
-                                        linkmem->rfu_q[1-vbaid] = 0;
+                                    if (linkid&&linkmem.rfu_request[1-vbaid] == 0) {
+                                        linkmem.rfu_q[1-vbaid] = 0;
                                         rfu_transfer_end = 256;
                                         rfu_polarity = 1;
                                         rfu_cmd = 0x29;
@@ -512,17 +512,17 @@ static void StartRFU(u16 siocnt)
                                     }
                                     if ((numtransfers++) == 0)
                                         linktime = 0;
-                                    linkmem->rfu_linktime[vbaid] = linktime;
-                                    if (linkmem->numgbas == 2) {
+                                    linkmem.rfu_linktime[vbaid] = linktime;
+                                    if (linkmem.numgbas == 2) {
                                         if (!linkid || (linkid && numtransfers))
                                             ReleaseSemaphore(linksync[1-vbaid], 1, NULL);
                                         WaitForSingleObject(linksync[vbaid], linktimeout);
                                     }
                                     if ( linkid > 0) {
-                                        memcpy(rfu_masterdata, linkmem->rfu_data[1-vbaid], 128);
-                                        rfu_masterq = linkmem->rfu_q[1-vbaid];
+                                        memcpy(rfu_masterdata, linkmem.rfu_data[1-vbaid], 128);
+                                        rfu_masterq = linkmem.rfu_q[1-vbaid];
                                     }
-                                    rfu_transfer_end = linkmem->rfu_linktime[1-vbaid] - linktime + 256;
+                                    rfu_transfer_end = linkmem.rfu_linktime[1-vbaid] - linktime + 256;
                                     
                                     if (rfu_transfer_end < 256)
                                         rfu_transfer_end = 256;
@@ -548,7 +548,7 @@ static void StartRFU(u16 siocnt)
                         
                         switch (rfu_cmd) {
                             case 0x16:
-                                linkmem->rfu_bdata[vbaid][rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                                linkmem.rfu_bdata[vbaid][rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
                                 break;
                                 
                             case 0x17:
@@ -556,12 +556,12 @@ static void StartRFU(u16 siocnt)
                                 break;
                                 
                             case 0x1f:
-                                linkmem->rfu_request[1-vbaid] = 1;
+                                linkmem.rfu_request[1-vbaid] = 1;
                                 break;
                                 
                             case 0x24:
                             case 0x25:
-                                linkmem->rfu_data[vbaid][rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                                linkmem.rfu_data[vbaid][rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
                                 break;
                         }
                         UPDATE_REG(COMM_SIODATA32_L, 0);
@@ -581,8 +581,8 @@ static void StartRFU(u16 siocnt)
                                     rfu_counter++;
                                     break;
                                 }
-                                UPDATE_REG(COMM_SIODATA32_L, linkmem->rfu_bdata[1-vbaid][rfu_counter-1]&0xffff);
-                                UPDATE_REG(COMM_SIODATA32_H, linkmem->rfu_bdata[1-vbaid][rfu_counter-1]>>16);
+                                UPDATE_REG(COMM_SIODATA32_L, linkmem.rfu_bdata[1-vbaid][rfu_counter-1]&0xffff);
+                                UPDATE_REG(COMM_SIODATA32_H, linkmem.rfu_bdata[1-vbaid][rfu_counter-1]>>16);
                                 rfu_counter++;
                                 break;
                                 
@@ -591,8 +591,8 @@ static void StartRFU(u16 siocnt)
                                     UPDATE_REG(COMM_SIODATA32_L, rfu_masterdata[rfu_counter]&0xffff);
                                     UPDATE_REG(COMM_SIODATA32_H, rfu_masterdata[rfu_counter++]>>16);
                                 } else {
-                                    UPDATE_REG(COMM_SIODATA32_L, linkmem->rfu_data[1-vbaid][rfu_counter]&0xffff);
-                                    UPDATE_REG(COMM_SIODATA32_H, linkmem->rfu_data[1-vbaid][rfu_counter++]>>16);
+                                    UPDATE_REG(COMM_SIODATA32_L, linkmem.rfu_data[1-vbaid][rfu_counter]&0xffff);
+                                    UPDATE_REG(COMM_SIODATA32_H, linkmem.rfu_data[1-vbaid][rfu_counter++]>>16);
                                 }
                                 break;
                                 
@@ -650,19 +650,19 @@ static void StartCableIPC(u16 value)
                     value |= READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]) & 4;
             }
             if (start) {
-                if (linkmem->numgbas > 1)
+                if (linkmem.numgbas > 1)
                 {
                     // find first active attached GBA
                     // doing this first reduces the potential
                     // race window size for new connections
-                    int n = linkmem->numgbas + 1;
-                    int f = linkmem->linkflags;
+                    int n = linkmem.numgbas + 1;
+                    int f = linkmem.linkflags;
                     int m;
                     do {
                         n--;
                         m = (1 << n) - 1;
                     } while((f & m) != m);
-                    linkmem->trgbas = n;
+                    linkmem.trgbas = n;
                     
                     // before starting xfer, make pathetic attempt
                     // at clearing out any previous stuck xfer
@@ -672,20 +672,20 @@ static void StartCableIPC(u16 value)
                         while(WaitForSingleObject(linksync[i], 0) != WAIT_TIMEOUT);
                     
                     // transmit first value
-                    linkmem->linkcmd = ('M' << 8) + (value & 3);
-                    linkmem->linkdata[0] = READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA8]);
+                    linkmem.linkcmd = ('M' << 8) + (value & 3);
+                    linkmem.linkdata[0] = READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA8]);
                     
                     // start up slaves & sync clocks
-                    numtransfers = linkmem->numtransfers;
+                    numtransfers = linkmem.numtransfers;
                     if (numtransfers != 0)
-                        linkmem->lastlinktime = linktime;
+                        linkmem.lastlinktime = linktime;
                     else
-                        linkmem->lastlinktime = 0;
+                        linkmem.lastlinktime = 0;
                     
                     if ((++numtransfers) == 0)
-                        linkmem->numtransfers = 2;
+                        linkmem.numtransfers = 2;
                     else
-                        linkmem->numtransfers = numtransfers;
+                        linkmem.numtransfers = numtransfers;
                     
                     transfer = 1;
                     linktime = 0;
@@ -898,22 +898,22 @@ static void UpdateCableIPC(int ticks)
 		linktime = 0;
 		// there is a very, very, small chance that this will abort
 		// a transfer that was just started
-		linkmem->numtransfers = numtransfers = 0;
+		linkmem.numtransfers = numtransfers = 0;
 	}
-	if (linkid && !transfer && linktime >= linkmem->lastlinktime &&
-	    linkmem->numtransfers != numtransfers)
+	if (linkid && !transfer && linktime >= linkmem.lastlinktime &&
+	    linkmem.numtransfers != numtransfers)
 	{
-		numtransfers = linkmem->numtransfers;
+		numtransfers = linkmem.numtransfers;
 		if(!numtransfers)
 			return;
         
 		// if this or any previous machine was dropped, no transfer
 		// can take place
-		if(linkmem->trgbas <= linkid) {
+		if(linkmem.trgbas <= linkid) {
 			transfer = 0;
 			numtransfers = 0;
 			// if this is the one that was dropped, reconnect
-			if(!(linkmem->linkflags & (1 << linkid)))
+			if(!(linkmem.linkflags & (1 << linkid)))
 				ReInitLink();
 			return;
 		}
@@ -922,16 +922,16 @@ static void UpdateCableIPC(int ticks)
 		if (numtransfers == 1)
 			linktime = 0;
 		else
-			linktime -= linkmem->lastlinktime;
+			linktime -= linkmem.lastlinktime;
         
 		// there's really no point to this switch; 'M' is the only
 		// possible command.
 #if 0
-		switch ((linkmem->linkcmd) >> 8)
+		switch ((linkmem.linkcmd) >> 8)
 		{
             case 'M':
 #endif
-                tspeed = linkmem->linkcmd & 3;
+                tspeed = linkmem.linkcmd & 3;
                 transfer = 1;
                 WRITE32LE(&gGba.mem.ioMem.b[COMM_SIOMULTI0], 0xffffffff);
                 WRITE32LE(&gGba.mem.ioMem.b[COMM_SIOMULTI2], 0xffffffff);
@@ -945,47 +945,47 @@ static void UpdateCableIPC(int ticks)
 	if (!transfer)
 		return;
     
-	if (transfer <= linkmem->trgbas && linktime >= trtimedata[transfer-1][tspeed])
+	if (transfer <= linkmem.trgbas && linktime >= trtimedata[transfer-1][tspeed])
 	{
 		// transfer #n -> wait for value n - 1
 		if(transfer > 1 && linkid != transfer - 1) {
 			if(WaitForSingleObject(linksync[transfer - 1], linktimeout) == WAIT_TIMEOUT) {
 				// assume slave has dropped off if timed out
 				if(!linkid) {
-					linkmem->trgbas = transfer - 1;
-					int f = linkmem->linkflags;
+					linkmem.trgbas = transfer - 1;
+					int f = linkmem.linkflags;
 					f &= ~(1 << (transfer - 1));
-					linkmem->linkflags = f;
+					linkmem.linkflags = f;
 					if(f < (1 << transfer) - 1)
-						linkmem->numgbas = transfer - 1;
+						linkmem.numgbas = transfer - 1;
 					char message[30];
 					sprintf(message, _("Player %d disconnected."), transfer - 1);
 					systemScreenMessage(message);
 				}
-				transfer = linkmem->trgbas + 1;
+				transfer = linkmem.trgbas + 1;
 				// next cycle, transfer will finish up
 				return;
 			}
 		}
 		// now that value is available, store it
-		UPDATE_REG((COMM_SIOMULTI0 - 2) + (transfer<<1), linkmem->linkdata[transfer-1]);
+		UPDATE_REG((COMM_SIOMULTI0 - 2) + (transfer<<1), linkmem.linkdata[transfer-1]);
         
 		// transfer machine's value at start of its transfer cycle
 		if(linkid == transfer) {
 			// skip if dropped
-			if(linkmem->trgbas <= linkid) {
+			if(linkmem.trgbas <= linkid) {
 				transfer = 0;
 				numtransfers = 0;
 				// if this is the one that was dropped, reconnect
-				if(!(linkmem->linkflags & (1 << linkid)))
+				if(!(linkmem.linkflags & (1 << linkid)))
 					ReInitLink();
 				return;
 			}
 			// SI becomes low
 			UPDATE_REG(COMM_SIOCNT, READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]) & ~4);
 			UPDATE_REG(COMM_RCNT, 10);
-			linkmem->linkdata[linkid] = READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA8]);
-			ReleaseSemaphore(linksync[linkid], linkmem->numgbas-1, NULL);
+			linkmem.linkdata[linkid] = READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA8]);
+			ReleaseSemaphore(linksync[linkid], linkmem.numgbas-1, NULL);
 		}
 		if(linkid == transfer - 1) {
 			// SO becomes low to begin next trasnfer
@@ -997,7 +997,7 @@ static void UpdateCableIPC(int ticks)
 		transfer++;
 	}
     
-	if (transfer > linkmem->trgbas && linktime >= trtimeend[transfer-3][tspeed])
+	if (transfer > linkmem.trgbas && linktime >= trtimeend[transfer-3][tspeed])
 	{
 		// wait for slaves to finish
 		// this keeps unfinished slaves from screwing up last xfer
@@ -1008,10 +1008,10 @@ static void UpdateCableIPC(int ticks)
 					// impossible to determine which slave died
 					// so leave them alone for now
 					systemScreenMessage(_("Unknown slave timed out; resetting comm"));
-					linkmem->numtransfers = numtransfers = 0;
+					linkmem.numtransfers = numtransfers = 0;
 					break;
 				}
-		} else if(linkmem->trgbas > linkid)
+		} else if(linkmem.trgbas > linkid)
 			// signal master that this slave is finished
 			ReleaseSemaphore(linksync[0], 1, NULL);
 		linktime -= trtimeend[transfer - 3][tspeed];
@@ -1051,7 +1051,7 @@ static void UpdateSocket(int ticks)
 	if (after)
 	{
 		if (linkid && linktime > 6044) {
-			lc.Recv();
+            lc.Recv();
 			oncewait = true;
 		}
 		else
@@ -1146,31 +1146,19 @@ inline static int GetSIOMode(u16 siocnt, u16 rcnt)
 
 static ConnectionState InitIPC() {
 	linkid = 0;
+
+    vbaid = 0;
     
-#if (defined __WIN32__ || defined _WIN32)
-	if((mmf=CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(LINKDATA), LOCAL_LINK_NAME))==NULL){
-		systemMessage(0, N_("Error creating file mapping"));
-		return LINK_ERROR;
-	}
-    
-	if(GetLastError() == ERROR_ALREADY_EXISTS)
-		vbaid = 1;
-	else
-		vbaid = 0;
-    
-    
-	if((linkmem=(LINKDATA *)MapViewOfFile(mmf, FILE_MAP_WRITE, 0, 0, sizeof(LINKDATA)))==NULL){
-		CloseHandle(mmf);
-		systemMessage(0, N_("Error mapping file"));
-		return LINK_ERROR;
-	}
-#else
+    /*
 	if((mmf = shm_open("/" LOCAL_LINK_NAME, O_RDWR|O_CREAT|O_EXCL, 0777)) < 0) {
 		vbaid = 1;
 		mmf = shm_open("/" LOCAL_LINK_NAME, O_RDWR, 0);
 	} else
 		vbaid = 0;
-	if(mmf < 0 || ftruncate(mmf, sizeof(LINKDATA)) < 0 ||
+     
+     */
+     
+	/*if(mmf < 0 || ftruncate(mmf, sizeof(LINKDATA)) < 0 ||
 	   !(linkmem = (LINKDATA *)mmap(NULL, sizeof(LINKDATA),
                                     PROT_READ|PROT_WRITE, MAP_SHARED,
                                     mmf, 0))) {
@@ -1180,68 +1168,50 @@ static ConnectionState InitIPC() {
 				shm_unlink("/" LOCAL_LINK_NAME);
 			close(mmf);
 		}
-	}
-#endif
+	}*/
     
 	// get lowest-numbered available machine slot
 	bool firstone = !vbaid;
 	if(firstone) {
-		linkmem->linkflags = 1;
-		linkmem->numgbas = 1;
-		linkmem->numtransfers=0;
+		linkmem.linkflags = 1;
+		linkmem.numgbas = 1;
+		linkmem.numtransfers=0;
 		for(i=0;i<4;i++)
-			linkmem->linkdata[i] = 0xffff;
+			linkmem.linkdata[i] = 0xffff;
 	} else {
 		// FIXME: this should be done while linkmem is locked
 		// (no xfer in progress, no other vba trying to connect)
-		int n = linkmem->numgbas;
-		int f = linkmem->linkflags;
+		int n = linkmem.numgbas;
+		int f = linkmem.linkflags;
 		for(int i = 0; i <= n; i++)
 			if(!(f & (1 << i))) {
 				vbaid = i;
 				break;
 			}
 		if(vbaid == 4){
-#if (defined __WIN32__ || defined _WIN32)
-			UnmapViewOfFile(linkmem);
-			CloseHandle(mmf);
-#else
-			munmap(linkmem, sizeof(LINKDATA));
+
+			// GBARemove munmap(linkmem, sizeof(LINKDATA));
 			if(!vbaid)
 				shm_unlink("/" LOCAL_LINK_NAME);
 			close(mmf);
-#endif
 			systemMessage(0, N_("5 or more GBAs not supported."));
 			return LINK_ERROR;
 		}
 		if(vbaid == n)
-			linkmem->numgbas = n + 1;
-		linkmem->linkflags = f | (1 << vbaid);
+			linkmem.numgbas = n + 1;
+		linkmem.linkflags = f | (1 << vbaid);
 	}
 	linkid = vbaid;
     
 	for(i=0;i<4;i++){
 		linkevent[sizeof(linkevent)-2]=(char)i+'1';
-#if (defined __WIN32__ || defined _WIN32)
-		linksync[i] = firstone ?
-        CreateSemaphore(NULL, 0, 4, linkevent) :
-        OpenSemaphore(SEMAPHORE_ALL_ACCESS, false, linkevent);
-		if(linksync[i] == NULL) {
-			UnmapViewOfFile(linkmem);
-			CloseHandle(mmf);
-			for(j=0;j<i;j++){
-				CloseHandle(linksync[j]);
-			}
-			systemMessage(0, N_("Error opening event"));
-			return LINK_ERROR;
-		}
-#else
-		if((linksync[i] = sem_open(linkevent,
+
+		/* GBARemove if((linksync[i] = sem_open(linkevent,
                                    firstone ? O_CREAT|O_EXCL : 0,
                                    0777, 0)) == SEM_FAILED) {
 			if(firstone)
 				shm_unlink("/" LOCAL_LINK_NAME);
-			munmap(linkmem, sizeof(LINKDATA));
+			// GBARemove munmap(linkmem, sizeof(LINKDATA));
 			close(mmf);
 			for(j=0;j<i;j++){
 				sem_close(linksync[i]);
@@ -1252,8 +1222,7 @@ static ConnectionState InitIPC() {
 			}
 			systemMessage(0, N_("Error opening event"));
 			return LINK_ERROR;
-		}
-#endif
+		} */
 	}
     
 	return LINK_OK;
@@ -1476,28 +1445,28 @@ int GetLinkPlayerId() {
 
 static void ReInitLink()
 {
-	int f = linkmem->linkflags;
-	int n = linkmem->numgbas;
+	int f = linkmem.linkflags;
+	int n = linkmem.numgbas;
 	if(f & (1 << linkid)) {
 		systemMessage(0, N_("Lost link; reinitialize to reconnect"));
 		return;
 	}
-	linkmem->linkflags |= 1 << linkid;
+	linkmem.linkflags |= 1 << linkid;
 	if(n < linkid + 1)
-		linkmem->numgbas = linkid + 1;
-	numtransfers = linkmem->numtransfers;
+		linkmem.numgbas = linkid + 1;
+	numtransfers = linkmem.numtransfers;
 	systemScreenMessage(_("Lost link; reconnected"));
 }
 
 static void CloseIPC() {
-	int f = linkmem->linkflags;
+	int f = linkmem.linkflags;
 	f &= ~(1 << linkid);
 	if(f & 0xf) {
-		linkmem->linkflags = f;
-		int n = linkmem->numgbas;
+		linkmem.linkflags = f;
+		int n = linkmem.numgbas;
 		for(int i = 0; i < n; i--)
 			if(f <= (1 << (i + 1)) - 1) {
-				linkmem->numgbas = i + 1;
+				linkmem.numgbas = i + 1;
 				break;
 			}
 	}
@@ -1526,7 +1495,7 @@ static void CloseIPC() {
 #else
 	if(!(f & 0xf))
 		shm_unlink("/" LOCAL_LINK_NAME);
-	munmap(linkmem, sizeof(LINKDATA));
+    // GBARemove munmap(linkmem, sizeof(LINKDATA));
 	close(mmf);
 #endif
 }
