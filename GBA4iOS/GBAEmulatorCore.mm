@@ -176,7 +176,14 @@ extern char **app_argv;
     }
     
 	//logMsg("screen update");
-	Base::runEngine(Base::displayLink.timestamp);
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    
+    //CPULoop(gGba, false, false, true);
+    Base::runEngine(Base::displayLink.timestamp);
+    
+    //DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    
 	if(!Base::gfxUpdate)
 	{
 		Base::stopAnimation();
