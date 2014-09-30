@@ -766,8 +766,10 @@ static GBAEmulationViewController *_emulationViewController;
                                           NSLocalizedString(@"Event Distribution", @""), nil];
             }
         }
-        else if (self.usingGyroscope && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        else if (self.usingGyroscope && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && ![UIAlertController class])
         {
+            // Only show on iOS 7 iPhones. iPads and iOS 8 iPhones don't need Rotate To Device Orientation Button
+            
             if ([self numberOfCPUCoresForCurrentDevice] == 1)
             {
                 self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
@@ -974,8 +976,10 @@ static GBAEmulationViewController *_emulationViewController;
                         [self resumeEmulation];
                     }
                 }
-                else if (self.usingGyroscope && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+                else if (self.usingGyroscope && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && ![UIAlertController class])
                 {
+                    // Only needed on iOS 7 iPhones. iPads and iOS 8 iPhones don't need Rotate To Device Orientation Button
+                    
                     self.shouldResumeEmulationAfterRotatingInterface = YES;
                     [UIViewController attemptRotationToDeviceOrientation];
                 }
@@ -1428,14 +1432,22 @@ static GBAEmulationViewController *_emulationViewController;
     
     NSString *key = nil;
     
-    // We differentiate because they are different messages, and if the user backs up and restores from one device to another type, they should see the other message.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    if ([UIAlertController class])
     {
-        key = @"presentediPhoneGyroscopeAlert";
+        // On iOS 8, both iPad and iPhone can automatically rotate to a new orientation when paused, so no need to differentiate
+        key = @"presentedGyroscopeAlert";
     }
     else
     {
-        key = @"presentediPadGyroscopeAlert";
+        // We differentiate because they are different messages, and if the user backs up and restores from one device to another type, they should see the other message.
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        {
+            key = @"presentediPhoneGyroscopeAlert";
+        }
+        else
+        {
+            key = @"presentediPadGyroscopeAlert";
+        }
     }
     
     NSInteger alertPresentationCount = [[NSUserDefaults standardUserDefaults] integerForKey:key];
@@ -1448,13 +1460,14 @@ static GBAEmulationViewController *_emulationViewController;
         
         NSString *message = nil;
         
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        // On iOS 8+, or iPads, you don't have to manually tap "Rotate To Device Orientation". On iOS 7 iPhones, you do
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad || [UIAlertController class])
         {
-            message = NSLocalizedString(@"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate to the device orientation, pause the game, then tap “Rotate To Device Orientation”.", @"");
+            message = NSLocalizedString(@"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate the interface, pause the game, then rotate the device.", @"");
         }
         else
         {
-            message = NSLocalizedString(@"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate the interface, pause the game, then rotate the device.", @"");
+            message = NSLocalizedString(@"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate to the device orientation, pause the game, then tap “Rotate To Device Orientation”.", @"");
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
