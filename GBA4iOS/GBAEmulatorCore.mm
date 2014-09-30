@@ -187,7 +187,7 @@ extern void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAud
     //CPULoop(gGba, false, false, true);
     Base::runEngine(Base::displayLink.timestamp);
     
-    DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    //DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     
 	if(!Base::gfxUpdate)
 	{

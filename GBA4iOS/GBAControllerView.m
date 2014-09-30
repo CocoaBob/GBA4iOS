@@ -158,14 +158,6 @@
     // Don't pass on menu button. But we include it in the previous check cause we still want a vibration
     [set removeObject:@(GBAControllerButtonMenu)];
     
-    if (set.count > 0)
-    {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrate"])
-        {
-            [self vibrate];
-        }
-    }
-    
     [self.delegate controllerInput:self didPressButtons:set];
 }
 
@@ -257,15 +249,17 @@ void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionary *);
 {
     AudioServicesStopSystemSound(kSystemSoundID_Vibrate);
     
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    NSArray *pattern = @[@YES, @30, @NO, @1];
+    int64_t vibrationLength = 30;
     
     if ([[UIDevice currentDevice] platformType] == UIDevice5SiPhone)
     {
         // iPhone 5S has a weaker vibration motor, so we vibrate for 10ms longer to compensate
-        pattern = @[@YES, @40, @NO, @1];
+        vibrationLength = 40;
     }
     
+    NSArray *pattern = @[@NO, @0, @YES, @(vibrationLength)];
+    
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     dictionary[@"VibePattern"] = pattern;
     dictionary[@"Intensity"] = @1;
     

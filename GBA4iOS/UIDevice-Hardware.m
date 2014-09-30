@@ -162,6 +162,8 @@
     if ([platform hasPrefix:@"iPhone4"])            return UIDevice4SiPhone;
     if ([platform hasPrefix:@"iPhone5"])            return UIDevice5iPhone;
     if ([platform hasPrefix:@"iPhone6"])            return UIDevice5SiPhone;
+    if ([platform hasPrefix:@"iPhone7,1"])          return UIDevice6PlusiPhone;
+    if ([platform hasPrefix:@"iPhone7,2"])          return UIDevice6iPhone;
     
     // iPod
     if ([platform hasPrefix:@"iPod1"])              return UIDevice1GiPod;

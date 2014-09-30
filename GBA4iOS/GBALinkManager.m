@@ -132,7 +132,7 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     
     if (![self hasBytesAvailableFromInputStreams:inputStreams])
     {
-       DLog(@"Timeout");
+        DLog(@"Timeout");
     }
     
     return [self hasBytesAvailableFromInputStreams:inputStreams];
