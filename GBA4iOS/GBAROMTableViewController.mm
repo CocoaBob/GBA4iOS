@@ -1518,7 +1518,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         UIPopoverPresentationController *presentationController = [activityViewController popoverPresentationController];
         presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
         presentationController.sourceView = self.splitViewController.view;
-        presentationController.sourceRect = [self.splitViewController.view convertRect:rect fromView:self.tableView];
+        presentationController.sourceRect = rect;
         
         [self presentViewController:activityViewController animated:YES completion:nil];
     }
