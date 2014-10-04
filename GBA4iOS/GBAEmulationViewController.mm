@@ -827,7 +827,16 @@ static GBAEmulationViewController *_emulationViewController;
         
     }
     
+    __block BOOL alreadyHandledActionSheetCallback = NO; // Eww eww eww hack because iOS 8 calls UIActionSheet delegate method twice
+    
     void (^selectionHandler)(UIActionSheet *actionSheet, NSInteger buttonIndex) = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+        
+        if (alreadyHandledActionSheetCallback)
+        {
+            return;
+        }
+        
+        alreadyHandledActionSheetCallback = YES;
         
         if (buttonIndex == 0)
         {
