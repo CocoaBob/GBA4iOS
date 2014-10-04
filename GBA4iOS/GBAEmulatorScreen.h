@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import "EAGLView_Private.h"
 
@@ -17,5 +18,7 @@
 #else
 @property (strong, nonatomic) UIView *eaglView;
 #endif
+
+@property (strong, nonatomic) AVPlayerLayer *introAnimationLayer;
 
 @end

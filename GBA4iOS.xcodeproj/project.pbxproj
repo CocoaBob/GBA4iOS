@@ -144,6 +144,8 @@
 		BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
 		BF3E2BD718206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
 		BF3E2BDB18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
+		BF40C33019E09974003C73B5 /* Intro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BF40C32F19E09974003C73B5 /* Intro.mp4 */; };
+		BF40C33119E09974003C73B5 /* Intro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BF40C32F19E09974003C73B5 /* Intro.mp4 */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF52A566197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */; };
 		BF52A567197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */; };
@@ -546,6 +548,7 @@
 		BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTFileBrowserTableViewCell.m; path = Cocoapods/RSTFileBrowserTableViewCell.m; sourceTree = "<group>"; };
 		BF3E2BD918206DF2004231F6 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTDirectoryMonitor.h; path = Cocoapods/RSTDirectoryMonitor.h; sourceTree = "<group>"; };
 		BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTDirectoryMonitor.m; path = Cocoapods/RSTDirectoryMonitor.m; sourceTree = "<group>"; };
+		BF40C32F19E09974003C73B5 /* Intro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Intro.mp4; sourceTree = "<group>"; };
 		BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GBA4iOS.entitlements; sourceTree = "<group>"; };
 		BF52A564197A5E1F00F88815 /* GBAPushNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPushNotificationsViewController.h; sourceTree = "<group>"; };
 		BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPushNotificationsViewController.m; sourceTree = "<group>"; };
@@ -674,7 +677,6 @@
 		CC157AE1179D1BC60068A54E /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwrite.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwrite.c"; sourceTree = SOURCE_ROOT; };
 		CC157AE2179D1BC60068A54E /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwtran.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwtran.c"; sourceTree = SOURCE_ROOT; };
 		CC157AE3179D1BC60068A54E /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pngwutil.c; path = "emu-ex-plus-alpha/imagine/bundle/all/src/libpng/libpng-1.6.2/pngwutil.c"; sourceTree = SOURCE_ROOT; };
-		CC15E53A179ECDCC00449972 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = overlays128.png; path = "emu-ex-plus-alpha/GBA.emu/res/ios/overlays128.png"; sourceTree = SOURCE_ROOT; };
 		CC15E53C179ECDCC00449972 /* xButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = xButton.png; path = "emu-ex-plus-alpha/GBA.emu/res/ios/xButton.png"; sourceTree = SOURCE_ROOT; };
 		CC15E540179F027300449972 /* GBAEmulatorCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEmulatorCore.h; sourceTree = "<group>"; };
 		CC15E541179F027300449972 /* GBAEmulatorCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEmulatorCore.mm; sourceTree = "<group>"; };
@@ -1503,6 +1505,7 @@
 		CC2D57381798F40E00C616EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BF40C32F19E09974003C73B5 /* Intro.mp4 */,
 				CC2D571A1798F2EC00C616EB /* Images.xcassets */,
 				BF0EBB1019C026E500703623 /* Launch Screen.xib */,
 				BF563AB4184B11C000722678 /* Launch Images */,
@@ -1510,7 +1513,6 @@
 				CC5044E61814C474009F7B9E /* Default.gbcskin */,
 				CC41AEA917A22EC90062DDD8 /* padButton.png */,
 				1A5BAE7E17D04B0A00BABC01 /* overlays128.png */,
-				CC15E53A179ECDCC00449972 /* overlays128.png */,
 				CC15E53C179ECDCC00449972 /* xButton.png */,
 				BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */,
 			);
@@ -1975,6 +1977,7 @@
 				BFBA77BB19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
+				BF40C33119E09974003C73B5 /* Intro.mp4 in Resources */,
 				BF0EBB1819C0493000703623 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2002,6 +2005,7 @@
 				BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
+				BF40C33019E09974003C73B5 /* Intro.mp4 in Resources */,
 				BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

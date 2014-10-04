@@ -43,6 +43,8 @@ extern NSString *const GBAROMDidSaveDataNotification;
 @property (weak, nonatomic) id<GBAEmulatorCoreDelegate> delegate;
 @property (copy, nonatomic) NSString *customSavePath;
 
+@property (assign, nonatomic, readonly, getter=isPaused) BOOL paused;
+
 + (instancetype)sharedCore;
 
 - (void)updateEAGLViewForSize:(CGSize)size screen:(UIScreen *)screen;

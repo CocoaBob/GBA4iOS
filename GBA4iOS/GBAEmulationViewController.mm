@@ -27,6 +27,7 @@
 #import "GBAKeyboardDismissalNavigationController.h"
 
 #import <GameController/GameController.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import "GBAEmulatorCore.h"
 
@@ -57,6 +58,7 @@ static GBAEmulationViewController *_emulationViewController;
 
 @property (assign, nonatomic) BOOL pausedEmulation;
 @property (assign, nonatomic) BOOL stayPaused;
+@property (assign, nonatomic, getter=isPlayingIntroAnimation) BOOL playingIntroAnimation;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
 @property (assign, nonatomic, getter = isLaunchingApplication) BOOL launchingApplication;
 
@@ -398,6 +400,32 @@ static GBAEmulationViewController *_emulationViewController;
         [self exitSustainButtonSelectionMode];
         [self pauseEmulation];
     }
+}
+
+#pragma mark - Intro Animation
+
+- (void)playIntroAnimation
+{
+    self.playingIntroAnimation = YES;
+    
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:[[NSBundle mainBundle] URLForResource:@"Intro" withExtension:@"mp4"]];
+    AVPlayer *player = [AVPlayer playerWithPlayerItem:playerItem];
+    
+    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+    playerLayer.backgroundColor = [UIColor blackColor].CGColor;
+    self.emulatorScreen.introAnimationLayer = playerLayer;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(introAnimationDidFinish:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
+    
+    [player play];
+}
+
+- (void)introAnimationDidFinish:(NSNotification *)notification
+{
+    self.emulatorScreen.introAnimationLayer = nil;
+    self.playingIntroAnimation = NO;
+    
+    [self resumeEmulation];
 }
 
 #pragma mark - Airplay
@@ -2085,6 +2113,13 @@ static GBAEmulationViewController *_emulationViewController;
         self.stayPaused = stayPaused;
     }
     
+    [self.emulatorScreen.introAnimationLayer.player pause];
+    
+    if ([self isPlayingIntroAnimation])
+    {
+        return;
+    }
+    
     // Only save GBC games; saving some GBA games (such as Wario Ware Twisted) can erase the save file if saved here (due to RTC emulation, I'm guessing, even though Pokemon games work fine)
     if (self.rom && self.rom.type == GBAROMTypeGBC && !self.preventSavingROMSaveData)
     {
@@ -2102,6 +2137,13 @@ static GBAEmulationViewController *_emulationViewController;
 - (void)resumeEmulation
 {
     if ([self isShowingGyroscopeAlert])
+    {
+        return;
+    }
+    
+    [self.emulatorScreen.introAnimationLayer.player play];
+    
+    if ([self isPlayingIntroAnimation])
     {
         return;
     }
@@ -2577,6 +2619,9 @@ static GBAEmulationViewController *_emulationViewController;
         if (rom)
         {
             [self startEmulation];
+            
+            [self pauseEmulation];
+            [self playIntroAnimation];
         }
         else
         {

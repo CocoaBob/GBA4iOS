@@ -155,7 +155,8 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     
     if (self.selectedROMIndexPath &&
         self.selectedROMIndexPath.section < [self.tableView numberOfSections] &&
-        self.selectedROMIndexPath.row < [self.tableView numberOfRowsInSection:self.selectedROMIndexPath.section])
+        self.selectedROMIndexPath.row < [self.tableView numberOfRowsInSection:self.selectedROMIndexPath.section] &&
+        [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
         [self.tableView scrollToRowAtIndexPath:self.selectedROMIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     }

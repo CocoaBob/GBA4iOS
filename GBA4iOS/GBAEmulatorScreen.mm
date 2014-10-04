@@ -25,6 +25,51 @@
     return self.eaglView.bounds.size;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    self.eaglView.center = CGPointMake(roundf(self.bounds.size.width/2.0f), roundf(self.bounds.size.height/2.0f));
+    self.eaglView.frame = CGRectIntegral(self.eaglView.frame);
+    
+    self.introAnimationLayer.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+}
+
+- (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates
+{
+    BOOL success = [super drawViewHierarchyInRect:rect afterScreenUpdates:afterUpdates];
+    
+    if (self.introAnimationLayer)
+    {
+        AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self.introAnimationLayer.player.currentItem.asset];
+        imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+        imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+        imageGenerator.appliesPreferredTrackTransform = YES;
+        
+        NSError *error = nil;
+        CGImageRef currentFrame = [imageGenerator copyCGImageAtTime:self.introAnimationLayer.player.currentItem.currentTime actualTime:nil error:&error];
+        
+        if (currentFrame != NULL)
+        {
+            UIImage *image = [UIImage imageWithCGImage:currentFrame];
+            CGImageRelease(currentFrame);
+            
+            CGRect videoRect = AVMakeRectWithAspectRatioInsideRect(image.size, rect);
+            [image drawInRect:videoRect];
+        }
+        else
+        {
+            ELog(error);
+        }
+
+    }
+    
+    return success;
+}
+
+
+#pragma mark - Getters/Setters
+
 - (void)setEaglView:(UIView *)eaglView
 {
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -36,12 +81,13 @@
     [self addSubview:_eaglView];
 }
 
-- (void)layoutSubviews
+- (void)setIntroAnimationLayer:(AVPlayerLayer *)introAnimationLayer
 {
-    [super layoutSubviews];
+    [_introAnimationLayer.player pause];
+    [_introAnimationLayer removeFromSuperlayer];
+    _introAnimationLayer = introAnimationLayer;
     
-    self.eaglView.center = CGPointMake(roundf(self.bounds.size.width/2.0f), roundf(self.bounds.size.height/2.0f));
-    self.eaglView.frame = CGRectIntegral(self.eaglView.frame);
+    [self.layer addSublayer:introAnimationLayer];
 }
 
 @end

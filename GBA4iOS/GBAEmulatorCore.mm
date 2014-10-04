@@ -115,7 +115,6 @@ extern char **app_argv;
 	Base::mainContext = context;
 	
 	Base::displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView)];
-	//displayLink.paused = YES;
 	Base::displayLinkActive = YES;
 	[Base::displayLink setFrameInterval:1];
 	[Base::displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -165,7 +164,7 @@ extern char **app_argv;
      logMsg("frame time stamp %f, duration %f, now %f", displayLink.timestamp, displayLink.duration, (float)now);*/
 	//[EAGLContext setCurrentContext:context];
 	//glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-	if(unlikely(!Base::displayLinkActive))
+	if(unlikely(!Base::displayLinkActive) || [[GBAEmulatorCore sharedCore] isPaused])
     {
 		return;
     }
@@ -399,6 +398,8 @@ void writeSaveFileForCurrentROMToDisk();
 @interface GBAEmulatorCore ()
 
 @property (readwrite, strong, nonatomic) EAGLView *eaglView;
+@property (assign, nonatomic, readwrite, getter=isPaused) BOOL paused;
+
 @property (copy, nonatomic) NSSet *previousButtons;
 @property (strong, nonatomic) CMMotionManager *motionManager;
 @property (strong, nonatomic) dispatch_queue_t update_save_file_queue;
@@ -420,6 +421,8 @@ void writeSaveFileForCurrentROMToDisk();
 - (id)init {
     if (self = [super init])
     {
+        _paused = YES;
+        
         self.motionManager = [[CMMotionManager alloc] init];
         
         self.update_save_file_queue = dispatch_queue_create("GBA4iOS Update Save File Queue", DISPATCH_QUEUE_SERIAL);
@@ -605,6 +608,8 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 - (void)pauseEmulation
 {
+    self.paused = YES;
+    
 	if(!optionFrameSkip.isConst)
     {
 		Gfx::setVideoInterval(1);
@@ -627,6 +632,8 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
 
 - (void)resumeEmulation
 {
+    self.paused = NO;
+    
     if(!optionFrameSkip.isConst && (uint)optionFrameSkip != EmuSystem::optionFrameSkipAuto)
     {
         Gfx::setVideoInterval((int)optionFrameSkip + 1);
