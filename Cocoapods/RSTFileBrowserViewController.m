@@ -10,6 +10,9 @@
 #import "RSTFileBrowserTableViewCell.h"
 
 @interface RSTFileBrowserViewController ()
+{
+    BOOL _performedInitialRefresh;
+}
 
 @property (strong, nonatomic) NSMutableDictionary *fileDictionary;
 @property (strong, nonatomic) NSArray *sections;
@@ -60,14 +63,24 @@
     [super viewDidLoad];
     
     [self.tableView registerClass:[RSTFileBrowserTableViewCell class] forCellReuseIdentifier:@"Cell"];
-    
-    [self refreshDirectory];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (!_performedInitialRefresh)
+    {
+        _performedInitialRefresh = YES;
+        
+        [self refreshDirectory];
+    }
 }
 
 - (void)dealloc

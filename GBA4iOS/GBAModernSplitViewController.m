@@ -9,6 +9,7 @@
 #import "GBASplitViewController_Private.h"
 #import "GBAModernSplitViewController.h"
 #import "GBASyncManager.h"
+#import "GBAMasterNavigationController.h"
 
 @interface GBAModernSplitViewController () <UISplitViewControllerDelegate, UIPopoverControllerDelegate>
 
@@ -26,10 +27,11 @@
         self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
         
         self.romTableViewController = [[GBAROMTableViewController alloc] init];
-        
         self.emulationViewController = [[GBAEmulationViewController alloc] init];
         
-        self.viewControllers = @[RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController), self.emulationViewController];
+        GBAMasterNavigationController *navigationController = [[GBAMasterNavigationController alloc] initWithRootViewController:self.romTableViewController];
+        
+        self.viewControllers = @[navigationController, self.emulationViewController];
         
         self.presentsWithGesture = NO;
         self.delegate = self;

@@ -171,6 +171,8 @@
 		BF6ED579185102D40014B6A8 /* GBASyncInitialSyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED577185102D40014B6A8 /* GBASyncInitialSyncOperation.mm */; };
 		BF6ED57C1851100A0014B6A8 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */; };
 		BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF6ED57B1851100A0014B6A8 /* GBASyncManager.mm */; };
+		BF7391F219DCA96A00C6AEDC /* GBAMasterNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7391F119DCA96A00C6AEDC /* GBAMasterNavigationController.m */; };
+		BF7391F319DCA96A00C6AEDC /* GBAMasterNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7391F119DCA96A00C6AEDC /* GBAMasterNavigationController.m */; };
 		BF7C0E6D189DA30400794093 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
 		BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
 		BF7C0E73189DA35800794093 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C0E71189DA35800794093 /* SSZipArchive.m */; };
@@ -574,6 +576,8 @@
 		BF6F2978184D5AB300ECF793 /* cartridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cartridge.h; sourceTree = "<group>"; };
 		BF6F2979184D76AE00ECF793 /* GBA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBA.h; sourceTree = "<group>"; };
 		BF6FF3511845696200A8568C /* GBASyncManager_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBASyncManager_Private.h; sourceTree = "<group>"; };
+		BF7391F019DCA96A00C6AEDC /* GBAMasterNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAMasterNavigationController.h; sourceTree = "<group>"; };
+		BF7391F119DCA96A00C6AEDC /* GBAMasterNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAMasterNavigationController.m; sourceTree = "<group>"; };
 		BF7C0E68189DA30400794093 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = GBA4iOS/CrashReporter.framework; sourceTree = "<group>"; };
 		BF7C0E70189DA35800794093 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = GBA4iOS/SSZipArchive.h; sourceTree = SOURCE_ROOT; };
 		BF7C0E71189DA35800794093 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = GBA4iOS/SSZipArchive.m; sourceTree = SOURCE_ROOT; };
@@ -1102,6 +1106,15 @@
 				BF60A17018A61D8700B2E7D4 /* betaTesters.plist */,
 			);
 			name = "Beta Testers";
+			sourceTree = "<group>";
+		};
+		BF7391F419DCA96E00C6AEDC /* GBAMasterNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				BF7391F019DCA96A00C6AEDC /* GBAMasterNavigationController.h */,
+				BF7391F119DCA96A00C6AEDC /* GBAMasterNavigationController.m */,
+			);
+			name = GBAMasterNavigationController;
 			sourceTree = "<group>";
 		};
 		BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */ = {
@@ -1763,6 +1776,7 @@
 			isa = PBXGroup;
 			children = (
 				CCA1056817F6A5E00018D364 /* GBASplitViewController */,
+				BF7391F419DCA96E00C6AEDC /* GBAMasterNavigationController */,
 			);
 			name = "Other View Controllers";
 			sourceTree = "<group>";
@@ -2156,6 +2170,7 @@
 				BF2F3555183FF6F9002ACE90 /* UIImage+RSTResizing.m in Sources */,
 				BF537EFF185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */,
 				BFF70ED519BD0CAF00009DAF /* UITableViewController+ControllerSkins.m in Sources */,
+				BF7391F319DCA96A00C6AEDC /* GBAMasterNavigationController.m in Sources */,
 				BF58D31719B91550003B2B62 /* UIImage+PDF.m in Sources */,
 				BF2F3558183FF6F9002ACE90 /* GBASaveStateTableViewCell.m in Sources */,
 				BFFDAE1319BC2FD100BE5F74 /* GBAControllerSkinGroup.m in Sources */,
@@ -2347,6 +2362,7 @@
 				CCFA718C179D2EAB00768D24 /* ResourceFace.cc in Sources */,
 				CC6A2D9817C50CE700EFC10E /* GBACheatEditorViewController.m in Sources */,
 				BF7C0E72189DA35800794093 /* SSZipArchive.m in Sources */,
+				BF7391F219DCA96A00C6AEDC /* GBAMasterNavigationController.m in Sources */,
 				BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */,
 				CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */,
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
