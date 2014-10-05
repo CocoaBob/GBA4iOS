@@ -58,9 +58,11 @@ static GBAEmulationViewController *_emulationViewController;
 
 @property (assign, nonatomic) BOOL pausedEmulation;
 @property (assign, nonatomic) BOOL stayPaused;
-@property (assign, nonatomic, getter=isPlayingIntroAnimation) BOOL playingIntroAnimation;
 @property (assign, nonatomic) BOOL interfaceOrientationLocked;
 @property (assign, nonatomic, getter = isLaunchingApplication) BOOL launchingApplication;
+
+@property (assign, nonatomic, getter=isPlayingIntroAnimation) BOOL playingIntroAnimation;
+@property (assign, nonatomic) BOOL shouldHideIntroAnimation;
 
 @property (assign, nonatomic) BOOL usingGyroscope;
 @property (assign, nonatomic) BOOL shouldResumeEmulationAfterRotatingInterface;
@@ -145,7 +147,7 @@ static GBAEmulationViewController *_emulationViewController;
     self.view.clipsToBounds = NO;
     
     // This isn't for FPS, remember? Keep it here stupid, it's for sustain button
-    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateControllerInputs:)];
+    self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkDidUpdate:)];
 	[self.displayLink setFrameInterval:1];
 	[self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
@@ -402,6 +404,17 @@ static GBAEmulationViewController *_emulationViewController;
     }
 }
 
+- (void)displayLinkDidUpdate:(CADisplayLink *)displayLink
+{
+    [self updateControllerInputs];
+    
+    if (self.shouldHideIntroAnimation)
+    {
+        self.shouldHideIntroAnimation = NO;
+        self.emulatorScreen.introAnimationLayer = nil;
+    }
+}
+
 #pragma mark - Intro Animation
 
 - (void)playIntroAnimation
@@ -422,10 +435,12 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)introAnimationDidFinish:(NSNotification *)notification
 {
-    self.emulatorScreen.introAnimationLayer = nil;
     self.playingIntroAnimation = NO;
     
     [self resumeEmulation];
+    
+    // Delay until screen refresh so previous game is never seen
+    self.shouldHideIntroAnimation = YES;
 }
 
 #pragma mark - Airplay
@@ -652,7 +667,7 @@ static GBAEmulationViewController *_emulationViewController;
     [[GBAEmulatorCore sharedCore] releaseButtons:buttons];
 }
 
-- (void)updateControllerInputs:(CADisplayLink *)displayLink
+- (void)updateControllerInputs
 {
     if (self.buttonsToPressForNextCycle)
     {
@@ -1393,11 +1408,6 @@ static GBAEmulationViewController *_emulationViewController;
 
 #pragma mark - GBAEmulatorCoreDelegate
 
-- (void)updateControllerInputs
-{
-    // Unfortunately, there's a bug that delays valueChangedHandler when multiple buttons are being pressed, so we need to update every CPU loop when using an external controller
-}
-
 - (void)emulatorCore:(GBAEmulatorCore *)emulatorCore didEnableGyroscopeForROM:(GBAROM *)rom
 {
     self.usingGyroscope = YES;
@@ -1648,6 +1658,13 @@ static GBAEmulationViewController *_emulationViewController;
     if (!self.stayPaused)
     {
         [self resumeEmulation];
+    }
+    else
+    {
+        if ([self isPlayingIntroAnimation])
+        {
+            [self.emulatorScreen.introAnimationLayer.player play];
+        }
     }
 }
 
