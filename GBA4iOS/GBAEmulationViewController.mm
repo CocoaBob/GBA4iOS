@@ -40,7 +40,9 @@ static GBAEmulationViewController *_emulationViewController;
 @interface GBAEmulationViewController () <GBAControllerInputDelegate, UIViewControllerTransitioningDelegate, GBASaveStateViewControllerDelegate, GBACheatManagerViewControllerDelegate, GBASyncingDetailViewControllerDelegate, GBAEventDistributionViewControllerDelegate, GBAEmulatorCoreDelegate, GBAROMTableViewControllerAppearanceDelegate> {
     CFAbsoluteTime _romStartTime;
     CFAbsoluteTime _romPauseTime;
+    
     NSInteger _sustainButtonFrameCount;
+    NSInteger _hideIntroAnimationFrameCount;
 }
 
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
@@ -410,8 +412,15 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (self.shouldHideIntroAnimation)
     {
-        self.shouldHideIntroAnimation = NO;
-        self.emulatorScreen.introAnimationLayer = nil;
+        _hideIntroAnimationFrameCount++;
+        
+        if (_hideIntroAnimationFrameCount > 1)
+        {
+            self.shouldHideIntroAnimation = NO;
+            self.emulatorScreen.introAnimationLayer = nil;
+            
+            _hideIntroAnimationFrameCount = 0;
+        }
     }
 }
 
@@ -441,6 +450,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     // Delay until screen refresh so previous game is never seen
     self.shouldHideIntroAnimation = YES;
+    _hideIntroAnimationFrameCount = 0;
 }
 
 #pragma mark - Airplay
@@ -2637,8 +2647,11 @@ static GBAEmulationViewController *_emulationViewController;
         {
             [self startEmulation];
             
-            [self pauseEmulation];
-            [self playIntroAnimation];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsIntroAnimationKey])
+            {
+                [self pauseEmulation];
+                [self playIntroAnimation];
+            }
         }
         else
         {

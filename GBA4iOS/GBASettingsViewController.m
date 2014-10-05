@@ -26,15 +26,16 @@
 #define SAVING_SECTION 2
 #define PUSH_NOTIFICATIONS_SECTION 3
 #define ORIGINAL_GAMEBOY_SECTION 4
-#define WEB_BROWSER_SECTION 5
-#define CONTROLLER_SKINS_SECTION 6
-#define CONTROLLER_OPACITY_SECTION 7
-#define VIBRATION_SECTION 8
-#define EXTERNAL_CONTROLLER_SECTION 9
-#define AIRPLAY_SECTION 10
-#define DROPBOX_SYNC_SECTION 11
-#define SOFTWARE_UPDATE_SECTION 12
-#define CREDITS_SECTION 13
+#define EMULATION_SECTION 5
+#define WEB_BROWSER_SECTION 6
+#define CONTROLLER_SKINS_SECTION 7
+#define CONTROLLER_OPACITY_SECTION 8
+#define VIBRATION_SECTION 9
+#define EXTERNAL_CONTROLLER_SECTION 10
+#define AIRPLAY_SECTION 11
+#define DROPBOX_SYNC_SECTION 12
+#define SOFTWARE_UPDATE_SECTION 13
+#define CREDITS_SECTION 14
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -49,11 +50,13 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *airplaySwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *rememberLastWebpageSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *introAnimationSwitch;
 
 @property (weak, nonatomic) IBOutlet UILabel *dropboxSyncStatusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pushNotificationsEnabledLabel;
 @property (weak, nonatomic) IBOutlet UILabel *colorPaletteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *homepageLabel;
+
 
 - (IBAction)dismissSettings:(UIBarButtonItem *)barButtonItem;
 
@@ -64,6 +67,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 - (IBAction)changeControllerOpacity:(UISlider *)sender;
 - (IBAction)jumpToRoundedOpacityValue:(UISlider *)sender;
 - (IBAction)toggleAirPlay:(UISwitch *)sender;
+- (IBAction)toggleIntroAnimation:(UISwitch *)sender;
 
 @end
 
@@ -131,7 +135,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsControllerOpacityKey: @0.5,
                                GBASettingsAirPlayEnabledKey: @YES,
                                GBASettingsEventDistributionPushNotificationsKey: @YES,
-                               GBASettingsSoftwareUpdatePushNotificationsKey: @YES};
+                               GBASettingsSoftwareUpdatePushNotificationsKey: @YES,
+                               GBASettingsIntroAnimationKey: @YES};
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
@@ -150,6 +155,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.airplaySwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabledKey];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     self.rememberLastWebpageSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsRememberLastWebpageKey];
+    self.introAnimationSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsIntroAnimationKey];
     
     NSString *percentage = [NSString stringWithFormat:@"%.f", self.controllerOpacitySlider.value * 100];
     percentage = [percentage stringByAppendingString:@"%"];
@@ -341,6 +347,12 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsAirPlayEnabledKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsAirPlayEnabledKey, @"value": @(sender.on)}];
+}
+
+- (IBAction)toggleIntroAnimation:(UISwitch *)sender
+{
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsIntroAnimationKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsIntroAnimationKey, @"value": @(sender.on)}];
 }
 
 - (IBAction)toggleRememberLastWebpage:(UISwitch *)sender

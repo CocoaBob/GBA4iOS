@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6249" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
     </dependencies>
     <scenes>
         <!--Settings-->
@@ -175,6 +176,43 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Emulation" footerTitle="Play GBA4iOS animation when starting a new game." id="TL8-vo-bMg">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwitchCell" id="fJm-oe-OpX" customClass="GBASettingsTableViewCell">
+                                        <rect key="frame" x="0.0" y="391" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fJm-oe-OpX" id="Fcf-rO-h9g">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nVu-aQ-sm2">
+                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="toggleIntroAnimation:" destination="fFF-zm-sH1" eventType="valueChanged" id="MS3-pM-yg1"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Intro Animation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgH-FF-EUW">
+                                                    <rect key="frame" x="15" y="11" width="117" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="DgH-FF-EUW" firstAttribute="leading" secondItem="Fcf-rO-h9g" secondAttribute="leading" constant="15" id="6cV-ld-sT8"/>
+                                                <constraint firstItem="nVu-aQ-sm2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DgH-FF-EUW" secondAttribute="trailing" constant="8" id="Oyu-z3-dST"/>
+                                                <constraint firstAttribute="trailing" secondItem="nVu-aQ-sm2" secondAttribute="trailing" constant="15" id="lFX-5w-kTW"/>
+                                                <constraint firstAttribute="centerY" secondItem="nVu-aQ-sm2" secondAttribute="centerY" id="u3L-5s-j5b"/>
+                                                <constraint firstAttribute="centerY" secondItem="DgH-FF-EUW" secondAttribute="centerY" id="wX4-ON-M9J"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="leftInsetConstraint" destination="6cV-ld-sT8" id="CH1-Dp-amz"/>
+                                            <outlet property="rightInsetConstraint" destination="lFX-5w-kTW" id="bzE-Tc-tAO"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -723,6 +761,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                         <outlet property="dropboxSyncStatusLabel" destination="xfN-uz-80c" id="Avt-ga-uTF"/>
                         <outlet property="frameSkipSegmentedControl" destination="wCX-6F-d72" id="jfC-Vu-4k6"/>
                         <outlet property="homepageLabel" destination="wJt-pc-6cL" id="Slk-jg-uRC"/>
+                        <outlet property="introAnimationSwitch" destination="nVu-aQ-sm2" id="mes-fm-BGu"/>
                         <outlet property="preferExternalAudioSwitch" destination="DUi-8T-x1x" id="71X-KY-HIm"/>
                         <outlet property="pushNotificationsEnabledLabel" destination="QJX-D8-fJ9" id="EXU-WC-ZLC"/>
                         <outlet property="rememberLastWebpageSwitch" destination="HaO-bL-vi1" id="jqk-Dy-ccz"/>
