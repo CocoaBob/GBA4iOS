@@ -2072,6 +2072,17 @@ static GBAEmulationViewController *_emulationViewController;
     {
         CGRect screenRect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingScreen orientation:self.controllerView.orientation controllerDisplaySize:self.view.bounds.size];
         
+        // In case we're coming back from AirPlaying
+        if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
+        {
+            [self.screenContainerView addConstraint:self.screenHorizontalCenterLayoutConstraint];
+        }
+        
+        if (![self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
+        {
+            [self.screenContainerView addConstraint:self.screenVerticalCenterLayoutConstraint];
+        }
+        
         if (CGRectIsEmpty(screenRect) || self.externalController)
         {
             [UIView animateWithDuration:0.4 animations:^{
