@@ -2557,9 +2557,6 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (UIImage *)blurredViewImageForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation drawController:(BOOL)drawController
 {
-    // Can be modified if wanting to eventually blur separate parts of the view, so it extends outwards into the black (smoother)
-    CGFloat edgeExtension = 0;
-    
     CGSize viewSize = [[[UIApplication sharedApplication] delegate] window].bounds.size;
     NSString *userDefaultsSkinOrientation = nil;
     GBAControllerSkinOrientation skinOrientation = GBAControllerSkinOrientationPortrait;
@@ -2639,7 +2636,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     CGSize controllerDisplaySize = [controllerSkin frameForMapping:GBAControllerSkinMappingControllerImage orientation:skinOrientation controllerDisplaySize:viewSize].size;
     CGSize screenContainerSize = CGSizeZero;
-    CGRect drawingRect = CGRectZero;
+    CGRect controllerRect = CGRectZero;
     
     CGSize screenSize = [self screenSizeForContainerSize:viewSize];
     
@@ -2647,8 +2644,8 @@ static GBAEmulationViewController *_emulationViewController;
     {
         screenContainerSize = CGSizeMake(viewSize.width, viewSize.height - controllerDisplaySize.height);
         
-        drawingRect = CGRectMake(edgeExtension + (viewSize.width - controllerDisplaySize.width) / 2.0f,
-                                 edgeExtension + screenContainerSize.height,
+        controllerRect = CGRectMake((viewSize.width - controllerDisplaySize.width) / 2.0f,
+                                 screenContainerSize.height,
                                  controllerDisplaySize.width,
                                  controllerDisplaySize.height);
     }
@@ -2656,15 +2653,14 @@ static GBAEmulationViewController *_emulationViewController;
     {
         screenContainerSize = CGSizeMake(viewSize.width, viewSize.height);
         
-        drawingRect = CGRectMake(edgeExtension + (screenContainerSize.width - controllerDisplaySize.width) / 2.0,
-                                 edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+        controllerRect = CGRectMake((screenContainerSize.width - controllerDisplaySize.width) / 2.0,
+                                 0,
                                  controllerDisplaySize.width,
                                  controllerDisplaySize.height);
     }
     
 
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width + edgeExtension * 2, viewSize.height + edgeExtension * 2),
-                                           YES, 0.5);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(viewSize.width, viewSize.height), YES, 0.5);
     
     if (self.emulatorScreen.eaglView && ![self isAirplaying]) // As of iOS 7.0.3 crashes when attempting to draw the empty emulatorScreen
     {
@@ -2672,8 +2668,8 @@ static GBAEmulationViewController *_emulationViewController;
         
         if (CGRectIsEmpty(screenRect) || self.externalController)
         {
-            [self.emulatorScreen drawViewHierarchyInRect:CGRectMake(edgeExtension + (screenContainerSize.width - screenSize.width) / 2.0,
-                                                                    edgeExtension + (screenContainerSize.height - screenSize.height) / 2.0,
+            [self.emulatorScreen drawViewHierarchyInRect:CGRectMake((screenContainerSize.width - screenSize.width) / 2.0,
+                                                                    (screenContainerSize.height - screenSize.height) / 2.0,
                                                                     screenSize.width,
                                                                     screenSize.height) afterScreenUpdates:NO];
         }
@@ -2685,7 +2681,7 @@ static GBAEmulationViewController *_emulationViewController;
     
     if (drawController)
     {
-        [controllerSkinImage drawInRect:drawingRect blendMode:kCGBlendModeNormal alpha:controllerAlpha];
+        [controllerSkinImage drawInRect:controllerRect blendMode:kCGBlendModeNormal alpha:controllerAlpha];
     }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
