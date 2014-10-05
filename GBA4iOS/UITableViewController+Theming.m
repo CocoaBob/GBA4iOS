@@ -74,6 +74,21 @@
             break;
         }
     }
+    
+    // Important this stays here, or else some properties (such as text color) don't immediately change on iOS 8 (header needs to be dequeued first)
+    [header layoutIfNeeded];
+    
+    // Need to update these *again* after layoutIfNeeded, which in turn needs to come after all the other adjustments. ¯\_(ツ)_/¯
+    switch (theme)
+    {
+        case GBAThemedTableViewControllerThemeOpaque:
+            header.textLabel.textColor = [UIColor blackColor];
+            break;
+            
+        case GBAThemedTableViewControllerThemeTranslucent:
+            header.textLabel.textColor = [UIColor whiteColor];
+            break;
+    }
 }
 
 - (void)updateTheme
