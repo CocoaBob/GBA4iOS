@@ -1746,13 +1746,6 @@ static GBAEmulationViewController *_emulationViewController;
     {
         [self resumeEmulation];
     }
-    else
-    {
-        if ([self isPlayingIntroAnimation])
-        {
-            [self.emulatorScreen.introAnimationLayer.player play];
-        }
-    }
 }
 
 - (void)didEnterBackground:(NSNotification *)notification
@@ -2256,13 +2249,6 @@ static GBAEmulationViewController *_emulationViewController;
         return;
     }
     
-    [self.emulatorScreen.introAnimationLayer.player play];
-    
-    if ([self isPlayingIntroAnimation])
-    {
-        return;
-    }
-    
     self.shouldResumeEmulationAfterRotatingInterface = NO;
     
     self.pausedEmulation = NO;
@@ -2273,10 +2259,17 @@ static GBAEmulationViewController *_emulationViewController;
         return;
     }
     
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    [self.emulatorScreen.introAnimationLayer.player play];
+    
+    if ([self isPlayingIntroAnimation])
+    {
+        return;
+    }
+    
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
-    
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)updateFilter
