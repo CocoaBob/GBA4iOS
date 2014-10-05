@@ -525,7 +525,7 @@ extern void applyGBPalette(uint idx);
     }
     else if ([settingsKey isEqualToString:GBASettingsSelectedColorPaletteKey])
     {
-        applyGBPalette((uint)[[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey]);
+        applyGBPalette((uint)[notification.userInfo[@"value"] integerValue]);
     }    
     
 }

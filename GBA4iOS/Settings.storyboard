@@ -1092,7 +1092,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection id="5eF-q4-CKV">
-                                <string key="footerTitle">Alternatively, you can temporarily override the selected palette by pressing and holding different combinations of the D-Pad, A, and B buttons during the GBA4iOS animation (if enabled).</string>
+                                <string key="footerTitle">Alternatively, you can temporarily override the selected palette by pressing and holding different combinations of the D-Pad, A, and B buttons during the GBA4iOS intro animation (if enabled).</string>
                                 <cells/>
                             </tableViewSection>
                         </sections>

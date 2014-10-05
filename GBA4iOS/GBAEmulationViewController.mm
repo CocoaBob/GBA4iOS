@@ -51,12 +51,14 @@ static GBAEmulationViewController *_emulationViewController;
 @property (strong, nonatomic) UIActionSheet *pausedActionSheet;
 @property (weak, nonatomic) IBOutlet UIView *screenContainerView;
 @property (strong, nonatomic) CADisplayLink *displayLink;
-@property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
 @property (strong, nonatomic) UIWindow *airplayWindow;
 @property (strong, nonatomic) GBAROMTableViewController *romTableViewController;
 @property (strong, nonatomic) UIView *splashScreenView;
 @property (strong, nonatomic) GBAEventDistributionViewController *eventDistributionViewController;
 @property (copy, nonatomic) NSDictionary *eventDistributionROMs;
+
+@property (copy, nonatomic) NSSet *buttonsToPressForNextCycle;
+@property (strong, nonatomic) NSMutableSet *pressedButtons;
 
 @property (assign, nonatomic) BOOL pausedEmulation;
 @property (assign, nonatomic) BOOL stayPaused;
@@ -240,6 +242,8 @@ static GBAEmulationViewController *_emulationViewController;
             }
         }];
     }
+    
+    self.pressedButtons = [NSMutableSet set];
     
     [[[[UIApplication sharedApplication] delegate] window] bringSubviewToFront:self.splashScreenView];
     
@@ -603,6 +607,13 @@ static GBAEmulationViewController *_emulationViewController;
         [self sustainButtons:buttons];
     }
     
+    [self.pressedButtons unionSet:buttons];
+    
+    if (self.rom.type == GBAROMTypeGBC && [self isPlayingIntroAnimation])
+    {
+        [self updateColorPaletteForPressedButtons:self.pressedButtons];
+    }
+    
     if ([buttons containsObject:@(GBAControllerButtonFastForward)])
     {
         // Stop fast forwarding on when finished pressing button
@@ -616,6 +627,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         return;
     }
+    
     
     if ([self.sustainedButtonSet intersectsSet:buttons]) // We re-pressed a sustained button, so we need to release it then press it in the next emulation CPU cycle
     {
@@ -654,6 +666,13 @@ static GBAEmulationViewController *_emulationViewController;
     {
         // Do nothing
         return;
+    }
+    
+    [self.pressedButtons minusSet:buttons];
+    
+    if (self.rom.type == GBAROMTypeGBC && [self isPlayingIntroAnimation])
+    {
+        [self updateColorPaletteForPressedButtons:self.pressedButtons];
     }
     
     if ([buttons containsObject:@(GBAControllerButtonFastForward)])
@@ -702,6 +721,62 @@ static GBAEmulationViewController *_emulationViewController;
     [self.externalController updateControllerInputs];
     
 #endif
+}
+
+- (void)updateColorPaletteForPressedButtons:(NSSet *)pressedButtons
+{
+    GBCColorPalette overrideColorPalette = (GBCColorPalette)[[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsSelectedColorPaletteKey];
+    
+    if ([pressedButtons isEqualToSet:[NSSet setWithObject:@(GBAControllerButtonUp)]])
+    {
+        overrideColorPalette = GBCColorPaletteBrown;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObject:@(GBAControllerButtonLeft)]])
+    {
+        overrideColorPalette = GBCColorPaletteBlue;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObject:@(GBAControllerButtonDown)]])
+    {
+        overrideColorPalette = GBCColorPalettePastelMix;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObject:@(GBAControllerButtonRight)]])
+    {
+        overrideColorPalette = GBCColorPaletteGreen;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonUp), @(GBAControllerButtonA), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteRed;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonLeft), @(GBAControllerButtonA), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteDarkBlue;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonDown), @(GBAControllerButtonA), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteOrange;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonRight), @(GBAControllerButtonA), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteDarkGreen;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonUp), @(GBAControllerButtonB), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteDarkBrown;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonLeft), @(GBAControllerButtonB), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteGray;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonDown), @(GBAControllerButtonB), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteYellow;
+    }
+    else if ([pressedButtons isEqualToSet:[NSSet setWithObjects:@(GBAControllerButtonRight), @(GBAControllerButtonB), nil]])
+    {
+        overrideColorPalette = GBCColorPaletteReverse;
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsSelectedColorPaletteKey, @"value": @(overrideColorPalette)}];
 }
 
 #pragma mark - Pause Menu
