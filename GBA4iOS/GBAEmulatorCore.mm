@@ -526,8 +526,24 @@ extern void applyGBPalette(uint idx);
     else if ([settingsKey isEqualToString:GBASettingsSelectedColorPaletteKey])
     {
         applyGBPalette((uint)[notification.userInfo[@"value"] integerValue]);
-    }    
+    }
+    else if ([settingsKey isEqualToString:GBASettingsPreferExternalAudioKey])
+    {
+        [self updateAudioSession];
+    }
     
+}
+
+- (void)updateAudioSession
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferExternalAudioKey])
+    {
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient withOptions:0 error:nil];
+    }
+    else
+    {
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient withOptions:0 error:nil];
+    }
 }
 
 - (void)setRom:(GBAROM *)rom
@@ -573,6 +589,8 @@ TimeMach::timebaseMSec = 0, TimeMach::timebaseSec = 0;
         Base::rgbColorSpace = CGColorSpaceCreateDeviceRGB();
         
         [self prepareEmulation];
+        
+        [self updateAudioSession];
         
     });
     
@@ -1140,7 +1158,7 @@ UIKIT_EXTERN void AudioServicesPlaySystemSoundWithVibration(int, id, NSDictionar
 
 void rumbleDevice(bool vibrate)
 {
-    // Vibration duration isn't long enough for the vibration to actually be performed. Workaround?
+    // Vibration duration isn't long enough for the vibration to actually be performed. Workaround?  
 }
 
 #pragma mark - Main App

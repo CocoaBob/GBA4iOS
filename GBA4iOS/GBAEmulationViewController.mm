@@ -441,20 +441,22 @@ static GBAEmulationViewController *_emulationViewController;
     playerLayer.backgroundColor = [UIColor blackColor].CGColor;
     self.emulatorScreen.introAnimationLayer = playerLayer;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(introAnimationDidFinish:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
+    __block id observer = nil;
+    observer = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:playerItem queue:nil usingBlock:^(NSNotification *notification) {
+        
+        self.playingIntroAnimation = NO;
+        
+        [self resumeEmulation];
+        
+        // Delay until screen refresh so previous game is never seen
+        self.shouldHideIntroAnimation = YES;
+        _hideIntroAnimationFrameCount = 0;
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:observer name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
+        
+    }];
     
     [player play];
-}
-
-- (void)introAnimationDidFinish:(NSNotification *)notification
-{
-    self.playingIntroAnimation = NO;
-    
-    [self resumeEmulation];
-    
-    // Delay until screen refresh so previous game is never seen
-    self.shouldHideIntroAnimation = YES;
-    _hideIntroAnimationFrameCount = 0;
 }
 
 #pragma mark - Airplay
@@ -2726,6 +2728,12 @@ static GBAEmulationViewController *_emulationViewController;
             {
                 [self pauseEmulation];
                 [self playIntroAnimation];
+                
+                if (self.showingGyroscopeAlert)
+                {
+                    [self pauseEmulation];
+                }
+                
             }
         }
         else
