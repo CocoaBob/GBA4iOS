@@ -675,14 +675,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         {
             if ([self isResizableForOrientation:orientation])
             {
-                if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-                {
-                    screenType = GBAScreenTypeResizableiPad;
-                }
-                else
-                {
-                    screenType = GBAScreenTypeResizableiPhone;
-                }
+                screenType = GBAScreenTypeResizableiPhone;
             }
             else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPhone5_5])
             {
@@ -708,7 +701,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
     }
     else
     {
-        if ([[UIScreen mainScreen] scale] == 2.0)
+        if ([[UIScreen mainScreen] scale] > 1.0)
         {
             if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPadRetina])
             {
@@ -717,7 +710,10 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         }
         else
         {
-            screenType = GBAScreenTypeiPad;
+            if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPad])
+            {
+                screenType = GBAScreenTypeiPad;
+            }
         }
         
         // Because we resize skins to fit screen, we start at highest resolution and work our way down as a fallback mechanism
@@ -725,7 +721,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         {
             if ([self isResizableForOrientation:orientation])
             {
-                screenType = GBAScreenTypeiPad;
+                screenType = GBAScreenTypeResizableiPad;
             }
             else if ([GBAControllerSkin validObjectExistsInDictionary:dictionary forKey:GBAScreenTypeiPadRetina])
             {
