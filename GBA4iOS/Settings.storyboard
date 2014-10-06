@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6249" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6249" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
@@ -10,7 +10,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="settingsViewController" title="Settings" id="fFF-zm-sH1" customClass="GBASettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9lV-xe-36c">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -24,7 +24,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="290" placeholderIntrinsicHeight="28" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wCX-6F-d72">
-                                                    <rect key="frame" x="15" y="8" width="290" height="29"/>
+                                                    <rect key="frame" x="15" y="8" width="570" height="29"/>
                                                     <segments>
                                                         <segment title="Auto"/>
                                                         <segment title="0"/>
@@ -57,7 +57,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DUi-8T-x1x">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="togglePreferExternalAudio:" destination="fFF-zm-sH1" eventType="valueChanged" id="xp9-Gs-Pce"/>
                                                     </connections>
@@ -96,7 +96,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7vL-qH-dDW">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="toggleAutoSave:" destination="fFF-zm-sH1" eventType="valueChanged" id="jdw-Jw-39b"/>
                                                     </connections>
@@ -189,7 +189,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nVu-aQ-sm2">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="toggleIntroAnimation:" destination="fFF-zm-sH1" eventType="valueChanged" id="MS3-pM-yg1"/>
                                                     </connections>
@@ -251,7 +251,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HaO-bL-vi1">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="toggleRememberLastWebpage:" destination="fFF-zm-sH1" eventType="valueChanged" id="jf3-TV-YSf"/>
                                                     </connections>
@@ -340,7 +340,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EMX-TK-39P">
-                                                    <rect key="frame" x="74" y="7" width="223" height="31"/>
+                                                    <rect key="frame" x="74" y="7" width="503" height="31"/>
                                                     <connections>
                                                         <action selector="changeControllerOpacity:" destination="fFF-zm-sH1" eventType="valueChanged" id="M3d-zU-Y11"/>
                                                         <action selector="jumpToRoundedOpacityValue:" destination="fFF-zm-sH1" eventType="touchCancel" id="1s6-wG-oeP"/>
@@ -385,7 +385,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ocf-oz-ae8">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="toggleVibrate:" destination="fFF-zm-sH1" eventType="valueChanged" id="T27-0C-TcE"/>
                                                     </connections>
@@ -451,7 +451,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Rbt-A6-NOw">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="toggleAirPlay:" destination="fFF-zm-sH1" eventType="valueChanged" id="BgY-DT-ew2"/>
                                                         <action selector="togglePreferExternalAudio:" destination="fFF-zm-sH1" eventType="valueChanged" id="QzG-Wt-IR9"/>
@@ -770,14 +770,14 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E3h-sH-xfG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1074" y="-486"/>
+            <point key="canvasLocation" x="2013.75" y="-513.38028169014081"/>
         </scene>
         <!--Push Notifications-->
         <scene sceneID="cb7-Jx-M5d">
             <objects>
                 <tableViewController storyboardIdentifier="pushNotificationsViewController" id="ChO-MW-gTU" customClass="GBAPushNotificationsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="dll-Ei-z6a">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -791,7 +791,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iuz-gB-Ybf">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="toggleAutoSave:" destination="fFF-zm-sH1" eventType="valueChanged" id="xPf-cW-4PF"/>
                                                         <action selector="toggleEventDistributionPushNotifications:" destination="ChO-MW-gTU" eventType="valueChanged" id="VUB-41-dZD"/>
@@ -829,7 +829,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N9k-VB-IVC">
-                                                    <rect key="frame" x="256" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="toggleAutoSave:" destination="fFF-zm-sH1" eventType="valueChanged" id="LLd-3y-7Bx"/>
                                                         <action selector="toggleSoftwareUpdatePushNotifications:" destination="ChO-MW-gTU" eventType="valueChanged" id="RpA-kv-VfT"/>
@@ -891,14 +891,14 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pab-Hk-Hbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1453" y="-486"/>
+            <point key="canvasLocation" x="2724.375" y="-513.38028169014081"/>
         </scene>
         <!--Color Palette-->
         <scene sceneID="lfZ-tx-ph3">
             <objects>
                 <tableViewController storyboardIdentifier="colorSelectionViewController" id="Iz3-ZL-qnL" customClass="GBAColorSelectionViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="6Fp-Om-8Hj">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -1106,14 +1106,14 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qOh-cj-3Io" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1836" y="-486"/>
+            <point key="canvasLocation" x="3442.5" y="-513.38028169014081"/>
         </scene>
         <!--Homepage-->
         <scene sceneID="B1g-lZ-rf8">
             <objects>
                 <tableViewController storyboardIdentifier="webBrowserHomepageViewController" id="FpP-Ux-VrQ" customClass="GBAWebBrowserHomepageViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Mbv-eF-9kD">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -1213,9 +1213,9 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="http://gba4iosapp.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MFx-SK-tmk">
-                                                    <rect key="frame" x="15" y="11" width="290" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="570" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="done"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="FpP-Ux-VrQ" id="Xex-vW-q9z"/>
                                                     </connections>
@@ -1248,7 +1248,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fBf-Us-tok" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1074" y="164"/>
+            <point key="canvasLocation" x="2013.75" y="173.2394366197183"/>
         </scene>
         <!--External Controller-->
         <scene sceneID="A57-ZL-RkZ">
@@ -1259,11 +1259,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                         <viewControllerLayoutGuide type="bottom" id="EvL-Fl-y9o"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XLY-Ov-Sxs">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fvh-HB-PKz" userLabel="Dismiss Picker Button (Full Width)">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1272,22 +1272,22 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eb4-M0-8s4" userLabel="Button Layout View">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="140" y="0.0" width="320" height="600"/>
                                 <subviews>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Qd-8G-Afa" userLabel="Left Half">
-                                        <rect key="frame" x="0.0" y="0.0" width="160" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="600"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="160" id="Hyo-U8-VZF"/>
                                         </constraints>
                                     </view>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JTZ-3N-NrS" userLabel="Right Half">
-                                        <rect key="frame" x="160" y="0.0" width="160" height="480"/>
+                                        <rect key="frame" x="160" y="0.0" width="160" height="600"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="160" id="VBc-Nx-aHX"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyl-z9-Oen" userLabel="Dismiss Picker Button (Button Layout Width)">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="600"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1296,13 +1296,13 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Controller_Triggers" translatesAutoresizingMaskIntoConstraints="NO" id="NYs-a1-C6a">
-                                        <rect key="frame" x="35" y="128" width="250" height="41"/>
+                                        <rect key="frame" x="35" y="169" width="250" height="41"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="Controller_Buttons" translatesAutoresizingMaskIntoConstraints="NO" id="WlX-xp-Iib">
-                                        <rect key="frame" x="35" y="205" width="250" height="250"/>
+                                        <rect key="frame" x="35" y="280" width="250" height="250"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ID0-ni-W5M" userLabel="L2">
-                                        <rect key="frame" x="35" y="128" width="108" height="40"/>
+                                        <rect key="frame" x="35" y="169" width="108" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="108" id="lhx-zs-eGY"/>
                                             <constraint firstAttribute="height" constant="40" id="qrq-06-p0p"/>
@@ -1315,7 +1315,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-im-6Wv" userLabel="R2">
-                                        <rect key="frame" x="177" y="128" width="108" height="41"/>
+                                        <rect key="frame" x="177" y="169" width="108" height="41"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="108" id="Sbj-Zs-2Cg"/>
                                             <constraint firstAttribute="height" constant="41" id="cBI-Eo-2gM"/>
@@ -1328,7 +1328,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rd-DN-EmS" userLabel="A">
-                                        <rect key="frame" x="127" y="362" width="66" height="66"/>
+                                        <rect key="frame" x="127" y="437" width="66" height="66"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="66" id="DGj-yJ-Tjx"/>
                                             <constraint firstAttribute="height" constant="66" id="NGp-W0-hss"/>
@@ -1342,7 +1342,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sG0-8b-7q4" userLabel="B">
-                                        <rect key="frame" x="192" y="297" width="66" height="66"/>
+                                        <rect key="frame" x="192" y="372" width="66" height="66"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="66" id="B3W-5X-yHA"/>
                                             <constraint firstAttribute="height" constant="66" id="vsr-no-ame"/>
@@ -1356,7 +1356,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqK-s0-noJ" userLabel="X">
-                                        <rect key="frame" x="62" y="297" width="66" height="66"/>
+                                        <rect key="frame" x="62" y="372" width="66" height="66"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="66" id="QgD-Rp-q6A"/>
                                             <constraint firstAttribute="height" constant="66" id="d6H-Wt-eGR"/>
@@ -1370,7 +1370,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5tO-zk-o0F" userLabel="Y">
-                                        <rect key="frame" x="127" y="232" width="66" height="66"/>
+                                        <rect key="frame" x="127" y="307" width="66" height="66"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="66" id="JHP-rE-L9A"/>
                                             <constraint firstAttribute="height" constant="66" id="Y2d-Gv-wEX"/>
@@ -1384,7 +1384,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Tap a button to change what action it performs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUx-2B-J2m">
-                                        <rect key="frame" x="19" y="459" width="282" height="16"/>
+                                        <rect key="frame" x="19" y="573" width="282" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -1428,11 +1428,11 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                 </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qp6-IQ-ZS0" userLabel="Picker Background Toolbar">
-                                <rect key="frame" x="0.0" y="480" width="320" height="162"/>
+                                <rect key="frame" x="0.0" y="600" width="600" height="162"/>
                                 <items/>
                             </toolbar>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZnS-YT-uES" userLabel="Button Picker">
-                                <rect key="frame" x="0.0" y="480" width="320" height="162"/>
+                                <rect key="frame" x="0.0" y="600" width="600" height="162"/>
                                 <connections>
                                     <outlet property="dataSource" destination="bqr-aX-GSp" id="4qd-iR-v8b"/>
                                     <outlet property="delegate" destination="bqr-aX-GSp" id="HZ4-ed-DSH"/>
@@ -1460,7 +1460,6 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                     </view>
                     <navigationItem key="navigationItem" title="Configure Buttons" id="QGa-sU-qVs"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="bottomButtonLayoutViewLayoutConstraint" destination="he5-Y5-1yN" id="9GV-Io-4SZ"/>
                         <outlet property="buttonA" destination="7Rd-DN-EmS" id="ecG-5v-ONK"/>
@@ -1480,14 +1479,14 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qye-VA-pwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1453" y="164"/>
+            <point key="canvasLocation" x="2724.375" y="173.2394366197183"/>
         </scene>
         <!--Software Update-->
         <scene sceneID="6TW-5b-UqA">
             <objects>
                 <tableViewController storyboardIdentifier="softwareUpdateViewController" id="9TZ-lU-1bR" customClass="GBASoftwareUpdateViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="D0H-v7-uTy">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -1508,7 +1507,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GBA4iOS 2.1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBc-Ut-ebM">
-                                                    <rect key="frame" x="74" y="11" width="226" height="21"/>
+                                                    <rect key="frame" x="74" y="11" width="506" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="0vH-79-l8T"/>
                                                     </constraints>
@@ -1517,7 +1516,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Riley Testut" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rdf-Gf-sBN">
-                                                    <rect key="frame" x="74" y="30" width="226" height="21"/>
+                                                    <rect key="frame" x="74" y="30" width="506" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="for-TJ-cnp"/>
                                                     </constraints>
@@ -1525,7 +1524,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0 MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7bk-MD-Hx0">
-                                                    <rect key="frame" x="74" y="46" width="226" height="21"/>
+                                                    <rect key="frame" x="74" y="46" width="506" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="xEW-f7-HWe"/>
                                                     </constraints>
@@ -1533,7 +1532,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdt-lk-gA2">
-                                                    <rect key="frame" x="7" y="70" width="313" height="129"/>
+                                                    <rect key="frame" x="7" y="70" width="593" height="129"/>
                                                     <string key="text">This version of GBA4iOS includes:
 
 • Multiplayer support!</string>
@@ -1600,7 +1599,7 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fjY-TA-Yaa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1836" y="164"/>
+            <point key="canvasLocation" x="3442.5" y="173.2394366197183"/>
         </scene>
     </scenes>
     <resources>
@@ -1608,9 +1607,4 @@ For all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen.</strin
         <image name="Controller_Triggers" width="250" height="41"/>
         <image name="Software_Update_Icon" width="60" height="60"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

@@ -153,6 +153,12 @@
 
 #pragma mark - UITextFieldDelegate -
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [[NSUserDefaults standardUserDefaults] setObject:textField.text forKey:GBASettingsCustomHomepageKey];
