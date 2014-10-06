@@ -703,7 +703,7 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 {
     if (_calloutViewArray == nil)
     {
-        _calloutViewArray = @[self.calloutViewButtonA, self.calloutViewButtonB, self.calloutViewButtonB, self.calloutViewButtonX, self.calloutViewButtonY, self.calloutViewButtonL2, self.calloutViewButtonR2];
+        _calloutViewArray = @[self.calloutViewButtonA, self.calloutViewButtonB, self.calloutViewButtonX, self.calloutViewButtonY, self.calloutViewButtonL2, self.calloutViewButtonR2];
     }
     
     return _calloutViewArray;
