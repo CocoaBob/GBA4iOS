@@ -22,20 +22,21 @@
 #import <Dropbox-iOS-SDK/DropboxSDK.h>
 
 #define FRAME_SKIP_SECTION 0
-#define AUDIO_SECTION 1
-#define SAVING_SECTION 2
-#define PUSH_NOTIFICATIONS_SECTION 3
-#define ORIGINAL_GAMEBOY_SECTION 4
-#define EMULATION_SECTION 5
-#define WEB_BROWSER_SECTION 6
-#define CONTROLLER_SKINS_SECTION 7
-#define CONTROLLER_OPACITY_SECTION 8
-#define VIBRATION_SECTION 9
-#define EXTERNAL_CONTROLLER_SECTION 10
-#define AIRPLAY_SECTION 11
-#define DROPBOX_SYNC_SECTION 12
-#define SOFTWARE_UPDATE_SECTION 13
-#define CREDITS_SECTION 14
+#define LINKING_SECTION 1
+#define AUDIO_SECTION 2
+#define SAVING_SECTION 3
+#define PUSH_NOTIFICATIONS_SECTION 4
+#define ORIGINAL_GAMEBOY_SECTION 5
+#define EMULATION_SECTION 6
+#define WEB_BROWSER_SECTION 7
+#define CONTROLLER_SKINS_SECTION 8
+#define CONTROLLER_OPACITY_SECTION 9
+#define VIBRATION_SECTION 10
+#define EXTERNAL_CONTROLLER_SECTION 11
+#define AIRPLAY_SECTION 12
+#define DROPBOX_SYNC_SECTION 13
+#define SOFTWARE_UPDATE_SECTION 14
+#define CREDITS_SECTION 15
 
 NSString *const GBASettingsDidChangeNotification = @"GBASettingsDidChangeNotification";
 NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropboxStatusChangedNotification";
@@ -366,7 +367,18 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
+    if (indexPath.section == LINKING_SECTION)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Multiplayer Coming Soon", @"")
+                                                            message:NSLocalizedString(@"Multiplayer will be enabled in a future beta. Stay tuned!", @"")
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    else if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
     {
         GBAPushNotificationsViewController *pushNotificationsViewController = [GBAPushNotificationsViewController new];
         [self.navigationController pushViewController:pushNotificationsViewController animated:YES];
