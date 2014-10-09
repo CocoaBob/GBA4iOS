@@ -19,7 +19,7 @@
 #import "GBAAcknowledgementsViewController.h"
 #import "GBALinkViewController.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <Dropbox-iOS-SDK/DropboxSDK.h>
 
 #define FRAME_SKIP_SECTION 0
 #define AUDIO_SECTION 1

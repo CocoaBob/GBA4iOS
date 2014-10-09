@@ -19,7 +19,7 @@
 #import "GBALinkManager.h"
 
 #import "SSZipArchive.h"
-#import <DropboxSDK/DropboxSDK.h>
+#import <Dropbox-iOS-SDK/DropboxSDK.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 #import "UIView+DTDebug.h"

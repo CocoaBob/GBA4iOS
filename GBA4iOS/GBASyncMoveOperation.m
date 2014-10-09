@@ -10,7 +10,7 @@
 #import "GBASyncOperation_Private.h"
 #import "GBASyncUploadDeviceUploadHistoryOperation.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <Dropbox-iOS-SDK/DropboxSDK.h>
 
 @implementation GBASyncMoveOperation
 

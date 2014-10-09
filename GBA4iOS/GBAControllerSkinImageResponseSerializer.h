@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Riley Testut. All rights reserved.
 //
 
-#import "AFURLResponseSerialization.h"
+#import <AFNetworking/AFURLResponseSerialization.h>
 
 @interface GBAControllerSkinImageResponseSerializer : AFHTTPResponseSerializer
 

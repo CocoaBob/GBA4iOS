@@ -21,13 +21,13 @@
 #import "NSFileManager+ForcefulMove.h"
 #import "GBAWebViewController.h"
 
-#import <Crashlytics/Crashlytics.h>
+#import <CrashlyticsFramework/Crashlytics.h>
 
 #import "UIAlertView+RSTAdditions.h"
 #import "UIActionSheet+RSTAdditions.h"
 
 #import "SSZipArchive.h"
-#import <DropboxSDK/DropboxSDK.h>
+#import <Dropbox-iOS-SDK/DropboxSDK.h>
 
 #define LEGAL_NOTICE_ALERT_TAG 15
 #define NAME_ROM_ALERT_TAG 17
