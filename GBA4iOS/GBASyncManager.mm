@@ -203,6 +203,24 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)syncAllFiles
 {
+    NSUInteger syncAllFilesOperationCount = 0;
+    
+    for (GBASyncAllFilesOperation *operation in self.multipleFilesOperationQueue.operations)
+    {
+        if ([operation isKindOfClass:[GBASyncAllFilesOperation class]])
+        {
+            syncAllFilesOperationCount++;
+        }
+    }
+    
+    if (syncAllFilesOperationCount > 1)
+    {
+        // There's a sync operation in waiting, which will sync all new changes.
+        // No use adding another one then, so we just return
+        
+        return;
+    }
+    
     GBASyncAllFilesOperation *allFilesOperation = [[GBASyncAllFilesOperation alloc] init];
     allFilesOperation.delegate = self;
     allFilesOperation.completionBlock = ^{
