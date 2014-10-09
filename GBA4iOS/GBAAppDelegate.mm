@@ -28,7 +28,7 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import <CrashReporter/CrashReporter.h>
-#import <Crashlytics/Crashlytics.h>
+#import <CrashlyticsFramework/Crashlytics.h>
 #endif
 
 NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPlayROMNotification";

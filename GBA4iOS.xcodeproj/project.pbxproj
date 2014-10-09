@@ -2086,7 +2086,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF7C0E74189DA4CB00794093 /* ShellScript */ = {
@@ -2521,17 +2521,13 @@
 /* Begin XCBuildConfiguration section */
 		BF2F35D1183FF6F9002ACE90 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0890E9721B4E026624943040 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
@@ -2572,6 +2568,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2579,17 +2576,13 @@
 		};
 		BF2F35D2183FF6F9002ACE90 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 256461C3E0D17F5480416EFE /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2626,6 +2619,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2633,17 +2627,13 @@
 		};
 		BF2F35D3183FF6F9002ACE90 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CAAD66C288709740D3D2D39E /* Pods.ad hoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2680,6 +2670,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2687,8 +2678,9 @@
 		};
 		BF89A45118585D3100464448 /* Enterprise */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 58F0A6F0965B5B86FA9C8E43 /* Pods.enterprise.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_ID = com.rileytestut.enterprise.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2706,7 +2698,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ChinaVDI(Beijing)Technology Co.,Ltd.";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2715,12 +2710,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -2729,6 +2718,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"$(inherited)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -2803,23 +2793,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 58F0A6F0965B5B86FA9C8E43 /* Pods.enterprise.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -2844,17 +2825,13 @@
 		};
 		BF89A45318585D3100464448 /* Enterprise */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 58F0A6F0965B5B86FA9C8E43 /* Pods.enterprise.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2891,6 +2868,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2898,8 +2876,9 @@
 		};
 		BF941F9B18B71CC0002510D0 /* Jailbreak */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33AED25015C2CCBD9F6C82F0 /* Pods.jailbreak.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_ID = com.rileytestut.enterprise.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2915,7 +2894,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -2924,12 +2906,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -2938,6 +2914,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"$(inherited)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -3012,25 +2989,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 33AED25015C2CCBD9F6C82F0 /* Pods.jailbreak.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -3056,17 +3024,13 @@
 		};
 		BF941F9D18B71CC0002510D0 /* Jailbreak */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33AED25015C2CCBD9F6C82F0 /* Pods.jailbreak.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3103,6 +3067,7 @@
 				);
 				PRODUCT_NAME = "GBA4iOS copy";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3110,8 +3075,9 @@
 		};
 		CC2D572F1798F2ED00C616EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0890E9721B4E026624943040 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_ID = com.rileytestut.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -3128,7 +3094,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yvette Testut (B5VNWGK3MY)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 2;
@@ -3145,12 +3114,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -3159,6 +3122,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"$(inherited)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -3231,8 +3195,9 @@
 		};
 		CC2D57301798F2ED00C616EB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 256461C3E0D17F5480416EFE /* Pods.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_ID = com.rileytestut.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -3249,7 +3214,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -3258,12 +3226,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -3272,6 +3234,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"$(inherited)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -3346,23 +3309,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0890E9721B4E026624943040 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -3389,25 +3343,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 256461C3E0D17F5480416EFE /* Pods.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -3433,8 +3378,9 @@
 		};
 		CC347BB017A3CF2200309436 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CAAD66C288709740D3D2D39E /* Pods.ad hoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				BUNDLE_ID = com.rileytestut.GBA4iOS;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -3452,7 +3398,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: FOSHAN CITY SHUNDE WIN-MEGA ELECTRIC CO., LTD.";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${SRCROOT}/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "COCOAPODS=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -3461,12 +3410,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip/\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
@@ -3475,6 +3418,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/include\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/libgambatte/src\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
+					"$(inherited)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = (
@@ -3549,23 +3493,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CAAD66C288709740D3D2D39E /* Pods.ad hoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/GBA4iOS",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/NJKWebViewProgress\"",
-					"\"${PODS_ROOT}/Headers/RSTAlertView\"",
-					"\"${PODS_ROOT}/Headers/RSTFileBrowserViewController\"",
-					"\"${PODS_ROOT}/Headers/RSTWebViewController\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/imagine/src/base/iphone\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBA.emu/src/vbam\"",
 					"\"$(SRCROOT)/emu-ex-plus-alpha/EmuFramework/include/\"",
