@@ -34,7 +34,7 @@
 #define DELETE_ROM_ALERT_TAG 2
 #define RENAME_GESTURE_RECOGNIZER_TAG 22
 
-#define OVERWRITE_DEFAULT_SKIN 1
+#define OVERWRITE_DEFAULT_SKIN 0
 
 static void * GBADownloadROMProgressContext = &GBADownloadROMProgressContext;
 
