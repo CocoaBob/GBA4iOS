@@ -160,11 +160,16 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
     NSInteger currentNumberOfSections = self.tableView.numberOfSections;
     
     [self.tableView beginUpdates];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, currentNumberOfSections)] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, MIN(currentNumberOfSections - 1, (long)self.groups.count))] withRowAnimation:UITableViewRowAnimationFade];
     
     if ((int)[self.groups count] > currentNumberOfSections - 1)
     {
         [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(currentNumberOfSections, self.groups.count - (currentNumberOfSections - 1))] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
+    if ((int)[self.groups count] < currentNumberOfSections - 1)
+    {
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(self.groups.count + 1, (currentNumberOfSections - 1) - self.groups.count)] withRowAnimation:UITableViewRowAnimationFade];
     }
     
     [self.tableView endUpdates];
@@ -296,7 +301,16 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    NSString *cachedSkinsResponsePath = [cachesDirectory stringByAppendingPathComponent:@"controllerSkinsResponse.plist"];
+    NSString *cachedSkinsResponsePath = nil;
+    
+    if (self.controllerSkinType == GBAControllerSkinTypeGBA)
+    {
+        cachedSkinsResponsePath = [cachesDirectory stringByAppendingPathComponent:@"controllerSkinsResponse-gba.plist"];
+    }
+    else
+    {
+        cachedSkinsResponsePath = [cachesDirectory stringByAppendingPathComponent:@"controllerSkinsResponse-gbc.plist"];
+    }
     
     return cachedSkinsResponsePath;
 }
