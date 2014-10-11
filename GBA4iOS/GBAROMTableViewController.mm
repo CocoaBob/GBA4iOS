@@ -822,14 +822,14 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
     [self importDefaultGBASkin];
     [self importDefaultGBCSkin];
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"removedNintendoLogos"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"updatedDefaultSkins"];
 }
 
 - (void)importDefaultGBASkin
 {
     GBAControllerSkin *defaultSkin = [GBAControllerSkin defaultControllerSkinForSkinType:GBAControllerSkinTypeGBA];
     
-    if (defaultSkin && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
+    if (defaultSkin && [[NSUserDefaults standardUserDefaults] objectForKey:@"updatedDefaultSkins"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
@@ -846,7 +846,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 {
     GBAControllerSkin *defaultSkin = [GBAControllerSkin defaultControllerSkinForSkinType:GBAControllerSkinTypeGBC];
     
-    if (defaultSkin && [[NSUserDefaults standardUserDefaults] objectForKey:@"removedNintendoLogos"])
+    if (defaultSkin && [[NSUserDefaults standardUserDefaults] objectForKey:@"updatedDefaultSkins"])
     {
 #if OVERWRITE_DEFAULT_SKIN
 #warning Set OVERWRITE_DEFAULT_SKIN to 0 before releasing
