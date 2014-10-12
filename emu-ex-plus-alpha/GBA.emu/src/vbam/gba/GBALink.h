@@ -10,6 +10,7 @@ enum LinkMode
 	LINK_CABLE_IPC,
 	LINK_CABLE_SOCKET,
 	LINK_RFU_IPC,
+    LINK_RFU_SOCKET,
 	LINK_GAMECUBE_DOLPHIN
 };
 
@@ -161,5 +162,13 @@ extern const char *MakeInstanceFilename(const char *Input);
 #define JOYCNT_RECV_COMPLETE	2
 #define JOYCNT_SEND_COMPLETE	4
 #define JOYCNT_INT_ENABLE		0x40
+
+
+// 1030e Methods
+
+u16 RFCheck(u16 value);
+void RFUClear();
+
+bool EmuReseted;
 
 #endif /* GBA_GBALINK_H */

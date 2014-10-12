@@ -1232,7 +1232,7 @@ static const int length = 256;
     EnableSpeedHacks(false);
     EnableLinkServer(true,  1);    
     
-    __block ConnectionState state = InitLink(LINK_CABLE_SOCKET);
+    __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
     
     char localhost[length];
     GetLinkServerHost(localhost, length);
@@ -1283,9 +1283,9 @@ static const int length = 256;
 {
     SetLinkTimeout(1000);
     EnableSpeedHacks(false);
-    SetLinkServerHost("192.168.1.101");
+    SetLinkServerHost("192.168.29.106");
     
-    __block ConnectionState state = InitLink(LINK_CABLE_SOCKET);
+    __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
     
     while (state == LINK_NEEDS_UPDATE) {
         // Ask the core for updates

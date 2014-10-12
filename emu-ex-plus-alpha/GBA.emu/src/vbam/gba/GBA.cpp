@@ -673,6 +673,11 @@ inline int CPUUpdateTicks(ARM7TDMI &cpu)
   return cpuLoopTicks;
 }
 
+int GetTickCount()
+{
+    return CPUUpdateTicks(gGba.cpu);
+}
+
 static void CPUUpdateWindow0(GBASys &gba)
 {
   int x00 = gba.mem.ioMem.WIN0H>>8;
@@ -2679,6 +2684,12 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
 
 
   case COMM_SIOCNT:
+          
+         /* if( EmuReseted )
+          { //trying to detect whether the game has exited multiplay mode (ie. game restarted)
+              CloseLink();
+          }*/
+          
 	  StartLink(value);
 	  break;
 
@@ -2796,6 +2807,12 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
     if ((IME & 1) && (IF & IE) && armIrqEnable)
       cpu.cpuNextEvent = cpu.cpuTotalTicks;
     break;
+      case 0x278: //AdamN: seems to be related to Wireless Adpater(RF_RCNT?)
+          UPDATE_REG(cpu.gba, address&0x7FE, value);
+          break;
+      case 0x27a: //AdamN: seems to be related to Wireless Adpater(RF_SIOCNT?), when written (to 0x83) seems to change the content of 0x278 (higher than 0x1f or to be 0x1f or lower)
+          UPDATE_REG(cpu.gba, address&0x7FE, RFCheck(value));
+          break;
   case 0x300:
     if(value != 0)
       value &= 0xFFFE;
@@ -3733,7 +3750,7 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
 
   gba.cpu = cpu;
     
-    if (GetLinkMode() != LINK_DISCONNECTED)
+    if (GetLinkMode() != LINK_DISCONNECTED && GetLinkMode() != LINK_RFU_SOCKET)
     {
         CheckLinkConnection();
     }
