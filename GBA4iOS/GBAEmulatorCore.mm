@@ -1190,10 +1190,6 @@ int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
     {
         NSLog(@"Received data! (%@)", [NSData dataWithBytes:(const void *)data length:maxSize]);
     }
-    else
-    {
-        NSLog(@"Didn't receive data");
-    }
     
     return receivedDataLength;
 }

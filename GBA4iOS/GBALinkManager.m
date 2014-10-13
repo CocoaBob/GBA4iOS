@@ -94,7 +94,7 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         index--;
     }*/
     
-    MCPeerID *peerID = [self.session connectedPeers][index];
+    MCPeerID *peerID = [self.session connectedPeers][0];
     NSOutputStream *outputStream = self.outputStreams[peerID];
     
     NSInteger bytesWritten = [outputStream write:(const uint8_t *)data maxLength:size];
@@ -104,12 +104,12 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (NSInteger)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPlayerAtIndex:(NSInteger)index
 {
-    if (self.peerType == GBALinkPeerTypeServer)
+    /*if (self.peerType == GBALinkPeerTypeServer)
     {
         index--;
-    }
+    }*/
     
-    MCPeerID *peerID = [self.session connectedPeers][index];
+    MCPeerID *peerID = [self.session connectedPeers][0];
     NSInputStream *inputStream = self.inputStreams[peerID];
     
     if (![inputStream hasBytesAvailable])
