@@ -89,10 +89,10 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (NSInteger)sendData:(const char *)data withSize:(size_t)size toPlayerAtIndex:(NSInteger)index
 {
-    if (self.peerType == GBALinkPeerTypeServer)
+    /*if (self.peerType == GBALinkPeerTypeServer)
     {
         index--;
-    }
+    }*/
     
     MCPeerID *peerID = [self.session connectedPeers][index];
     NSOutputStream *outputStream = self.outputStreams[peerID];
@@ -149,6 +149,25 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     }
     
     return NO;
+}
+
+- (BOOL)hasLinkDataAvailable:(int *)index
+{
+    NSArray *inputStreams = [self.inputStreams allValues];
+    
+    if (index)
+    {
+        if (self.peerType == GBALinkPeerTypeServer)
+        {
+            *index = 1;
+        }
+        else
+        {
+            *index = 0;
+        }
+    }
+    
+    return [self hasBytesAvailableFromInputStreams:inputStreams];
 }
 
 #pragma mark - Latency -
@@ -400,10 +419,8 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         }
             
         case NSStreamEventHasBytesAvailable:
-        {
-            DLog(@"New Data!");
-           
-            [self receiveLatencyDataFromInputStream:inputStream];
+        {           
+            //[self receiveLatencyDataFromInputStream:inputStream];
             
             break;
         }

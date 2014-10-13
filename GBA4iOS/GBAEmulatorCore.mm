@@ -9,6 +9,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import <libkern/OSAtomic.h>
 
 #import "GBAEmulatorCore.h"
 #import "UIDevice-Hardware.h"
@@ -1217,7 +1218,43 @@ bool GBALinkWaitForLinkDataWithTimeout(int timeout)
     return success;
 }
 
+bool GBALinkHasDataAvailable(int *index)
+{
+    BOOL dataAvailable = [[GBALinkManager sharedManager] hasLinkDataAvailable:index];
+    
+    if (dataAvailable)
+    {
+        NSLog(@"Data Available");
+    }
+    
+    return dataAvailable;
+}
+
 #endif
+
+static OSSpinLock _lock = OS_SPINLOCK_INIT;
+
+void GBALinkLock()
+{
+    OSSpinLockLock(&_lock);
+}
+
+void GBALinkUnlock()
+{
+    OSSpinLockUnlock(&_lock);
+}
+
+void GBALog(const char *message, ...)
+{
+    va_list arg;
+    int done;
+    
+    va_start (arg, message);
+    
+    NSLogv([NSString stringWithFormat:@"%s", message], arg);
+    
+    va_end (arg);
+}
 
 void systemScreenMessage(const char *message)
 {
@@ -1277,6 +1314,12 @@ static const int length = 256;
         default:
             break;
     }
+    
+    DLog(@"Starting RFU Loop");
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        GBARunWirelessAdaptorLoop();
+    });
 }
 
 - (void)connectToServer
@@ -1327,6 +1370,12 @@ static const int length = 256;
         default:
             break;
     }
+    
+    DLog(@"Starting RFU Loop");
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        GBARunWirelessAdaptorLoop();
+    });
 }
 
 #pragma mark - Wario Ware Twisted

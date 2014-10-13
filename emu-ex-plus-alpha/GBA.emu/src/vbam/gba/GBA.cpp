@@ -2711,6 +2711,12 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
 	  break;
 
   case COMM_RCNT:
+          
+          if(READ16LE(&gGba.mem.ioMem.b[COMM_RCNT]) != (/*READ16LE(&ioMem[COMM_RCNT]) &*/ value))
+          {
+              if(value == 0x8000) RFUClear();
+          }
+          
 	  StartGPLink(value);
 	  break;
 
@@ -2795,29 +2801,29 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
       } else {
         busPrefetchEnable = false;
         busPrefetch = false;
-        busPrefetchCount = 0;
+          busPrefetchCount = 0;
       }
-      UPDATE_REG(cpu.gba, 0x204, value & 0x7FFF);
-
+        UPDATE_REG(cpu.gba, 0x204, value & 0x7FFF);
+        
     }
-    break;
-  case 0x208:
-    IME = value & 1;
-    //UPDATE_REG(0x208, IME);
-    if ((IME & 1) && (IF & IE) && armIrqEnable)
-      cpu.cpuNextEvent = cpu.cpuTotalTicks;
-    break;
+          break;
+      case 0x208:
+          IME = value & 1;
+          //UPDATE_REG(0x208, IME);
+          if ((IME & 1) && (IF & IE) && armIrqEnable)
+              cpu.cpuNextEvent = cpu.cpuTotalTicks;
+          break;
       case 0x278: //AdamN: seems to be related to Wireless Adpater(RF_RCNT?)
           UPDATE_REG(cpu.gba, address&0x7FE, value);
           break;
       case 0x27a: //AdamN: seems to be related to Wireless Adpater(RF_SIOCNT?), when written (to 0x83) seems to change the content of 0x278 (higher than 0x1f or to be 0x1f or lower)
           UPDATE_REG(cpu.gba, address&0x7FE, RFCheck(value));
           break;
-  case 0x300:
-    if(value != 0)
-      value &= 0xFFFE;
-    UPDATE_REG(cpu.gba, 0x300, value);
-    break;
+      case 0x300:
+          if(value != 0)
+              value &= 0xFFFE;
+          UPDATE_REG(cpu.gba, 0x300, value);
+          break;
   default:
     UPDATE_REG(cpu.gba, address&0x3FE, value);
     break;

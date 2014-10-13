@@ -42,5 +42,6 @@ extern NSString *const GBALinkSessionServiceType;
 - (NSInteger)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPlayerAtIndex:(NSInteger)index;
 
 - (BOOL)waitForLinkDataWithTimeout:(NSTimeInterval)timeout;
+- (BOOL)hasLinkDataAvailable:(int *)index;
 
 @end

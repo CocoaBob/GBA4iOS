@@ -168,6 +168,7 @@ extern const char *MakeInstanceFilename(const char *Input);
 
 u16 RFCheck(u16 value);
 void RFUClear();
+unsigned long GBARunWirelessAdaptorLoop();
 
 bool EmuReseted;
 
