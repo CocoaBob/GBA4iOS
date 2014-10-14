@@ -171,6 +171,7 @@ int WaitForSingleObject(sem_t *s, int t)
 #endif
 #endif
 
+#define LINK_PARENTLOST 0x80
 #define UNSUPPORTED -1
 #define MULTIPLAYER 0
 #define NORMAL8 1
@@ -189,6 +190,7 @@ int WaitForSingleObject(sem_t *s, int t)
 
 static ConnectionState InitIPC();
 static ConnectionState InitSocket();
+static ConnectionState InitRFUSocket();
 static ConnectionState JoyBusConnect();
 
 static void JoyBusShutdown();
@@ -201,6 +203,7 @@ static void StartRFUIPC(u16 siocnt);
 static void StartRFUSocket(u16 siocnt);
 static void StartCableIPC(u16 siocnt);
 
+static ConnectionState InitRFULink();
 static u16 PrepareRFUSocket(u16 value);
 static bool PerformUpdateRFUSocket();
 
@@ -227,12 +230,41 @@ extern void GBALog(const char *message, ...);
 
 void SetEvent(sem_t *sem)
 {
-    //sem_post(sem);
+    sem_post(sem);
 }
 
 void ResetEvent(sem_t *sem)
 {
-    *sem = 0;
+    sem_trywait(sem);
+}
+
+void PulseEvent(sem_t *sem)
+{
+    SetEvent(sem);
+    ResetEvent(sem);
+}
+
+sem_t *CreateEvent(void *lpEventAttributes, bool bManualReset, bool bInitialState, const char *name)
+{
+    sem_t *sem = sem_open(name, O_CREAT|O_EXCL, 0777, 0);
+    
+    if (sem == SEM_FAILED)
+    {
+        GBALog("Error Creating Event: %d", errno);
+        return NULL;
+    }
+    
+    if (bInitialState)
+    {
+        SetEvent(sem);
+    }
+    
+    return sem;
+}
+
+void CloseHandle(sem_t *sem)
+{
+    sem_close(sem);
 }
 
 class GBALock {
@@ -268,6 +300,7 @@ extern bool GBALinkWaitForLinkDataWithTimeout(int timeout);
 extern bool GBALinkHasDataAvailable(int *index);
 
 static ConnectionState ConnectUpdateSocket(char * const message, size_t size);
+static ConnectionState ConnectUpdateRFUSocket(char * const message, size_t size);
 
 struct LinkDriver {
 	typedef ConnectionState (ConnectFunc)();
@@ -288,7 +321,7 @@ static const LinkDriver linkDrivers[] =
 	{ LINK_CABLE_IPC,			InitIPC,		NULL,					StartCableIPC,		UpdateCableIPC,     CloseIPC },
 	{ LINK_CABLE_SOCKET,		InitSocket,		ConnectUpdateSocket,	StartCableSocket,	UpdateCableSocket,  CloseSocket },
 	{ LINK_RFU_IPC,				InitIPC,		NULL,					StartRFUIPC,        UpdateRFUIPC,       CloseIPC },
-    { LINK_RFU_SOCKET,          InitSocket,     ConnectUpdateSocket,    StartRFUSocket,     UpdateRFUSocket,    CloseRFUSocket },
+    { LINK_RFU_SOCKET,          InitRFUSocket,  ConnectUpdateRFUSocket, StartRFUSocket,     UpdateRFUSocket,    CloseRFUSocket },
 	{ LINK_GAMECUBE_DOLPHIN,	JoyBusConnect,	NULL,					NULL,				JoyBusUpdate,       JoyBusShutdown }
 };
 
@@ -338,6 +371,7 @@ typedef struct {
 	int type;
 	bool server;
 	bool speed;
+    bool terminate;
     
     int numgbas; //max vbaid/linkid value (# of GBAs minus 1), used in Networking
     bool connected;
@@ -350,10 +384,17 @@ class lserver{
 	char inbuffer[256], outbuffer[256];
 	s32 *intinbuffer;
 	u16 *u16inbuffer;
+    u32 *u32inbuffer;
 	s32 *intoutbuffer;
 	u16 *u16outbuffer;
+    u32 *u32outbuffer;
 	int counter;
 	int done;
+    
+    int initd = 0;
+    
+    // GBARemove possible that i and j aren't being used in the correct scope?
+    int insize, outsize, i, j;
     
 public:
 	int howmanytimes;
@@ -362,9 +403,9 @@ public:
 	lserver(void);
 	void Send(void);
 	void Recv(void);
-    
-    int initd = 0;
     bool connected[5];
+    
+    ConnectionState InitRFU();
 };
 
 class lclient{
@@ -372,9 +413,15 @@ class lclient{
 	char inbuffer[256], outbuffer[256];
 	s32 *intinbuffer;
 	u16 *u16inbuffer;
+    u32 *u32inbuffer;
 	s32 *intoutbuffer;
 	u16 *u16outbuffer;
+    u32 *u32outbuffer;
 	int numbytes;
+    
+    int insize, outsize, i, j;
+    bool oncesend;
+    
 public:
 	sf::IPAddress serveraddr;
 	unsigned short serverport;
@@ -383,17 +430,12 @@ public:
 	void Send(void);
 	void Recv(void);
 	void CheckConn(void);
+    
+    ConnectionState InitRFU();
 };
 
 static const LinkDriver *linkDriver = NULL;
 static ConnectionState gba_connection_state = LINK_OK;
-
-LinkMode GetLinkMode() {
-	if (linkDriver && gba_connection_state == LINK_OK)
-		return linkDriver->mode;
-	else
-		return LINK_DISCONNECTED;
-}
 
 static int linktime = 0;
 
@@ -422,7 +464,7 @@ static int linkid = 0;
 #if (defined __WIN32__ || defined _WIN32)
 static HANDLE linksync[4];
 #else
-static sem_t *linksync[4];
+static sem_t *linksync[5] = {NULL, NULL, NULL, NULL, NULL};
 #endif
 static int savedlinktime = 0;
 #if (defined __WIN32__ || defined _WIN32)
@@ -434,14 +476,17 @@ static char linkevent[] =
 #if !(defined __WIN32__ || defined _WIN32)
 "/"
 #endif
-"VBA link event  ";
+"GBA4iOS link event  ";
 static int i, j;
-static int linktimeout = 100000;
+static int linktimeout = 10000;
 static LANLINKDATA lanlink;
 static u16 linkdata[4];
 static lserver ls;
 static lclient lc;
 static bool oncewait = false, after = false;
+
+// Test if important
+bool linkdatarecvd[4];
 
 // RFU crap (except for numtransfers note...should probably check that out)
 bool rfu_enabled = true;
@@ -494,7 +539,522 @@ static const int trtimeend[3][4] = {
 	{133692, 33423, 22282, 11141}
 };
 
-static int GetSIOMode(u16, u16);
+#pragma mark - Public Methods -
+
+LinkMode GetLinkMode() {
+    if (linkDriver && gba_connection_state == LINK_OK)
+        return linkDriver->mode;
+    else
+        return LINK_DISCONNECTED;
+}
+
+void EnableLinkServer(bool enable, int numSlaves)
+{
+    lanlink.server = enable;
+    lanlink.numslaves = numSlaves;
+}
+
+void EnableSpeedHacks(bool enable)
+{
+    lanlink.speed = enable;
+}
+
+bool SetLinkServerHost(const char *host)
+{
+    sf::IPAddress addr = sf::IPAddress(host);
+    
+    lc.serveraddr = addr;
+    joybusHostAddr = addr;
+    
+    return addr.IsValid();
+}
+
+void GetLinkServerHost(char * const host, size_t size) {
+    if (host == NULL || size == 0)
+        return;
+    
+    host[0] = '\0';
+    
+    if (linkDriver && linkDriver->mode == LINK_GAMECUBE_DOLPHIN)
+        strncpy(host, joybusHostAddr.ToString().c_str(), size);
+    else if (lanlink.server)
+        strncpy(host, sf::IPAddress::GetLocalAddress().ToString().c_str(), size);
+    else
+        strncpy(host, lc.serveraddr.ToString().c_str(), size);
+}
+
+void SetLinkTimeout(int value)
+{
+    linktimeout = value;
+}
+
+int GetLinkPlayerId() {
+    if (GetLinkMode() == LINK_DISCONNECTED) {
+        return -1;
+    } else if (linkid > 0) {
+        return linkid;
+    } else {
+        return vbaid;
+    }
+}
+
+#pragma mark - Init Link -
+
+inline static int GetSIOMode(u16 siocnt, u16 rcnt)
+{
+    if (!(rcnt & 0x8000))
+    {
+        switch (siocnt & 0x3000) {
+            case 0x0000: return NORMAL8;
+            case 0x1000: return NORMAL32;
+            case 0x2000: return MULTIPLAYER;
+            case 0x3000: return UART;
+        }
+    }
+    
+    if (rcnt & 0x4000)
+        return JOYBUS;
+    
+    return GP;
+}
+
+static ConnectionState InitIPC() {
+    linkid = 0;
+    
+    vbaid = 0;
+    
+    /*
+     if((mmf = shm_open("/" LOCAL_LINK_NAME, O_RDWR|O_CREAT|O_EXCL, 0777)) < 0) {
+     vbaid = 1;
+     mmf = shm_open("/" LOCAL_LINK_NAME, O_RDWR, 0);
+     } else
+     vbaid = 0;
+     
+     */
+    
+    /*if(mmf < 0 || ftruncate(mmf, sizeof(LINKDATA)) < 0 ||
+     !(linkmem = (LINKDATA *)mmap(NULL, sizeof(LINKDATA),
+     PROT_READ|PROT_WRITE, MAP_SHARED,
+     mmf, 0))) {
+     systemMessage(0, N_("Error creating file mapping"));
+     if(mmf) {
+     if(!vbaid)
+     shm_unlink("/" LOCAL_LINK_NAME);
+     close(mmf);
+     }
+     }*/
+    
+    // get lowest-numbered available machine slot
+    bool firstone = !vbaid;
+    if(firstone) {
+        linkmem.linkflags = 1;
+        linkmem.numgbas = 1;
+        linkmem.numtransfers=0;
+        for(i=0;i<4;i++)
+            linkmem.linkdata[i] = 0xffff;
+    } else {
+        // FIXME: this should be done while linkmem is locked
+        // (no xfer in progress, no other vba trying to connect)
+        int n = linkmem.numgbas;
+        int f = linkmem.linkflags;
+        for(int i = 0; i <= n; i++)
+            if(!(f & (1 << i))) {
+                vbaid = i;
+                break;
+            }
+        if(vbaid == 4){
+            
+            // GBARemove munmap(linkmem, sizeof(LINKDATA));
+            if(!vbaid)
+                shm_unlink("/" LOCAL_LINK_NAME);
+            close(mmf);
+            systemMessage(0, N_("5 or more GBAs not supported."));
+            return LINK_ERROR;
+        }
+        if(vbaid == n)
+            linkmem.numgbas = n + 1;
+        linkmem.linkflags = f | (1 << vbaid);
+    }
+    linkid = vbaid;
+    
+    for(i=0;i<4;i++){
+        linkevent[sizeof(linkevent)-2]=(char)i+'1';
+        
+        if((linksync[i] = sem_open(linkevent,
+                                   firstone ? O_CREAT|O_EXCL : 0,
+                                   0777, 0)) == SEM_FAILED) {
+            if(firstone)
+                shm_unlink("/" LOCAL_LINK_NAME);
+            // GBARemove munmap(linkmem, sizeof(LINKDATA));
+            close(mmf);
+            for(j=0;j<i;j++){
+                sem_close(linksync[i]);
+                if(firstone) {
+                    linkevent[sizeof(linkevent)-2]=(char)i+'1';
+                    sem_unlink(linkevent);
+                }
+            }
+            systemMessage(0, N_("Error opening event"));
+            return LINK_ERROR;
+        }
+    }
+    
+    return LINK_OK;
+}
+
+static ConnectionState InitSocket() {
+    linkid = 0;
+    
+    for(int i = 0; i < 4; i++)
+        linkdata[i] = 0xffff;
+    
+    if (lanlink.server) {
+        lanlink.connectedSlaves = 0;
+        // should probably use GetPublicAddress()
+        //sid->ShowServerIP(sf::IPAddress::GetLocalAddress());
+        
+        // too bad Listen() doesn't take an address as well
+        // then again, old code used INADDR_ANY anyway
+        if (!lanlink.tcpsocket.Listen(IP_LINK_PORT))
+            // Note: old code closed socket & retried once on bind failure
+            return LINK_ERROR; // FIXME: error code?
+        else
+            return LINK_NEEDS_UPDATE;
+    } else {
+        lc.serverport = IP_LINK_PORT;
+        
+        if (!lc.serveraddr.IsValid()) {
+            return  LINK_ERROR;
+        } else {
+            lanlink.tcpsocket.SetBlocking(false);
+            sf::Socket::Status status = lanlink.tcpsocket.Connect(lc.serverport, lc.serveraddr);
+            
+            if (status == sf::Socket::Error || status == sf::Socket::Disconnected)
+                return  LINK_ERROR;
+            else
+                return  LINK_NEEDS_UPDATE;
+        }
+    }
+}
+
+// Server
+lserver::lserver(void)
+{
+    intinbuffer = (int*)inbuffer;
+    u16inbuffer = (u16*)inbuffer;
+    u32inbuffer = (u32*)inbuffer;
+    intoutbuffer = (int*)outbuffer;
+    u16outbuffer = (u16*)outbuffer;
+    u32outbuffer = (u32*)outbuffer;
+    
+    oncewait = false;
+}
+
+
+// Client
+lclient::lclient(void)
+{
+    intinbuffer = (int*)inbuffer;
+    u16inbuffer = (u16*)inbuffer;
+    u32inbuffer = (u32*)inbuffer;
+    intoutbuffer = (int*)outbuffer;
+    u16outbuffer = (u16*)outbuffer;
+    u32outbuffer = (u32*)outbuffer;
+    numtransfers = 0;
+    oncesend = false;
+    
+    return;
+}
+
+ConnectionState lserver::InitRFU()
+{
+    GBALog("Init Server RFU");
+    
+    ConnectionState connectionState = LINK_NEEDS_UPDATE;
+    
+    lanlink.tcpsocket.SetBlocking(false);
+    lanlink.terminate = false;
+        
+    CloseLink();
+    connectionState = InitRFULink();
+    
+    outsize = 0;
+    insize = 0;
+    initd = 0;
+    
+    if (!lanlink.tcpsocket.Listen(IP_LINK_PORT))
+    {
+        return LINK_ERROR;
+    }
+    
+    linkid = 0;
+    
+    return connectionState;
+}
+
+ConnectionState lclient::InitRFU()
+{
+    GBALog("Init Client RFU");
+    
+    ConnectionState connectionState = LINK_NEEDS_UPDATE;
+    
+    lanlink.tcpsocket.SetBlocking(false);
+    
+    CloseLink();
+    connectionState = InitRFULink();
+    
+    outsize = 0;
+    insize = 0;
+    
+    lanlink.terminate = false;
+    
+    return connectionState;
+}
+
+static ConnectionState InitRFUSocket()
+{
+    ConnectionState connectionState = LINK_NEEDS_UPDATE;
+    
+    if (lanlink.server)
+    {
+        connectionState = ls.InitRFU();
+    }
+    else
+    {
+        connectionState = lc.InitRFU();
+    }
+    
+    return connectionState;
+}
+
+static ConnectionState InitRFULink()
+{
+    linkid = 0;
+    vbaid = 0;
+    
+    // Initialize linkmem (no need for IPC-backed version)
+    linkmem = {};
+    
+    if (linkmem.linkflags & LINK_PARENTLOST)
+    {
+        GBALog("Parent Lost :(");
+        vbaid = 0;
+    }
+    
+    if (vbaid == 0)
+    {
+        linkid = 0;
+        
+        if (linkmem.linkflags & LINK_PARENTLOST)
+        {
+            GBALog("Parent Lost...Again :(");
+            
+            linkmem.numgbas++;
+            linkmem.linkflags &= ~LINK_PARENTLOST;
+        }
+        else
+        {
+            linkmem.numgbas = 1; //0;
+        }
+        
+        for (i = 0; i < 5; i++) //i<5
+        {
+            linkevent[sizeof(linkevent) - 2] = (char)i + '1';
+            
+            // GBARemove if ((linksync[i] = sem_open(linkevent, O_CREAT|O_EXCL, 0777, 0)) == SEM_FAILED)
+            if ((linksync[i] = CreateEvent(NULL, true, false, linkevent)) == NULL)
+            {
+                for (j = 0; j < i; j++)
+                {
+                    CloseHandle(linksync[j]);
+                    
+                    linkevent[sizeof(linkevent) - 2] = (char)j + '1'; // Keep this line, re-modifies linkevent in the loop so we can unlink all semaphores - Riley
+                    sem_unlink(linkevent);
+                }
+                
+                GBALog("Error creating RFU semaphore '%s'", linkevent);
+                return LINK_ERROR;
+            }
+            else
+            {
+                GBALog("Created Semaphore: %s", linkevent);
+                SetEvent(linksync[i]);
+            }
+        }
+    }
+    else
+    {
+        GBALog("ERROR InitRFUSocket: This should never be called");
+    }
+    
+    rfu_thisid = (vbaid<<3) + 0x61f1; //0x61f1+vbaid; //rfu_thisid might be inaccurate as vbaid here is inaccurate ?
+    
+    linkmem.lastlinktime = 0xffffffff;
+    linkmem.numtransfers = 0;
+    linkmem.linkflags = 0;
+    //lanlink.connected = false;
+    //lanlink.thread = NULL;
+    //lanlink.speed = false;
+    
+    for (i = 0; i < 4; i++)
+    {
+        linkmem.linkdata[i] = 0xffff;
+        linkdata[i] = 0xffff;
+        linkdatarecvd[i] = false;
+    }
+    
+    LinkConnected(false);
+    //lanlink.speed = false;
+    gbaid = vbaid;
+    
+    GBALog("LINK_NEEDS_UPDATE");
+    
+    return LINK_NEEDS_UPDATE;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Probably from here down needs to be replaced with SFML goodness :)
+// tjm: what SFML goodness?  SFML for network, yes, but not for IPC
+
+ConnectionState InitLink(LinkMode mode)
+{
+    // Do nothing if we are already connected
+    if (GetLinkMode() != LINK_DISCONNECTED) {
+        systemMessage(0, N_("Error, link already connected"));
+        return LINK_ERROR;
+    }
+    
+    // Find the link driver
+    linkDriver = NULL;
+    for (u8 i = 0; i < sizeof(linkDrivers) / sizeof(linkDrivers[0]); i++) {
+        if (linkDrivers[i].mode == mode) {
+            linkDriver = &linkDrivers[i];
+            break;
+        }
+    }
+    
+    if (linkDriver == NULL) {
+        systemMessage(0, N_("Unable to find link driver"));
+        return LINK_ERROR;
+    }
+    
+    // Connect the link
+    gba_connection_state = linkDriver->connect();
+    
+    if (gba_connection_state == LINK_ERROR)
+    {
+        CloseLink();
+    }
+    
+    return gba_connection_state;
+}
+
+#pragma mark - Connect Update -
+
+static ConnectionState ConnectUpdateSocket(char * const message, size_t size) {
+    ConnectionState newState = LINK_NEEDS_UPDATE;
+    
+    if (lanlink.server) {
+        sf::Selector<sf::SocketTCP> fdset;
+        fdset.Add(lanlink.tcpsocket);
+        
+        if (fdset.Wait(0.1) == 1) {
+            int nextSlave = lanlink.connectedSlaves + 1;
+            
+            sf::Socket::Status st = lanlink.tcpsocket.Accept(ls.tcpsocket[nextSlave]);
+            
+            if (st == sf::Socket::Error) {
+                for (int j = 1; j < nextSlave; j++)
+                    ls.tcpsocket[j].Close();
+                
+                snprintf(message, size, N_("Network error."));
+                newState = LINK_ERROR;
+            } else {
+                sf::Packet packet;
+                packet 	<< static_cast<sf::Uint16>(nextSlave)
+                << static_cast<sf::Uint16>(lanlink.numslaves);
+                
+                ls.tcpsocket[nextSlave].Send(packet);
+                
+                snprintf(message, size, N_("Player %d connected"), nextSlave);
+                
+                lanlink.connectedSlaves++;
+            }
+        }
+        
+        if (lanlink.numslaves == lanlink.connectedSlaves) {
+            for (int i = 1; i <= lanlink.numslaves; i++) {
+                sf::Packet packet;
+                packet 	<< true;
+                
+                ls.tcpsocket[i].Send(packet);
+            }
+            
+            snprintf(message, size, N_("All players connected"));
+            newState = LINK_OK;
+        }
+    } else {
+        
+        sf::Packet packet;
+        sf::Socket::Status status = lanlink.tcpsocket.Receive(packet);
+        
+        if (status == sf::Socket::Error || status == sf::Socket::Disconnected) {
+            snprintf(message, size, N_("Network error."));
+            newState = LINK_ERROR;
+        } else if (status == sf::Socket::Done) {
+            
+            if (linkid == 0) {
+                sf::Uint16 receivedId, receivedSlaves;
+                packet >> receivedId >> receivedSlaves;
+                
+                if (packet) {
+                    linkid = receivedId;
+                    lanlink.numslaves = receivedSlaves;
+                    
+                    snprintf(message, size, N_("Connected as #%d, Waiting for %d players to join"),
+                             linkid + 1, lanlink.numslaves - linkid);
+                }
+            } else {
+                bool gameReady;
+                packet >> gameReady;
+                
+                if (packet && gameReady) {
+                    newState = LINK_OK;
+                    snprintf(message, size, N_("All players joined."));
+                }
+            }
+            
+            sf::Selector<sf::SocketTCP> fdset;
+            fdset.Add(lanlink.tcpsocket);
+            fdset.Wait(0.1);
+        }
+    }
+    
+    return newState;
+}
+
+static ConnectionState ConnectUpdateRFUSocket(char * const message, size_t size)
+{
+    return LINK_OK;
+}
+
+ConnectionState ConnectLinkUpdate(char * const message, size_t size)
+{
+    message[0] = '\0';
+    
+    if (!linkDriver || gba_connection_state != LINK_NEEDS_UPDATE) {
+        gba_connection_state = LINK_ERROR;
+        snprintf(message, size, N_("Link connection does not need updates."));
+        
+        return LINK_ERROR;
+    }
+    
+    gba_connection_state = linkDriver->connectUpdate(message, size);
+    
+    return gba_connection_state;
+}
+
+#pragma mark - Start Link -
 
 // The GBA wireless RFU (see adapter3.txt)
 // Just try to avert your eyes for now ^^ (note, it currently can be called, tho)
@@ -1021,6 +1581,8 @@ static void JoyBusUpdate(int ticks)
 	}
 }
 
+#pragma mark - Update Link -
+
 static void ReInitLink();
 
 static void UpdateCableIPC(int ticks)
@@ -1351,322 +1913,7 @@ void LinkUpdate(int ticks)
 	linkDriver->update(ticks);
 }
 
-inline static int GetSIOMode(u16 siocnt, u16 rcnt)
-{
-	if (!(rcnt & 0x8000))
-	{
-		switch (siocnt & 0x3000) {
-            case 0x0000: return NORMAL8;
-            case 0x1000: return NORMAL32;
-            case 0x2000: return MULTIPLAYER;
-            case 0x3000: return UART;
-		}
-	}
-    
-	if (rcnt & 0x4000)
-		return JOYBUS;
-    
-	return GP;
-}
-
-static ConnectionState InitIPC() {
-	linkid = 0;
-
-    vbaid = 0;
-    
-    /*
-	if((mmf = shm_open("/" LOCAL_LINK_NAME, O_RDWR|O_CREAT|O_EXCL, 0777)) < 0) {
-		vbaid = 1;
-		mmf = shm_open("/" LOCAL_LINK_NAME, O_RDWR, 0);
-	} else
-		vbaid = 0;
-     
-     */
-     
-	/*if(mmf < 0 || ftruncate(mmf, sizeof(LINKDATA)) < 0 ||
-	   !(linkmem = (LINKDATA *)mmap(NULL, sizeof(LINKDATA),
-                                    PROT_READ|PROT_WRITE, MAP_SHARED,
-                                    mmf, 0))) {
-		systemMessage(0, N_("Error creating file mapping"));
-		if(mmf) {
-			if(!vbaid)
-				shm_unlink("/" LOCAL_LINK_NAME);
-			close(mmf);
-		}
-	}*/
-    
-	// get lowest-numbered available machine slot
-	bool firstone = !vbaid;
-	if(firstone) {
-		linkmem.linkflags = 1;
-		linkmem.numgbas = 1;
-		linkmem.numtransfers=0;
-		for(i=0;i<4;i++)
-			linkmem.linkdata[i] = 0xffff;
-	} else {
-		// FIXME: this should be done while linkmem is locked
-		// (no xfer in progress, no other vba trying to connect)
-		int n = linkmem.numgbas;
-		int f = linkmem.linkflags;
-		for(int i = 0; i <= n; i++)
-			if(!(f & (1 << i))) {
-				vbaid = i;
-				break;
-			}
-		if(vbaid == 4){
-
-			// GBARemove munmap(linkmem, sizeof(LINKDATA));
-			if(!vbaid)
-				shm_unlink("/" LOCAL_LINK_NAME);
-			close(mmf);
-			systemMessage(0, N_("5 or more GBAs not supported."));
-			return LINK_ERROR;
-		}
-		if(vbaid == n)
-			linkmem.numgbas = n + 1;
-		linkmem.linkflags = f | (1 << vbaid);
-	}
-	linkid = vbaid;
-    
-	for(i=0;i<4;i++){
-		linkevent[sizeof(linkevent)-2]=(char)i+'1';
-
-		/* GBARemove if((linksync[i] = sem_open(linkevent,
-                                   firstone ? O_CREAT|O_EXCL : 0,
-                                   0777, 0)) == SEM_FAILED) {
-			if(firstone)
-				shm_unlink("/" LOCAL_LINK_NAME);
-			// GBARemove munmap(linkmem, sizeof(LINKDATA));
-			close(mmf);
-			for(j=0;j<i;j++){
-				sem_close(linksync[i]);
-				if(firstone) {
-					linkevent[sizeof(linkevent)-2]=(char)i+'1';
-					sem_unlink(linkevent);
-				}
-			}
-			systemMessage(0, N_("Error opening event"));
-			return LINK_ERROR;
-		} */
-	}
-    
-	return LINK_OK;
-}
-
-static ConnectionState InitSocket() {
-	linkid = 0;
-    
-	for(int i = 0; i < 4; i++)
-		linkdata[i] = 0xffff;
-    
-	if (lanlink.server) {
-		lanlink.connectedSlaves = 0;
-		// should probably use GetPublicAddress()
-		//sid->ShowServerIP(sf::IPAddress::GetLocalAddress());
-        
-		// too bad Listen() doesn't take an address as well
-		// then again, old code used INADDR_ANY anyway
-		if (!lanlink.tcpsocket.Listen(IP_LINK_PORT))
-			// Note: old code closed socket & retried once on bind failure
-			return LINK_ERROR; // FIXME: error code?
-		else
-			return LINK_NEEDS_UPDATE;
-	} else {
-		lc.serverport = IP_LINK_PORT;
-        
-		if (!lc.serveraddr.IsValid()) {
-			return  LINK_ERROR;
-		} else {
-			lanlink.tcpsocket.SetBlocking(false);
-			sf::Socket::Status status = lanlink.tcpsocket.Connect(lc.serverport, lc.serveraddr);
-            
-			if (status == sf::Socket::Error || status == sf::Socket::Disconnected)
-				return  LINK_ERROR;
-			else
-				return  LINK_NEEDS_UPDATE;
-		}
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////
-// Probably from here down needs to be replaced with SFML goodness :)
-// tjm: what SFML goodness?  SFML for network, yes, but not for IPC
-
-ConnectionState InitLink(LinkMode mode)
-{
-	// Do nothing if we are already connected
-	if (GetLinkMode() != LINK_DISCONNECTED) {
-		systemMessage(0, N_("Error, link already connected"));
-		return LINK_ERROR;
-	}
-    
-	// Find the link driver
-	linkDriver = NULL;
-	for (u8 i = 0; i < sizeof(linkDrivers) / sizeof(linkDrivers[0]); i++) {
-		if (linkDrivers[i].mode == mode) {
-			linkDriver = &linkDrivers[i];
-			break;
-		}
-	}
-    
-	if (linkDriver == NULL) {
-		systemMessage(0, N_("Unable to find link driver"));
-		return LINK_ERROR;
-	}
-    
-	// Connect the link
-	gba_connection_state = linkDriver->connect();
-    
-	if (gba_connection_state == LINK_ERROR) {
-		CloseLink();
-	}
-    
-	return gba_connection_state;
-}
-
-static ConnectionState ConnectUpdateSocket(char * const message, size_t size) {
-	ConnectionState newState = LINK_NEEDS_UPDATE;
-    
-	if (lanlink.server) {
-		sf::Selector<sf::SocketTCP> fdset;
-		fdset.Add(lanlink.tcpsocket);
-        
-		if (fdset.Wait(0.1) == 1) {
-			int nextSlave = lanlink.connectedSlaves + 1;
-            
-			sf::Socket::Status st = lanlink.tcpsocket.Accept(ls.tcpsocket[nextSlave]);
-            
-			if (st == sf::Socket::Error) {
-				for (int j = 1; j < nextSlave; j++)
-					ls.tcpsocket[j].Close();
-                
-				snprintf(message, size, N_("Network error."));
-				newState = LINK_ERROR;
-			} else {
-				sf::Packet packet;
-				packet 	<< static_cast<sf::Uint16>(nextSlave)
-                << static_cast<sf::Uint16>(lanlink.numslaves);
-                
-				ls.tcpsocket[nextSlave].Send(packet);
-                
-				snprintf(message, size, N_("Player %d connected"), nextSlave);
-                
-				lanlink.connectedSlaves++;
-			}
-		}
-        
-		if (lanlink.numslaves == lanlink.connectedSlaves) {
-			for (int i = 1; i <= lanlink.numslaves; i++) {
-				sf::Packet packet;
-				packet 	<< true;
-                
-				ls.tcpsocket[i].Send(packet);
-			}
-            
-			snprintf(message, size, N_("All players connected"));
-			newState = LINK_OK;
-		}
-	} else {
-        
-		sf::Packet packet;
-		sf::Socket::Status status = lanlink.tcpsocket.Receive(packet);
-        
-		if (status == sf::Socket::Error || status == sf::Socket::Disconnected) {
-			snprintf(message, size, N_("Network error."));
-			newState = LINK_ERROR;
-		} else if (status == sf::Socket::Done) {
-            
-			if (linkid == 0) {
-				sf::Uint16 receivedId, receivedSlaves;
-				packet >> receivedId >> receivedSlaves;
-                
-				if (packet) {
-					linkid = receivedId;
-					lanlink.numslaves = receivedSlaves;
-                    
-					snprintf(message, size, N_("Connected as #%d, Waiting for %d players to join"),
-                             linkid + 1, lanlink.numslaves - linkid);
-				}
-			} else {
-				bool gameReady;
-				packet >> gameReady;
-                
-				if (packet && gameReady) {
-					newState = LINK_OK;
-					snprintf(message, size, N_("All players joined."));
-				}
-			}
-            
-			sf::Selector<sf::SocketTCP> fdset;
-			fdset.Add(lanlink.tcpsocket);
-			fdset.Wait(0.1);
-		}
-	}
-    
-	return newState;
-}
-
-ConnectionState ConnectLinkUpdate(char * const message, size_t size)
-{
-	message[0] = '\0';
-    
-	if (!linkDriver || gba_connection_state != LINK_NEEDS_UPDATE) {
-		gba_connection_state = LINK_ERROR;
-		snprintf(message, size, N_("Link connection does not need updates."));
-        
-		return LINK_ERROR;
-	}
-    
-	gba_connection_state = linkDriver->connectUpdate(message, size);
-    
-	return gba_connection_state;
-}
-
-void EnableLinkServer(bool enable, int numSlaves) {
-	lanlink.server = enable;
-	lanlink.numslaves = numSlaves;
-}
-
-void EnableSpeedHacks(bool enable) {
-	lanlink.speed = enable;
-}
-
-bool SetLinkServerHost(const char *host) {
-	sf::IPAddress addr = sf::IPAddress(host);
-    
-	lc.serveraddr = addr;
-	joybusHostAddr = addr;
-    
-	return addr.IsValid();
-}
-
-void GetLinkServerHost(char * const host, size_t size) {
-	if (host == NULL || size == 0)
-		return;
-    
-	host[0] = '\0';
-    
-	if (linkDriver && linkDriver->mode == LINK_GAMECUBE_DOLPHIN)
-		strncpy(host, joybusHostAddr.ToString().c_str(), size);
-	else if (lanlink.server)
-		strncpy(host, sf::IPAddress::GetLocalAddress().ToString().c_str(), size);
-	else
-		strncpy(host, lc.serveraddr.ToString().c_str(), size);
-}
-
-void SetLinkTimeout(int value) {
-	linktimeout = value;
-}
-
-int GetLinkPlayerId() {
-	if (GetLinkMode() == LINK_DISCONNECTED) {
-		return -1;
-	} else if (linkid > 0) {
-		return linkid;
-	} else {
-		return vbaid;
-	}
-}
+#pragma mark - Close Link -
 
 static void ReInitLink()
 {
@@ -1748,7 +1995,66 @@ static void CloseSocket() {
 
 static void CloseRFUSocket()
 {
-    // GBAStub
+    GBALog("Close RFU Socket");
+    
+    char outbuffer[12];
+    
+    if (IsLinkConnected())
+    {
+        GBALog("Link is connected. Disconnecting...");
+        
+        if (linkid) //Client
+        {
+            outbuffer[0] = 4;
+            outbuffer[1] = -32;
+            
+            if (lanlink.type == 0)
+            {
+                // send(lanlink.tcpsocket, outbuffer, 4, 0);
+                // GBALinkSendDataToPlayerAtIndex(0, outbuffer, 4);
+                lanlink.tcpsocket.Send(outbuffer, 4);
+            }
+        }
+        else // Server
+        {
+            outbuffer[0] = 12; //should be 4 also isn't?
+            outbuffer[1] = -32;
+            
+            for (int i = 1; i <= lanlink.numgbas; i++)
+            {
+                if (lanlink.type == 0)
+                {
+                    // send(ls.tcpsocket[i], outbuffer, 12, 0);
+                    // GBALinkSendDataToPlayerAtIndex(0, outbuffer, 12);
+                    ls.tcpsocket[i].Send(outbuffer, 12);
+                }
+                
+                ls.tcpsocket[i].Close();
+            }
+        }
+    }
+    
+    linkmem.numgbas--;
+    
+    if (!linkid && linkmem.numgbas != 0)
+    {
+        linkmem.linkflags |= LINK_PARENTLOST;
+    }
+    
+    for (i = 0; i < 5; i++) //i<4
+    {
+        if (linksync[i] != NULL)
+        {
+            PulseEvent(linksync[i]);
+            CloseHandle(linksync[i]);
+        }
+        
+        // Keep outside of NULL check since they may be left over from a previous app launch, but we don't have a reference stored in linksync
+        linkevent[sizeof(linkevent) - 2] = (char)i + '1';
+        sem_unlink(linkevent);
+    }
+    
+    lanlink.tcpsocket.Close();
 }
 
 void CloseLink(void){
@@ -1757,7 +2063,7 @@ void CloseLink(void){
 	}
     
 	linkDriver->close();
-	linkDriver = NULL;
+	// linkDriver = NULL; Intentionally removed - messes up RFU (because CloseLink() is called before InitLink)
     
 	return;
 }
@@ -1776,14 +2082,59 @@ void CleanLocalLink()
 #endif
 }
 
-// Server
-lserver::lserver(void){
-	intinbuffer = (s32*)inbuffer;
-	u16inbuffer = (u16*)inbuffer;
-	intoutbuffer = (s32*)outbuffer;
-	u16outbuffer = (u16*)outbuffer;
-	oncewait = false;
+void RFUClear()
+{
+    // GBAStub
 }
+
+#pragma mark - Check Connection -
+
+void LinkConnected(bool b)
+{
+    c_s.Lock();
+    
+    if (!linkid) //0 = server
+    {
+        for (int i = 1; i <= lanlink.numgbas; i++)
+        {
+            ls.connected[i] = b; //lanlink.connected |= ls.connected[i];
+        }
+        
+    } //else
+    
+    lanlink.connected = b;
+    
+    c_s.Unlock();
+}
+
+bool IsLinkConnected()
+{
+    c_s.Lock();
+    
+    if (!linkid) //0 = server
+    {
+        lanlink.connected = false;
+        
+        for (int i = 1; i <= lanlink.numgbas; i++)
+        {
+            lanlink.connected |= ls.connected[i];
+        }
+    }
+    
+    bool b = lanlink.connected;
+    
+    c_s.Unlock();
+    
+    return b;
+}
+
+u16 RFCheck(u16 value) //Called when COMM_RF_SIOCNT written
+{
+    // GBAStub
+    return value;
+}
+
+#pragma mark - Send and Receive Data -
 
 void lserver::Send(void){
 	if(lanlink.type==0){	// TCP
@@ -1922,16 +2273,6 @@ void CheckLinkConnection() {
 	}
 }
 
-// Client
-lclient::lclient(void){
-	intinbuffer = (s32*)inbuffer;
-	u16inbuffer = (u16*)inbuffer;
-	intoutbuffer = (s32*)outbuffer;
-	u16outbuffer = (u16*)outbuffer;
-	numtransfers = 0;
-	return;
-}
-
 void lclient::CheckConn(void){
 	size_t nr;
     
@@ -2032,36 +2373,6 @@ void lclient::Send(){
     GBALinkSendDataToPlayerAtIndex(0, outbuffer, 4);
 	//lanlink.tcpsocket.Send(outbuffer, 4);
 	return;
-}
-
-
-
-
-
-
-
-
-
-void LinkConnected(bool b)
-{
-    // GBAStub
-}
-
-bool IsLinkConnected()
-{
-    // GBAStub
-    return true;
-}
-
-u16 RFCheck(u16 value) //Called when COMM_RF_SIOCNT written
-{
-    // GBAStub
-    return value;
-}
-
-void RFUClear()
-{
-    // GBAStub
 }
 
 #ifdef ORIGINAL_IMPLEMENTATION
