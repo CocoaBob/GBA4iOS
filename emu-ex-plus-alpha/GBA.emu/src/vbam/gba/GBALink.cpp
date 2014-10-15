@@ -552,6 +552,7 @@ void EnableLinkServer(bool enable, int numSlaves)
 {
     lanlink.server = enable;
     lanlink.numslaves = numSlaves;
+    lanlink.numgbas = numSlaves;
 }
 
 void EnableSpeedHacks(bool enable)
@@ -815,6 +816,8 @@ static ConnectionState InitRFUSocket()
 {
     ConnectionState connectionState = LINK_NEEDS_UPDATE;
     
+    lanlink.type = 0; // TCP
+    
     if (lanlink.server)
     {
         connectionState = ls.InitRFU();
@@ -877,7 +880,6 @@ static ConnectionState InitRFULink()
             }
             else
             {
-                GBALog("Created Semaphore: %s", linkevent);
                 SetEvent(linksync[i]);
             }
         }
@@ -1033,9 +1035,258 @@ static ConnectionState ConnectUpdateSocket(char * const message, size_t size) {
     return newState;
 }
 
+static ConnectionState ConnectUpdateRFUServer()
+{
+    ConnectionState connectionState = LINK_NEEDS_UPDATE;
+    
+    sf::Selector<sf::SocketTCP> fdset;
+    fdset.Add(lanlink.tcpsocket);
+    
+    char inbuffer[256];
+    char outbuffer[256];
+    u16 *u16outbuffer = (u16 *)outbuffer;
+    
+    for (int j = 0; j < 5; j++)
+    {
+        ls.connected[j] = false;
+    }
+    
+    i = 0;
+    
+    bool shown = true;
+    
+    GBALog("Waiting for clients...");
+    
+    while (shown && i < lanlink.numgbas) //AdamN: this may not be thread-safe //is it should be i<lanlink.numgbas ?
+    {
+        if (fdset.Wait(1) > 0) // Timeout = 1 second
+        {
+            c_s.Lock(); //AdamN: Locking resource to prevent deadlock
+            bool canceled = lanlink.terminate;
+            c_s.Unlock(); //AdamN: Unlock it after use
+            
+            if (canceled)
+            {
+                GBALog("Canceled connection");
+                connectionState = LINK_ABORT;
+                break;
+            }
+            
+            using namespace sf::Socket;
+            
+            if (lanlink.tcpsocket.Accept(ls.tcpsocket[i+1]) != Status::Done)
+            {
+                for (int j = 1; j < i; j++)
+                {
+                    ls.tcpsocket[j].Close();
+                }
+                
+                GBALog("Connection Error");
+                
+                connectionState = LINK_ERROR;
+                
+                break;
+            }
+            else
+            {
+                outbuffer[0] = 4;
+                outbuffer[1] = i+1;
+                u16outbuffer[1] = lanlink.numgbas; //lanlink.numgbas+1;
+                
+                unsigned long latency = GetTickCount();
+                ls.tcpsocket[i+1].Send(outbuffer, 4); //Sending index and #gba to client
+                latency = GetTickCount() - latency;
+                
+                ls.connected[i+1] = true;
+                
+                GBALog("Client %d connected. (Latency: %dms)", i+1, latency);
+                
+                i++;
+            }
+        }
+        
+        c_s.Lock(); //AdamN: Locking resource to prevent deadlock
+        bool canceled = lanlink.terminate; //AdamN: w/o locking might not be thread-safe
+        c_s.Unlock(); //AdamN: Unlock it after use
+        
+        if (canceled)
+        {
+            GBALog("Canceled connection");
+            connectionState = LINK_ABORT;
+            break;
+        }
+    }
+    
+    if (i > 0) //AdamN: if canceled after 1 or more player has been connected link will stil be marked as connected
+    {
+        GBALog("All players are connected!");
+        
+        c_s.Lock(); //AdamN: Locking resource to prevent deadlock
+        lanlink.numgbas = i; //i+1; //AdamN: update # of GBAs according to connected players before server got canceled
+        c_s.Unlock(); //AdamN: Unlock it after use
+        
+        connectionState = LINK_OK;
+    }
+    
+    shown = (i > 0); //AdamN: if canceled after 1 or more player has been connected connecteion will still be established
+    
+    for (i = 1; i <= lanlink.numgbas; i++) //AdamN: this should be i<lanlink.numgbas isn't?(just like in the while above), btw it might not be thread-safe (may be i'm being paranoid)
+    {
+        outbuffer[0] = 4;
+        ls.tcpsocket[i].Send(outbuffer, 4);
+    }
+    
+    if (shown) //AdamN: if one or more players connected before server got canceled connecteion will still be established
+    {
+        c_s.Lock(); //AdamN: Locking resource to prevent deadlock
+        lanlink.connected = true;
+        c_s.Unlock(); //AdamN: Unlock it after use
+    }
+    
+    c_s.Lock();
+    
+    if (lanlink.connected)
+    {
+        lanlink.terminate = false;
+    }
+    else
+    {
+        GBALog("Link not connected");
+    }
+    
+    c_s.Unlock();
+    
+    vbaid = 0;
+    linkid = vbaid;
+    
+    return connectionState;
+}
+
+static ConnectionState ConnectUpdateRFUClient()
+{
+    int numbytes;
+    size_t cnt;
+    char inbuffer[16];
+    u16 *u16inbuffer = (u16 *)inbuffer;
+    
+    lc.serverport = IP_LINK_PORT;
+    
+    using namespace sf::Socket;
+    
+    GBALog("Connecting...");
+    
+    Status status = lanlink.tcpsocket.Connect(lc.serverport, lc.serveraddr);
+    
+    if (status != Done)
+    {
+        if (status != NotReady)
+        {
+            GBALog("Couldn't connect to server.");
+            return LINK_ERROR;
+        }
+        
+        GBALog("Server not yet ready");
+        
+        sf::Selector<sf::SocketTCP> fdset;
+        fdset.Add(lanlink.tcpsocket);
+        
+        do
+        {
+            c_s.Lock(); //AdamN: Locking resource to prevent deadlock
+            bool canceled=lanlink.terminate; //AdamN: w/o locking might not be thread-safe
+            c_s.Unlock(); //AdamN: Unlock it after use
+            
+            if (canceled)
+            {
+                GBALog("Canceled connection");
+                return LINK_ABORT;
+            }
+            
+        }
+        while (fdset.Wait(1) != 1); // Timeout = 1 second
+    }
+    else
+    {
+        GBALog("Done connecting!");
+    }
+    
+    lanlink.tcpsocket.SetBlocking(true); //AdamN: temporary using blocking mode
+    
+    numbytes = 0;
+    inbuffer[0] = 1;
+    
+    unsigned long latency = GetTickCount();
+    
+    while (numbytes < inbuffer[0] /* 4 bytes */)
+    {
+        Status status = lanlink.tcpsocket.Receive(inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */, cnt); //AdamN: receiving index and #of gbas
+        
+        if ((cnt <= 0) || status != Done) //AdamN: to prevent stop responding due to infinite loop on socket error
+        {
+            GBALog("Trouble receiving data from server :(");
+            break;
+        }
+        
+        numbytes += cnt;
+    }
+    
+    latency = GetTickCount() - latency;
+    
+    linkid = inbuffer[1];
+    lanlink.numgbas = u16inbuffer[1];
+    vbaid = linkid;
+    
+    GBALog("Connected as Client #%d (Latency: %dms)", linkid, latency);
+    
+    if (lanlink.numgbas != linkid)
+    {
+        GBALog("Waiting for %d more players to join.", lanlink.numgbas - linkid);
+    }
+    else
+    {
+        GBALog("All players connected!");
+    }
+    
+    numbytes = 0;
+    inbuffer[0] = 1;
+    
+    while (numbytes < inbuffer[0]) //AdamN: loops until all players connected or is it until the game initialize multiplayer mode?, progressbar should be updated tho
+    {
+        Status status = lanlink.tcpsocket.Receive(inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */, cnt);
+        
+        if (status != Done)
+        {
+            GBALog("Trouble continuing to receive data from server.");
+            break;
+        }
+        
+        numbytes += cnt;
+    }
+    
+    c_s.Lock();
+    
+    lanlink.connected = true;
+    lanlink.terminate = false;
+    
+    c_s.Unlock();
+    
+    return LINK_OK;
+}
+
 static ConnectionState ConnectUpdateRFUSocket(char * const message, size_t size)
 {
-    return LINK_OK;
+    ConnectionState connectionState = LINK_NEEDS_UPDATE;
+    
+    if (lanlink.server)
+    {
+        connectionState = ConnectUpdateRFUServer();
+    }
+    else
+    {
+        connectionState = ConnectUpdateRFUClient();
+    }
+    
+    return connectionState;
 }
 
 ConnectionState ConnectLinkUpdate(char * const message, size_t size)

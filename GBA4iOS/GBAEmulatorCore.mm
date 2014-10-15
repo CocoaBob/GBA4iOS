@@ -1263,7 +1263,7 @@ static const int length = 256;
 {
     SetLinkTimeout(1000);
     EnableSpeedHacks(false);
-    EnableLinkServer(true,  1);    
+    EnableLinkServer(true,  1);
     
     __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
     
@@ -1273,11 +1273,11 @@ static const int length = 256;
     NSString *message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
     DLog(@"%@", message);
     
-    while (state == LINK_NEEDS_UPDATE) {
+    //while (state == LINK_NEEDS_UPDATE) {
         // Ask the core for updates
-        char message[length];
-        state = ConnectLinkUpdate(message, length);
-    }
+        char emptyMessage[length];
+        state = ConnectLinkUpdate(emptyMessage, length);
+    //}
     
     message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
     
@@ -1326,11 +1326,11 @@ static const int length = 256;
     
     __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
     
-    while (state == LINK_NEEDS_UPDATE) {
+    //while (state == LINK_NEEDS_UPDATE) {
         // Ask the core for updates
-        char message[length];
-        state = ConnectLinkUpdate(message, length);
-    }
+        char emptyMessage[length];
+        state = ConnectLinkUpdate(emptyMessage, length);
+    //}
     
     char localhost[length];
     GetLinkServerHost(localhost, length);
