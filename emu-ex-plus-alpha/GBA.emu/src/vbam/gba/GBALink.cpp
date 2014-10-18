@@ -388,6 +388,7 @@ typedef struct {
     
     int numgbas; //max vbaid/linkid value (# of GBAs minus 1), used in Networking
     bool connected;
+    bool active; //network/single computer
 } LANLINKDATA;
 
 class lserver{
@@ -503,6 +504,7 @@ static u16 linkdata[4];
 static lserver ls;
 static lclient lc;
 static bool oncewait = false, after = false;
+bool speedhack = false;
 
 // Test if important
 bool linkdatarecvd[4];
@@ -3213,84 +3215,122 @@ static void UpdateRFUIPC(int ticks)
 
 static bool PerformUpdateRFUSocket()
 {
-    //Network
-    if(IsLinkConnected()/*lanlink.connected*/) { //synchronize RFU buffers as necessary to reduce network traffic? (update buffer with incoming data, send new data to other GBAs)
-        
-    }
-    
-    if (transfer && rfu_transfer_end <= 0) //this is to prevent continuosly sending & receiving data too fast which will cause the game unable to update the screen (the screen will looks freezed) due to miscommunication
+    if (!lanlink.active || rfu_enabled)
     {
-        if (rfu_waiting) {
-            bool ok = false;
-            u8 oldcmd = rfu_cmd;
-            u8 oldq = linkmem.rfu_q[vbaid]; //linkmem.rfu_qlist[vbaid][linkmem.rfu_listfront[vbaid]]; //
-            u32 tmout = linktimeout;
-            //if(READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]) & 0x80) //needed? is this the cause of error when trying to battle for the 2nd time in union room(siocnt = 5003 instead of 5086 when waiting for 0x28 from 0xa5)? OR was it due to left over data?
-            if(rfu_state!=RFU_INIT) //not needed?
+        if (transfer && rfu_transfer_end <= 0) //this is to prevent continuosly sending & receiving data too fast which will cause the game unable to update the screen (the screen will looks freezed) due to miscommunication
+        {
+            if (rfu_waiting)
             {
-                if(rfu_cmd == 0x24 || rfu_cmd == 0x25 || rfu_cmd == 0x35) {
-                    c_s.Lock();
-                    ok = /*gbaid!=vbaid* &&*/ linkmem.rfu_signal[vbaid] && linkmem.rfu_q[vbaid]>1 && rfu_qsend>1 /*&& linkmem.rfu_q[vbaid]>rfu_qsend*/;
-                    c_s.Unlock();
-                    if(ok && (GetTickCount()-rfu_lasttime)</*1000*/(unsigned long)linktimeout) {/*rfu_transfer_end = 256;*/ return false;}
-                    if(linkmem.rfu_q[vbaid]<2 || rfu_qsend>1 /*|| linkmem.rfu_q[vbaid]<=rfu_qsend*/)
-                    {
-                        rfu_cansend = true;
-                        c_s.Lock();
-                        linkmem.rfu_q[vbaid] = 0; //rfu_qsend;
-                        linkmem.rfu_qid[vbaid] = 0; //
-                        c_s.Unlock();
-                    }
-                    rfu_buf = 0x80000000;
-                } else {
-                    if(((rfu_cmd == 0x11 || rfu_cmd==0x1a || rfu_cmd==0x26) && (GetTickCount()-rfu_lasttime)<16) || ((rfu_cmd==0xa5 || rfu_cmd==0xb5) && (GetTickCount()-rfu_lasttime)<tmout) || ((rfu_cmd==0xa7 || rfu_cmd==0xb7 /*|| (rfu_lastcmd2==0x24 && rfu_cmd==0x26)*/) && (GetTickCount()-rfu_lasttime)</*1000*/(unsigned long)linktimeout)) { //
-                        //ok = false;
-                        //if (linkmem.rfu_q[vbaid]<2 /*|| (linkmem.rfu_request[vbaid] && linkmem.rfu_qid[vbaid]!=linkmem.rfu_request[vbaid])*/) //make sure previously sent data have been received
-                        c_s.Lock();
-                        ok = (!DATALIST.empty() || (linkmem.rfu_listfront[vbaid]!=linkmem.rfu_listback[vbaid]));
-                        c_s.Unlock();
-                        if(!ok)
-                            for(int i=0; i<linkmem.numgbas; i++)
-                                if (i!=vbaid)
-                                    if (linkmem.rfu_q[i] && (linkmem.rfu_qid[i]&(1<<vbaid))) {ok = true; break;} //wait for reply
-                        if(/*vbaid==gbaid ||*/ !linkmem.rfu_signal[vbaid]) ok = true;
-                        if(!ok) {/*rfu_transfer_end = 256;*/ return false;}
-                    }
-                    if(rfu_cmd==0xa5 || rfu_cmd==0xa7 || rfu_cmd==0xb5 || rfu_cmd==0xb7 || rfu_cmd==0xee) rfu_polarity = 1;
-                    //rfu_polarity = 1; //reverse polarity to make the game send 0x80000000 command word (to be replied with 0x99660028 later by the adapter)
-                    if(rfu_cmd==0xa5 || rfu_cmd==0xa7) rfu_cmd = 0x28; else
-                        if(rfu_cmd==0xb5 || rfu_cmd==0xb7) rfu_cmd = 0x36;
-                    if(READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L])==0x80000000) rfu_buf = 0x99660000|(rfu_qrecv<<8)|rfu_cmd; else rfu_buf = 0x80000000;
+                bool ok = false;
+                u32 tmout = linktimeout;
+                
+                if ((!lanlink.active && speedhack) || (lanlink.speed && IsLinkConnected()))
+                {
+                    tmout = 16;
                 }
+                
+                if (rfu_state != RFU_INIT)
+                {
+                    if (rfu_cmd == 0x24 || rfu_cmd == 0x25 || rfu_cmd == 0x35)
+                    {
+                        c_s.Lock();
+                        
+                        ok = (linkmem.rfu_signal[vbaid] && linkmem.rfu_q[vbaid] > 1 && rfu_qsend > 1);
+                        
+                        c_s.Unlock();
+                        
+                        if (ok && (GetTickCount() - rfu_lasttime) < (unsigned long)linktimeout)
+                        {
+                            return false;
+                        }
+                        
+                        if (linkmem.rfu_q[vbaid] < 2 || rfu_qsend > 1)
+                        {
+                            rfu_cansend = true;
+                            
+                            c_s.Lock();
+                            
+                            linkmem.rfu_q[vbaid] = 0; //rfu_qsend;
+                            linkmem.rfu_qid[vbaid] = 0; //
+                            
+                            c_s.Unlock();
+                        }
+                        
+                        rfu_buf = 0x80000000;
+                    }
+                    else
+                    {
+                        if (((rfu_cmd == 0x11 || rfu_cmd==0x1a || rfu_cmd==0x26) && (GetTickCount()-rfu_lasttime) < 16) || ((rfu_cmd == 0xa5 || rfu_cmd == 0xb5) && (GetTickCount() - rfu_lasttime) < tmout) || ((rfu_cmd == 0xa7 || rfu_cmd == 0xb7) && (GetTickCount() - rfu_lasttime) < (unsigned long)linktimeout))
+                        {
+                            c_s.Lock();
+                            
+                            ok = (!DATALIST.empty() || (linkmem.rfu_listfront[vbaid] != linkmem.rfu_listback[vbaid]));
+                            
+                            c_s.Unlock();
+                            
+                            
+                            if (!ok)
+                            {
+                                for (int i = 0; i < linkmem.numgbas; i++)
+                                {
+                                    if (i != vbaid)
+                                    {
+                                        if (linkmem.rfu_q[i] && (linkmem.rfu_qid[i] & (1 << vbaid)))
+                                        {
+                                            ok = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            
+                            if (!linkmem.rfu_signal[vbaid])
+                            {
+                                ok = true;
+                            }
+                            
+                            
+                            if (!ok)
+                            {
+                                return false;
+                            }
+                            
+                            
+                            if (rfu_cmd == 0xa5 || rfu_cmd == 0xa7 || rfu_cmd == 0xb5 || rfu_cmd == 0xb7 || rfu_cmd == 0xee)
+                            {
+                                rfu_polarity = 1;
+                            }
+                            
+                            
+                            if (rfu_cmd == 0xa5 || rfu_cmd == 0xa7)
+                            {
+                                rfu_cmd = 0x28;
+                            }
+                            else if (rfu_cmd == 0xb5 || rfu_cmd == 0xb7)
+                            {
+                                rfu_cmd = 0x36;
+                            }
+                            
+                            
+                            if (READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]) == 0x80000000)
+                            {
+                                rfu_buf = 0x99660000 | (rfu_qrecv << 8) | rfu_cmd;
+                            }
+                            else
+                            {
+                                rfu_buf = 0x80000000;
+                            }
+                        }
+                    }
+                }
+                
+                rfu_waiting = false;
             }
             
-            /*UPDATE_REG(COMM_SIODATA32_L, rfu_buf);
-             UPDATE_REG(COMM_SIODATA32_H, rfu_buf>>16);*/
-            
-            rfu_waiting = false;
+            UPDATE_REG(COMM_SIODATA32_L, rfu_buf);
+            UPDATE_REG(COMM_SIODATA32_H, rfu_buf >> 16);
         }
-                
-        UPDATE_REG(COMM_SIODATA32_L, rfu_buf);
-        UPDATE_REG(COMM_SIODATA32_H, rfu_buf>>16);
-        
-        /*transfer = 0;
-         u16 value = READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]);
-         if (value & 0x4000) //IRQ Enable
-         {
-         IF |= 0x80; //Serial Communication
-         UPDATE_REG(0x202, IF); //Interrupt Request Flags / IRQ Acknowledge
-         }
-         
-         //if (rfu_polarity) value ^= 4;
-         value &= 0xfffb;
-         value |= (value & 1)<<2;
-         
-         UPDATE_REG(COMM_SIOCNT, (value & 0xff7f)|0x0008); //Start bit.7 reset, SO bit.3 set automatically upon transfer completion?
-         #ifdef GBA_LOGGING
-         if(systemVerbose & VERBOSE_SIO) {
-         log("SIOn32 : %04X %04X  %08X  (VCOUNT = %d) %d %d\n", READ16LE(&gGba.mem.ioMem.b[COMM_RCNT]), READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]), READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]), VCOUNT, GetTickCount(), linktime2 );
-         }
-         #endif*/
     }
     
     return true;
@@ -3298,7 +3338,35 @@ static bool PerformUpdateRFUSocket()
 
 static void UpdateRFUSocket(int ticks)
 {
-    // GBAStub
+    if (!rfu_enabled)
+    {
+        GBALog("RFU not enabled?");
+        return;
+    }
+    
+    linktime2 += ticks;
+    rfu_transfer_end -= ticks;
+    
+    if (PerformUpdateRFUSocket())
+    {
+        if (transfer && rfu_transfer_end <= 0) //this is to prevent continuosly sending & receiving data too fast which will cause the game unable to update the screen (the screen will looks freezed) due to miscommunication
+        {
+            transfer = 0;
+            
+            u16 value = READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]);
+            
+            if (value & 0x4000) //IRQ Enable
+            {
+                gGba.mem.ioMem.IF |= 0x80; //Serial Communication
+                UPDATE_REG(0x202, gGba.mem.ioMem.IF); //Interrupt Request Flags / IRQ Acknowledge
+            }
+            
+            value &= 0xfffb;
+            value |= (value & 1) << 2; //this will automatically set the correct polarity, even w/o rfu_polarity since the game will be the one who change the polarity instead of the adapter
+            
+            UPDATE_REG(COMM_SIOCNT, (value & 0xff7f) | 0x0008);
+        }
+    }
 }
 
 static void UpdateCableSocket(int ticks)
