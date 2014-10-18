@@ -215,6 +215,11 @@ static void UpdateRFUSocket(int ticks);
 
 bool IsLinkConnected();
 void LinkConnected(bool b);
+bool LinkSendRFUData(char *buf, int size, int nretry, int idx);
+bool LinkRecvData(char *buf, int size, int idx, bool peek);
+bool LinkIsDataReady(int *idx);
+bool LinkWaitForData(int ms, int *idx);
+int LinkDiscardRFUData(int idx);
 
 bool AppTerminated = false;
 int RetryCount = 0;
@@ -294,6 +299,11 @@ int minimum(int A, int B)
     return B;
 }
 
+void log (char const *, ...)
+{
+    // nothing
+}
+
 extern int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size);
 extern int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize);
 extern bool GBALinkWaitForLinkDataWithTimeout(int timeout);
@@ -336,19 +346,21 @@ enum
 
 #define UPDATE_REG(address, value) WRITE16LE(((u16 *)&gGba.mem.ioMem.b[address]),value)
 
+#warning Structs
+
 typedef struct {
 	u16 linkdata[5];
-	u16 linkcmd;
+	u16 linkcmd[4];
 	u16 numtransfers;
 	int lastlinktime;
 	u8 numgbas;
 	u8 trgbas;
 	u8 linkflags;
     u16 rfu_qid[5];
-	int rfu_q[4];
-	int rfu_linktime[4];
-	u32 rfu_bdata[4][7];
-	u32 rfu_data[4][32];
+	int rfu_q[5];
+	int rfu_linktime[5];
+	u32 rfu_bdata[5][7];
+	u32 rfu_data[5][32];
     u32 rfu_signal[5];
     
     u8 rfu_recvcmd[5]; //last received command
@@ -372,6 +384,7 @@ typedef struct {
 	bool server;
 	bool speed;
     bool terminate;
+    unsigned long latency;
     
     int numgbas; //max vbaid/linkid value (# of GBAs minus 1), used in Networking
     bool connected;
@@ -381,7 +394,7 @@ class lserver{
 	int numbytes;
 	sf::Selector<sf::SocketTCP> fdset;
 	//timeval udptimeout;
-	char inbuffer[256], outbuffer[256];
+	char inbuffer[8192], outbuffer[8192];
 	s32 *intinbuffer;
 	u16 *u16inbuffer;
     u32 *u32inbuffer;
@@ -398,19 +411,22 @@ class lserver{
     
 public:
 	int howmanytimes;
-	sf::SocketTCP tcpsocket[4];
-	sf::IPAddress udpaddr[4];
+    sf::SocketTCP tcpsocket[5];
+	sf::IPAddress udpaddr[5];
 	lserver(void);
 	void Send(void);
 	void Recv(void);
     bool connected[5];
+    unsigned long latency[5];
     
     ConnectionState InitRFU();
+    bool SendRFUData(const char *buf, int size, int nretry, int idx);
+    int DiscardRFUData(int idx);
 };
 
 class lclient{
 	sf::Selector<sf::SocketTCP> fdset;
-	char inbuffer[256], outbuffer[256];
+	char inbuffer[8192], outbuffer[8192];
 	s32 *intinbuffer;
 	u16 *u16inbuffer;
     u32 *u32inbuffer;
@@ -430,6 +446,9 @@ public:
 	void Send(void);
 	void Recv(void);
 	void CheckConn(void);
+    
+    bool SendRFUData(const char *buf, int size, int nretry);
+    int DiscardRFUData();
     
     ConnectionState InitRFU();
 };
@@ -1571,14 +1590,1080 @@ static void StartRFUIPC(u16 siocnt)
 // StartRFU4
 static void StartRFUSocket(u16 value)
 {
-    // GBAStub
+    if (gGba.mem.ioMem.b == NULL)
+    {
+        return;
+    }
+    
+    if (value)
+    {
+        switch (GetSIOMode(value, READ16LE(&gGba.mem.ioMem.b[COMM_RCNT])))
+        {
+            case MULTIPLAYER:
+            case NORMAL8:
+            case UART:
+            {
+                if (gba_link_auto)
+                {
+                    rfu_enabled = false;
+                    gba_link_enabled = true;
+                }
+                break;
+            }
+                
+            case NORMAL32:
+            {
+                if (gba_link_auto)
+                {
+                    rfu_enabled = true;
+                    gba_link_enabled = true;
+                }
+                break;
+            }
+                
+            case JOYBUS:
+            {
+                GBALog("Starting Joybus link not supported in GBA4iOS");
+            }
+                
+            default:
+            {
+                if (gba_link_auto)
+                {
+                    gba_link_enabled = false;
+                }
+            }
+        }
+    }
+    
+    if (((READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]) & 0x5080) == 0x1000) && ((value & 0x5080) == 0x5080)) //RFU
+    {
+        if (IsLinkConnected())
+        {
+            if (rfu_enabled)
+            {
+                char outbuf[4];
+                outbuf[1] = 0x80 | vbaid; //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                outbuf[0] = 4; //total size including headers //vbaid;
+                outbuf[2] = 0x3d;
+                outbuf[3] = 0;
+                LinkSendRFUData(outbuf, 4, RetryCount, 0); //broadcast
+            }
+            
+            if (vbaid || !rfu_enabled)
+            {
+                LinkDiscardRFUData(0);
+            }
+        }
+        
+        c_s.Lock();
+        
+        DATALIST.clear();
+        linkmem.rfu_listfront[vbaid] = 0;
+        linkmem.rfu_listback[vbaid] = 0;
+        
+        c_s.Unlock();
+    }
+    
+    if (gba_link_enabled && rfu_enabled)
+    {
+        if (IsLinkConnected())
+        {
+            UPDATE_REG(COMM_SIOCNT, PrepareRFUSocket(value)); //Network
+        }
+        else
+        {
+            GBALog("ERROR: Link not connected");
+        }
+        
+        return;
+    }
+    
+    GBALog("Error: Rest of StartRFUSocket should never be called");
 }
 
 
 u16 PrepareRFUSocket(u16 value)
 {
-    // GBAStub
-    return value;
+    //TODO: Need to use c_s.Lock/Unlock when accessing shared variable, or use LinkHandlerThread during idle instead of in a different thread
+    static char inbuffer[1036], outbuffer[1036];
+    u16 *u16inbuffer = (u16*)inbuffer;
+    u16 *u16outbuffer = (u16*)outbuffer;
+    u32 *u32inbuffer = (u32*)inbuffer;
+    u32 *u32outbuffer = (u32*)outbuffer;
+    static int outsize, insize;
+    
+    static char *st;
+    //static CString st2 = _T(""); //since st.Format can't use it's self (st) as argument we need another CString
+    
+    static bool logstartd;
+    //MSG msg;
+    u32 CurCOM = 0, CurDAT = 0;
+    bool rfulogd = (READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT])!=value);
+    
+    switch (GetSIOMode(value, READ16LE(&gGba.mem.ioMem.b[COMM_RCNT]))) {
+        case NORMAL8: //occurs after sending 0x996600A8 cmd
+            rfu_polarity = 0;
+            //log("RFU Wait : %04X  %04X  %d\n", READ16LE(&gGba.mem.ioMem.b[COMM_RCNT]), READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]), GetTickCount() );
+            return value;
+            break;
+            
+        case NORMAL32:
+            if (transfer) return value; //don't do anything if previous cmd aren't sent yet, may fix Boktai2 Not Detecting wireless adapter
+            
+#ifdef GBA_LOGGING
+            if(systemVerbose & VERBOSE_LINK) {
+                if(!logstartd)
+                    if(rfulogd) {
+                        //log("%08X : %04X  ", GetTickCount(), value);
+                        st.Format(_T("%08X : %04X[%04X]"), GetTickCount(), value, READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]));
+                        //st2 = st; //not needed to be set?
+                    }
+            }
+#endif
+            
+            //Moving this to the bottom might prevent Mario Golf Adv from Occasionally Not Detecting wireless adapter
+            if (value & 8) //Transfer Enable Flag Send (SO.bit.3, 1=Disable Transfer/Not Ready)
+                value &= 0xfffb; //Transfer enable flag receive (0=Enable Transfer/Ready, SI.bit.2=SO.bit.3 of otherside)	// A kind of acknowledge procedure
+            else //(SO.Bit.3, 0=Enable Transfer/Ready)
+                value |= 4; //SI.bit.2=1 (otherside is Not Ready)
+            
+            if ((value & 5)==1)
+                value |= 0x02; //wireless always use 2Mhz speed right? this will fix MarioGolfAdv Not Detecting wireless
+            
+            if (value & 0x80) //start/busy bit
+            {
+                if ((value & 3) == 1) //internal clock w/ 256KHz speed
+                    rfu_transfer_end = 2048;
+                else //external clock or any clock w/ 2MHz speed
+                    rfu_transfer_end = 256;
+                
+                u16 a = READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA32_H]);
+                
+#ifdef GBA_LOGGING
+                if(systemVerbose & VERBOSE_LINK) {
+                    if(rfulogd)
+                        st.AppendFormat(_T("    %08X"), READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L])); else
+                            st.Format(_T("%08X : %04X[%04X]    %08X"), GetTickCount(), value, READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]), READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]));
+                    //st = st2;
+                    logstartd = true;
+                }
+#endif
+                
+                switch (rfu_state) {
+                    case RFU_INIT:
+                        if (READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]) == 0xb0bb8001 /*|| READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]) == 0x7FFE8001 || READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]) == 0x80017FFE || READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]) == 0x8001B0BB*/) { //
+                            rfu_state = RFU_COMM;	// end of startup
+                            rfu_initialized = true;
+                            value &= 0xfffb; //0xff7b; //Bit.2 need to be 0 to indicate a finished initialization to fix MarioGolfAdv from occasionally Not Detecting wireless adapter (prevent it from sending 0x7FFE8001 comm)?
+                            rfu_polarity = 0; //not needed?
+                            //RFUClear();
+                        }
+                        rfu_buf = (READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L])<<16)|a;
+                        break;
+                        
+                    case RFU_COMM:
+                        CurCOM = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                        if (a == 0x9966) //initialize cmd
+                        {
+                            u8 tmpcmd = CurCOM;
+                            if(tmpcmd!=0x10 && tmpcmd!=0x11 && tmpcmd!=0x13 && tmpcmd!=0x14 && tmpcmd!=0x16 && tmpcmd!=0x17 && tmpcmd!=0x19 && tmpcmd!=0x1a && tmpcmd!=0x1b && tmpcmd!=0x1c && tmpcmd!=0x1d && tmpcmd!=0x1e && tmpcmd!=0x1f && tmpcmd!=0x20 && tmpcmd!=0x21 && tmpcmd!=0x24 && tmpcmd!=0x25 && tmpcmd!=0x26 && tmpcmd!=0x27 && tmpcmd!=0x30  && tmpcmd!=0x32 && tmpcmd!=0x33 && tmpcmd!=0x34 && tmpcmd!=0x3d && tmpcmd!=0xa8 && tmpcmd!=0xee) {
+                                log("%08X : UnkCMD %08X  %04X  %08X %08X\n", GetTickCount(), CurCOM, PrevVAL, PrevCOM, PrevDAT);
+                                //systemVerbose |= VERBOSE_LINK; //for testing only
+                            }
+                            
+                            //rfu_qrecv = 0;
+                            rfu_counter = 0;
+                            if ((rfu_qsend2=rfu_qsend=gGba.mem.ioMem.b[0x121]) != 0) { //COMM_SIODATA32_L+1, following data [to send]
+                                rfu_state = RFU_SEND;
+                                //rfu_counter = 0;
+                            }
+                            
+                            if ((rfu_cmd|0x80)!=0x91 && (rfu_cmd|0x80)!=0x93 && ((rfu_cmd|0x80)<0xa4 || (rfu_cmd|0x80)>0xa8)) rfu_lastcmd3 = rfu_cmd;
+                            
+                            if(gGba.mem.ioMem.b[COMM_SIODATA32_L] == 0xee) { //0xee cmd shouldn't override previous cmd
+                                rfu_lastcmd = rfu_cmd2;
+                                rfu_cmd2 = gGba.mem.ioMem.b[COMM_SIODATA32_L];
+                                //rfu_polarity = 0; //when polarity back to normal the game can initiate a new cmd even when 0xee hasn't been finalized, but it looks improper isn't?
+                            } else {
+                                rfu_lastcmd = rfu_cmd;
+                                rfu_cmd = gGba.mem.ioMem.b[COMM_SIODATA32_L];
+                                rfu_cmd2 = 0;
+                                
+                                int maskid;
+                                if (rfu_cmd==0x27 || rfu_cmd==0x37) {
+                                    rfu_lastcmd2 = rfu_cmd;
+                                    //rfu_transfer_end = 1;
+                                    rfu_lasttime = GetTickCount();
+                                } else
+                                    if (rfu_cmd==0x24) { //non-important data shouldn't overwrite important data from 0x25
+                                        rfu_lastcmd2 = rfu_cmd;
+                                        rfu_cansend = false;
+                                        //rfu_transfer_end = 1;
+                                        if(rfu_ishost)
+                                            maskid = ~linkmem.rfu_request[vbaid]; else
+                                                maskid = ~(1<<gbaid);
+                                        //previous important data need to be received successfully before sending another important data
+                                        rfu_lasttime = GetTickCount(); //just to mark the last time a data being sent
+                                        if(!lanlink.speed) {
+                                            while (!AppTerminated && linkmem.numgbas>=2 && linkmem.rfu_q[vbaid]>1 && vbaid!=gbaid && linkmem.rfu_signal[vbaid] && linkmem.rfu_signal[gbaid] && (GetTickCount()-rfu_lasttime)<(unsigned long)linktimeout) { //2 players
+                                                if(!rfu_ishost)
+                                                    SetEvent(linksync[gbaid]); else //unlock other gba, allow other gba to move (sending their data)  //is max value of vbaid=1 ?
+                                                        for(int j=0;j<linkmem.numgbas;j++)
+                                                            if(j!=vbaid) SetEvent(linksync[j]);
+                                                WaitForSingleObject(linksync[vbaid], 1); //linktimeout //wait until this gba allowed to move (to prevent both GBAs from using 0x25 at the same time)
+                                                ResetEvent(linksync[vbaid]); //lock this gba, don't allow this gba to move (prevent sending another data too fast w/o giving the other side chances to read it)
+                                                
+                                                //if(PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE)) { //theApp.GetMainWnd()->GetSafeHwnd()
+                                                //	if(msg.message==WM_CLOSE) AppTerminated=true; else theApp.PumpMessage(); //seems to be processing message only if it has message otherwise it halt the program
+                                                //}
+                                                //SleepEx(1,true);
+                                                if (!rfu_ishost && linkmem.rfu_request[vbaid]) {
+                                                    c_s.Lock();
+                                                    linkmem.rfu_request[vbaid] = 0;
+                                                    c_s.Unlock();
+                                                    break;
+                                                } //workaround for a bug where rfu_request failed to reset when GBA act as client
+                                            }
+                                            //SetEvent(linksync[vbaid]); //set again to reduce the lag since it will be waited again during finalization cmd
+                                        } else {
+                                            if(linkmem.numgbas>=2 && gbaid!=vbaid && linkmem.rfu_q[vbaid]>1 && linkmem.rfu_signal[vbaid] && linkmem.rfu_signal[gbaid]) { //2 players connected
+                                                if(!rfu_ishost)
+                                                    SetEvent(linksync[gbaid]); else //unlock other gba, allow other gba to move (sending their data)  //is max value of vbaid=1 ?
+                                                        for(int j=0;j<linkmem.numgbas;j++)
+                                                            if(j!=vbaid) SetEvent(linksync[j]);
+                                                WaitForSingleObject(linksync[vbaid], lanlink.speed?1:linktimeout); //linktimeout //wait until this gba allowed to move
+                                                ResetEvent(linksync[vbaid]); //lock this gba, don't allow this gba to move (prevent sending another data too fast w/o giving the other side chances to read it)
+                                            }
+                                        }
+                                        if(linkmem.rfu_q[vbaid]<2 /*|| (!linkmem.rfu_proto[vbaid] && linkmem.rfu_q[vbaid]<=rfu_qsend)*/) { //can overwrite now
+                                            rfu_cansend = true;
+                                            c_s.Lock();
+                                            linkmem.rfu_q[vbaid] = 0; //rfu_qsend;
+                                            linkmem.rfu_qid[vbaid] = 0; //
+                                            c_s.Unlock();
+                                        } else if(!lanlink.speed) rfu_waiting = true; //log("%08X  CMD24: %d %d\n",GetTickCount(),linkmem.rfu_q[vbaid],rfu_qsend2); //don't wait with speedhack
+                                    } else
+                                        if (rfu_cmd==0x25 || rfu_cmd==0x35 /*|| (rfu_cmd==0x24 && linkmem.rfu_q[vbaid]<=rfu_qsend)*/) { //&& linkmem.rfu_q[vbaid]>1
+                                            rfu_lastcmd2 = rfu_cmd;
+                                            rfu_cansend = false;
+                                            //rfu_transfer_end = 1;
+                                            if(rfu_ishost)
+                                                maskid = ~linkmem.rfu_request[vbaid]; else
+                                                    maskid = ~(1<<gbaid);
+                                            //previous important data need to be received successfully before sending another important data
+                                            rfu_lasttime = GetTickCount();
+                                            if(!lanlink.speed) {
+                                                while (!AppTerminated && linkmem.numgbas>=2 && linkmem.rfu_q[vbaid]>1 && vbaid!=gbaid && linkmem.rfu_signal[vbaid] && linkmem.rfu_signal[gbaid] && (GetTickCount()-rfu_lasttime)<(unsigned long)linktimeout) { //2 players
+                                                    if(!rfu_ishost)
+                                                        SetEvent(linksync[gbaid]); else //unlock other gba, allow other gba to move (sending their data)  //is max value of vbaid=1 ?
+                                                            for(int j=0;j<linkmem.numgbas;j++)
+                                                                if(j!=vbaid) SetEvent(linksync[j]);
+                                                    WaitForSingleObject(linksync[vbaid], 1); //linktimeout //wait until this gba allowed to move (to prevent both GBAs from using 0x25 at the same time)
+                                                    ResetEvent(linksync[vbaid]); //lock this gba, don't allow this gba to move (prevent sending another data too fast w/o giving the other side chances to read it)
+                                                    
+                                                    //if(PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE)) { //theApp.GetMainWnd()->GetSafeHwnd()
+                                                    //	if(msg.message==WM_CLOSE) AppTerminated=true; else theApp.PumpMessage(); //seems to be processing message only if it has message otherwise it halt the program
+                                                    //}
+                                                    //SleepEx(1,true);
+                                                    if (!rfu_ishost && linkmem.rfu_request[vbaid]) {
+                                                        c_s.Lock();
+                                                        linkmem.rfu_request[vbaid] = 0;
+                                                        c_s.Unlock();
+                                                        break;
+                                                    } //workaround for a bug where rfu_request failed to reset when GBA act as client
+                                                }
+                                                //SetEvent(linksync[vbaid]); //set again to reduce the lag since it will be waited again during finalization cmd
+                                            } else {
+                                                if(linkmem.numgbas>=2 && gbaid!=vbaid && linkmem.rfu_q[vbaid]>1 && linkmem.rfu_signal[vbaid] && linkmem.rfu_signal[gbaid]) { //2 players connected
+                                                    if(!rfu_ishost)
+                                                        SetEvent(linksync[gbaid]); else //unlock other gba, allow other gba to move (sending their data)  //is max value of vbaid=1 ?
+                                                            for(int j=0;j<linkmem.numgbas;j++)
+                                                                if(j!=vbaid) SetEvent(linksync[j]);
+                                                    WaitForSingleObject(linksync[vbaid], lanlink.speed?1:linktimeout); //linktimeout //wait until this gba allowed to move
+                                                    ResetEvent(linksync[vbaid]); //lock this gba, don't allow this gba to move (prevent sending another data too fast w/o giving the other side chances to read it)
+                                                }
+                                            }
+                                            if(linkmem.rfu_q[vbaid]<2) {
+                                                rfu_cansend = true;
+                                                c_s.Lock();
+                                                linkmem.rfu_q[vbaid] = 0; //rfu_qsend;
+                                                linkmem.rfu_qid[vbaid] = 0; //
+                                                c_s.Unlock();
+                                            } else if(!lanlink.speed) rfu_waiting = true; //log("%08X  CMD25: %d %d\n",GetTickCount(),linkmem.rfu_q[vbaid],rfu_qsend2); //don't wait with speedhack
+                                        } else
+                                            if (rfu_cmd==0xa8 || rfu_cmd==0xb6 || rfu_cmd==0x11 || rfu_cmd==0x26) { // && numtransfers == 1
+                                                //rfu_transfer_end = 1;
+                                            } else
+                                                if (rfu_cmd == 0x11 || rfu_cmd == 0x1a || rfu_cmd == 0x26) {
+                                                    //rfu_transfer_end = 2048;
+                                                    //rfu_lasttime = GetTickCount();
+                                                    if(rfu_lastcmd2==0x24)
+                                                        rfu_waiting = true;
+                                                }
+                            }
+                            //UPDATE_REG(COMM_SIODATA32_L, 0);
+                            //UPDATE_REG(COMM_SIODATA32_H, 0x8000);
+                            if(rfu_waiting) rfu_buf = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]); else
+                                rfu_buf = 0x80000000;
+                        }
+                        else if (a == 0x8000) //finalize cmd, the game will send this when polarity reversed (expecting something)
+                        {
+                            rfu_qrecv = 0;
+                            //rfu_counter = 0;
+                            if(rfu_cmd2 == 0xee) {
+                                if(rfu_masterdata[0] == 2) //is this value of 2 related to polarity?
+                                    rfu_polarity = 0; //to normalize polarity after finalize looks more proper
+                                //UPDATE_REG(COMM_SIODATA32_H, 0x9966);
+                                //UPDATE_REG(COMM_SIODATA32_L, (rfu_qrecv<<8) | (rfu_cmd2^0x80));
+                                rfu_buf = 0x99660000|(rfu_qrecv<<8) | (rfu_cmd2^0x80);
+                            } else {
+                                switch (rfu_cmd) {
+                                    case 0x1a:	// check if someone joined
+                                        //gbaid = vbaid; //1-vbaid;
+                                        if (linkmem.rfu_request[vbaid]) {
+                                            //gbaid = vbaid^1; //1-vbaid; //linkmem.rfu_request[vbaid] & 1;
+                                            gbaidx = gbaid;
+                                            do {
+                                                gbaidx = (gbaidx+1) % linkmem.numgbas;
+                                                if (gbaidx!=vbaid && linkmem.rfu_reqid[gbaidx]==(vbaid<<3)+0x61f1) rfu_masterdata[rfu_qrecv++] = (gbaidx<<3)+0x61f1;
+                                            } while (gbaidx!=gbaid && linkmem.numgbas>=2); // && linkmem.rfu_reqid[gbaidx]!=(vbaid<<3)+0x61f1
+                                            if (rfu_qrecv>0) {
+                                                bool ok = false;
+                                                for(int i=0; i<rfu_numclients; i++)
+                                                    if((rfu_clientlist[i] & 0xffff)==rfu_masterdata[0/*rfu_qrecv-1*/]) {ok = true; break;}
+                                                if(!ok) {
+                                                    rfu_curclient = rfu_numclients;
+                                                    gbaid = ((rfu_masterdata[0]&0xffff)-0x61f1)>>3; //last joined id
+                                                    c_s.Lock();
+                                                    linkmem.rfu_signal[gbaid] = 0xffffffff>>((3-(rfu_numclients))<<3);
+                                                    linkmem.rfu_clientidx[gbaid] = rfu_numclients;
+                                                    c_s.Unlock();
+                                                    rfu_clientlist[rfu_numclients] = rfu_masterdata[0/*rfu_qrecv-1*/] | (rfu_numclients++ << 16);
+                                                    //rfu_numclients++;
+                                                    //log("%d  Switch%02X:%d\n",GetTickCount(),rfu_cmd,gbaid);
+                                                    rfu_masterq = 1; //data size
+                                                    outbuffer[1] = 0x80|vbaid; //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                                    outbuffer[0] = (rfu_masterq+2)<<2; //total size including headers //vbaid;
+                                                    outbuffer[2] = rfu_cmd;
+                                                    outbuffer[3] = rfu_masterq+1;
+                                                    memcpy(&outbuffer[4],&linkmem.rfu_signal[gbaid],4);
+                                                    memcpy(&outbuffer[8],&rfu_clientlist[rfu_numclients-1],rfu_masterq<<2); //data size (excluding headers)
+                                                    LinkSendRFUData(outbuffer, (rfu_masterq+2)<<2, RetryCount, 0); //broadcast
+                                                }
+                                                if(gbaid==vbaid) {
+                                                    gbaid = ((rfu_masterdata[0]&0xffff)-0x61f1)>>3; //gbaidx;
+                                                }
+                                                rfu_state = RFU_RECV;
+                                            }
+                                        }
+                                        if(rfu_numclients>0) {
+                                            for(int i=0; i<rfu_numclients; i++) rfu_masterdata[i] = rfu_clientlist[i];
+                                        }
+                                        rfu_id = (gbaid<<3)+0x61f1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x1f: //join a room as client
+                                        rfu_id = rfu_masterdata[0]; //TODO: check why rfu_id = 0x0420 ?? and causing gbaid to be wrong also
+                                        if(rfu_id<0x61f1)
+                                            log("Invalid ID: %04X\n",rfu_id);
+                                        gbaid = (rfu_id-0x61f1)>>3;
+                                        rfu_idx = rfu_id;
+                                        gbaidx = gbaid;
+                                        rfu_lastcmd2 = 0;
+                                        numtransfers = 0;
+                                        c_s.Lock();
+                                        linkmem.rfu_q[vbaid] = 0; //to prevent leftover data from previous session received immediately in the new session
+                                        linkmem.rfu_reqid[vbaid] = rfu_id;
+                                        linkmem.rfu_request[vbaid] = 0; //TODO:might failed to reset rfu_request when being accessed by otherside at the same time, sometimes both acting as client but one of them still have request[vbaid]!=0 //to prevent both GBAs from acting as Host, client can't be a host at the same time
+                                        c_s.Unlock();
+                                        if(vbaid!=gbaid) {
+                                            //if(linkmem.rfu_request[gbaid]) numtransfers++; //if another client already joined
+                                            /*if(!linkmem.rfu_request[gbaid]) rfu_isfirst = true;
+                                             linkmem.rfu_signal[vbaid] = 0x00ff;
+                                             linkmem.rfu_request[gbaid] |= 1<<vbaid;*/ // tells the other GBA(a host) that someone(a client) is joining
+                                            rfu_masterq = 1; //data size
+                                            outbuffer[1] = 0x80|gbaid; //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                            outbuffer[0] = (rfu_masterq+1)<<2; //total size including headers //vbaid;
+                                            outbuffer[2] = rfu_cmd;
+                                            outbuffer[3] = rfu_masterq;
+                                            memcpy(&outbuffer[4],rfu_masterdata,rfu_masterq<<2); //data size (excluding headers)
+                                            LinkSendRFUData(outbuffer, (rfu_masterq+1)<<2, RetryCount, 0); //broadcast
+                                        }
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x1e:	// receive broadcast data
+                                        numtransfers = 0;
+                                        rfu_numclients = 0;
+                                        c_s.Lock();
+                                        //linkmem.rfu_request[vbaid] = 0; //to prevent both GBAs from acting as Host and thinking both of them have Client?
+                                        linkmem.rfu_q[vbaid] = 0; //to prevent leftover data from previous session received immediately in the new session
+                                        c_s.Unlock();
+                                    case 0x1d:	// no visible difference
+                                        c_s.Lock();
+                                        linkmem.rfu_request[vbaid] = 0; //to prevent both GBAs from acting as Host and thinking both of them have Client?
+                                        c_s.Unlock();
+                                        memset(rfu_masterdata, 0, sizeof(linkmem.rfu_bdata[vbaid])); //may not be needed
+                                        rfu_qrecv = 0;
+                                        for(int i=0; i<linkmem.numgbas; i++)
+                                            if(i!=vbaid && linkmem.rfu_bdata[i][0]) {
+                                                memcpy(&rfu_masterdata[rfu_qrecv], linkmem.rfu_bdata[i], sizeof(linkmem.rfu_bdata[i]));
+                                                rfu_qrecv += 7;
+                                            }
+                                        //if(rfu_qrecv==0) rfu_qrecv = 7; //is this needed? to prevent MarioGolfAdv from joining it's own room when switching from host to client mode due to left over room data in the game buffer?
+                                        if (rfu_qrecv>0)
+                                            rfu_state = RFU_RECV;
+                                        rfu_polarity = 0;
+                                        rfu_counter = 0;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x16:	// send broadcast data (ie. room name)
+                                        c_s.Lock();
+                                        memcpy(&linkmem.rfu_bdata[vbaid][1], &rfu_masterdata[1], sizeof(linkmem.rfu_bdata[vbaid])-4);
+                                        //linkmem.rfu_bdata[vbaid][0] = (vbaid<<3)+0x61f1; //start broadcasting here may cause client to join other client in pokemon coloseum
+                                        //linkmem.rfu_q[vbaid] = 0;
+                                        c_s.Unlock();
+                                        rfu_masterq = (sizeof(linkmem.rfu_bdata[vbaid]) >> 2)-1; //(sizeof(linkmem.rfu_bdata[vbaid])+3) >> 2; //7 unsigned longs
+                                        outbuffer[1] = 0x80|vbaid; //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                        outbuffer[0] = (rfu_masterq+1)<<2; //total size including headers //vbaid;
+                                        outbuffer[2] = rfu_cmd;
+                                        outbuffer[3] = rfu_masterq;
+                                        memcpy(&outbuffer[4],&rfu_masterdata[1],rfu_masterq<<2); //data size (excluding headers)
+                                        LinkSendRFUData(outbuffer, (rfu_masterq+1)<<2, RetryCount, 0); //broadcast
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x11:	// get signal strength
+                                        //check signal
+                                        c_s.Lock();
+                                        if(linkmem.numgbas>=2 && (linkmem.rfu_request[vbaid]|linkmem.rfu_request[gbaid])) //signal only good when connected
+                                            if(rfu_ishost) { //update, just incase there are leaving clients
+                                                u8 rfureq = linkmem.rfu_request[vbaid];
+                                                u8 oldnum = rfu_numclients;
+                                                rfu_numclients = 0;
+                                                for(int i=0; i<8; i++) {
+                                                    if(rfureq & 1) rfu_numclients++;
+                                                    rfureq >>= 1;
+                                                }
+                                                if(rfu_numclients>oldnum) rfu_numclients = oldnum; //must not be higher than old value, which means the new client haven't been processed by 0x1a cmd yet
+                                                linkmem.rfu_signal[vbaid] = /*0x00ff*/ 0xffffffff>>((4-rfu_numclients)<<3);
+                                            } else linkmem.rfu_signal[vbaid] = linkmem.rfu_signal[gbaid]; // /*0x0ff << (linkmem.rfu_clientidx[vbaid]<<3)*/ 0xffffffff>>((3-linkmem.rfu_clientidx[vbaid])<<3);
+                                            else linkmem.rfu_signal[vbaid] = 0;
+                                        c_s.Unlock();
+                                        if (rfu_qrecv==0) {
+                                            rfu_qrecv = 1;
+                                            rfu_masterdata[0] = (u32)linkmem.rfu_signal[vbaid];
+                                        }
+                                        if (rfu_qrecv>0) {
+                                            rfu_state = RFU_RECV; //3;
+                                            int hid = vbaid;
+                                            if(!rfu_ishost) hid = gbaid;
+                                            rfu_masterdata[rfu_qrecv-1] = (u32)linkmem.rfu_signal[hid/*vbaid*//*gbaid*/]; //
+                                        }
+                                        //rfu_transfer_end = 1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x33:	// rejoin status check?
+                                        if(linkmem.rfu_signal[vbaid] || numtransfers==0/*|| linkmem.numgbas>=2*/)
+                                            rfu_masterdata[0] = 0; else //0=success
+                                                rfu_masterdata[0] = (u32)-1; //0xffffffff; //1=failed, 2++ = reserved/invalid, we use invalid value to let the game retries 0x33 until signal restored
+                                        //numtransfers = 0;
+                                        //linktime = 1;
+                                        rfu_cmd ^= 0x80;
+                                        //rfu_polarity = 0;
+                                        rfu_state = RFU_RECV; //3;
+                                        rfu_qrecv = 1;
+                                        break;
+                                        
+                                    case 0x14:	// reset current client index and error check?
+                                        if((linkmem.rfu_signal[vbaid] || numtransfers==0/*|| linkmem.numgbas>=2*/) && gbaid!=vbaid)
+                                            rfu_masterdata[0] = ((!rfu_ishost?0x100:0+linkmem.rfu_clientidx[gbaid]) << 16)|((gbaid<<3)+0x61f1); //(linkmem.rfu_clientidx[gbaid] << 16)|((gbaid<<3)+0x61f1); /*0x02001234;*/ else //high word should be 0x0200 ? is 0x0200 means 1st client and 0x4000 means 2nd client?
+                                        rfu_masterdata[0] = 0; //0=error, non-zero=good?
+                                        //numtransfers = 0;
+                                        //linktime = 1;
+                                        rfu_cmd ^= 0x80;
+                                        //rfu_polarity = 0;
+                                        rfu_state = RFU_RECV; //3;
+                                        rfu_qrecv = 1;
+                                        break;
+                                        
+                                    case 0x13:	// error check?
+                                        if(linkmem.rfu_signal[vbaid] || numtransfers==0 || rfu_initialized /*|| linkmem.numgbas>=2*/)
+                                            rfu_masterdata[0] = ((rfu_ishost?0x100:0+linkmem.rfu_clientidx[vbaid]) << 16)|((vbaid<<3)+0x61f1); /*0x02001234;*/ else //high word should be 0x0200 ? is 0x0200 means 1st client and 0x4000 means 2nd client?
+                                                rfu_masterdata[0] = 0; //0=error, non-zero=good?
+                                        //numtransfers = 0;
+                                        //linktime = 1;
+                                        rfu_cmd ^= 0x80;
+                                        //rfu_polarity = 0;
+                                        rfu_state = RFU_RECV; //3;
+                                        rfu_qrecv = 1;
+                                        break;
+                                        
+                                    case 0x20:	// client, this has something to do with 0x1f
+                                        rfu_masterdata[0] = (linkmem.rfu_clientidx[vbaid]) << 16; //needed for client
+                                        rfu_masterdata[0] |= (vbaid<<3)+0x61f1; //0x1234; //0x641b; //max id value? Encryption key or Station Mode? (0xFBD9/0xDEAD=Access Point mode?)
+                                        c_s.Lock();
+                                        linkmem.rfu_q[vbaid] = 0; //to prevent leftover data from previous session received immediately in the new session
+                                        linkmem.rfu_request[vbaid] = 0; //TODO:may not works properly, sometimes both acting as client but one of them still have request[vbaid]!=0 //to prevent both GBAs from acting as Host, client can't be a host at the same time
+                                        if(linkmem.rfu_signal[gbaid]<linkmem.rfu_signal[vbaid]) //TODO: why sometimes gbaid and rfu_id is invalid number ?? (rfu_id = 0x0420 causing gbaid to be wrong also)
+                                            linkmem.rfu_signal[gbaid] = linkmem.rfu_signal[vbaid];
+                                        c_s.Unlock();
+                                        rfu_polarity = 0;
+                                        rfu_state = RFU_RECV; //3;
+                                        rfu_qrecv = 1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                    case 0x21:	// client, this too
+                                        rfu_masterdata[0] = (linkmem.rfu_clientidx[vbaid]) << 16; //not needed?
+                                        rfu_masterdata[0] |= (vbaid<<3)+0x61f1; //0x641b; //max id value? Encryption key or Station Mode? (0xFBD9/0xDEAD=Access Point mode?)
+                                        c_s.Lock();
+                                        linkmem.rfu_q[vbaid] = 0; //to prevent leftover data from previous session received immediately in the new session
+                                        linkmem.rfu_request[vbaid] = 0; //TODO:may not works properly, sometimes both acting as client but one of them still have request[vbaid]!=0 //to prevent both GBAs from acting as Host, client can't be a host at the same time
+                                        c_s.Unlock();
+                                        rfu_polarity = 0;
+                                        rfu_state = RFU_RECV; //3;
+                                        rfu_qrecv = 1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x19:	// server bind/start listening for client to join, may be used in the middle of host<->client communication w/o causing clients to dc?
+                                        c_s.Lock();
+                                        //linkmem.rfu_request[vbaid] = 0; //to prevent both GBAs from acting as Host and thinking both of them have Client?
+                                        linkmem.rfu_q[vbaid] = 0; //to prevent leftover data from previous session received immediately in the new session
+                                        linkmem.rfu_bdata[vbaid][0] = (vbaid<<3)+0x61f1; //start broadcasting room name
+                                        linkmem.rfu_clientidx[vbaid] = 0;
+                                        c_s.Unlock();
+                                        //numtransfers = 0;
+                                        //rfu_numclients = 0;
+                                        //rfu_curclient = 0;
+                                        //rfu_lastcmd2 = 0;
+                                        //rfu_polarity = 0;
+                                        rfu_ishost = true;
+                                        rfu_isfirst = false;
+                                        rfu_masterq = 1; //data size
+                                        outbuffer[1] = 0x80|vbaid; //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                        outbuffer[0] = (rfu_masterq+1)<<2; //total size including headers //vbaid;
+                                        outbuffer[2] = rfu_cmd;
+                                        outbuffer[3] = rfu_masterq;
+                                        memcpy(&outbuffer[4],linkmem.rfu_bdata[vbaid],rfu_masterq<<2); //data size (excluding headers)
+                                        LinkSendRFUData(outbuffer, (rfu_masterq+1)<<2, RetryCount, 0); //broadcast
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x1c:	//client, might reset some data?
+                                        //linkmem.rfu_request[vbaid] = 0; //to prevent both GBAs from acting as Host and thinking both of them have Client
+                                        //linkmem.rfu_bdata[vbaid][0] = 0; //stop broadcasting room name
+                                        rfu_ishost = false; //TODO: prevent both GBAs act as client but one of them have rfu_request[vbaid]!=0 on MarioGolfAdv lobby
+                                        //rfu_polarity = 0;
+                                        rfu_numclients = 0;
+                                        rfu_curclient = 0;
+                                        //TODO: is this the cause why rfu_id became 0x0420 ?? and causing gbaid to be wrong also
+                                        //LinkDiscardData(0);
+                                        c_s.Lock();
+                                        //linkmem.rfu_listfront[vbaid] = 0;
+                                        //linkmem.rfu_listback[vbaid] = 0;
+                                        DATALIST.clear();
+                                        linkmem.rfu_clientidx[vbaid] = 0xff00; //highest byte need to be non-zero to make 0x20 cmd to be called repeatedly until join request(0x1f) approved by 0x1a cmd
+                                        c_s.Unlock();
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x1b:	//host, might reset some data? may be used in the middle of host<->client communication w/o causing clients to dc?
+                                        c_s.Lock();
+                                        //linkmem.rfu_request[vbaid] = 0; //to prevent both GBAs from acting as Client and thinking one of them is a Host?
+                                        linkmem.rfu_bdata[vbaid][0] = 0; //0 may cause player unable to join in pokemon union room?
+                                        c_s.Unlock();
+                                        //numtransfers = 0;
+                                        //linktime = 1;
+                                        rfu_masterq = 1; //data size
+                                        outbuffer[1] = 0x80|vbaid; //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                        outbuffer[0] = (rfu_masterq+1)<<2; //total size including headers //vbaid;
+                                        outbuffer[2] = rfu_cmd;
+                                        outbuffer[3] = rfu_masterq;
+                                        memcpy(&outbuffer[4],linkmem.rfu_bdata[vbaid],rfu_masterq<<2); //data size (excluding headers)
+                                        LinkSendRFUData(outbuffer, (rfu_masterq+1)<<2, RetryCount, 0); //broadcast
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x30: //reset some data
+                                        if(vbaid!=gbaid) { //(linkmem.numgbas >= 2)
+                                            c_s.Lock();
+                                            //linkmem.rfu_signal[gbaid] = 0;
+                                            linkmem.rfu_request[gbaid] &= ~(1<<vbaid); //linkmem.rfu_request[gbaid] = 0;
+                                            SetEvent(linksync[gbaid]); //allow other gba to move
+                                            c_s.Unlock();
+                                        }
+                                        //WaitForSingleObject(linksync[vbaid], 40/*linktimeout*/);
+                                        while (linkmem.rfu_signal[vbaid]) {
+                                            WaitForSingleObject(linksync[vbaid], 1/*linktimeout*/);
+                                            c_s.Lock();
+                                            linkmem.rfu_signal[vbaid] = 0;
+                                            linkmem.rfu_request[vbaid] = 0; //There is a possibility where rfu_request/signal didn't get zeroed here when it's being read by the other GBA at the same time
+                                            c_s.Unlock();
+                                            //SleepEx(1,true);
+                                        }
+                                        c_s.Lock();
+                                        //linkmem.rfu_listfront[vbaid] = 0;
+                                        //linkmem.rfu_listback[vbaid] = 0;
+                                        DATALIST.clear();
+                                        //linkmem.rfu_clientidx[vbaid] = 0xff00; //highest byte need to be non-zero to make 0x20 cmd to be called repeatedly until join request(0x1f) approved by 0x1a cmd
+                                        //linkmem.rfu_q[vbaid] = 0;
+                                        linkmem.rfu_proto[vbaid] = 0;
+                                        linkmem.rfu_reqid[vbaid] = 0;
+                                        linkmem.rfu_linktime[vbaid] = 0;
+                                        linkmem.rfu_gdata[vbaid] = 0;
+                                        linkmem.rfu_bdata[vbaid][0] = 0;
+                                        c_s.Unlock();
+                                        rfu_polarity = 0; //is this included?
+                                        //linkid = -1; //0;
+                                        numtransfers = 0;
+                                        rfu_numclients = 0;
+                                        rfu_curclient = 0;
+                                        linktime = 1; //0; //reset here instead of at 0x24/0xa5/0xa7
+                                        /*rfu_id = 0;
+                                         rfu_idx = 0;
+                                         gbaid = vbaid;
+                                         gbaidx = gbaid;
+                                         rfu_ishost = false;
+                                         rfu_isfirst = false;*/
+                                        rfu_cmd ^= 0x80;
+                                        SetEvent(linksync[vbaid]); //may not be needed
+                                        break;
+                                        
+                                    case 0x3d:	// init/reset rfu data
+                                        rfu_initialized = false;
+                                    case 0x10:	// init/reset rfu data
+                                        if(vbaid!=gbaid) { //(linkmem.numgbas >= 2)
+                                            c_s.Lock();
+                                            //linkmem.rfu_signal[gbaid] = 0;
+                                            linkmem.rfu_request[gbaid] &= ~(1<<vbaid); //linkmem.rfu_request[gbaid] = 0;
+                                            SetEvent(linksync[gbaid]); //allow other gba to move
+                                            c_s.Unlock();
+                                        }
+                                        //WaitForSingleObject(linksync[vbaid], 40/*linktimeout*/);
+                                        while (linkmem.rfu_signal[vbaid]) {
+                                            WaitForSingleObject(linksync[vbaid], 1/*linktimeout*/);
+                                            c_s.Lock();
+                                            linkmem.rfu_signal[vbaid] = 0;
+                                            linkmem.rfu_request[vbaid] = 0; //There is a possibility where rfu_request/signal didn't get zeroed here when it's being read by the other GBA at the same time
+                                            c_s.Unlock();
+                                            //SleepEx(1,true);
+                                        }
+                                        c_s.Lock();
+                                        //linkmem.rfu_listfront[vbaid] = 0;
+                                        //linkmem.rfu_listback[vbaid] = 0;
+                                        DATALIST.clear();
+                                        //linkmem.rfu_clientidx[vbaid] = 0xff00; //highest byte need to be non-zero to make 0x20 cmd to be called repeatedly until join request(0x1f) approved by 0x1a cmd
+                                        //linkmem.rfu_q[vbaid] = 0;
+                                        linkmem.rfu_proto[vbaid] = 0;
+                                        linkmem.rfu_reqid[vbaid] = 0;
+                                        linkmem.rfu_linktime[vbaid] = 0;
+                                        linkmem.rfu_gdata[vbaid] = 0;
+                                        linkmem.rfu_bdata[vbaid][0] = 0;
+                                        linkmem.rfu_clientidx[vbaid] = 0xff00; //highest byte need to be non-zero to make 0x20 cmd to be called repeatedly until join request(0x1f) approved by 0x1a cmd
+                                        c_s.Unlock();
+                                        rfu_polarity = 0; //is this included?
+                                        //linkid = -1; //0;
+                                        numtransfers = 0;
+                                        rfu_numclients = 0;
+                                        rfu_curclient = 0;
+                                        linktime = 1; //0; //reset here instead of at 0x24/0xa5/0xa7
+                                        rfu_id = 0;
+                                        rfu_idx = 0;
+                                        gbaid = vbaid;
+                                        gbaidx = gbaid;
+                                        rfu_ishost = false;
+                                        rfu_isfirst = false;
+                                        rfu_qrecv = 0;
+                                        SetEvent(linksync[vbaid]); //may not be needed
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x36: //does it expect data returned?
+                                    case 0x26:
+                                        //Switch remote id to available data
+                                        bool ok;
+                                        int ctr;
+                                        ctr = 0;
+                                        c_s.Lock();
+                                        ok = !DATALIST.empty();
+                                        c_s.Unlock();
+                                        if(ok) 
+                                            do { 
+                                                c_s.Lock();
+                                                tmpDataRec = DATALIST.front();
+                                                c_s.Unlock();
+                                                
+                                                gbaid = tmpDataRec.gbaid;
+                                                rfu_id = (gbaid<<3)+0x61f1;
+                                                rfu_curclient = tmpDataRec.idx;
+                                                
+                                                ok = false;
+                                                if(tmpDataRec.len!=rfu_qrecv) ok = true; else
+                                                    if(memcmp(rfu_masterdata, tmpDataRec.data, tmpDataRec.len)!=0) ok = true;
+                                                //for(int i=0; i<tmpDataRec.len; i++)
+                                                //	if(tmpDataRec.data[i]!=rfu_masterdata[i]) {ok = true; break;}
+                                                
+                                                if(tmpDataRec.len==0 && ctr==0) ok = true;
+                                                
+                                                if(ok) //next data is not a duplicate of currently unprocessed data
+                                                    if(rfu_qrecv<2 || tmpDataRec.len>1) 
+                                                    {
+                                                        if(rfu_qrecv>1) { //stop here if next data is different than currently unprocessed non-ping data
+                                                            c_s.Lock();
+                                                            linkmem.rfu_linktime[gbaid] = tmpDataRec.time;
+                                                            c_s.Unlock();
+                                                            break;
+                                                        }
+                                                        
+                                                        if(tmpDataRec.len>=rfu_qrecv) {
+                                                            //memcpy(linkmem.rfu_data[gbaid], tmpDataRec.data, 4*tmpDataRec.len);
+                                                            //linkmem.rfu_qid[gbaid] = tmpDataRec.qid;
+                                                            //linkmem.rfu_q[gbaid] = tmpDataRec.len;
+                                                            rfu_masterq = rfu_qrecv = tmpDataRec.len;
+                                                            
+                                                            //if((linkmem.rfu_qid[gbaid] & (1<<vbaid))) //data is for this GBA
+                                                            if(rfu_qrecv!=0) { //data size > 0
+                                                                memcpy(rfu_masterdata, tmpDataRec.data/*linkmem.rfu_data[gbaid]*/, minimum(rfu_masterq<<2,sizeof(rfu_masterdata))); //128 //read data from other GBA
+                                                                //linkmem.rfu_qid[gbaid] &= ~(1<<vbaid); //mark as received by this GBA
+                                                                //if(linkmem.rfu_request[gbaid]) linkmem.rfu_qid[gbaid] &= linkmem.rfu_request[gbaid]; //remask if it's host, just incase there are client leaving multiplayer
+                                                                //if(!linkmem.rfu_qid[gbaid]) linkmem.rfu_q[gbaid] = 0; //mark that it has been fully received
+                                                                //if(!linkmem.rfu_q[gbaid] || (rfu_ishost && linkmem.rfu_qid[gbaid]!=linkmem.rfu_request[gbaid])) SetEvent(linksync[gbaid]);
+                                                                //linkmem.rfu_qid[gbaid] = 0;
+                                                                //linkmem.rfu_q[gbaid] = 0;
+                                                                //SetEvent(linksync[gbaid]);
+                                                                //log("%08X  CMD26 Recv: %d %d\n",GetTickCount(),rfu_qrecv,linkmem.rfu_q[gbaid]);
+                                                            }
+                                                        }
+                                                    } //else log("%08X  CMD26 Skip: %d %d %d\n",GetTickCount(),rfu_qrecv,linkmem.rfu_q[gbaid],tmpDataRec.len);
+                                                
+                                                ctr++;
+                                                c_s.Lock();
+                                                //linkmem.rfu_signal[vbaid] &= tmpDataRec.sign; //may cause 3rd players to be not recognized
+                                                //linkmem.rfu_signal[gbaid] = linkmem.rfu_signal[vbaid];
+                                                DATALIST.pop_front();
+                                                ok = (IsLinkConnected()/*lanlink.connected*/ && !DATALIST.empty() && DATALIST.front().gbaid==gbaid);
+                                                c_s.Unlock();
+                                                
+                                            } while (ok);
+                                        
+                                        if (rfu_qrecv>0) { //data was available
+                                            rfu_state = RFU_RECV;
+                                            rfu_counter = 0;
+                                            rfu_lastcmd2 = 0;
+                                            if(rfu_qrecv>1) //(rfu_qrecv == 2)
+                                                rfu_clientstate[rfu_curclient] = 1;
+                                            
+                                            //Switch remote id to next remote id
+                                            /*if (linkmem.rfu_request[vbaid]) { //is a host
+                                             if(rfu_numclients>0) {
+                                             rfu_curclient = (rfu_curclient+1) % rfu_numclients;
+                                             rfu_id = rfu_clientlist[rfu_curclient];
+                                             gbaid = (rfu_id-0x61f1)>>3;
+                                             //log("%d  SwitchNext%02X:%d\n",GetTickCount(),rfu_cmd,gbaid);
+                                             }
+                                             }*/
+                                        }
+                                        //rfu_transfer_end = 1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x24:	// send [non-important] data (used by server often)
+                                        if(rfu_cansend) {
+                                            c_s.Lock();
+                                            memcpy(linkmem.rfu_data[vbaid],rfu_masterdata,4*rfu_qsend2);
+                                            linkmem.rfu_proto[vbaid] = 0; //UDP-like
+                                            if(rfu_ishost)
+                                                linkmem.rfu_qid[vbaid] = linkmem.rfu_request[vbaid]; else
+                                                    linkmem.rfu_qid[vbaid] |= 1<<gbaid;
+                                            linkmem.rfu_q[vbaid] = rfu_qsend2;
+                                            c_s.Unlock();
+                                        } else {
+#ifdef GBA_LOGGING
+                                            if(systemVerbose & VERBOSE_LINK) {
+                                                log("%08X : IgnoredSend[%02X] %d\n", GetTickCount(), rfu_cmd, rfu_qsend2);
+                                            }
+#endif
+                                        }
+                                        //numtransfers++; //not needed, just to keep track
+                                        if((numtransfers++)==0) linktime = 1; //needed to synchronize both performance and for Digimon Racing's client to join successfully //numtransfers used to reset linktime to prevent it from reaching beyond max value of integer? //numtransfers doesn't seems to be used?
+                                        /*c_s.Lock();
+                                         linkmem.rfu_linktime[vbaid] = linktime; //save the ticks before reseted to zero
+                                         c_s.Unlock();*/
+                                        if(rfu_qsend2>0) {
+                                            rfu_masterq = rfu_qsend2; //(sizeof(linkmem.rfu_bdata[vbaid])+3) >> 2; //7 unsigned longs
+                                            if(rfu_ishost)
+                                                outbuffer[1] = 0x80|vbaid; else //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                                    outbuffer[1] = 0x80|gbaid;
+                                            outbuffer[0] = (rfu_masterq+3)<<2; //total size including headers //vbaid;
+                                            outbuffer[2] = rfu_cmd;
+                                            outbuffer[3] = rfu_masterq+2;
+                                            u32outbuffer[1] = linkmem.rfu_signal[vbaid];
+                                            u32outbuffer[2] = linktime;
+                                            memcpy(&u32outbuffer[3],rfu_masterdata,(rfu_masterq)<<2); //data size (excluding headers)
+                                            LinkSendRFUData(outbuffer, (rfu_masterq+3)<<2, RetryCount, 0); //broadcast
+                                            c_s.Lock();
+                                            if(rfu_qsend2>1)
+                                                linkmem.rfu_state[vbaid] = 1;
+                                            linkmem.rfu_qid[vbaid] = 0;
+                                            linkmem.rfu_q[vbaid] = 0;
+                                            c_s.Unlock();
+                                            //log("%08X  CMD24 Sent: %d %d\n",GetTickCount(),rfu_qsend2,linkmem.rfu_q[vbaid]);
+                                        }
+                                        linktime = 0; //need to zeroed when sending? //0 might cause slowdown in performance
+                                        //rfu_transfer_end = 1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x25:	// send [important] data & wait for [important?] reply data
+                                    case 0x35:	// send [important] data & wait for [important?] reply data
+                                        if(rfu_cansend) {
+                                            c_s.Lock();
+                                            memcpy(linkmem.rfu_data[vbaid],rfu_masterdata,4*rfu_qsend2);
+                                            linkmem.rfu_proto[vbaid] = 1; //TCP-like
+                                            if(rfu_ishost)
+                                                linkmem.rfu_qid[vbaid] = linkmem.rfu_request[vbaid]; else
+                                                    linkmem.rfu_qid[vbaid] |= 1<<gbaid;
+                                            linkmem.rfu_q[vbaid] = rfu_qsend2;
+                                            c_s.Unlock();
+                                        } else {
+#ifdef GBA_LOGGING
+                                            if(systemVerbose & VERBOSE_LINK) {
+                                                log("%08X : IgnoredSend[%02X] %d\n", GetTickCount(), rfu_cmd, rfu_qsend2);
+                                            }
+#endif
+                                        }
+                                        //numtransfers++; //not needed, just to keep track
+                                        if ((numtransfers++) == 0) linktime = 1; //0; //might be needed to synchronize both performance? //numtransfers used to reset linktime to prevent it from reaching beyond max value of integer? //seems to be needed? otherwise data can't be received properly? //related to 0x24?
+                                        //linktime = 0;
+                                        /*c_s.Lock();
+                                         linkmem.rfu_linktime[vbaid] = linktime; //save the ticks before changed to synchronize performance
+                                         c_s.Unlock();*/
+                                        if(rfu_qsend2>0) {
+                                            rfu_masterq = rfu_qsend2; //(sizeof(linkmem.rfu_bdata[vbaid])+3) >> 2; //7 unsigned longs
+                                            if(rfu_ishost)
+                                                outbuffer[1] = 0x80|vbaid; else //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                                    outbuffer[1] = 0x80|gbaid;
+                                            outbuffer[0] = (rfu_masterq+3)<<2; //total size including headers //vbaid;
+                                            outbuffer[2] = rfu_cmd;
+                                            outbuffer[3] = rfu_masterq+2;
+                                            u32outbuffer[1] = linkmem.rfu_signal[vbaid];
+                                            u32outbuffer[2] = linktime;
+                                            memcpy(&u32outbuffer[3],rfu_masterdata,rfu_masterq<<2); //data size (excluding headers)
+                                            LinkSendRFUData(outbuffer, (rfu_masterq+3)<<2, RetryCount, 0); //broadcast
+                                            c_s.Lock();
+                                            if(rfu_qsend2>1)
+                                                linkmem.rfu_state[vbaid] = 1;
+                                            linkmem.rfu_qid[vbaid] = 0;
+                                            linkmem.rfu_q[vbaid] = 0;
+                                            c_s.Unlock();
+                                            //log("%08X  CMD25 Sent: %d %d\n",GetTickCount(),rfu_qsend2,linkmem.rfu_q[vbaid]);
+                                        }
+                                        //rfu_transfer_end = 1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0x27:	// wait for data ?
+                                    case 0x37:	// wait for data ?
+                                        //numtransfers++; //not needed, just to keep track
+                                        if ((numtransfers++) == 0) linktime = 1; //0; //might be needed to synchronize both performance? //numtransfers used to reset linktime to prevent it from reaching beyond max value of integer? //seems to be needed? otherwise data can't be received properly? //related to 0x24?
+                                        //linktime = 0;
+                                        /*c_s.Lock();
+                                         linkmem.rfu_linktime[vbaid] = linktime; //save the ticks before changed to synchronize performance
+                                         c_s.Unlock();*/
+                                        
+                                        rfu_masterq = 2;
+                                        if(rfu_ishost)
+                                            outbuffer[1] = 0x80|vbaid; else //'W'; //destination GBA ID (needed for routing), if dest id = vbaid then it's a broadcast
+                                                outbuffer[1] = 0x80|gbaid;
+                                        outbuffer[0] = (rfu_masterq+1)<<2; //total size including headers //vbaid;
+                                        outbuffer[2] = rfu_cmd;
+                                        outbuffer[3] = rfu_masterq;
+                                        u32outbuffer[1] = linkmem.rfu_signal[vbaid];
+                                        u32outbuffer[2] = linktime;
+                                        LinkSendRFUData(outbuffer, (rfu_masterq+1)<<2, RetryCount, 0);
+                                        //c_s.Lock();
+                                        //linkmem.rfu_state[vbaid] = 1;
+                                        //linkmem.rfu_qid[vbaid] = 0;
+                                        //linkmem.rfu_q[vbaid] = 0;
+                                        //c_s.Unlock();
+                                        //rfu_transfer_end = 1;
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0xee: //is this need to be processed?
+                                        rfu_cmd ^= 0x80;
+                                        rfu_polarity = 1;
+                                        break;
+                                        
+                                    case 0x17:	// setup or something ?
+                                    default:
+                                        rfu_cmd ^= 0x80;
+                                        break;
+                                        
+                                    case 0xa5:	//	2nd part of send&wait function 0x25
+                                    case 0xa7:	//	2nd part of wait function 0x27
+                                    case 0xb5:	//	2nd part of send&wait function 0x35?
+                                    case 0xb7:	//	2nd part of wait function 0x37?
+                                        //bool ok;
+                                        c_s.Lock();
+                                        ok = !DATALIST.empty();
+                                        c_s.Unlock();
+                                        if(ok) {
+                                            rfu_polarity = 1; //reverse polarity to make the game send 0x80000000 command word (to be replied with 0x99660028 later by the adapter)
+                                            if(rfu_cmd==0xa5 || rfu_cmd==0xa7) rfu_cmd = 0x28; else rfu_cmd = 0x36; //there might be 0x29 also //don't return 0x28 yet until there is incoming data (or until 500ms-6sec timeout? may reset RFU after timeout)
+                                        } else
+                                            rfu_waiting = true;
+                                        
+                                        c_s.Lock();
+                                        rfu_transfer_end = linkmem.rfu_linktime[gbaid] - linktime + 1; //+ 256; //waiting ticks = ticks difference between GBAs send/recv? //is max value of vbaid=1 ?
+                                        c_s.Unlock();
+                                        
+                                        if (rfu_transfer_end > 2560) //may need to cap the max ticks to prevent some games (ie. pokemon) from getting in-game timeout due to executing too many opcodes (too fast)
+                                            rfu_transfer_end = 2560;
+                                        
+                                        if (rfu_transfer_end < 256) //lower/unlimited = faster client but slower host
+                                            rfu_transfer_end = 256; //need to be positive for balanced performance in both GBAs?
+                                        
+                                        linktime = -rfu_transfer_end; //needed to synchronize performance on both side
+                                        break;
+                                }
+                                //UPDATE_REG(COMM_SIODATA32_H, 0x9966);
+                                //UPDATE_REG(COMM_SIODATA32_L, (rfu_qrecv<<8) | rfu_cmd);
+                                if(!rfu_waiting)
+                                    rfu_buf = 0x99660000|(rfu_qrecv<<8) | rfu_cmd; 
+                                else rfu_buf = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                            }
+                        } else { //unknown COMM word //in MarioGolfAdv (when a player/client exiting lobby), There is a possibility COMM = 0x7FFE8001, PrevVAL = 0x5087, PrevCOM = 0, is this part of initialization?
+                            log("%08X : UnkCOM %08X  %04X  %08X %08X\n", GetTickCount(), READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]), PrevVAL, PrevCOM, PrevDAT);
+                            /*rfu_cmd ^= 0x80;
+                             UPDATE_REG(COMM_SIODATA32_L, 0);
+                             UPDATE_REG(COMM_SIODATA32_H, 0x8000);*/
+                            rfu_state = RFU_INIT; //to prevent the next reinit words from getting in finalization processing (here), may cause MarioGolfAdv to show Linking error when this occurs instead of continuing with COMM cmd
+                            //UPDATE_REG(COMM_SIODATA32_H, READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L])); //replying with reversed words may cause MarioGolfAdv to reinit RFU when COMM = 0x7FFE8001
+                            //UPDATE_REG(COMM_SIODATA32_L, a);
+                            rfu_buf = (READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L])<<16)|a;
+                        }
+                        break;
+                        
+                    case RFU_SEND: //data following after initialize cmd
+                        //if(rfu_qsend==0) {rfu_state = RFU_COMM; break;}
+                        CurDAT = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                        if(--rfu_qsend == 0) {
+                            rfu_state = RFU_COMM;
+                        }
+                        
+                        switch (rfu_cmd) {
+                            case 0x16:
+                                //linkmem.rfu_bdata[vbaid][1 + rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                                rfu_masterdata[1 + rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                                break;
+                                
+                            case 0x24:
+                                //if(linkmem.rfu_proto[vbaid]) break; //important data from 0x25 shouldn't be overwritten by 0x24
+                            case 0x25:
+                            case 0x35:
+                                //rfu_transfer_end = 1;
+                                //if(rfu_cansend) 
+                            {
+                                //c_s.Lock();
+                                //linkmem.rfu_data[vbaid][rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                                rfu_masterdata[rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                                //c_s.Unlock();
+                            }
+                                break;
+                                
+                            default:
+                                rfu_masterdata[rfu_counter++] = READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]);
+                                break;
+                        }
+                        //UPDATE_REG(COMM_SIODATA32_L, 0);
+                        //UPDATE_REG(COMM_SIODATA32_H, 0x8000);
+                        rfu_buf = 0x80000000;
+                        break;
+                        
+                    case RFU_RECV: //data following after finalize cmd
+                        //if(rfu_qrecv==0) {rfu_state = RFU_COMM; break;}
+                        if (--rfu_qrecv == 0)
+                            rfu_state = RFU_COMM;
+                        
+                        switch (rfu_cmd) {
+                            case 0xb6:
+                            case 0xa6:
+                                //rfu_transfer_end = 1;
+                                //UPDATE_REG(COMM_SIODATA32_L, rfu_masterdata[rfu_counter]&0xffff);
+                                //UPDATE_REG(COMM_SIODATA32_H, rfu_masterdata[rfu_counter++]>>16);
+                                rfu_buf = rfu_masterdata[rfu_counter++];
+                                break;
+                                
+                            case 0x91: //signal strength
+                                //rfu_transfer_end = 1;
+                                //UPDATE_REG(COMM_SIODATA32_L, rfu_masterdata[rfu_counter]&0xffff);
+                                //UPDATE_REG(COMM_SIODATA32_H, rfu_masterdata[rfu_counter++]>>16);
+                                rfu_buf = rfu_masterdata[rfu_counter++];
+                                break;
+                                
+                            case 0x93:	//this adapter id?
+                            case 0x94:	//disconnected client id?
+                            case 0x9a: //client list
+                            case 0x9d: //game room list
+                            case 0x9e: //game room list
+                            case 0xa0: //this client id, index and join status
+                            case 0xa1: //this client id and index
+                            case 0xb3: //rejoin error code?
+                                //UPDATE_REG(COMM_SIODATA32_L, rfu_masterdata[rfu_counter]&0xffff);
+                                //UPDATE_REG(COMM_SIODATA32_H, rfu_masterdata[rfu_counter++]>>16);
+                                rfu_buf = rfu_masterdata[rfu_counter++];
+                                break;
+                                
+                            default: //unknown data (should use 0 or -1 as default), usually returning 0 might cause the game to think there is something wrong with the connection (ie. 0x11/0x13 cmd)
+                                //UPDATE_REG(COMM_SIODATA32_L, 0xffff);  //0x0173 //not 0x0000 as default?
+                                //UPDATE_REG(COMM_SIODATA32_H, 0xffff); //0x0000
+                                rfu_buf = 0xffffffff; //rfu_masterdata[rfu_counter++];
+                                break;
+                        }
+                        break;
+                }
+                transfer = 1;
+                
+                PrevVAL = value;
+                PrevDAT = CurDAT;
+                PrevCOM = CurCOM;
+                
+#ifdef GBA_LOGGING
+                if(systemVerbose & VERBOSE_LINK) {
+                    if(logstartd)
+                        if(rfu_state == RFU_COMM)
+                            st.AppendFormat(_T("   %08X   [%01X, %d, %02X, %02X, %02X, %d, %d, %d, %d] <%08x, %08x>"), rfu_buf/*READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L])*/, rfu_ishost, gbaid, linkmem.rfu_request[vbaid], linkmem.rfu_qid[vbaid], rfu_lastcmd3, numtransfers, rfu_transfer_end, linktime, linkmem.rfu_linktime[vbaid], reg[14].I, armNextPC); else //sometimes getting exception due to "Too small buffer" when st="";
+                                st.AppendFormat(_T("   %08X                       <%08x, %08x>"), rfu_buf/*READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L])*/, reg[14].I, armNextPC); //
+                    //st = st2;
+                    logstartd = false;
+                }
+#endif
+            }
+            
+            if (rfu_polarity)
+                value ^= 4;	// sometimes it's the other way around
+            /*value &= 0xfffb;
+             value |= (value & 1)<<2;*/
+            
+#ifdef GBA_LOGGING
+            if(systemVerbose & VERBOSE_LINK) {
+                if(st != _T(""))
+                    log("%s\n", (LPCTSTR)st);
+                logstartd = false;
+                st = _T("");
+                //st2 = _T(""); //st;
+            }
+#endif
+            
+        default: //other SIO modes
+            return value;
+    }
 }
 
 static void StartCableIPC(u16 value)
@@ -1618,7 +2703,7 @@ static void StartCableIPC(u16 value)
                         while(WaitForSingleObject(linksync[i], 0) != WAIT_TIMEOUT);
                     
                     // transmit first value
-                    linkmem.linkcmd = ('M' << 8) + (value & 3);
+                    // linkmem.linkcmd = ('M' << 8) + (value & 3); GBARemove
                     linkmem.linkdata[0] = READ16LE(&gGba.mem.ioMem.b[COMM_SIODATA8]);
                     
                     // start up slaves & sync clocks
@@ -1731,24 +2816,156 @@ void StartLink(u16 siocnt)
 
 void StartGPLink(u16 value)
 {
-    UPDATE_REG(COMM_RCNT, value);
-    
-    if (!value)
-        return;
-    
-    switch (GetSIOMode(READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]), value)) {
-        case MULTIPLAYER:
-            value &= 0xc0f0;
-            value |= 3;
-            if (linkid)
-                value |= 4;
-            UPDATE_REG(COMM_SIOCNT, ((READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT])&0xff8b)|(linkid ? 0xc : 8)|(linkid<<4)));
-            break;
-            
-        case GP:
-            if (GetLinkMode() == LINK_RFU_IPC)
-                rfu_state = RFU_INIT;
-            break;
+    if (GetLinkMode() == LINK_RFU_SOCKET)
+    {
+        GBALog("Starting RFU GPLink");
+        
+        u16 oldval = READ16LE(&gGba.mem.ioMem.b[COMM_RCNT]);
+        UPDATE_REG(COMM_RCNT, value);
+        
+        u16 siocnt = READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]);
+        
+        switch (GetSIOMode(siocnt, value))
+        {
+            case MULTIPLAYER:
+            case NORMAL8:
+            case UART:
+            {
+                if (gba_link_auto)
+                {
+                    rfu_enabled = false;
+                    gba_link_enabled = true;
+                }
+                break;
+            }
+                
+            case NORMAL32:
+            {
+                if (gba_link_auto)
+                {
+                    rfu_enabled = true;
+                    gba_link_enabled = true;
+                }
+                break;
+            }
+                
+            default:
+            {
+                if (gba_link_auto)
+                {
+                    gba_link_enabled = false;
+                }
+            }
+        }
+        
+        c_s.Lock();
+        
+        if ((READ16LE(&gGba.mem.ioMem.b[RF_RECVCMD]) & 0xff) == 0)
+        {
+            UPDATE_REG(RF_RECVCMD, 0x3d); //value should be >=0x20 or 0x0..0x11 or 0x0..0x1f ? is this RFU cmd?
+        }
+        
+        c_s.Unlock();
+        
+        
+        if (!value)
+        {
+            return;
+        }
+        
+        
+        switch (GetSIOMode(READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]), value)) //bit.15=0 & bit.14=any for MP/Normal/UART
+        {
+            case MULTIPLAYER:
+            {
+                value &= 0xc0f0;
+                value |= 3;
+                
+                if (linkid)
+                {
+                    value |= 4;
+                }
+                
+                UPDATE_REG(COMM_SIOCNT, ((READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]) & 0xff8b) | (linkid ? 0xc : 8) | (linkid << 4)));
+                break;
+            }
+                
+            case GP:
+            {
+                if (rfu_enabled)
+                {
+                    rfu_state = RFU_INIT; //reset wireless
+                    rfu_polarity = 0;
+                    rfu_initialized = false;
+                    
+                    c_s.Lock();
+                    
+                    if (vbaid != gbaid) //(linkmem.numgbas >= 2)
+                    {
+                        linkmem.rfu_request[gbaid] &= ~(1 << vbaid); //linkmem->rfu_request[gbaid] = 0; //needed to detect MarioGolfAdv client exiting lobby
+                        SetEvent(linksync[gbaid]); //allow other gba to move
+                    }
+                    
+                    linkmem.rfu_signal[vbaid] = 0;
+                    linkmem.rfu_request[vbaid] = 0;
+                    linkmem.rfu_proto[vbaid] = 0;
+                    linkmem.rfu_qid[vbaid] = 0;
+                    linkmem.rfu_reqid[vbaid] = 0;
+                    linkmem.rfu_linktime[vbaid] = 0;
+                    linkmem.rfu_latency[vbaid] = -1;
+                    linkmem.rfu_bdata[vbaid][0] = 0;
+                    
+                    SetEvent(linksync[vbaid]);
+                    
+                    c_s.Unlock();
+                    
+                    numtransfers = 0;
+                    rfu_masterq = 0;
+                    rfu_id = 0;
+                    gbaid = vbaid;
+                    gbaidx = gbaid;
+                    rfu_idx = 0;
+                    rfu_lastcmd = 0;
+                    rfu_lastcmd2 = 0;
+                    rfu_lastcmd3 = 0;
+                    rfu_ishost = false;
+                    rfu_isfirst = false;
+                }
+                else
+                {
+                    GBALog("RFU not enabled");
+                }
+                
+                break;
+            }
+                
+            case JOYBUS:
+            {
+                GBALog("Joybus support is not implemented in GBA4iOS");
+            }
+        }
+    }
+    else
+    {
+        UPDATE_REG(COMM_RCNT, value);
+        
+        if (!value)
+            return;
+        
+        switch (GetSIOMode(READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]), value)) {
+            case MULTIPLAYER:
+                value &= 0xc0f0;
+                value |= 3;
+                if (linkid)
+                    value |= 4;
+                UPDATE_REG(COMM_SIOCNT, ((READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT])&0xff8b)|(linkid ? 0xc : 8)|(linkid<<4)));
+                break;
+                
+            case GP:
+                if (GetLinkMode() == LINK_RFU_IPC)
+                    rfu_state = RFU_INIT;
+                break;
+        }
     }
 }
 
@@ -1879,7 +3096,7 @@ static void UpdateCableIPC(int ticks)
 		{
             case 'M':
 #endif
-                tspeed = linkmem.linkcmd & 3;
+                // tspeed = linkmem.linkcmd & 3; GBARemove
                 transfer = 1;
                 WRITE32LE(&gGba.mem.ioMem.b[COMM_SIOMULTI0], 0xffffffff);
                 WRITE32LE(&gGba.mem.ioMem.b[COMM_SIOMULTI2], 0xffffffff);
@@ -2008,7 +3225,7 @@ static bool PerformUpdateRFUSocket()
             u8 oldcmd = rfu_cmd;
             u8 oldq = linkmem.rfu_q[vbaid]; //linkmem.rfu_qlist[vbaid][linkmem.rfu_listfront[vbaid]]; //
             u32 tmout = linktimeout;
-            //if(READ16LE(&ioMem[COMM_SIOCNT]) & 0x80) //needed? is this the cause of error when trying to battle for the 2nd time in union room(siocnt = 5003 instead of 5086 when waiting for 0x28 from 0xa5)? OR was it due to left over data?
+            //if(READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]) & 0x80) //needed? is this the cause of error when trying to battle for the 2nd time in union room(siocnt = 5003 instead of 5086 when waiting for 0x28 from 0xa5)? OR was it due to left over data?
             if(rfu_state!=RFU_INIT) //not needed?
             {
                 if(rfu_cmd == 0x24 || rfu_cmd == 0x25 || rfu_cmd == 0x35) {
@@ -2057,7 +3274,7 @@ static bool PerformUpdateRFUSocket()
         UPDATE_REG(COMM_SIODATA32_H, rfu_buf>>16);
         
         /*transfer = 0;
-         u16 value = READ16LE(&ioMem[COMM_SIOCNT]);
+         u16 value = READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]);
          if (value & 0x4000) //IRQ Enable
          {
          IF |= 0x80; //Serial Communication
@@ -2071,7 +3288,7 @@ static bool PerformUpdateRFUSocket()
          UPDATE_REG(COMM_SIOCNT, (value & 0xff7f)|0x0008); //Start bit.7 reset, SO bit.3 set automatically upon transfer completion?
          #ifdef GBA_LOGGING
          if(systemVerbose & VERBOSE_SIO) {
-         log("SIOn32 : %04X %04X  %08X  (VCOUNT = %d) %d %d\n", READ16LE(&ioMem[COMM_RCNT]), READ16LE(&ioMem[COMM_SIOCNT]), READ32LE(&ioMem[COMM_SIODATA32_L]), VCOUNT, GetTickCount(), linktime2 );
+         log("SIOn32 : %04X %04X  %08X  (VCOUNT = %d) %d %d\n", READ16LE(&gGba.mem.ioMem.b[COMM_RCNT]), READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]), READ32LE(&gGba.mem.ioMem.b[COMM_SIODATA32_L]), VCOUNT, GetTickCount(), linktime2 );
          }
          #endif*/
     }
@@ -2214,7 +3431,7 @@ static void CloseIPC() {
     
 	// FIXME: move to caller
 	// (but there are no callers, so why bother?)
-	//regSetDwordValue("LAN", lanlink.active);
+	//regSetunsigned longValue("LAN", lanlink.active);
 #else
 	if(!(f & 0xf))
 		shm_unlink("/" LOCAL_LINK_NAME);
@@ -2626,81 +3843,256 @@ void lclient::Send(){
 	return;
 }
 
-#ifdef ORIGINAL_IMPLEMENTATION
-bool LinkSendData(char *buf, int size, int nretry, int idx) {
+#pragma mark - Send and Receive RFU Data -
+
+bool lserver::SendRFUData(const char *buf, int size, int nretry, int idx)
+{
+    // No way to see if tcpsocket[idx] is NULL, since they're all allocated at launch
+    /* GBARemove if (idx && tcpsocket[idx] == NULL)
+    {
+        return false;
+    }*/
     
-    bool sent = true;
-    c_s.Lock();
-    if(linkid) //client
+    int sent = 0;
+    bool sentSuccessfully = false; // As long as one client receives data, we consider this a success - Riley
+    
+    using namespace sf::Socket;
+    
+    Status status = Status::Done;
+    Status previousStatus[5];
+    
+    int i1 = 1;
+    int i2 = lanlink.numgbas;
+    
+    if (idx) //target not server
     {
-        // GBARemove sent = lc.SendData(buf, size, nretry);
-        //lc.Send();
-        
-        GBALinkSendDataToPlayerAtIndex(0, buf, size);
-        
+        i1 = idx;
+        i2 = idx;
     }
-    else //server
+    
+    for (int i = i1; i <= i2; i++)
     {
-        // GBARemove sent = ls.SendData(buf, size, nretry, idx);
-        //ls.Send();
+        tcpsocket[i].SetBlocking(true);
         
-        GBALinkSendDataToPlayerAtIndex(0, buf, size);
+        int j = nretry;
+        int sz = size;
+        
+        while (sz > 0 && connected[i] && j >= 0)
+        {
+            do
+            {
+                unsigned long latency = GetTickCount();
+                
+                status = tcpsocket[i].Send(buf + (size - sz), sz);
+                
+                lserver::latency[i] = GetTickCount() - latency;
+                
+                if (status != Status::Done)
+                {
+                    if (status != Status::NotReady && status != Status::Error)
+                    {
+                        if (j <= 0)
+                        {
+                            c_s.Lock();
+                            
+                            connected[i] = false;
+                            lanlink.connected = IsLinkConnected();
+                            
+                            c_s.Unlock();
+                        }
+                    }
+                    
+                    if (status != previousStatus[i])
+                    {
+                        GBALog("Error sending data to clients. Error: %d", status);
+                    }
+                    
+                    previousStatus[i] = status;
+                }
+                else
+                {
+                    sentSuccessfully = true;
+                    sent = size; // SFML doesn't return how many bytes were sent, so we assume it was all of them - Riley
+                }
+                
+                if (!lanlink.connected)
+                {
+                    GBALog("Client %d disconnected", i);
+                }
+                
+                j--;
+                
+            }
+            while (j >= 0 && connected[i] && status != Status::Done);
+            
+            if (sent > 0)
+            {
+                sz -= sent;
+            }
+        }
     }
-    c_s.Unlock();
-    return(sent);
+    
+    return sentSuccessfully;
 }
 
-bool LinkRecvData(char *buf, int size, int idx, bool peek) {
-    bool recvd = false;
+bool lclient::SendRFUData(const char *buf, int size, int nretry)
+{
+    int sent = 0;
+    
+    lanlink.tcpsocket.SetBlocking(true);
+    
+    using namespace sf::Socket;
+    
+    Status status = Status::Done;
+    Status previousStatus = Status::Done;
+    
+    int i = nretry;
+    int sz = size;
+    
+    while (sz > 0 && lanlink.connected && i >= 0)
+    {
+        do
+        {
+            unsigned long latency = GetTickCount();
+            
+            status = lanlink.tcpsocket.Send(buf + (size - sz), sz);
+            
+            lanlink.latency = GetTickCount() - latency;
+            
+            if (status != Status::Done)
+            {
+                if (status != Status::NotReady && status != Status::Error)
+                {
+                    if (i <= 0)
+                    {
+                        LinkConnected(false);
+                    }
+                }
+                
+                if (status != previousStatus)
+                {
+                    GBALog("Error sending data: %d", status);
+                }
+                
+                previousStatus = status;
+            }
+            else
+            {
+                sent = size; // SFML doesn't return how many bytes were sent, so we assume it was all of them - Riley
+            }
+            
+            if (!lanlink.connected)
+            {
+                GBALog("Server Disconnected");
+            }
+            
+            i--;
+        }
+        while (i >= 0 && lanlink.connected && status != Status::Done);
+        
+        if (sent > 0)
+        {
+            sz -= sent;
+        }
+    }
+    
+    return (status == Status::Done);
+}
+
+bool LinkSendRFUData(char *buf, int size, int nretry, int idx)
+{
+    bool sent = false;
+    
     c_s.Lock();
-    if(linkid) { //client
-        // GBARemove recvd = lc.RecvData(size, peek);
-        // GBARemove if(recvd) memcpy(buf, lc.inbuffer, size);
-        
-        GBALinkReceiveDataFromPlayerAtIndex(0, buf, size);
-    } else { //server
-        // GBARemove recvd = ls.RecvData(size, idx, peek);
-        // GBARemove if(recvd) memcpy(buf, ls.inbuffer, size);
-        
-        GBALinkReceiveDataFromPlayerAtIndex(0, buf, size);
+    
+    if (linkid) //client
+    {
+        sent = lc.SendRFUData(buf, size, nretry);
     }
+    else
+    {
+        sent = ls.SendRFUData(buf, size, nretry, idx);
+    }
+    
     c_s.Unlock();
-    return(recvd);
+    
+    return sent;
 }
 
-bool LinkIsDataReady(int *idx) {
+bool LinkRecvData(char *buf, int size, int idx, bool peek)
+{
+    // GBAStub
+    return true;
+}
+
+bool LinkIsDataReady(int *idx)
+{
+    // GBAStub
+    return true;
+}
+
+bool LinkWaitForData(int ms, int *idx)
+{
+    // GBAStub
+    return true;
+}
+
+int lserver::DiscardRFUData(int idx) //empty received buffer
+{
+    /*char buff[8192];
+    int sz = 0;
+    int a = 1;
+    int b = lanlink.numgbas;
+    
+    if (idx)
+    {
+        a = idx;
+        b = idx;
+    }
+    
+    for (int i = a; i <= b; i++)
+    {
+        tcpsocket[i].SetBlocking(true);
+        
+        if (connected[i])
+        {
+            if (arg)
+            
+            
+        }
+        
+        do
+        {
+            
+        }
+    }*/
+    
+    return 0;
+}
+
+int LinkDiscardRFUData(int idx)
+{
+    GBALog("Error: LinkDiscardRFUData not yet implemented");
+    
+    return true;
+    
     int rdy = false;
+    
     c_s.Lock();
-    if(linkid) { //client
-        rdy = lc.IsDataReady();
-        if(idx)
-            *idx = 0;
-    } else { //server
-        rdy = ls.IsDataReady();
-        if(idx)
-            *idx = rdy;
+    
+    if (linkid) // Client
+    {
+        rdy = lc.DiscardRFUData();
     }
-    c_s.Unlock();
-    return(rdy);
-}
-
-bool LinkWaitForData(int ms, int *idx) {
-    int rdy = false;
-    c_s.Lock();
-    if(linkid) { //client
-        rdy = lc.WaitForData(ms);
-        if(idx)
-            *idx = 0;
-    } else { //server
-        rdy = ls.WaitForData(ms);
-        if(idx)
-            *idx = rdy;
+    else // Server
+    {
+        rdy = ls.DiscardRFUData(idx);
     }
+    
     c_s.Unlock();
-    return(rdy);
+    
+    return rdy;
 }
-
-#endif
 
 unsigned long GBARunWirelessAdaptorLoop() //AdamN: Trying to reduce the lag by handling sockets in a different thread, but doesn't works quite right
 {

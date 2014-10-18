@@ -1322,7 +1322,7 @@ static const int length = 256;
 {
     SetLinkTimeout(1000);
     EnableSpeedHacks(false);
-    SetLinkServerHost("192.168.29.106");
+    SetLinkServerHost("192.168.1.12");
     
     __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
     
