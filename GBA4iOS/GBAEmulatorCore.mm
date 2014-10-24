@@ -1240,6 +1240,11 @@ void GBALinkUnlock()
     OSSpinLockUnlock(&_lock);
 }
 
+const char *GBADataHexadecimalRepresentation(char *data, int size)
+{
+    return [[[NSData dataWithBytes:(const void *)data length:size] description] UTF8String];
+}
+
 void GBALog(const char *message, ...)
 {
     va_list arg;
@@ -1322,7 +1327,7 @@ static const int length = 256;
 {
     SetLinkTimeout(1000);
     EnableSpeedHacks(false);
-    SetLinkServerHost("192.168.1.12");
+    SetLinkServerHost("192.168.29.168");
     
     __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
     

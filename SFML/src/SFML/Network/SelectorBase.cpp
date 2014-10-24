@@ -94,7 +94,7 @@ unsigned int SelectorBase::Wait(float Timeout)
     mySetReady = mySet;
 
     // Wait until one of the sockets is ready for reading, or timeout is reached
-    int NbSockets = select(myMaxSocket + 1, &mySetReady, NULL, NULL, Timeout > 0 ? &Time : NULL);
+    int NbSockets = select(myMaxSocket + 1, &mySetReady, NULL, NULL,  /* Timeout > 0 ? &Time : NULL */ &Time); // Changed so a 0 Timeout value returns immediately for polling purposes
 
     return NbSockets >= 0 ? static_cast<unsigned int>(NbSockets) : 0;
 }

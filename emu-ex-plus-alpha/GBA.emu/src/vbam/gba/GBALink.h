@@ -170,6 +170,6 @@ u16 RFCheck(u16 value);
 void RFUClear();
 unsigned long GBARunWirelessAdaptorLoop();
 
-bool EmuReseted;
+extern bool EmuReseted;
 
 #endif /* GBA_GBALINK_H */
