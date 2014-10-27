@@ -44,7 +44,6 @@ extern NSString *const GBAROMDidSaveDataNotification;
 @property (strong, nonatomic) GBAROM *rom;
 @property (weak, nonatomic) id<GBAEmulatorCoreDelegate> delegate;
 @property (copy, nonatomic) NSString *customSavePath;
-@property (readonly, assign, nonatomic, getter=isLinkConnected) BOOL linkConnected;
 
 + (instancetype)sharedCore;
 

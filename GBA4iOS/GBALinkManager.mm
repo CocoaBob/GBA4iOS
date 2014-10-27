@@ -20,6 +20,7 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 }
 
 @property (readwrite, assign, nonatomic) GBALinkPeerType peerType;
+@property (readwrite, assign, nonatomic, getter=isLinkConnected) BOOL linkConnected;
 
 @property (strong, nonatomic) MCNearbyServiceAdvertiser *nearbyServiceAdvertiser;
 @property (strong, nonatomic) MCNearbyServiceBrowser *nearbyServiceBrowser;
@@ -89,10 +90,19 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 #pragma mark - Emulation Link -
 
 - (void)startEmulationLink
-{    
+{
     [[GBAEmulatorCore sharedCore] startLinkWithConnectionType:GBALinkConnectionTypeLinkCable peerType:self.peerType completion:^(BOOL success) {
         
         DLog("Success Linking! %d", success);
+        
+        if (success)
+        {
+            self.linkConnected = YES;
+        }
+        else
+        {
+            self.linkConnected = NO;
+        }
         
     }];
 }

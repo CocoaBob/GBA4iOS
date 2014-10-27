@@ -28,6 +28,7 @@ extern NSString *const GBALinkSessionServiceType;
 
 @property (weak, nonatomic) id<GBALinkManagerDelegate> delegate;
 @property (readonly, assign, nonatomic) GBALinkPeerType peerType;
+@property (readonly, assign, nonatomic, getter=isLinkConnected) BOOL linkConnected;
 
 @property (readonly, strong, nonatomic) MCSession *session;
 

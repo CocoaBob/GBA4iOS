@@ -679,11 +679,26 @@ static GBAEmulationViewController *_emulationViewController;
     
     _romPauseTime = CFAbsoluteTimeGetCurrent();
 
-    [self pauseEmulation];
+    if (![[GBALinkManager sharedManager] isLinkConnected])
+    {
+        [self pauseEmulation];
+    }
     
-    if ([self usingGyroscope] && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    
+    if ([self usingGyroscope] && ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad || [UIAlertController class]))
     {
         [UIViewController attemptRotationToDeviceOrientation];
+    }
+    
+    NSString *pauseMenuTitle = nil;
+    
+    if ([[GBALinkManager sharedManager] isLinkConnected])
+    {
+        pauseMenuTitle = NSLocalizedString(@"When Wireless Link is connected, the game cannot be paused.", @"");
+    }
+    else
+    {
+        pauseMenuTitle = NSLocalizedString(@"Paused", @"");
     }
     
     
@@ -697,6 +712,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         returnToMenuButtonTitle = NSLocalizedString(@"Return To Menu", @"");
     }
+    
     
     NSString *fastForwardButtonTitle = nil;
     
@@ -716,7 +732,7 @@ static GBAEmulationViewController *_emulationViewController;
     {
         if ([self numberOfCPUCoresForCurrentDevice] == 1)
         {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                  delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                    destructiveButtonTitle:NSLocalizedString(@"Exit Event Distribution", @"")
@@ -725,7 +741,7 @@ static GBAEmulationViewController *_emulationViewController;
         }
         else
         {
-            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                  delegate:nil
                                                         cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                    destructiveButtonTitle:NSLocalizedString(@"Exit Event Distribution", @"")
@@ -736,11 +752,20 @@ static GBAEmulationViewController *_emulationViewController;
     }
     else
     {
-        if (eventDistributionCapableROM)
+        if ([[GBALinkManager sharedManager] isLinkConnected])
+        {
+            self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
+                                                                 delegate:nil
+                                                        cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                   destructiveButtonTitle:returnToMenuButtonTitle
+                                                        otherButtonTitles:
+                                      NSLocalizedString(@"Sustain Button", @""), nil];
+        }
+        else if (eventDistributionCapableROM)
         {
             if ([self numberOfCPUCoresForCurrentDevice] == 1)
             {
-                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                      delegate:nil
                                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                        destructiveButtonTitle:returnToMenuButtonTitle
@@ -753,7 +778,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else
             {
-                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                      delegate:nil
                                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                        destructiveButtonTitle:returnToMenuButtonTitle
@@ -772,7 +797,7 @@ static GBAEmulationViewController *_emulationViewController;
             
             if ([self numberOfCPUCoresForCurrentDevice] == 1)
             {
-                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                      delegate:nil
                                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                        destructiveButtonTitle:returnToMenuButtonTitle
@@ -785,7 +810,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else
             {
-                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                      delegate:nil
                                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                        destructiveButtonTitle:returnToMenuButtonTitle
@@ -802,7 +827,7 @@ static GBAEmulationViewController *_emulationViewController;
         {
             if ([self numberOfCPUCoresForCurrentDevice] == 1)
             {
-                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                      delegate:nil
                                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                        destructiveButtonTitle:returnToMenuButtonTitle
@@ -814,7 +839,7 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else
             {
-                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Paused", @"")
+                self.pausedActionSheet = [[UIActionSheet alloc] initWithTitle:pauseMenuTitle
                                                                      delegate:nil
                                                             cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
                                                        destructiveButtonTitle:returnToMenuButtonTitle
@@ -851,6 +876,27 @@ static GBAEmulationViewController *_emulationViewController;
                     }
                 }];
             }
+            else if ([[GBALinkManager sharedManager] isLinkConnected])
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Suspend this game?", @"")
+                                                                message:NSLocalizedString(@"The game will be suspended, which may cause link errors for connected players.", @"")
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+                                                      otherButtonTitles:NSLocalizedString(@"Suspend", @""), nil];
+                [alert showWithSelectionHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    if (buttonIndex == 1)
+                    {
+                        [self pauseEmulation];
+                        
+                        [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
+                        [self returnToROMTableViewController];
+                    }
+                    else
+                    {
+                        [self resumeEmulation];
+                    }
+                }];
+            }
             else
             {
                 [[GBASyncManager sharedManager] setShouldShowSyncingStatus:YES];
@@ -859,17 +905,29 @@ static GBAEmulationViewController *_emulationViewController;
             }
         }
         else {
-            if ([self numberOfCPUCoresForCurrentDevice] == 1)
+            
+            if ([[GBALinkManager sharedManager] isLinkConnected] && ![self.rom event])
             {
-                // Compensate for lack of Fast Forward button
-                buttonIndex = buttonIndex + 1;
+                // Compensate for lack of Fast Forward, Save State, Load State, and Cheat Codes buttons
+                buttonIndex = buttonIndex + 4;
+            }
+            else
+            {
+                // Even if link is connected, Event Distribution menu has priority. Otherwise this is just for non-link connected menus
+                
+                if ([self numberOfCPUCoresForCurrentDevice] == 1)
+                {
+                    // Compensate for lack of Fast Forward button
+                    buttonIndex = buttonIndex + 1;
+                }
+                
+                if ([self.rom event] && buttonIndex > 1)
+                {
+                    // We hide Save State, Load State, and Cheat Codes
+                    buttonIndex = buttonIndex + 3;
+                }
             }
             
-            if ([self.rom event] && buttonIndex > 1)
-            {
-                // We hide Save State, Load State, and Cheat Codes
-                buttonIndex = buttonIndex + 3;
-            }
             
             if (buttonIndex == 1)
             {
@@ -902,7 +960,11 @@ static GBAEmulationViewController *_emulationViewController;
             }
             else if (buttonIndex == 6)
             {
-                if (eventDistributionCapableROM)
+                if ([[GBALinkManager sharedManager] isLinkConnected])
+                {
+                    [self resumeEmulation];
+                }
+                else if (eventDistributionCapableROM)
                 {
                     if (![self.rom event])
                     {
@@ -2111,6 +2173,11 @@ static GBAEmulationViewController *_emulationViewController;
     
     [[GBAEmulatorCore sharedCore] resumeEmulation];
     [[GBAEmulatorCore sharedCore] pressButtons:self.sustainedButtonSet];
+    
+    if ([[GBALinkManager sharedManager] isLinkConnected])
+    {
+        [self stopFastForwarding];
+    }
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
