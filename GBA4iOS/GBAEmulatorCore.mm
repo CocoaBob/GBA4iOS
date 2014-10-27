@@ -1264,6 +1264,52 @@ void systemScreenMessage(const char *message)
 
 static const int length = 256;
 
+- (void)startLinkWithConnectionType:(GBALinkConnectionType)connectionType peerType:(GBALinkPeerType)peerType completion:(void (^)(BOOL))completion
+{
+    SetLinkTimeout(1000);
+    EnableSpeedHacks(false);
+    
+    if (peerType == GBALinkPeerTypeServer)
+    {
+        EnableLinkServer(true,  1);
+    }
+    else
+    {
+        SetLinkServerHost("192.168.1.102");
+    }
+    
+    char localhost[length];
+    GetLinkServerHost(localhost, length);
+    
+    DLog(@"IP Address: %s", localhost);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        LinkMode linkMode = (connectionType == GBALinkConnectionTypeLinkCable) ? LINK_CABLE_SOCKET : LINK_RFU_SOCKET;
+        
+        ConnectionState state = InitLink(linkMode);
+        
+        while (state == LINK_NEEDS_UPDATE)
+        {
+            char emptyMessage[256];
+            state = ConnectLinkUpdate(emptyMessage, 256);
+        }
+        
+        if (completion)
+        {
+            BOOL success = (state == LINK_OK);
+            completion(success);
+        }
+        
+        if (connectionType == GBALinkConnectionTypeWirelessAdapter)
+        {
+            GBARunWirelessAdaptorLoop();
+        }
+        
+    });
+    
+}
+
 - (void)startServer
 {
     SetLinkTimeout(1000);
@@ -1278,11 +1324,11 @@ static const int length = 256;
     NSString *message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
     DLog(@"%@", message);
     
-    //while (state == LINK_NEEDS_UPDATE) {
+    while (state == LINK_NEEDS_UPDATE) {
         // Ask the core for updates
         char emptyMessage[length];
         state = ConnectLinkUpdate(emptyMessage, length);
-    //}
+    }
     
     message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
     
@@ -1331,11 +1377,11 @@ static const int length = 256;
     
     __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
     
-    //while (state == LINK_NEEDS_UPDATE) {
+    while (state == LINK_NEEDS_UPDATE) {
         // Ask the core for updates
         char emptyMessage[length];
         state = ConnectLinkUpdate(emptyMessage, length);
-    //}
+    }
     
     char localhost[length];
     GetLinkServerHost(localhost, length);

@@ -7,6 +7,7 @@
 //
 
 #import "GBALinkManager.h"
+#import "GBAEmulatorCore.h"
 
 #import "UIAlertView+RSTAdditions.h"
 #import "MCPeerID+Conveniences.h"
@@ -83,6 +84,17 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 {
     NSData *data = [NSData dataWithBytes:&peerType length:sizeof(peerType)];
     [self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataReliable error:nil];
+}
+
+#pragma mark - Emulation Link -
+
+- (void)startEmulationLink
+{    
+    [[GBAEmulatorCore sharedCore] startLinkWithConnectionType:GBALinkConnectionTypeLinkCable peerType:self.peerType completion:^(BOOL success) {
+        
+        DLog("Success Linking! %d", success);
+        
+    }];
 }
 
 #pragma mark - Streaming Data -
@@ -168,86 +180,6 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     }
     
     return [self hasBytesAvailableFromInputStreams:inputStreams];
-}
-
-#pragma mark - Latency -
-
-- (void)testLatency
-{
-    _testingLatency = YES;
-    
-    CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
-    
-    NSData *data = [NSData dataWithBytes:&currentTime length:sizeof(currentTime)];
-    
-    [self.outputStreams enumerateKeysAndObjectsUsingBlock:^(MCPeerID *peerID, NSOutputStream *outputstream, BOOL *stop) {
-        
-        [self sendLatencyData:data toPeer:peerID];
-        
-    }];
-}
-
-- (void)sendLatencyData:(NSData *)data toPeer:(MCPeerID *)peerID
-{
-    NSInteger bytesToStream = [data length];
-    
-    NSOutputStream *outputStream = self.outputStreams[peerID];
-    
-    NSInteger bytesWritten = [outputStream write:[data bytes] maxLength:bytesToStream];
-    
-    if (bytesWritten < 0)
-    {
-        DLog(@"Error streaming bytes");
-    }
-    
-    //DLog(@"Wrote %li bytes", bytesWritten);
-    
-    //[self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataUnreliable error:nil];
-}
-
-- (void)receiveLatencyData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{
-    if (!_testingLatency)
-    {
-        [self sendLatencyData:data toPeer:peerID];
-    }
-    else
-    {
-        _testingLatency = NO;
-        
-        CFAbsoluteTime previousTime;
-        [data getBytes:(uint8_t *)&previousTime length:sizeof(previousTime)];
-        
-        DLog(@"Latency: %gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2);
-    }
-}
-
-
-- (void)receiveLatencyDataFromInputStream:(NSInputStream *)inputStream
-{
-    CFAbsoluteTime previousTime;
-    NSInteger bytesRead = [inputStream read:(uint8_t *)&previousTime maxLength:sizeof(previousTime)];
-    
-    if (_testingLatency)
-    {
-        _testingLatency = NO;
-        DLog(@"Latency: %gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Latency Test" message:[NSString stringWithFormat:@"%gms", ((CFAbsoluteTimeGetCurrent() - previousTime) * 1000) / 2] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-        });
-    }
-    else
-    {
-        NSData *data = [NSData dataWithBytes:&previousTime length:sizeof(previousTime)];
-        
-        [self.outputStreams enumerateKeysAndObjectsUsingBlock:^(MCPeerID *peer, NSOutputStream *outputstream, BOOL *stop) {
-            
-            [self sendLatencyData:data toPeer:peer];
-            
-        }];
-    }
 }
 
 #pragma mark - MCNearbyServiceAdvertiserDelagate
@@ -348,10 +280,7 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     if (self.peerType == GBALinkPeerTypeUnknown)
     {
         self.peerType = peerType;
-        return;
     }
-    
-    [self receiveLatencyData:data fromPeer:peerID];
 }
 
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
@@ -365,6 +294,8 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
             [stream open];
             
             self.inputStreams[peerID] = stream;
+            
+            [self startEmulationLink];
         }
     });
 }

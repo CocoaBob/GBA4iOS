@@ -15,6 +15,12 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType)
     GBALinkPeerTypeServer  = 2,
 };
 
+typedef NS_ENUM(NSUInteger, GBALinkConnectionType)
+{
+    GBALinkConnectionTypeLinkCable        = 0,
+    GBALinkConnectionTypeWirelessAdapter  = 1,
+};
+
 @class GBABluetoothLinkManager;
 @class GBAPeer;
 

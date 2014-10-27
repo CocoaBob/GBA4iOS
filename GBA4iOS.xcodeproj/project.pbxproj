@@ -127,8 +127,8 @@
 		BF33ECF319C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */; };
 		BF33ECF419C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */; };
 		BF33ECF519C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */; };
-		BF33ECF919C13169006E534B /* GBALinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.m */; };
-		BF33ECFA19C13169006E534B /* GBALinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.m */; };
+		BF33ECF919C13169006E534B /* GBALinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.mm */; };
+		BF33ECFA19C13169006E534B /* GBALinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.mm */; };
 		BF33ECFD19C13188006E534B /* MCPeerID+Conveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */; };
 		BF33ECFE19C13188006E534B /* MCPeerID+Conveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */; };
 		BF356C7A18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
@@ -544,7 +544,7 @@
 		BF33ECEE19C13127006E534B /* GBALinkViewControllerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkViewControllerTableViewCell.h; sourceTree = "<group>"; };
 		BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkViewControllerTableViewCell.m; sourceTree = "<group>"; };
 		BF33ECF719C13169006E534B /* GBALinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkManager.h; sourceTree = "<group>"; };
-		BF33ECF819C13169006E534B /* GBALinkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkManager.m; sourceTree = "<group>"; };
+		BF33ECF819C13169006E534B /* GBALinkManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBALinkManager.mm; sourceTree = "<group>"; };
 		BF33ECFB19C13188006E534B /* MCPeerID+Conveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCPeerID+Conveniences.h"; sourceTree = "<group>"; };
 		BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MCPeerID+Conveniences.m"; sourceTree = "<group>"; };
 		BF356C7818814A180005E1FC /* GBACheatTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatTextView.h; sourceTree = "<group>"; };
@@ -1088,7 +1088,7 @@
 			isa = PBXGroup;
 			children = (
 				BF33ECF719C13169006E534B /* GBALinkManager.h */,
-				BF33ECF819C13169006E534B /* GBALinkManager.m */,
+				BF33ECF819C13169006E534B /* GBALinkManager.mm */,
 				BF47B36919C6A5DD00030431 /* GBABluetoothLinkManager.h */,
 				BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.m */,
 				BF47B37119C6B3FF00030431 /* GBAPeer.h */,
@@ -2207,7 +2207,7 @@
 				BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */,
 				BF33ECF319C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */,
 				BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */,
-				BF33ECFA19C13169006E534B /* GBALinkManager.m in Sources */,
+				BF33ECFA19C13169006E534B /* GBALinkManager.mm in Sources */,
 				BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */,
 				BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */,
 				BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */,
@@ -2498,7 +2498,7 @@
 				BF58D31019B91550003B2B62 /* NSData+MD5.m in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				BF20ED6C189769DF00270BC8 /* GBAEventDistributionDetailViewController.m in Sources */,
-				BF33ECF919C13169006E534B /* GBALinkManager.m in Sources */,
+				BF33ECF919C13169006E534B /* GBALinkManager.mm in Sources */,
 				CC5045001814DC69009F7B9E /* Patch.cpp in Sources */,
 				CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */,
 				CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */,

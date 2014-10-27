@@ -18,6 +18,8 @@
 #import "GBACheat.h"
 #import "GBAROM.h"
 
+#import "GBALinkManager.h"
+
 typedef NS_ENUM(NSInteger, GBAEmulationFilter)
 {
     GBAEmulationFilterNone = 0,
@@ -42,6 +44,7 @@ extern NSString *const GBAROMDidSaveDataNotification;
 @property (strong, nonatomic) GBAROM *rom;
 @property (weak, nonatomic) id<GBAEmulatorCoreDelegate> delegate;
 @property (copy, nonatomic) NSString *customSavePath;
+@property (readonly, assign, nonatomic, getter=isLinkConnected) BOOL linkConnected;
 
 + (instancetype)sharedCore;
 
@@ -77,7 +80,6 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)stopFastForwarding;
 
 // Linking
-- (void)startServer;
-- (void)connectToServer;
+- (void)startLinkWithConnectionType:(GBALinkConnectionType)connectionType peerType:(GBALinkPeerType)peerType completion:(void (^)(BOOL success))completion;
 
 @end

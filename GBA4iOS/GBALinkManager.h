@@ -36,8 +36,6 @@ extern NSString *const GBALinkSessionServiceType;
 - (void)start;
 - (void)stop;
 
-- (void)testLatency;
-
 - (NSInteger)sendData:(const char *)data withSize:(size_t)size toPlayerAtIndex:(NSInteger)index;
 - (NSInteger)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPlayerAtIndex:(NSInteger)index;
 
