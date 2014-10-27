@@ -730,6 +730,7 @@ static ConnectionState InitIPC() {
     return LINK_OK;
 }
 
+/* GBARemove
 static ConnectionState InitSocket() {
     linkid = 0;
     
@@ -763,6 +764,23 @@ static ConnectionState InitSocket() {
                 return  LINK_NEEDS_UPDATE;
         }
     }
+} */
+
+static ConnectionState InitSocket()
+{
+    linkid = 0;
+    
+    for (int i = 0; i < 4; i++)
+    {
+        linkdata[i] = 0xffff;
+    }
+    
+    if (lanlink.server)
+    {
+        lanlink.connectedSlaves = 0;
+    }
+    
+    return LINK_NEEDS_UPDATE;
 }
 
 // Server
@@ -980,7 +998,75 @@ ConnectionState InitLink(LinkMode mode)
 
 #pragma mark - Connect Update -
 
-static ConnectionState ConnectUpdateSocket(char * const message, size_t size) {
+static ConnectionState ConnectUpdateSocket(char * const message, size_t size)
+{
+    ConnectionState newState = LINK_NEEDS_UPDATE;
+    
+    if (lanlink.server)
+    {
+        int nextSlave = lanlink.connectedSlaves + 1;
+        
+        char data[2];
+        data[0] = nextSlave;
+        data[1] = lanlink.numslaves;
+        
+        GBALinkSendDataToPlayerAtIndex(nextSlave, data, sizeof(data));
+        
+        GBALog("Player %d connected", nextSlave);
+        
+        lanlink.connectedSlaves++;
+        
+        if (lanlink.numslaves == lanlink.connectedSlaves)
+        {
+            for (int i = 1; i <= lanlink.numslaves; i++)
+            {
+                char connectedData[2];
+                connectedData[0] = true;
+                
+                GBALinkSendDataToPlayerAtIndex(i, connectedData, sizeof(connectedData));
+            }
+            
+            GBALog("All players connected!");
+            
+            newState = LINK_OK;
+        }
+    }
+    else
+    {
+        char data[2];
+        
+        if (GBALinkReceiveDataFromPlayerAtIndex(0, data, sizeof(data)))
+        {
+            if (linkid == 0)
+            {
+                linkid = data[0];
+                lanlink.numslaves = data[1];
+                
+                GBALog("Connected as Player %d. Waiting for %d players to join", linkid + 1, lanlink.numslaves - linkid);
+            }
+            else
+            {
+                bool connected = data[0];
+                
+                if (connected)
+                {
+                    newState = LINK_OK;
+                    
+                    GBALog("All players joined!");
+                }
+                else
+                {
+                    GBALog("Error connecting players :(");
+                }
+            }
+        }
+    }
+    
+    return newState;
+}
+
+/* GBARemove
+static ConnectionState ConnectUpdateSocket2(char * const message, size_t size) {
     ConnectionState newState = LINK_NEEDS_UPDATE;
     
     if (lanlink.server) {
@@ -1060,7 +1146,7 @@ static ConnectionState ConnectUpdateSocket(char * const message, size_t size) {
     }
     
     return newState;
-}
+} */
 
 static ConnectionState ConnectUpdateRFUServer()
 {
