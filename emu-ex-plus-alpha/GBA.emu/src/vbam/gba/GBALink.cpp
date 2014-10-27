@@ -214,7 +214,7 @@ static void UpdateRFUSocket(int ticks);
 bool IsLinkConnected();
 void LinkConnected(bool b);
 bool LinkSendRFUData(char *buf, int size, int nretry, int idx);
-bool LinkReceiveRFUData(char *buf, int size, int idx, bool peek);
+bool LinkReceiveRFUData(char *buf, int size, int idx);
 bool LinkIsDataReady(int *idx);
 int LinkDiscardRFUData(int idx);
 
@@ -423,7 +423,7 @@ public:
     bool SendRFUData(const char *buf, int size, int nretry, int idx);
     int DiscardRFUData(int idx);
     int IsDataReady(void);
-    bool ReceiveRFUData(int size, int idx, bool peek);
+    bool ReceiveRFUData(int size, int idx);
 };
 
 class lclient{
@@ -453,7 +453,7 @@ public:
     bool SendRFUData(const char *buf, int size, int nretry);
     int DiscardRFUData();
     int IsDataReady(void);
-    bool ReceiveRFUData(int size, bool peek);
+    bool ReceiveRFUData(int size);
     
     ConnectionState InitRFU();
 };
@@ -4146,7 +4146,7 @@ bool LinkSendRFUData(char *buf, int size, int nretry, int idx)
     return sent;
 }
 
-bool lserver::ReceiveRFUData(int size, int idx, bool peek)
+bool lserver::ReceiveRFUData(int size, int idx)
 {
     // tcpsocket[idx].SetBlocking(true);
     
@@ -4196,7 +4196,7 @@ bool lserver::ReceiveRFUData(int size, int idx, bool peek)
     return (rsz <= 0);
 }
 
-bool lclient::ReceiveRFUData(int size, bool peek)
+bool lclient::ReceiveRFUData(int size)
 {
     // lanlink.tcpsocket.SetBlocking(true);
     
@@ -4234,7 +4234,7 @@ bool lclient::ReceiveRFUData(int size, bool peek)
     return (rsz <= 0);
 }
 
-bool LinkReceiveRFUData(char *buf, int size, int idx, bool peek)
+bool LinkReceiveRFUData(char *buf, int size, int idx)
 {
     bool recvd = false;
     
@@ -4242,7 +4242,7 @@ bool LinkReceiveRFUData(char *buf, int size, int idx, bool peek)
     
     if (linkid)
     {
-        recvd = lc.ReceiveRFUData(size, peek);
+        recvd = lc.ReceiveRFUData(size);
         
         if (recvd)
         {
@@ -4251,15 +4251,13 @@ bool LinkReceiveRFUData(char *buf, int size, int idx, bool peek)
     }
     else
     {
-        recvd = ls.ReceiveRFUData(size, idx, peek);
+        recvd = ls.ReceiveRFUData(size, idx);
         
         if(recvd)
         {
             memcpy(buf, ls.inbuffer, size);
         }
     }
-    
-    GBALog("Received %s", GBADataHexadecimalRepresentation(buf, size));
     
     c_s.Unlock();
     
@@ -4455,7 +4453,291 @@ int LinkDiscardRFUData(int idx)
     return rdy;
 }
 
-unsigned long GBARunWirelessAdaptorLoop() //AdamN: Trying to reduce the lag by handling sockets in a different thread, but doesn't works quite right
+unsigned long GBARunWirelessAdaptorLoop()
+{
+    static char inBuffer[8192]; //8192
+    static char outBuffer[4];
+    
+    u16 *u16inBuffer = (u16 *)inBuffer;
+    u32 *u32inBuffer = (u32 *)inBuffer;
+    u32 *u32outBuffer = (u32 *)outBuffer;
+    
+    bool runLoop = true;
+    
+    while (runLoop)
+    {
+        if (!IsLinkConnected())
+        {
+            break;
+        }
+        
+        if (!GBALinkWaitForLinkDataWithTimeout(0.1))
+        {
+            continue;
+        }
+        
+        int sourceID = 0;
+        LinkIsDataReady(&sourceID);
+        
+        if (sourceID == vbaid)
+        {
+            GBALog("Available data originated from current device");
+            continue;
+        }
+        
+        
+        LinkReceiveRFUData(inBuffer, 4, sourceID);
+        
+        if (inBuffer[1] == -32) // Disconnect
+        {
+            GBALog("Disconnecting...");
+            
+            if (vbaid)
+            {
+                LinkConnected(false);
+            }
+            else
+            {
+                c_s.Lock();
+                
+                ls.connected[sourceID] = false;
+                lanlink.connected = IsLinkConnected();
+                
+                c_s.Unlock();
+            }
+            
+            LinkDiscardRFUData(sourceID);
+            
+            continue;
+        }
+        
+        
+        if (!((inBuffer[0] > 3) && ((inBuffer[1] & 0xc0) == 0x80))) //inbuf[1]=='W' //wireless header ID
+        {
+            continue;
+        }
+        
+        int destinationID = inBuffer[1] & 0x3f; //destination id, if tid==gid then it's a broadcast from client (server may need to bridge broadcast from client to client)
+        int cmd = inBuffer[2];
+        int size = inBuffer[3]; //in 32bit words
+        u32outBuffer[0] = u32inBuffer[0];
+        
+        
+        if (size)
+        {
+            LinkReceiveRFUData(inBuffer, size * 4, sourceID);
+        }
+        
+        
+        if (destinationID != vbaid && destinationID != sourceID) //not for this GBA and not a broadcast = targeted only to another GBA
+        {
+            if (vbaid == 0 && ls.connected[destinationID]) //bridging can only be done through server
+            {
+                LinkSendRFUData(outBuffer, 4, RetryCount, destinationID);
+                
+                if (size > 0)
+                {
+                    LinkSendRFUData(inBuffer, size * 4, RetryCount, destinationID);
+                }
+            }
+            
+            continue;
+        }
+        
+        //targeted for this GBA or a broadcast
+        
+        if (vbaid == 0) //bridging can only be done through server
+        {
+            if (destinationID == sourceID) //broadcast to other clients (excluding server & sender)
+            {
+                for (i = 1; i <= lanlink.numgbas; i++)
+                {
+                    if (i != sourceID && ls.connected[i])
+                    {
+                        LinkSendRFUData(outBuffer, 4, RetryCount, i);
+                        
+                        if (size > 0)
+                        {
+                            LinkSendRFUData(inBuffer, size * 4, RetryCount, i);
+                        }
+                        
+                    }
+                }
+            }
+        }
+        
+        if (!gGba.mem.ioMem.b)
+        {
+            GBALog("Error accessing ROM memory");
+            continue;
+        }
+        
+        c_s.Lock();
+        u16 siocnt = READ16LE(&gGba.mem.ioMem.b[COMM_SIOCNT]);
+        c_s.Unlock();
+        
+        if (siocnt == 0)
+        {
+            continue;
+        }
+        
+        if (!(cmd==0x3d || GetSIOMode(siocnt, READ16LE(&gGba.mem.ioMem.b[COMM_RCNT])) == NORMAL32))
+        {
+            continue;
+        }
+        
+        switch (cmd)
+        {
+            case 0x16:
+            {
+                GBALog("RFU Received Name");
+                
+                c_s.Lock();
+                
+                memset(&linkmem.rfu_bdata[sourceID][1], 0, sizeof(linkmem.rfu_bdata[sourceID]) - 4);
+                memcpy(&linkmem.rfu_bdata[sourceID][1], inBuffer, size * 4); //only use 6 dwords for the name (since 1st dwords used for ID)
+                
+                c_s.Unlock();
+                break;
+            }
+                
+                
+            case 0x17:
+            {
+                GBALog("Game ID");
+                
+                c_s.Lock();
+                linkmem.rfu_gdata[sourceID] = u16inBuffer[0]; //game id
+                c_s.Unlock();
+                break;
+            }
+                
+                
+            case 0x19:
+            case 0x1b:
+            {
+                GBALog("Adapter ID");
+                
+                c_s.Lock();
+                
+                linkmem.rfu_bdata[sourceID][0] = u16inBuffer[0]; //adapter id
+                linkmem.rfu_clientidx[sourceID] = 0; //host index is 0
+                
+                c_s.Unlock();
+                break;
+            }
+                
+                
+            case 0x1a:
+            {
+                GBALog("RFU Signal");
+                
+                c_s.Lock();
+                
+                linkmem.numgbas = lanlink.numgbas + 1;
+                linkmem.rfu_signal[sourceID] = u32inBuffer[0];
+                
+                if (linkmem.rfu_signal[vbaid] && linkmem.rfu_signal[vbaid] < u32inBuffer[0])
+                {
+                    linkmem.rfu_signal[vbaid] = u32inBuffer[0];
+                }
+                
+                if ((u32inBuffer[1] & 0xffff) == ((vbaid << 3) + 0x61f1)) //adapter id
+                {
+                    linkmem.rfu_signal[vbaid] = u32inBuffer[0];
+                    linkmem.rfu_clientidx[vbaid] = u32inBuffer[1] >> 16;
+                    linkmem.rfu_clientidx[sourceID] = 0; //host index is 0
+                }
+                
+                c_s.Unlock();
+                break;
+            }
+                
+                
+            case 0x1f:
+            {
+                GBALog("Freshness Data");
+                
+                c_s.Lock();
+                
+                linkmem.rfu_reqid[sourceID] = u16inBuffer[0]; //(rfu_id-0x61f1)>>3
+                linkmem.rfu_request[destinationID] |= (1 << sourceID); //4; //true, id data is fresh/not received by server yet
+                
+                c_s.Unlock();
+                break;
+            }
+                
+                
+            case 0x24:
+            case 0x25:
+            case 0x35:
+            case 0x27:
+            case 0x37:
+            {
+                GBALog("TempRect Stuff");
+                
+                c_s.Lock();
+                
+                rfu_datarec tmpRec;
+                u32 tmpq;
+                
+                tmpq = size - 2;
+                
+                if (tmpq > 1 || DATALIST.empty())
+                {
+                    if (tmpq > 0)
+                    {
+                        memcpy(tmpRec.data, &u32inBuffer[2], tmpq << 2);
+                    }
+                    
+                    tmpRec.sign = u32inBuffer[0];
+                    tmpRec.time = u32inBuffer[1];
+                    tmpRec.qid = (1 << vbaid);
+                    tmpRec.len = tmpq;
+                    tmpRec.gbaid = sourceID;
+                    tmpRec.idx = (u8)linkmem.rfu_clientidx[sourceID];
+                    
+                    DATALIST.push_back(tmpRec);
+                }
+                
+                c_s.Unlock();
+                break;
+            }
+                
+                
+            case 0x3d:
+            {
+                GBALog("Reset Wireless");
+                
+                c_s.Lock();
+                
+                linkmem.rfu_q[sourceID] = 0;
+                linkmem.rfu_request[sourceID] = 0;
+                linkmem.rfu_signal[sourceID] = 0;
+                
+                c_s.Unlock();
+                
+                LinkDiscardRFUData(sourceID);
+                break;
+            }
+        }
+        
+        c_s.Lock();
+        
+        if (cmd)
+        {
+            UPDATE_REG(RF_RECVCMD, cmd);
+        }
+        
+        c_s.Unlock();
+        
+        runLoop = (!AppTerminated && lanlink.connected);
+    }
+    
+    return 0;
+}
+
+unsigned long GBARunWirelessAdaptorLoop2() //AdamN: Trying to reduce the lag by handling sockets in a different thread, but doesn't works quite right
 {
     static char inbuf[8192]; //8192
     static char outbuf[4];
@@ -4486,7 +4768,7 @@ unsigned long GBARunWirelessAdaptorLoop() //AdamN: Trying to reduce the lag by h
         {
             if (idx != vbaid && lanlink.connected)
             {
-                if (LinkReceiveRFUData(inbuf, 4, idx, false))
+                if (LinkReceiveRFUData(inbuf, 4, idx))
                 {
                     if (inbuf[1] == -32)
                     {
@@ -4519,7 +4801,7 @@ unsigned long GBARunWirelessAdaptorLoop() //AdamN: Trying to reduce the lag by h
                             
                             if (size > 0)
                             {
-                                LinkReceiveRFUData(inbuf, size * 4, idx, false);
+                                LinkReceiveRFUData(inbuf, size * 4, idx);
                             }
                             
                             if (tid != vbaid && tid != gid) //not for this GBA and not a broadcast = targeted only to another GBA

@@ -1200,7 +1200,7 @@ bool GBALinkWaitForLinkDataWithTimeout(int timeout)
     
     bool success = (bool)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
     
-    NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    // NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     
     /*if (success)
     {
