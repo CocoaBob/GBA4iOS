@@ -24,6 +24,9 @@
 #include <logger/interface.h>
 #include <io/sys.hh>
 
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+
 #ifdef PROFILING
 #include "prof/prof.h"
 #endif
@@ -675,7 +678,20 @@ inline int CPUUpdateTicks(ARM7TDMI &cpu)
 
 int GetTickCount()
 {
-    return CPUUpdateTicks(gGba.cpu);
+    // From http://stackoverflow.com/questions/741830/getting-the-time-elapsed-objective-c
+    
+    static mach_timebase_info_data_t sTimebaseInfo;
+    uint64_t machTime = mach_absolute_time();
+    
+    // Convert to nanoseconds - if this is the first time we've run, get the timebase.
+    if (sTimebaseInfo.denom == 0)
+    {
+        mach_timebase_info(&sTimebaseInfo);
+    }
+    
+    // Convert the mach time to milliseconds
+    uint64_t millis = ((machTime / 1000000) * sTimebaseInfo.numer) / sTimebaseInfo.denom;
+    return millis;
 }
 
 static void CPUUpdateWindow0(GBASys &gba)
