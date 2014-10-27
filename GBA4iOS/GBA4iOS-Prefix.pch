@@ -20,6 +20,6 @@
 #include "config.h"
 
 #define GBA4iOS_PURPLE_COLOR [UIColor colorWithRed:120.0/255.0 green:32.0/255.0 blue:157.0/255.0 alpha:1.0]
-//#define USE_BLUETOOTH
+#define USE_BLUETOOTH
 
 

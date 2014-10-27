@@ -34,8 +34,10 @@ typedef NS_ENUM(NSUInteger, GBALinkConnectionType)
 
 // Client
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didDiscoverPeer:(GBAPeer *)peer;
-- (void)linkManager:(GBABluetoothLinkManager *)linkManager didConnectPeer:(GBAPeer *)peer;
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didFailToConnectPeer:(GBAPeer *)peer error:(NSError *)error;
+
+// Both
+- (void)linkManager:(GBABluetoothLinkManager *)linkManager didConnectPeer:(GBAPeer *)peer;
 - (void)linkManager:(GBABluetoothLinkManager *)linkManager didDisconnectPeer:(GBAPeer *)peer error:(NSError *)error;
 
 @end
@@ -46,6 +48,7 @@ typedef NS_ENUM(NSUInteger, GBALinkConnectionType)
 @property (assign, nonatomic) GBALinkPeerType peerType;
 @property (copy, nonatomic) NSString *name;
 @property (assign, nonatomic, getter=isEnabled) BOOL enabled;
+@property (readonly, assign, nonatomic, getter=isLinkConnected) BOOL linkConnected;
 
 @property (copy, nonatomic, readonly) NSArray *connectedPeers;
 @property (copy, nonatomic, readonly) NSArray *nearbyPeers;
@@ -58,8 +61,6 @@ typedef NS_ENUM(NSUInteger, GBALinkConnectionType)
 
 - (void)startAdvertisingPeer;
 - (void)stopAdvertisingPeer;
-
-- (void)testLatency;
 
 - (NSInteger)sendData:(NSData *)data toPlayerAtIndex:(NSInteger)index;
 - (NSInteger)receiveData:(NSData **)data withMaxSize:(NSUInteger)maxSize fromPlayerAtIndex:(NSInteger)index;

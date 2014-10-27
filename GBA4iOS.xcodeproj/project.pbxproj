@@ -145,8 +145,8 @@
 		BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
 		BF3E2BD718206DE9004231F6 /* RSTFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BD618206DE9004231F6 /* RSTFileBrowserTableViewCell.m */; };
 		BF3E2BDB18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
-		BF47B36B19C6A5DD00030431 /* GBABluetoothLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.m */; };
-		BF47B36C19C6A5DD00030431 /* GBABluetoothLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.m */; };
+		BF47B36B19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */; };
+		BF47B36C19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */; };
 		BF47B36F19C6A68900030431 /* GBABluetoothLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36E19C6A68900030431 /* GBABluetoothLinkViewController.m */; };
 		BF47B37019C6A68900030431 /* GBABluetoothLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36E19C6A68900030431 /* GBABluetoothLinkViewController.m */; };
 		BF47B37319C6B3FF00030431 /* GBAPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B37219C6B3FF00030431 /* GBAPeer.m */; };
@@ -566,7 +566,7 @@
 		BF3E2BD918206DF2004231F6 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTDirectoryMonitor.h; path = Cocoapods/RSTDirectoryMonitor.h; sourceTree = "<group>"; };
 		BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTDirectoryMonitor.m; path = Cocoapods/RSTDirectoryMonitor.m; sourceTree = "<group>"; };
 		BF47B36919C6A5DD00030431 /* GBABluetoothLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBABluetoothLinkManager.h; sourceTree = "<group>"; };
-		BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBABluetoothLinkManager.m; sourceTree = "<group>"; };
+		BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBABluetoothLinkManager.mm; sourceTree = "<group>"; };
 		BF47B36D19C6A68900030431 /* GBABluetoothLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBABluetoothLinkViewController.h; sourceTree = "<group>"; };
 		BF47B36E19C6A68900030431 /* GBABluetoothLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBABluetoothLinkViewController.m; sourceTree = "<group>"; };
 		BF47B37119C6B3FF00030431 /* GBAPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPeer.h; sourceTree = "<group>"; };
@@ -1090,7 +1090,7 @@
 				BF33ECF719C13169006E534B /* GBALinkManager.h */,
 				BF33ECF819C13169006E534B /* GBALinkManager.mm */,
 				BF47B36919C6A5DD00030431 /* GBABluetoothLinkManager.h */,
-				BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.m */,
+				BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */,
 				BF47B37119C6B3FF00030431 /* GBAPeer.h */,
 				BF49EA6D19C6B5840072B3C7 /* GBAPeer_Private.h */,
 				BF47B37219C6B3FF00030431 /* GBAPeer.m */,
@@ -2228,7 +2228,7 @@
 				BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */,
 				BF2F352D183FF6F9002ACE90 /* UIScreen+Size.m in Sources */,
 				BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */,
-				BF47B36C19C6A5DD00030431 /* GBABluetoothLinkManager.m in Sources */,
+				BF47B36C19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */,
 				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */,
 				BF0EBB2019C05D1000703623 /* GBASettingsTableViewCell.m in Sources */,
 				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
@@ -2381,7 +2381,7 @@
 				BF47B37319C6B3FF00030431 /* GBAPeer.m in Sources */,
 				BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */,
 				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
-				BF47B36B19C6A5DD00030431 /* GBABluetoothLinkManager.m in Sources */,
+				BF47B36B19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */,
 				BFF70ED419BD0CAF00009DAF /* UITableViewController+ControllerSkins.m in Sources */,
 				CC50451E1814DC69009F7B9E /* CpuArch.c in Sources */,
 				CC5044EF1814DC69009F7B9E /* CheatSearch.cpp in Sources */,
