@@ -91,7 +91,7 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (void)startEmulationLink
 {
-    [[GBAEmulatorCore sharedCore] startLinkWithConnectionType:GBALinkConnectionTypeLinkCable peerType:self.peerType completion:^(BOOL success) {
+    [[GBAEmulatorCore sharedCore] startLinkWithConnectionType:GBALinkConnectionTypeWirelessAdapter peerType:self.peerType completion:^(BOOL success) {
         
         DLog("Success Linking! %d", success);
         

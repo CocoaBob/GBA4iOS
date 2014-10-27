@@ -214,9 +214,8 @@ static void UpdateRFUSocket(int ticks);
 bool IsLinkConnected();
 void LinkConnected(bool b);
 bool LinkSendRFUData(char *buf, int size, int nretry, int idx);
-bool LinkRecvData(char *buf, int size, int idx, bool peek);
+bool LinkReceiveRFUData(char *buf, int size, int idx, bool peek);
 bool LinkIsDataReady(int *idx);
-bool LinkWaitForData(int ms, int *idx);
 int LinkDiscardRFUData(int idx);
 
 bool AppTerminated = false;
@@ -424,7 +423,7 @@ public:
     bool SendRFUData(const char *buf, int size, int nretry, int idx);
     int DiscardRFUData(int idx);
     int IsDataReady(void);
-    bool RecvData(int size, int idx, bool peek);
+    bool ReceiveRFUData(int size, int idx, bool peek);
 };
 
 class lclient{
@@ -454,7 +453,7 @@ public:
     bool SendRFUData(const char *buf, int size, int nretry);
     int DiscardRFUData();
     int IsDataReady(void);
-    bool RecvData(int size, bool peek);
+    bool ReceiveRFUData(int size, bool peek);
     
     ConnectionState InitRFU();
 };
@@ -818,7 +817,7 @@ ConnectionState lserver::InitRFU()
     
     ConnectionState connectionState = LINK_NEEDS_UPDATE;
     
-    lanlink.tcpsocket.SetBlocking(false);
+    // lanlink.tcpsocket.SetBlocking(false);
     lanlink.terminate = false;
         
     CloseLink();
@@ -844,7 +843,7 @@ ConnectionState lclient::InitRFU()
     
     ConnectionState connectionState = LINK_NEEDS_UPDATE;
     
-    lanlink.tcpsocket.SetBlocking(false);
+    // lanlink.tcpsocket.SetBlocking(false);
     
     CloseLink();
     connectionState = InitRFULink();
@@ -1152,9 +1151,6 @@ static ConnectionState ConnectUpdateRFUServer()
 {
     ConnectionState connectionState = LINK_NEEDS_UPDATE;
     
-    sf::Selector<sf::SocketTCP> fdset;
-    fdset.Add(lanlink.tcpsocket);
-    
     char inbuffer[256];
     char outbuffer[256];
     u16 *u16outbuffer = (u16 *)outbuffer;
@@ -1172,54 +1168,36 @@ static ConnectionState ConnectUpdateRFUServer()
     
     while (shown && i < lanlink.numgbas) //AdamN: this may not be thread-safe //is it should be i<lanlink.numgbas ?
     {
-        if (fdset.Wait(1) > 0) // Timeout = 1 second
+        c_s.Lock(); //AdamN: Locking resource to prevent deadlock
+        bool canceled = lanlink.terminate;
+        c_s.Unlock(); //AdamN: Unlock it after use
+        
+        if (canceled)
         {
-            c_s.Lock(); //AdamN: Locking resource to prevent deadlock
-            bool canceled = lanlink.terminate;
-            c_s.Unlock(); //AdamN: Unlock it after use
-            
-            if (canceled)
-            {
-                GBALog("Canceled connection");
-                connectionState = LINK_ABORT;
-                break;
-            }
-            
-            using namespace sf::Socket;
-            
-            if (lanlink.tcpsocket.Accept(ls.tcpsocket[i+1]) != Status::Done)
-            {
-                for (int j = 1; j < i; j++)
-                {
-                    ls.tcpsocket[j].Close();
-                }
-                
-                GBALog("Connection Error");
-                
-                connectionState = LINK_ERROR;
-                
-                break;
-            }
-            else
-            {
-                outbuffer[0] = 4;
-                outbuffer[1] = i+1;
-                u16outbuffer[1] = lanlink.numgbas; //lanlink.numgbas+1;
-                
-                unsigned long latency = GetTickCount();
-                ls.tcpsocket[i+1].Send(outbuffer, 4); //Sending index and #gba to client
-                latency = GetTickCount() - latency;
-                
-                ls.connected[i+1] = true;
-                
-                GBALog("Client %d connected. (Latency: %dms)", i+1, latency);
-                
-                i++;
-            }
+            GBALog("Canceled connection");
+            connectionState = LINK_ABORT;
+            break;
         }
         
+        outbuffer[0] = 4;
+        outbuffer[1] = i + 1;
+        u16outbuffer[1] = lanlink.numgbas; //lanlink.numgbas+1;
+        
+        unsigned long latency = GetTickCount();
+        
+        // ls.tcpsocket[i+1].Send(outbuffer, 4); //Sending index and #gba to client
+        GBALinkSendDataToPlayerAtIndex(i + 1, outbuffer, 4);
+        
+        latency = GetTickCount() - latency;
+        
+        ls.connected[i+1] = true;
+        
+        GBALog("Client %d connected. (Latency: %dms)", i+1, latency);
+        
+        i++;
+        
         c_s.Lock(); //AdamN: Locking resource to prevent deadlock
-        bool canceled = lanlink.terminate; //AdamN: w/o locking might not be thread-safe
+        canceled = lanlink.terminate; //AdamN: w/o locking might not be thread-safe
         c_s.Unlock(); //AdamN: Unlock it after use
         
         if (canceled)
@@ -1246,7 +1224,9 @@ static ConnectionState ConnectUpdateRFUServer()
     for (i = 1; i <= lanlink.numgbas; i++) //AdamN: this should be i<lanlink.numgbas isn't?(just like in the while above), btw it might not be thread-safe (may be i'm being paranoid)
     {
         outbuffer[0] = 4;
-        ls.tcpsocket[i].Send(outbuffer, 4);
+        
+        // ls.tcpsocket[i].Send(outbuffer, 4);
+        GBALinkSendDataToPlayerAtIndex(i, outbuffer, 4);
     }
     
     if (shown) //AdamN: if one or more players connected before server got canceled connecteion will still be established
@@ -1282,48 +1262,7 @@ static ConnectionState ConnectUpdateRFUClient()
     char inbuffer[16];
     u16 *u16inbuffer = (u16 *)inbuffer;
     
-    lc.serverport = IP_LINK_PORT;
-    
-    using namespace sf::Socket;
-    
-    GBALog("Connecting...");
-    
-    Status status = lanlink.tcpsocket.Connect(lc.serverport, lc.serveraddr);
-    
-    if (status != Done)
-    {
-        if (status != NotReady)
-        {
-            GBALog("Couldn't connect to server.");
-            return LINK_ERROR;
-        }
-        
-        GBALog("Server not yet ready");
-        
-        sf::Selector<sf::SocketTCP> fdset;
-        fdset.Add(lanlink.tcpsocket);
-        
-        do
-        {
-            c_s.Lock(); //AdamN: Locking resource to prevent deadlock
-            bool canceled=lanlink.terminate; //AdamN: w/o locking might not be thread-safe
-            c_s.Unlock(); //AdamN: Unlock it after use
-            
-            if (canceled)
-            {
-                GBALog("Canceled connection");
-                return LINK_ABORT;
-            }
-            
-        }
-        while (fdset.Wait(1) != 1); // Timeout = 1 second
-    }
-    else
-    {
-        GBALog("Done connecting!");
-    }
-    
-    lanlink.tcpsocket.SetBlocking(true); //AdamN: temporary using blocking mode
+    // lanlink.tcpsocket.SetBlocking(true); //AdamN: temporary using blocking mode
     
     numbytes = 0;
     inbuffer[0] = 1;
@@ -1332,9 +1271,15 @@ static ConnectionState ConnectUpdateRFUClient()
     
     while (numbytes < inbuffer[0] /* 4 bytes */)
     {
-        Status status = lanlink.tcpsocket.Receive(inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */, cnt); //AdamN: receiving index and #of gbas
+        if (!GBALinkWaitForLinkDataWithTimeout(0.1))
+        {
+            continue;
+        }
         
-        if ((cnt <= 0) || status != Done) //AdamN: to prevent stop responding due to infinite loop on socket error
+        // Status status = lanlink.tcpsocket.Receive(inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */, cnt); //AdamN: receiving index and #of gbas
+        cnt = GBALinkReceiveDataFromPlayerAtIndex(0, inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */);
+        
+        if (cnt <= 0) //AdamN: to prevent stop responding due to infinite loop on socket error
         {
             GBALog("Trouble receiving data from server :(");
             break;
@@ -1365,9 +1310,15 @@ static ConnectionState ConnectUpdateRFUClient()
     
     while (numbytes < inbuffer[0]) //AdamN: loops until all players connected or is it until the game initialize multiplayer mode?, progressbar should be updated tho
     {
-        Status status = lanlink.tcpsocket.Receive(inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */, cnt);
+        if (!GBALinkWaitForLinkDataWithTimeout(0.1))
+        {
+            continue;
+        }
         
-        if (status != Done)
+        // Status status = lanlink.tcpsocket.Receive(inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */, cnt);
+        cnt = GBALinkReceiveDataFromPlayerAtIndex(0, inbuffer + numbytes, inbuffer[0] - numbytes /* 16 bytes */);
+        
+        if (cnt <= 0)
         {
             GBALog("Trouble continuing to receive data from server.");
             break;
@@ -3669,8 +3620,8 @@ static void CloseRFUSocket()
             if (lanlink.type == 0)
             {
                 // send(lanlink.tcpsocket, outbuffer, 4, 0);
-                // GBALinkSendDataToPlayerAtIndex(0, outbuffer, 4);
-                lanlink.tcpsocket.Send(outbuffer, 4);
+                 GBALinkSendDataToPlayerAtIndex(0, outbuffer, 4);
+                // lanlink.tcpsocket.Send(outbuffer, 4);
             }
         }
         else // Server
@@ -3683,11 +3634,11 @@ static void CloseRFUSocket()
                 if (lanlink.type == 0)
                 {
                     // send(ls.tcpsocket[i], outbuffer, 12, 0);
-                    // GBALinkSendDataToPlayerAtIndex(0, outbuffer, 12);
-                    ls.tcpsocket[i].Send(outbuffer, 12);
+                    GBALinkSendDataToPlayerAtIndex(i, outbuffer, 12);
+                    // ls.tcpsocket[i].Send(outbuffer, 12);
                 }
                 
-                ls.tcpsocket[i].Close();
+                // ls.tcpsocket[i].Close();
             }
         }
     }
@@ -3712,7 +3663,7 @@ static void CloseRFUSocket()
         sem_unlink(linkevent);
     }
     
-    lanlink.tcpsocket.Close();
+    // lanlink.tcpsocket.Close();
 }
 
 void CloseLink(void){
@@ -4046,11 +3997,6 @@ bool lserver::SendRFUData(const char *buf, int size, int nretry, int idx)
     int sent = 0;
     bool sentSuccessfully = false; // As long as one client receives data, we consider this a success - Riley
     
-    using namespace sf::Socket;
-    
-    Status status = Status::Done;
-    Status previousStatus[5];
-    
     int i1 = 1;
     int i2 = lanlink.numgbas;
     
@@ -4062,7 +4008,7 @@ bool lserver::SendRFUData(const char *buf, int size, int nretry, int idx)
     
     for (int i = i1; i <= i2; i++)
     {
-        tcpsocket[i].SetBlocking(true);
+        // tcpsocket[i].SetBlocking(true);
         
         int j = nretry;
         int sz = size;
@@ -4073,13 +4019,14 @@ bool lserver::SendRFUData(const char *buf, int size, int nretry, int idx)
             {
                 unsigned long latency = GetTickCount();
                 
-                status = tcpsocket[i].Send(buf + (size - sz), sz);
+                // status = tcpsocket[i].Send(buf + (size - sz), sz);
+                sent = GBALinkSendDataToPlayerAtIndex(i, buf + (size - sz), sz);
                 
                 lserver::latency[i] = GetTickCount() - latency;
                 
-                if (status != Status::Done)
+                if (sent <= 0)
                 {
-                    if (status != Status::NotReady && status != Status::Error)
+                    /* GBARemove if (status != Status::NotReady && status != Status::Error)
                     {
                         if (j <= 0)
                         {
@@ -4090,19 +4037,13 @@ bool lserver::SendRFUData(const char *buf, int size, int nretry, int idx)
                             
                             c_s.Unlock();
                         }
-                    }
+                    }*/
                     
-                    if (status != previousStatus[i])
-                    {
-                        GBALog("Error sending data to clients. Error: %d", status);
-                    }
-                    
-                    previousStatus[i] = status;
+                    GBALog("Error sending data to clients.");
                 }
                 else
                 {
                     sentSuccessfully = true;
-                    sent = size; // SFML doesn't return how many bytes were sent, so we assume it was all of them - Riley
                 }
                 
                 if (!lanlink.connected)
@@ -4113,7 +4054,7 @@ bool lserver::SendRFUData(const char *buf, int size, int nretry, int idx)
                 j--;
                 
             }
-            while (j >= 0 && connected[i] && status != Status::Done);
+            while (j >= 0 && connected[i] && sent <= 0);
             
             if (sent > 0)
             {
@@ -4129,12 +4070,7 @@ bool lclient::SendRFUData(const char *buf, int size, int nretry)
 {
     int sent = 0;
     
-    lanlink.tcpsocket.SetBlocking(true);
-    
-    using namespace sf::Socket;
-    
-    Status status = Status::Done;
-    Status previousStatus = Status::Done;
+    // lanlink.tcpsocket.SetBlocking(true);
     
     int i = nretry;
     int sz = size;
@@ -4145,13 +4081,14 @@ bool lclient::SendRFUData(const char *buf, int size, int nretry)
         {
             unsigned long latency = GetTickCount();
             
-            status = lanlink.tcpsocket.Send(buf + (size - sz), sz);
+            // status = lanlink.tcpsocket.Send(buf + (size - sz), sz);
+            sent = GBALinkSendDataToPlayerAtIndex(0, buf + (size - sz), sz);
             
             lanlink.latency = GetTickCount() - latency;
             
-            if (status != Status::Done)
+            if (sent <= 0)
             {
-                if (status != Status::NotReady && status != Status::Error)
+                /*if (status != Status::NotReady && status != Status::Error)
                 {
                     if (i <= 0)
                     {
@@ -4164,11 +4101,9 @@ bool lclient::SendRFUData(const char *buf, int size, int nretry)
                     GBALog("Error sending data: %d", status);
                 }
                 
-                previousStatus = status;
-            }
-            else
-            {
-                sent = size; // SFML doesn't return how many bytes were sent, so we assume it was all of them - Riley
+                previousStatus = status;*/
+                
+                GBALog("Error sending data to server");
             }
             
             if (!lanlink.connected)
@@ -4178,7 +4113,7 @@ bool lclient::SendRFUData(const char *buf, int size, int nretry)
             
             i--;
         }
-        while (i >= 0 && lanlink.connected && status != Status::Done);
+        while (i >= 0 && lanlink.connected && sent <= 0);
         
         if (sent > 0)
         {
@@ -4186,7 +4121,7 @@ bool lclient::SendRFUData(const char *buf, int size, int nretry)
         }
     }
     
-    return (status == Status::Done);
+    return (sent > 0);
 }
 
 bool LinkSendRFUData(char *buf, int size, int nretry, int idx)
@@ -4211,9 +4146,9 @@ bool LinkSendRFUData(char *buf, int size, int nretry, int idx)
     return sent;
 }
 
-bool lserver::RecvData(int size, int idx, bool peek)
+bool lserver::ReceiveRFUData(int size, int idx, bool peek)
 {
-    tcpsocket[idx].SetBlocking(true);
+    // tcpsocket[idx].SetBlocking(true);
     
     int rsz = size;
     
@@ -4221,11 +4156,8 @@ bool lserver::RecvData(int size, int idx, bool peek)
     {
         do
         {
-            size_t cnt;
-            
-            using namespace sf::Socket;
-            
-            Status status = tcpsocket[idx].Receive(inbuffer + (size - rsz), rsz, cnt);
+            // Status status = tcpsocket[idx].Receive(inbuffer + (size - rsz), rsz, cnt);
+            size_t cnt = GBALinkReceiveDataFromPlayerAtIndex(idx, inbuffer + (size - rsz), rsz);
             
             if ((int)cnt >= 0)
             {
@@ -4241,7 +4173,7 @@ bool lserver::RecvData(int size, int idx, bool peek)
                 c_s.Unlock();
             }
             
-            if (status != Status::Done)
+            if (cnt <= 0)
             {
                 c_s.Lock();
                 
@@ -4264,19 +4196,16 @@ bool lserver::RecvData(int size, int idx, bool peek)
     return (rsz <= 0);
 }
 
-bool lclient::RecvData(int size, bool peek)
+bool lclient::ReceiveRFUData(int size, bool peek)
 {
-    lanlink.tcpsocket.SetBlocking(true);
+    // lanlink.tcpsocket.SetBlocking(true);
     
     int rsz = size;
     
     do
     {
-        size_t cnt;
-        
-        using namespace sf::Socket;
-        
-        Status status = lanlink.tcpsocket.Receive(inbuffer + (size - rsz), rsz, cnt);
+        // Status status = lanlink.tcpsocket.Receive(inbuffer + (size - rsz), rsz, cnt);
+        size_t cnt = GBALinkReceiveDataFromPlayerAtIndex(0, inbuffer + (size - rsz), rsz);
         
         if ((int)cnt >= 0)
         {
@@ -4287,7 +4216,7 @@ bool lclient::RecvData(int size, bool peek)
             LinkConnected(false);
         }
         
-        if (status != Status::Done)
+        if (cnt <= 0)
         {
             GBALog("Error receiving data");
             LinkConnected(false);
@@ -4305,7 +4234,7 @@ bool lclient::RecvData(int size, bool peek)
     return (rsz <= 0);
 }
 
-bool LinkRecvData(char *buf, int size, int idx, bool peek)
+bool LinkReceiveRFUData(char *buf, int size, int idx, bool peek)
 {
     bool recvd = false;
     
@@ -4313,7 +4242,7 @@ bool LinkRecvData(char *buf, int size, int idx, bool peek)
     
     if (linkid)
     {
-        recvd = lc.RecvData(size, peek);
+        recvd = lc.ReceiveRFUData(size, peek);
         
         if (recvd)
         {
@@ -4322,7 +4251,7 @@ bool LinkRecvData(char *buf, int size, int idx, bool peek)
     }
     else
     {
-        recvd = ls.RecvData(size, idx, peek);
+        recvd = ls.ReceiveRFUData(size, idx, peek);
         
         if(recvd)
         {
@@ -4349,14 +4278,12 @@ int lserver::IsDataReady()
             DiscardRFUData(i);
         }
         
-        tcpsocket[i].SetBlocking(true);
+        // tcpsocket[i].SetBlocking(true);
         
         if (connected[i])
         {
-            sf::Selector<sf::SocketTCP> fdset;
-            fdset.Add(tcpsocket[i]);
-            
-            if (fdset.Wait(0.0))
+            int index;
+            if (GBALinkHasDataAvailable(&index) && index == i)
             {
                 ready++;
                 break;
@@ -4382,12 +4309,10 @@ int lclient::IsDataReady()
     EmuReseted = false;
     // c_s.Unlock();
     
-    lanlink.tcpsocket.SetBlocking(true);
+    // lanlink.tcpsocket.SetBlocking(true);
     
-    sf::Selector<sf::SocketTCP> fdset;
-    fdset.Add(lanlink.tcpsocket);
-    
-    return fdset.Wait(0.0);
+    int index;
+    return (GBALinkHasDataAvailable(&index) && index == 0);
 }
 
 bool LinkIsDataReady(int *idx)
@@ -4420,12 +4345,6 @@ bool LinkIsDataReady(int *idx)
     return rdy;
 }
 
-bool LinkWaitForData(int ms, int *idx)
-{
-    // GBAStub
-    return true;
-}
-
 int lserver::DiscardRFUData(int idx) //empty received buffer
 {
     char buff[8192];
@@ -4445,20 +4364,21 @@ int lserver::DiscardRFUData(int idx) //empty received buffer
     
     for (int i = a; i <= b; i++)
     {
-        tcpsocket[i].SetBlocking(true);
+        // tcpsocket[i].SetBlocking(true);
         
         do
         {
             if (connected[i])
             {
-                sf::Selector<sf::SocketTCP> fdset;
-                fdset.Add(tcpsocket[i]);
-                
-                if (fdset.Wait(0.0))
+                int index;
+                if (GBALinkHasDataAvailable(&index) && index == i)
                 {
+                    GBALog("Discarding Data..1.");
+                    
                     availableData = true;
                     
-                    tcpsocket[i].Receive(buff, sizeof(buff), cnt);
+                    // tcpsocket[i].Receive(buff, sizeof(buff), cnt);
+                    cnt = GBALinkReceiveDataFromPlayerAtIndex(i, buff, sizeof(buff));
                     
                     if (cnt > 0)
                     {
@@ -4487,17 +4407,17 @@ int lclient::DiscardRFUData()
     
     bool availableData = false;
     
-    lanlink.tcpsocket.SetBlocking(true);
+    // lanlink.tcpsocket.SetBlocking(true);
     
     do
     {
-        sf::Selector<sf::SocketTCP> fdset;
-        fdset.Add(lanlink.tcpsocket);
-        
-        if (fdset.Wait(0.0))
+        int index;
+        if (GBALinkHasDataAvailable(&index) && index == 0)
         {
             availableData = true;
-            lanlink.tcpsocket.Receive(buff, sizeof(buff), cnt);
+            
+            // lanlink.tcpsocket.Receive(buff, sizeof(buff), cnt);
+            cnt = GBALinkReceiveDataFromPlayerAtIndex(0, buff, sizeof(buff));
             
             if (cnt > 0)
             {
@@ -4566,7 +4486,7 @@ unsigned long GBARunWirelessAdaptorLoop() //AdamN: Trying to reduce the lag by h
         {
             if (idx != vbaid && lanlink.connected)
             {
-                if (LinkRecvData(inbuf, 4, idx, false))
+                if (LinkReceiveRFUData(inbuf, 4, idx, false))
                 {
                     if (inbuf[1] == -32)
                     {
@@ -4599,7 +4519,7 @@ unsigned long GBARunWirelessAdaptorLoop() //AdamN: Trying to reduce the lag by h
                             
                             if (size > 0)
                             {
-                                LinkRecvData(inbuf, size * 4, idx, false);
+                                LinkReceiveRFUData(inbuf, size * 4, idx, false);
                             }
                             
                             if (tid != vbaid && tid != gid) //not for this GBA and not a broadcast = targeted only to another GBA
