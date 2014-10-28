@@ -188,7 +188,7 @@ extern void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAud
     //CPULoop(gGba, false, false, true);
     Base::runEngine(Base::displayLink.timestamp);
     
-    //DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     
 	if(!Base::gfxUpdate)
 	{
@@ -1172,7 +1172,7 @@ int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size)
     
     if (sentDataLength > 0)
     {
-        NSLog(@"Sent data! (%@)", [NSData dataWithBytes:(const void *)data length:size]);
+        //NSLog(@"Sent data! (%@)", [NSData dataWithBytes:(const void *)data length:size]);
     }
     else
     {
@@ -1188,7 +1188,7 @@ int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
     
     if (receivedDataLength > 0)
     {
-        NSLog(@"Received data! (%@)", [NSData dataWithBytes:(const void *)data length:maxSize]);
+        //NSLog(@"Received data! (%@)", [NSData dataWithBytes:(const void *)data length:maxSize]);
     }
     
     return receivedDataLength;
@@ -1200,7 +1200,7 @@ bool GBALinkWaitForLinkDataWithTimeout(int timeout)
     
     bool success = (bool)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
     
-    // NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     
     /*if (success)
     {

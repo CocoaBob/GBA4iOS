@@ -382,6 +382,16 @@
     return nil;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return NSLocalizedString(@"Wireless Linking uses either local Wi-Fi or Bluetooth. However, for best performance, all devices should be connected to the same Wi-Fi network.", @"");
+    }
+    
+    return nil;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

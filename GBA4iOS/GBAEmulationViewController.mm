@@ -1667,7 +1667,10 @@ static GBAEmulationViewController *_emulationViewController;
 
 - (void)willResignActive:(NSNotification *)notification
 {
-    [self pauseEmulationAndStayPaused:NO];
+    if (![[GBALinkManager sharedManager] isLinkConnected])
+    {
+        [self pauseEmulationAndStayPaused:NO];
+    }
 }
 
 - (void)didBecomeActive:(NSNotification *)notification
