@@ -1310,6 +1310,11 @@ static const int length = 256;
     
 }
 
+- (void)stopLink
+{
+    CloseLink();
+}
+
 - (void)startServer
 {
     SetLinkTimeout(1000);

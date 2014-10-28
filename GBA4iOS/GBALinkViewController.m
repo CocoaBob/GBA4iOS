@@ -131,6 +131,9 @@
     
     [[GBALinkManager sharedManager] stop];
     
+    [self.nearbyPeers removeAllObjects];
+    [self.connectedPeers removeAllObjects];
+    
     [self.nearbyServiceBrowser stopBrowsingForPeers];
 }
 
@@ -169,6 +172,11 @@
 
 - (void)linkManager:(GBALinkManager *)linkManager peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+    {
+        return;
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self.tableView beginUpdates];

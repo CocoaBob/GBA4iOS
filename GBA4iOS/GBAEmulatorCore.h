@@ -80,5 +80,6 @@ extern NSString *const GBAROMDidSaveDataNotification;
 
 // Linking
 - (void)startLinkWithConnectionType:(GBALinkConnectionType)connectionType peerType:(GBALinkPeerType)peerType completion:(void (^)(BOOL success))completion;
+- (void)stopLink;
 
 @end

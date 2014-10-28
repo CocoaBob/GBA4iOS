@@ -83,6 +83,20 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 - (void)stop
 {
     [self.nearbyServiceAdvertiser stopAdvertisingPeer];
+    
+    [self.session disconnect];
+}
+
+- (void)resetLink
+{
+    DLog("Resetting Link...");
+    
+    [self.outputStreams removeAllObjects];
+    [self.inputStreams removeAllObjects];
+    [self.orderedPeers removeAllObjects];
+    
+    [[GBAEmulatorCore sharedCore] stopLink];
+    self.linkConnected = NO;
 }
 
 - (void)sendPeerType:(GBALinkPeerType)peerType toPeer:(MCPeerID *)peerID
@@ -291,6 +305,13 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
                 [self.orderedPeers addObject:peerID];
                 [self connectOutputStreamToPeer:peerID];
             }
+        }
+    }
+    else if (state == MCSessionStateNotConnected)
+    {
+        if ([[session connectedPeers] count] == 0)
+        {
+            [self resetLink];
         }
     }
     

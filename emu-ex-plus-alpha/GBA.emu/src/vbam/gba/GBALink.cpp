@@ -3607,6 +3607,8 @@ static void CloseSocket() {
 		}
 	}
 	lanlink.tcpsocket.Close();
+    
+    gba_connection_state = LINK_NEEDS_UPDATE;
 }
 
 static void CloseRFUSocket()
