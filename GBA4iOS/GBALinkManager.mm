@@ -28,6 +28,8 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 @property (strong, nonatomic) NSMutableDictionary *outputStreams;
 @property (strong, nonatomic) NSMutableDictionary *inputStreams;
 
+@property (strong, nonatomic) NSMutableArray *orderedPeers;
+
 @end
 
 @implementation GBALinkManager
@@ -64,6 +66,8 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
         
         _outputStreams = [NSMutableDictionary dictionary];
         _inputStreams = [NSMutableDictionary dictionary];
+        
+        _orderedPeers = [NSMutableArray array];
     }
     
     return self;
@@ -85,6 +89,28 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 {
     NSData *data = [NSData dataWithBytes:&peerType length:sizeof(peerType)];
     [self.session sendData:data toPeers:@[peerID] withMode:MCSessionSendDataReliable error:nil];
+}
+
+- (void)connectOutputStreamToPeer:(MCPeerID *)peerID
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSError *error = nil;
+        NSOutputStream *outputStream = [self.session startStreamWithName:[[UIDevice currentDevice] name] toPeer:peerID error:&error];
+        
+        if (error)
+        {
+            ELog(error);
+        }
+        
+        outputStream.delegate = self;
+        
+        [outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+        [outputStream open];
+        
+        self.outputStreams[peerID] = outputStream;
+        
+    });
 }
 
 #pragma mark - Emulation Link -
@@ -111,12 +137,17 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (NSInteger)sendData:(const char *)data withSize:(size_t)size toPlayerAtIndex:(NSInteger)index
 {
-    /*if (self.peerType == GBALinkPeerTypeServer)
+    if (self.peerType == GBALinkPeerTypeServer)
     {
         index--;
-    }*/
+    }
     
-    MCPeerID *peerID = [self.session connectedPeers][0];
+    if (index >= (NSInteger)[[self.session connectedPeers] count])
+    {
+        return 0;
+    }
+    
+    MCPeerID *peerID = self.orderedPeers[index];
     NSOutputStream *outputStream = self.outputStreams[peerID];
     
     NSInteger bytesWritten = [outputStream write:(const uint8_t *)data maxLength:size];
@@ -126,12 +157,12 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (NSInteger)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPlayerAtIndex:(NSInteger)index
 {
-    /*if (self.peerType == GBALinkPeerTypeServer)
+    if (self.peerType == GBALinkPeerTypeServer)
     {
         index--;
-    }*/
+    }
     
-    MCPeerID *peerID = [self.session connectedPeers][0];
+    MCPeerID *peerID = self.orderedPeers[index];
     NSInputStream *inputStream = self.inputStreams[peerID];
     
     if (![inputStream hasBytesAvailable])
@@ -191,6 +222,12 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler
 {
+    if ([self isLinkConnected])
+    {
+        invitationHandler(NO, self.session);
+        return;
+    }
+    
     if (self.peerType == GBALinkPeerTypeUnknown)
     {
         self.peerType = GBALinkPeerTypeClient;
@@ -232,10 +269,10 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     
     if (state == MCSessionStateConnected)
     {
+        GBALinkPeerType peerType = GBALinkPeerTypeUnknown;
+        
         if (self.peerType == GBALinkPeerTypeClient)
         {
-            GBALinkPeerType peerType = GBALinkPeerTypeUnknown;
-            
             if ([[session connectedPeers] count] == 1)
             {
                 peerType = GBALinkPeerTypeServer;
@@ -247,27 +284,13 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
             
             [self sendPeerType:peerType toPeer:peerID];
         }
-        
-        if (![self.outputStreams objectForKey:peerID])
+        else if (self.peerType == GBALinkPeerTypeServer)
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                NSError *error = nil;
-                NSOutputStream *outputStream = [session startStreamWithName:[[UIDevice currentDevice] name] toPeer:peerID error:&error];
-                
-                if (error)
-                {
-                    ELog(error);
-                }
-                
-                outputStream.delegate = self;
-                
-                [outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-                [outputStream open];
-                
-                self.outputStreams[peerID] = outputStream;
-                
-            });
+            if (![self.outputStreams objectForKey:peerID])
+            {
+                [self.orderedPeers addObject:peerID];
+                [self connectOutputStreamToPeer:peerID];
+            }
         }
     }
     
@@ -285,6 +308,15 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
     if (self.peerType == GBALinkPeerTypeUnknown)
     {
         self.peerType = peerType;
+        
+        if (self.peerType == GBALinkPeerTypeServer)
+        {
+            if (![self.outputStreams objectForKey:peerID])
+            {
+                [self.orderedPeers addObject:peerID];
+                [self connectOutputStreamToPeer:peerID];
+            }
+        }
     }
 }
 
@@ -301,6 +333,15 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
             self.inputStreams[peerID] = stream;
             
             [self startEmulationLink];
+        }
+        
+        if (self.peerType == GBALinkPeerTypeClient)
+        {
+            if (![self.outputStreams objectForKey:peerID])
+            {
+                [self.orderedPeers addObject:peerID];
+                [self connectOutputStreamToPeer:peerID];
+            }
         }
     });
 }

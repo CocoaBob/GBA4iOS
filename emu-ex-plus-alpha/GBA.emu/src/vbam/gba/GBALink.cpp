@@ -1009,7 +1009,14 @@ static ConnectionState ConnectUpdateSocket(char * const message, size_t size)
         data[0] = nextSlave;
         data[1] = lanlink.numslaves;
         
-        GBALinkSendDataToPlayerAtIndex(nextSlave, data, sizeof(data));
+        GBALog("Send Index: %d", nextSlave);
+        
+        int sent = GBALinkSendDataToPlayerAtIndex(nextSlave, data, sizeof(data));
+        
+        if (sent <= 0)
+        {
+            return newState;
+        }
         
         GBALog("Player %d connected", nextSlave);
         
