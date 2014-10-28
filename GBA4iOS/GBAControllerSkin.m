@@ -386,6 +386,12 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         
         NSString *screenType = [self screenTypeForCurrentDeviceWithDictionary:assets orientation:orientation];
         NSString *relativePath = assets[screenType];
+        
+        if (relativePath == nil)
+        {
+            return nil; // Invisible Skin for External Controller
+        }
+        
         NSURL *fileURL = [NSURL fileURLWithPath:[self.filepath stringByAppendingPathComponent:relativePath]];
         
         NSString *type = nil;
@@ -572,7 +578,7 @@ NSString *const GBAControllerSkinMappingSizeHeightKey = @"height";
         }
     }    
     
-    if (!CGSizeEqualToSize(displaySize, CGSizeZero))
+    if (!CGSizeEqualToSize(displaySize, CGSizeZero) && !CGSizeEqualToSize(mappingSize, CGSizeZero))
     {
         CGFloat scale = 1.0;
         
