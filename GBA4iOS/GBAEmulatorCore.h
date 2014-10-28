@@ -18,6 +18,8 @@
 #import "GBACheat.h"
 #import "GBAROM.h"
 
+#import "GBALinkManager.h"
+
 typedef NS_ENUM(NSInteger, GBAEmulationFilter)
 {
     GBAEmulationFilterNone = 0,
@@ -74,7 +76,12 @@ extern NSString *const GBAROMDidSaveDataNotification;
 - (void)pressButtons:(NSSet *)buttons;
 - (void)releaseButtons:(NSSet *)buttons;
 
+// Fast Forward
 - (void)startFastForwarding;
 - (void)stopFastForwarding;
+
+// Linking
+- (void)startLinkWithConnectionType:(GBALinkConnectionType)connectionType peerType:(GBALinkPeerType)peerType completion:(void (^)(BOOL success))completion;
+- (void)stopLink;
 
 @end

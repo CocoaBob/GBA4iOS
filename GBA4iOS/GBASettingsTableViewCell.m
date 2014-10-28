@@ -8,16 +8,25 @@
 
 #import "GBASettingsTableViewCell.h"
 
+CGFloat GBASettingsTableViewCellDefaultSpacing = -1815;
+
 @interface GBASettingsTableViewCell ()
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftInsetConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *rightInsetConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *topInsetConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomInsetConstraint;
+
+@property (assign, nonatomic) CGFloat leftInsetSpacing;
+@property (assign, nonatomic) CGFloat rightInsetSpacing;
+@property (assign, nonatomic) CGFloat topInsetSpacing;
+@property (assign, nonatomic) CGFloat bottomInsetSpacing;
 
 @end
 
 @implementation GBASettingsTableViewCell
 
-- (void)awakeFromNib
+- (void)layoutSubviews
 {
     if ([self.textLabel.text length] == 0)
     {
@@ -25,22 +34,126 @@
         self.textLabel.text = @" ";
         self.textLabel.hidden = YES;
     }
-}
-
-- (void)layoutSubviews
-{
+    
     [super layoutSubviews];
     
     CGFloat inset = CGRectGetMinX(self.textLabel.frame);
+        
+    if (self.leftInsetSpacing == GBASettingsTableViewCellDefaultSpacing)
+    {
+        self.leftInsetConstraint.constant = inset;
+    }
     
-    self.leftInsetConstraint.constant = inset;
-    self.rightInsetConstraint.constant = inset;
+    if (self.rightInsetSpacing == GBASettingsTableViewCellDefaultSpacing)
+    {
+        self.rightInsetConstraint.constant = inset;
+    }
+    
+    if (self.topInsetSpacing == GBASettingsTableViewCellDefaultSpacing)
+    {
+        self.topInsetConstraint.constant = 5;
+    }
+    
+    if (self.bottomInsetSpacing == GBASettingsTableViewCellDefaultSpacing)
+    {
+        self.bottomInsetConstraint.constant = 5;
+    }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
+}
 
-    // Configure the view for the selected state
+- (void)pinView:(UIView *)view toEdge:(UIRectEdge)rectEdge withSpacing:(CGFloat)spacing
+{
+    if (rectEdge & UIRectEdgeLeft)
+    {
+        self.leftInsetSpacing = spacing;
+        
+        [self.contentView removeConstraint:self.leftInsetConstraint];
+        
+        self.leftInsetConstraint = [NSLayoutConstraint constraintWithItem:view
+                                                                attribute:NSLayoutAttributeLeft
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self.contentView
+                                                                attribute:NSLayoutAttributeLeft
+                                                               multiplier:1.0
+                                                                 constant:MAX(0, spacing)];
+        
+        [self.contentView addConstraint:self.leftInsetConstraint];
+    }
+    
+    if (rectEdge & UIRectEdgeRight)
+    {
+        self.rightInsetSpacing = spacing;
+        
+        CGFloat visibleSpacing = spacing;
+        if (visibleSpacing == GBASettingsTableViewCellDefaultSpacing)
+        {
+            visibleSpacing = 0;
+        }
+        
+        [self.contentView removeConstraint:self.rightInsetConstraint];
+        
+        self.rightInsetConstraint = [NSLayoutConstraint constraintWithItem:self.contentView
+                                                                attribute:NSLayoutAttributeRight
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:view
+                                                                attribute:NSLayoutAttributeRight
+                                                               multiplier:1.0
+                                                                 constant:MAX(0, spacing)];
+        
+        [self.contentView addConstraint:self.rightInsetConstraint];
+    }
+    
+    if (rectEdge & UIRectEdgeTop)
+    {
+        self.topInsetSpacing = spacing;
+        
+        CGFloat visibleSpacing = spacing;
+        if (visibleSpacing == GBASettingsTableViewCellDefaultSpacing)
+        {
+            visibleSpacing = 0;
+        }
+        
+        [self.contentView removeConstraint:self.topInsetConstraint];
+        
+        self.topInsetConstraint = [NSLayoutConstraint constraintWithItem:view
+                                                                 attribute:NSLayoutAttributeTop
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:self.contentView
+                                                                 attribute:NSLayoutAttributeTop
+                                                                multiplier:1.0
+                                                                  constant:MAX(0, spacing)];
+        
+        [self.contentView addConstraint:self.topInsetConstraint];
+    }
+    
+    if (rectEdge & UIRectEdgeBottom)
+    {
+        self.bottomInsetSpacing = spacing;
+        
+        CGFloat visibleSpacing = spacing;
+        if (visibleSpacing == GBASettingsTableViewCellDefaultSpacing)
+        {
+            visibleSpacing = 0;
+        }
+        
+        [self.contentView removeConstraint:self.bottomInsetConstraint];
+        
+        self.bottomInsetConstraint = [NSLayoutConstraint constraintWithItem:self.contentView
+                                                               attribute:NSLayoutAttributeBottom
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:view
+                                                               attribute:NSLayoutAttributeBottom
+                                                              multiplier:1.0
+                                                                constant:MAX(0, spacing)];
+        
+        [self.contentView addConstraint:self.bottomInsetConstraint];
+    }
+    
+    [self layoutIfNeeded];
 }
 
 @end

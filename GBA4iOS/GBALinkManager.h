@@ -8,16 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GBABluetoothLinkManager.h"
+
 // Can't use @import in C++ linked code :(
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 extern NSString *const GBALinkSessionServiceType;
-
-typedef NS_ENUM(NSUInteger, GBALinkPeerType) {
-    GBALinkPeerTypeUnknown = 0,
-    GBALinkPeerTypeClient  = 1,
-    GBALinkPeerTypeServer  = 2,
-};
 
 @class GBALinkManager;
 
@@ -32,6 +28,7 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType) {
 
 @property (weak, nonatomic) id<GBALinkManagerDelegate> delegate;
 @property (readonly, assign, nonatomic) GBALinkPeerType peerType;
+@property (readonly, assign, nonatomic, getter=isLinkConnected) BOOL linkConnected;
 
 @property (readonly, strong, nonatomic) MCSession *session;
 
@@ -40,7 +37,10 @@ typedef NS_ENUM(NSUInteger, GBALinkPeerType) {
 - (void)start;
 - (void)stop;
 
-- (int)sendData:(const char *)data withSize:(size_t)size toPeerAtIndex:(int)index;
-- (int)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPeerAtIndex:(int)index;
+- (NSInteger)sendData:(const char *)data withSize:(size_t)size toPlayerAtIndex:(NSInteger)index;
+- (NSInteger)receiveData:(char *)data withMaxSize:(size_t)maxSize fromPlayerAtIndex:(NSInteger)index;
+
+- (BOOL)waitForLinkDataWithTimeout:(NSTimeInterval)timeout;
+- (BOOL)hasLinkDataAvailable:(int *)index;
 
 @end

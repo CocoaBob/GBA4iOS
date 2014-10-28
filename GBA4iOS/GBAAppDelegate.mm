@@ -103,10 +103,11 @@ static GBAAppDelegate *_appDelegate;
     
     [GBASettingsViewController registerDefaults];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
-    {
-        [[GBALinkManager sharedManager] start];
-    }
+#ifndef USE_BLUETOOTH
+    
+    [[GBALinkManager sharedManager] start];
+    
+#endif
     
 #if !(TARGET_IPHONE_SIMULATOR)
     

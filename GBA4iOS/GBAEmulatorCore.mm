@@ -9,6 +9,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import <libkern/OSAtomic.h>
 
 #import "GBAEmulatorCore.h"
 #import "UIDevice-Hardware.h"
@@ -18,6 +19,8 @@
 #import "MainApp.h"
 #import "EAGLView.h"
 #import "GBASettingsViewController.h"
+#import "GBALinkManager.h"
+#import "GBABluetoothLinkManager.h"
 
 #import "EAGLView_Private.h"
 
@@ -39,6 +42,7 @@
 #include <base/Base.hh>
 #include <base/iphone/private.hh>
 #include <mem/cartridge.h>
+#include "GBALink.h"
 
 #ifdef CONFIG_INPUT
 #include <input/Input.hh>
@@ -157,6 +161,8 @@ extern char **app_argv;
 	return self;
 }
 
+extern void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio);
+
 - (void)drawView
 {
 	/*TimeSys now;
@@ -181,7 +187,7 @@ extern char **app_argv;
     //CPULoop(gGba, false, false, true);
     Base::runEngine(Base::displayLink.timestamp);
     
-    //DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     
 	if(!Base::gfxUpdate)
 	{
@@ -1125,6 +1131,328 @@ extern gambatte::GB gbEmu;
     }
     
     return cheatsString;
+}
+
+#pragma mark - Multiplayer
+
+#ifdef USE_BLUETOOTH
+
+int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size)
+{
+    NSData *outputData = [NSData dataWithBytes:(const void *)data length:size];
+    int sentDataLength = (int)[[GBABluetoothLinkManager sharedManager] sendData:outputData toPlayerAtIndex:index];
+    
+    /*if (sentDataLength > 0)
+    {
+        NSLog(@"Sent data! (%d)", sentDataLength);
+    }
+    else
+    {
+        NSLog(@"Failed to send data :(");
+    }*/
+    
+    return sentDataLength;
+}
+
+int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
+{
+    NSData *receivedData = nil;
+    int receivedDataLength = (int)[[GBABluetoothLinkManager sharedManager] receiveData:&receivedData withMaxSize:maxSize fromPlayerAtIndex:index];
+    
+    [receivedData getBytes:data];
+    
+    /*if (receivedDataLength > 0)
+    {
+        NSLog(@"Received data! (%d)", receivedDataLength);
+    }*/
+    
+    return receivedDataLength;
+}
+
+bool GBALinkWaitForLinkDataWithTimeout(int timeout)
+{
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    
+    bool success = (bool)[[GBABluetoothLinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
+
+    NSLog(@"Wireless Delay: %g seconds", CFAbsoluteTimeGetCurrent() - startTime);
+    
+    /*if (success)
+    {
+        NSLog(@"Has Data");
+    }
+    else
+    {
+        NSLog(@"Timeout");
+    }*/
+    
+    return success;
+}
+
+#else
+
+int GBALinkSendDataToPlayerAtIndex(int index, const char *data, size_t size)
+{
+    int sentDataLength = (int)[[GBALinkManager sharedManager] sendData:data withSize:size toPlayerAtIndex:index];
+    
+    if (sentDataLength > 0)
+    {
+        //NSLog(@"Sent data! (%@)", [NSData dataWithBytes:(const void *)data length:size]);
+    }
+    else
+    {
+        NSLog(@"Failed to send data :(");
+    }
+    
+    return sentDataLength;
+}
+
+int GBALinkReceiveDataFromPlayerAtIndex(int index, char *data, size_t maxSize)
+{
+    int receivedDataLength = (int)[[GBALinkManager sharedManager] receiveData:data withMaxSize:maxSize fromPlayerAtIndex:index];
+    
+    if (receivedDataLength > 0)
+    {
+        //NSLog(@"Received data! (%@)", [NSData dataWithBytes:(const void *)data length:maxSize]);
+    }
+    
+    return receivedDataLength;
+}
+
+bool GBALinkWaitForLinkDataWithTimeout(int timeout)
+{
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    
+    bool success = (bool)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
+    
+    NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    
+    /*if (success)
+    {
+        NSLog(@"Has Data %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    }
+    else
+    {
+        NSLog(@"Timeout");
+    }*/
+    
+    return success;
+}
+
+bool GBALinkHasDataAvailable(int *index)
+{
+    BOOL dataAvailable = [[GBALinkManager sharedManager] hasLinkDataAvailable:index];
+    
+    if (dataAvailable)
+    {
+        NSLog(@"Data Available");
+    }
+    
+    return dataAvailable;
+}
+
+#endif
+
+static OSSpinLock _lock = OS_SPINLOCK_INIT;
+
+void GBALinkLock()
+{
+    OSSpinLockLock(&_lock);
+}
+
+void GBALinkUnlock()
+{
+    OSSpinLockUnlock(&_lock);
+}
+
+const char *GBADataHexadecimalRepresentation(char *data, int size)
+{
+    return [[[NSData dataWithBytes:(const void *)data length:size] description] UTF8String];
+}
+
+void GBALog(const char *message, ...)
+{
+    va_list arg;
+    int done;
+    
+    va_start (arg, message);
+    
+    NSLogv([NSString stringWithFormat:@"%s", message], arg);
+    
+    va_end (arg);
+}
+
+void systemScreenMessage(const char *message)
+{
+    DLog("%s", message);
+}
+
+static const int length = 256;
+
+- (void)startLinkWithConnectionType:(GBALinkConnectionType)connectionType peerType:(GBALinkPeerType)peerType completion:(void (^)(BOOL))completion
+{
+    SetLinkTimeout(1000);
+    EnableSpeedHacks(false);
+    
+    if (peerType == GBALinkPeerTypeServer)
+    {
+        EnableLinkServer(true,  1);
+    }
+    else
+    {
+        SetLinkServerHost("192.168.1.102");
+    }
+    
+    char localhost[length];
+    GetLinkServerHost(localhost, length);
+    
+    DLog(@"IP Address: %s", localhost);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        LinkMode linkMode = (connectionType == GBALinkConnectionTypeLinkCable) ? LINK_CABLE_SOCKET : LINK_RFU_SOCKET;
+        
+        ConnectionState state = InitLink(linkMode);
+        
+        while (state == LINK_NEEDS_UPDATE)
+        {
+            char emptyMessage[256];
+            state = ConnectLinkUpdate(emptyMessage, 256);
+        }
+        
+        if (completion)
+        {
+            BOOL success = (state == LINK_OK);
+            completion(success);
+        }
+        
+        if (connectionType == GBALinkConnectionTypeWirelessAdapter)
+        {
+            GBARunWirelessAdaptorLoop();
+        }
+        
+    });
+    
+}
+
+- (void)stopLink
+{
+    CloseLink();
+}
+
+- (void)startServer
+{
+    SetLinkTimeout(1000);
+    EnableSpeedHacks(false);
+    EnableLinkServer(true,  1);
+    
+    __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
+    
+    char localhost[length];
+    GetLinkServerHost(localhost, length);
+    
+    NSString *message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
+    DLog(@"%@", message);
+    
+    while (state == LINK_NEEDS_UPDATE) {
+        // Ask the core for updates
+        char emptyMessage[length];
+        state = ConnectLinkUpdate(emptyMessage, length);
+    }
+    
+    message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connected!"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    });
+    
+    switch (state) {
+        case LINK_OK:
+            DLog(@"Link OK!");
+            break;
+            
+        case LINK_ERROR:
+            DLog(@"Link Error :((");
+            break;
+            
+        case LINK_NEEDS_UPDATE:
+            DLog(@"Link needs update!");
+            break;
+            
+        case LINK_ABORT:
+            DLog(@"Link abort");
+            break;
+            
+        default:
+            break;
+    }
+    
+    DLog(@"Starting RFU Loop");
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        GBARunWirelessAdaptorLoop();
+    });
+}
+
+- (void)connectToServer
+{
+    SetLinkTimeout(1000);
+    EnableSpeedHacks(false);
+    SetLinkServerHost("192.168.29.168");
+    
+    __block ConnectionState state = InitLink(LINK_RFU_SOCKET);
+    
+    while (state == LINK_NEEDS_UPDATE) {
+        // Ask the core for updates
+        char emptyMessage[length];
+        state = ConnectLinkUpdate(emptyMessage, length);
+    }
+    
+    char localhost[length];
+    GetLinkServerHost(localhost, length);
+    
+    NSString *message = [NSString stringWithFormat:@"Position: %i\nServer IP Address: %s", GetLinkPlayerId(), localhost];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connected!"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    });
+    
+    switch (state) {
+        case LINK_OK:
+            DLog(@"Link OK!");
+            break;
+            
+        case LINK_ERROR:
+            DLog(@"Link Error :((");
+            break;
+            
+        case LINK_NEEDS_UPDATE:
+            DLog(@"Link needs update!");
+            break;
+            
+        case LINK_ABORT:
+            DLog(@"Link abort");
+            break;
+            
+        default:
+            break;
+    }
+    
+    DLog(@"Starting RFU Loop");
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        GBARunWirelessAdaptorLoop();
+    });
 }
 
 #pragma mark - Wario Ware Twisted

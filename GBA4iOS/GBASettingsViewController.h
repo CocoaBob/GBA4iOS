@@ -25,6 +25,7 @@ static NSString *GBASettingsAirPlayEnabledKey = @"airPlayEnabled";
 static NSString *GBASettingsSelectedColorPaletteKey = @"selectedColorPalette";
 static NSString *GBASettingsLinkEnabled = @"linkEnabled";
 static NSString *GBASettingsIntroAnimationKey = @"introAnimationKey";
+static NSString *GBASettingsLinkPeerType = @"linkPeerType";
 
 static NSString *GBASettingsGBASkinsKey = @"gbaSkins";
 static NSString *GBASettingsGBCSkinsKey = @"gbcSkins";

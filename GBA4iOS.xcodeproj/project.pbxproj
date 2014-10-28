@@ -19,6 +19,7 @@
 		BF02D2C5197344950034A515 /* GBASoftwareUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */; };
 		BF02D2C8197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */; };
 		BF02D2C9197347740034A515 /* GBASoftwareUpdateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */; };
+		BF092B2119ECE06D009174D4 /* GBALink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3DA19C156BE0010AC9F /* GBALink.cpp */; };
 		BF0EBB1119C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
 		BF0EBB1219C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
 		BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1619C0493000703623 /* Settings.storyboard */; };
@@ -125,8 +126,8 @@
 		BF33ECF319C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */; };
 		BF33ECF419C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */; };
 		BF33ECF519C13127006E534B /* GBALinkViewControllerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */; };
-		BF33ECF919C13169006E534B /* GBALinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.m */; };
-		BF33ECFA19C13169006E534B /* GBALinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.m */; };
+		BF33ECF919C13169006E534B /* GBALinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.mm */; };
+		BF33ECFA19C13169006E534B /* GBALinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECF819C13169006E534B /* GBALinkManager.mm */; };
 		BF33ECFD19C13188006E534B /* MCPeerID+Conveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */; };
 		BF33ECFE19C13188006E534B /* MCPeerID+Conveniences.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */; };
 		BF356C7A18814A180005E1FC /* GBACheatTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF356C7918814A180005E1FC /* GBACheatTextView.m */; };
@@ -145,6 +146,12 @@
 		BF3E2BDB18206DF2004231F6 /* RSTDirectoryMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */; };
 		BF40C33019E09974003C73B5 /* Intro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BF40C32F19E09974003C73B5 /* Intro.mp4 */; };
 		BF40C33119E09974003C73B5 /* Intro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BF40C32F19E09974003C73B5 /* Intro.mp4 */; };
+		BF47B36B19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */; };
+		BF47B36C19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */; };
+		BF47B36F19C6A68900030431 /* GBABluetoothLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36E19C6A68900030431 /* GBABluetoothLinkViewController.m */; };
+		BF47B37019C6A68900030431 /* GBABluetoothLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B36E19C6A68900030431 /* GBABluetoothLinkViewController.m */; };
+		BF47B37319C6B3FF00030431 /* GBAPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B37219C6B3FF00030431 /* GBAPeer.m */; };
+		BF47B37419C6B3FF00030431 /* GBAPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF47B37219C6B3FF00030431 /* GBAPeer.m */; };
 		BF49397617CD947C0072CFC7 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF52A566197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */; };
 		BF52A567197A5E1F00F88815 /* GBAPushNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */; };
@@ -188,6 +195,16 @@
 		BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
 		BFAA523B184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
 		BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */; };
+		BFADD3C919C156240010AC9F /* SocketHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3C819C156240010AC9F /* SocketHelper.cpp */; };
+		BFADD3D119C1563E0010AC9F /* Ftp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CA19C1563E0010AC9F /* Ftp.cpp */; };
+		BFADD3D219C1563E0010AC9F /* Http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CB19C1563E0010AC9F /* Http.cpp */; };
+		BFADD3D319C1563E0010AC9F /* IPAddress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CC19C1563E0010AC9F /* IPAddress.cpp */; };
+		BFADD3D419C1563E0010AC9F /* Packet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CD19C1563E0010AC9F /* Packet.cpp */; };
+		BFADD3D519C1563E0010AC9F /* SelectorBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CE19C1563E0010AC9F /* SelectorBase.cpp */; };
+		BFADD3D619C1563E0010AC9F /* SocketTCP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3CF19C1563E0010AC9F /* SocketTCP.cpp */; };
+		BFADD3D719C1563E0010AC9F /* SocketUDP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3D019C1563E0010AC9F /* SocketUDP.cpp */; };
+		BFADD3D919C156610010AC9F /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3D819C156610010AC9F /* Thread.cpp */; };
+		BFADD3DF19C156BE0010AC9F /* GBASockClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3DC19C156BE0010AC9F /* GBASockClient.cpp */; };
 		BFAFF47F18400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAFF47E18400D7300E3240A /* GBAExternalController.m */; };
 		BFB89E3D18909EE8002E5F26 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BFB89E3718909EE8002E5F26 /* Default-568h@2x.png */; };
@@ -461,7 +478,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0890E9721B4E026624943040 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		0B091F5B9870F136FFD1648B /* Pods.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods/Pods.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		1A5BAE7E17D04B0A00BABC01 /* overlays128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlays128.png; sourceTree = "<group>"; };
 		1AD65D7817D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinSelectionViewController.h; sourceTree = "<group>"; };
 		1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinSelectionViewController.m; sourceTree = "<group>"; };
@@ -471,9 +488,8 @@
 		1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkin.m; sourceTree = "<group>"; };
 		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewControllerOld.h; sourceTree = "<group>"; };
 		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewControllerOld.m; sourceTree = "<group>"; };
-		256461C3E0D17F5480416EFE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		33AED25015C2CCBD9F6C82F0 /* Pods.jailbreak.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.jailbreak.xcconfig; path = "Pods/Target Support Files/Pods/Pods.jailbreak.xcconfig"; sourceTree = "<group>"; };
-		58F0A6F0965B5B86FA9C8E43 /* Pods.enterprise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.enterprise.xcconfig; path = "Pods/Target Support Files/Pods/Pods.enterprise.xcconfig"; sourceTree = "<group>"; };
+		845BC609B1A169E3AF912435 /* Pods.enterprise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.enterprise.xcconfig; path = "Pods/Target Support Files/Pods/Pods.enterprise.xcconfig"; sourceTree = "<group>"; };
+		8887ECD081638BE5202D6C08 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B7AFB44A5AB34C2982DE856F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF02AFD9182F3E590031B8B6 /* GBASyncingOverviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncingOverviewViewController.h; sourceTree = "<group>"; };
 		BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncingOverviewViewController.mm; sourceTree = "<group>"; };
@@ -483,6 +499,8 @@
 		BF02D2C3197344950034A515 /* GBASoftwareUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdate.m; sourceTree = "<group>"; };
 		BF02D2C6197347740034A515 /* GBASoftwareUpdateOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateOperation.h; sourceTree = "<group>"; };
 		BF02D2C7197347740034A515 /* GBASoftwareUpdateOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateOperation.m; sourceTree = "<group>"; };
+		BF092B1E19ECC982009174D4 /* GBALink-1030e.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "GBALink-1030e.cpp"; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink-1030e.cpp"; sourceTree = SOURCE_ROOT; };
+		BF092B1F19ECC982009174D4 /* GBALink-1030e.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GBALink-1030e.h"; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink-1030e.h"; sourceTree = SOURCE_ROOT; };
 		BF0EBB1019C026E500703623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		BF0EBB1619C0493000703623 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		BF0EBB1D19C05D1000703623 /* GBASettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASettingsTableViewCell.h; sourceTree = "<group>"; };
@@ -530,7 +548,7 @@
 		BF33ECEE19C13127006E534B /* GBALinkViewControllerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkViewControllerTableViewCell.h; sourceTree = "<group>"; };
 		BF33ECEF19C13127006E534B /* GBALinkViewControllerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkViewControllerTableViewCell.m; sourceTree = "<group>"; };
 		BF33ECF719C13169006E534B /* GBALinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkManager.h; sourceTree = "<group>"; };
-		BF33ECF819C13169006E534B /* GBALinkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkManager.m; sourceTree = "<group>"; };
+		BF33ECF819C13169006E534B /* GBALinkManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBALinkManager.mm; sourceTree = "<group>"; };
 		BF33ECFB19C13188006E534B /* MCPeerID+Conveniences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCPeerID+Conveniences.h"; sourceTree = "<group>"; };
 		BF33ECFC19C13188006E534B /* MCPeerID+Conveniences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MCPeerID+Conveniences.m"; sourceTree = "<group>"; };
 		BF356C7818814A180005E1FC /* GBACheatTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatTextView.h; sourceTree = "<group>"; };
@@ -552,6 +570,13 @@
 		BF3E2BD918206DF2004231F6 /* RSTDirectoryMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTDirectoryMonitor.h; path = Cocoapods/RSTDirectoryMonitor.h; sourceTree = "<group>"; };
 		BF3E2BDA18206DF2004231F6 /* RSTDirectoryMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSTDirectoryMonitor.m; path = Cocoapods/RSTDirectoryMonitor.m; sourceTree = "<group>"; };
 		BF40C32F19E09974003C73B5 /* Intro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Intro.mp4; sourceTree = "<group>"; };
+		BF47B36919C6A5DD00030431 /* GBABluetoothLinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBABluetoothLinkManager.h; sourceTree = "<group>"; };
+		BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBABluetoothLinkManager.mm; sourceTree = "<group>"; };
+		BF47B36D19C6A68900030431 /* GBABluetoothLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBABluetoothLinkViewController.h; sourceTree = "<group>"; };
+		BF47B36E19C6A68900030431 /* GBABluetoothLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBABluetoothLinkViewController.m; sourceTree = "<group>"; };
+		BF47B37119C6B3FF00030431 /* GBAPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPeer.h; sourceTree = "<group>"; };
+		BF47B37219C6B3FF00030431 /* GBAPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPeer.m; sourceTree = "<group>"; };
+		BF49EA6D19C6B5840072B3C7 /* GBAPeer_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAPeer_Private.h; sourceTree = "<group>"; };
 		BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GBA4iOS.entitlements; sourceTree = "<group>"; };
 		BF52A564197A5E1F00F88815 /* GBAPushNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAPushNotificationsViewController.h; sourceTree = "<group>"; };
 		BF52A565197A5E1F00F88815 /* GBAPushNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAPushNotificationsViewController.m; sourceTree = "<group>"; };
@@ -600,6 +625,19 @@
 		BFAA5239184F8B2B0019A90D /* GBASyncOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation.h; sourceTree = "<group>"; };
 		BFAA523A184F8B2B0019A90D /* GBASyncOperation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBASyncOperation.mm; sourceTree = "<group>"; };
 		BFAA523E184FCB040019A90D /* GBASyncOperation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncOperation_Private.h; sourceTree = "<group>"; };
+		BFADD3C819C156240010AC9F /* SocketHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketHelper.cpp; path = SFML/src/SFML/Network/Unix/SocketHelper.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CA19C1563E0010AC9F /* Ftp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ftp.cpp; path = SFML/src/SFML/Network/Ftp.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CB19C1563E0010AC9F /* Http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Http.cpp; path = SFML/src/SFML/Network/Http.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CC19C1563E0010AC9F /* IPAddress.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IPAddress.cpp; path = SFML/src/SFML/Network/IPAddress.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CD19C1563E0010AC9F /* Packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Packet.cpp; path = SFML/src/SFML/Network/Packet.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CE19C1563E0010AC9F /* SelectorBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SelectorBase.cpp; path = SFML/src/SFML/Network/SelectorBase.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3CF19C1563E0010AC9F /* SocketTCP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketTCP.cpp; path = SFML/src/SFML/Network/SocketTCP.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3D019C1563E0010AC9F /* SocketUDP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SocketUDP.cpp; path = SFML/src/SFML/Network/SocketUDP.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3D819C156610010AC9F /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = SFML/src/SFML/System/Unix/Thread.cpp; sourceTree = SOURCE_ROOT; };
+		BFADD3DA19C156BE0010AC9F /* GBALink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GBALink.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink.cpp"; sourceTree = SOURCE_ROOT; };
+		BFADD3DB19C156BE0010AC9F /* GBALink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBALink.h; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink.h"; sourceTree = SOURCE_ROOT; };
+		BFADD3DC19C156BE0010AC9F /* GBASockClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GBASockClient.cpp; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBASockClient.cpp"; sourceTree = SOURCE_ROOT; };
+		BFADD3DD19C156BE0010AC9F /* GBASockClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBASockClient.h; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBASockClient.h"; sourceTree = SOURCE_ROOT; };
 		BFAFF47C1840084500E3240A /* GBAControllerInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerInput.h; sourceTree = "<group>"; };
 		BFAFF47D18400D7300E3240A /* GBAExternalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAExternalController.h; sourceTree = "<group>"; };
 		BFAFF47E18400D7300E3240A /* GBAExternalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAExternalController.m; sourceTree = "<group>"; };
@@ -636,6 +674,7 @@
 		BFD98C3D1895FF0100A9432C /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		BFD98C4B1895FFD500A9432C /* GBAWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAWebViewController.h; sourceTree = "<group>"; };
 		BFD98C4C1895FFD500A9432C /* GBAWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAWebViewController.m; sourceTree = "<group>"; };
+		BFF10D6919CE051000C81920 /* GBAGfx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GBAGfx.h; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBAGfx.h"; sourceTree = SOURCE_ROOT; };
 		BFF44FA018A8BD41006325BC /* GBASoftwareUpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASoftwareUpdateViewController.h; sourceTree = "<group>"; };
 		BFF44FA118A8BD41006325BC /* GBASoftwareUpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASoftwareUpdateViewController.m; sourceTree = "<group>"; };
 		BFF70ED219BD0CAF00009DAF /* UITableViewController+ControllerSkins.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+ControllerSkins.h"; sourceTree = "<group>"; };
@@ -899,6 +938,8 @@
 		CCFA71F7179D304700768D24 /* LzmaDec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LzmaDec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/LzmaDec.c"; sourceTree = SOURCE_ROOT; };
 		CCFA71F8179D304700768D24 /* Ppmd7.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Ppmd7.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Ppmd7.c"; sourceTree = SOURCE_ROOT; };
 		CCFA71F9179D304700768D24 /* Ppmd7Dec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Ppmd7Dec.c; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/7z_C/Ppmd7Dec.c"; sourceTree = SOURCE_ROOT; };
+		D040891A995B88D0A9ADE8C1 /* Pods.jailbreak.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.jailbreak.xcconfig; path = "Pods/Target Support Files/Pods/Pods.jailbreak.xcconfig"; sourceTree = "<group>"; };
+		FC9A65887557BD6B7F8EDBB1 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1053,6 +1094,8 @@
 			children = (
 				BF33ECEA19C13127006E534B /* GBALinkViewController.h */,
 				BF33ECEB19C13127006E534B /* GBALinkViewController.m */,
+				BF47B36D19C6A68900030431 /* GBABluetoothLinkViewController.h */,
+				BF47B36E19C6A68900030431 /* GBABluetoothLinkViewController.m */,
 				BF33ECEC19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.h */,
 				BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */,
 				BF33ECEE19C13127006E534B /* GBALinkViewControllerTableViewCell.h */,
@@ -1065,7 +1108,12 @@
 			isa = PBXGroup;
 			children = (
 				BF33ECF719C13169006E534B /* GBALinkManager.h */,
-				BF33ECF819C13169006E534B /* GBALinkManager.m */,
+				BF33ECF819C13169006E534B /* GBALinkManager.mm */,
+				BF47B36919C6A5DD00030431 /* GBABluetoothLinkManager.h */,
+				BF47B36A19C6A5DD00030431 /* GBABluetoothLinkManager.mm */,
+				BF47B37119C6B3FF00030431 /* GBAPeer.h */,
+				BF49EA6D19C6B5840072B3C7 /* GBAPeer_Private.h */,
+				BF47B37219C6B3FF00030431 /* GBAPeer.m */,
 			);
 			name = Linking;
 			sourceTree = "<group>";
@@ -1178,6 +1226,38 @@
 				BFFBCCD31850502D005187DF /* Single File Operations */,
 			);
 			name = Operations;
+			sourceTree = "<group>";
+		};
+		BFADD3C519C1559F0010AC9F /* SFML */ = {
+			isa = PBXGroup;
+			children = (
+				BFADD3C619C155AA0010AC9F /* System */,
+				BFADD3C719C155BB0010AC9F /* Network */,
+			);
+			name = SFML;
+			sourceTree = "<group>";
+		};
+		BFADD3C619C155AA0010AC9F /* System */ = {
+			isa = PBXGroup;
+			children = (
+				BFADD3D819C156610010AC9F /* Thread.cpp */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		BFADD3C719C155BB0010AC9F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BFADD3C819C156240010AC9F /* SocketHelper.cpp */,
+				BFADD3CA19C1563E0010AC9F /* Ftp.cpp */,
+				BFADD3CB19C1563E0010AC9F /* Http.cpp */,
+				BFADD3CC19C1563E0010AC9F /* IPAddress.cpp */,
+				BFADD3CD19C1563E0010AC9F /* Packet.cpp */,
+				BFADD3CE19C1563E0010AC9F /* SelectorBase.cpp */,
+				BFADD3CF19C1563E0010AC9F /* SocketTCP.cpp */,
+				BFADD3D019C1563E0010AC9F /* SocketUDP.cpp */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		BFBA77C019B71894000E8425 /* Acknowledgements */ = {
@@ -1323,6 +1403,7 @@
 		CC1578A6179D051E0068A54E /* Emulator Code */ = {
 			isa = PBXGroup;
 			children = (
+				BFADD3C519C1559F0010AC9F /* SFML */,
 				CC575683180C725100BF3DA5 /* Shared */,
 				CC157AB3179D19EB0068A54E /* GBA */,
 				CC575684180C726200BF3DA5 /* GBC */,
@@ -1333,6 +1414,12 @@
 		CC157AB3179D19EB0068A54E /* GBA */ = {
 			isa = PBXGroup;
 			children = (
+				BFADD3DA19C156BE0010AC9F /* GBALink.cpp */,
+				BFADD3DB19C156BE0010AC9F /* GBALink.h */,
+				BF092B1E19ECC982009174D4 /* GBALink-1030e.cpp */,
+				BF092B1F19ECC982009174D4 /* GBALink-1030e.h */,
+				BFADD3DC19C156BE0010AC9F /* GBASockClient.cpp */,
+				BFADD3DD19C156BE0010AC9F /* GBASockClient.h */,
 				CCFA71C0179D304600768D24 /* Main.cc */,
 				CCFA71C1179D304600768D24 /* EmuControls.cc */,
 				CCFA71C2179D304600768D24 /* VbamApi.cc */,
@@ -1346,6 +1433,7 @@
 				CCFA71CA179D304600768D24 /* GBA-thumb.cpp */,
 				BF6F2979184D76AE00ECF793 /* GBA.h */,
 				CCFA71CB179D304600768D24 /* GBA.cpp */,
+				BFF10D6919CE051000C81920 /* GBAGfx.h */,
 				CCFA71CC179D304600768D24 /* gbafilter.cpp */,
 				CCFA71CD179D304600768D24 /* Globals.cpp */,
 				CCFA71CE179D304600768D24 /* Mode0.cpp */,
@@ -1441,7 +1529,7 @@
 				CC2D56FE1798F2EC00C616EB /* Frameworks */,
 				CC2D56FD1798F2EC00C616EB /* Products */,
 				BFD98C331895FEED00A9432C /* Libraries */,
-				35CC80AC9022842E3F390A6C /* Pods */,
+				E348C81139240822629E97E1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1731,8 +1819,6 @@
 			children = (
 				CC8BB0B11799A4D900F9864F /* GBAEmulationViewController.h */,
 				CC8BB0B21799A4D900F9864F /* GBAEmulationViewController.mm */,
-				BF0EBB1D19C05D1000703623 /* GBASettingsTableViewCell.h */,
-				BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */,
 				CC126F2917A074A700FDBA56 /* GBAEmulatorScreen.h */,
 				CC126F2A17A074A700FDBA56 /* GBAEmulatorScreen.mm */,
 			);
@@ -1778,6 +1864,8 @@
 				BF0EBB1619C0493000703623 /* Settings.storyboard */,
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
+				BF0EBB1D19C05D1000703623 /* GBASettingsTableViewCell.h */,
+				BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */,
 				BF33ECE919C13118006E534B /* Linking */,
 				BF52A568197A5E4900F88815 /* Push Notifications */,
 				BFC82E1319B68B8E00284BAE /* Color Palette */,
@@ -1875,6 +1963,18 @@
 				BF50FD69188D189D004153CE /* Exception Handling */,
 			);
 			name = "Save States";
+			sourceTree = "<group>";
+		};
+		E348C81139240822629E97E1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FC9A65887557BD6B7F8EDBB1 /* Pods.debug.xcconfig */,
+				8887ECD081638BE5202D6C08 /* Pods.release.xcconfig */,
+				0B091F5B9870F136FFD1648B /* Pods.ad hoc.xcconfig */,
+				845BC609B1A169E3AF912435 /* Pods.enterprise.xcconfig */,
+				D040891A995B88D0A9ADE8C1 /* Pods.jailbreak.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2140,7 +2240,7 @@
 				BF1C87FC185193B100C72E1C /* FileSHA1Hash.c in Sources */,
 				BF33ECF319C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */,
 				BFAA523C184F8B2B0019A90D /* GBASyncOperation.mm in Sources */,
-				BF33ECFA19C13169006E534B /* GBALinkManager.m in Sources */,
+				BF33ECFA19C13169006E534B /* GBALinkManager.mm in Sources */,
 				BF2F350C183FF6F9002ACE90 /* GBASaveStateViewController.mm in Sources */,
 				BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */,
 				BFAFF48018400D7300E3240A /* GBAExternalController.m in Sources */,
@@ -2161,6 +2261,7 @@
 				BF2AC88518543246008928D0 /* NSObject+DTRuntime.m in Sources */,
 				BF2F352D183FF6F9002ACE90 /* UIScreen+Size.m in Sources */,
 				BF6ED57D1851100A0014B6A8 /* GBASyncManager.mm in Sources */,
+				BF47B36C19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */,
 				BF2F352E183FF6F9002ACE90 /* GBASplitViewController.mm in Sources */,
 				BF0EBB2019C05D1000703623 /* GBASettingsTableViewCell.m in Sources */,
 				BF2F352F183FF6F9002ACE90 /* GBAAsynchronousLocalImageTableViewCell.m in Sources */,
@@ -2175,6 +2276,7 @@
 				BF2F3540183FF6F9002ACE90 /* GBAPresentOverlayViewControllerAnimator.m in Sources */,
 				BF2AC88F18543BCA008928D0 /* GBASyncMoveOperation.m in Sources */,
 				BF33ECFE19C13188006E534B /* MCPeerID+Conveniences.m in Sources */,
+				BF47B37419C6B3FF00030431 /* GBAPeer.m in Sources */,
 				BF2F3547183FF6F9002ACE90 /* RSTDirectoryMonitor.m in Sources */,
 				BF2F3549183FF6F9002ACE90 /* GBAMailActivity.m in Sources */,
 				BF58D31919B91550003B2B62 /* UIView+Image.m in Sources */,
@@ -2213,6 +2315,7 @@
 				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
 				BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */,
+				BF47B37019C6A68900030431 /* GBABluetoothLinkViewController.m in Sources */,
 				BF2AC87D185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				BF02D2C5197344950034A515 /* GBASoftwareUpdate.m in Sources */,
 				BFFDAE1519BC2FD100BE5F74 /* GBAControllerSkinDownloadViewController.m in Sources */,
@@ -2258,6 +2361,7 @@
 				CC157AED179D1BC60068A54E /* pngset.c in Sources */,
 				CCC9B8AB1815AC7E005C90EE /* rtc.cpp in Sources */,
 				CC5045181814DC69009F7B9E /* 7zDec.c in Sources */,
+				BFADD3D919C156610010AC9F /* Thread.cpp in Sources */,
 				CCC9B8B41815AC7E005C90EE /* statesaver.cpp in Sources */,
 				CC5044F51814DC69009F7B9E /* gbafilter.cpp in Sources */,
 				BFF44FA218A8BD41006325BC /* GBASoftwareUpdateViewController.m in Sources */,
@@ -2273,6 +2377,7 @@
 				CC157AE5179D1BC60068A54E /* pngerror.c in Sources */,
 				CCFA71AC179D2FE400768D24 /* EmuSystem.cc in Sources */,
 				CC157AE9179D1BC60068A54E /* pngread.c in Sources */,
+				BFADD3D419C1563E0010AC9F /* Packet.cpp in Sources */,
 				CCC9B8941815AC7E005C90EE /* ly_counter.cpp in Sources */,
 				CCC9B8B11815AC7E005C90EE /* loadres.cpp in Sources */,
 				CC5045101814DC69009F7B9E /* Zip_Extractor.cpp in Sources */,
@@ -2300,13 +2405,17 @@
 				CCFA7177179D2EAB00768D24 /* opengl.cc in Sources */,
 				CC5044FE1814DC69009F7B9E /* Sound.cpp in Sources */,
 				BF60A16E18A61CB600B2E7D4 /* GBABetaTesterCreditsViewController.m in Sources */,
+				BF47B36F19C6A68900030431 /* GBABluetoothLinkViewController.m in Sources */,
 				BF537EFE185006E100661C42 /* GBASyncUploadDeviceUploadHistoryOperation.mm in Sources */,
+				BFADD3D119C1563E0010AC9F /* Ftp.cpp in Sources */,
 				CC157AEE179D1BC60068A54E /* pngtrans.c in Sources */,
 				CCC9B8A21815AC7E005C90EE /* kaiser50sinc.cpp in Sources */,
 				CCC9B8A61815AC7E005C90EE /* u48div.cpp in Sources */,
 				CCFA7237179D340400768D24 /* apple.mm in Sources */,
+				BF47B37319C6B3FF00030431 /* GBAPeer.m in Sources */,
 				BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */,
 				CCFA71AD179D2FE400768D24 /* Recent.cc in Sources */,
+				BF47B36B19C6A5DD00030431 /* GBABluetoothLinkManager.mm in Sources */,
 				BFF70ED419BD0CAF00009DAF /* UITableViewController+ControllerSkins.m in Sources */,
 				CC50451E1814DC69009F7B9E /* CpuArch.c in Sources */,
 				CC5044EF1814DC69009F7B9E /* CheatSearch.cpp in Sources */,
@@ -2327,6 +2436,7 @@
 				BF7EC2ED196DF34300F61351 /* GBAClassicSplitViewController.m in Sources */,
 				BFD03A9E1898E877001056A5 /* GBAEvent.m in Sources */,
 				CC5044F31814DC69009F7B9E /* GBA-thumb.cpp in Sources */,
+				BFADD3D719C1563E0010AC9F /* SocketUDP.cpp in Sources */,
 				CC5044F91814DC69009F7B9E /* Mode2.cpp in Sources */,
 				CC9EA6CD17FE7FC3005BD5E6 /* UITableViewController+Theming.m in Sources */,
 				BF0EBB1F19C05D1000703623 /* GBASettingsTableViewCell.m in Sources */,
@@ -2367,6 +2477,7 @@
 				BF356C7A18814A180005E1FC /* GBACheatTextView.m in Sources */,
 				CC5044FD1814DC69009F7B9E /* RTC.cpp in Sources */,
 				CCBF363317F27DA100704A5B /* GBAMailActivity.m in Sources */,
+				BF092B2119ECE06D009174D4 /* GBALink.cpp in Sources */,
 				CC8D5A7A17AAE3A800E89F43 /* GBAControllerView.m in Sources */,
 				CCFA71B2179D2FE400768D24 /* MenuView.cc in Sources */,
 				CCC7298717C7357E0001BC6F /* GBAROM.mm in Sources */,
@@ -2377,6 +2488,7 @@
 				BF2AC87C185431BD008928D0 /* UIView+DTDebug.m in Sources */,
 				CC6A2D9117C508DC00EFC10E /* GBACheatManagerViewController.mm in Sources */,
 				BF2212FB19BCC99900DFD5C1 /* GBAControllerSkinDownloadController.m in Sources */,
+				BFADD3D619C1563E0010AC9F /* SocketTCP.cpp in Sources */,
 				CCC9B8B01815AC7E005C90EE /* interruptrequester.cpp in Sources */,
 				CCFA71B0179D2FE400768D24 /* VideoImageOverlay.cc in Sources */,
 				BF2AC89218543BD9008928D0 /* GBASyncDeleteOperation.m in Sources */,
@@ -2389,6 +2501,7 @@
 				CCC9B8A11815AC7E005C90EE /* i0.cpp in Sources */,
 				CC76CF0617ED3D180072BF74 /* GBASaveStateTableViewCell.m in Sources */,
 				CCC9B8B21815AC7E005C90EE /* memory_GBC.cpp in Sources */,
+				BFADD3C919C156240010AC9F /* SocketHelper.cpp in Sources */,
 				CCC9B89B1815AC7E005C90EE /* channel3.cpp in Sources */,
 				CC50451C1814DC69009F7B9E /* Bra.c in Sources */,
 				BF58D31819B91550003B2B62 /* UIView+Image.m in Sources */,
@@ -2396,8 +2509,11 @@
 				CCC9B8991815AC7E005C90EE /* channel1.cpp in Sources */,
 				BFD98C4D1895FFD500A9432C /* GBAWebViewController.m in Sources */,
 				CCFA7174179D2EAB00768D24 /* logger.cc in Sources */,
+				BFADD3D219C1563E0010AC9F /* Http.cpp in Sources */,
 				CCFA717E179D2EAB00768D24 /* IoFd.cc in Sources */,
+				BFADD3D519C1563E0010AC9F /* SelectorBase.cpp in Sources */,
 				CC5045021814DC69009F7B9E /* Blip_Buffer.cpp in Sources */,
+				BFADD3D319C1563E0010AC9F /* IPAddress.cpp in Sources */,
 				CC5044F01814DC69009F7B9E /* EEprom.cpp in Sources */,
 				CC50451F1814DC69009F7B9E /* Lzma2Dec.c in Sources */,
 				CCC9B8971815AC7E005C90EE /* ppu.cpp in Sources */,
@@ -2409,6 +2525,7 @@
 				BF2AC88218543246008928D0 /* DTObjectBlockExecutor.m in Sources */,
 				CCC9B8921815AC7E005C90EE /* EmuControls.cc in Sources */,
 				CC5045121814DC69009F7B9E /* Zlib_Inflater.cpp in Sources */,
+				BFADD3DF19C156BE0010AC9F /* GBASockClient.cpp in Sources */,
 				CC5044F61814DC69009F7B9E /* Globals.cpp in Sources */,
 				BF58D31619B91550003B2B62 /* UIImage+PDF.m in Sources */,
 				CCC9B8B51815AC7E005C90EE /* tima.cpp in Sources */,
@@ -2416,7 +2533,7 @@
 				BF58D31019B91550003B2B62 /* NSData+MD5.m in Sources */,
 				CCFA71A9179D2FE400768D24 /* CreditsView.cc in Sources */,
 				BF20ED6C189769DF00270BC8 /* GBAEventDistributionDetailViewController.m in Sources */,
-				BF33ECF919C13169006E534B /* GBALinkManager.m in Sources */,
+				BF33ECF919C13169006E534B /* GBALinkManager.mm in Sources */,
 				CC5045001814DC69009F7B9E /* Patch.cpp in Sources */,
 				CCC9B8AC1815AC7E005C90EE /* cpu.cpp in Sources */,
 				CC5044EE1814DC69009F7B9E /* Cheats.cpp in Sources */,
@@ -2521,7 +2638,6 @@
 /* Begin XCBuildConfiguration section */
 		BF2F35D1183FF6F9002ACE90 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0890E9721B4E026624943040 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -2752,7 +2868,6 @@
 					"-DFINAL_VERSION",
 					"-DC_CORE",
 					"-DNO_PNG",
-					"-DNO_LINK",
 					"-DNO_DEBUGGER",
 					"-DBLIP_BUFFER_FAST=1",
 					"-DSysDecimal=float",
@@ -2791,13 +2906,20 @@
 		};
 		BF89A45218585D3100464448 /* Enterprise */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58F0A6F0965B5B86FA9C8E43 /* Pods.enterprise.xcconfig */;
+			baseConfigurationReference = 845BC609B1A169E3AF912435 /* Pods.enterprise.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2811,6 +2933,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -2819,6 +2942,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Enterprise;
@@ -2948,7 +3072,6 @@
 					"-DFINAL_VERSION",
 					"-DC_CORE",
 					"-DNO_PNG",
-					"-DNO_LINK",
 					"-DNO_DEBUGGER",
 					"-DBLIP_BUFFER_FAST=1",
 					"-DSysDecimal=float",
@@ -2987,7 +3110,7 @@
 		};
 		BF941F9C18B71CC0002510D0 /* Jailbreak */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33AED25015C2CCBD9F6C82F0 /* Pods.jailbreak.xcconfig */;
+			baseConfigurationReference = D040891A995B88D0A9ADE8C1 /* Pods.jailbreak.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3007,6 +3130,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3154,7 +3278,6 @@
 					"-DFINAL_VERSION",
 					"-DC_CORE",
 					"-DNO_PNG",
-					"-DNO_LINK",
 					"-DNO_DEBUGGER",
 					"-DBLIP_BUFFER_FAST=1",
 					"-DSysDecimal=float",
@@ -3265,7 +3388,6 @@
 					"-DFINAL_VERSION",
 					"-DC_CORE",
 					"-DNO_PNG",
-					"-DNO_LINK",
 					"-DNO_DEBUGGER",
 					"-DBLIP_BUFFER_FAST=1",
 					"-DSysDecimal=float",
@@ -3304,13 +3426,20 @@
 		};
 		CC2D57321798F2ED00C616EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0890E9721B4E026624943040 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = FC9A65887557BD6B7F8EDBB1 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3324,6 +3453,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3332,13 +3462,14 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		CC2D57331798F2ED00C616EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 256461C3E0D17F5480416EFE /* Pods.release.xcconfig */;
+			baseConfigurationReference = 8887ECD081638BE5202D6C08 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3358,6 +3489,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3446,7 +3578,6 @@
 					"-DFINAL_VERSION",
 					"-DC_CORE",
 					"-DNO_PNG",
-					"-DNO_LINK",
 					"-DNO_DEBUGGER",
 					"-DBLIP_BUFFER_FAST=1",
 					"-DSysDecimal=float",
@@ -3485,13 +3616,20 @@
 		};
 		CC347BB117A3CF2200309436 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CAAD66C288709740D3D2D39E /* Pods.ad hoc.xcconfig */;
+			baseConfigurationReference = 0B091F5B9870F136FFD1648B /* Pods.ad hoc.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GBA4iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3505,6 +3643,7 @@
 					"\"$(SRCROOT)/emu-ex-plus-alpha/GBC.emu/src/\"",
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
+					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
 				OTHER_LDFLAGS = (

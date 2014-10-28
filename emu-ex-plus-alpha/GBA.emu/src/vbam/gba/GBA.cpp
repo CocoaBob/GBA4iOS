@@ -24,6 +24,9 @@
 #include <logger/interface.h>
 #include <io/sys.hh>
 
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+
 #ifdef PROFILING
 #include "prof/prof.h"
 #endif
@@ -614,7 +617,6 @@ void cpuEnableProfiling(int hz)
 }
 #endif
 
-
 inline int CPUUpdateTicks(ARM7TDMI &cpu)
 {
 #ifdef VBAM_USE_SWITICKS
@@ -672,6 +674,24 @@ inline int CPUUpdateTicks(ARM7TDMI &cpu)
 #endif
 
   return cpuLoopTicks;
+}
+
+int GetTickCount()
+{
+    // From http://stackoverflow.com/questions/741830/getting-the-time-elapsed-objective-c
+    
+    static mach_timebase_info_data_t sTimebaseInfo;
+    uint64_t machTime = mach_absolute_time();
+    
+    // Convert to nanoseconds - if this is the first time we've run, get the timebase.
+    if (sTimebaseInfo.denom == 0)
+    {
+        mach_timebase_info(&sTimebaseInfo);
+    }
+    
+    // Convert the mach time to milliseconds
+    uint64_t millis = ((machTime / 1000000) * sTimebaseInfo.numer) / sTimebaseInfo.denom;
+    return millis;
 }
 
 static void CPUUpdateWindow0(GBASys &gba)
@@ -2680,14 +2700,20 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
 
 
   case COMM_SIOCNT:
+          
+         /* if( EmuReseted )
+          { //trying to detect whether the game has exited multiplay mode (ie. game restarted)
+              CloseLink();
+          }*/
+          
 	  StartLink(value);
 	  break;
 
   case COMM_SIODATA8:
-	  if (gba_link_enabled)
+	 /* if (gba_link_enabled)
 	  {
 		  LinkSSend(value);
-	  }
+	  } GBARemove */
 	  UPDATE_REG(cpu.gba, COMM_SIODATA8, value);
 	  break;
 
@@ -2701,7 +2727,13 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
 	  break;
 
   case COMM_RCNT:
-	  StartGPLink(cpu.gba, value);
+          
+          if(READ16LE(&gGba.mem.ioMem.b[COMM_RCNT]) != (/*READ16LE(&ioMem[COMM_RCNT]) &*/ value))
+          {
+              if(value == 0x8000) RFUClear();
+          }
+          
+	  StartGPLink(value);
 	  break;
 
   case COMM_JOYCNT:
@@ -2785,23 +2817,29 @@ void CPUUpdateRegister(ARM7TDMI &cpu, u32 address, u16 value)
       } else {
         busPrefetchEnable = false;
         busPrefetch = false;
-        busPrefetchCount = 0;
+          busPrefetchCount = 0;
       }
-      UPDATE_REG(cpu.gba, 0x204, value & 0x7FFF);
-
+        UPDATE_REG(cpu.gba, 0x204, value & 0x7FFF);
+        
     }
-    break;
-  case 0x208:
-    IME = value & 1;
-    //UPDATE_REG(0x208, IME);
-    if ((IME & 1) && (IF & IE) && armIrqEnable)
-      cpu.cpuNextEvent = cpu.cpuTotalTicks;
-    break;
-  case 0x300:
-    if(value != 0)
-      value &= 0xFFFE;
-    UPDATE_REG(cpu.gba, 0x300, value);
-    break;
+          break;
+      case 0x208:
+          IME = value & 1;
+          //UPDATE_REG(0x208, IME);
+          if ((IME & 1) && (IF & IE) && armIrqEnable)
+              cpu.cpuNextEvent = cpu.cpuTotalTicks;
+          break;
+      case 0x278: //AdamN: seems to be related to Wireless Adpater(RF_RCNT?)
+          UPDATE_REG(cpu.gba, address&0x7FE, value);
+          break;
+      case 0x27a: //AdamN: seems to be related to Wireless Adpater(RF_SIOCNT?), when written (to 0x83) seems to change the content of 0x278 (higher than 0x1f or to be 0x1f or lower)
+          UPDATE_REG(cpu.gba, address&0x7FE, RFCheck(value));
+          break;
+      case 0x300:
+          if(value != 0)
+              value &= 0xFFFE;
+          UPDATE_REG(cpu.gba, 0x300, value);
+          break;
   default:
     UPDATE_REG(cpu.gba, address&0x3FE, value);
     break;
@@ -3212,8 +3250,8 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
   cpu.cpuTotalTicks = 0;
 
   // shuffle2: what's the purpose?
-  if(gba_link_enabled)
-    cpu.cpuNextEvent = 1;
+    if(GetLinkMode() != LINK_DISCONNECTED)
+        cpu.cpuNextEvent = 1;
 
   bool cpuBreakLoop = false;
   cpu.cpuNextEvent = CPUUpdateTicks(cpu);
@@ -3634,10 +3672,8 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
 	  /*if (gba_joybus_enabled)
 		  JoyBusUpdate(clockTicks);*/
 
-	  if (gba_link_enabled)
-	  {
-		  LinkUpdate(clockTicks);
-	  }
+        if(GetLinkMode() != LINK_DISCONNECTED)
+            LinkUpdate(clockTicks);
 
       cpu.cpuNextEvent = CPUUpdateTicks(cpu);
 
@@ -3654,8 +3690,8 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
       }
 
 	  // shuffle2: what's the purpose?
-	  if(gba_link_enabled)
-  	       cpu.cpuNextEvent = 1;
+        if(GetLinkMode() != LINK_DISCONNECTED)
+            cpu.cpuNextEvent = 1;
 
       if(IF && (IME & 1) && armIrqEnable) {
         int res = IF & IE;
@@ -3735,6 +3771,12 @@ void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAudio)
   } while(!cpuBreakLoop);
 
   gba.cpu = cpu;
+    
+    if (GetLinkMode() != LINK_DISCONNECTED && GetLinkMode() != LINK_RFU_SOCKET)
+    {
+        CheckLinkConnection();
+    }
+    
 }
 
 

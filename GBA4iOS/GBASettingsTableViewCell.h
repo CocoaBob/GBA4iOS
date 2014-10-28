@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+extern CGFloat GBASettingsTableViewCellDefaultSpacing;
+
 @interface GBASettingsTableViewCell : UITableViewCell
+
+- (void)pinView:(UIView *)view toEdge:(UIRectEdge)rectEdge withSpacing:(CGFloat)spacing;
 
 @end

@@ -131,6 +131,9 @@
     
     [[GBALinkManager sharedManager] stop];
     
+    [self.nearbyPeers removeAllObjects];
+    [self.connectedPeers removeAllObjects];
+    
     [self.nearbyServiceBrowser stopBrowsingForPeers];
 }
 
@@ -169,6 +172,11 @@
 
 - (void)linkManager:(GBALinkManager *)linkManager peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+    {
+        return;
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self.tableView beginUpdates];
@@ -377,6 +385,16 @@
     else if (section == 2)
     {
         return NSLocalizedString(@"Nearby", @"");
+    }
+    
+    return nil;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return NSLocalizedString(@"Wireless Linking uses either local Wi-Fi or Bluetooth. However, for best performance, all devices should be connected to the same Wi-Fi network.", @"");
     }
     
     return nil;

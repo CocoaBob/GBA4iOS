@@ -17,7 +17,9 @@
 #import "GBAPushNotificationsViewController.h"
 #import "GBAWebBrowserHomepageViewController.h"
 #import "GBAAcknowledgementsViewController.h"
+#import "GBABluetoothLinkViewController.h"
 #import "GBALinkViewController.h"
+#import "GBABluetoothLinkManager.h"
 
 #import <Dropbox-iOS-SDK/DropboxSDK.h>
 
@@ -137,8 +139,9 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
                                GBASettingsAirPlayEnabledKey: @YES,
                                GBASettingsEventDistributionPushNotificationsKey: @YES,
                                GBASettingsSoftwareUpdatePushNotificationsKey: @YES,
-                               GBASettingsIntroAnimationKey: @YES};
-    
+                               GBASettingsIntroAnimationKey: @YES,
+                               GBASettingsLinkPeerType: @(GBALinkPeerTypeServer)};
+
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [GBAExternalController registerControllerDefaults];
@@ -369,14 +372,13 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     if (indexPath.section == LINKING_SECTION)
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Multiplayer Coming Soon", @"")
-                                                            message:NSLocalizedString(@"Multiplayer will be enabled in a future beta. Stay tuned!", @"")
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+#ifdef USE_BLUETOOTH
+        GBABluetoothLinkViewController *linkViewController = [GBABluetoothLinkViewController new];
+        [self.navigationController pushViewController:linkViewController animated:YES];
+#else
+        GBALinkViewController *linkViewController = [GBALinkViewController new];
+        [self.navigationController pushViewController:linkViewController animated:YES];
+#endif
     }
     else if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
     {
