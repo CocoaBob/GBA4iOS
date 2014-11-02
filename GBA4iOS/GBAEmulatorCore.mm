@@ -182,12 +182,12 @@ extern void CPULoop(GBASys &gba, bool renderGfx, bool processGfx, bool renderAud
     
 	//logMsg("screen update");
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    //DammCFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     
     //CPULoop(gGba, false, false, true);
     Base::runEngine(Base::displayLink.timestamp);
     
-    DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    //DLog(@"Frame Length: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     
 	if(!Base::gfxUpdate)
 	{
@@ -1225,7 +1225,7 @@ bool GBALinkWaitForLinkDataWithTimeout(int timeout)
     
     bool success = (bool)[[GBALinkManager sharedManager] waitForLinkDataWithTimeout:timeout];
     
-    NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
+    //NSLog(@"Wireless Delay: %dms", (int)((CFAbsoluteTimeGetCurrent() - startTime) * 1000));
     
     /*if (success)
     {
@@ -1245,7 +1245,7 @@ bool GBALinkHasDataAvailable(int *index)
     
     if (dataAvailable)
     {
-        NSLog(@"Data Available");
+        //NSLog(@"Data Available");
     }
     
     return dataAvailable;

@@ -191,13 +191,16 @@ NSString *const GBALinkSessionServiceType = @"gba4ios-link";
 
 - (BOOL)waitForLinkDataWithTimeout:(NSTimeInterval)timeout
 {
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    
-    NSArray *inputStreams = [self.inputStreams allValues];
-
-    while (![self hasBytesAvailableFromInputStreams:inputStreams] && CFAbsoluteTimeGetCurrent() - startTime < timeout);
-    
-    return [self hasBytesAvailableFromInputStreams:inputStreams];
+    @autoreleasepool
+    {
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        
+        NSArray *inputStreams = [self.inputStreams allValues];
+        
+        while (![self hasBytesAvailableFromInputStreams:inputStreams] && CFAbsoluteTimeGetCurrent() - startTime < timeout);
+        
+        return [self hasBytesAvailableFromInputStreams:inputStreams];
+    }
 }
 
 - (BOOL)hasBytesAvailableFromInputStreams:(NSArray *)inputStreams

@@ -2539,6 +2539,9 @@ u16 PrepareRFUSocket(u16 value)
                                             u32outbuffer[2] = linktime;
                                             memcpy(&u32outbuffer[3],rfu_masterdata,rfu_masterq<<2); //data size (excluding headers)
                                             LinkSendRFUData(outbuffer, (rfu_masterq+3)<<2, RetryCount, 0); //broadcast
+                                            
+                                            GBALog("Sending RFU Data. Signal: %d. Time: %d", u32outbuffer[1], u32outbuffer[2]);
+                                            
                                             c_s.Lock();
                                             if(rfu_qsend2>1)
                                                 linkmem.rfu_state[vbaid] = 1;
@@ -4137,7 +4140,7 @@ bool LinkSendRFUData(char *buf, int size, int nretry, int idx)
 {
     bool sent = false;
     
-    GBALog("Sending %s", GBADataHexadecimalRepresentation(buf, size));
+    //GBALog("Sending %s", GBADataHexadecimalRepresentation(buf, size));
     
     c_s.Lock();
     
@@ -4665,7 +4668,7 @@ unsigned long GBARunWirelessAdaptorLoop()
                 
             case 0x1f:
             {
-                GBALog("Freshness Data");
+                GBALog("Client is joining");
                 
                 c_s.Lock();
                 
@@ -4683,8 +4686,6 @@ unsigned long GBARunWirelessAdaptorLoop()
             case 0x27:
             case 0x37:
             {
-                GBALog("TempRect Stuff");
-                
                 c_s.Lock();
                 
                 rfu_datarec tmpRec;
@@ -4708,6 +4709,8 @@ unsigned long GBARunWirelessAdaptorLoop()
                     
                     DATALIST.push_back(tmpRec);
                 }
+                
+                GBALog("Received RFU Data. Signal: %d Time: %d", tmpRec.sign, tmpRec.time);
                 
                 c_s.Unlock();
                 break;
