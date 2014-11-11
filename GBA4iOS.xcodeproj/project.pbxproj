@@ -227,6 +227,8 @@
 		BFBAAF851977027F00754626 /* GBAEventDistributionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */; };
 		BFBFC1231878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
 		BFBFC1241878D02C00FF0A3A /* GBAEventDistributionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */; };
+		BFC354FE1A11955E004BC5B3 /* GBA4iOS-Info-Simulator.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFC354FD1A11955E004BC5B3 /* GBA4iOS-Info-Simulator.plist */; };
+		BFC354FF1A119561004BC5B3 /* GBA4iOS-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CC2D57071798F2EC00C616EB /* GBA4iOS-Info.plist */; };
 		BFC43F7117CD474200FE861C /* GBACheatManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */; };
 		BFC47BC2189DAA6D006C4D55 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7C0E68189DA30400794093 /* CrashReporter.framework */; };
 		BFC82E1119B676A400284BAE /* GBAColorSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC82E1019B676A400284BAE /* GBAColorSelectionViewController.m */; };
@@ -656,6 +658,7 @@
 		BFBAAF831977027F00754626 /* GBAEventDistributionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAEventDistributionOperation.m; sourceTree = "<group>"; };
 		BFBFC1211878D02C00FF0A3A /* GBAEventDistributionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAEventDistributionViewController.h; sourceTree = "<group>"; };
 		BFBFC1221878D02C00FF0A3A /* GBAEventDistributionViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAEventDistributionViewController.mm; sourceTree = "<group>"; };
+		BFC354FD1A11955E004BC5B3 /* GBA4iOS-Info-Simulator.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GBA4iOS-Info-Simulator.plist"; sourceTree = "<group>"; };
 		BFC43F6E17CD474200FE861C /* GBACheatManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBACheatManagerTableViewCell.h; sourceTree = "<group>"; };
 		BFC43F6F17CD474200FE861C /* GBACheatManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBACheatManagerTableViewCell.m; sourceTree = "<group>"; };
 		BFC82E0F19B676A400284BAE /* GBAColorSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAColorSelectionViewController.h; sourceTree = "<group>"; };
@@ -1583,6 +1586,7 @@
 		CC2D57061798F2EC00C616EB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BFC354FD1A11955E004BC5B3 /* GBA4iOS-Info-Simulator.plist */,
 				CC2D57071798F2EC00C616EB /* GBA4iOS-Info.plist */,
 				BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */,
 				CC2D57081798F2EC00C616EB /* InfoPlist.strings */,
@@ -2076,6 +2080,7 @@
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
+				BFC354FE1A11955E004BC5B3 /* GBA4iOS-Info-Simulator.plist in Resources */,
 				BF30DA0B19BAC8F6009754FF /* GBANoGamesView.xib in Resources */,
 				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
@@ -2109,6 +2114,7 @@
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 				BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
+				BFC354FF1A119561004BC5B3 /* GBA4iOS-Info.plist in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 				BF40C33019E09974003C73B5 /* Intro.mp4 in Resources */,
 				BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */,
@@ -2657,7 +2663,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -2704,7 +2710,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -2751,7 +2757,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -2951,7 +2957,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -3141,7 +3147,7 @@
 					"\"${PODS_ROOT}/Headers/SSZipArchive/minizip\"",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
+				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
