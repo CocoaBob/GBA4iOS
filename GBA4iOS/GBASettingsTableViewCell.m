@@ -26,6 +26,36 @@ CGFloat GBASettingsTableViewCellDefaultSpacing = -1815;
 
 @implementation GBASettingsTableViewCell
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self)
+    {
+        [self initialize];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self initialize];
+    }
+    
+    return self;
+}
+
+- (void)initialize
+{
+    self.leftInsetSpacing = GBASettingsTableViewCellDefaultSpacing;
+    self.rightInsetSpacing = GBASettingsTableViewCellDefaultSpacing;
+    self.topInsetSpacing = GBASettingsTableViewCellDefaultSpacing;
+    self.bottomInsetSpacing = GBASettingsTableViewCellDefaultSpacing;
+}
+
 - (void)layoutSubviews
 {
     if ([self.textLabel.text length] == 0)
