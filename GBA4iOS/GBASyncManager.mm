@@ -345,7 +345,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     
     [self cacheDownloadOperation:downloadOperation];
     
-    NSString *localPath = [GBASyncManager localPathForDropboxPath:downloadOperation.dropboxPath];
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:downloadOperation.dropboxPath uploading:NO];
     
     // Change local path from Downloads to Uploads to remove from pendingUploads
     if ([localPath.pathExtension isEqualToString:@"rtcsav"])
@@ -393,9 +393,9 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     
     [self.fileManipulationOperationQueue addOperation:moveOperation];
     
-    NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath uploading:NO];
     NSString *relativePath = [GBASyncManager relativePathForLocalPath:localPath];
-    NSString *newRelativeLocalPath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:destinationPath]];
+    NSString *newRelativeLocalPath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:destinationPath uploading:NO]];
     
     if (self.pendingUploads[relativePath])
     {
@@ -525,8 +525,8 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     GBASyncMoveOperation *moveOperation = [[GBASyncMoveOperation alloc] initWithDropboxPath:dropboxPath destinationPath:destinationPath];
     [self cacheMoveOperation:moveOperation];
     
-    NSString *relativePath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:dropboxPath]];
-    NSString *newRelativeLocalPath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:destinationPath]];
+    NSString *relativePath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:dropboxPath uploading:NO]];
+    NSString *newRelativeLocalPath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:destinationPath uploading:NO]];
     
     if (self.pendingUploads[relativePath])
     {
@@ -572,7 +572,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 {
     NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
     
-    NSString *relativePath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:uploadOperation.dropboxPath]];
+    NSString *relativePath = [GBASyncManager relativePathForLocalPath:[GBASyncManager localPathForDropboxPath:uploadOperation.dropboxPath uploading:YES]];
     
     pendingUploads[relativePath] = [uploadOperation dictionaryRepresentation];
     [NSKeyedArchiver archiveRootObject:pendingUploads toFile:[GBASyncManager pendingUploadsPath]];
@@ -915,11 +915,6 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     [[NSFileManager defaultManager] createDirectoryAtPath:saveStateDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     
     return saveStateDirectory;
-}
-
-+ (NSString *)localPathForDropboxPath:(NSString *)dropboxPath
-{
-    return [GBASyncManager localPathForDropboxPath:dropboxPath uploading:NO];
 }
 
 + (NSString *)localPathForDropboxPath:(NSString *)dropboxPath uploading:(BOOL)uploading

@@ -38,7 +38,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] fromPath:[GBASyncManager localPathForDropboxPath:self.dropboxPath]];
+        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] fromPath:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES]];
 #pragma clang diagnostic pop
     });
 }

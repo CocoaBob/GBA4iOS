@@ -159,7 +159,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     [pendingDownloads enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *downloadOperationDictionary, BOOL *stop) {
         
         NSString *dropboxPath = downloadOperationDictionary[GBASyncDropboxPathKey];
-        NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath];
+        NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath uploading:NO];
         DBMetadata *metadata = downloadOperationDictionary[GBASyncMetadataKey];
         
         GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithDropboxPath:dropboxPath
@@ -344,7 +344,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         }
     }
     
-    NSString *localPath = [GBASyncManager localPathForDropboxPath:metadata.path];
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:metadata.path uploading:NO];
     
     NSString *existingFileLocalPath = localPath;
     
@@ -886,7 +886,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 {
                     [[[GBASyncManager sharedManager] dropboxFiles] removeObjectForKey:key];
                     
-                    NSString *localPath = [GBASyncManager localPathForDropboxPath:key];
+                    NSString *localPath = [GBASyncManager localPathForDropboxPath:key uploading:NO];
                     
                     BOOL isDirectory = NO;
                     if ([[NSFileManager defaultManager] fileExistsAtPath:localPath isDirectory:&isDirectory] && !isDirectory)

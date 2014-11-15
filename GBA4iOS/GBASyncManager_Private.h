@@ -54,7 +54,6 @@ extern NSString * const GBASyncDestinationPathKey;
 + (NSString *)cheatsDirectoryForROM:(GBAROM *)rom;
 + (NSString *)saveStateDirectoryForROM:(GBAROM *)rom;
 
-+ (NSString *)localPathForDropboxPath:(NSString *)dropboxPath;
 + (NSString *)localPathForDropboxPath:(NSString *)dropboxPath uploading:(BOOL)uploading;
 + (NSString *)relativePathForLocalPath:(NSString *)localPath;
 + (NSString *)zippedDropboxPathForSaveFileDropboxPath:(NSString *)dropboxPath;

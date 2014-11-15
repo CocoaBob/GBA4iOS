@@ -46,7 +46,7 @@
 {
     if (self.syncCompletionBlock)
     {
-        self.syncCompletionBlock([GBASyncManager localPathForDropboxPath:self.dropboxPath], self.metadata, error);
+        self.syncCompletionBlock([GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:NO], self.metadata, error);
     }
     
     [self finish];

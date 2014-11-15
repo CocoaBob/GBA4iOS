@@ -33,7 +33,7 @@
 
 - (void)beginSyncOperation
 {
-    NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath];
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:NO];
     
     DLog(@"Downloading file %@ to %@...", self.dropboxPath, localPath);
     

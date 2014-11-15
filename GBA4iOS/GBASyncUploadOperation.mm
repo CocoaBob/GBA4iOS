@@ -34,7 +34,7 @@
 - (void)beginSyncOperation
 {
     DBMetadata *metadata = self.metadata;
-    NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath];
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES];
     
     if (metadata == nil)
     {
