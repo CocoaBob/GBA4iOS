@@ -170,9 +170,7 @@
             if (![softwareUpdate isNewerThanAppVersion] || ![softwareUpdate isSupportedOnCurrentiOSVersion])
             {
                 NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-                //NSString *upToDateMessage = [NSString stringWithFormat:@"GBA4iOS %@\n%@", bundleVersion, NSLocalizedString(@"Your software is up to date.", @"")];
-                NSString *upToDateMessage = [NSString stringWithFormat:@"GBA4iOS 2.1 BETA\n%@", NSLocalizedString(@"Your software is up to date.", @"")];
-#warning Uncomment line that displays actual GBA4iOS version here and in Settings before final release of 2.1
+                NSString *upToDateMessage = [NSString stringWithFormat:@"GBA4iOS %@\n%@", bundleVersion, NSLocalizedString(@"Your software is up to date.", @"")];
                 
                 self.statusLabel.text = upToDateMessage;
                 

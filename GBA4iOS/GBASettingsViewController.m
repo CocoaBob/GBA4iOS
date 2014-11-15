@@ -195,8 +195,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     else if (section == [tableView numberOfSections] - 1)
     {
         NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
-        //return [NSString stringWithFormat:@"GBA4iOS %@", bundleVersion];
-        return @"GBA4iOS 2.1 BETA";
+        return [NSString stringWithFormat:@"GBA4iOS %@", bundleVersion];
     }
     
     return [super tableView:tableView titleForFooterInSection:section];

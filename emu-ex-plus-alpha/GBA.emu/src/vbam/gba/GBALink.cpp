@@ -344,8 +344,6 @@ enum
 
 #define UPDATE_REG(address, value) WRITE16LE(((u16 *)&gGba.mem.ioMem.b[address]),value)
 
-#warning Structs
-
 typedef struct {
 	u16 linkdata[4];
 	u16 linkcmd[4];
