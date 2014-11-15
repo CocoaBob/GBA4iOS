@@ -105,7 +105,10 @@ static GBAAppDelegate *_appDelegate;
     
 #ifndef USE_BLUETOOTH
     
-    [[GBALinkManager sharedManager] start];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsLinkEnabled])
+    {
+        [[GBALinkManager sharedManager] start];
+    }
     
 #endif
     
