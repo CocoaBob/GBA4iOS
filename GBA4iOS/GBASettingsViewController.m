@@ -20,6 +20,7 @@
 #import "GBABluetoothLinkViewController.h"
 #import "GBALinkViewController.h"
 #import "GBABluetoothLinkManager.h"
+#import "UIDevice-Hardware.h"
 
 #import <Dropbox-iOS-SDK/DropboxSDK.h>
 
@@ -177,7 +178,14 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    if (section == VIBRATION_SECTION)
+    if (section == LINKING_SECTION)
+    {
+        if (![self deviceSupportsWirelessLinking])
+        {
+            return nil;
+        }
+    }
+    else if (section == VIBRATION_SECTION)
     {
         if (![self deviceSupportsVibration])
         {
@@ -196,7 +204,14 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == VIBRATION_SECTION)
+    if (section == LINKING_SECTION)
+    {
+        if (![self deviceSupportsWirelessLinking])
+        {
+            return 1;
+        }
+    }
+    else if (section == VIBRATION_SECTION)
     {
         if (![self deviceSupportsVibration])
         {
@@ -209,7 +224,14 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == VIBRATION_SECTION)
+    if (section == LINKING_SECTION)
+    {
+        if (![self deviceSupportsWirelessLinking])
+        {
+            return [super tableView:tableView numberOfRowsInSection:section] - 1;
+        }
+    }
+    else if (section == VIBRATION_SECTION)
     {
         if (![self deviceSupportsVibration])
         {
@@ -241,7 +263,14 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == VIBRATION_SECTION)
+    if (section == LINKING_SECTION)
+    {
+        if (![self deviceSupportsWirelessLinking])
+        {
+            return nil;
+        }
+    }
+    else if (section == VIBRATION_SECTION)
     {
         if (![self deviceSupportsVibration])
         {
@@ -254,7 +283,14 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == VIBRATION_SECTION)
+    if (section == LINKING_SECTION)
+    {
+        if (![self deviceSupportsWirelessLinking])
+        {
+            return 1;
+        }
+    }
+    else if (section == VIBRATION_SECTION)
     {
         if (![self deviceSupportsVibration])
         {
@@ -520,10 +556,19 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:scheme]];
 }
 
+#pragma mark - Device Capabilities
+
 - (BOOL)deviceSupportsVibration
 {
     // No way to detect if hardware supports vibration, so we assume if it's not an iPhone, it doesn't have a vibration motor
     return [[UIDevice currentDevice].model hasPrefix:@"iPhone"];
+}
+
+- (BOOL)deviceSupportsWirelessLinking
+{
+    // Needs A6 chip or better
+    NSUInteger deviceType = [[UIDevice currentDevice] platformType];
+    return (!(deviceType == UIDevice4iPhone || deviceType == UIDevice4SiPhone || deviceType == UIDevice2GiPad || deviceType == UIDevice3GiPad || deviceType == UIDevice4GiPod || deviceType == UIDevice5GiPod));
 }
 
 #pragma mark - UINavigationController Delegate

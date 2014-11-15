@@ -62,11 +62,14 @@ typedef enum {
     UIDevice2GiPod,
     UIDevice3GiPod,
     UIDevice4GiPod,
+    UIDevice5GiPod,
     
     UIDevice1GiPad,
     UIDevice2GiPad,
     UIDevice3GiPad,
     UIDevice4GiPad,
+    UIDeviceiPadAir,
+    UIDeviceiPadAir2,
     
     UIDeviceAppleTV2,
     UIDeviceAppleTV3,

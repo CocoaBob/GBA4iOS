@@ -170,12 +170,16 @@
     if ([platform hasPrefix:@"iPod2"])              return UIDevice2GiPod;
     if ([platform hasPrefix:@"iPod3"])              return UIDevice3GiPod;
     if ([platform hasPrefix:@"iPod4"])              return UIDevice4GiPod;
+    if ([platform hasPrefix:@"iPod5"])              return UIDevice5GiPod;
 
     // iPad
     if ([platform hasPrefix:@"iPad1"])              return UIDevice1GiPad;
     if ([platform hasPrefix:@"iPad2"])              return UIDevice2GiPad;
+    if ([platform hasPrefix:@"iPad3,4"] || [platform hasPrefix:@"iPad3,5"] || [platform hasPrefix:@"iPad3,6"])            return UIDevice4GiPad;
     if ([platform hasPrefix:@"iPad3"])              return UIDevice3GiPad;
-    if ([platform hasPrefix:@"iPad4"])              return UIDevice4GiPad;
+    
+    if ([platform hasPrefix:@"iPad4"])              return UIDeviceiPadAir;
+    if ([platform hasPrefix:@"iPad5"])              return UIDeviceiPadAir2;
     
     // Apple TV
     if ([platform hasPrefix:@"AppleTV2"])           return UIDeviceAppleTV2;
