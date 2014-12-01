@@ -22,8 +22,6 @@
 		BF092B2119ECE06D009174D4 /* GBALink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFADD3DA19C156BE0010AC9F /* GBALink.cpp */; };
 		BF0EBB1119C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
 		BF0EBB1219C026E500703623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1019C026E500703623 /* Launch Screen.xib */; };
-		BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1619C0493000703623 /* Settings.storyboard */; };
-		BF0EBB1819C0493000703623 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF0EBB1619C0493000703623 /* Settings.storyboard */; };
 		BF0EBB1F19C05D1000703623 /* GBASettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */; };
 		BF0EBB2019C05D1000703623 /* GBASettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */; };
 		BF104A8517EB7C81003C86F5 /* UIImage+RSTResizing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF104A8417EB7C81003C86F5 /* UIImage+RSTResizing.m */; };
@@ -118,8 +116,6 @@
 		BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CC41AEA917A22EC90062DDD8 /* padButton.png */; };
 		BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A5BAE7E17D04B0A00BABC01 /* overlays128.png */; };
 		BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */ = {isa = PBXBuildFile; fileRef = CC5044E61814C474009F7B9E /* Default.gbcskin */; };
-		BF30DA0A19BAC8F6009754FF /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */; };
-		BF30DA0B19BAC8F6009754FF /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */; };
 		BF33ECF019C13127006E534B /* GBALinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEB19C13127006E534B /* GBALinkViewController.m */; };
 		BF33ECF119C13127006E534B /* GBALinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECEB19C13127006E534B /* GBALinkViewController.m */; };
 		BF33ECF219C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33ECED19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.m */; };
@@ -190,6 +186,10 @@
 		BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7EC2F1196E3A8F00F61351 /* GBAModernSplitViewController.m */; };
 		BF8789F718404AC200C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
 		BF8789F818404AC800C81AB2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8789F618404AC200C81AB2 /* GameController.framework */; };
+		BF8C11431A2D01DF00126A3D /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF8C11461A2D01DF00126A3D /* GBANoGamesView.xib */; };
+		BF8C11441A2D01DF00126A3D /* GBANoGamesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF8C11461A2D01DF00126A3D /* GBANoGamesView.xib */; };
+		BF8C11471A2D01ED00126A3D /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF8C114A1A2D01ED00126A3D /* Settings.storyboard */; };
+		BF8C11481A2D01ED00126A3D /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF8C114A1A2D01ED00126A3D /* Settings.storyboard */; };
 		BF9782F41832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */; };
 		BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
 		BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA60DE0184847C40039D77E /* RSTToastView.m */; };
@@ -504,7 +504,6 @@
 		BF092B1E19ECC982009174D4 /* GBALink-1030e.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "GBALink-1030e.cpp"; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink-1030e.cpp"; sourceTree = SOURCE_ROOT; };
 		BF092B1F19ECC982009174D4 /* GBALink-1030e.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GBALink-1030e.h"; path = "emu-ex-plus-alpha/GBA.emu/src/vbam/gba/GBALink-1030e.h"; sourceTree = SOURCE_ROOT; };
 		BF0EBB1019C026E500703623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
-		BF0EBB1619C0493000703623 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		BF0EBB1D19C05D1000703623 /* GBASettingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASettingsTableViewCell.h; sourceTree = "<group>"; };
 		BF0EBB1E19C05D1000703623 /* GBASettingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASettingsTableViewCell.m; sourceTree = "<group>"; };
 		BF104A8317EB7C81003C86F5 /* UIImage+RSTResizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSTResizing.h"; sourceTree = "<group>"; };
@@ -542,7 +541,6 @@
 		BF2AC89018543BD9008928D0 /* GBASyncDeleteOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBASyncDeleteOperation.h; sourceTree = "<group>"; };
 		BF2AC89118543BD9008928D0 /* GBASyncDeleteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBASyncDeleteOperation.m; sourceTree = "<group>"; };
 		BF2F35D5183FF6F9002ACE90 /* GBA4iOS copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GBA4iOS copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GBANoGamesView.xib; sourceTree = "<group>"; };
 		BF33ECEA19C13127006E534B /* GBALinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkViewController.h; sourceTree = "<group>"; };
 		BF33ECEB19C13127006E534B /* GBALinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBALinkViewController.m; sourceTree = "<group>"; };
 		BF33ECEC19C13127006E534B /* GBALinkNearbyPeersHeaderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALinkNearbyPeersHeaderFooterView.h; sourceTree = "<group>"; };
@@ -620,6 +618,8 @@
 		BF7EC2F0196E3A8F00F61351 /* GBAModernSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAModernSplitViewController.h; sourceTree = "<group>"; };
 		BF7EC2F1196E3A8F00F61351 /* GBAModernSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAModernSplitViewController.m; sourceTree = "<group>"; };
 		BF8789F618404AC200C81AB2 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
+		BF8C11451A2D01DF00126A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GBANoGamesView.xib; sourceTree = "<group>"; };
+		BF8C11491A2D01ED00126A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
 		BF9782F21832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAInitialPresentROMTableViewControllerAnimator.h; sourceTree = "<group>"; };
 		BF9782F31832DF64000D1593 /* GBAInitialPresentROMTableViewControllerAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAInitialPresentROMTableViewControllerAnimator.m; sourceTree = "<group>"; };
 		BFA60DDF184847C40039D77E /* RSTToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSTToastView.h; path = GBA4iOS/RSTToastView.h; sourceTree = "<group>"; };
@@ -1565,7 +1565,7 @@
 				CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */,
 				CC2D573F1798F44700C616EB /* GBAROMTableViewController.h */,
 				CC2D57401798F44700C616EB /* GBAROMTableViewController.mm */,
-				BF30DA0919BAC8F6009754FF /* GBANoGamesView.xib */,
+				BF8C11461A2D01DF00126A3D /* GBANoGamesView.xib */,
 				BF73C2ED1822EA2F00DD69FD /* Dropbox Sync */,
 				CC7AC2EB17C694E800FB7642 /* Emulation */,
 				CCE3CDF917AE9E4500FAB9C8 /* Settings */,
@@ -1850,7 +1850,7 @@
 		CCE3CDF917AE9E4500FAB9C8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				BF0EBB1619C0493000703623 /* Settings.storyboard */,
+				BF8C114A1A2D01ED00126A3D /* Settings.storyboard */,
 				CCE3CDFB17AE9F0200FAB9C8 /* GBASettingsViewController.h */,
 				CCE3CDFC17AE9F0200FAB9C8 /* GBASettingsViewController.m */,
 				BF0EBB1D19C05D1000703623 /* GBASettingsTableViewCell.h */,
@@ -2078,14 +2078,14 @@
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
-				BF30DA0B19BAC8F6009754FF /* GBANoGamesView.xib in Resources */,
+				BF8C11441A2D01DF00126A3D /* GBANoGamesView.xib in Resources */,
 				BF2F35CC183FF6F9002ACE90 /* overlays128.png in Resources */,
 				BF2F35CE183FF6F9002ACE90 /* Default.gbcskin in Resources */,
 				BFBA77BB19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4818909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4618909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 				BF40C33119E09974003C73B5 /* Intro.mp4 in Resources */,
-				BF0EBB1819C0493000703623 /* Settings.storyboard in Resources */,
+				BF8C11481A2D01ED00126A3D /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2106,14 +2106,14 @@
 				BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
-				BF30DA0A19BAC8F6009754FF /* GBANoGamesView.xib in Resources */,
+				BF8C11431A2D01DF00126A3D /* GBANoGamesView.xib in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 				BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 				BF40C33019E09974003C73B5 /* Intro.mp4 in Resources */,
-				BF0EBB1719C0493000703623 /* Settings.storyboard in Resources */,
+				BF8C11471A2D01ED00126A3D /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2606,6 +2606,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		BF8C11461A2D01DF00126A3D /* GBANoGamesView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF8C11451A2D01DF00126A3D /* Base */,
+			);
+			name = GBANoGamesView.xib;
+			sourceTree = "<group>";
+		};
+		BF8C114A1A2D01ED00126A3D /* Settings.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF8C11491A2D01ED00126A3D /* Base */,
+			);
+			name = Settings.storyboard;
+			sourceTree = "<group>";
+		};
 		CC2D57081798F2EC00C616EB /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
