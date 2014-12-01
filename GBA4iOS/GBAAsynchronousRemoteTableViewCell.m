@@ -73,11 +73,15 @@
     [self.imageDataTask cancel];
     self.imageDataTask = nil;
     
-    self.backgroundImageView.image = nil;
-    self.backgroundImageView.alpha = 0.0;
+    rst_dispatch_sync_on_main_thread(^{
+        self.backgroundImageView.image = nil;
+        self.backgroundImageView.alpha = 0.0;
+        
+        self.activityIndicatorView.alpha = 1.0f;
+        [self.activityIndicatorView startAnimating];
+    });
+    
     self.imageURL = nil;
-    self.activityIndicatorView.alpha = 1.0f;
-    [self.activityIndicatorView startAnimating];
     
     [self setEditing:NO];
 }
@@ -108,7 +112,7 @@
 
 - (void)loadRemoteImage
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
+    __block NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -128,15 +132,19 @@
     __weak __typeof__(self) weakSelf = self;
     self.imageDataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, UIImage *image, NSError *error) {
         
-        if (error)
+        if ([error code] == NSURLErrorCancelled)
+        {
+            return;
+        }
+        
+        if (error || image == nil)
         {
             DLog(@"Failure :( %@", error);
-            
             return;
         }
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [weakSelf prepareAndDisplayImage:image];
+            [weakSelf prepareAndDisplayImage:image imageCacheKey:request.URL];
         });
         
     }];
@@ -144,10 +152,10 @@
     [self.imageDataTask resume];
 }
 
-- (void)prepareAndDisplayImage:(UIImage *)image
+- (void)prepareAndDisplayImage:(UIImage *)image imageCacheKey:(id<NSCopying>)key
 {
     image = [image imageByResizingToFitSize:self.backgroundImageView.bounds.size opaque:YES];
-    [self.imageCache setObject:image forKey:self.imageURL];
+    [self.imageCache setObject:image forKey:key];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self displayImage:image animated:YES];

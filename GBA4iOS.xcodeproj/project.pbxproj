@@ -11,7 +11,6 @@
 		1AD65D7B17D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD65D7917D2DCFD00E2CF0C /* GBAControllerSkinSelectionViewController.m */; };
 		1AD971E717D2B6EC007097BC /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		1AD971F317D2C6ED007097BC /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
-		1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */; };
 		36BB379009474825B993FD0E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7AFB44A5AB34C2982DE856F /* libPods.a */; };
 		BF02AFDB182F3E590031B8B6 /* GBASyncingOverviewViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDA182F3E590031B8B6 /* GBASyncingOverviewViewController.mm */; };
 		BF02AFDF182F6E200031B8B6 /* GBASyncingDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF02AFDE182F6E200031B8B6 /* GBASyncingDetailViewController.mm */; };
@@ -87,7 +86,6 @@
 		BF2F3565183FF6F9002ACE90 /* RSTHelperFile.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBEBEF017E62C0000731F76 /* RSTHelperFile.m */; };
 		BF2F3579183FF6F9002ACE90 /* GBAControllerSkinDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */; };
 		BF2F357A183FF6F9002ACE90 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
-		BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */; };
 		BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */; };
 		BF2F3591183FF6F9002ACE90 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
 		BF2F3593183FF6F9002ACE90 /* GBAAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = CC2D570F1798F2EC00C616EB /* GBAAppDelegate.mm */; };
@@ -485,8 +483,6 @@
 		1AD971E617D2B6EC007097BC /* GBAControllerSkinDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDetailViewController.m; sourceTree = "<group>"; };
 		1AD971F017D2C6ED007097BC /* GBAControllerSkin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkin.h; sourceTree = "<group>"; };
 		1AD971F117D2C6ED007097BC /* GBAControllerSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkin.m; sourceTree = "<group>"; };
-		1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControllerSkinDownloadViewControllerOld.h; sourceTree = "<group>"; };
-		1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControllerSkinDownloadViewControllerOld.m; sourceTree = "<group>"; };
 		4A0F09D4E8E87AAE2BF774E2 /* Pods.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods/Pods.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		4BC912A8C9F0C9806CCC83B8 /* Pods.jailbreak.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.jailbreak.xcconfig; path = "Pods/Target Support Files/Pods/Pods.jailbreak.xcconfig"; sourceTree = "<group>"; };
 		8782243FD47ECE841FACE25A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -998,8 +994,6 @@
 			children = (
 				BFF70ED119BD0C7900009DAF /* Select Skins */,
 				BFF70ED019BD0C6600009DAF /* Download Skins */,
-				1AF2115317D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.h */,
-				1AF2115417D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m */,
 				BFF70ED219BD0CAF00009DAF /* UITableViewController+ControllerSkins.h */,
 				BFF70ED319BD0CAF00009DAF /* UITableViewController+ControllerSkins.m */,
 				BF104A8217EB7B8F003C86F5 /* Cells */,
@@ -2301,7 +2295,6 @@
 				BFD98C4E1895FFD500A9432C /* GBAWebViewController.m in Sources */,
 				BFA60DE2184847C40039D77E /* RSTToastView.m in Sources */,
 				BFC82E1719B6A23E00284BAE /* GBAWebBrowserHomepageViewController.m in Sources */,
-				BF2F3583183FF6F9002ACE90 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */,
 				BF2F3590183FF6F9002ACE90 /* GBAControllerSkin.m in Sources */,
 				BF7EC2F3196E3A8F00F61351 /* GBAModernSplitViewController.m in Sources */,
 				BF47B37019C6A68900030431 /* GBABluetoothLinkViewController.m in Sources */,
@@ -2539,7 +2532,6 @@
 				CC50450B1814DC69009F7B9E /* fex.cpp in Sources */,
 				BFFBCCDA18505CB9005187DF /* GBASyncMultipleFilesOperation.mm in Sources */,
 				CCC9B89F1815AC7E005C90EE /* length_counter.cpp in Sources */,
-				1AF2115617D570C700E3FEB7 /* GBAControllerSkinDownloadViewControllerOld.m in Sources */,
 				CCC9B8931815AC7E005C90EE /* Main.cc in Sources */,
 				BFA60DE1184847C40039D77E /* RSTToastView.m in Sources */,
 				CCFA717F179D2EAB00768D24 /* IoMmap.cc in Sources */,
