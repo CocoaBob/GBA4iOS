@@ -1,0 +1,6 @@
+/* Class = "IBUILabel"; text = "No Games"; ObjectID = "7Ot-WV-YtB"; */
+"7Ot-WV-YtB.text" = "没有游戏";
+
+/* Class = "IBUILabel"; text = "If you previously had Dropbox Sync enabled, simply re-download your games, and then your saved data will be synced to this device."; ObjectID = "i9Y-xu-Qui"; */
+"i9Y-xu-Qui.text" = "如果你之前已经启用了Dropbox同步，只要重新下载游戏，存档就会自动被同步到这台设备。";
+

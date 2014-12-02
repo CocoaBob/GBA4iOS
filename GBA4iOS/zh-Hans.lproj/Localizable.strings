@@ -1,0 +1,660 @@
+/* No comment provided by engineer. */
+"Accept" = "接受";
+
+/* No comment provided by engineer. */
+"Account" = "账户";
+
+/* No comment provided by engineer. */
+"Acknowledgements" = "鸣谢";
+
+/* No comment provided by engineer. */
+"Already Exists" = "已经存在";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this event? You can download it again at any time until the event distribution period ends." = "您确定删除这个事件么？在事件过期前您可以随时重新下载。";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this event? You can download it again at any time." = "您确定删除这个事件么？您可以随时重新下载。";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete this game and all of its saved data?" = "您确定删除这个游戏和所有相关存档吗？";
+
+/* No comment provided by engineer. */
+"Are you sure you want to download the “%@” event?" = "您确定删除 “%@” 这个事件吗?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to download “%@” skin?" = "您确定下载 “%@” 这一皮肤么?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to keep syncing disabled?" = "您确定要保持不同步状态吗?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to log out of Dropbox?" = "您确定要登出Dropbox吗?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to permanently delete this save state?" = "您确定要登出Dropbox吗?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to update GBA4iOS?" = "您确定更新GBA4iOS么?";
+
+/* No comment provided by engineer. */
+"Are you sure?" = "您确定吗?";
+
+/* No comment provided by engineer. */
+"Auto Save" = "自动储存";
+
+/* No comment provided by engineer. */
+"Before updating, make sure you have set the date back on this device at least 24 hours. Failure to do so may result in an incomplete update and prevent the app from opening." = "在更新前，请将系统时间调到至少24小时之前，否则您将无法下载和进入该程序。";
+
+/* No comment provided by engineer. */
+"Beta Testers" = "测试人员";
+
+/* No comment provided by engineer. */
+"Bing" = "Bing";
+
+/* No comment provided by engineer. */
+"Blue" = "蓝";
+
+/* No comment provided by engineer. */
+"Brown" = "粽";
+
+/* No comment provided by engineer. */
+"By" = "来自";
+
+/* No comment provided by engineer. */
+"By tapping “Download” below, you confirm that you legally own a physical copy of this game. GBA4iOS does not promote pirating in any form." = "点击下载之前，请确定您持有您下载游戏的物理正版拷贝。 GBA4iOS 不提倡任何形式的盗版。";
+
+/* No comment provided by engineer. */
+"Cancel" = "取消";
+
+/* No comment provided by engineer. */
+"Cannot Delete Currently Running Game" = "无法删除正在运行的游戏";
+
+/* No comment provided by engineer. */
+"Cannot Rename Currently Running Game" = "无法重命名正在运行的游戏";
+
+/* No comment provided by engineer. */
+"Cannot overwrite protected save state" = "无法覆盖写保护的存档";
+
+/* No comment provided by engineer. */
+"Cheat Codes" = "金手指";
+
+/* No comment provided by engineer. */
+"Cheats should only be used if you know exactly what you are doing. Incorrect usage of cheats, such as entering codes incorrectly or using potentially dangerous codes, can have serious side effects in the game. These can result in anything from major graphical glitches to the loss of save data." = "作弊仅在您了解的情况下使用. 不正确的作弊码使用, 包括危险的代码或者错误的代码, 可能导致严重的副作用. 这可能导致您的存档损坏或游戏数据错误.";
+
+/* No comment provided by engineer. */
+"Checking for Update…" = "正在检查更新…";
+
+/* The X's, Y's, and Z's are just to show placeholder characters. No need to translate them */
+"Code format is XXX YYY ZZZ." = "代码格式为 XXX YYY ZZZ.";
+
+/* The X's and Y's are just to show placeholder characters. No need to translate them */
+"Code format is XXXXXXXX YYYY." = "代码格式为 XXXXXXXX YYYY.";
+
+/* The X's and Y's are just to show placeholder characters. No need to translate them */
+"Code format is XXXXXXXX YYYYYYYY." = "代码格式为 XXXXXXXX YYYYYYYY.";
+
+/* The X's and Y's are just to show placeholder characters. No need to translate them */
+"Code format is XXXXXXXX YYYYYYYY.\nOnly GameShark Advance codes are supported, not GameShark SP." = "代码格式为 XXXXXXXX YYYYYYYY.\n只有 GameShark Advance代码被支持。GameShark SP是不可用的。";
+
+/* The X's are just to show placeholder characters. No need to translate them */
+"Code format is XXXXXXXX." = "代码格式为 XXXXXXXX.";
+
+/* No comment provided by engineer. */
+"Conflicted" = "冲突";
+
+/* No comment provided by engineer. */
+"Connected" = "已链接";
+
+/* No comment provided by engineer. */
+"Connection Type" = "连接类型";
+
+/* No comment provided by engineer. */
+"Current" = "当前";
+
+/* No comment provided by engineer. */
+"Current Skins" = "当前皮肤";
+
+/* No comment provided by engineer. */
+"Custom" = "自定义";
+
+/* No comment provided by engineer. */
+"Dark Blue" = "深蓝";
+
+/* No comment provided by engineer. */
+"Dark Brown" = "深棕";
+
+/* No comment provided by engineer. */
+"Dark Green" = "深绿";
+
+/* No comment provided by engineer. */
+"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then launch the game." = "游戏的数据正在下载。为了防止数据丢失，请您在下载完成后再启动游戏。";
+
+/* No comment provided by engineer. */
+"Data for this game is currently being downloaded. To prevent data loss, please wait until the download is complete, then tap Done" = "游戏的数据正在下载。为了防止数据丢失，请您在下载结束后点击完成。";
+
+/* No comment provided by engineer. */
+"Data for this game is not in sync with Dropbox, so syncing has been disabled. Please either tap View Details below to resolve the conflict manually, or ignore this message and start the game anyway. If you choose to not resolve the conflict now, you can resolve it later in the Dropbox settings." = "这个游戏的存档没有和Dropbox同步，所以同步已被关闭。请在查看详情中手动检查冲突，或忽略这条警告直接继续。如果您想解决冲突，稍后您就可以在Dropbox设置中处理了。";
+
+/* No comment provided by engineer. */
+"Decline" = "拒绝";
+
+/* No comment provided by engineer. */
+"Delete Event" = "删除事件";
+
+/* No comment provided by engineer. */
+"Delete Game and Data" = "删除游戏和数据";
+
+/* No comment provided by engineer. */
+"Delete Save State" = "删除存档";
+
+/* No comment provided by engineer. */
+"Dismiss" = "忽略";
+
+/* No comment provided by engineer. */
+"Download" = "下载";
+
+/* No comment provided by engineer. */
+"Download Complete!" = "下载完成";
+
+/* No comment provided by engineer. */
+"Download Failed" = "下载失败";
+
+/* No comment provided by engineer. */
+"Download Skins" = "下载皮肤";
+
+/* No comment provided by engineer. */
+"Downloading" = "正在下载";
+
+/* No comment provided by engineer. */
+"Downloading…" = "正在下载…";
+
+/* No comment provided by engineer. */
+"Dropbox" = "Dropbox";
+
+/* No comment provided by engineer. */
+"Dropbox Sync" = "Dropbox同步";
+
+/* The Pokemon game Emerald, not the jewel */
+"Emerald" = "绿宝石";
+
+/* No comment provided by engineer. */
+"Enable" = "启用";
+
+/* No comment provided by engineer. */
+"Enabled" = "已启用";
+
+/* Date ends */
+"Ends" = "终止";
+
+/* No comment provided by engineer. */
+"Error Loading Save Info" = "存档加载失败";
+
+/* No comment provided by engineer. */
+"Error communicating with Dropbox" = "Dropbox通讯失败";
+
+/* No comment provided by engineer. */
+"Error loading account info" = "账户信息加载失败";
+
+/* No comment provided by engineer. */
+"Event Distribution" = "事件分发";
+
+/* No comment provided by engineer. */
+"Events unlock certain features that are not normally in the game. However, they can only be completed once per save file." = "事件可以解锁游戏中的特定事件。但是每个存档只可以完成一次。";
+
+/* No comment provided by engineer. */
+"Exit" = "退出";
+
+/* No comment provided by engineer. */
+"Exit Event Distribution" = "退出事件分发";
+
+/* No comment provided by engineer. */
+"Exit this event?" = "退出这个事件?";
+
+/* No comment provided by engineer. */
+"Failed to check for update." = "无法检查更新.";
+
+/* No comment provided by engineer. */
+"Failed to sync with Dropbox" = "Dropbox同步失败";
+
+/* No comment provided by engineer. */
+"Fast Forward" = "加速";
+
+/* No comment provided by engineer. */
+"File Already Exists" = "文件已经存在";
+
+/* No comment provided by engineer. */
+"Files" = "文件";
+
+/* The Pokemon game FireRed */
+"FireRed" = "火红";
+
+/* No comment provided by engineer. */
+"GBA" = "GBA";
+
+/* No comment provided by engineer. */
+"GBA Controller Skins" = "GBA控制器皮肤";
+
+/* No comment provided by engineer. */
+"GBC" = "GBC";
+
+/* No comment provided by engineer. */
+"GBC Controller Skins" = "GBC控制器皮肤";
+
+/* No comment provided by engineer. */
+"Game Already Exists With The Name" = "这个名称的游戏已经存在";
+
+/* No comment provided by engineer. */
+"Game Currently Running" = "游戏正在运行";
+
+/* No comment provided by engineer. */
+"Game Data is Conflicted" = "游戏数据冲突";
+
+/* No comment provided by engineer. */
+"Game Genie" = "Game Genie";
+
+/* No comment provided by engineer. */
+"Game Name" = "游戏名";
+
+/* No comment provided by engineer. */
+"Game Uses Gyroscope" = "使用陀螺仪的游戏";
+
+/* No comment provided by engineer. */
+"Game already in use" = "正在使用的游戏";
+
+/* No comment provided by engineer. */
+"GameFAQs" = "GameFAQs";
+
+/* No comment provided by engineer. */
+"GameShark" = "GameShark";
+
+/* No comment provided by engineer. */
+"General" = "通用";
+
+/* No comment provided by engineer. */
+"Google" = "Google";
+
+/* No comment provided by engineer. */
+"Gray" = "灰";
+
+/* No comment provided by engineer. */
+"Green" = "绿";
+
+/* No comment provided by engineer. */
+"Host" = "主机";
+
+/* No comment provided by engineer. */
+"I Understand" = "我知道了";
+
+/* No comment provided by engineer. */
+"If at any time the app fails to open, please set the date back on your device at least 24 hours, then try opening the app again. Once the app is opened, you can set the date back to the correct time, and the app will continue to open normally. However, you'll need to repeat this process every time you restart your device." = "当此程序无法打开时, 请您将系统时间调回至少24小时之前, 再重试打开。成功启动后就可以调回时间。但是当您重启时，您需要重复此步骤。";
+
+/* No comment provided by engineer. */
+"If syncing remains disabled, data for this game will not be updated on your other devices." = "如果禁止同步，此游戏的数据将不会在您的其他设备同步。";
+
+/* No comment provided by engineer. */
+"If turned off, the save data for this game will not be synced to other devices, regardless of whether Dropbox Sync is turned on or not." = "如果禁止同步，此游戏的数据将不会在您的其他设备同步。";
+
+/* No comment provided by engineer. */
+"If you want to delete this save state, swipe it to the left then tap Delete" = "向左滑动来删除这个存档";
+
+/* No comment provided by engineer. */
+"Invalid Cheat" = "无效金手指";
+
+/* No comment provided by engineer. */
+"It'll be removed from all of your Dropbox connected devices." = "它将会从所有同步设备中删除。";
+
+/* No comment provided by engineer. */
+"Join" = "加入";
+
+/* No comment provided by engineer. */
+"Keep Disabled" = "保持关闭";
+
+/* No comment provided by engineer. */
+"Landscape" = "横向";
+
+/* No comment provided by engineer. */
+"Later" = "以后";
+
+/* The Pokemon game LeafGreen */
+"LeafGreen" = "叶绿";
+
+/* No comment provided by engineer. */
+"Load State" = "载入存档";
+
+/* No comment provided by engineer. */
+"Loading account info…" = "加载账户信息...";
+
+/* No comment provided by engineer. */
+"Loading..." = "正在加载...";
+
+/* No comment provided by engineer. */
+"Log Out" = "登出";
+
+/* No comment provided by engineer. */
+"Log out of Dropbox" = "登出Dropbox";
+
+/* No comment provided by engineer. */
+"Logging out then logging back in to the same Dropbox account will mark your games as conflicted, causing you to manually resolve the conflicts yourself." = "重复登入登出将会造成游戏冲突，您需要手动解决这些问题";
+
+/* No comment provided by engineer. */
+"Mail" = "邮件";
+
+/* No comment provided by engineer. */
+"Make sure the zip file contains either a GBA or GBC ROM and try again." = "请确定压缩包中包含GBA或GBC的ROM然后重试";
+
+/* No comment provided by engineer. */
+"Nearby" = "附近";
+
+/* No comment provided by engineer. */
+"Nearby Hosts" = "附近的主机";
+
+/* No comment provided by engineer. */
+"New Event Available" = "有新的可用事件";
+
+/* No comment provided by engineer. */
+"No Save Selected" = "没有选择存档";
+
+/* No comment provided by engineer. */
+"No local save file" = "没有本地文件";
+
+/* No comment provided by engineer. */
+"Normal Speed" = "正常速度";
+
+/* RSTAlertView Dismiss Button Title */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Off" = "关";
+
+/* No comment provided by engineer. */
+"On" = "开";
+
+/* No comment provided by engineer. */
+"Once syncing is enabled, the save file for this game on all your other devices will be overwritten with the one you selected. Please make sure you have selected the correct save file, then tap Enable." = "一旦同步启动，您其他同步的设备上的同名存档将会被覆盖。请选择正确的存档，然后点击启动。";
+
+/* No comment provided by engineer. */
+"Only one copy of a game is supported at a time. To use a new version of this game, please delete the previous version and try again." = "一次职能加载同一个游戏的一种版本，如果需要更新，请删除原来的版本再试。";
+
+/* No comment provided by engineer. */
+"Orange" = "橙";
+
+/* No comment provided by engineer. */
+"Original" = "原始";
+
+/* No comment provided by engineer. */
+"Pastel Mix" = "色彩混合";
+
+/* No comment provided by engineer. */
+"Paused" = "已暂停";
+
+/* No comment provided by engineer. */
+"Player Name" = "玩家名称";
+
+/* No comment provided by engineer. */
+"Please make sure you are connected to the internet and try again." = "请连接互联网后再试";
+
+/* No comment provided by engineer. */
+"Please make sure you typed the cheat code in the correct format and try again." = "请输入正确的的代码后再试";
+
+/* No comment provided by engineer. */
+"Please rename either the existing file or the file to be imported and try again." = "请重命名重复文件后再试";
+
+/* No comment provided by engineer. */
+"Please rename the existing file and try again." = "请重命名重复文件后再试";
+
+/* No comment provided by engineer. */
+"Please wait for the initial sync to be complete, then launch the game. This is to ensure no save data is lost." = "为了保证存档数据完整，请在初始同步完成后再运行游戏。";
+
+/* No comment provided by engineer. */
+"Pokémon" = "Pokémon";
+
+/* No comment provided by engineer. */
+"Portrait" = "纵向";
+
+/* No comment provided by engineer. */
+"Press Beta Testers" = "媒体测试人员";
+
+/* No comment provided by engineer. */
+"Press the button you want to sustain.\n\nTo cancel or unsustain a previously sustained button, either tap the screen or press the Menu button." = "点按需要保持的按键.\n\n 要取消操作，单击屏幕或菜单键。";
+
+/* No comment provided by engineer. */
+"Protect Save State" = "写保护存档";
+
+/* No comment provided by engineer. */
+"Protected" = "已经写保护";
+
+/* No comment provided by engineer. */
+"Quit" = "退出";
+
+/* No comment provided by engineer. */
+"Red" = "红";
+
+/* No comment provided by engineer. */
+"Rename" = "重命名";
+
+/* No comment provided by engineer. */
+"Rename Game" = "重命名游戏";
+
+/* No comment provided by engineer. */
+"Rename Save State" = "重命名存档";
+
+/* No comment provided by engineer. */
+"Restart" = "重新启动";
+
+/* No comment provided by engineer. */
+"Resume" = "恢复";
+
+/* No comment provided by engineer. */
+"Return To Menu" = "回到菜单";
+
+/* No comment provided by engineer. */
+"Reverse" = "反转";
+
+/* No comment provided by engineer. */
+"Rotate To Device Orientation" = "旋转到设备方向";
+
+/* The Pokemon game Ruby, not the jewel */
+"Ruby" = "红宝石";
+
+/* The Pokemon game Sapphire, not the jewel */
+"Sapphire" = "蓝宝石";
+
+/* No comment provided by engineer. */
+"Save" = "保存";
+
+/* No comment provided by engineer. */
+"Save Data Conflicted" = "存储数据冲突";
+
+/* No comment provided by engineer. */
+"Save State" = "存档";
+
+/* No comment provided by engineer. */
+"Save states are intended to be used as a convenience, and not as the primary saving method. To ensure that save data is never lost or corrupted, please save in-game as you would if you were playing on an actual Game Boy Advance." = "自动存档只是为了方便而存在，为保证数据完整，请勿将其作为常规存档方式。";
+
+/* No comment provided by engineer. */
+"Searching…" = "搜索中…";
+
+/* No comment provided by engineer. */
+"Select" = "选择";
+
+/* No comment provided by engineer. */
+"Share Game" = "分享游戏";
+
+/* No comment provided by engineer. */
+"Show Game List" = "显示游戏列表";
+
+/* No comment provided by engineer. */
+"Software Update Available" = "软件更新可用";
+
+/* No comment provided by engineer. */
+"Start" = "开始";
+
+/* No comment provided by engineer. */
+"Start Anyway" = "仍然开始";
+
+/* No comment provided by engineer. */
+"Start Game" = "TEMP";
+
+/* No comment provided by engineer. */
+"Start this event?" = "开始这个事件?";
+
+/* No comment provided by engineer. */
+"Super Cheats" = "Super Cheats";
+
+/* No comment provided by engineer. */
+"Suspend" = "暂停";
+
+/* No comment provided by engineer. */
+"Suspend this game?" = "暂停这个游戏?";
+
+/* No comment provided by engineer. */
+"Sustain Button" = "按键保持";
+
+/* No comment provided by engineer. */
+"Sync Complete!" = "同步完成!";
+
+/* No comment provided by engineer. */
+"Sync Save Data" = "同步存档";
+
+/* No comment provided by engineer. */
+"Syncing with Dropbox" = "正在和Dropbox同步";
+
+/* No comment provided by engineer. */
+"Syncing…" = "正在同步…";
+
+/* No comment provided by engineer. */
+"Tap a name to go to their Twitter profile or personal website." = "点击名称以进入其Twitter或个人网站。";
+
+/* No comment provided by engineer. */
+"Tap the button you want to sustain.\n\nTo cancel or unsustain a previously sustained button, tap anywhere there isn't a button." = "点按需要保持的按键.\n\n 要取消操作，单击屏幕或任何非按键区域。";
+
+/* Leave the %@'s, they are placeholders for the event name and Pokemon games */
+"The event “%@” is now available for download for %@." = "“%1$@” 可以为 %2$@ 下载了";
+
+/* Leave the %@'s, they are placeholders for the event name */
+"The event “%@” is now available for download." = "“%@” 已经可以下载";
+
+/* No comment provided by engineer. */
+"The game will be suspended, which may cause link errors for connected players." = "游戏将被暂停，这可能导致联机玩家产生连接错误。";
+
+/* No comment provided by engineer. */
+"The game will restart, and any unsaved data will be lost." = "游戏将重启，未保存的数据将丢失";
+
+/* No comment provided by engineer. */
+"The game will restart, and any unsaved data will be lost. If you haven't yet completed the event, you may start it again at any time." = "游戏将会重新启动，未保存的数据将会丢失。如果您没有完成此事件，您可以在任何时候重新开始。";
+
+/* No comment provided by engineer. */
+"The save data for this game is not in sync with Dropbox. If you want to re-enable syncing, please select the save file you want to use, then toggle the above switch on." = "游戏将会重新启动，未保存的数据将会丢失。如果您没有完成此事件，您可以在任何时候重新开始。";
+
+/* No comment provided by engineer. */
+"The save data for this game is not in sync with Dropbox. Please select the save file you want to sync to your other devices, then try again.\n\nNOTE: This will overwrite the save file for this game on your other devices." = "此游戏数据不会同步Dropbox。如果您想重新打开同步，请选择需要使用的存档，然后再试。\n\n注意：这将会覆盖您其他设备的相同存档。";
+
+/* No comment provided by engineer. */
+"To delete this game, please quit it so it is no longer running." = "要删除这个游戏，请先将其关闭";
+
+/* No comment provided by engineer. */
+"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate the interface, pause the game, then rotate the device." = "为了防止意外旋转屏幕方向，自动屏幕旋转已被关闭。您可以在暂停后进行旋转。";
+
+/* No comment provided by engineer. */
+"To prevent GBA4iOS from rotating between portrait and landscape accidentally, automatic rotation has been disabled. To manually rotate to the device orientation, pause the game, then tap “Rotate To Device Orientation”." = "为了防止意外旋转屏幕方向，自动屏幕旋转已被关闭。您可以在暂停后点击 旋转到设备方向";
+
+/* No comment provided by engineer. */
+"To rename this game, please quit it so it is no longer running. All unsaved data will be lost." = "需要重命名游戏，需要先将其关闭。所有未保存的数据将会丢失。";
+
+/* No comment provided by engineer. */
+"Today" = "今天";
+
+/* No comment provided by engineer. */
+"Tomorrow" = "明天";
+
+/* No comment provided by engineer. */
+"Unknown" = "未知";
+
+/* No comment provided by engineer. */
+"Unprotect Save State" = "未保护的存档";
+
+/* No comment provided by engineer. */
+"Unsupported File" = "不支持的文件";
+
+/* No comment provided by engineer. */
+"Update" = "更新";
+
+/* No comment provided by engineer. */
+"Updating Dropbox status…" = "更新Dropbox状态…";
+
+/* No comment provided by engineer. */
+"Updating Dropbox…" = "更新Dropbox…";
+
+/* No comment provided by engineer. */
+"Upload Complete!" = "上传完成！";
+
+/* No comment provided by engineer. */
+"Upload Failed" = "上传失败";
+
+/* No comment provided by engineer. */
+"Uploading" = "正在上传";
+
+/* No comment provided by engineer. */
+"View" = "查看";
+
+/* No comment provided by engineer. */
+"View Details" = "详细信息";
+
+/* No comment provided by engineer. */
+"Waiting…" = "等待中…";
+
+/* No comment provided by engineer. */
+"Warning!" = "警告！";
+
+/* No comment provided by engineer. */
+"Welcome to GBA4iOS!" = "欢迎来到GBA4iOS!";
+
+/* No comment provided by engineer. */
+"When Wireless Link is connected, the game cannot be paused." = "当无线联机开启时，游戏无法暂停。";
+
+/* No comment provided by engineer. */
+"Wireless Linking" = "无线联机";
+
+/* No comment provided by engineer. */
+"Wireless Linking uses either local Wi-Fi or Bluetooth. However, for best performance, all devices should be connected to the same Wi-Fi network." = "无线联机可以在Wi-Fi和蓝牙中使用。为了最佳效果，所有设备需要连接至相同的Wi-Fi网络。";
+
+/* No comment provided by engineer. */
+"Would you like to end %@ and start %@? All unsaved data will be lost." = "您是否想要结束 %1$@ 来启动 %2$@? 所有未保存的数据将会丢失。";
+
+/* No comment provided by engineer. */
+"Would you like to resume where you left off, or restart the game?" = "当您回来或重启的时候是否需要恢复？";
+
+/* No comment provided by engineer. */
+"Yahoo" = "Yahoo";
+
+/* No comment provided by engineer. */
+"Yellow" = "黄";
+
+/* No comment provided by engineer. */
+"You can import other .gbaskin or .gbcskin files via iTunes, or by downloading them in Safari and opening in GBA4iOS." = "您可以用iTunes导入.gbaskin和.gbcskin文件, 或用Safari下载，在GBA4iOS打开.";
+
+/* No comment provided by engineer. */
+"Your software is up to date." = "您的软件已是最新.";
+
+/* No comment provided by engineer. */
+"and" = "和";
+
+/* No comment provided by engineer. */
+"cheats" = "金手指";
+
+/* No comment provided by engineer. */
+"files" = "文件";
+
+/* No comment provided by engineer. */
+"is now available for download." = "现在可以下载。";
+
+/* No comment provided by engineer. */
+"save" = "保存";
+
+/* No comment provided by engineer. */
+"save states" = "存档";
+
+/* No comment provided by engineer. */
+"would like to link with you." = "想要和您连机。";
+

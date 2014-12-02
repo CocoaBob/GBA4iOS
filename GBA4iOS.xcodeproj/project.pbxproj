@@ -133,6 +133,9 @@
 		BF359B99187A64C000B4CA53 /* NSDate+Comparing.m in Sources */ = {isa = PBXBuildFile; fileRef = BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */; };
 		BF359B9B187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */; };
 		BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */; };
+		BF3B2B6B1A2E3F3300301AE1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF3B2B6D1A2E3F3300301AE1 /* Localizable.strings */; };
+		BF3B2B721A2E3F3400301AE1 /* GBA4iOS-Info-SimulatorPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF3B2B741A2E3F3400301AE1 /* GBA4iOS-Info-SimulatorPlist.strings */; };
+		BF3B2B771A2E3F3500301AE1 /* GBA4iOS-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF3B2B791A2E3F3500301AE1 /* GBA4iOS-InfoPlist.strings */; };
 		BF3E2BB318206D54004231F6 /* UIActionSheet+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */; };
 		BF3E2BB718206D5B004231F6 /* UIAlertView+RSTAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BB618206D5B004231F6 /* UIAlertView+RSTAdditions.m */; };
 		BF3E2BBB18206D64004231F6 /* RSTFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E2BBA18206D64004231F6 /* RSTFileBrowserViewController.m */; };
@@ -555,6 +558,12 @@
 		BF359B96187A64C000B4CA53 /* NSDate+Comparing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Comparing.h"; sourceTree = "<group>"; };
 		BF359B97187A64C000B4CA53 /* NSDate+Comparing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Comparing.m"; sourceTree = "<group>"; };
 		BF359B9A187A6A8200B4CA53 /* eventDistributionROMs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = eventDistributionROMs.plist; sourceTree = "<group>"; };
+		BF3B2B6C1A2E3F3300301AE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BF3B2B6E1A2E3F3400301AE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GBANoGamesView.strings"; sourceTree = "<group>"; };
+		BF3B2B6F1A2E3F3400301AE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Emulation.strings"; sourceTree = "<group>"; };
+		BF3B2B731A2E3F3400301AE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GBA4iOS-Info-SimulatorPlist.strings"; sourceTree = "<group>"; };
+		BF3B2B781A2E3F3500301AE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GBA4iOS-InfoPlist.strings"; sourceTree = "<group>"; };
+		BF3B2B7A1A2E3F3500301AE1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Settings.strings"; sourceTree = "<group>"; };
 		BF3E2BB118206D54004231F6 /* UIActionSheet+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIActionSheet+RSTAdditions.h"; path = "Cocoapods/UIActionSheet+RSTAdditions.h"; sourceTree = "<group>"; };
 		BF3E2BB218206D54004231F6 /* UIActionSheet+RSTAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIActionSheet+RSTAdditions.m"; path = "Cocoapods/UIActionSheet+RSTAdditions.m"; sourceTree = "<group>"; };
 		BF3E2BB518206D5B004231F6 /* UIAlertView+RSTAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertView+RSTAdditions.h"; path = "Cocoapods/UIAlertView+RSTAdditions.h"; sourceTree = "<group>"; };
@@ -1578,6 +1587,9 @@
 		CC2D57061798F2EC00C616EB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BF3B2B791A2E3F3500301AE1 /* GBA4iOS-InfoPlist.strings */,
+				BF3B2B741A2E3F3400301AE1 /* GBA4iOS-Info-SimulatorPlist.strings */,
+				BF3B2B6D1A2E3F3300301AE1 /* Localizable.strings */,
 				BFC354FD1A11955E004BC5B3 /* GBA4iOS-Info-Simulator.plist */,
 				CC2D57071798F2EC00C616EB /* GBA4iOS-Info.plist */,
 				BF4B0FF1197C9D17003CF17D /* GBA4iOS.entitlements */,
@@ -2069,6 +2081,7 @@
 				BF359B9C187A6A8200B4CA53 /* eventDistributionROMs.plist in Resources */,
 				BF60A17218A61D8700B2E7D4 /* betaTesters.plist in Resources */,
 				BF0EBB1219C026E500703623 /* Launch Screen.xib in Resources */,
+				BF3B2B721A2E3F3400301AE1 /* GBA4iOS-Info-SimulatorPlist.strings in Resources */,
 				BFB89E4018909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				BF2F35CA183FF6F9002ACE90 /* Images.xcassets in Resources */,
 				BF2F35CB183FF6F9002ACE90 /* padButton.png in Resources */,
@@ -2100,11 +2113,13 @@
 				BFB89E3F18909EE8002E5F26 /* Default-Landscape@2x~ipad.png in Resources */,
 				CC96F01717C2A0AD00C7DD0C /* Images.xcassets in Resources */,
 				BF49397617CD947C0072CFC7 /* padButton.png in Resources */,
+				BF3B2B6B1A2E3F3300301AE1 /* Localizable.strings in Resources */,
 				BF8C11431A2D01DF00126A3D /* GBANoGamesView.xib in Resources */,
 				1A5BAE7F17D04B0A00BABC01 /* overlays128.png in Resources */,
 				CC5044E71814C474009F7B9E /* Default.gbcskin in Resources */,
 				BFBA77BA19B715E1000E8425 /* Acknowledgements.html in Resources */,
 				BFB89E4718909EE8002E5F26 /* Default@2x.png in Resources */,
+				BF3B2B771A2E3F3500301AE1 /* GBA4iOS-InfoPlist.strings in Resources */,
 				BFB89E4518909EE8002E5F26 /* Default-Portrait~ipad.png in Resources */,
 				BF40C33019E09974003C73B5 /* Intro.mp4 in Resources */,
 				BF8C11471A2D01ED00126A3D /* Settings.storyboard in Resources */,
@@ -2598,10 +2613,35 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		BF3B2B6D1A2E3F3300301AE1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF3B2B6C1A2E3F3300301AE1 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		BF3B2B741A2E3F3400301AE1 /* GBA4iOS-Info-SimulatorPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF3B2B731A2E3F3400301AE1 /* zh-Hans */,
+			);
+			name = "GBA4iOS-Info-SimulatorPlist.strings";
+			sourceTree = "<group>";
+		};
+		BF3B2B791A2E3F3500301AE1 /* GBA4iOS-InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF3B2B781A2E3F3500301AE1 /* zh-Hans */,
+			);
+			name = "GBA4iOS-InfoPlist.strings";
+			sourceTree = "<group>";
+		};
 		BF8C11461A2D01DF00126A3D /* GBANoGamesView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				BF8C11451A2D01DF00126A3D /* Base */,
+				BF3B2B6E1A2E3F3400301AE1 /* zh-Hans */,
 			);
 			name = GBANoGamesView.xib;
 			sourceTree = "<group>";
@@ -2610,6 +2650,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BF8C11491A2D01ED00126A3D /* Base */,
+				BF3B2B7A1A2E3F3500301AE1 /* zh-Hans */,
 			);
 			name = Settings.storyboard;
 			sourceTree = "<group>";
@@ -2626,6 +2667,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				CC2D57121798F2EC00C616EB /* Base */,
+				BF3B2B6F1A2E3F3400301AE1 /* zh-Hans */,
 			);
 			name = Emulation.storyboard;
 			sourceTree = "<group>";

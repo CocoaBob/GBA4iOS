@@ -1,0 +1,54 @@
+/* Class = "IBUIBarButtonItem"; title = "Save"; ObjectID = "6T1-6f-2Xr"; */
+"6T1-6f-2Xr.title" = "保存";
+
+/* Class = "IBUINavigationItem"; title = "New Cheat Code"; ObjectID = "Hys-sS-FQH"; */
+"Hys-sS-FQH.title" = "新金手指";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Name"; ObjectID = "IRp-bi-6xE"; */
+"IRp-bi-6xE.headerTitle" = "名称";
+
+/* Class = "IBUIBarButtonItem"; title = "Cancel"; ObjectID = "NmM-8t-Spy"; */
+"NmM-8t-Spy.title" = "取消";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Description"; ObjectID = "ObR-JF-dpC"; */
+"ObR-JF-dpC.headerTitle" = "描述";
+
+/* Class = "IBUILabel"; text = "Start Event"; ObjectID = "eIQ-hB-MjB"; */
+"eIQ-hB-MjB.text" = "开始事件";
+
+/* Class = "IBUISegmentedControl"; fl2-uD-BuI.segmentTitles[0] = "Action Replay"; ObjectID = "fl2-uD-BuI"; */
+"fl2-uD-BuI.segmentTitles[0]" = "Action Replay";
+
+/* Class = "IBUISegmentedControl"; fl2-uD-BuI.segmentTitles[1] = "GameShark"; ObjectID = "fl2-uD-BuI"; */
+"fl2-uD-BuI.segmentTitles[1]" = "GameShark";
+
+/* Class = "IBUISegmentedControl"; fl2-uD-BuI.segmentTitles[2] = "Code Breaker"; ObjectID = "fl2-uD-BuI"; */
+"fl2-uD-BuI.segmentTitles[2]" = "Code Breaker";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Code will be formatted automatically as you type."; ObjectID = "iX4-B9-cGU"; */
+"iX4-B9-cGU.footerTitle" = "输入时代码将被自动分隔";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Code"; ObjectID = "iX4-B9-cGU"; */
+"iX4-B9-cGU.headerTitle" = "代码";
+
+/* Class = "IBUITextField"; placeholder = "Cheat Name"; ObjectID = "l8o-9P-x4c"; */
+"l8o-9P-x4c.placeholder" = "作弊名称";
+
+/* Class = "IBUILabel"; text = "Delete Event"; ObjectID = "oDn-sc-hVn"; */
+"oDn-sc-hVn.text" = "删除事件";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Code format is XXXXXXXX YYYYYYYY."; ObjectID = "rb8-cQ-kZU"; */
+"rb8-cQ-kZU.footerTitle" = "代码格式为 XXXXXXXX YYYYYYYY.";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Type"; ObjectID = "rb8-cQ-kZU"; */
+"rb8-cQ-kZU.headerTitle" = "类型";
+
+/* Class = "IBUISegmentedControl"; vw4-Ob-Njc.segmentTitles[0] = "ALL"; ObjectID = "vw4-Ob-Njc"; */
+"vw4-Ob-Njc.segmentTitles[0]" = "全部";
+
+/* Class = "IBUISegmentedControl"; vw4-Ob-Njc.segmentTitles[1] = "GBA"; ObjectID = "vw4-Ob-Njc"; */
+"vw4-Ob-Njc.segmentTitles[1]" = "GBA";
+
+/* Class = "IBUISegmentedControl"; vw4-Ob-Njc.segmentTitles[2] = "GBC"; ObjectID = "vw4-Ob-Njc"; */
+"vw4-Ob-Njc.segmentTitles[2]" = "GBC";
+

@@ -1,0 +1,258 @@
+/* Class = "IBUINavigationItem"; title = "Color Palette"; ObjectID = "0Lx-Rr-UoP"; */
+"0Lx-Rr-UoP.title" = "调色板";
+
+/* Class = "IBUILabel"; text = "Blue"; ObjectID = "3Pe-Ua-wT7"; */
+"3Pe-Ua-wT7.text" = "蓝";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Customize appearance of original Game Boy games."; ObjectID = "3QS-s6-Mol"; */
+"3QS-s6-Mol.footerTitle" = "定制原始Game Boy游戏的外观";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Original Game Boy  "; ObjectID = "3QS-s6-Mol"; */
+"3QS-s6-Mol.headerTitle" = "原始Game Boy";
+
+/* Class = "IBUILabel"; text = "Red"; ObjectID = "4j4-nH-Qtv"; */
+"4j4-nH-Qtv.text" = "红";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Alternatively, you can temporarily override the selected palette by pressing and holding different combinations of the D-Pad, A, and B buttons during the GBA4iOS intro animation (if enabled)."; ObjectID = "5eF-q4-CKV"; */
+"5eF-q4-CKV.footerTitle" = "另外，您也可以通过在启动时通过尝试按键的不同组合临时替代选择调色板。";
+
+/* Class = "IBUILabel"; text = "Orange"; ObjectID = "6He-Co-vnt"; */
+"6He-Co-vnt.text" = "橙";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Controller Skins"; ObjectID = "6xa-Dc-Gfk"; */
+"6xa-Dc-Gfk.headerTitle" = "控制器皮肤";
+
+/* Class = "IBUILabel"; text = "Brown"; ObjectID = "52b-gJ-xtf"; */
+"52b-gJ-xtf.text" = "棕";
+
+/* Class = "IBUINavigationItem"; title = "Push Notifications"; ObjectID = "67e-4s-fQP"; */
+"67e-4s-fQP.title" = "推送通知";
+
+/* Class = "IBUILabel"; text = "Homepage"; ObjectID = "AU0-rt-Yc9"; */
+"AU0-rt-Yc9.text" = "主页";
+
+/* Class = "IBUILabel"; text = "Download Update"; ObjectID = "BMU-EP-k3X"; */
+"BMU-EP-k3X.text" = "下载更新";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Game music will only play if no other app is playing audio."; ObjectID = "BQC-TG-YXN"; */
+"BQC-TG-YXN.footerTitle" = "游戏只会在其他程序静默时播放声音";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Audio"; ObjectID = "BQC-TG-YXN"; */
+"BQC-TG-YXN.headerTitle" = "声音";
+
+/* Class = "IBUILabel"; text = "Wireless Linking"; ObjectID = "Bvg-Ir-Tff"; */
+"Bvg-Ir-Tff.text" = "无线联机";
+
+/* Class = "IBUILabel"; text = "Beta"; ObjectID = "C9H-Vq-fws"; */
+"C9H-Vq-fws.text" = "测试";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Palettes"; ObjectID = "D3t-Sf-IaO"; */
+"D3t-Sf-IaO.headerTitle" = "调色板";
+
+/* Class = "IBUILabel"; text = "Intro Animation"; ObjectID = "DgH-FF-EUW"; */
+"DgH-FF-EUW.text" = "开场动画";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Linking allows you to use multiplayer features that normally require a Link Cable."; ObjectID = "EN5-5q-GTX"; */
+"EN5-5q-GTX.footerTitle" = "联机可以进行以往需要线缆连接才能完成的多人游戏";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Multiplayer"; ObjectID = "EN5-5q-GTX"; */
+"EN5-5q-GTX.headerTitle" = "多人游戏";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Check For Updates"; ObjectID = "HXq-6T-tyt"; */
+"HXq-6T-tyt.headerTitle" = "检查更新";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Higher numbers yield better performance, but at the cost of lower frame rates."; ObjectID = "HXr-np-Neh"; */
+"HXr-np-Neh.footerTitle" = "更高的数字意味着更好的性能，但是会带来更低的帧率";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Frame Skip"; ObjectID = "HXr-np-Neh"; */
+"HXr-np-Neh.headerTitle" = "跳帧";
+
+/* Class = "IBUILabel"; text = "Gray"; ObjectID = "Hi9-5g-Q3a"; */
+"Hi9-5g-Q3a.text" = "银";
+
+/* Class = "IBUILabel"; text = "Open Settings"; ObjectID = "Hny-dp-MQF"; */
+"Hny-dp-MQF.text" = "打开设置";
+
+/* Class = "IBUILabel"; text = "Acknowledgements"; ObjectID = "JU5-45-kov"; */
+"JU5-45-kov.text" = "鸣谢";
+
+/* Class = "IBUINavigationItem"; title = "Homepage"; ObjectID = "KGs-La-7TX"; */
+"KGs-La-7TX.title" = "主页";
+
+/* Class = "IBUILabel"; text = "Color Palette"; ObjectID = "L0P-0l-40q"; */
+"L0P-0l-40q.text" = "调色板";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Get notified of new Event Distributions and Software Updates when they become available."; ObjectID = "N7e-LM-1A1"; */
+"N7e-LM-1A1.footerTitle" = "在事件分发和软件更新可用时获得通知。";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Notifications"; ObjectID = "N7e-LM-1A1"; */
+"N7e-LM-1A1.headerTitle" = "通知";
+
+/* Class = "IBUILabel"; text = "Use As Second Screen"; ObjectID = "NKr-hg-BjW"; */
+"NKr-hg-BjW.text" = "作为第二屏幕";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Subsequent launches of the in-app web browser will return you to the previously loaded webpage, instead of the homepage. However, this may lead to increased memory usage."; ObjectID = "Pc7-qy-nxo"; */
+"Pc7-qy-nxo.footerTitle" = "随后打开的网页浏览器将载入最后浏览的页面而不是主页。但是这会消耗更多的内存";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Web Browser"; ObjectID = "Pc7-qy-nxo"; */
+"Pc7-qy-nxo.headerTitle" = "网页浏览器";
+
+/* Class = "IBUINavigationItem"; title = "Configure Buttons"; ObjectID = "QGa-sU-qVs"; */
+"QGa-sU-qVs.title" = "配置按键";
+
+/* Class = "IBUILabel"; text = "Off"; ObjectID = "QJX-D8-fJ9"; */
+"QJX-D8-fJ9.text" = "关闭";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Determines how transparent the controller is, if supported by the skin."; ObjectID = "SNw-c2-3jm"; */
+"SNw-c2-3jm.footerTitle" = "控制皮肤的透明度，这需要皮肤的支持";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Controller Opacity"; ObjectID = "SNw-c2-3jm"; */
+"SNw-c2-3jm.headerTitle" = "控制器透明度";
+
+/* Class = "IBUILabel"; text = "Software Update"; ObjectID = "Sjb-K1-mRU"; */
+"Sjb-K1-mRU.text" = "软件更新";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Play GBA4iOS animation when starting a new game."; ObjectID = "TL8-vo-bMg"; */
+"TL8-vo-bMg.footerTitle" = "在打开游戏时播放动画";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Emulation"; ObjectID = "TL8-vo-bMg"; */
+"TL8-vo-bMg.headerTitle" = "模拟";
+
+/* Class = "IBUILabel"; text = "Tap a button to change what action it performs"; ObjectID = "TUx-2B-J2m"; */
+"TUx-2B-J2m.text" = "点按一个按键来改变用途";
+
+/* Class = "IBUITableViewSection"; footerTitle = "A save state will be created whenever another save state is loaded, you quit the game, or the app crashes. This is intended to be used as a backup and not your primary saving method."; ObjectID = "Ui4-u6-rdp"; */
+"Ui4-u6-rdp.footerTitle" = "程序崩溃、其他游戏载入、退出游戏时都会创建自动存档。但是这是应急备份手段，不应作为常规存档方式使用。";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Saving"; ObjectID = "Ui4-u6-rdp"; */
+"Ui4-u6-rdp.headerTitle" = "存储";
+
+/* Class = "IBUILabel"; text = "Dark Blue"; ObjectID = "XyG-Uh-6nW"; */
+"XyG-Uh-6nW.text" = "深蓝";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Syncing"; ObjectID = "Y91-iU-ZZA"; */
+"Y91-iU-ZZA.headerTitle" = "同步";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Tap a name to go to their Twitter profile.\n\nFor all the latest GBA4iOS updates, follow Riley Testut and Paul Thorsen."; ObjectID = "Yil-Be-Dpf"; */
+"Yil-Be-Dpf.footerTitle" = "点按姓名进入Twitter主页.\n\n 如果需要GBA4iOS更新的信息, 请关注Riley Testut和Paul Thorsen.";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Credits"; ObjectID = "Yil-Be-Dpf"; */
+"Yil-Be-Dpf.headerTitle" = "关于我们";
+
+/* Class = "IBUILabel"; text = "Project Advisor"; ObjectID = "ZSt-Ue-ZUl"; */
+"ZSt-Ue-ZUl.text" = "项目顾问";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Receive a notification whenever a new Event Distribution for one of your games is available for download."; ObjectID = "a05-EZ-EDr"; */
+"a05-EZ-EDr.footerTitle" = "在新事件分发可用时接收通知";
+
+/* Class = "IBUITableViewSection"; footerTitle = "The palette you select will determine the color of any original Game Boy games you play. "; ObjectID = "aVQ-aM-RQB"; */
+"aVQ-aM-RQB.footerTitle" = "您选择的颜色将作用于所有原始Game Boy游戏";
+
+/* Class = "IBUILabel"; text = "Yellow"; ObjectID = "af0-4z-U6i"; */
+"af0-4z-U6i.text" = "黄";
+
+/* Class = "IBUILabel"; text = "Event Distributions"; ObjectID = "bB7-k3-96J"; */
+"bB7-k3-96J.text" = "事件分发";
+
+/* Class = "IBUILabel"; text = "Dropbox Sync"; ObjectID = "bQm-NJ-XIL"; */
+"bQm-NJ-XIL.text" = "Dropbox同步";
+
+/* Class = "IBUIViewController"; title = "External Controller"; ObjectID = "bqr-aX-GSp"; */
+"bqr-aX-GSp.title" = "外部控制器";
+
+/* Class = "IBUILabel"; text = "Developer"; ObjectID = "c59-FU-Kqa"; */
+"c59-FU-Kqa.text" = "开发者";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Custom Homepage"; ObjectID = "cOS-nZ-pon"; */
+"cOS-nZ-pon.headerTitle" = "自定义主页";
+
+/* Class = "IBUILabel"; text = "Software Updates"; ObjectID = "ccJ-F6-oWX"; */
+"ccJ-F6-oWX.text" = "软件更新";
+
+/* Class = "IBUINavigationItem"; title = "Software Update"; ObjectID = "dSC-oI-Iej"; */
+"dSC-oI-Iej.title" = "软件更新";
+
+/* Class = "IBUITableViewSection"; footerTitle = "When AirPlaying or connected via HDMI, the game will appear on the second screen, and the controller will remain on this device's screen."; ObjectID = "dsn-Yk-7nW"; */
+"dsn-Yk-7nW.footerTitle" = "当使用AirPlay或连接到了HDMI，游戏将会出现在显示器，而手柄则会充满这台设备的屏幕";
+
+/* Class = "IBUITableViewController"; title = "Settings"; ObjectID = "fFF-zm-sH1"; */
+"fFF-zm-sH1.title" = "设置";
+
+/* Class = "IBUILabel"; text = "Reverse"; ObjectID = "iLl-zW-6sG"; */
+"iLl-zW-6sG.text" = "反转";
+
+/* Class = "IBUITableViewSection"; footerTitle = "To make sure GBA4iOS can check for new data and send push notifications, please make sure “Background App Refresh” is turned ON for GBA4iOS in the Settings app."; ObjectID = "igE-0h-kuN"; */
+"igE-0h-kuN.footerTitle" = "为了确保GBA4iOS能正常检查更新和获取同步信息，请打开系统设置，并在通知设置中启用GBA4iOS的背景应用同步";
+
+/* Class = "IBUILabel"; text = "Push Notifications"; ObjectID = "j5n-VH-SfQ"; */
+"j5n-VH-SfQ.text" = "推送通知";
+
+/* Class = "IBUILabel"; text = "Green"; ObjectID = "jP6-8t-SsW"; */
+"jP6-8t-SsW.text" = "绿";
+
+/* Class = "IBUILabel"; text = "Beta Testers"; ObjectID = "jj8-wN-xi5"; */
+"jj8-wN-xi5.text" = "测试人员";
+
+/* Class = "IBUITableViewSection"; footerTitle = "The device will vibrate whenever you press a button on the controller. Make sure vibrate is ON in the Settings app for ring, silent, or both, depending on which mode you're in."; ObjectID = "k3M-IC-7Nd"; */
+"k3M-IC-7Nd.footerTitle" = "在按下按键时设备将会震动。这取决于系统的震动设置";
+
+/* Class = "IBUITableViewSection"; headerTitle = "Controller Vibration"; ObjectID = "k3M-IC-7Nd"; */
+"k3M-IC-7Nd.headerTitle" = "控制器震动";
+
+/* Class = "IBUILabel"; text = "Original Icon"; ObjectID = "kmR-d2-GDL"; */
+"kmR-d2-GDL.text" = "原始图标";
+
+/* Class = "IBUILabel"; text = "Custom"; ObjectID = "lP5-7t-EIE"; */
+"lP5-7t-EIE.text" = "自定义";
+
+/* Class = "IBUILabel"; text = "Off"; ObjectID = "lcU-P5-yPJ"; */
+"lcU-P5-yPJ.text" = "关";
+
+/* Class = "IBUINavigationItem"; title = "Settings"; ObjectID = "nvY-tQ-ZRC"; */
+"nvY-tQ-ZRC.title" = "设置";
+
+/* Class = "IBUILabel"; text = "Original"; ObjectID = "o3m-h0-A1w"; */
+"o3m-h0-A1w.text" = "原始";
+
+/* Class = "IBUITableViewSection"; footerTitle = "Receive a notification whenever an update to GBA4iOS is available for download."; ObjectID = "pnm-kB-mkb"; */
+"pnm-kB-mkb.footerTitle" = "当GBA4iOS更新时收到通知";
+
+/* Class = "IBUILabel"; text = "Graphic Designer"; ObjectID = "qY9-bp-cXh"; */
+"qY9-bp-cXh.text" = "图形设计师";
+
+/* Class = "IBUILabel"; text = "Auto Save"; ObjectID = "ret-tW-Wta"; */
+"ret-tW-Wta.text" = "自动存档";
+
+/* Class = "IBUITableViewSection"; headerTitle = "External Controller"; ObjectID = "s3c-lR-3lq"; */
+"s3c-lR-3lq.headerTitle" = "外部控制器";
+
+/* Class = "IBUILabel"; text = "Remember Last Webpage"; ObjectID = "sdl-mC-tHg"; */
+"sdl-mC-tHg.text" = "记住最后的页面";
+
+/* Class = "IBUILabel"; text = "Configure Buttons"; ObjectID = "tNu-VX-c2N"; */
+"tNu-VX-c2N.text" = "配置按键";
+
+/* Class = "IBUILabel"; text = "Dark Brown"; ObjectID = "u57-Nm-5mj"; */
+"u57-Nm-5mj.text" = "深棕";
+
+/* Class = "IBUISegmentedControl"; wCX-6F-d72.segmentTitles[0] = "Auto"; ObjectID = "wCX-6F-d72"; */
+"wCX-6F-d72.segmentTitles[0]" = "自动";
+
+/* Class = "IBUILabel"; text = "Pastel Mix"; ObjectID = "x56-em-w1o"; */
+"x56-em-w1o.text" = "调色板";
+
+/* Class = "IBUILabel"; text = "Off"; ObjectID = "xfN-uz-80c"; */
+"xfN-uz-80c.text" = "关闭";
+
+/* Class = "IBUILabel"; text = "Prefer External Audio"; ObjectID = "yfw-hw-HXs"; */
+"yfw-hw-HXs.text" = "外部音频优先";
+
+/* Class = "IBUILabel"; text = "Vibrate On Button Press"; ObjectID = "yyX-GY-xjr"; */
+"yyX-GY-xjr.text" = "按下时震动";
+
+/* Class = "IBUILabel"; text = "Dark Green"; ObjectID = "zO5-cb-KP1"; */
+"zO5-cb-KP1.text" = "深绿";
+
+/* Class = "IBUITextView"; text = "This version of GBA4iOS includes:\n\n• Multiplayer support!"; ObjectID = "zdt-lk-gA2"; */
+"zdt-lk-gA2.text" = "这个版本的GBA4iOS支持: \n\n •多人联机！";
+
