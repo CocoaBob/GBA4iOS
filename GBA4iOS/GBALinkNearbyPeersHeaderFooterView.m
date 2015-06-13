@@ -24,46 +24,26 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        _activityIndicatorView = ({
-            UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            activityIndicatorView.hidesWhenStopped = YES;
-            activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
-            activityIndicatorView;
-        });
-        [self.contentView addSubview:_activityIndicatorView];
-        
+        [self initActivityIndicator];
         self.textLabel.text = @" ";
     }
     return self;
 }
 
+- (void)initActivityIndicator
+{
+        self.activityIndicatorView = ({
+            UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            activityIndicatorView.hidesWhenStopped = YES;
+            activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
+            activityIndicatorView;
+        });
+        [self.contentView addSubview:self.activityIndicatorView];
+}
+
 + (BOOL)requiresConstraintBasedLayout
 {
     return YES;
-}
-
-- (void)updateConstraints
-{
-    if (!_hasAddedInitialConstraints)
-    {
-        _hasAddedInitialConstraints = YES;
-        
-        [self layoutIfNeeded]; // Ensures the textLabel has been added as a subview
-        
-        NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[textLabel]-[activityIndicatorView]" options:0 metrics:nil views:@{@"textLabel": self.textLabel, @"activityIndicatorView": self.activityIndicatorView}];
-        
-        [self addConstraints:constraints];
-        
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activityIndicatorView
-                                                         attribute:NSLayoutAttributeCenterY
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self.textLabel
-                                                         attribute:NSLayoutAttributeCenterY
-                                                        multiplier:1.0
-                                                          constant:0.0]];
-    }
-    
-    [super updateConstraints];
 }
 
 #pragma mark - Getters/Setters
