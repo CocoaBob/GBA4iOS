@@ -54,7 +54,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @property (strong, nonatomic) NSMutableSet *currentUnzippingOperations;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) UIPopoverController *activityPopoverController;
-@property (strong, nonatomic) dispatch_queue_t directory_contents_changed_queue;
 @property (strong, nonatomic) NSIndexPath *selectedROMIndexPath;
 
 @property (strong, nonatomic) IBOutlet UILabel *noGamesLabel;
@@ -77,6 +76,15 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
 @implementation GBAROMTableViewController
 @synthesize theme = _theme;
 
+dispatch_queue_t directoryContentsChangedQueue() {
+    static dispatch_once_t queueCreationGuard;
+    static dispatch_queue_t queue;
+    dispatch_once(&queueCreationGuard, ^{
+        queue = dispatch_queue_create("com.rileytestut.GBA4iOS.directory_contents_changed_queue", DISPATCH_QUEUE_SERIAL);
+    });
+    return queue;
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
@@ -91,8 +99,6 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         self.showFolders = NO;
         self.showSectionTitles = NO;
         self.showUnavailableFiles = YES;
-        
-        self.directory_contents_changed_queue = dispatch_queue_create("com.rileytestut.GBA4iOS.directory_contents_changed_queue", DISPATCH_QUEUE_SERIAL);
         
         _downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];
         [_downloadProgress addObserver:self
@@ -592,7 +598,7 @@ typedef NS_ENUM(NSInteger, GBAVisibleROMType) {
         return;
     }
     
-    dispatch_async(self.directory_contents_changed_queue, ^{
+    dispatch_async(directoryContentsChangedQueue(), ^{
         
         __block NSMutableDictionary *cachedROMs = [NSMutableDictionary dictionaryWithContentsOfFile:[self cachedROMsPath]];
         
