@@ -200,7 +200,7 @@ static GBAEmulationViewController *_emulationViewController;
         // Add to our view so we can animate it
         [self.view addSubview:self.splashScreenView];
         
-        self.romTableViewController = [[GBAROMTableViewController alloc] init];
+        self.romTableViewController = [[GBAROMTableViewController alloc] initWithNibName:nil bundle:nil];
         self.romTableViewController.appearanceDelegate = self;
         self.romTableViewController.view.layer.allowsGroupOpacity = YES;
         
