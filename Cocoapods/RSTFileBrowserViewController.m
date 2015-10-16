@@ -54,7 +54,7 @@
 {
     _fileDictionary = [[NSMutableDictionary alloc] init];
     _sections = [@"A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|#" componentsSeparatedByString:@"|"];
-    _showSectionTitles = NO;
+    _showSectionTitles = YES;
     _refreshAutomatically = YES;
 }
 

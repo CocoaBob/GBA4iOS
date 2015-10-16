@@ -22,7 +22,7 @@
 #import "GBABluetoothLinkManager.h"
 #import "UIDevice-Hardware.h"
 
-#import <Dropbox-iOS-SDK/DropboxSDK.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 #define FRAME_SKIP_SECTION 0
 #define LINKING_SECTION 1
@@ -605,7 +605,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 }
 
 
-- (NSUInteger)navigationControllerSupportedInterfaceOrientations:(UINavigationController *)navigationController
+- (UIInterfaceOrientationMask)navigationControllerSupportedInterfaceOrientations:(UINavigationController *)navigationController
 {
     return [[navigationController topViewController] supportedInterfaceOrientations];
 }

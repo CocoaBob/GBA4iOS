@@ -36,6 +36,7 @@
             cell.textLabel.backgroundColor = [UIColor clearColor];
             cell.detailTextLabel.backgroundColor = [UIColor clearColor];
             
+            self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
             break;
         }
     }

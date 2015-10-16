@@ -19,7 +19,7 @@
 #import "GBALinkManager.h"
 
 #import "SSZipArchive.h"
-#import <Dropbox-iOS-SDK/DropboxSDK.h>
+#import <DropboxSDK/DropboxSDK.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 #import "UIView+DTDebug.h"
@@ -28,7 +28,7 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 #import <CrashReporter/CrashReporter.h>
-#import <CrashlyticsFramework/Crashlytics.h>
+#import <Crashlytics/Crashlytics.h>
 #endif
 
 NSString * const GBAUserRequestedToPlayROMNotification = @"GBAUserRequestedToPlayROMNotification";
@@ -62,7 +62,7 @@ static GBAAppDelegate *_appDelegate;
     _appDelegate = self;
     
     //[UIView toggleViewMainThreadChecking];
-    
+    NSLog(@"%@",[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"showedWarningAlert"])
     {
         dispatch_async(dispatch_get_main_queue(), ^{
