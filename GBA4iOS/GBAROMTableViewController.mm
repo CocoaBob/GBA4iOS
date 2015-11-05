@@ -97,7 +97,7 @@ dispatch_queue_t directoryContentsChangedQueue() {
         self.currentDirectory = documentsDirectory; 
         self.showFileExtensions = YES;
         self.showFolders = NO;
-        self.showSectionTitles = NO;//YES;
+        self.showSectionTitles = YES;
         self.showUnavailableFiles = YES;
         
         _downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];

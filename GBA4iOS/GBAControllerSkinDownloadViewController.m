@@ -196,6 +196,12 @@ static void *GBAControllerSkinDownloadViewControllerContext = &GBAControllerSkin
         NSProgress *progress = object;
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            // Disable the "Done" button until the download is compeleted; i.e. fractionCompleted = 0
+            if (progress.fractionCompleted != 0) {
+                self.navigationItem.rightBarButtonItem.enabled = false;
+            } else {
+                self.navigationItem.rightBarButtonItem.enabled = true;
+            }
             
             if (progress.fractionCompleted > 0)
             {

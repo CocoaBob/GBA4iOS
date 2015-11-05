@@ -54,9 +54,6 @@
     
     self.clearsSelectionOnViewWillAppear = YES;
     [self.tableView registerClass:[GBAAsynchronousLocalImageTableViewCell class] forCellReuseIdentifier:@"Cell"];
-    
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(downloadSkins:)];
-    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -92,22 +89,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Download Skins
-
-- (void)downloadSkins:(UIBarButtonItem *)sender
-{
-    GBAControllerSkinDownloadViewController *downloadGroupsViewController = [[GBAControllerSkinDownloadViewController alloc] initWithControllerSkinType:self.controllerSkinType];
-    
-    UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(downloadGroupsViewController);
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    }
-    
-    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Import Controller Skins
