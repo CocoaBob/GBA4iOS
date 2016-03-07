@@ -26,7 +26,7 @@
         
         self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
         
-        self.romTableViewController = [[GBAROMTableViewController alloc] init];
+        self.romTableViewController = [[GBAROMTableViewController alloc] initWithNibName:nil bundle:nil];
         self.emulationViewController = [[GBAEmulationViewController alloc] init];
         
         GBAMasterNavigationController *navigationController = [[GBAMasterNavigationController alloc] initWithRootViewController:self.romTableViewController];
