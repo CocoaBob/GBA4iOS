@@ -137,6 +137,14 @@ NSString *const GBAROMDidSaveDataNotification = @"GBAROMDidSaveDataNotification"
     
 }
 
+- (void)startLinkWithConnectionType:(GBALinkConnectionType)connectionType peerType:(GBALinkPeerType)peerType completion:(void (^)(BOOL))completion {
+    
+}
+
+- (void)stopLink {
+    
+}
+
 bool useCustomSavePath();
 
 @end

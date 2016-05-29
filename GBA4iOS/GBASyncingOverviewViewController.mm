@@ -14,7 +14,7 @@
 #import "UIActionSheet+RSTAdditions.h"
 #import "UIAlertView+RSTAdditions.h"
 
-#import <Dropbox-iOS-SDK/DropboxSDK.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotification";
 

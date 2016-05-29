@@ -17,7 +17,7 @@
 #import "GBASyncDownloadOperation.h"
 #import "GBASyncOperation.h"
 
-#import <Dropbox-iOS-SDK/DropboxSDK.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 NSString * const GBASyncDropboxPathKey = @"dropboxPath";
 NSString * const GBASyncMetadataKey = @"metadata";

@@ -9,7 +9,7 @@
 #import "GBASyncOperation.h"
 #import "GBASyncManager.h"
 
-#import <Dropbox-iOS-SDK/DropboxSDK.h>
+#import <DropboxSDK/DropboxSDK.h>
 
 @interface GBASyncFileOperation : GBASyncOperation
 
