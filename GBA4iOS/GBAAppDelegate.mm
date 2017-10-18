@@ -17,9 +17,10 @@
 #import "GBASoftwareUpdateViewController.h"
 #import "GBAEventDistributionOperation.h"
 #import "GBALinkManager.h"
+#import "GBASyncManager.h"
 
 #import "SSZipArchive.h"
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 #import "UIView+DTDebug.h"
@@ -75,6 +76,14 @@ static GBAAppDelegate *_appDelegate;
         });
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"showedWarningAlert"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    [DBClientsManager setupWithAppKey:@"obzx8requbc5bn5"];  // Setup Dropbox
+    
+    if (![[[NSUserDefaults standardUserDefaults] stringForKey:GBASyncDropboxAPIVersionKey] isEqualToString:@"2"]) {
+        [GBASyncManager clearDropboxV1Data];
+        [[NSUserDefaults standardUserDefaults] setObject:@"2" forKey:GBASyncDropboxAPIVersionKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
         
@@ -145,6 +154,19 @@ static GBAAppDelegate *_appDelegate;
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    if ([url isFileURL])
+    {
+        [self handleFileURL:url];
+    }
+    else
+    {
+        return [self handleURLSchemeURL:url];
+    }
+    return YES;
+}
+
 - (void)handleFileURL:(NSURL *)url
 {
     NSString *filepath = [url path];
@@ -176,9 +198,10 @@ static GBAAppDelegate *_appDelegate;
     {
         BOOL successful = NO;
         
-        if ([[DBSession sharedSession] handleOpenURL:url])
+        DBOAuthResult *authResult = [DBClientsManager handleRedirectURL:url];
+        if (authResult)
         {
-            successful = [[DBSession sharedSession] isLinked];
+            successful = [authResult isSuccess];
         }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDropboxStatusChangedNotification object:self userInfo:nil];

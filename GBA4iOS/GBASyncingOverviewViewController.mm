@@ -10,20 +10,21 @@
 #import "GBASettingsViewController.h"
 #import "GBASyncManager.h"
 #import "GBASyncingDetailViewController.h"
+#import "GBAAppDelegate.h"
 #import "RSTFileBrowserTableViewCell.h"
 #import "UIActionSheet+RSTAdditions.h"
 #import "UIAlertView+RSTAdditions.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotification";
 
-@interface GBASyncingOverviewViewController () <DBRestClientDelegate>
+@interface GBASyncingOverviewViewController ()
 {
     BOOL _errorLoadingAccountInfo;
 }
 
-@property (strong, nonatomic) DBRestClient *restClient;
+@property (strong, nonatomic) DBUserClient *restClient;
 
 @property (weak, nonatomic) UISwitch *dropboxSyncSwitch;
 
@@ -62,9 +63,9 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
     [self.tableView registerClass:[RSTFileBrowserTableViewCell class] forCellReuseIdentifier:@"DetailCell"];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"SwitchCell"];
     
-    if ([[DBSession sharedSession] isLinked] && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
+    if ([DBClientsManager authorizedClient] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
     {
-        [self.restClient loadAccountInfo];
+        [self loadAccountInfo];
     }
 }
 
@@ -134,7 +135,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
     
     if (sender.on)
     {
-        if (![[DBSession sharedSession] isLinked])
+        if (!([DBClientsManager authorizedClient] != nil))
         {
             [self linkDropboxAccount];
         }
@@ -147,7 +148,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
                 [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
             }
             
-            [self.restClient loadAccountInfo];
+            [self loadAccountInfo];
         }
         
         
@@ -164,7 +165,12 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 - (void)linkDropboxAccount
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedDropboxURLCallback:) name:GBASettingsDropboxStatusChangedNotification object:nil];
-    [[DBSession sharedSession] linkFromController:self];
+
+    [DBClientsManager authorizeFromController:[UIApplication sharedApplication]
+                                   controller:self
+                                      openURL:^(NSURL *url) {
+                                          [[UIApplication sharedApplication] openURL:url];
+                                      }];
 }
 
 - (void)unlinkDropboxAccount
@@ -190,7 +196,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
             
             [[NSNotificationCenter defaultCenter] postNotificationName:GBADropboxLoggedOutNotification object:nil];
             
-            [[DBSession sharedSession] unlinkAll];
+            [DBClientsManager unlinkAndResetClients];
             [self updateDropboxSection];
             
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -204,7 +210,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:GBASettingsDropboxStatusChangedNotification object:nil];
     
-    if (![[DBSession sharedSession] isLinked])
+    if (!([DBClientsManager authorizedClient] != nil))
     {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
         [self.dropboxSyncSwitch setOn:NO animated:YES];
@@ -214,7 +220,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:GBASettingsDropboxSyncKey];
         [self.dropboxSyncSwitch setOn:YES animated:YES];
         
-        [self.restClient loadAccountInfo];
+        [self loadAccountInfo];
     }
     
     [self updateDropboxSection];
@@ -222,17 +228,17 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 
 - (void)updateDropboxSection
 {
-    if ([[DBSession sharedSession] isLinked])
+    if ([DBClientsManager authorizedClient] != nil)
     {
         DLog(@"Performing Initial Sync...");
         [[GBASyncManager sharedManager] synchronize];
     }
     
-    if ([[DBSession sharedSession] isLinked] && [self.tableView numberOfSections] == 1)
+    if (([DBClientsManager authorizedClient] != nil) && [self.tableView numberOfSections] == 1)
     {
         [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] withRowAnimation:UITableViewRowAnimationFade];
     }
-    else if (![[DBSession sharedSession] isLinked] && [self.tableView numberOfSections] == 4)
+    else if (!([DBClientsManager authorizedClient] != nil) && [self.tableView numberOfSections] == 4)
     {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
         
@@ -241,18 +247,33 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
     }
 }
 
-#pragma mark - DBRestClient Delegate
+- (void)loadAccountInfo
+{
+    [[self.restClient.usersRoutes getCurrentAccount] setResponseBlock:^(DBUSERSFullAccount * _Nullable result, DBNilObject * _Nullable routeError, DBRequestError * _Nullable networkError) {
+        
+        if (networkError)
+        {
+            [self restClient:self.restClient loadAccountInfoFailedWithError:networkError.nsError];
+        }
+        else if (result)
+        {
+            [self restClient:self.restClient loadedAccountInfo:result];
+        }
+    }];
+}
 
-- (void)restClient:(DBRestClient *)client loadedAccountInfo:(DBAccountInfo *)info
+#pragma mark - DBUserClient Delegate
+
+- (void)restClient:(DBUserClient *)client loadedAccountInfo:(DBUSERSFullAccount *)info
 {
     NSString *currentName = [[NSUserDefaults standardUserDefaults] stringForKey:@"dropboxDisplayName"];
         
-    if ([currentName isEqualToString:info.displayName])
+    if ([currentName isEqualToString:info.name.displayName])
     {
         return;
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:info.displayName forKey:@"dropboxDisplayName"];
+    [[NSUserDefaults standardUserDefaults] setObject:info.name.displayName forKey:@"dropboxDisplayName"];
     
     if ([self.tableView numberOfSections] > 1)
     {
@@ -260,7 +281,7 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
     }
 }
 
-- (void)restClient:(DBRestClient *)client loadAccountInfoFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient *)client loadAccountInfoFailedWithError:(NSError *)error
 {
     _errorLoadingAccountInfo = YES;
     DLog(@"Error loading account info: %@", [error userInfo]);
@@ -505,12 +526,11 @@ NSString *const GBADropboxLoggedOutNotification = @"GBADropboxLoggedOutNotificat
 
 #pragma mark - Getters/Setters
 
-- (DBRestClient *)restClient
+- (DBUserClient *)restClient
 {
     if (_restClient == nil)
     {
-        _restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-        _restClient.delegate = self;
+        _restClient = [DBClientsManager authorizedClient];
     }
     
     return _restClient;

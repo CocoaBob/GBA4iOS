@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 #import "RSTToastView.h"
 

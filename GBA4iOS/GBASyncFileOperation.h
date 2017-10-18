@@ -9,18 +9,18 @@
 #import "GBASyncOperation.h"
 #import "GBASyncManager.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 @interface GBASyncFileOperation : GBASyncOperation
 
 @property (readonly, copy, nonatomic) NSString *dropboxPath;
-@property (readonly, copy, nonatomic) DBMetadata *metadata;
+@property (readonly, copy, nonatomic) DBFILESMetadata *metadata;
 
 @property (copy, nonatomic) GBASyncCompletionBlock syncCompletionBlock;
 
 - (instancetype)initWithDropboxPath:(NSString *)dropboxPath;
-- (instancetype)initWithMetadata:(DBMetadata *)metadata;
-- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata; // Operation decides what is most important to use, dropbox or metadata
+- (instancetype)initWithMetadata:(DBFILESMetadata *)metadata;
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBFILESMetadata *)metadata; // Operation decides what is most important to use, dropbox or metadata
 
 - (NSDictionary *)dictionaryRepresentation;
 

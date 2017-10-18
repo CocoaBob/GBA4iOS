@@ -38,6 +38,6 @@ extern NSString *const GBAHasNewDropboxSaveForCurrentGameFromDropboxNotification
 - (NSDictionary *)validDropboxFilesFromDeltaEntries:(NSArray *)entries deleteDeletedDropboxFiles:(BOOL)deleteDeletedDropboxFiles;
 
 - (void)prepareToUploadFilesMissingFromDropboxFilesAndConflictIfNeeded:(BOOL)conflictIfNeeded;
-- (void)prepareToDownloadFileWithMetadataIfNeeded:(DBMetadata *)metadata isDeltaChange:(BOOL)deltaChange;
+- (void)prepareToDownloadFileWithMetadataIfNeeded:(DBFILESMetadata *)metadata isDeltaChange:(BOOL)deltaChange;
 
 @end

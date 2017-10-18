@@ -17,7 +17,7 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBFILESMetadata *)metadata
 {
     self = [super initWithDropboxPath:dropboxPath metadata:metadata];
     
@@ -34,6 +34,7 @@
 - (void)beginSyncOperation
 {
     NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:NO];
+    NSURL *localPathURL = [[NSURL alloc] initWithString:localPath];
     
     DLog(@"Downloading file %@ to %@...", self.dropboxPath, localPath);
     
@@ -45,23 +46,41 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.metadata)
         {
-            [self.restClient loadFile:self.metadata.path atRev:self.metadata.rev intoPath:localPath];
+            DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)self.metadata;
+            [[self.restClient.filesRoutes downloadUrl:self.metadata.pathLower rev:fileMetadata.rev overwrite:YES destination:localPathURL] setResponseBlock:^(DBFILESFileMetadata * _Nullable result, DBFILESDownloadError * _Nullable routeError, DBRequestError * _Nullable networkError, NSURL * _Nonnull destination) {
+                [self loadedFile:result routeError:routeError networkError:networkError destination:destination];
+            }];
         }
         else
         {
-            [self.restClient loadFile:self.dropboxPath intoPath:localPath];
+            [[self.restClient.filesRoutes downloadUrl:self.dropboxPath overwrite:YES destination:localPathURL] setResponseBlock:^(DBFILESFileMetadata * _Nullable result, DBFILESDownloadError * _Nullable routeError, DBRequestError * _Nullable networkError, NSURL * _Nonnull destination) {
+                [self loadedFile:result routeError:routeError networkError:networkError destination:destination];
+            }];
         }
     });    
 }
 
-- (void)restClient:(DBRestClient *)client loadedFile:(NSString *)localPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
+- (void)loadedFile:(DBFILESFileMetadata * _Nullable)result routeError:(DBFILESDownloadError * _Nullable)routeError networkError:(DBRequestError * _Nullable)networkError destination:(NSURL * _Nonnull)destination
+{
+    if (networkError)
+    {
+        [self restClient:self.restClient loadFileFailedWithError:networkError.nsError];
+    }
+    else if (result && destination)
+    {
+        [self restClient:self.restClient loadedFile:destination.absoluteString metadata:result];
+    }
+}
+
+- (void)restClient:(DBUserClient *)client loadedFile:(NSString *)localPath metadata:(DBFILESMetadata *)metadata
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         DLog(@"Loaded File: %@", localPath);
-        NSString *dropboxPath = metadata.path;
+        NSString *dropboxPath = metadata.pathLower;
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
-        NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
+        DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)self.metadata;
+        NSDictionary *attributes = @{NSFileModificationDate: fileMetadata.serverModified};
         
         if ([localPath.pathExtension.lowercaseString isEqualToString:@"rtcsav"])
         {
@@ -104,7 +123,8 @@
                 {
                     NSDate *date = [[[NSFileManager defaultManager] attributesOfItemAtPath:destinationPath error:nil] fileModificationDate];
                     
-                    DLog(@"Dropbox: %@ Local: %@", metadata.lastModifiedDate, date);
+                    DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)metadata;
+                    DLog(@"Dropbox: %@ Local: %@", fileMetadata.serverModified, date);
                     
                 }
             }
@@ -124,21 +144,21 @@
         
         // Dropbox Files
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-        [dropboxFiles setObject:metadata forKey:metadata.path];
+        [dropboxFiles setObject:metadata forKey:metadata.pathLower];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
         
         [self finishedWithMetadata:metadata error:nil];
     });
 }
 
-- (void)restClient:(DBRestClient *)client loadFileFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient *)client loadFileFailedWithError:(NSError *)error
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         
         NSString *dropboxPath = [error userInfo][@"path"];
         
         NSDictionary *dropboxFiles = [[GBASyncManager sharedManager] pendingDownloads];
-        DBMetadata *metadata = dropboxFiles[self.dropboxPath];
+        DBFILESMetadata *metadata = dropboxFiles[self.dropboxPath];
                 
         if ([error code] == 404) // 404: File has been deleted (according to dropbox)
         {

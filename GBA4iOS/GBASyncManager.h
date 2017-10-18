@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 #import "GBAROM.h"
 #import "GBACheat.h"
@@ -17,8 +17,10 @@ extern NSString *const GBAUpdatedDeviceUploadHistoryNotification;
 
 extern NSString *const GBASyncManagerFinishedSyncNotification;
 
-typedef void (^GBASyncCompletionBlock)(NSString *localPath, DBMetadata *metadata, NSError *error);
-typedef void (^GBASyncMoveCompletionBlock)(NSString *originalDropboxPath, DBMetadata *destinationMetadata, NSError *error);
+extern NSString *const GBASyncDropboxAPIVersionKey;
+
+typedef void (^GBASyncCompletionBlock)(NSString *localPath, DBFILESMetadata *metadata, NSError *error);
+typedef void (^GBASyncMoveCompletionBlock)(NSString *originalDropboxPath, DBFILESMetadata *destinationMetadata, NSError *error);
 typedef void (^GBASyncDeleteCompletionBlock)(NSString *dropboxPath, NSError *error);
 
 @interface GBASyncManager : NSObject
@@ -28,6 +30,8 @@ typedef void (^GBASyncDeleteCompletionBlock)(NSString *dropboxPath, NSError *err
 @property (assign, nonatomic) BOOL shouldShowSyncingStatus;
 
 + (instancetype)sharedManager;
+
++ (void)clearDropboxV1Data;
 
 - (void)start;
 - (void)synchronize;
@@ -44,9 +48,9 @@ typedef void (^GBASyncDeleteCompletionBlock)(NSString *dropboxPath, NSError *err
 - (void)prepareToRenameSaveStateAtPath:(NSString *)filepath toNewName:(NSString *)filename forROM:(GBAROM *)rom;
 
 - (void)uploadFileAtPath:(NSString *)localPath toDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock;
-- (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
+- (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBFILESMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
 - (void)downloadFileToPath:(NSString *)localPath fromDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncCompletionBlock)completionBlock;
-- (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
+- (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBFILESMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock;
 
 - (void)moveFileAtDropboxPath:(NSString *)dropboxPath toDestinationPath:(NSString *)destinationPath completionBlock:(GBASyncMoveCompletionBlock)completionBlock;
 - (void)deleteFileAtDropboxPath:(NSString *)dropboxPath completionBlock:(GBASyncDeleteCompletionBlock)completionBlock;

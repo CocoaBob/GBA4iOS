@@ -10,7 +10,7 @@
 #import "GBASyncOperation_Private.h"
 #import "GBASyncUploadDeviceUploadHistoryOperation.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 @implementation GBASyncMoveOperation
 
@@ -37,14 +37,23 @@
 {
     DLog(@"Moving File: %@", self.dropboxPath);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.restClient moveFrom:self.dropboxPath toPath:self.destinationPath];
+        [[self.restClient.filesRoutes moveV2:self.dropboxPath toPath:self.destinationPath] setResponseBlock:^(DBFILESRelocationResult * _Nullable result, DBFILESRelocationError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+            if (networkError)
+            {
+                [self restClient:self.restClient movePathFailedWithError:networkError.nsError routeError:routeError];
+            }
+            else if (result)
+            {
+                [self restClient:self.restClient movedPath:self.dropboxPath to:result.metadata];
+            }
+        }];
     });
 }
 
-- (void)restClient:(DBRestClient*)client movedPath:(NSString *)dropboxPath to:(DBMetadata *)metadata
+- (void)restClient:(DBUserClient*)client movedPath:(NSString *)dropboxPath to:(DBFILESMetadata *)metadata
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Moved File: %@ To Path: %@", [dropboxPath lastPathComponent], [metadata.path lastPathComponent]);
+        DLog(@"Moved File: %@ To Path: %@", [dropboxPath lastPathComponent], [metadata.pathLower lastPathComponent]);
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
         // NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
@@ -58,7 +67,7 @@
         // Dropbox Files
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
         [dropboxFiles removeObjectForKey:dropboxPath];
-        [dropboxFiles setObject:metadata forKey:metadata.path];
+        [dropboxFiles setObject:metadata forKey:metadata.pathLower];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
         
         // Upload History
@@ -73,7 +82,8 @@
         }
         
         [romDictionary removeObjectForKey:dropboxPath];
-        [romDictionary setObject:metadata.rev forKey:metadata.path];
+        DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)metadata;
+        [romDictionary setObject:fileMetadata.rev forKey:metadata.pathLower];
         uploadHistory[uniqueName] = romDictionary;
         
         [uploadHistory writeToFile:[GBASyncManager currentDeviceUploadHistoryPath] atomically:YES];
@@ -90,7 +100,7 @@
     });
 }
 
-- (void)restClient:(DBRestClient *)client movePathFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient *)client movePathFailedWithError:(NSError *)error routeError:(DBFILESRelocationError *)routeError
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         
@@ -100,7 +110,7 @@
         NSMutableDictionary *pendingMoves = [[GBASyncManager sharedManager] pendingMoves];
         
         // 403 file already exists
-        if ([error code] == DBErrorFileNotFound || [error code] == 403 || [error code] == 404)
+        if (/*[error code] == DBErrorFileNotFound*/(routeError && [routeError fromLookup].tag == DBFILESLookupErrorNotFound) || [error code] == 403 || [error code] == 404)
         {
             DLog(@"Either file doesn't exist, or another file exists where we are trying to move this one to. Ignoring %@", originalPath);
             
@@ -118,7 +128,7 @@
     });
 }
 
-- (void)finishWithMetadata:(DBMetadata *)metadata error:(NSError *)error
+- (void)finishWithMetadata:(DBFILESMetadata *)metadata error:(NSError *)error
 {
     if (self.syncCompletionBlock)
     {

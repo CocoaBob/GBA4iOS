@@ -35,24 +35,35 @@
     NSDictionary *lastSyncInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSyncInfo"];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.restClient loadDelta:lastSyncInfo[@"cursor"]];
+        DLog(@"%@", lastSyncInfo[@"cursor"]);
+        [[self.restClient.filesRoutes listFolder:/*lastSyncInfo[@"cursor"]*/@""] setResponseBlock:^(DBFILESListFolderResult * _Nullable result, DBFILESListFolderError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+            DLog(@"route: %@, network: %@", routeError, networkError);
+            if (networkError)
+            {
+                [self restClient:self.restClient loadDeltaFailedWithError:networkError.nsError];
+            }
+            else if (result)
+            {
+                [self restClient:self.restClient loadedDeltaEntries:result.entries cursor:result.cursor hasMore:[result.hasMore boolValue]];
+            }
+        }];
     });
 }
 
-- (void)restClient:(DBRestClient *)client loadedDeltaEntries:(NSArray *)entries reset:(BOOL)shouldReset cursor:(NSString *)cursor hasMore:(BOOL)hasMore
+- (void)restClient:(DBUserClient *)client loadedDeltaEntries:(NSArray *)entries cursor:(NSString *)cursor hasMore:(BOOL)hasMore
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         DLog(@"Received Delta Entries");
         
         NSDictionary *newDropboxFiles = [self validDropboxFilesFromDeltaEntries:entries deleteDeletedDropboxFiles:YES];
         
-        [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
+        [newDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBFILESMetadata *metadata, BOOL *stop) {
             [self prepareToDownloadFileWithMetadataIfNeeded:metadata isDeltaChange:YES];
         }];
         
         // Keep cached dropbox files and new dropbox files separate for now, since we use both separately to when actually downloading a file to determine whether a file is conflicted or not
         NSDictionary *cachedDropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-        [cachedDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBMetadata *metadata, BOOL *stop) {
+        [cachedDropboxFiles enumerateKeysAndObjectsUsingBlock:^(NSString *key, DBFILESMetadata *metadata, BOOL *stop) {
             [self prepareToDownloadFileWithMetadataIfNeeded:metadata isDeltaChange:NO];
         }];
         
@@ -60,13 +71,13 @@
         
         [self moveFiles];
         
-        NSDictionary *dictionary = @{@"date": [NSDate date], @"cursor": cursor};
+        NSDictionary *dictionary = @{@"date": [NSDate date], @"cursor": [NSString stringWithFormat:@"/%@", cursor]};
         [[NSUserDefaults standardUserDefaults] setObject:dictionary forKey:@"lastSyncInfo"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     });
 }
 
-- (void)restClient:(DBRestClient*)client loadDeltaFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient*)client loadDeltaFailedWithError:(NSError *)error
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         DLog(@"Delta Failed :(");

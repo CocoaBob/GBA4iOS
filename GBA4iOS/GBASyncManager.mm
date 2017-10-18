@@ -17,11 +17,12 @@
 #import "GBASyncDownloadOperation.h"
 #import "GBASyncOperation.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 NSString * const GBASyncDropboxPathKey = @"dropboxPath";
 NSString * const GBASyncMetadataKey = @"metadata";
 NSString * const GBASyncDestinationPathKey = @"destinationPath";
+NSString * const GBASyncDropboxAPIVersionKey = @"dropboxAPIVersion";
 
 NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinishedSyncNotification";
 
@@ -30,7 +31,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 @property (strong, nonatomic) NSOperationQueue *multipleFilesOperationQueue;
 @property (strong, nonatomic) NSOperationQueue *singleFileOperationQueue;
 @property (strong, nonatomic) NSOperationQueue *fileManipulationOperationQueue;
-@property (strong, nonatomic) DBRestClient *restClient;
+@property (strong, nonatomic) DBUserClient *restClient;
 @property (weak, nonatomic) RSTToastView *currentToastView;
 
 @end
@@ -58,7 +59,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
         return nil;
     }
     
-    // Stores DBMetadata, so it has to be archived
+    // Stores DBFILESMetadata, so it has to be archived
     _pendingUploads = [[NSKeyedUnarchiver unarchiveObjectWithFile:[GBASyncManager pendingUploadsPath]] mutableCopy];
     if (_pendingUploads == nil)
     {
@@ -135,9 +136,9 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 - (void)start
 {
     [[RSTToastView appearance] setTintColor:GBA4iOS_PURPLE_COLOR];
-    
-    DBSession *session = [[DBSession alloc] initWithAppKey:@"obzx8requbc5bn5" appSecret:@"thdkvkp3hkbmpte" root:kDBRootAppFolder];
-    [DBSession setSharedSession:session];
+    // TODO: - Uncomment
+    //DBSession *session = [[DBSession alloc] initWithAppKey:@"obzx8requbc5bn5" appSecret:@"thdkvkp3hkbmpte" root:kDBRootAppFolder];
+    //[DBSession setSharedSession:session];
     
     self.shouldShowSyncingStatus = YES;
 
@@ -147,7 +148,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"usingRelativeDropboxPaths"];
     }
     
-    if (![[DBSession sharedSession] isLinked])
+    if (!([DBClientsManager authorizedClient] != nil))
     {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
     }
@@ -159,7 +160,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)synchronize
 {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || ![[DBSession sharedSession] isLinked])
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey] || !([DBClientsManager authorizedClient] != nil))
     {
         return;
     }
@@ -260,7 +261,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     [self configureAndCacheUploadOperation:uploadOperation withCompletionBlock:completionBlock];
 }
 
-- (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
+- (void)uploadFileAtPath:(NSString *)localPath withMetadata:(DBFILESMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
 {
     GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithMetadata:metadata];
     [self configureAndCacheUploadOperation:uploadOperation withCompletionBlock:completionBlock];
@@ -269,7 +270,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 - (void)configureAndCacheUploadOperation:(GBASyncUploadOperation *)uploadOperation withCompletionBlock:(GBASyncCompletionBlock)completionBlock
 {
     __weak GBASyncOperation *weakOperation = uploadOperation;
-    uploadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
+    uploadOperation.syncCompletionBlock = ^(NSString *localPath, DBFILESMetadata *metadata, NSError *error) {
         NSString *message = nil;
         
         if (error)
@@ -296,7 +297,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     
     if (uploadOperation.metadata)
     {
-        [self.pendingDownloads removeObjectForKey:uploadOperation.metadata.path];
+        [self.pendingDownloads removeObjectForKey:uploadOperation.metadata.pathLower];
     }
     else
     {
@@ -312,7 +313,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     [self configureAndCacheDownloadOperation:downloadOperation withCompletionBlock:completionBlock];
 }
 
-- (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
+- (void)downloadFileToPath:(NSString *)localPath withMetadata:(DBFILESMetadata *)metadata completionBlock:(GBASyncCompletionBlock)completionBlock
 {
     GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithMetadata:metadata];
     [self configureAndCacheDownloadOperation:downloadOperation withCompletionBlock:completionBlock];
@@ -321,7 +322,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 - (void)configureAndCacheDownloadOperation:(GBASyncDownloadOperation *)downloadOperation withCompletionBlock:(GBASyncCompletionBlock)completionBlock
 {
     __weak GBASyncOperation *weakOperation = downloadOperation;
-    downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
+    downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBFILESMetadata *metadata, NSError *error) {
         NSString *message = nil;
         
         if (error)
@@ -434,7 +435,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)prepareToUploadSaveFileForROM:(GBAROM *)rom
 {
-    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    if (rom == nil || !([DBClientsManager authorizedClient] != nil))
     {
         return;
     }
@@ -454,7 +455,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)prepareToUploadCheat:(GBACheat *)cheat forROM:(GBAROM *)rom
 {
-    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    if (rom == nil || !([DBClientsManager authorizedClient] != nil))
     {
         return;
     }
@@ -469,7 +470,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)prepareToDeleteCheat:(GBACheat *)cheat forROM:(GBAROM *)rom
 {
-    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    if (rom == nil || !([DBClientsManager authorizedClient] != nil))
     {
         return;
     }
@@ -483,7 +484,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)prepareToUploadSaveStateAtPath:(NSString *)filepath forROM:(GBAROM *)rom
 {
-    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    if (rom == nil || !([DBClientsManager authorizedClient] != nil))
     {
         return;
     }
@@ -499,7 +500,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)prepareToDeleteSaveStateAtPath:(NSString *)filepath forROM:(GBAROM *)rom
 {
-    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    if (rom == nil || !([DBClientsManager authorizedClient] != nil))
     {
         return;
     }
@@ -513,7 +514,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
 
 - (void)prepareToRenameSaveStateAtPath:(NSString *)filepath toNewName:(NSString *)filename forROM:(GBAROM *)rom
 {
-    if (rom == nil || ![[DBSession sharedSession] isLinked])
+    if (rom == nil || !([DBClientsManager authorizedClient] != nil))
     {
         return;
     }
@@ -700,6 +701,39 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     self.pendingDownloads = [NSMutableDictionary dictionary];
     self.pendingDeletions = [NSMutableDictionary dictionary];
     self.pendingMoves = [NSMutableDictionary dictionary];
+}
+
+/*
+ Delete all files containing saved DBMetadata objects, as they are not compatible with the v2 api.
+ Log out the user so they may reauthenticate with the v2 api and resolve any conflicts.
+*/
++ (void)clearDropboxV1Data
+{
+    // Delete all files that contain data from the v1 API
+    [[NSFileManager defaultManager] createFileAtPath:[GBASyncManager pendingUploadsPath] contents:nil attributes:nil];
+    [[NSFileManager defaultManager] createFileAtPath:[GBASyncManager pendingDownloadsPath] contents:nil attributes:nil];
+    [[NSFileManager defaultManager] createFileAtPath:[GBASyncManager pendingDeletionsPath] contents:nil attributes:nil];
+    [[NSFileManager defaultManager] createFileAtPath:[GBASyncManager pendingMovesPath] contents:nil attributes:nil];
+    [[NSFileManager defaultManager] createFileAtPath:[GBASyncManager currentDeviceUploadHistoryPath] contents:nil attributes:nil];
+    [[NSFileManager defaultManager] createFileAtPath:[GBASyncManager dropboxFilesPath] contents:nil attributes:nil];
+    [[NSFileManager defaultManager] createFileAtPath:[GBASyncManager pendingUploadsPath] contents:nil attributes:nil];
+    [[[NSArray alloc] init] writeToFile:[GBASyncManager conflictedROMsPath] atomically:YES];
+    [[[NSArray alloc] init] writeToFile:[GBASyncManager syncingDisabledROMsPath] atomically:YES];
+    
+    // Log out the user
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"lastSyncInfo"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"initialSync"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"newlyConflictedROMs"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"dropboxDisplayName"];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[self dropboxSyncDirectoryPath] error:nil];
+        
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBADropboxLoggedOutNotification object:nil];
+    
+    [DBClientsManager unlinkAndResetClients];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:GBASettingsDropboxSyncKey];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Helper Methods
@@ -890,6 +924,7 @@ NSString * const GBASyncManagerFinishedSyncNotification = @"GBASyncManagerFinish
     [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
     
     NSString *deviceName = [[UIDevice currentDevice] name];
+    DLog(@"Upload history file exists: %d", [[NSFileManager defaultManager] fileExistsAtPath:[directory stringByAppendingPathComponent:[deviceName stringByAppendingPathExtension:@"plist"]]]);
     return [directory stringByAppendingPathComponent:[deviceName stringByAppendingPathExtension:@"plist"]];
 }
 

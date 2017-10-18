@@ -160,7 +160,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         
         NSString *dropboxPath = downloadOperationDictionary[GBASyncDropboxPathKey];
         NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath uploading:NO];
-        DBMetadata *metadata = downloadOperationDictionary[GBASyncMetadataKey];
+        DBFILESMetadata *metadata = downloadOperationDictionary[GBASyncMetadataKey];
         
         GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithDropboxPath:dropboxPath
                                                                                            metadata:metadata];
@@ -168,7 +168,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         if ([[GBASyncManager uniqueROMNameFromDropboxPath:downloadOperation.dropboxPath] isEqualToString:@"Upload History"])
         {
             __weak GBASyncDownloadOperation *weakOperation = downloadOperation;
-            downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error) {
+            downloadOperation.syncCompletionBlock = ^(NSString *localPath, DBFILESMetadata *metadata, NSError *error) {
                 if (error == nil)
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -224,17 +224,18 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
                 return;
             }
             
-            DBMetadata *cachedMetadata = [dropboxFiles objectForKey:downloadOperation.dropboxPath];
+            DBFILESMetadata *cachedMetadata = [dropboxFiles objectForKey:downloadOperation.dropboxPath];
+            DBFILESFileMetadata *cachedFileMetadata = (DBFILESFileMetadata *)cachedMetadata;
             
             NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil];
             NSDate *currentDate = [attributes fileModificationDate];
-            NSDate *previousDate = cachedMetadata.lastModifiedDate;
+            NSDate *previousDate = cachedFileMetadata.serverModified;
             
             // If current date is different than previous date, previous metadata exists, and ROM + save file exists, file is conflicted
             // We don't see which date is later in case the user messes with the date (which isn't unreasonable considering the distribution method)
             if (cachedMetadata && ![previousDate isEqual:currentDate] && [self romExistsWithName:rom.name] && [[NSFileManager defaultManager] fileExistsAtPath:rom.saveFileFilepath])
             {
-                DLog(@"Conflict downloading file: %@ Cached Metadata: %@", [downloadOperation.dropboxPath lastPathComponent], cachedMetadata.rev);
+                DLog(@"Conflict downloading file: %@ Cached Metadata: %@", [downloadOperation.dropboxPath lastPathComponent], cachedFileMetadata.rev);
                 
                 [rom setConflicted:YES];
                 [rom setSyncingDisabled:YES];
@@ -281,15 +282,16 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     [self uploadFiles];
 }
 
-- (void)prepareToDownloadFileWithMetadataIfNeeded:(DBMetadata *)metadata isDeltaChange:(BOOL)deltaChange
+- (void)prepareToDownloadFileWithMetadataIfNeeded:(DBFILESMetadata *)metadata isDeltaChange:(BOOL)deltaChange
 {
+    DLog(@"Metadata: %@", metadata);
     NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-    DBMetadata *cachedMetadata = [dropboxFiles objectForKey:metadata.path];
+    DBFILESMetadata *cachedMetadata = [dropboxFiles objectForKey:metadata.pathLower];
     
-    NSString *romName = [GBASyncManager romNameFromDropboxPath:metadata.path];
-    NSString *uniqueName = [GBASyncManager uniqueROMNameFromDropboxPath:metadata.path];
+    NSString *romName = [GBASyncManager romNameFromDropboxPath:metadata.pathLower];
+    NSString *uniqueName = [GBASyncManager uniqueROMNameFromDropboxPath:metadata.pathLower];
     
-    NSArray *pathComponents = [metadata.path pathComponents];
+    NSArray *pathComponents = [metadata.pathLower pathComponents];
     
     if ([pathComponents count] < 2)
     {
@@ -308,13 +310,13 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     if ([directory isEqualToString:@"Saves"]) // ROM save files
     {
         // Only .sav/.rtcsav files
-        if (!([[[metadata.path pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[metadata.path pathExtension] lowercaseString] isEqualToString:@"rtcsav"]))
+        if (!([[[metadata.pathLower pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[metadata.pathLower pathExtension] lowercaseString] isEqualToString:@"rtcsav"]))
         {
             return;
         }
         
         // Conflicted file, don't download
-        if (![[metadata.filename stringByDeletingPathExtension] isEqualToString:uniqueName])
+        if (![[((DBFILESFileMetadata *)metadata).name stringByDeletingPathExtension] isEqualToString:uniqueName])
         {
             //DLog(@"Aborting attempt to download conflicted/invalid file %@", metadata.filename);
             return;
@@ -323,7 +325,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     else if ([directory isEqualToString:@"Save States"]) // Save States
     {
         // Only .sgm files
-        if (![[[metadata.path pathExtension] lowercaseString] isEqualToString:@"sgm"])
+        if (![[[metadata.pathLower pathExtension] lowercaseString] isEqualToString:@"sgm"])
         {
             return;
         }
@@ -331,20 +333,20 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     else if ([directory isEqualToString:@"Cheats"]) // Cheats
     {
         // Only .gbacheat files
-        if (![[[metadata.path pathExtension] lowercaseString] isEqualToString:@"gbacheat"])
+        if (![[[metadata.pathLower pathExtension] lowercaseString] isEqualToString:@"gbacheat"])
         {
             return;
         }
     }
     else if ([pathComponents[1] isEqualToString:@"Upload History"]) // Upload History
     {
-        if (![[[metadata.path pathExtension] lowercaseString] isEqualToString:@"plist"])
+        if (![[[metadata.pathLower pathExtension] lowercaseString] isEqualToString:@"plist"])
         {
             return;
         }
     }
     
-    NSString *localPath = [GBASyncManager localPathForDropboxPath:metadata.path uploading:NO];
+    NSString *localPath = [GBASyncManager localPathForDropboxPath:metadata.pathLower uploading:NO];
     
     NSString *existingFileLocalPath = localPath;
     
@@ -363,19 +365,19 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     }*/
         
     // File is the same, and it exists, so no need to redownload
-    if ([metadata.rev isEqualToString:cachedMetadata.rev] && [[NSFileManager defaultManager] fileExistsAtPath:existingFileLocalPath isDirectory:nil])
+    if ([((DBFILESFileMetadata *)metadata).rev isEqualToString:((DBFILESFileMetadata *)cachedMetadata).rev] && [[NSFileManager defaultManager] fileExistsAtPath:existingFileLocalPath isDirectory:nil])
     {
         return;
     }
     
     NSMutableDictionary *pendingDeletions = [[GBASyncManager sharedManager] pendingDeletions];
     
-    if (pendingDeletions[metadata.path])
+    if (pendingDeletions[metadata.pathLower])
     {
         // Has been changed on server, ignore deletion
-        if (deltaChange && ![metadata.rev isEqualToString:cachedMetadata.rev])
+        if (deltaChange && ![((DBFILESFileMetadata *)metadata).rev isEqualToString:((DBFILESFileMetadata *)cachedMetadata).rev])
         {
-            [pendingDeletions removeObjectForKey:metadata.path];
+            [pendingDeletions removeObjectForKey:metadata.pathLower];
             [pendingDeletions writeToFile:[GBASyncManager pendingDeletionsPath] atomically:YES];
         }
         else
@@ -389,7 +391,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
     // GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithLocalPath:localPath metadata:metadata];
     
     // Cache it to pendingDownloads
-    GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithDropboxPath:metadata.path];
+    GBASyncDownloadOperation *downloadOperation = [[GBASyncDownloadOperation alloc] initWithDropboxPath:metadata.pathLower];
     [[GBASyncManager sharedManager] cacheDownloadOperation:downloadOperation];
 }
 
@@ -421,7 +423,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
         NSString *dropboxPath = uploadOperationDictionary[GBASyncDropboxPathKey];
         NSString *localPath = [GBASyncManager localPathForDropboxPath:dropboxPath uploading:YES];
         
-        DBMetadata *metadata = uploadOperationDictionary[GBASyncMetadataKey];
+        DBFILESMetadata *metadata = uploadOperationDictionary[GBASyncMetadataKey];
         
         GBASyncUploadOperation *uploadOperation = [[GBASyncUploadOperation alloc] initWithDropboxPath:dropboxPath
                                                                                            metadata:metadata];
@@ -542,13 +544,13 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             continue;
         }
         
-        DBMetadata *dropboxMetadata = dropboxFiles[dropboxPath];
+        DBFILESMetadata *dropboxMetadata = dropboxFiles[dropboxPath];
         
         if (dropboxMetadata)
         {
             if (conflictIfNeeded)
             {
-                DLog(@"Conflicted ROM: %@ Dropbox Rev: %@", romName, dropboxMetadata.rev);
+                DLog(@"Conflicted ROM: %@ Dropbox Rev: %@", romName, ((DBFILESFileMetadata *)dropboxMetadata).rev);
                 
                 [rom setConflicted:YES];
                 [rom setSyncingDisabled:YES];
@@ -867,13 +869,13 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
 {
     NSMutableDictionary *dropboxFiles = [NSMutableDictionary dictionary];
     
-    for (DBDeltaEntry *entry in entries)
+    for (DBFILESMetadata *entry in entries)
     {
         // If deleted, remove it from dropbox files
-        if ([entry.metadata isDeleted] || entry.metadata.path == nil || entry.metadata.filename == nil)
+        if ([entry isKindOfClass:DBFILESDeletedMetadata.class] || entry.pathLower == nil || ((DBFILESFileMetadata *)entry).name == nil)
         {
             // Never ever delete .sav files. In case a user's Dropbox account is deleted, even if they lose their save states and cheats they'll still have their .sav file
-            if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || [entry.lowercasePath.pathExtension isEqualToString:@"rtcsav"] || !deleteDeletedDropboxFiles)
+            if ([entry.pathLower.pathExtension isEqualToString:@"sav"] || [entry.pathLower.pathExtension isEqualToString:@"rtcsav"] || !deleteDeletedDropboxFiles)
             {
                 continue;
             }
@@ -882,7 +884,7 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             
             for (NSString *key in cachedDropboxFiles)
             {
-                if ([[key lowercaseString] isEqualToString:entry.lowercasePath])
+                if ([[key lowercaseString] isEqualToString:entry.pathLower])
                 {
                     [[[GBASyncManager sharedManager] dropboxFiles] removeObjectForKey:key];
                     
@@ -902,9 +904,9 @@ NSString * const GBAUpdatedDeviceUploadHistoryNotification = @"GBAUpdatedDeviceU
             continue;
         }
         
-        if ([entry.lowercasePath.pathExtension isEqualToString:@"sav"] || [entry.lowercasePath.pathExtension isEqualToString:@"rtcsav"] || [entry.lowercasePath.pathExtension isEqualToString:@"plist"] || [entry.lowercasePath.pathExtension isEqualToString:@"gbacheat"] || [entry.lowercasePath.pathExtension isEqualToString:@"sgm"])
+        if ([entry.pathLower.pathExtension isEqualToString:@"sav"] || [entry.pathLower.pathExtension isEqualToString:@"rtcsav"] || [entry.pathLower.pathExtension isEqualToString:@"plist"] || [entry.pathLower.pathExtension isEqualToString:@"gbacheat"] || [entry.pathLower.pathExtension isEqualToString:@"sgm"])
         {
-            [dropboxFiles setObject:entry.metadata forKey:entry.metadata.path];
+            [dropboxFiles setObject:entry forKey:entry.pathLower];
         }
         
     }
