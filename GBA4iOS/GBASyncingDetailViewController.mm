@@ -12,12 +12,12 @@
 
 #import "GBAEmulatorCore.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 #import "SSZipArchive.h"
 
 NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCurrentGameNotification";
 
-@interface GBASyncingDetailViewController () <DBRestClientDelegate>
+@interface GBASyncingDetailViewController ()
 
 @property (readwrite, strong, nonatomic) GBAROM *rom;
 @property (strong, nonatomic) NSDictionary *disabledSyncingROMs;
@@ -25,7 +25,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UISwitch *syncingEnabledSwitch;
 
-@property (strong, nonatomic) DBRestClient *restClient;
+@property (strong, nonatomic) DBUserClient *restClient;
 @property (strong, nonatomic) NSMutableArray *remoteSaves;
 @property (strong, nonatomic) NSMutableDictionary *pendingDownloads;
 @property (strong, nonatomic) NSMutableDictionary *uploadHistories;
@@ -166,7 +166,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     [self.rom setConflicted:NO];
     [self.rom setSyncingDisabled:NO];
     
-    GBASyncCompletionBlock completionBlock = ^(NSString *localPath, DBMetadata *metadata, NSError *error)
+    GBASyncCompletionBlock completionBlock = ^(NSString *localPath, DBFILESMetadata *metadata, NSError *error)
     {
         // Give time for the completion alert to appear
         double delayInSeconds = 0.8;
@@ -223,7 +223,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
             [SSZipArchive createZipFileAtPath:localPath withFilesAtPaths:@[self.rom.saveFileFilepath, self.rom.rtcFileFilepath]];
         }
         
-        DBMetadata *metadata = [self dropboxMetadataForROM:self.rom];
+        DBFILESMetadata *metadata = [self dropboxMetadataForROM:self.rom];
         
         if (metadata)
         {
@@ -237,23 +237,23 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
         
         // Delete all conflicted files from Dropbox, leaving only the uploaded file (with correct dropbox filename)
         NSArray *remoteSaves = [self.remoteSaves copy];
-        for (DBMetadata *metadata in remoteSaves)
+        for (DBFILESMetadata *metadata in remoteSaves)
         {
-            if ([metadata.path isEqualToString:saveFileDropboxPath])
+            if ([metadata.pathLower isEqualToString:saveFileDropboxPath])
             {
                 continue;
             }
             
-            [[GBASyncManager sharedManager] deleteFileAtDropboxPath:metadata.path completionBlock:nil];
+            [[GBASyncManager sharedManager] deleteFileAtDropboxPath:((DBFILESFileMetadata *)metadata).pathLower completionBlock:nil];
         }
         
         return;
     }
     
-    DBMetadata *metadata = self.remoteSaves[self.selectedSaveIndexPath.row];
+    DBFILESMetadata *metadata = self.remoteSaves[self.selectedSaveIndexPath.row];
         
     // Selected Dropbox Save
-    [[GBASyncManager sharedManager] downloadFileToPath:localPath withMetadata:metadata completionBlock:^(NSString *localPath, DBMetadata *newMetadata, NSError *error) {
+    [[GBASyncManager sharedManager] downloadFileToPath:localPath withMetadata:metadata completionBlock:^(NSString *localPath, DBFILESMetadata *newMetadata, NSError *error) {
         if (error)
         {
             [self.rom setConflicted:YES];
@@ -271,21 +271,24 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
             }
         }
         
-        DBMetadata *preferredMetadata = [self dropboxMetadataForROM:self.rom];
+        DBFILESMetadata *preferredMetadata = [self dropboxMetadataForROM:self.rom];
         
         // Delete all conflicted files from Dropbox, leaving only the uploaded file (with correct dropbox filename)
         NSArray *remoteSaves = [self.remoteSaves copy];
-        for (DBMetadata *remoteMetadata in remoteSaves)
+        for (DBFILESMetadata *remoteMetadata in remoteSaves)
         {
-            if ([remoteMetadata.path isEqualToString:preferredMetadata.path])
+            DBFILESFileMetadata *preferredFileMetadata = (DBFILESFileMetadata *)preferredMetadata;
+            DBFILESFileMetadata *remoteFileMetadata = (DBFILESFileMetadata *)remoteMetadata;
+            
+            if ([remoteMetadata.pathLower isEqualToString:preferredFileMetadata.pathLower])
             {
                 continue;
             }
             
-            [[GBASyncManager sharedManager] deleteFileAtDropboxPath:remoteMetadata.path completionBlock:nil];
+            [[GBASyncManager sharedManager] deleteFileAtDropboxPath:remoteFileMetadata.pathLower completionBlock:nil];
         }
         
-        if (![metadata.path isEqualToString:saveFileDropboxPath])
+        if (![metadata.pathLower isEqualToString:saveFileDropboxPath])
         {
             // We upload instead of move it since we can't guarantee the deletions will succeed before attempting to move
             // Have to upload with metadata, or else it'll remain conflicted
@@ -385,12 +388,23 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     }*/
     // Don't reload data, leads to rare race condition if ROM becomes conflicted
     
-    [self.restClient loadMetadata:remotePath];
+    [[self.restClient.filesRoutes listFolder:remotePath] setResponseBlock:^(DBFILESListFolderResult * _Nullable result, DBFILESListFolderError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+        if (networkError)
+        {
+            [self restClient:self.restClient loadMetadataFailedWithError:networkError.nsError];
+        }
+        else if (result)
+        {
+            NSArray<DBFILESMetadata *> *metadataArray = [NSArray arrayWithArray:result.entries];
+            [self restClient:self.restClient loadedMetadata:metadataArray];
+        }
+    }];
+    //[self.restClient loadMetadata:remotePath];
 }
 
-- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata
+- (void)restClient:(DBUserClient *)client loadedMetadata:(NSArray<DBFILESMetadata *> *)metadataArray
 {
-    for (DBMetadata *fileMetadata in metadata.contents)
+    for (DBFILESMetadata *fileMetadata in metadataArray)
     {
         [self.remoteSaves addObject:fileMetadata];
     }
@@ -412,7 +426,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     }
 }
 
-- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient *)client loadMetadataFailedWithError:(NSError *)error
 {
     if ([error code] == 404)
     {
@@ -555,9 +569,9 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
             }
             else
             {
-                DBMetadata *metadata = self.remoteSaves[indexPath.row];
+                DBFILESMetadata *metadata = self.remoteSaves[indexPath.row];
                 NSString *device = [self deviceNameForMetadata:metadata];
-                NSString *dateString = [self.dateFormatter stringFromDate:metadata.lastModifiedDate];
+                NSString *dateString = [self.dateFormatter stringFromDate:((DBFILESFileMetadata *)metadata).serverModified];
                 
                 if (device)
                 {
@@ -681,7 +695,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     return directory;
 }
 
-- (NSString *)deviceNameForMetadata:(DBMetadata *)metadata
+- (NSString *)deviceNameForMetadata:(DBFILESMetadata *)metadata
 {
     __block NSString *deviceName = nil;
     
@@ -689,9 +703,9 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     [uploadHistories enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *dictionary, BOOL *stop) {
         NSDictionary *romDictionary = dictionary[self.rom.uniqueName];
         
-        NSString *remoteRev = romDictionary[metadata.path];
+        NSString *remoteRev = romDictionary[metadata.pathLower];
                 
-        if ([remoteRev isEqualToString:metadata.rev])
+        if ([remoteRev isEqualToString:((DBFILESFileMetadata *)metadata).rev])
         {
             deviceName = key;
             *stop = YES;
@@ -701,7 +715,7 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
     return deviceName;
 }
 
-- (DBMetadata *)dropboxMetadataForROM:(GBAROM *)rom
+- (DBFILESMetadata *)dropboxMetadataForROM:(GBAROM *)rom
 {
     NSArray *remoteSaves = [self.remoteSaves copy];
     
@@ -716,9 +730,9 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
         supportedExtension = @"sav";
     }
     
-    for (DBMetadata *metadata in remoteSaves)
+    for (DBFILESMetadata *metadata in remoteSaves)
     {
-        if ([metadata.filename isEqualToString:[rom.uniqueName stringByAppendingPathExtension:supportedExtension]])
+        if ([((DBFILESFileMetadata *)metadata).name isEqualToString:[rom.uniqueName stringByAppendingPathExtension:supportedExtension]])
         {
             return metadata;
         }
@@ -800,12 +814,11 @@ NSString * const GBAShouldRestartCurrentGameNotification = @"GBAShouldRestartCur
 
 #pragma mark - Getters/Setters
 
-- (DBRestClient *)restClient
+- (DBUserClient *)restClient
 {
     if (_restClient == nil)
     {
-        _restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-        _restClient.delegate = self;
+        _restClient = [DBClientsManager authorizedClient];
     }
     
     return _restClient;

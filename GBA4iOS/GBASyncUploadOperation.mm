@@ -17,7 +17,7 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBFILESMetadata *)metadata
 {
     self = [super initWithDropboxPath:dropboxPath metadata:metadata];
     
@@ -33,7 +33,7 @@
 
 - (void)beginSyncOperation
 {
-    DBMetadata *metadata = self.metadata;
+    DBFILESMetadata *metadata = self.metadata;
     NSString *localPath = [GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES];
     
     if (metadata == nil)
@@ -42,9 +42,11 @@
         metadata = dropboxFiles[self.dropboxPath];
     }
     
-    if (metadata.rev)
+    DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)metadata;
+    
+    if (fileMetadata.rev)
     {
-        DLog(@"Uploading %@... (Replacing Rev %@)", [localPath lastPathComponent], metadata.rev);
+        DLog(@"Uploading %@... (Replacing Rev %@)", [localPath lastPathComponent], fileMetadata.rev);
     }
     else
     {
@@ -56,20 +58,43 @@
     NSString *message = [NSString stringWithFormat:@"%@ %@", localizedString, [self humanReadableFileDescriptionForDropboxPath:self.dropboxPath]];
     
     [self showToastViewWithMessage:message forDuration:0 showActivityIndicator:YES];
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] withParentRev:metadata.rev fromPath:localPath];
+        DLog("file rev: %@", metadata);
+        DBFILESWriteMode *writeMode;
+        
+        if (fileMetadata.rev)
+        {
+            writeMode = [[DBFILESWriteMode alloc] initWithUpdate:fileMetadata.rev];
+        }
+        else
+        {
+            writeMode = [[DBFILESWriteMode alloc] initWithAdd];
+        }
+        [[self.restClient.filesRoutes uploadUrl:self.dropboxPath mode:writeMode autorename:[NSNumber numberWithBool:NO] clientModified:nil mute:[NSNumber numberWithBool:YES] inputUrl:localPath] setResponseBlock:^(DBFILESFileMetadata * _Nullable result, DBFILESUploadError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+            DLog(@"routeError: %@, networkError: %@", routeError, networkError);
+            if (networkError)
+            {
+                [self restClient:self.restClient uploadFileFailedWithError:networkError.nsError];
+            }
+            else if (result)
+            {
+                [self restClient:self.restClient uploadedFile:self.dropboxPath from:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES] metadata:result];
+            }
+        }];
     });
 }
 
 
-- (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)dropboxPath from:(NSString *)localPath metadata:(DBMetadata *)metadata
+- (void)restClient:(DBUserClient *)client uploadedFile:(NSString *)dropboxPath from:(NSString *)localPath metadata:(DBFILESMetadata *)metadata
 {
+    DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)metadata;
+    
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], metadata.path, metadata.rev);
+        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], metadata.pathLower, fileMetadata.rev);
                 
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
-        NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
+        NSDictionary *attributes = @{NSFileModificationDate: fileMetadata.serverModified};
         
         if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
         {
@@ -87,7 +112,7 @@
             
             NSDate *date = [[[NSFileManager defaultManager] attributesOfItemAtPath:rom.saveFileFilepath error:nil] fileModificationDate];
             
-            DLog(@"Dropbox: %@ Local: %@", metadata.lastModifiedDate, date);
+            DLog(@"Dropbox: %@ Local: %@", fileMetadata.serverModified, date);
         }
         else
         {
@@ -103,10 +128,10 @@
         
         // Dropbox Files
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-        [dropboxFiles setObject:metadata forKey:metadata.path];
+        [dropboxFiles setObject:metadata forKey:metadata.pathLower];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
                 
-        
+        DLog(@"Dropbox path: %@", [[dropboxPath pathExtension] lowercaseString]);
         // Only update upload histrory for save files - we only ever use it for this, and keeps the file small
         if ([[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"sav"] || [[[dropboxPath pathExtension] lowercaseString] isEqualToString:@"rtcsav"])
         {
@@ -121,16 +146,16 @@
                 romDictionary = [NSMutableDictionary dictionary];
             }
             
-            romDictionary[metadata.path] = metadata.rev;
+            romDictionary[metadata.pathLower] = fileMetadata.rev;
             uploadHistory[uniqueName] = romDictionary;
             
             [uploadHistory writeToFile:[GBASyncManager currentDeviceUploadHistoryPath] atomically:YES];
         }
         
         // Actual location doesn't match intended location
-        if (![dropboxPath.lowercaseString isEqualToString:[metadata.path lowercaseString]])
+        if (![dropboxPath.lowercaseString isEqualToString:[metadata.pathLower lowercaseString]])
         {
-            DLog(@"Conflicted upload for file: %@ Destination Path: %@ Actual Path: %@", metadata.filename, dropboxPath, metadata.path);
+            DLog(@"Conflicted upload for file: %@ Destination Path: %@ Actual Path: %@", fileMetadata.name, dropboxPath, metadata.pathLower);
             NSString *romName = [[localPath lastPathComponent] stringByDeletingPathExtension];
             GBAROM *rom = [GBAROM romWithName:romName];
             [rom setConflicted:YES];
@@ -153,7 +178,7 @@
     });
 }
 
-- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient *)client uploadFileFailedWithError:(NSError *)error
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         NSString *localPath = [error userInfo][@"sourcePath"];
@@ -161,7 +186,7 @@
         
         NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
         
-        if ([error code] == DBErrorFileNotFound) // Not really an error, so we ignore it
+        if (/*[error code] == DBErrorFileNotFound*/NO) // Not really an error, so we ignore it
         {
             DLog(@"File doesn't exist for upload...ignoring %@", [localPath lastPathComponent]);
             

@@ -38,18 +38,29 @@
     dispatch_async(dispatch_get_main_queue(), ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [self.restClient uploadFile:[self.dropboxPath lastPathComponent] toPath:[self.dropboxPath stringByDeletingLastPathComponent] fromPath:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES]];
+        [[self.restClient.filesRoutes uploadUrl:self.dropboxPath mode:[[DBFILESWriteMode alloc] initWithOverwrite] autorename:[NSNumber numberWithBool:NO] clientModified:nil mute:[NSNumber numberWithBool:YES] inputUrl:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES]] setResponseBlock:^(DBFILESFileMetadata * _Nullable result, DBFILESUploadError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+            if (networkError)
+            {
+                [self restClient:self.restClient uploadFileFailedWithError:networkError.nsError];
+            }
+            else if (result)
+            {
+                DLog(@"Recieved result: %@", result);
+                [self restClient:self.restClient uploadedFile:self.dropboxPath from:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES] metadata:result];
+            }
+        }];
 #pragma clang diagnostic pop
     });
 }
 
-- (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)dropboxPath from:(NSString *)localPath metadata:(DBMetadata *)metadata
+- (void)restClient:(DBUserClient *)client uploadedFile:(NSString *)dropboxPath from:(NSString *)localPath metadata:(DBFILESMetadata *)metadata
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
-        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], dropboxPath, metadata.rev);
+        DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)metadata;
+        DLog(@"Uploaded File: %@ To Path: %@ Rev: %@", [localPath lastPathComponent], dropboxPath, fileMetadata.rev);
         
         // Keep local and dropbox timestamps in sync (so if user messes with the date, everything still works)
-        NSDictionary *attributes = @{NSFileModificationDate: metadata.lastModifiedDate};
+        NSDictionary *attributes = @{NSFileModificationDate: fileMetadata.serverModified};
         [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:localPath error:nil];
         
         // Pending Uploads
@@ -61,21 +72,21 @@
         
         // Dropbox Files
         NSMutableDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-        [dropboxFiles setObject:metadata forKey:metadata.path];
+        [dropboxFiles setObject:metadata forKey:metadata.pathLower];
         [NSKeyedArchiver archiveRootObject:dropboxFiles toFile:[GBASyncManager dropboxFilesPath]];
         
         [self finishedWithMetadata:metadata error:nil];
     });
 }
 
-- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient *)client uploadFileFailedWithError:(NSError *)error
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         NSString *localPath = [error userInfo][@"sourcePath"];
         
         NSMutableDictionary *pendingUploads = [[GBASyncManager sharedManager] pendingUploads];
         
-        if ([error code] == DBErrorFileNotFound) // Not really an error, so we ignore it
+        if (/*[error code] == DBErrorFileNotFound*/NO) // Not really an error, so we ignore it
         {
             DLog(@"File doesn't exist for upload...ignoring %@", [localPath lastPathComponent]);
             

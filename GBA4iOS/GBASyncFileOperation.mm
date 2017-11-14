@@ -18,14 +18,14 @@
     return self;
 }
 
-- (instancetype)initWithMetadata:(DBMetadata *)metadata
+- (instancetype)initWithMetadata:(DBFILESMetadata *)metadata
 {
-    self = [self initWithDropboxPath:metadata.path metadata:metadata];
+    self = [self initWithDropboxPath:metadata.pathLower metadata:metadata];
     
     return self;
 }
 
-- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBMetadata *)metadata
+- (instancetype)initWithDropboxPath:(NSString *)dropboxPath metadata:(DBFILESMetadata *)metadata
 {
     self = [super init];
     
@@ -42,7 +42,7 @@
 
 #pragma mark - Public
 
-- (void)finishedWithMetadata:(DBMetadata *)metadata error:(NSError *)error
+- (void)finishedWithMetadata:(DBFILESMetadata *)metadata error:(NSError *)error
 {
     if (self.syncCompletionBlock)
     {

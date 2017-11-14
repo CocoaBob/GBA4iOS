@@ -9,7 +9,7 @@
 #import "GBASyncOperation_Private.h"
 #import "GBASyncManager_Private.h"
 
-@interface GBASyncOperation () <DBRestClientDelegate>
+@interface GBASyncOperation ()
 
 @property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
@@ -52,7 +52,9 @@
     _isExecuting = YES;
     [self didChangeValueForKey:@"isExecuting"];
     
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    });
     
     [self beginSyncOperation];
 }
@@ -67,7 +69,9 @@
     _isFinished = YES;
     [self didChangeValueForKey:@"isFinished"];
     
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    });
     
     rst_end_background_task(_backgroundTaskIdentifier);
 }
@@ -121,12 +125,11 @@
 
 #pragma mark - Getters/Setters
 
-- (DBRestClient *)restClient
+- (DBUserClient *)restClient
 {
     if (_restClient == nil)
     {
-        _restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-        _restClient.delegate = self;
+        _restClient = [DBClientsManager authorizedClient];
     }
     
     return _restClient;

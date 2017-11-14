@@ -11,9 +11,9 @@
 @interface GBASyncFileOperation ()
 
 @property (readwrite, copy, nonatomic) NSString *dropboxPath;
-@property (readwrite, copy, nonatomic) DBMetadata *metadata;
+@property (readwrite, copy, nonatomic) DBFILESMetadata *metadata;
 
-- (void)finishedWithMetadata:(DBMetadata *)metadata error:(NSError *)error;
+- (void)finishedWithMetadata:(DBFILESMetadata *)metadata error:(NSError *)error;
 
 - (NSString *)humanReadableFileDescriptionForDropboxPath:(NSString *)dropboxPath;
 

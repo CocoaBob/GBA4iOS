@@ -10,7 +10,7 @@
 #import "GBASyncOperation_Private.h"
 #import "GBASyncUploadDeviceUploadHistoryOperation.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 @implementation GBASyncDeleteOperation
 
@@ -36,11 +36,20 @@
 {
     DLog(@"Deleting File: %@", self.dropboxPath);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.restClient deletePath:self.dropboxPath];
+        [[self.restClient.filesRoutes deleteV2:self.dropboxPath] setResponseBlock:^(DBFILESDeleteResult * _Nullable result, DBFILESDeleteError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+            if (networkError)
+            {
+                [self restClient:self.restClient deletePathFailedWithError:networkError.nsError routeError:routeError];
+            }
+            else if (result)
+            {
+                [self restClient:self.restClient deletedPath:result.metadata.pathLower];
+            }
+        }];
     });
 }
 
-- (void)restClient:(DBRestClient*)client deletedPath:(NSString *)dropboxPath
+- (void)restClient:(DBUserClient*)client deletedPath:(NSString *)dropboxPath
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         DLog(@"Deleted File: %@", [dropboxPath lastPathComponent]);
@@ -71,14 +80,14 @@
     });
 }
 
-- (void)restClient:(DBRestClient*)client deletePathFailedWithError:(NSError *)error
+- (void)restClient:(DBUserClient*)client deletePathFailedWithError:(NSError *)error routeError:(DBFILESDeleteError *)routeError
 {
     dispatch_async(self.ugh_dropbox_requiring_main_thread_dispatch_queue, ^{
         NSString *dropboxPath = [error userInfo][@"path"];
         
         NSMutableDictionary *pendingDeletions = [[GBASyncManager sharedManager] pendingDeletions];
         
-        if ([error code] == DBErrorFileNotFound || [error code] == 404)
+        if (/*[error code] == DBErrorFileNotFound*/(routeError && [routeError pathLookup].tag == DBFILESLookupErrorNotFound) || [error code] == 404)
         {
             DLog(@"File doesn't exist for deletion, so ignoring %@", [dropboxPath lastPathComponent]);
             

@@ -22,7 +22,7 @@
 #import "GBABluetoothLinkManager.h"
 #import "UIDevice-Hardware.h"
 
-#import <DropboxSDK/DropboxSDK.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 #define FRAME_SKIP_SECTION 0
 #define LINKING_SECTION 1
@@ -239,7 +239,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (section == DROPBOX_SYNC_SECTION)
     {
-        if (![[DBSession sharedSession] isLinked] || ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
+        if (!([DBClientsManager authorizedClient] != nil) || ![[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsDropboxSyncKey])
         {
             return 1;
         }

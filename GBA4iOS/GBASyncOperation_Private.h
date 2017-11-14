@@ -10,7 +10,7 @@
 
 @interface GBASyncOperation () <GBASyncOperationDelegate>
 
-@property (strong, nonatomic) DBRestClient *restClient;
+@property (strong, nonatomic) DBUserClient *restClient;
 @property (strong, nonatomic) dispatch_queue_t ugh_dropbox_requiring_main_thread_dispatch_queue;
 
 - (void)beginSyncOperation;

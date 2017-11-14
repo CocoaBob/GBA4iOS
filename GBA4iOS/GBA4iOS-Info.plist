@@ -282,5 +282,10 @@
 			</dict>
 		</dict>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>dbapi-8-emm</string>
+        <string>dbapi-2</string>
+    </array>
 </dict>
 </plist>
