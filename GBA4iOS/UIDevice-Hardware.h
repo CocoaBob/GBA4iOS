@@ -110,5 +110,6 @@ typedef enum {
 - (NSString *) macaddress;
 
 - (BOOL) hasRetinaDisplay;
+- (BOOL) hasHapticEngine;
 - (UIDeviceFamily) deviceFamily;
 @end

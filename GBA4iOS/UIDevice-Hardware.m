@@ -244,6 +244,12 @@
 {
     return ([UIScreen mainScreen].scale == 2.0f);
 }
+- (BOOL) hasHapticEngine {
+    NSNumber *feedbackSupportLevel =
+    (NSNumber *)[[UIDevice currentDevice] valueForKey:@"_feedbackSupportLevel"];
+    return feedbackSupportLevel.integerValue == 2;
+}
+
 
 - (UIDeviceFamily) deviceFamily
 {

@@ -32,6 +32,8 @@
 
 - (void)prepareForReuse
 {
+    [super prepareForReuse];
+    
     self.textLabel.textColor = [UIColor blackColor];
     self.detailTextLabel.text = nil;
     

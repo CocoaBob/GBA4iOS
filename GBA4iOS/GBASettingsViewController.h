@@ -17,6 +17,7 @@ static NSString *GBASettingsFrameSkipKey = @"frameSkip";
 static NSString *GBASettingsAutosaveKey = @"autosave";
 static NSString *GBASettingsPreferExternalAudioKey = @"preferExternalAudio";
 static NSString *GBASettingsVibrateKey = @"vibrate";
+static NSString *GBASettingsTapticKey = @"tapticLevel";
 static NSString *GBASettingsShowFramerateKey = @"showFramerate";
 static NSString *GBASettingsControllerOpacityKey = @"controllerOpacity";
 static NSString *GBASettingsDropboxSyncKey = @"dropboxSync";

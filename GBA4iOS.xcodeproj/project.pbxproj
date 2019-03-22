@@ -2001,7 +2001,6 @@
 				BF2F34DD183FF6F9002ACE90 /* Sources */,
 				BF2F35B4183FF6F9002ACE90 /* Frameworks */,
 				BF2F35C5183FF6F9002ACE90 /* Resources */,
-				DB00D6235E8F86A1F5EA6955 /* [CP] Embed Pods Frameworks */,
 				4CE397D2FDD5971E8E875CB4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -2024,7 +2023,6 @@
 				657CB59918BF14DD00217F96 /* ShellScript */,
 				BF7C0E74189DA4CB00794093 /* ShellScript */,
 				BFB39ADD1958D796003330AE /* Embed App Extensions */,
-				40B171D345C413713C702337 /* [CP] Embed Pods Frameworks */,
 				0C30DED5F220DA80C6F208A0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -2055,7 +2053,7 @@
 						};
 					};
 					CC2D56FB1798F2EC00C616EB = {
-						DevelopmentTeam = AW88LGV9K7;
+						DevelopmentTeam = 5VQK5LXSL6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -2156,28 +2154,38 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GBA4iOS/Pods-GBA4iOS-resources.sh",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/back_button.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/back_button@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/back_button@3x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/forward_button.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/forward_button@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/forward_button@3x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/chrome_activity.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/chrome_activity@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/chrome_activity@3x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/safari_activity.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/safari_activity@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/safari_activity@3x.png",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/back_button.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/back_button@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/back_button@3x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/forward_button.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/forward_button@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/forward_button@3x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/chrome_activity.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/chrome_activity@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/chrome_activity@3x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/safari_activity.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/safari_activity@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/safari_activity@3x.png",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GBA4iOS/Pods-GBA4iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		40B171D345C413713C702337 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GBA4iOS/Pods-GBA4iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GBA4iOS/Pods-GBA4iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4696B85997C0F49B3136BEF8 /* [CP] Check Pods Manifest.lock */ = {
@@ -2186,13 +2194,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GBA4iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4CE397D2FDD5971E8E875CB4 /* [CP] Copy Pods Resources */ = {
@@ -2201,13 +2212,38 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GBA4iOS-Simulator/Pods-GBA4iOS-Simulator-resources.sh",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/back_button.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/back_button@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/back_button@3x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/forward_button.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/forward_button@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/forward_button@3x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/chrome_activity.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/chrome_activity@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/chrome_activity@3x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/safari_activity.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/safari_activity@2x.png",
+				"${PODS_ROOT}/RSTWebViewController/RSTWebViewController/UIActivities/safari_activity@3x.png",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/back_button.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/back_button@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/back_button@3x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/forward_button.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/forward_button@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/forward_button@3x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/chrome_activity.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/chrome_activity@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/chrome_activity@3x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/safari_activity.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/safari_activity@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/safari_activity@3x.png",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GBA4iOS-Simulator/Pods-GBA4iOS-Simulator-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GBA4iOS-Simulator/Pods-GBA4iOS-Simulator-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		657CB59918BF14DD00217F96 /* ShellScript */ = {
@@ -2229,13 +2265,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GBA4iOS-Simulator-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF7C0E74189DA4CB00794093 /* ShellScript */ = {
@@ -2250,21 +2289,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "key=$(cat Crashlytics.apikey 2>/dev/null)\nif [ -n \"$key\" ]; then\n    ./Pods/CrashlyticsFramework/Crashlytics.framework/run d542629b4f6625cfd5564d27318550321272076d\nfi";
-		};
-		DB00D6235E8F86A1F5EA6955 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GBA4iOS-Simulator/Pods-GBA4iOS-Simulator-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2763,7 +2787,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -2812,7 +2835,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -2861,7 +2883,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -3003,6 +3024,7 @@
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5VQK5LXSL6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3024,7 +3046,6 @@
 					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -3067,7 +3088,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -3207,6 +3227,7 @@
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5VQK5LXSL6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3223,7 +3244,6 @@
 					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -3265,7 +3285,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info-Simulator.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -3521,6 +3540,7 @@
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5VQK5LXSL6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3542,7 +3562,6 @@
 					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -3566,6 +3585,7 @@
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5VQK5LXSL6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GBA4iOS/GBA4iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -3582,7 +3602,6 @@
 					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",
@@ -3717,6 +3736,7 @@
 				CODE_SIGN_ENTITLEMENTS = GBA4iOS/GBA4iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5VQK5LXSL6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3738,7 +3758,6 @@
 					"\"$(SRCROOT)/SFML/include/\"",
 				);
 				INFOPLIST_FILE = "GBA4iOS/GBA4iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = (
 					"-Objc",
 					"-all_load",

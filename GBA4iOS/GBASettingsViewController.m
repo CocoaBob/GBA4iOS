@@ -50,6 +50,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 @property (weak, nonatomic) IBOutlet UISwitch *autosaveSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *preferExternalAudioSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *tapticSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISlider *controllerOpacitySlider;
 @property (weak, nonatomic) IBOutlet UILabel *controllerOpacityLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *airplaySwitch;
@@ -157,6 +158,8 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     self.autosaveSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAutosaveKey];
     self.preferExternalAudioSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsPreferExternalAudioKey];
     self.vibrateSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsVibrateKey];
+    self.tapticSegmentedControl.enabled = [[UIDevice currentDevice] hasHapticEngine] && self.vibrateSwitch.on;
+    self.tapticSegmentedControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBASettingsTapticKey];
     self.airplaySwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsAirPlayEnabledKey];
     self.controllerOpacitySlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:GBASettingsControllerOpacityKey];
     self.rememberLastWebpageSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:GBASettingsRememberLastWebpageKey];
@@ -351,6 +354,18 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 {
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:GBASettingsVibrateKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsVibrateKey, @"value": @(sender.on)}];
+    [self updateControls];
+}
+
+- (IBAction)setTapticLevel:(id)sender {
+    UISegmentedControl *control = sender;
+    [[NSUserDefaults standardUserDefaults] setInteger:control.selectedSegmentIndex forKey:GBASettingsTapticKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBASettingsDidChangeNotification object:self userInfo:@{@"key": GBASettingsTapticKey, @"value": @(control.selectedSegmentIndex)}];
+    
+    //Send user feedback on that level
+    UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:control.selectedSegmentIndex];
+    [generator prepare];
+    [generator impactOccurred];
 }
 
 - (IBAction)togglePreferExternalAudio:(UISwitch *)sender

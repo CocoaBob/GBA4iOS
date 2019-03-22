@@ -47,6 +47,7 @@ static GBAEmulationViewController *_emulationViewController;
     NSInteger _hideIntroAnimationFrameCount;
 }
 
+@property (strong, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet GBAEmulatorScreen *emulatorScreen;
 @property (strong, nonatomic) IBOutlet GBAControllerView *controllerView;
 @property (strong, nonatomic) GBAExternalController *externalController;
@@ -2128,56 +2129,33 @@ static GBAEmulationViewController *_emulationViewController;
         return;
     }
     
-    if (![self isAirplaying])
-    {
-        CGRect screenRect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingScreen orientation:self.controllerView.orientation controllerDisplaySize:self.view.bounds.size];
-        
+    if (![self isAirplaying]) {
+        CGRect screenRect = [self.controllerView.controllerSkin frameForMapping:GBAControllerSkinMappingScreen
+                                                                    orientation:self.controllerView.orientation
+                                                          controllerDisplaySize:self.containerView.bounds.size];
         // In case we're coming back from AirPlaying
-        if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint])
-        {
+        if (![self.screenContainerView.constraints containsObject:self.screenHorizontalCenterLayoutConstraint]) {
             [self.screenContainerView addConstraint:self.screenHorizontalCenterLayoutConstraint];
         }
         
-        if (![self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint])
-        {
+        if (![self.screenContainerView.constraints containsObject:self.screenVerticalCenterLayoutConstraint]) {
             [self.screenContainerView addConstraint:self.screenVerticalCenterLayoutConstraint];
         }
         
-        if (CGRectIsEmpty(screenRect) || self.externalController)
-        {
-            [UIView animateWithDuration:0.4 animations:^{
-                self.screenHorizontalCenterLayoutConstraint.constant = 0;
-                self.screenVerticalCenterLayoutConstraint.constant = 0;
-            }];
-            
+        self.screenVerticalCenterLayoutConstraint.constant = -screenRect.origin.y;
+        
+        if (CGRectIsEmpty(screenRect) || self.externalController) {
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.screenContainerView.bounds.size] screen:[UIScreen mainScreen]];
-        }
-        else
-        {
-            [UIView animateWithDuration:0.4 animations:^{
-                CGPoint center = CGPointMake(CGRectGetMidX(self.screenContainerView.bounds), CGRectGetMidY(self.screenContainerView.bounds));
-                CGPoint screenRectCenter = CGPointMake(CGRectGetMinX(screenRect) + CGRectGetWidth(screenRect) / 2.0,
-                                                       CGRectGetMinY(screenRect) + CGRectGetHeight(screenRect) / 2.0);
-                
-                self.screenHorizontalCenterLayoutConstraint.constant = center.x - screenRectCenter.x;
-                self.screenVerticalCenterLayoutConstraint.constant = center.y - screenRectCenter.y;
-            }];
-            
-            self.emulatorScreen.frame = screenRect;
-            
+        } else {
             [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:screenRect.size screen:[UIScreen mainScreen]];
         }
-    }
-    else
-    {
+    } else {
         [[GBAEmulatorCore sharedCore] updateEAGLViewForSize:[self screenSizeForContainerSize:self.airplayWindow.bounds.size] screen:self.airplayWindow.screen];
-        
     }
     
     [self.emulatorScreen invalidateIntrinsicContentSize];
     
-    if (self.emulatorScreen.eaglView == nil)
-    {
+    if (self.emulatorScreen.eaglView == nil) {
         self.emulatorScreen.eaglView = [[GBAEmulatorCore sharedCore] eaglView];
     }
 }
