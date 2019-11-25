@@ -232,19 +232,11 @@
     
     if (self.directoryMonitor.ignoreDirectoryContentChanges == NO)
     {
-        if ([NSThread isMainThread])
-        {
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-        }
-        else
-        {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-            });
-        }
+            [self didRefreshCurrentDirectory];
+        });
     }
-    
-    [self didRefreshCurrentDirectory];
 }
 
 - (void)directoryContentsChanged:(NSNotification *)notification
