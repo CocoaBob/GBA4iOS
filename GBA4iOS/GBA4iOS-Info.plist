@@ -184,6 +184,8 @@
 	<false/>
 	<key>UIViewGroupOpacity</key>
 	<false/>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -282,10 +284,10 @@
 			</dict>
 		</dict>
 	</array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>dbapi-8-emm</string>
-        <string>dbapi-2</string>
-    </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>dbapi-8-emm</string>
+		<string>dbapi-2</string>
+	</array>
 </dict>
 </plist>
