@@ -36,7 +36,10 @@
 {
     DLog(@"Deleting File: %@", self.dropboxPath);
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[self.restClient.filesRoutes deleteV2:self.dropboxPath] setResponseBlock:^(DBFILESDeleteResult * _Nullable result, DBFILESDeleteError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+        [[self.restClient.filesRoutes delete_V2:self.dropboxPath]
+         setResponseBlock:^(DBFILESDeleteResult * _Nullable result,
+                            DBFILESDeleteError * _Nullable routeError,
+                            DBRequestError * _Nullable networkError) {
             if (networkError)
             {
                 [self restClient:self.restClient deletePathFailedWithError:networkError.nsError routeError:routeError];

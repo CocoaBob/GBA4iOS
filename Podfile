@@ -2,15 +2,15 @@ source 'https://cdn.cocoapods.org/'
 
 platform :ios, "9.0"
 
-inhibit_all_warnings!
+use_frameworks!
 
 
 def all_pods
 	pod 'RSTWebViewController', :git => 'https://github.com/rileytestut/RSTWebViewController-Legacy.git'
-	pod "AFNetworking", "~> 2.4"
+	pod "AFNetworking", "~> 3.2"
 	pod "PSPDFTextView", :git => 'https://github.com/steipete/PSPDFTextView.git'
-	pod "ObjectiveDropboxOfficial", "~> 3.3.4"
-	pod "CrashlyticsFramework", "~> 2.1.0"
+	pod "ObjectiveDropboxOfficial", "~> 3.10.0"
+	pod "CrashlyticsFramework"
 end
 
 target 'GBA4iOS' do

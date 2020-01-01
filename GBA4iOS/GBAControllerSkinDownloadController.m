@@ -96,38 +96,40 @@ static void *GBAControllerSkinDownloadControllerContext = &GBAControllerSkinDown
     NSString *address = [GBAControllerSkinsRootAddress stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/%@", [GBAControllerSkinDownloadController stringForControllerSkinType:controllerSkin.type], controllerSkin.identifier, controllerSkin.filename]];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:address]];
     
-    NSProgress *progress = nil;
+    __block NSProgress *progress = nil;
     
-    __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request
+        progress:^(NSProgress * _Nonnull downloadProgress) {
+            progress = downloadProgress;
+    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         
         NSString *filepath = [[targetPath path] stringByDeletingPathExtension];
         filepath = [filepath stringByAppendingPathExtension:controllerSkin.filename.pathExtension];
         
         return [NSURL fileURLWithPath:filepath];
         
-    } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
-                                                       {
-                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                               if (error)
-                                                               {
-                                                                   if (completion)
-                                                                   {
-                                                                       completion(nil, error);
-                                                                   }
-                                                                   
-                                                                   [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
-                                                                   
-                                                                   return;
-                                                               }
-                                                               
-                                                               if (completion)
-                                                               {
-                                                                   completion(fileURL, error);
-                                                               }
-                                                               
-                                                               [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
-                                                           });
-                                                       }];
+    } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error) {
+       dispatch_async(dispatch_get_main_queue(), ^{
+           if (error)
+           {
+               if (completion)
+               {
+                   completion(nil, error);
+               }
+               
+               [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+               
+               return;
+           }
+           
+           if (completion)
+           {
+               completion(fileURL, error);
+           }
+           
+           [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+       });
+    }];
     
     [progress addObserver:self forKeyPath:@"totalUnitCount" options:NSKeyValueObservingOptionNew context:GBAControllerSkinDownloadControllerContext];
     [progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:GBAControllerSkinDownloadControllerContext];
