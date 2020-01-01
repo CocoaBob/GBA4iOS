@@ -38,7 +38,18 @@
     dispatch_async(dispatch_get_main_queue(), ^{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [[self.restClient.filesRoutes uploadUrl:self.dropboxPath mode:[[DBFILESWriteMode alloc] initWithOverwrite] autorename:[NSNumber numberWithBool:NO] clientModified:nil mute:[NSNumber numberWithBool:YES] inputUrl:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES]] setResponseBlock:^(DBFILESFileMetadata * _Nullable result, DBFILESUploadError * _Nullable routeError, DBRequestError * _Nullable networkError) {
+        [[self.restClient.filesRoutes
+          alphaUploadUrl:self.dropboxPath
+          mode:[[DBFILESWriteMode alloc] initWithOverwrite]
+          autorename:[NSNumber numberWithBool:NO]
+          clientModified:nil
+          mute:[NSNumber numberWithBool:YES]
+          propertyGroups:nil
+          strictConflict:nil
+          inputUrl:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES]]
+         setResponseBlock:^(DBFILESFileMetadata * _Nullable result,
+                            DBFILESUploadError * _Nullable routeError,
+                            DBRequestError * _Nullable networkError) {
             if (networkError)
             {
                 [self restClient:self.restClient uploadFileFailedWithError:networkError.nsError];

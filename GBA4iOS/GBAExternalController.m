@@ -247,7 +247,7 @@
         [weakSelf.delegate controllerInputDidPressMenuButton:weakSelf];
     };
     
-    GCGamepad *gamepad = self.controller.gamepad;
+    GCExtendedGamepad *gamepad = self.controller.extendedGamepad;
     
     // Standard Buttons
     gamepad.buttonA.valueChangedHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed)
@@ -452,27 +452,27 @@
     
     GBAExternalControllerButtonInput externalControllerButtonInput = 0;
     
-    if (button == controller.gamepad.buttonA)
+    if (button == controller.extendedGamepad.buttonA)
     {
         externalControllerButtonInput = GBAExternalControllerButtonInputA;
     }
-    else if (button == controller.gamepad.buttonB)
+    else if (button == controller.extendedGamepad.buttonB)
     {
         externalControllerButtonInput = GBAExternalControllerButtonInputB;
     }
-    else if (button == controller.gamepad.buttonX)
+    else if (button == controller.extendedGamepad.buttonX)
     {
         externalControllerButtonInput = GBAExternalControllerButtonInputX;
     }
-    else if (button == controller.gamepad.buttonY)
+    else if (button == controller.extendedGamepad.buttonY)
     {
         externalControllerButtonInput = GBAExternalControllerButtonInputY;
     }
-    else if (button == controller.gamepad.leftShoulder)
+    else if (button == controller.extendedGamepad.leftShoulder)
     {
         externalControllerButtonInput = GBAExternalControllerButtonInputLeftShoulder;
     }
-    else if (button == controller.gamepad.rightShoulder)
+    else if (button == controller.extendedGamepad.rightShoulder)
     {
         externalControllerButtonInput = GBAExternalControllerButtonInputRightShoulder;
     }

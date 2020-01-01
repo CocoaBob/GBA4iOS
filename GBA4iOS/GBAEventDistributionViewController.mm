@@ -258,8 +258,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
-    NSProgress *progress = nil;
-    __block NSProgress *strongReferenceProgress = nil;
+    __block NSProgress *progress = nil;
     
     // iOS 8 crashes when trying to figure out destinationURL in destination block
     NSString *uniqueEventDirectory = [[self eventsDirectory] stringByAppendingPathComponent:identifier];
@@ -267,44 +266,41 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     NSURL *destinationURL = [NSURL fileURLWithPath:[uniqueEventDirectory stringByAppendingPathComponent:[self remoteROMFilename]]];
     
-    __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response)
-    {
+    __strong NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request
+      progress:^(NSProgress * _Nonnull downloadProgress) {
+        progress = downloadProgress;
+    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
         return destinationURL;
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable fileURL, NSError * _Nullable error) {
+        [self.currentDownloads removeObject:event];
         
-    } completionHandler:^(NSURLResponse *response, NSURL *fileURL, NSError *error)
-                                                       {
-                                                           [self.currentDownloads removeObject:event];
-                                                           
-                                                           if (error)
-                                                           {
-                                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                                   UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
-                                                                   [alert show];
-                                                               });
-                                                               
-                                                               strongReferenceProgress.completedUnitCount = strongReferenceProgress.totalUnitCount;
-                                                               
-                                                               [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
-                                                               
-                                                               [self updateSectionForEvent:event]; // Has to go after removing file
-                                                               return;
-                                                           }
-                                                           
-                                                           NSString *eventInfoPath = [[destinationURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"info.gbaevent"];
-                                                           [event writeToFile:eventInfoPath];
-                                                           [self updateSectionForEvent:event]; // Has to go after writing to file
-                                                       }];
+        if (error)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithError:error];
+                [alert show];
+            });
+            
+            progress.completedUnitCount = progress.totalUnitCount;
+            
+            [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+            
+            [self updateSectionForEvent:event]; // Has to go after removing file
+            return;
+        }
+        
+        NSString *eventInfoPath = [[destinationURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"info.gbaevent"];
+        [event writeToFile:eventInfoPath];
+        [self updateSectionForEvent:event]; // Has to go after writing to file
+    }];
     
     [progress addObserver:self forKeyPath:@"totalUnitCount" options:NSKeyValueObservingOptionNew context:GBADownloadProgressTotalUnitContext];
     [progress addObserver:self forKeyPath:@"completedUnitCount" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:GBADownloadProgressContext];
-    
-    strongReferenceProgress = progress;
     
     [downloadTask resume];
     
     [self.currentDownloads addObject:event];
     [self updateSectionForEvent:event];
-    
 }
 
 - (void)showDownloadProgressView

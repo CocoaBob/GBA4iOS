@@ -70,6 +70,8 @@
 
 - (void)prepareForReuse
 {
+    [super prepareForReuse];
+    
     [self.imageDataTask cancel];
     self.imageDataTask = nil;
     
