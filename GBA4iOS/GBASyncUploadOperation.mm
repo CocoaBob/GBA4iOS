@@ -39,7 +39,7 @@
     if (metadata == nil)
     {
         NSDictionary *dropboxFiles = [[GBASyncManager sharedManager] dropboxFiles];
-        metadata = dropboxFiles[self.dropboxPath];
+        metadata = dropboxFiles[self.dropboxPath.lowercaseString];
     }
     
     DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)metadata;
@@ -81,7 +81,7 @@
           strictConflict:nil
           inputUrl:localPath]
          setResponseBlock:^(DBFILESFileMetadata * _Nullable result,
-                            DBFILESUploadError * _Nullable routeError,
+                            DBFILESUploadErrorWithProperties * _Nullable routeError,
                             DBRequestError * _Nullable networkError) {
             DLog(@"routeError: %@, networkError: %@", routeError, networkError);
             if (networkError)

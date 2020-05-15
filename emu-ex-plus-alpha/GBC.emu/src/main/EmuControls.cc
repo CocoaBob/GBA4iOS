@@ -4,7 +4,7 @@
 namespace EmuControls
 {
 
-void transposeKeysForPlayer(KeyConfig::KeyArray &key, uint player) {}
+//void transposeKeysForPlayer(KeyConfig::KeyArray &key, uint player) {}
 
 static const char *gamepadName[gamepadKeys] =
 {

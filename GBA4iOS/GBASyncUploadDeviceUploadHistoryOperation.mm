@@ -48,7 +48,7 @@
           strictConflict:nil
           inputUrl:[GBASyncManager localPathForDropboxPath:self.dropboxPath uploading:YES]]
          setResponseBlock:^(DBFILESFileMetadata * _Nullable result,
-                            DBFILESUploadError * _Nullable routeError,
+                            DBFILESUploadErrorWithProperties * _Nullable routeError,
                             DBRequestError * _Nullable networkError) {
             if (networkError)
             {
