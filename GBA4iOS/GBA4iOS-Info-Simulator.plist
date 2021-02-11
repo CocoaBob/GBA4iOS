@@ -140,6 +140,11 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2.1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>dbapi-8-emm</string>
+		<string>dbapi-2</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -207,8 +212,6 @@
 	<false/>
 	<key>UIViewGroupOpacity</key>
 	<false/>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -306,11 +309,6 @@
 				<string>GB</string>
 			</dict>
 		</dict>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>dbapi-8-emm</string>
-		<string>dbapi-2</string>
 	</array>
 </dict>
 </plist>
