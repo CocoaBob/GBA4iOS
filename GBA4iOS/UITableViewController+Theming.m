@@ -20,11 +20,19 @@
     {
         case GBAThemedTableViewControllerThemeOpaque:
         {
-            cell.textLabel.textColor = [UIColor blackColor];
-            cell.detailTextLabel.textColor = [UIColor grayColor];
-            cell.backgroundColor = [UIColor whiteColor];
-            cell.textLabel.backgroundColor = [UIColor whiteColor];
-            cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
+            if (@available(iOS 13.0, *)) {
+                cell.textLabel.textColor = [UIColor labelColor];
+                cell.detailTextLabel.textColor = [UIColor secondaryLabelColor];
+                cell.backgroundColor = [UIColor clearColor];
+                cell.textLabel.backgroundColor = [UIColor clearColor];
+                cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+            } else {
+                cell.textLabel.textColor = [UIColor blackColor];
+                cell.detailTextLabel.textColor = [UIColor grayColor];
+                cell.backgroundColor = [UIColor clearColor];
+                cell.textLabel.backgroundColor = [UIColor clearColor];
+                cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+            }
             break;
         }
             
@@ -57,9 +65,13 @@
         case GBAThemedTableViewControllerThemeOpaque:
         {
             header.backgroundView = nil;
-            
-            header.contentView.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1.0];
-            header.textLabel.textColor = [UIColor blackColor];
+            if (@available(iOS 13.0, *)) {
+                header.contentView.backgroundColor = [UIColor secondarySystemBackgroundColor];
+                header.textLabel.textColor = [UIColor labelColor];
+            } else {
+                header.contentView.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1.0];
+                header.textLabel.textColor = [UIColor blackColor];
+            }
             break;
         }
             
@@ -83,7 +95,11 @@
     switch (theme)
     {
         case GBAThemedTableViewControllerThemeOpaque:
-            header.textLabel.textColor = [UIColor blackColor];
+            if (@available(iOS 13.0, *)) {
+                header.textLabel.textColor = [UIColor labelColor];
+            } else {
+                header.textLabel.textColor = [UIColor blackColor];
+            }
             break;
             
         case GBAThemedTableViewControllerThemeTranslucent:

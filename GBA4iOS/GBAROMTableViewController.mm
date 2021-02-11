@@ -120,6 +120,14 @@ dispatch_queue_t directoryContentsChangedQueue() {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)loadView
+{
+    [super loadView];
+    if (@available(iOS 13.0, *)) {
+        self.tableView.backgroundColor = [UIColor systemBackgroundColor];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
