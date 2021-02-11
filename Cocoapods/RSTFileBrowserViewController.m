@@ -425,6 +425,14 @@
     return (self.ignoreDirectoryContentChangesCount > 0);
 }
 
+-(void)setShowSectionTitles:(BOOL)showSectionTitles
+{
+    if (showSectionTitles != _showSectionTitles) {
+        _showSectionTitles = showSectionTitles;
+        [self.tableView reloadSectionIndexTitles];
+    }
+}
+
 @end
 
 
