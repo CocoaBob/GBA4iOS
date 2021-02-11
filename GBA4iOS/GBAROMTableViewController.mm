@@ -1599,7 +1599,7 @@ dispatch_queue_t directoryContentsChangedQueue() {
 - (void)setRomType:(GBAVisibleROMType)romType
 {
     self.romTypeSegmentedControl.selectedSegmentIndex = romType;
-    [[NSUserDefaults standardUserDefaults] setInteger:romType forKey:@"romType"];
+    [[NSUserDefaults standardUserDefaults] setInteger:romType forKey:@"visibleROMType"];
     
     switch (romType) {
         case GBAVisibleROMTypeAll:
