@@ -251,18 +251,6 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     return [super tableView:tableView numberOfRowsInSection:section];
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.textLabel.textColor = [UIColor blackColor];
-    cell.textLabel.backgroundColor = [UIColor whiteColor];
-    cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
-    
-    return cell;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == LINKING_SECTION)
