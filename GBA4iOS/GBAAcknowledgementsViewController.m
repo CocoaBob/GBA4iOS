@@ -52,7 +52,9 @@
         UIFont *newFont = [UIFont fontWithDescriptor:fontDescriptor size:0.0];
         
         [attributedString addAttribute:NSFontAttributeName value:newFont range:range];
-        
+        if (@available(iOS 13.0, *)) {
+            [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor labelColor] range:range];
+        }
     }];
     
     self.textView.attributedText = attributedString;
