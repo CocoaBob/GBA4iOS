@@ -18,6 +18,7 @@ The number one Game Boy Advance emulator for iOS is back, and has been rewritten
 • Wario Ware: Twisted Support  
 • iOS 7 Controller support  
 • URL Scheme support (gba4ios://ROM%20Name%20Here)  
+• Dark Mode
 
 ### Classic Features ###
 
