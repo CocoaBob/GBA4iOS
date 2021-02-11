@@ -983,12 +983,16 @@ dispatch_queue_t directoryContentsChangedQueue() {
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.noGamesDescriptionLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.tableView.bounds) - (29 * 2);
+    
+    self.showSectionTitles = NO;
 }
 
 - (void)hideNoGamesView
 {
     self.tableView.backgroundView = nil;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    
+    self.showSectionTitles = YES;
 }
 
 #pragma mark - UITableView Delegate
