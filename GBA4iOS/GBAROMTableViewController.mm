@@ -85,34 +85,25 @@ dispatch_queue_t directoryContentsChangedQueue() {
     return queue;
 }
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"romTableViewController"];
-    if (self)
-    {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    GBAROMTableViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"romTableViewController"];
+
+    if (controller) {
+        controller->_downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];
+        [controller->_downloadProgress addObserver:controller
+                            forKeyPath:@"fractionCompleted"
+                               options:NSKeyValueObservingOptionNew
+                               context:GBADownloadROMProgressContext];
         
-        self.currentDirectory = documentsDirectory; 
-        self.showFileExtensions = YES;
-        self.showFolders = NO;
-        self.showSectionTitles = YES;
-        self.showUnavailableFiles = YES;
+        controller->_currentDownloadsDictionary = [NSMutableDictionary dictionary];
         
-        _downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];
-        [_downloadProgress addObserver:self
-                    forKeyPath:@"fractionCompleted"
-                       options:NSKeyValueObservingOptionNew
-                       context:GBADownloadROMProgressContext];
-        
-        _currentDownloadsDictionary = [NSMutableDictionary dictionary];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingsDidChange:) name:GBASettingsDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:controller selector:@selector(userRequestedToPlayROM:) name:GBAUserRequestedToPlayROMNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:controller selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:controller selector:@selector(settingsDidChange:) name:GBASettingsDidChangeNotification object:nil];
     }
-    return self;
+    return controller;
 }
 
 - (void)dealloc
@@ -131,7 +122,16 @@ dispatch_queue_t directoryContentsChangedQueue() {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+
+    self.currentDirectory = documentsDirectory;
+    self.showFileExtensions = YES;
+    self.showFolders = NO;
+    self.showSectionTitles = YES;
+    self.showUnavailableFiles = YES;
     
     self.clearsSelectionOnViewWillAppear = YES;
     
@@ -1577,7 +1577,7 @@ dispatch_queue_t directoryContentsChangedQueue() {
 
 - (IBAction)presentSettings:(UIBarButtonItem *)barButtonItem
 {
-    GBASettingsViewController *settingsViewController = [[GBASettingsViewController alloc] init];
+    GBASettingsViewController *settingsViewController = [GBASettingsViewController controller];
     settingsViewController.delegate = self;
     
     [[UIApplication sharedApplication] setStatusBarStyle:[settingsViewController preferredStatusBarStyle] animated:YES];

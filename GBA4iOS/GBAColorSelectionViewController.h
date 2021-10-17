@@ -27,6 +27,10 @@ typedef NS_ENUM(NSInteger, GBCColorPalette)
 
 @interface GBAColorSelectionViewController : UITableViewController
 
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controller;
+
 + (NSString *)localizedNameForGBCColorPalette:(GBCColorPalette)colorPalette;
 
 @end

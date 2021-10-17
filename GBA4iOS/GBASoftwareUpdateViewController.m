@@ -28,21 +28,21 @@
 
 @implementation GBASoftwareUpdateViewController
 
-- (instancetype)init
++ (instancetype)controller
 {
-    return [self initWithSoftwareUpdate:nil];
+    return [self controllerWithSoftwareUpdate:nil];
 }
 
-- (instancetype)initWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate
++ (instancetype)controllerWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"softwareUpdateViewController"];
-    if (self)
+    GBASoftwareUpdateViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"softwareUpdateViewController"];
+    if (controller)
     {
-        _softwareUpdate = softwareUpdate;
+        controller->_softwareUpdate = softwareUpdate;
     }
     
-    return self;
+    return controller;
 }
 
 - (void)viewDidLoad

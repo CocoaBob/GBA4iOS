@@ -22,6 +22,10 @@
 
 @interface GBACheatEditorViewController : UITableViewController
 
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controller;
+
 @property (weak, nonatomic) id<GBACheatEditorViewControllerDelegate> delegate;
 @property (strong, nonatomic) GBACheat *cheat;
 @property (assign, nonatomic) GBAROMType romType;

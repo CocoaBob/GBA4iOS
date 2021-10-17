@@ -15,6 +15,10 @@
 @property (assign, nonatomic) CGFloat blurAlpha;
 @property (strong, nonatomic) UIImageView *blurredContentsImageView;
 
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controller;
+
 - (void)showSplashScreen;
 
 - (void)blurWithInitialAlpha:(CGFloat)alpha;

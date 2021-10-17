@@ -17,16 +17,11 @@
 
 @implementation GBAWebBrowserHomepageViewController
 
-- (instancetype)init
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"webBrowserHomepageViewController"];
-    if (self)
-    {
-        
-    }
-    
-    return self;
+    GBAWebBrowserHomepageViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"webBrowserHomepageViewController"];
+    return controller;
 }
 
 - (void)viewDidLoad
