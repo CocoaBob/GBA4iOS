@@ -17,15 +17,11 @@
 
 @implementation GBAPushNotificationsViewController
 
-- (id)init
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"pushNotificationsViewController"];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
+    GBAPushNotificationsViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"pushNotificationsViewController"];
+    return controller;
 }
 
 - (void)viewDidLoad

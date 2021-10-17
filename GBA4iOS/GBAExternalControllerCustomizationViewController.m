@@ -54,29 +54,27 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
 
 @implementation GBAExternalControllerCustomizationViewController
 
-- (id)init
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"externalControllerCustomizationViewController"];
-    if (self)
+    GBAExternalControllerCustomizationViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"externalControllerCustomizationViewController"];
+    if (controller)
     {
-        _calloutViewButtonA = [GBACalloutView new];
-        _calloutViewButtonB = [GBACalloutView new];
-        _calloutViewButtonX = [GBACalloutView new];
-        _calloutViewButtonY = [GBACalloutView new];
-        _calloutViewButtonL2 = [GBACalloutView new];
-        _calloutViewButtonR2 = [GBACalloutView new];
+        controller->_calloutViewButtonA = [GBACalloutView new];
+        controller->_calloutViewButtonB = [GBACalloutView new];
+        controller->_calloutViewButtonX = [GBACalloutView new];
+        controller->_calloutViewButtonY = [GBACalloutView new];
+        controller->_calloutViewButtonL2 = [GBACalloutView new];
+        controller->_calloutViewButtonR2 = [GBACalloutView new];
         
-        _calloutViewButtonA.interactionDelegate = self;
-        _calloutViewButtonB.interactionDelegate = self;
-        _calloutViewButtonX.interactionDelegate = self;
-        _calloutViewButtonY.interactionDelegate = self;
-        _calloutViewButtonL2.interactionDelegate = self;
-        _calloutViewButtonR2.interactionDelegate = self;
-        
-        [self updateCalloutViews];
+        controller->_calloutViewButtonA.interactionDelegate = controller;
+        controller->_calloutViewButtonB.interactionDelegate = controller;
+        controller->_calloutViewButtonX.interactionDelegate = controller;
+        controller->_calloutViewButtonY.interactionDelegate = controller;
+        controller->_calloutViewButtonL2.interactionDelegate = controller;
+        controller->_calloutViewButtonR2.interactionDelegate = controller;
     }
-    return self;
+    return controller;
 }
 
 - (void)viewDidLoad
@@ -86,6 +84,8 @@ SMCalloutAnimation SMCalloutAnimationNone = 18;
     
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.buttonLayoutView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+
+    [self updateCalloutViews];
 }
 
 - (void)viewWillAppear:(BOOL)animated

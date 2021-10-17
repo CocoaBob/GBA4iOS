@@ -24,22 +24,22 @@
 
 @implementation GBAEventDistributionDetailViewController
 
-- (instancetype)initWithEvent:(GBAEvent *)event
++ (instancetype)controllerWithEvent:(GBAEvent *)event
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"eventDistributionDetailViewController"];
-    if (self)
+    GBAEventDistributionDetailViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"eventDistributionDetailViewController"];
+    if (controller)
     {
-        _event = event;
-        self.title = event.name;
+        controller->_event = event;
     }
-    return self;
+    return controller;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-            
+
+    self.title = self.event.name;
     self.detailTextView.text = self.event.eventDescription;;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentSizeCategoryDidChange:) name:UIContentSizeCategoryDidChangeNotification object:nil];

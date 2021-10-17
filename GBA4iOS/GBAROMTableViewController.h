@@ -27,6 +27,10 @@
 @property (weak, nonatomic) id<GBAROMTableViewControllerAppearanceDelegate> appearanceDelegate;
 @property (weak, nonatomic) GBAEmulationViewController *emulationViewController;
 
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controller;
+
 - (void)startROM:(GBAROM *)rom;
 
 @end

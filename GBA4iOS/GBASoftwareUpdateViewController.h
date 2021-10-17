@@ -12,6 +12,9 @@
 
 @interface GBASoftwareUpdateViewController : UITableViewController
 
-- (instancetype)initWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate;
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controller;
++ (instancetype)controllerWithSoftwareUpdate:(GBASoftwareUpdate *)softwareUpdate;
 
 @end

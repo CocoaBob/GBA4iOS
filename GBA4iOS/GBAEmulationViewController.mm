@@ -101,20 +101,20 @@ static GBAEmulationViewController *_emulationViewController;
 
 #pragma mark - UIViewController subclass
 
-- (instancetype)init
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
-    if (self)
+    GBAEmulationViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"emulationViewController"];
+    if (controller)
     {
-        _launchingApplication = YES;
+        controller->_launchingApplication = YES;
         
-        _emulationViewController = self;
+        _emulationViewController = controller;
         
-        [[GBAEmulatorCore sharedCore] setDelegate:self];
+        [[GBAEmulatorCore sharedCore] setDelegate:controller];
     }
     
-    return self;
+    return controller;
 }
 
 - (void)viewDidLoad
@@ -201,7 +201,7 @@ static GBAEmulationViewController *_emulationViewController;
         // Add to our view so we can animate it
         [self.view addSubview:self.splashScreenView];
         
-        self.romTableViewController = [[GBAROMTableViewController alloc] initWithNibName:nil bundle:nil];
+        self.romTableViewController = [GBAROMTableViewController controller];
         self.romTableViewController.appearanceDelegate = self;
         self.romTableViewController.view.layer.allowsGroupOpacity = YES;
         

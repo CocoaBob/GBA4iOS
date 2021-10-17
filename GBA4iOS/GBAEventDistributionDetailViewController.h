@@ -30,7 +30,8 @@
 
 @property (weak, nonatomic) id <GBAEventDistributionDetailViewControllerDelegate> delegate;
 
-
-- (instancetype)initWithEvent:(GBAEvent *)event;
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controllerWithEvent:(GBAEvent *)event;
 
 @end

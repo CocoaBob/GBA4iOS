@@ -51,6 +51,10 @@ static NSString *GBASettingsRememberLastWebpageKey = @"rememberLastWebpage";
 
 @property (weak, nonatomic) id<GBASettingsViewControllerDelegate> delegate;
 
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controller;
+
 + (void)registerDefaults;
 
 @end

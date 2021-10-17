@@ -78,15 +78,11 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
 
 @implementation GBASettingsViewController
 
-- (id)init
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"settingsViewController"];
-    if (self)
-    {
-        // Custom initialization
-    }
-    return self;
+    GBASettingsViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"settingsViewController"];
+    return controller;
 }
 
 - (void)viewDidLoad
@@ -420,19 +416,19 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == PUSH_NOTIFICATIONS_SECTION)
     {
-        GBAPushNotificationsViewController *pushNotificationsViewController = [GBAPushNotificationsViewController new];
+        GBAPushNotificationsViewController *pushNotificationsViewController = [GBAPushNotificationsViewController controller];
         [self.navigationController pushViewController:pushNotificationsViewController animated:YES];
     }
     else if (indexPath.section == ORIGINAL_GAMEBOY_SECTION)
     {
-        GBAColorSelectionViewController *colorSelectionViewController = [GBAColorSelectionViewController new];
+        GBAColorSelectionViewController *colorSelectionViewController = [GBAColorSelectionViewController controller];
         [self.navigationController pushViewController:colorSelectionViewController animated:YES];
     }
     else if (indexPath.section == WEB_BROWSER_SECTION)
     {
         if (indexPath.row == 0)
         {
-            GBAWebBrowserHomepageViewController *homepageViewController = [GBAWebBrowserHomepageViewController new];
+            GBAWebBrowserHomepageViewController *homepageViewController = [GBAWebBrowserHomepageViewController controller];
             [self.navigationController pushViewController:homepageViewController animated:YES];
         }
     }
@@ -453,7 +449,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == EXTERNAL_CONTROLLER_SECTION)
     {
-        GBAExternalControllerCustomizationViewController *externalControllerCustomizationViewController = [[GBAExternalControllerCustomizationViewController alloc] init];
+        GBAExternalControllerCustomizationViewController *externalControllerCustomizationViewController = [GBAExternalControllerCustomizationViewController controller];
         
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
@@ -477,7 +473,7 @@ NSString *const GBASettingsDropboxStatusChangedNotification = @"GBASettingsDropb
     }
     else if (indexPath.section == SOFTWARE_UPDATE_SECTION)
     {
-        GBASoftwareUpdateViewController *softwareUpdateViewController = [[GBASoftwareUpdateViewController alloc] init];
+        GBASoftwareUpdateViewController *softwareUpdateViewController = [GBASoftwareUpdateViewController controller];
         [self.navigationController pushViewController:softwareUpdateViewController animated:YES];
     }
     else if (indexPath.section == CREDITS_SECTION)

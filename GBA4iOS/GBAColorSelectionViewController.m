@@ -15,16 +15,11 @@
 
 @implementation GBAColorSelectionViewController
 
-- (instancetype)init
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Settings" bundle:nil];
-    self = [storyboard instantiateViewControllerWithIdentifier:@"colorSelectionViewController"];
-    if (self)
-    {
-        // Custom initialization
-    }
-    
-    return self;
+    GBAColorSelectionViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"colorSelectionViewController"];
+    return controller;
 }
 
 - (void)viewDidLoad

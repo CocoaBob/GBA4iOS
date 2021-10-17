@@ -167,7 +167,7 @@
 
 - (void)tappedAddCheatCode:(UIBarButtonItem *)button
 {
-    GBACheatEditorViewController *cheatEditorViewController = [[GBACheatEditorViewController alloc] init];
+    GBACheatEditorViewController *cheatEditorViewController = [GBACheatEditorViewController controller];
     cheatEditorViewController.romType = self.rom.type;
     cheatEditorViewController.delegate = self;
     
@@ -396,7 +396,7 @@
     
     if ([self.tableView isEditing])
     {
-        GBACheatEditorViewController *cheatEditorViewController = [[GBACheatEditorViewController alloc] init];
+        GBACheatEditorViewController *cheatEditorViewController = [GBACheatEditorViewController controller];
         cheatEditorViewController.romType = self.rom.type;
         cheatEditorViewController.cheat = cheat;
         cheatEditorViewController.delegate = self;

@@ -20,6 +20,10 @@ typedef NS_ENUM(NSInteger, GBAWebBrowserHomepage)
 
 @interface GBAWebBrowserHomepageViewController : UITableViewController
 
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
++ (instancetype)controller;
+
 + (NSString *)localizedNameForWebBrowserHomepage:(GBAWebBrowserHomepage)webBrowserHomepage;
 
 @end

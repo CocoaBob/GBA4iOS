@@ -94,7 +94,7 @@ static GBAAppDelegate *_appDelegate;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
     {
-        self.emulationViewController = [[GBAEmulationViewController alloc] init];
+        self.emulationViewController = [GBAEmulationViewController controller];
         
         self.window.rootViewController = self.emulationViewController;
     }
@@ -461,7 +461,7 @@ void applicationDidCrash(siginfo_t *info, ucontext_t *uap, void *context)
         return;
     }
     
-    GBASoftwareUpdateViewController *softwareUpdateViewController = [[GBASoftwareUpdateViewController alloc] initWithSoftwareUpdate:softwareUpdate];
+    GBASoftwareUpdateViewController *softwareUpdateViewController = [GBASoftwareUpdateViewController controllerWithSoftwareUpdate:softwareUpdate];
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissPresentedViewController:)];
     softwareUpdateViewController.navigationItem.leftBarButtonItem = cancelButton;

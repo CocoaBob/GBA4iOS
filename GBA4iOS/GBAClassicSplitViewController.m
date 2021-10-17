@@ -30,11 +30,11 @@
         
         self.romTableViewControllerIsVisible = NO;
         
-        self.romTableViewController = [[GBAROMTableViewController alloc] init];
+        self.romTableViewController = [GBAROMTableViewController controller];
         self.romTableViewController.appearanceDelegate = self;
         UINavigationController *navigationController = RST_CONTAIN_IN_NAVIGATION_CONTROLLER(self.romTableViewController);
         
-        self.emulationViewController = [[GBAEmulationViewController alloc] init];
+        self.emulationViewController = [GBAEmulationViewController controller];
         
         self.viewControllers = @[navigationController, self.emulationViewController];
         

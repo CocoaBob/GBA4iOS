@@ -525,7 +525,7 @@ static void * GBADownloadProgressTotalUnitContext = &GBADownloadProgressTotalUni
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:eventFilepath])
     {
-        GBAEventDistributionDetailViewController *eventDistributionDetailViewController = [[GBAEventDistributionDetailViewController alloc] initWithEvent:event];
+        GBAEventDistributionDetailViewController *eventDistributionDetailViewController = [GBAEventDistributionDetailViewController controllerWithEvent:event];
         eventDistributionDetailViewController.delegate = self;
         eventDistributionDetailViewController.imageCache = self.imageCache;
         eventDistributionDetailViewController.rom = self.rom;

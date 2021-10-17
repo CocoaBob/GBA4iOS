@@ -51,16 +51,16 @@ CGFloat GBATextViewInsetDefaultRight = 6;
 
 @implementation GBACheatEditorViewController
 
-- (id)init
++ (instancetype)controller
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Emulation" bundle:nil];
     
-    self = [storyboard instantiateViewControllerWithIdentifier:@"cheatEditorViewController"];
-    if (self)
+    GBACheatEditorViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"cheatEditorViewController"];
+    if (controller)
     {
-        _presenting = YES;
+        controller->_presenting = YES;
     }
-    return self;
+    return controller;
 }
 
 - (void)viewDidLoad
